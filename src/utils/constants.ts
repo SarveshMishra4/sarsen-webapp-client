@@ -48,3 +48,40 @@ export const ORDER_STATUS = [
   'FAILED',
   'REFUNDED',
 ] as const
+
+// Add to existing constants.ts
+
+export const SERVICE_SLUGS = [
+  'fundraising-strategy',
+  'pitch-deck-design',
+  'gtm-strategy'
+] as const
+
+export type ServiceSlug = typeof SERVICE_SLUGS[number]
+
+export const NAV_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+] as const
+
+export const SOCIAL_LINKS = {
+  linkedin: 'https://linkedin.com/company/sarsen-strategy',
+  twitter: 'https://twitter.com/sarsenstrategy',
+  email: 'info@sarsenstrategy.com',
+} as const
+
+export const COMPANY_INFO = {
+  name: 'Sarsen Strategy Partners',
+  address: '123 Business Ave, Suite 100, San Francisco, CA 94105',
+  phone: '+1 (415) 555-0123',
+  email: 'info@sarsenstrategy.com',
+  founded: '2020',
+} as const
+
+export const CONTACT_FORM_FIELDS = {
+  name: { maxLength: 100, minLength: 2 },
+  message: { maxLength: 2000, minLength: 10 },
+  company: { maxLength: 100 },
+} as const
