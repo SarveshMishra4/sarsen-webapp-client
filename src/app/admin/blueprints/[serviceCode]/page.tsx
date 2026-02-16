@@ -12,8 +12,15 @@ import { MilestoneBuilder } from '../../components/MilestoneBuilder'
 import { SectionBuilder } from '../../components/SectionBuilder'
 import { ResourceManager } from '../../components/ResourceManager'
 import { BlueprintPreview } from '../../components/BlueprintPreview'
-import { BlueprintMilestone, BlueprintSection, BlueprintResource } from '@/types/blueprint.types'
-import { MILESTONES } from '@/utils/constants'
+import { 
+  BlueprintMilestone, 
+  BlueprintSection, 
+  BlueprintResource, 
+  BlueprintFormData,
+  UpdateBlueprintInput,
+  MilestoneValue
+} from '@/types/blueprint.types'
+import { MILESTONES, ALLOWED_MILESTONES } from '@/utils/constants'
 
 type Step = 'basics' | 'milestones' | 'sections' | 'resources' | 'preview'
 
@@ -23,17 +30,18 @@ export default function EditBlueprintPage() {
   const router = useRouter()
   
   const [currentStep, setCurrentStep] = useState<Step>('basics')
-  const [formData, setFormData] = useState({
-    serviceCode: '',
-    serviceName: '',
-    serviceSlug: '',
-    defaultProgress: MILESTONES.START,
-    messagingEnabledByDefault: true,
-    isActive: true,
-    milestones: [] as BlueprintMilestone[],
-    sections: [] as BlueprintSection[],
-    resources: [] as BlueprintResource[]
-  })
+  
+  const [formData, setFormData] = useState<BlueprintFormData>({
+  serviceCode: '',
+  serviceName: '',
+  serviceSlug: '',
+  defaultProgress: MILESTONES.START,  // This is already MilestoneValue (10)
+  messagingEnabledByDefault: true,
+  isActive: true,
+  milestones: [],
+  sections: [],
+  resources: []
+})
 
   const { blueprint, isLoading, fetchBlueprintByCode, updateBlueprint, deleteBlueprint } = useBlueprint()
   const { error, success } = useToast()
@@ -76,6 +84,14 @@ export default function EditBlueprintPage() {
     }))
   }
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: Number(value)
+    }))
+  }
+
   const handleNext = () => {
     const stepIndex = steps.findIndex(s => s.id === currentStep)
     if (stepIndex < steps.length - 1) {
@@ -91,15 +107,24 @@ export default function EditBlueprintPage() {
   }
 
   const handleSave = async () => {
-    await updateBlueprint(serviceCode, {
+    // SIMPLE FIX: Validate and cast in one step
+    if (!ALLOWED_MILESTONES.includes(formData.defaultProgress as MilestoneValue)) {
+      error('Invalid default progress value')
+      return
+    }
+
+    // SIMPLE FIX: Direct cast after validation
+    const updateData: UpdateBlueprintInput = {
       serviceName: formData.serviceName,
       milestones: formData.milestones,
       sections: formData.sections,
       resources: formData.resources,
-      defaultProgress: formData.defaultProgress,
+      defaultProgress: formData.defaultProgress as MilestoneValue, // Safe cast after validation
       messagingEnabledByDefault: formData.messagingEnabledByDefault,
       isActive: formData.isActive
-    })
+    }
+
+    await updateBlueprint(serviceCode, updateData)
   }
 
   const handleToggleActive = async () => {
@@ -114,7 +139,7 @@ export default function EditBlueprintPage() {
     await deleteBlueprint(serviceCode)
   }
 
-  if (isLoading) {
+  if (isLoading && !blueprint) {
     return (
       <div className="flex justify-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600" />
@@ -222,10 +247,7 @@ export default function EditBlueprintPage() {
                   <select
                     name="defaultProgress"
                     value={formData.defaultProgress}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      defaultProgress: Number(e.target.value)
-                    }))}
+                    onChange={handleSelectChange}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   >
                     <option value={MILESTONES.START}>10% - Start</option>
@@ -281,7 +303,15 @@ export default function EditBlueprintPage() {
           )}
 
           {currentStep === 'preview' && (
-            <BlueprintPreview blueprint={formData as any} />
+            <BlueprintPreview 
+              blueprint={{ 
+                ...formData, 
+                version: blueprint?.version || 1,
+                createdAt: blueprint?.createdAt,
+                updatedAt: blueprint?.updatedAt,
+                createdBy: blueprint?.createdBy
+              }} 
+            />
           )}
         </CardBody>
 

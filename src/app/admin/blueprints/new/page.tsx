@@ -12,23 +12,32 @@ import { MilestoneBuilder } from '../../components/MilestoneBuilder'
 import { SectionBuilder } from '../../components/SectionBuilder'
 import { ResourceManager } from '../../components/ResourceManager'
 import { BlueprintPreview } from '../../components/BlueprintPreview'
-import { BlueprintMilestone, BlueprintSection, BlueprintResource } from '@/types/blueprint.types'
-import { MILESTONES } from '@/utils/constants'
+import { 
+  BlueprintMilestone, 
+  BlueprintSection, 
+  BlueprintResource, 
+  BlueprintFormData,
+  CreateBlueprintInput,
+  MilestoneValue
+} from '@/types/blueprint.types'
+import { MILESTONES, ALLOWED_MILESTONES } from '@/utils/constants'
 
 type Step = 'basics' | 'milestones' | 'sections' | 'resources' | 'preview'
 
 export default function NewBlueprintPage() {
   const [currentStep, setCurrentStep] = useState<Step>('basics')
-  const [formData, setFormData] = useState({
-    serviceCode: '',
-    serviceName: '',
-    serviceSlug: '',
-    defaultProgress: MILESTONES.START,
-    messagingEnabledByDefault: true,
-    milestones: [] as BlueprintMilestone[],
-    sections: [] as BlueprintSection[],
-    resources: [] as BlueprintResource[]
-  })
+  
+const [formData, setFormData] = useState<BlueprintFormData>({
+  serviceCode: '',
+  serviceName: '',
+  serviceSlug: '',
+  defaultProgress: MILESTONES.START,  // This is already MilestoneValue (10)
+  messagingEnabledByDefault: true,
+  isActive: true,
+  milestones: [],
+  sections: [],
+  resources: []
+})
 
   const { createBlueprint, isLoading } = useBlueprint()
   const { error } = useToast()
@@ -46,7 +55,17 @@ export default function NewBlueprintPage() {
     const { name, value, type } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      [name]: type === 'checkbox' 
+        ? (e.target as HTMLInputElement).checked 
+        : value
+    }))
+  }
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: Number(value)
     }))
   }
 
@@ -100,7 +119,25 @@ export default function NewBlueprintPage() {
       return
     }
 
-    await createBlueprint(formData)
+    // SIMPLE FIX: Validate and cast in one step
+    if (!ALLOWED_MILESTONES.includes(formData.defaultProgress as MilestoneValue)) {
+      error('Invalid default progress value')
+      return
+    }
+
+    // SIMPLE FIX: Direct cast after validation
+    const submitData: CreateBlueprintInput = {
+      serviceCode: formData.serviceCode,
+      serviceName: formData.serviceName,
+      serviceSlug: formData.serviceSlug,
+      defaultProgress: formData.defaultProgress as MilestoneValue, // Safe cast after validation
+      messagingEnabledByDefault: formData.messagingEnabledByDefault,
+      milestones: formData.milestones,
+      sections: formData.sections,
+      resources: formData.resources
+    }
+
+    await createBlueprint(submitData)
   }
 
   return (
@@ -193,15 +230,21 @@ export default function NewBlueprintPage() {
                   <select
                     name="defaultProgress"
                     value={formData.defaultProgress}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      defaultProgress: Number(e.target.value)
-                    }))}
+                    onChange={handleSelectChange}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   >
                     <option value={MILESTONES.START}>10% - Start</option>
                     <option value={MILESTONES.EARLY_PROGRESS}>20% - Early Progress</option>
                     <option value={MILESTONES.QUARTER}>25% - Quarter</option>
+                    <option value={MILESTONES.ONE_THIRD}>30% - One Third</option>
+                    <option value={MILESTONES.MID_PROGRESS}>40% - Mid Progress</option>
+                    <option value={MILESTONES.HALF}>50% - Half</option>
+                    <option value={MILESTONES.ADVANCED}>60% - Advanced</option>
+                    <option value={MILESTONES.NEAR_COMPLETE}>70% - Near Complete</option>
+                    <option value={MILESTONES.THREE_QUARTER}>75% - Three Quarter</option>
+                    <option value={MILESTONES.ALMOST_DONE}>80% - Almost Done</option>
+                    <option value={MILESTONES.FINAL_STAGE}>90% - Final Stage</option>
+                    <option value={MILESTONES.COMPLETED}>100% - Completed</option>
                   </select>
                 </div>
 
@@ -243,7 +286,12 @@ export default function NewBlueprintPage() {
           )}
 
           {currentStep === 'preview' && (
-            <BlueprintPreview blueprint={formData as any} />
+            <BlueprintPreview 
+              blueprint={{ 
+                ...formData, 
+                version: 1
+              }} 
+            />
           )}
         </CardBody>
 

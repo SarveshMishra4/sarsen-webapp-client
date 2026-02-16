@@ -1,11 +1,11 @@
 'use client'
 
-import { BlueprintData } from '@/types/blueprint.types'
+import { BlueprintData, BlueprintFormData, BlueprintMilestone, BlueprintSection, BlueprintResource } from '@/types/blueprint.types'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
-import { MILESTONES } from '@/utils/constants'
 
+// FIX: Use a union type that accepts either full BlueprintData or BlueprintFormData
 interface BlueprintPreviewProps {
-  blueprint: BlueprintData
+  blueprint: (Partial<BlueprintData> & BlueprintFormData) | BlueprintData
 }
 
 export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({
@@ -55,7 +55,9 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({
           }`}>
             {blueprint.isActive ? 'Active' : 'Inactive'}
           </span>
-          <span className="text-sm text-gray-500">Version {blueprint.version}</span>
+          {'version' in blueprint && blueprint.version && (
+            <span className="text-sm text-gray-500">Version {blueprint.version}</span>
+          )}
           <span className="text-sm text-gray-500">
             Default Progress: {blueprint.defaultProgress}%
           </span>
@@ -75,7 +77,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({
         </CardHeader>
         <CardBody>
           <div className="space-y-3">
-            {blueprint.milestones.map((milestone) => (
+            {blueprint.milestones.map((milestone: BlueprintMilestone) => (
               <div key={milestone.value} className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-16 px-2 py-1 bg-primary-100 text-primary-800 rounded-md text-sm font-mono text-center">
                   {milestone.value}%
@@ -103,8 +105,8 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({
         <CardBody>
           <div className="space-y-4">
             {blueprint.sections
-              .sort((a, b) => a.order - b.order)
-              .map((section) => (
+              .sort((a: BlueprintSection, b: BlueprintSection) => a.order - b.order)
+              .map((section: BlueprintSection) => (
                 <div key={section.id || section.order} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
@@ -145,7 +147,7 @@ export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({
           </CardHeader>
           <CardBody>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {blueprint.resources.map((resource, index) => (
+              {blueprint.resources.map((resource: BlueprintResource, index: number) => (
                 <div key={resource.id || index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
                   <span className="text-2xl">{resourceIcons[resource.type] || '📁'}</span>
                   <div>

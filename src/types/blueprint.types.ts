@@ -1,6 +1,6 @@
 import { MILESTONES, RESOURCE_TYPES, QUESTION_TYPES } from '@/utils/constants'
 
-export type MilestoneValue = typeof MILESTURES[keyof typeof MILESTONES]
+export type MilestoneValue = typeof MILESTONES[keyof typeof MILESTONES]
 
 export interface BlueprintMilestone {
   value: MilestoneValue
@@ -59,6 +59,19 @@ export interface BlueprintData {
     id: string
     email: string
   }
+}
+
+// FIX: Single definition of BlueprintFormData with MilestoneValue
+export interface BlueprintFormData {
+  serviceCode: string
+  serviceName: string
+  serviceSlug: string
+  defaultProgress: MilestoneValue  // Now using the specific type
+  messagingEnabledByDefault: boolean
+  isActive: boolean
+  milestones: BlueprintMilestone[]
+  sections: BlueprintSection[]
+  resources: BlueprintResource[]
 }
 
 export interface CreateBlueprintInput {
