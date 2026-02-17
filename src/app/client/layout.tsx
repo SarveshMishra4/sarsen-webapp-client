@@ -1,6 +1,7 @@
 'use client'
 
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { ClientHeader } from './components/ClientHeader'
 
 export default function ClientLayout({
   children,
@@ -10,8 +11,10 @@ export default function ClientLayout({
   return (
     <ProtectedRoute allowedRoles={['CLIENT']} redirectTo="/client/login">
       <div className="min-h-screen bg-gray-50">
-        {/* Client header will be added in Phase F4 */}
-        {children}
+        <ClientHeader />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
       </div>
     </ProtectedRoute>
   )
