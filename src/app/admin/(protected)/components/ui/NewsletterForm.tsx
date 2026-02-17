@@ -18,7 +18,6 @@ export const NewsletterForm: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           error={errors.email}
           disabled={isLoading}
-          // FIX: Remove any random ID generation - let Input component handle it with useId
           className="bg-gray-800 border-gray-700 text-white placeholder-gray-500"
         />
       </div>

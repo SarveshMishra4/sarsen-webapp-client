@@ -1,16 +1,18 @@
 'use client'
 
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useId } from 'react'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
-  helpText?: string  // Added helpText prop
+  helpText?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helpText, className = '', id, ...props }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+  ({ label, error, helpText, className = '', id: providedId, ...props }, ref) => {
+    // FIX: Use useId() for stable hydration instead of random generation
+    const generatedId = useId()
+    const inputId = providedId || `input-${generatedId}`
 
     return (
       <div className="w-full">
