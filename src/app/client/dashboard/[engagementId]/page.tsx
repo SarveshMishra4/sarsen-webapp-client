@@ -4,21 +4,27 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useEngagement } from '@/hooks/useEngagement'
+import { useMessages } from '@/hooks/useMessages'  // Add this import
+import { useAuth } from '@/hooks/useAuth'  // Add this import
 import { useToast } from '@/hooks/useToast'
 import { DashboardMetrics } from '../../components/DashboardMetrics'
 import { ProgressBar } from '../../components/ProgressBar'
 import { MilestoneTimeline } from '../../components/MilestoneTimeline'
 import { StatusBadge } from '../../components/StatusBadge'
+import { MessageThread } from '@/components/messages/MessageThread'  // Add this import
+import { MessageComposer } from '@/components/messages/MessageComposer'  // Add this import
 import { Button } from '@/components/ui/Button'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
 import EngagementDetailLoading from './loading'
-
 
 export default function EngagementDetailPage() {
   const params = useParams()
   const engagementId = params.engagementId as string
   
-  const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'questionnaires'>('overview')
+  // FIX: Add useAuth to get user
+  const { user } = useAuth()
+  
+  const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'questionnaires' | 'messages'>('overview')
   
   const { 
     engagement, 
@@ -29,6 +35,15 @@ export default function EngagementDetailPage() {
     getStatusLabel,
     formatDate 
   } = useEngagement()
+  
+  // FIX: Add useMessages hook
+  const { 
+    messages,
+    isLoading: isLoadingMessages,
+    hasMore: hasMoreMessages,
+    sendMessage,
+    loadMore: loadMoreMessages
+  } = useMessages({ engagementId })
   
   const { error } = useToast()
 
@@ -42,6 +57,9 @@ export default function EngagementDetailPage() {
       })
     }
   }, [engagementId, fetchEngagementById, fetchEngagementProgress, error])
+
+  // FIX: Add isTyping state (can be false for now, will be implemented in future)
+  const [isTyping] = useState(false)
 
   if (isLoading) {
     return <EngagementDetailLoading />
@@ -187,6 +205,23 @@ export default function EngagementDetailPage() {
           >
             Questionnaires ({engagement.questionnaireCount})
           </button>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`
+              py-2 px-1 border-b-2 font-medium text-sm relative
+              ${activeTab === 'messages'
+                ? 'border-primary-600 text-primary-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }
+            `}
+          >
+            Messages
+            {engagement.messageCount > 0 && (
+              <span className="absolute -top-1 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                {engagement.messageCount > 9 ? '9+' : engagement.messageCount}
+              </span>
+            )}
+          </button>
         </nav>
       </div>
 
@@ -286,6 +321,31 @@ export default function EngagementDetailPage() {
               <p className="text-gray-500 text-center py-8">
                 Questionnaires feature coming in Phase F7
               </p>
+            </CardBody>
+          </Card>
+        )}
+
+        {activeTab === 'messages' && (
+          <Card>
+            <CardBody className="p-0">
+              <div className="h-[600px] flex flex-col">
+                <MessageThread
+                  messages={messages}
+                  currentUserId={user?.id || ''}
+                  isLoading={isLoadingMessages}
+                  hasMore={hasMoreMessages}
+                  onLoadMore={loadMoreMessages}
+                  showTyping={isTyping}
+                />
+                <MessageComposer
+                  onSendMessage={sendMessage}
+                  isDisabled={!engagement.messagingAllowed}
+                  placeholder={engagement.messagingAllowed 
+                    ? "Type your message..." 
+                    : "Messaging is disabled for this engagement"
+                  }
+                />
+              </div>
             </CardBody>
           </Card>
         )}

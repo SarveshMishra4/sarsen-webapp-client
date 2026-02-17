@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useEngagement } from '@/hooks/useEngagement'
 import { Button } from '@/components/ui/Button'
-// Import the types if needed
 import { ClientUser } from '@/types/auth.types'
 
 export const ClientHeader = () => {
@@ -30,6 +29,14 @@ export const ClientHeader = () => {
   const currentEngagementId = pathname?.includes('/client/dashboard/') 
     ? pathname.split('/').pop() 
     : null
+
+  // FIX: Get display name safely
+  const getDisplayName = () => {
+    if (isClientUser(user)) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    }
+    return user?.email || 'User'
+  }
 
   return (
     <header className="bg-white shadow-sm">
@@ -88,13 +95,11 @@ export const ClientHeader = () => {
               )}
             </div>
 
-            {/* User Info - FIX: Use type guard */}
+            {/* User Info - FIX: Use safe display name */}
             <div className="flex items-center space-x-3 pl-4 border-l border-gray-200">
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-700">
-                  {isClientUser(user) 
-                    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() 
-                    : user?.email || 'User'}
+                  {getDisplayName()}
                 </p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
@@ -164,9 +169,7 @@ export const ClientHeader = () => {
             <div className="pt-4 border-t border-gray-200">
               <div className="px-3 py-2">
                 <p className="text-sm font-medium text-gray-700">
-                  {isClientUser(user) 
-                    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() 
-                    : user?.email || 'User'}
+                  {getDisplayName()}
                 </p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
