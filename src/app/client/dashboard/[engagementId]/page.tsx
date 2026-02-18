@@ -24,7 +24,7 @@ export default function EngagementDetailPage() {
   // FIX: Add useAuth to get user
   const { user } = useAuth()
   
-  const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'questionnaires' | 'messages'>('overview')
+const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'questionnaires' | 'messages'>('overview')
   
   const { 
     engagement, 
@@ -222,6 +222,23 @@ export default function EngagementDetailPage() {
               </span>
             )}
           </button>
+          <button
+  onClick={() => setActiveTab('questionnaires')}
+  className={`
+    py-2 px-1 border-b-2 font-medium text-sm relative
+    ${activeTab === 'questionnaires'
+      ? 'border-primary-600 text-primary-600'
+      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    }
+  `}
+>
+  Questionnaires
+  {engagement.questionnaireCount > 0 && (
+    <span className="absolute -top-1 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+      {engagement.questionnaireCount}
+    </span>
+  )}
+</button>
         </nav>
       </div>
 
@@ -313,17 +330,21 @@ export default function EngagementDetailPage() {
         )}
 
         {activeTab === 'questionnaires' && (
-          <Card>
-            <CardHeader>
-              <h3 className="text-lg font-semibold">Questionnaires</h3>
-            </CardHeader>
-            <CardBody>
-              <p className="text-gray-500 text-center py-8">
-                Questionnaires feature coming in Phase F7
-              </p>
-            </CardBody>
-          </Card>
-        )}
+  <Card>
+    <CardHeader>
+      <h3 className="text-lg font-semibold">Questionnaires</h3>
+    </CardHeader>
+    <CardBody>
+      {engagement.questionnaireCount === 0 ? (
+        <p className="text-gray-500 text-center py-8">No questionnaires assigned yet</p>
+      ) : (
+        <Link href="/client/questionnaires">
+          <Button variant="primary">View All Questionnaires</Button>
+        </Link>
+      )}
+    </CardBody>
+  </Card>
+)}
 
         {activeTab === 'messages' && (
           <Card>
