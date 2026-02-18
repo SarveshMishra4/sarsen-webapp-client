@@ -45,9 +45,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // For simplicity, we'll try admin first, then client
         try {
           const adminResponse = await authService.adminGetMe()
-          if (adminResponse.success && adminResponse.data?.admin) {
+          if (adminResponse.success && adminResponse.data) {
+            // FIX: Store data in a variable before using in callback
+            const adminData = adminResponse.data.admin
             setState({
-              user: adminResponse.data.admin,
+              user: adminData,
               accessToken,
               refreshToken,
               isLoading: false,
@@ -63,15 +65,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         try {
           const clientResponse = await authService.clientGetMe()
-          if (clientResponse.success && clientResponse.data?.user) {
+          if (clientResponse.success && clientResponse.data) {
+            // FIX: Store data in a variable before using in callback
+            const clientData = clientResponse.data.user
+            const engagementId = clientResponse.data.engagementId
             setState({
-              user: clientResponse.data.user,
+              user: clientData,
               accessToken,
               refreshToken,
               isLoading: false,
               isAuthenticated: true,
               role: 'CLIENT',
-              engagementId: clientResponse.data.engagementId,
+              engagementId,
             })
             return
           }
@@ -98,37 +103,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (role === 'ADMIN') {
         const response = await authService.adminLogin(email, password)
         if (response.success && response.data) {
-          tokenManager.setTokens(response.data.accessToken, response.data.refreshToken)
+          // FIX: Store data before using in setState
+          const { admin, accessToken, refreshToken } = response.data
+          tokenManager.setTokens(accessToken, refreshToken)
           setState({
-            user: response.data.admin,
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
+            user: admin,
+            accessToken,
+            refreshToken,
             isLoading: false,
             isAuthenticated: true,
             role: 'ADMIN',
             engagementId: null,
           })
-          router.push('/admin/dashboard')
+          router.push('/admin/protected/dashboard')
         }
       } else {
         const response = await authService.clientLogin({ email, password, engagementId })
         if (response.success && response.data) {
-          tokenManager.setTokens(response.data.accessToken, response.data.refreshToken)
+          // FIX: Store data before using in setState
+          const { user, accessToken, refreshToken, engagementId: respEngagementId } = response.data
+          tokenManager.setTokens(accessToken, refreshToken)
           setState({
-            user: response.data.user,
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
+            user,
+            accessToken,
+            refreshToken,
             isLoading: false,
             isAuthenticated: true,
             role: 'CLIENT',
-            engagementId: response.data.engagementId,
+            engagementId: respEngagementId,
           })
           router.push('/client/dashboard')
         }
       }
-    } catch (error: any) {
+    } catch (err: any) {
       setState((prev) => ({ ...prev, isLoading: false }))
-      throw error
+      throw err
     }
   }
 
@@ -153,12 +162,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (state.role === 'ADMIN') {
         const response = await authService.adminGetMe()
         if (response.success && response.data) {
-          setState((prev) => ({ ...prev, user: response.data.admin }))
+          setState((prev) => ({ ...prev, user: response.data!.admin }))
         }
       } else if (state.role === 'CLIENT') {
         const response = await authService.clientGetMe()
         if (response.success && response.data) {
-          setState((prev) => ({ ...prev, user: response.data.user }))
+          setState((prev) => ({ ...prev, user: response.data!.user }))
         }
       }
     } catch (error) {
