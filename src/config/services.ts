@@ -79,7 +79,7 @@ export const services: ServiceConfig[] = [
     }
   },
   {
-    slug: 'pitch-deck-design',
+    slug: 'pitch-deck-review',
     serviceCode: 'SRV_PITCH_001',
     title: 'Pitch Deck Design',
     subtitle: 'Investor-ready presentations that tell your story',
