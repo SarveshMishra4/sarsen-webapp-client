@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/navigation'  // Use useRouter instead of notFound
 import Link from 'next/link'
 import { Section } from '@/components/ui/Section'
 import { Container } from '@/components/ui/Container'
@@ -21,7 +21,9 @@ interface ServicePageProps {
 export default function ServicePage({ params }: ServicePageProps) {
   const [service, setService] = useState<ServiceWithValidation | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)  // Add local notFound state
   const { error } = useToast()
+  const router = useRouter()  // Use router for navigation
   
   const relatedServices = getAllServices()
     .filter(s => s.slug !== params.slug)
@@ -32,7 +34,9 @@ export default function ServicePage({ params }: ServicePageProps) {
       const staticService = getServiceBySlug(params.slug)
       
       if (!staticService) {
-        notFound()
+        // FIX: Don't call notFound() directly, set state and let component handle it
+        setNotFound(true)
+        setIsLoading(false)
         return
       }
 
@@ -61,12 +65,40 @@ export default function ServicePage({ params }: ServicePageProps) {
     loadService()
   }, [params.slug, error])
 
+  // FIX: Handle 404 separately - this runs after render, not during async
+  useEffect(() => {
+    if (notFound) {
+      router.replace('/404')  // Redirect to custom 404 page
+    }
+  }, [notFound, router])
+
   if (isLoading) {
     return (
       <Section>
         <Container>
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  // Show 404 UI while redirecting (prevents flash of wrong content)
+  if (notFound) {
+    return (
+      <Section>
+        <Container>
+          <div className="text-center py-12">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Page Not Found
+            </h1>
+            <p className="text-gray-600 mb-8">
+              The service you're looking for doesn't exist.
+            </p>
+            <Link href="/services">
+              <Button variant="primary">View All Services</Button>
+            </Link>
           </div>
         </Container>
       </Section>
