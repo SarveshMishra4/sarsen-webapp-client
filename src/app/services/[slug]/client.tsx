@@ -79,7 +79,7 @@ export default function ServiceClient({ initialService, slug }: ServiceClientPro
                   </span>
                 </div>
 
-                <Link href={`/services/${service.slug}/apply`}>
+                <Link href={`/apply/${slug}`}>
                   <Button variant="primary" size="lg" fullWidth>
                     Get Started
                   </Button>
