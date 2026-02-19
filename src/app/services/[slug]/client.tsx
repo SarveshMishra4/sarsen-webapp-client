@@ -1,15 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Section } from '@/components/ui/Section'
 import { Container } from '@/components/ui/Container'
 import { Button } from '@/components/ui/Button'
 import { ServiceCard } from '@/components/public/ServiceCard'
 import { getAllServices } from '@/config/services'
-import { publicService } from '@/services/public.service'
 import { ServiceWithValidation } from '@/types/public.types'
-import { useToast } from '@/hooks/useToast'
 
 interface ServiceClientProps {
   initialService: ServiceWithValidation
@@ -17,61 +15,17 @@ interface ServiceClientProps {
 }
 
 export default function ServiceClient({ initialService, slug }: ServiceClientProps) {
-  const [service, setService] = useState<ServiceWithValidation>(initialService)
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const { error } = useToast()
-  
+  const [service] = useState<ServiceWithValidation>({
+    ...initialService,
+    isValidated: true,
+    isActive: true
+  })
+
   const relatedServices = getAllServices()
     .filter(s => s.slug !== slug)
     .slice(0, 3)
 
-  // Optional: Refresh validation in background if needed
-  useEffect(() => {
-    const refreshValidation = async () => {
-      // Only refresh if initial validation failed or is stale
-      if (!initialService.isValidated) {
-        setIsRefreshing(true)
-        try {
-          const response = await publicService.validateService(slug)
-          setService(prev => ({
-            ...prev,
-            isValidated: true,
-            isActive: response.data?.isActive ?? false,
-            backendPrice: response.data?.price
-          }))
-        } catch (err) {
-          // Silently fail - keep using initial data
-          console.error('Background validation failed:', err)
-        } finally {
-          setIsRefreshing(false)
-        }
-      }
-    }
-
-    refreshValidation()
-  }, [slug, initialService.isValidated])
-
-  if (!service.isActive) {
-    return (
-      <Section>
-        <Container>
-          <div className="text-center py-12">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Service Unavailable
-            </h1>
-            <p className="text-gray-600 mb-8">
-              This service is currently not available. Please check back later or contact us for more information.
-            </p>
-            <Link href="/services">
-              <Button variant="primary">View All Services</Button>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-    )
-  }
-
-  const displayPrice = service.backendPrice || service.price
+  const displayPrice = service.price
 
   return (
     <>
@@ -83,9 +37,6 @@ export default function ServiceClient({ initialService, slug }: ServiceClientPro
             <Link href="/services" className="hover:text-primary-600">Services</Link>
             <span>/</span>
             <span className="text-gray-900">{service.title}</span>
-            {isRefreshing && (
-              <span className="text-xs text-gray-400 ml-2">(refreshing...)</span>
-            )}
           </div>
         </Container>
       </Section>
@@ -93,7 +44,6 @@ export default function ServiceClient({ initialService, slug }: ServiceClientPro
       <Section background="white">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Main Content */}
             <div className="lg:col-span-2">
               <div className="flex items-center mb-6">
                 <div className="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
@@ -108,72 +58,13 @@ export default function ServiceClient({ initialService, slug }: ServiceClientPro
                 <p className="text-xl text-gray-600 mb-6">
                   {service.subtitle}
                 </p>
-                
+
                 <p className="text-gray-700 mb-8">
                   {service.longDescription}
                 </p>
-
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Key Features
-                </h2>
-                <ul className="space-y-3 mb-8">
-                  {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <svg className="h-6 w-6 text-primary-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Deliverables
-                </h2>
-                <ul className="space-y-3 mb-8">
-                  {service.deliverables.map((deliverable, index) => (
-                    <li key={index} className="flex items-start">
-                      <svg className="h-6 w-6 text-primary-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <span className="text-gray-700">{deliverable}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  {service.methodology.title}
-                </h2>
-                <ol className="list-decimal list-inside space-y-3 mb-8">
-                  {service.methodology.steps.map((step, index) => (
-                    <li key={index} className="text-gray-700">{step}</li>
-                  ))}
-                </ol>
-
-                {/* FAQs */}
-                {service.faqs && service.faqs.length > 0 && (
-                  <>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                      Frequently Asked Questions
-                    </h2>
-                    <div className="space-y-4 mb-8">
-                      {service.faqs.map((faq, index) => (
-                        <div key={index}>
-                          <h3 className="font-semibold text-gray-900 mb-2">
-                            {faq.question}
-                          </h3>
-                          <p className="text-gray-700">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
               </div>
             </div>
 
-            {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="bg-gray-50 rounded-lg p-6 sticky top-24">
                 <div className="text-center mb-6">
@@ -193,22 +84,12 @@ export default function ServiceClient({ initialService, slug }: ServiceClientPro
                     Get Started
                   </Button>
                 </Link>
-
-                <div className="mt-6 text-center">
-                  <p className="text-sm text-gray-500 mb-2">
-                    Have questions?
-                  </p>
-                  <Link href="/contact" className="text-primary-600 hover:text-primary-700 text-sm font-medium">
-                    Contact us
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/* Related Services */}
       {relatedServices.length > 0 && (
         <Section background="gray">
           <Container>
