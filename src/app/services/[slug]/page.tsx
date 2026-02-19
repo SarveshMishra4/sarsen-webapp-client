@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
-import { getServiceBySlug } from '@/config/services'
+import { getServiceBySlug, getAllServices } from '@/config/services'
 import { publicService } from '@/services/public.service'
-import ServiceClient from '../[slug]/client'
+import ServiceClient from './client'
 
 interface ServicePageProps {
   params: {
@@ -9,19 +9,28 @@ interface ServicePageProps {
   }
 }
 
-// This is a Server Component - runs on the server
+// THIS RUNS AT BUILD TIME - generates all possible service pages
+export async function generateStaticParams() {
+  const services = getAllServices()
+  
+  return services.map((service) => ({
+    slug: service.slug,
+  }))
+}
+
+// THIS RUNS ON THE SERVER when a user visits the page
 export default async function ServicePage({ params }: ServicePageProps) {
-  // 1. Validate slug server-side immediately
+  // 1. Check if service exists in our static config
   const staticService = getServiceBySlug(params.slug)
   
+  // 2. If not found, return 404 immediately (no page will be generated)
   if (!staticService) {
-    // 2. If invalid, trigger 404 immediately (server-side)
     notFound()
     return null
   }
 
   try {
-    // 3. Validate with backend (server-side)
+    // 3. Validate with backend to get latest price/availability
     const response = await publicService.validateService(params.slug)
     
     const service = {
@@ -31,11 +40,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
       backendPrice: response.data?.price
     }
 
-    // 4. Pass validated data to client component
+    // 4. Pass data to client component for interactive parts
     return <ServiceClient initialService={service} slug={params.slug} />
     
   } catch (error) {
-    // 5. Handle backend validation failure gracefully
+    // 5. If backend fails, still show service but mark as not validated
     const service = {
       ...staticService,
       isValidated: false,
@@ -45,12 +54,5 @@ export default async function ServicePage({ params }: ServicePageProps) {
   }
 }
 
-// Generate static params for build-time rendering (optional but recommended)
-export async function generateStaticParams() {
-  const { getAllServices } = await import('@/config/services')
-  const services = getAllServices()
-  
-  return services.map((service) => ({
-    slug: service.slug,
-  }))
-}
+// OPTIONAL: Set revalidation time (if you want to update prices periodically)
+export const revalidate = 3600 // Revalidate every hour
