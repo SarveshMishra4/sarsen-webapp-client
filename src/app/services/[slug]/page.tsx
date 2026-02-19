@@ -10,12 +10,14 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false
 
-export default function ServicePage({
+export default async function ServicePage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const service = getServiceBySlug(params.slug)
+  const { slug } = await params
+
+  const service = getServiceBySlug(slug)
 
   if (!service) {
     notFound()
@@ -28,7 +30,7 @@ export default function ServicePage({
         isValidated: true,
         isActive: true,
       }}
-      slug={params.slug}
+      slug={slug}
     />
   )
 }
