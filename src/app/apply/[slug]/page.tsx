@@ -1,11 +1,13 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useCheckout } from '@/hooks/useCheckout'
 import { ApplicationForm } from '@/components/checkout/ApplicationForm'
 
 export default function ApplyPage() {
   const params = useParams()
+  const router = useRouter()
   const slug = params.slug as string
   
   const {
@@ -21,6 +23,13 @@ export default function ApplyPage() {
     prevStep,
     processPayment
   } = useCheckout(slug)
+
+  // Redirect to success page when payment is successful
+  useEffect(() => {
+    if (currentStep === 'success') {
+      router.replace('/payment/success')
+    }
+  }, [currentStep, router])
 
   if (currentStep === 'success') {
     return null // Will be redirected to success page

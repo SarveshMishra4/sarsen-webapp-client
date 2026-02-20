@@ -70,4 +70,4 @@ export const openRazorpayCheckout = (options: RazorpayOptions): void => {
   razorpay.open()
 }
 
-export const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_xxxxxxxxxxxx'
+export const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_SELzYTgW1QLxWZ'
