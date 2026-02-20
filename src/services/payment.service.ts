@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/apiClient'
-import { 
+import {
   PaymentOrderRequest,
   PaymentOrderResponse,
   PaymentVerificationRequest,
@@ -14,27 +14,38 @@ export const paymentService = {
    * Create a new payment order
    */
   createOrder: async (data: PaymentOrderRequest) => {
-    return apiClient.post<PaymentOrderResponse>('/payments/create-order', data)
+    const res = await apiClient.post<PaymentOrderResponse>(
+      '/payments/create-order',
+      data
+    )
+
+    if (!res.data) {
+      throw new Error('Empty response from create order')
+    }
+
+    return res.data
   },
+
+
 
   /**
    * POST /api/payments/verify
    * Verify payment after Razorpay checkout
    */
-verifyPayment: async (
-  data: PaymentVerificationRequest
-): Promise<PaymentVerificationResponse> => {
-  const res = await apiClient.post<PaymentVerificationResponse>(
-    '/payments/verify',
-    data
-  )
+  verifyPayment: async (
+    data: PaymentVerificationRequest
+  ): Promise<PaymentVerificationResponse> => {
+    const res = await apiClient.post<PaymentVerificationResponse>(
+      '/payments/verify',
+      data
+    )
 
-  if (!res.data) {
-    throw new Error('Payment verification failed: empty response')
-  }
+    if (!res.data) {
+      throw new Error('Empty response from payment verification')
+    }
 
-  return res.data
-},
+    return res.data
+  },
 
   /**
    * POST /api/payments/validate-coupon
@@ -54,7 +65,7 @@ verifyPayment: async (
     params.append('limit', String(limit))
     if (status) params.append('status', status)
     if (serviceCode) params.append('serviceCode', serviceCode)
-    
+
     return apiClient.get<{ orders: any[], total: number, pages: number }>(
       `/admin/payments/orders?${params.toString()}`
     )

@@ -16,6 +16,7 @@ import {
   RAZORPAY_KEY
 } from '@/lib/razorpay'
 import { getServiceBySlug } from '@/config/services'
+import { PaymentOrderData } from '@/types/payment.types'
 
 const initialFormData: ApplicationFormData = {
   email: '',
@@ -43,8 +44,8 @@ export const useCheckout = (serviceSlug: string) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isRazorpayReady, setIsRazorpayReady] = useState(false)
 
-  const [orderResponse, setOrderResponse] =
-    useState<PaymentOrderResponse | null>(null)
+const [orderResponse, setOrderResponse] =
+  useState<PaymentOrderData | null>(null)
 
   const [couponValid, setCouponValid] = useState<boolean | null>(null)
   const [couponMessage, setCouponMessage] = useState('')

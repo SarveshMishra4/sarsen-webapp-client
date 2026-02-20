@@ -29,8 +29,12 @@ export interface RazorpayOrder {
 }
 
 export interface PaymentOrderResponse {
-  order: PaymentOrder
-  razorpayOrder: RazorpayOrder
+  success: boolean
+  message?: string   // ✅ ADD THIS LINE
+  data?: {
+    order: any
+    razorpayOrder: any
+  }
 }
 
 export interface PaymentOrder {
@@ -56,6 +60,11 @@ export interface PaymentOrder {
   engagementId?: string
   createdAt: string
   updatedAt: string
+}
+
+export interface PaymentOrderData {
+  order: any
+  razorpayOrder: any
 }
 
 export interface PaymentVerificationRequest {
