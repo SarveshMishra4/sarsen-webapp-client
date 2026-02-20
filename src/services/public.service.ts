@@ -17,6 +17,6 @@ export const publicService = {
    */
   validateService: async (slug: string) => {
     // Changed from '/api/services/validate/${slug}' to '/api/public/validate/${slug}'
-    return apiClient.get(`/api/public/validate/${slug}`)
+    return apiClient.get(`/public/validate/${slug}`)
   },
 }
