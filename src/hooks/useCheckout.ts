@@ -219,52 +219,52 @@ export const useCheckout = (serviceSlug: string) => {
   /* Create Order */
   /* ---------------------------------- */
 
-const createOrder = useCallback(async () => {
-  console.log("🟡 createOrder called, isRazorpayReady:", isRazorpayReady);
+  const createOrder = useCallback(async () => {
+    console.log("🟡 createOrder called, isRazorpayReady:", isRazorpayReady);
 
-  if (!isRazorpayReady) {
-    error('Gateway not ready')
-    return
-  }
-
-  setIsLoading(true)
-
-  try {
-    const response = await paymentService.createOrder({
-      amount: formData.finalAmount || formData.amount,
-      currency: formData.currency,
-      email: formData.email,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      company: formData.company,
-      phone: formData.phone,
-      serviceCode: formData.serviceCode,
-      serviceName: formData.serviceName,
-      couponCode: formData.couponCode,
-      discountAmount: formData.discountAmount
-    })
-
-    console.log("🟢 Raw order API response:", response);
-
-    if (!response || !response.razorpayOrder) {
-      throw new Error('Invalid order response from server')
+    if (!isRazorpayReady) {
+      error('Gateway not ready')
+      return
     }
 
-    setOrderResponse(response)
-    return response
+    setIsLoading(true)
 
-  } catch (err: any) {
-    const errorMessage =
-      err?.response?.data?.message ||
-      err?.message ||
-      'Payment order creation failed'
+    try {
+      const response = await paymentService.createOrder({
+        amount: formData.finalAmount || formData.amount,
+        currency: formData.currency,
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        company: formData.company,
+        phone: formData.phone,
+        serviceCode: formData.serviceCode,
+        serviceName: formData.serviceName,
+        couponCode: formData.couponCode,
+        discountAmount: formData.discountAmount
+      })
 
-    console.error(errorMessage)
-    error(errorMessage)
-  } finally {
-    setIsLoading(false)
-  }
-}, [formData, isRazorpayReady, error])
+      console.log("🟢 Raw order API response:", response);
+
+      if (!response || !response.razorpayOrder) {
+        throw new Error('Invalid order response from server')
+      }
+
+      setOrderResponse(response)
+      return response
+
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        err?.message ||
+        'Payment order creation failed'
+
+      console.error(errorMessage)
+      error(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [formData, isRazorpayReady, error])
   /* ---------------------------------- */
   /* Payment */
   /* ---------------------------------- */
@@ -302,23 +302,21 @@ const createOrder = useCallback(async () => {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature
             })
-            console.log("🟢 VERIFY RESPONSE:", verifyResponse)
+          console.log("🟢 VERIFY RESPONSE:", verifyResponse)
 
-          if (verifyResponse.success) {
+          if (verifyResponse && verifyResponse.order) {
 
-            const data = verifyResponse.data
-
-            if (data?.engagement) {
+            if (verifyResponse.engagement) {
               sessionStorage.setItem(
                 'newEngagement',
-                JSON.stringify(data.engagement)
+                JSON.stringify(verifyResponse.engagement)
               )
             }
 
-            if (data?.credentials) {
+            if (verifyResponse.credentials) {
               sessionStorage.setItem(
                 'newCredentials',
-                JSON.stringify(data.credentials)
+                JSON.stringify(verifyResponse.credentials)
               )
             }
 
@@ -331,7 +329,7 @@ const createOrder = useCallback(async () => {
             setCurrentStep('success')
 
           } else {
-            error(verifyResponse.message || 'Verification failed')
+            error('Verification failed')
             router.push('/payment/failure')
           }
 

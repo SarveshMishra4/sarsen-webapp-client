@@ -74,19 +74,26 @@ export interface PaymentVerificationRequest {
 }
 
 export interface PaymentVerificationResponse {
-  success: boolean
-  message: string
-  data: {
-    order: PaymentOrder
-    engagement?: {
-      id: string
-      engagementId: string
-      serviceCode: string
-    }
-    credentials?: {
-      email: string
-      password: string
-    } | null
+  order: {
+    _id: string
+    orderId: string
+    receipt: string
+    email: string
+    firstName: string
+    lastName: string
+    amount: number
+    currency: string
+    status: string
+  }
+
+  engagement?: {
+    id: string
+    engagementId: string
+  }
+
+  credentials?: {
+    email: string
+    password: string
   }
 }
 
