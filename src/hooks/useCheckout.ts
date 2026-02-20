@@ -220,6 +220,7 @@ const [orderResponse, setOrderResponse] =
   /* ---------------------------------- */
 
   const createOrder = useCallback(async () => {
+    console.log("🟡 createOrder called, isRazorpayReady:", isRazorpayReady);
     if (!isRazorpayReady) {
       error('Gateway not ready')
       return
@@ -260,7 +261,9 @@ const [orderResponse, setOrderResponse] =
   /* ---------------------------------- */
 
   const processPayment = useCallback(async () => {
+    console.log("🔥 PROCESS PAYMENT STARTED");
     const order = await createOrder()
+    console.log("📦 Order returned:", order);
     if (!order) return
 
     openRazorpayCheckout({
