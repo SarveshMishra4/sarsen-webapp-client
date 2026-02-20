@@ -16,6 +16,7 @@ export const publicService = {
    * Validate service existence and get current price
    */
   validateService: async (slug: string) => {
-    return apiClient.get<ServiceValidationResponse>(`/services/validate/${slug}`)
+    // Changed from '/api/services/validate/${slug}' to '/api/public/validate/${slug}'
+    return apiClient.get(`/api/public/validate/${slug}`)
   },
 }
