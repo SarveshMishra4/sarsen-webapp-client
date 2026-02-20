@@ -21,9 +21,20 @@ export const paymentService = {
    * POST /api/payments/verify
    * Verify payment after Razorpay checkout
    */
-  verifyPayment: async (data: PaymentVerificationRequest) => {
-    return apiClient.post<PaymentVerificationResponse>('/payments/verify', data)
-  },
+verifyPayment: async (
+  data: PaymentVerificationRequest
+): Promise<PaymentVerificationResponse> => {
+  const res = await apiClient.post<PaymentVerificationResponse>(
+    '/payments/verify',
+    data
+  )
+
+  if (!res.data) {
+    throw new Error('Payment verification failed: empty response')
+  }
+
+  return res.data
+},
 
   /**
    * POST /api/payments/validate-coupon

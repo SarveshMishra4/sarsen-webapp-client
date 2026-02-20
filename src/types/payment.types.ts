@@ -1,3 +1,5 @@
+
+
 export interface PaymentOrderRequest {
   amount: number
   currency: string
@@ -63,11 +65,19 @@ export interface PaymentVerificationRequest {
 }
 
 export interface PaymentVerificationResponse {
-  order: PaymentOrder
-  engagement?: {
-    id: string
-    engagementId: string
-    serviceCode: string
+  success: boolean
+  message: string
+  data: {
+    order: PaymentOrder
+    engagement?: {
+      id: string
+      engagementId: string
+      serviceCode: string
+    }
+    credentials?: {
+      email: string
+      password: string
+    } | null
   }
 }
 

@@ -5,8 +5,16 @@ import { useRouter } from 'next/navigation'
 import { paymentService } from '@/services/payment.service'
 import { publicService } from '@/services/public.service'
 import { useToast } from './useToast'
-import { ApplicationFormData, CheckoutStep, PaymentOrderResponse } from '@/types/payment.types'
-import { loadRazorpayScript, openRazorpayCheckout, RAZORPAY_KEY } from '@/lib/razorpay'
+import {
+  ApplicationFormData,
+  CheckoutStep,
+  PaymentOrderResponse
+} from '@/types/payment.types'
+import {
+  loadRazorpayScript,
+  openRazorpayCheckout,
+  RAZORPAY_KEY
+} from '@/lib/razorpay'
 import { getServiceBySlug } from '@/config/services'
 
 const initialFormData: ApplicationFormData = {
@@ -29,29 +37,39 @@ const initialFormData: ApplicationFormData = {
 
 export const useCheckout = (serviceSlug: string) => {
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('contact')
-  const [formData, setFormData] = useState<ApplicationFormData>(initialFormData)
+  const [formData, setFormData] =
+    useState<ApplicationFormData>(initialFormData)
+
   const [isLoading, setIsLoading] = useState(false)
   const [isRazorpayReady, setIsRazorpayReady] = useState(false)
-  const [orderResponse, setOrderResponse] = useState<PaymentOrderResponse | null>(null)
+
+  const [orderResponse, setOrderResponse] =
+    useState<PaymentOrderResponse | null>(null)
+
   const [couponValid, setCouponValid] = useState<boolean | null>(null)
-  const [couponMessage, setCouponMessage] = useState<string>('')
-  
+  const [couponMessage, setCouponMessage] = useState('')
+
   const { success, error } = useToast()
   const router = useRouter()
 
-  // Load service data on mount
+  /* ---------------------------------- */
+  /* Load Service */
+  /* ---------------------------------- */
+
   useEffect(() => {
     const loadService = async () => {
       const service = getServiceBySlug(serviceSlug)
+
       if (!service) {
         error('Service not found')
         router.push('/services')
         return
       }
 
-      // Validate service with backend
       try {
-        const validation = await publicService.validateService(serviceSlug)
+        const validation =
+          await publicService.validateService(serviceSlug)
+
         if (!validation.data?.isActive) {
           error('This service is currently unavailable')
           router.push('/services')
@@ -66,7 +84,7 @@ export const useCheckout = (serviceSlug: string) => {
           finalAmount: validation.data?.price || service.price,
           currency: service.currency
         }))
-      } catch (err) {
+      } catch {
         error('Failed to validate service')
       }
     }
@@ -74,101 +92,140 @@ export const useCheckout = (serviceSlug: string) => {
     loadService()
   }, [serviceSlug, router, error])
 
-  // Load Razorpay script
+  /* ---------------------------------- */
+  /* Load Razorpay */
+  /* ---------------------------------- */
+
   useEffect(() => {
     const loadRazorpay = async () => {
       const ready = await loadRazorpayScript()
       setIsRazorpayReady(ready)
+
       if (!ready) {
-        error('Failed to load payment gateway. Please try again.')
+        error('Failed to load payment gateway')
       }
     }
+
     loadRazorpay()
   }, [error])
 
-  // Update form data
+  /* ---------------------------------- */
+  /* Update Form */
+  /* ---------------------------------- */
+
   const updateFormData = (data: Partial<ApplicationFormData>) => {
     setFormData(prev => ({ ...prev, ...data }))
   }
 
-  // Validate coupon
-  const validateCoupon = useCallback(async (code: string) => {
-    if (!code.trim()) {
-      setCouponValid(null)
-      setCouponMessage('')
-      return
-    }
+  /* ---------------------------------- */
+  /* Coupon */
+  /* ---------------------------------- */
 
-    setIsLoading(true)
-    try {
-      // Mock validation - replace with actual API call when backend is ready
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      // Simulate coupon validation
-      if (code.toUpperCase() === 'SAVE10') {
-        const discount = Math.round(formData.amount * 0.1)
-        setCouponValid(true)
-        setCouponMessage(`10% discount applied! You save ₹${discount}`)
-        updateFormData({ 
-          couponCode: code, 
-          discountAmount: discount,
-          finalAmount: formData.amount - discount
-        })
-      } else if (code.toUpperCase() === 'SAVE20') {
-        const discount = Math.round(formData.amount * 0.2)
-        setCouponValid(true)
-        setCouponMessage(`20% discount applied! You save ₹${discount}`)
-        updateFormData({ 
-          couponCode: code, 
-          discountAmount: discount,
-          finalAmount: formData.amount - discount
-        })
-      } else {
-        setCouponValid(false)
-        setCouponMessage('Invalid coupon code')
-        updateFormData({ 
-          couponCode: '', 
-          discountAmount: 0,
-          finalAmount: formData.amount
-        })
+  const validateCoupon = useCallback(
+    async (code: string) => {
+      if (!code.trim()) {
+        setCouponValid(null)
+        setCouponMessage('')
+        return
       }
-    } catch (err: any) {
-      setCouponValid(false)
-      setCouponMessage(err.message || 'Failed to validate coupon')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [formData.amount])
 
-  // Navigate between steps
+      setIsLoading(true)
+
+      try {
+        await new Promise(r => setTimeout(r, 500))
+
+        if (code.toUpperCase() === 'SAVE10') {
+          const discount = Math.round(formData.amount * 0.1)
+
+          setCouponValid(true)
+          setCouponMessage(`10% discount applied! You save ₹${discount}`)
+
+          updateFormData({
+            couponCode: code,
+            discountAmount: discount,
+            finalAmount: formData.amount - discount
+          })
+        } else if (code.toUpperCase() === 'SAVE20') {
+          const discount = Math.round(formData.amount * 0.2)
+
+          setCouponValid(true)
+          setCouponMessage(`20% discount applied! You save ₹${discount}`)
+
+          updateFormData({
+            couponCode: code,
+            discountAmount: discount,
+            finalAmount: formData.amount - discount
+          })
+        } else {
+          setCouponValid(false)
+          setCouponMessage('Invalid coupon code')
+
+          updateFormData({
+            couponCode: '',
+            discountAmount: 0,
+            finalAmount: formData.amount
+          })
+        }
+      } catch (err: any) {
+        setCouponValid(false)
+        setCouponMessage(err.message || 'Coupon failed')
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [formData.amount]
+  )
+
+  /* ---------------------------------- */
+  /* Steps */
+  /* ---------------------------------- */
+
   const goToStep = (step: CheckoutStep) => {
     setCurrentStep(step)
   }
 
   const nextStep = () => {
-    const steps: CheckoutStep[] = ['contact', 'company', 'coupon', 'payment']
-    const currentIndex = steps.indexOf(currentStep)
-    if (currentIndex < steps.length - 1) {
-      setCurrentStep(steps[currentIndex + 1])
+    const steps: CheckoutStep[] = [
+      'contact',
+      'company',
+      'coupon',
+      'payment'
+    ]
+
+    const i = steps.indexOf(currentStep)
+
+    if (i < steps.length - 1) {
+      setCurrentStep(steps[i + 1])
     }
   }
 
   const prevStep = () => {
-    const steps: CheckoutStep[] = ['contact', 'company', 'coupon', 'payment']
-    const currentIndex = steps.indexOf(currentStep)
-    if (currentIndex > 0) {
-      setCurrentStep(steps[currentIndex - 1])
+    const steps: CheckoutStep[] = [
+      'contact',
+      'company',
+      'coupon',
+      'payment'
+    ]
+
+    const i = steps.indexOf(currentStep)
+
+    if (i > 0) {
+      setCurrentStep(steps[i - 1])
     }
   }
 
-  // Create payment order
+  /* ---------------------------------- */
+  /* Create Order */
+  /* ---------------------------------- */
+
   const createOrder = useCallback(async () => {
     if (!isRazorpayReady) {
-      error('Payment gateway not ready')
+      error('Gateway not ready')
       return
     }
 
     setIsLoading(true)
+
     try {
       const response = await paymentService.createOrder({
         amount: formData.finalAmount || formData.amount,
@@ -187,70 +244,86 @@ export const useCheckout = (serviceSlug: string) => {
       if (response.success && response.data) {
         setOrderResponse(response.data)
         return response.data
-      } else {
-        error(response.message || 'Failed to create order')
       }
+
+      error(response.message || 'Order failed')
     } catch (err: any) {
-      error(err.message || 'Failed to create order')
+      error(err.message || 'Order failed')
     } finally {
       setIsLoading(false)
     }
   }, [formData, isRazorpayReady, error])
 
-  // Process payment
+  /* ---------------------------------- */
+  /* Payment */
+  /* ---------------------------------- */
+
   const processPayment = useCallback(async () => {
     const order = await createOrder()
     if (!order) return
 
     openRazorpayCheckout({
       key: RAZORPAY_KEY,
+
       amount: order.razorpayOrder.amount,
       currency: order.razorpayOrder.currency,
       name: 'Sarsen Strategy Partners',
+
       description: formData.serviceName,
+
       order_id: order.razorpayOrder.id,
+
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         email: formData.email,
         contact: formData.phone
       },
+
       handler: async (response: any) => {
         try {
           setIsLoading(true)
-          const verifyResponse = await paymentService.verifyPayment({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature
-          })
+
+          const verifyResponse =
+            await paymentService.verifyPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            })
 
           if (verifyResponse.success && verifyResponse.data) {
-            success('Payment successful! Your engagement has been created.')
+            success('Payment successful!')
             setCurrentStep('success')
-            // Store engagement info for credentials display
+
             if (verifyResponse.data.engagement) {
-              sessionStorage.setItem('newEngagement', JSON.stringify(verifyResponse.data.engagement))
+              sessionStorage.setItem(
+                'newEngagement',
+                JSON.stringify(verifyResponse.data.engagement)
+              )
             }
           } else {
-            error(verifyResponse.message || 'Payment verification failed')
+            error(verifyResponse.message || 'Verification failed')
             router.push('/payment/failure')
           }
         } catch (err: any) {
-          error(err.message || 'Payment verification failed')
+          error(err.message || 'Verification failed')
           router.push('/payment/failure')
         } finally {
           setIsLoading(false)
         }
       },
+
       modal: {
         ondismiss: () => {
-          // User closed the modal without paying
-          console.log('Payment modal dismissed')
+          console.log('Payment dismissed')
         }
       }
     })
   }, [createOrder, formData, success, error, router])
 
-  // Reset form
+  /* ---------------------------------- */
+  /* Reset */
+  /* ---------------------------------- */
+
   const resetCheckout = () => {
     setFormData(initialFormData)
     setCurrentStep('contact')
@@ -259,22 +332,27 @@ export const useCheckout = (serviceSlug: string) => {
     setCouponMessage('')
   }
 
+  /* ---------------------------------- */
+  /* API */
+  /* ---------------------------------- */
+
   return {
-    // State
     currentStep,
     formData,
     isLoading,
     isRazorpayReady,
     orderResponse,
+
     couponValid,
     couponMessage,
 
-    // Actions
     updateFormData,
     validateCoupon,
+
     goToStep,
     nextStep,
     prevStep,
+
     processPayment,
     resetCheckout
   }

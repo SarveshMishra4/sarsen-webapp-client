@@ -17,20 +17,29 @@ export const CredentialsDisplay: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    // Get engagement info from session storage
-    const stored = sessionStorage.getItem('newEngagement')
-    if (stored) {
-      setEngagement(JSON.parse(stored))
-      
-      // In a real app, you'd fetch credentials from an API
-      // For now, we'll simulate with mock data
-      setCredentials({
-        email: 'client@example.com',
-        password: 'TempPass123!'
-      })
-    }
-  }, [])
+useEffect(() => {
+  // Load engagement
+  const storedEngagement = sessionStorage.getItem('newEngagement')
+  if (storedEngagement) {
+    setEngagement(JSON.parse(storedEngagement))
+  }
+
+  // Load credentials (if created)
+  const storedCredentials = sessionStorage.getItem('newCredentials')
+  if (storedCredentials) {
+    setCredentials(JSON.parse(storedCredentials))
+    return
+  }
+
+  // Fallback: use checkout email
+  const checkoutEmail = sessionStorage.getItem('checkoutEmail')
+  if (checkoutEmail) {
+    setCredentials({
+      email: checkoutEmail,
+      password: '********'
+    })
+  }
+}, [])
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
