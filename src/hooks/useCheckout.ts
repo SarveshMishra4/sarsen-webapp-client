@@ -242,6 +242,7 @@ const [orderResponse, setOrderResponse] =
         couponCode: formData.couponCode,
         discountAmount: formData.discountAmount
       })
+      console.log("🟢 Raw order API response:", response);
 
       if (response.success && response.data) {
         setOrderResponse(response.data)
