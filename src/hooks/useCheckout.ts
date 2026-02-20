@@ -44,8 +44,8 @@ export const useCheckout = (serviceSlug: string) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isRazorpayReady, setIsRazorpayReady] = useState(false)
 
-const [orderResponse, setOrderResponse] =
-  useState<PaymentOrderData | null>(null)
+  const [orderResponse, setOrderResponse] =
+    useState<PaymentOrderData | null>(null)
 
   const [couponValid, setCouponValid] = useState<boolean | null>(null)
   const [couponMessage, setCouponMessage] = useState('')
@@ -219,44 +219,52 @@ const [orderResponse, setOrderResponse] =
   /* Create Order */
   /* ---------------------------------- */
 
-  const createOrder = useCallback(async () => {
-    console.log("🟡 createOrder called, isRazorpayReady:", isRazorpayReady);
-    if (!isRazorpayReady) {
-      error('Gateway not ready')
-      return
+const createOrder = useCallback(async () => {
+  console.log("🟡 createOrder called, isRazorpayReady:", isRazorpayReady);
+
+  if (!isRazorpayReady) {
+    error('Gateway not ready')
+    return
+  }
+
+  setIsLoading(true)
+
+  try {
+    const response = await paymentService.createOrder({
+      amount: formData.finalAmount || formData.amount,
+      currency: formData.currency,
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      company: formData.company,
+      phone: formData.phone,
+      serviceCode: formData.serviceCode,
+      serviceName: formData.serviceName,
+      couponCode: formData.couponCode,
+      discountAmount: formData.discountAmount
+    })
+
+    console.log("🟢 Raw order API response:", response);
+
+    if (!response || !response.razorpayOrder) {
+      throw new Error('Invalid order response from server')
     }
 
-    setIsLoading(true)
+    setOrderResponse(response)
+    return response
 
-    try {
-      const response = await paymentService.createOrder({
-        amount: formData.finalAmount || formData.amount,
-        currency: formData.currency,
-        email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        company: formData.company,
-        phone: formData.phone,
-        serviceCode: formData.serviceCode,
-        serviceName: formData.serviceName,
-        couponCode: formData.couponCode,
-        discountAmount: formData.discountAmount
-      })
-      console.log("🟢 Raw order API response:", response);
+  } catch (err: any) {
+    const errorMessage =
+      err?.response?.data?.message ||
+      err?.message ||
+      'Payment order creation failed'
 
-      if (response.success && response.data) {
-        setOrderResponse(response.data)
-        return response.data
-      }
-
-      error(response.message || 'Order failed')
-    } catch (err: any) {
-      error(err.message || 'Order failed')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [formData, isRazorpayReady, error])
-
+    console.error(errorMessage)
+    error(errorMessage)
+  } finally {
+    setIsLoading(false)
+  }
+}, [formData, isRazorpayReady, error])
   /* ---------------------------------- */
   /* Payment */
   /* ---------------------------------- */

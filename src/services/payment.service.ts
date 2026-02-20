@@ -2,6 +2,7 @@ import { apiClient } from '@/lib/apiClient'
 import {
   PaymentOrderRequest,
   PaymentOrderResponse,
+  PaymentOrderData,
   PaymentVerificationRequest,
   PaymentVerificationResponse,
   CouponValidationRequest,
@@ -14,17 +15,17 @@ export const paymentService = {
    * Create a new payment order
    */
   createOrder: async (data: PaymentOrderRequest) => {
-    const res = await apiClient.post<PaymentOrderResponse>(
-      '/payments/create-order',
-      data
-    )
+  const res = await apiClient.post<PaymentOrderData>(
+    '/payments/create-order',
+    data
+  )
 
-    if (!res.data) {
-      throw new Error('Empty response from create order')
-    }
+  if (!res.data) {
+    throw new Error('Empty response from create order')
+  }
 
-    return res.data
-  },
+  return res.data
+},
 
 
 
