@@ -50,7 +50,7 @@ export const services: ServiceConfig[] = [
       'Data Room Structure'
     ],
     price: 15000,
-    currency: 'USD',
+    currency: 'INR',
     duration: '4-6 weeks',
     methodology: {
       title: 'Our Approach',
@@ -101,7 +101,7 @@ export const services: ServiceConfig[] = [
       'Revisions (3 rounds)'
     ],
     price: 8000,
-    currency: 'USD',
+    currency: 'INR',
     duration: '2-3 weeks',
     methodology: {
       title: 'Our Process',
@@ -152,7 +152,7 @@ export const services: ServiceConfig[] = [
       'Sales Playbook'
     ],
     price: 12000,
-    currency: 'USD',
+    currency: 'INR',
     duration: '3-4 weeks',
     methodology: {
       title: 'Our Framework',
