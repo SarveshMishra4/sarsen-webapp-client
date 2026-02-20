@@ -290,20 +290,37 @@ export const useCheckout = (serviceSlug: string) => {
               razorpay_signature: response.razorpay_signature
             })
 
-          if (verifyResponse.success && verifyResponse.data) {
+          if (verifyResponse.success) {
+
+            const data = verifyResponse.data
+
+            if (data?.engagement) {
+              sessionStorage.setItem(
+                'newEngagement',
+                JSON.stringify(data.engagement)
+              )
+            }
+
+            if (data?.credentials) {
+              sessionStorage.setItem(
+                'newCredentials',
+                JSON.stringify(data.credentials)
+              )
+            }
+
+            sessionStorage.setItem(
+              'checkoutEmail',
+              formData.email
+            )
+
             success('Payment successful!')
             setCurrentStep('success')
 
-            if (verifyResponse.data.engagement) {
-              sessionStorage.setItem(
-                'newEngagement',
-                JSON.stringify(verifyResponse.data.engagement)
-              )
-            }
           } else {
             error(verifyResponse.message || 'Verification failed')
             router.push('/payment/failure')
           }
+
         } catch (err: any) {
           error(err.message || 'Verification failed')
           router.push('/payment/failure')
