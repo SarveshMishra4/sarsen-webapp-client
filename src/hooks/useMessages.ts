@@ -60,19 +60,19 @@ export const useMessages = ({ engagementId, pageSize = 50 }: UseMessagesProps) =
         const fetchedMessages = response.data.messages || []
 
         // If polling (after filter exists), append new messages
-        setMessages(prev => {
-          if (prev.length === 0) {
-            // First load
-            return fetchedMessages
-          }
-
-          const existingIds = new Set(prev.map(m => m.id))
-          const newMessages = fetchedMessages.filter(m => !existingIds.has(m.id))
-
-          if (newMessages.length === 0) return prev
-
-          return [...prev, ...newMessages]
-        })
+        // If this is initial load or manual refresh → replace everything
+if (!filters?.after) {
+  setMessages(fetchedMessages)
+} else {
+  // Polling → merge only new messages
+  setMessages(prev => {
+    const existingIds = new Set(prev.map(m => m.id))
+    const newMessages = fetchedMessages.filter(
+      m => !existingIds.has(m.id)
+    )
+    return newMessages.length === 0 ? prev : [...prev, ...newMessages]
+  })
+}
 
         setTotalCount(response.data.total || 0)
         setUnreadCount(response.data.unreadCount || 0)
