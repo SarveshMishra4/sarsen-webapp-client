@@ -18,7 +18,7 @@ export const EngagementCard: React.FC<EngagementCardProps> = ({ engagement }) =>
   const daysActive = getDaysSinceStart(engagement.startDate)
 
   return (
-    <Link href={`/client/dashboard/${engagement.id}`}>
+    <Link href={`/client/dashboard/${engagement.engagementId}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
         <CardBody>
           <div className="flex justify-between items-start mb-4">
