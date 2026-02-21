@@ -47,11 +47,11 @@ export const useEngagement = () => {
     setIsLoading(true)
     try {
       const response = await engagementService.getAllEngagements(filters)
-      if (response.success && response.data) {
-        setAllEngagements(response.data.engagements)
-        setTotalCount(response.data.total || 0)
-        setTotalPages(response.data.pages || 1)
-      }
+      if (response.success && response.data?.data) {
+  setAllEngagements(response.data.data.engagements)
+  setTotalCount(response.data.data.total || 0)
+  setTotalPages(response.data.data.pages || 1)
+}
     } catch (err: any) {
       error(err.message || 'Failed to fetch engagements')
     } finally {
