@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useQuestionnaire } from '@/hooks/useQuestionnaire'
-import { QuestionnaireCard } from '../components/questionnaires/QuestionnaireCard'
+import { QuestionnaireCard } from '../../components/questionnaires/QuestionnaireCard'
 import { Card, CardBody } from '@/components/ui/Card'
 
 export default function ClientQuestionnairesPage() {

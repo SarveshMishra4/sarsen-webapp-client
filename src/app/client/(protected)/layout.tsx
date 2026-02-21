@@ -1,7 +1,7 @@
 'use client'
 
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
-import { ClientHeader } from './components/ClientHeader'
+import { ClientHeader } from '../components/ClientHeader'
 
 export default function ClientLayout({
   children,

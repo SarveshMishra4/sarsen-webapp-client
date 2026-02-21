@@ -7,10 +7,10 @@ import { useEngagement } from '@/hooks/useEngagement'
 import { useMessages } from '@/hooks/useMessages'  // Add this import
 import { useAuth } from '@/hooks/useAuth'  // Add this import
 import { useToast } from '@/hooks/useToast'
-import { DashboardMetrics } from '../../components/DashboardMetrics'
-import { ProgressBar } from '../../components/ProgressBar'
-import { MilestoneTimeline } from '../../components/MilestoneTimeline'
-import { StatusBadge } from '../../components/StatusBadge'
+import { DashboardMetrics } from '../../../components/DashboardMetrics'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { MilestoneTimeline } from '../../../components/MilestoneTimeline'
+import { StatusBadge } from '../../../components/StatusBadge'
 import { MessageThread } from '@/components/messages/MessageThread'  // Add this import
 import { MessageComposer } from '@/components/messages/MessageComposer'  // Add this import
 import { Button } from '@/components/ui/Button'

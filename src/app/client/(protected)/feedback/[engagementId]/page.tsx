@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useFeedback } from '@/hooks/useFeedback'
 import { useEngagement } from '@/hooks/useEngagement'
-import { FeedbackForm } from '../../components/feedback/FeedbackForm'
+import { FeedbackForm } from '../../../components/feedback/FeedbackForm'
 import { Card, CardBody } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 

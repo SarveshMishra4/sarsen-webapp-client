@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { useEngagement } from '@/hooks/useEngagement'
-import { EngagementCard } from '../components/EngagementCard'
+import { EngagementCard } from '../../components/EngagementCard'
 import { Button } from '@/components/ui/Button'
 import { Card, CardBody } from '@/components/ui/Card'
 
