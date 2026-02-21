@@ -63,7 +63,7 @@ class ApiClient {
           if (!refreshToken) throw new Error('No refresh token')
 
           const response = await axios.post<ApiResponse<{ accessToken: string }>>(
-            `${API_URL}/admin/auth/refresh`,
+            `${API_URL}/client/auth/refresh`,
             { refreshToken }
           )
 
