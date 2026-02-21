@@ -8,16 +8,21 @@ import {
   EngagementData, 
   EngagementSummary,
   ProgressResponse,
-  EngagementStatus 
+  EngagementStatus,
+  EngagementFilters  // ✅ ADD THIS IMPORT
 } from '@/types/engagement.types'
 import { MilestoneValue } from '@/types/blueprint.types'
 
 export const useEngagement = () => {
   const [engagements, setEngagements] = useState<EngagementSummary[]>([])
+  // ✅ ADD THIS LINE - new state for admin view (doesn't affect existing)
+  const [allEngagements, setAllEngagements] = useState<EngagementData[]>([])
   const [engagement, setEngagement] = useState<EngagementData | null>(null)
   const [progress, setProgress] = useState<ProgressResponse | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [totalCount, setTotalCount] = useState(0)
+  // ✅ ADD THIS LINE - for pagination (doesn't affect existing)
+  const [totalPages, setTotalPages] = useState(1)
   const { success, error } = useToast()
   const router = useRouter()
 
@@ -29,6 +34,23 @@ export const useEngagement = () => {
       if (response.success && response.data) {
         setEngagements(response.data.engagements)
         setTotalCount(response.data.count)
+      }
+    } catch (err: any) {
+      error(err.message || 'Failed to fetch engagements')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [error])
+
+  // ✅ ADD THIS NEW FUNCTION - admin fetch all engagements (doesn't touch existing)
+  const fetchAllEngagements = useCallback(async (filters?: EngagementFilters) => {
+    setIsLoading(true)
+    try {
+      const response = await engagementService.getAllEngagements(filters)
+      if (response.success && response.data) {
+        setAllEngagements(response.data.engagements)
+        setTotalCount(response.data.total || 0)
+        setTotalPages(response.data.pages || 1)
       }
     } catch (err: any) {
       error(err.message || 'Failed to fetch engagements')
@@ -112,15 +134,20 @@ export const useEngagement = () => {
   return {
     // State
     engagements,
+    allEngagements,    // ✅ ADD THIS to return object
     engagement,
     progress,
     isLoading,
     totalCount,
+    totalPages,        // ✅ ADD THIS to return object
 
     // Client operations
     fetchMyEngagements,
     fetchEngagementById,
     fetchEngagementProgress,
+
+    // Admin operations
+    fetchAllEngagements, // ✅ ADD THIS to return object
 
     // Helpers
     getStatusColor,
