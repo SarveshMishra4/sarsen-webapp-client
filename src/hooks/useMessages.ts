@@ -4,9 +4,9 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { messageService } from '@/services/message.service'
 import { useToast } from './useToast'
 import { useAuth } from './useAuth'
-import { 
-  Message, 
-  MessageFilters, 
+import {
+  Message,
+  MessageFilters,
   SendMessageRequest,
   OptimisticMessage,
   SenderType
@@ -25,10 +25,10 @@ export const useMessages = ({ engagementId, pageSize = 50 }: UseMessagesProps) =
   const [totalCount, setTotalCount] = useState(0)
   const [unreadCount, setUnreadCount] = useState(0)
   const [page, setPage] = useState(1)
-  
+
   const { user, role } = useAuth()
   const { success, error } = useToast()
-  
+
   // FIX: Add proper initial values for refs
   const pollingInterval = useRef<NodeJS.Timeout | null>(null)
   const lastMessageTime = useRef<string | undefined>(undefined)
@@ -37,79 +37,91 @@ export const useMessages = ({ engagementId, pageSize = 50 }: UseMessagesProps) =
   const getSenderName = useCallback((): string => {
     if (!user) return 'Unknown'
     if (role === 'ADMIN') return 'Admin'
-    
+
     // Type guard for client user
     if ('firstName' in user || 'lastName' in user) {
       const clientUser = user as any // Type assertion after check
       return `${clientUser.firstName || ''} ${clientUser.lastName || ''}`.trim() || user.email
     }
-    
+
     return user.email
   }, [user, role])
 
   // Fetch messages
-// Fetch messages
-const fetchMessages = useCallback(async (filters?: MessageFilters) => {
-  if (!engagementId) return
+  // Fetch messages
+  const fetchMessages = useCallback(async (filters?: MessageFilters) => {
+    if (!engagementId) return
 
-  setIsLoading(true)
-  try {
-    const response = await messageService.getMessages(engagementId, filters)
-    // FIX: Add safety check for response.data
-    if (response.success && response.data) {
-      // Ensure messages is an array
-      const fetchedMessages = response.data.messages || []
-      setMessages(fetchedMessages)
-      setTotalCount(response.data.total || 0)
-      setUnreadCount(response.data.unreadCount || 0)
-      
-      if (fetchedMessages.length > 0) {
-        lastMessageTime.current = fetchedMessages[0].createdAt
+    setIsLoading(true)
+    try {
+      const response = await messageService.getMessages(engagementId, filters)
+      // FIX: Add safety check for response.data
+      if (response.success && response.data) {
+        const fetchedMessages = response.data.messages || []
+
+        // If polling (after filter exists), append new messages
+        setMessages(prev => {
+          if (prev.length === 0) {
+            // First load
+            return fetchedMessages
+          }
+
+          const existingIds = new Set(prev.map(m => m.id))
+          const newMessages = fetchedMessages.filter(m => !existingIds.has(m.id))
+
+          if (newMessages.length === 0) return prev
+
+          return [...prev, ...newMessages]
+        })
+
+        setTotalCount(response.data.total || 0)
+        setUnreadCount(response.data.unreadCount || 0)
+
+        if (fetchedMessages.length > 0) {
+          lastMessageTime.current =
+            fetchedMessages[fetchedMessages.length - 1].createdAt
+        }
       }
-      
-      // Mark as read when fetching
-      await messageService.markAsRead(engagementId)
+    } catch (err: any) {
+      error(err.message || 'Failed to fetch messages')
+    } finally {
+      setIsLoading(false)
     }
-  } catch (err: any) {
-    error(err.message || 'Failed to fetch messages')
-  } finally {
-    setIsLoading(false)
-  }
-}, [engagementId, error])
+  }, [engagementId, error])
 
   // Load more messages (pagination)
-// Load more messages (pagination)
-const loadMore = useCallback(async () => {
-  if (!engagementId || !hasMore || isLoadingMore) return
+  // Load more messages (pagination)
+  const loadMore = useCallback(async () => {
+    if (!engagementId || !hasMore || isLoadingMore) return
 
-  setIsLoadingMore(true)
-  try {
-    const nextPage = page + 1
-    const response = await messageService.getMessages(engagementId, { 
-      page: nextPage, 
-      limit: pageSize 
-    })
-    
-    // FIX: Proper type checking for messages array
-    if (response.success && response.data) {
-      // Ensure messages is an array before spreading
-      const newMessages = response.data.messages || []
-      
-      if (newMessages.length === 0) {
-        setHasMore(false)
-      } else {
-        // Type-safe spread - newMessages is confirmed to be an array
-        setMessages(prev => [...prev, ...newMessages])
-        setPage(nextPage)
-        setTotalCount(response.data.total || 0)
+    setIsLoadingMore(true)
+    try {
+      const nextPage = page + 1
+      const response = await messageService.getMessages(engagementId, {
+        page: nextPage,
+        limit: pageSize
+      })
+
+      // FIX: Proper type checking for messages array
+      if (response.success && response.data) {
+        // Ensure messages is an array before spreading
+        const newMessages = response.data.messages || []
+
+        if (newMessages.length === 0) {
+          setHasMore(false)
+        } else {
+          // Type-safe spread - newMessages is confirmed to be an array
+          setMessages(prev => [...prev, ...newMessages])
+          setPage(nextPage)
+          setTotalCount(response.data.total || 0)
+        }
       }
+    } catch (err: any) {
+      error(err.message || 'Failed to load more messages')
+    } finally {
+      setIsLoadingMore(false)
     }
-  } catch (err: any) {
-    error(err.message || 'Failed to load more messages')
-  } finally {
-    setIsLoadingMore(false)
-  }
-}, [engagementId, page, pageSize, hasMore, isLoadingMore, error])
+  }, [engagementId, page, pageSize, hasMore, isLoadingMore, error])
 
   // Send a message
   const sendMessage = useCallback(async (content: string, attachments?: any[]) => {
@@ -135,7 +147,7 @@ const loadMore = useCallback(async () => {
     }
 
     // Add optimistic message to UI
-    setMessages(prev => [optimisticMessage as Message, ...prev])
+    setMessages(prev => [...prev, optimisticMessage as Message])
 
     try {
       const request: SendMessageRequest = {
@@ -145,16 +157,16 @@ const loadMore = useCallback(async () => {
       }
 
       const response = await messageService.sendMessage(request)
-      
+
       // FIX: Add safety check for response.data
       if (response.success && response.data) {
         // Replace optimistic message with real one
-        setMessages(prev => 
-          prev.map(msg => 
+        setMessages(prev =>
+          prev.map(msg =>
             msg.id === optimisticId ? response.data!.message : msg
           )
         )
-        
+
         // Update last message time
         lastMessageTime.current = response.data.message.createdAt
       } else {
@@ -190,33 +202,38 @@ const loadMore = useCallback(async () => {
 
     try {
       await messageService.markAsRead(engagementId)
+
+      // Refresh messages from backend to sync readBy state
+      await fetchMessages()
+
       setUnreadCount(0)
-      setMessages(prev => 
-        prev.map(msg => ({ ...msg, isRead: true }))
-      )
     } catch (err: any) {
       error(err.message || 'Failed to mark messages as read')
     }
-  }, [engagementId, error])
+  }, [engagementId, fetchMessages, error])
 
   // Set up polling for new messages
   useEffect(() => {
     if (!engagementId) return
 
-    // Initial fetch
-    fetchMessages()
+    const init = async () => {
+      // 1️⃣ Fetch messages first (auto-marks read in backend)
+      await fetchMessages()
 
-    // Poll for new messages every 30 seconds
-    pollingInterval.current = setInterval(() => {
-      fetchMessages({ after: lastMessageTime.current })
+      // 2️⃣ Then fetch unread count (now it will be correct)
+      await fetchUnreadCount()
+    }
+
+    init()
+
+    // 3️⃣ Polling (messages first, then unread)
+    const interval = setInterval(async () => {
+      await fetchMessages()
+      await fetchUnreadCount()
     }, 30000)
 
-    return () => {
-      if (pollingInterval.current) {
-        clearInterval(pollingInterval.current)
-      }
-    }
-  }, [engagementId, fetchMessages])
+    return () => clearInterval(interval)
+  }, [engagementId, fetchMessages, fetchUnreadCount])
 
   // Update unread count periodically
   useEffect(() => {
