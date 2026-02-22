@@ -14,29 +14,47 @@ export default function AdminEngagementsPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [serviceFilter, setServiceFilter] = useState('')
-  
-  const { engagements, isLoading, totalCount, fetchAllEngagements } = useEngagement()
+
+  // FIX: Use allEngagements instead of engagements
+  const { allEngagements, isLoading, totalCount, totalPages, fetchAllEngagements } = useEngagement()
   const { error } = useToast()
 
   useEffect(() => {
-    fetchAllEngagements({
-      page,
-      limit: 20,
-      isActive: filter === 'active' ? true : filter === 'completed' ? false : undefined,
-      isCompleted: filter === 'completed' ? true : undefined,
-      serviceCode: serviceFilter || undefined
-    })
-  }, [fetchAllEngagements, filter, page, serviceFilter])
-
-  const filteredEngagements = engagements.filter(eng => {
-    if (search) {
-      return eng.serviceName.toLowerCase().includes(search.toLowerCase()) ||
-             eng.engagementId.toLowerCase().includes(search.toLowerCase())
+    const load = async () => {
+      await fetchAllEngagements({
+        page,
+        limit: 20,
+        isActive:
+          filter === 'active'
+            ? true
+            : filter === 'completed'
+              ? false
+              : undefined,
+        isCompleted: filter === 'completed' ? true : undefined,
+        serviceCode: serviceFilter || undefined,
+      })
     }
-    return true
-  })
 
-  const totalPages = Math.ceil(totalCount / 20)
+    load()
+  }, [filter, page, serviceFilter])
+
+  // 👇 ADD THIS RIGHT BELOW
+  useEffect(() => {
+    console.log("UPDATED ENGAGEMENTS:", allEngagements)
+  }, [allEngagements])
+
+  // FIX: Filter using allEngagements
+  const filteredEngagements = allEngagements.filter((eng) => {
+    if (!search) return true
+
+    const serviceName = eng.serviceName || ''
+    const engagementId = eng.engagementId || ''
+
+    return (
+      serviceName.toLowerCase().includes(search.toLowerCase()) ||
+      engagementId.toLowerCase().includes(search.toLowerCase())
+    )
+  })
 
   const getStatusBadge = (engagement: any) => {
     if (engagement.isCompleted) {
@@ -67,41 +85,37 @@ export default function AdminEngagementsPage() {
             <div className="flex space-x-2">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${
-                  filter === 'all'
+                className={`px-4 py-2 text-sm font-medium rounded-md ${filter === 'all'
                     ? 'bg-primary-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 All
               </button>
               <button
                 onClick={() => setFilter('active')}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${
-                  filter === 'active'
+                className={`px-4 py-2 text-sm font-medium rounded-md ${filter === 'active'
                     ? 'bg-primary-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 Active
               </button>
               <button
                 onClick={() => setFilter('completed')}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${
-                  filter === 'completed'
+                className={`px-4 py-2 text-sm font-medium rounded-md ${filter === 'completed'
                     ? 'bg-primary-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 Completed
               </button>
               <button
                 onClick={() => setFilter('feedback')}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${
-                  filter === 'feedback'
+                className={`px-4 py-2 text-sm font-medium rounded-md ${filter === 'feedback'
                     ? 'bg-primary-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 Needs Feedback
               </button>
@@ -171,7 +185,7 @@ export default function AdminEngagementsPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredEngagements.map((eng) => (
-                    <tr key={eng.id} className="hover:bg-gray-50">
+                    <tr key={eng._id || eng.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="text-sm font-mono text-gray-900">
                           {eng.engagementId}
@@ -211,7 +225,7 @@ export default function AdminEngagementsPage() {
                         {format(new Date(eng.startDate), 'MMM d, yyyy')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <Link href={`/admin/protected/engagements/${eng.id}`}>
+                        <Link href={`/admin/protected/engagements/${eng._id || eng.id}`}>
                           <Button variant="outline" size="sm">
                             View
                           </Button>
