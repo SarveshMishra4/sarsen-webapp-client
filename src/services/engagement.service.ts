@@ -48,13 +48,10 @@ export const engagementService = {
     const queryString = params.toString()
     const url = queryString ? `/admin/engagements?${queryString}` : '/admin/engagements'
 return apiClient.get<{
-  success: boolean
-  data: {
-    engagements: EngagementData[]
-    total: number
-    pages: number
-  }
-}>(url)  },
+  engagements: EngagementData[]
+  total: number
+  pages: number
+}>(url)},
 
   /**
    * GET /api/admin/engagements/:engagementId
