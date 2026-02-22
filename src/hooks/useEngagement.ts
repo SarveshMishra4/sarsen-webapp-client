@@ -79,7 +79,7 @@ const fetchEngagementById = useCallback(
       setIsLoading(false)
     }
   },
-  [error] // <-- add error here
+  [error]
 )
 
   // Client: Fetch engagement progress
