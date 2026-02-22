@@ -1,6 +1,4 @@
-'use client'
-
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import AdminProtectedWrapper from '@/app/admin/(auth)/AdminProtectedWrapper'
 import { Sidebar } from './components/Sidebar'
 
 export default function ProtectedAdminLayout({
@@ -9,7 +7,7 @@ export default function ProtectedAdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <ProtectedRoute allowedRoles={['ADMIN']} redirectTo="/admin/auth/login">
+    <AdminProtectedWrapper>
       <div className="min-h-screen bg-gray-100">
         <div className="flex">
           <Sidebar />
@@ -18,6 +16,6 @@ export default function ProtectedAdminLayout({
           </main>
         </div>
       </div>
-    </ProtectedRoute>
+    </AdminProtectedWrapper>
   )
 }
