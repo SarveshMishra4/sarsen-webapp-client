@@ -61,20 +61,26 @@ export const useEngagement = () => {
   }, [error])
 
   // Client: Fetch single engagement
-  const fetchEngagementById = useCallback(async (engagementId: string) => {
+const fetchEngagementById = useCallback(
+  async (engagementId: string, role: 'client' | 'admin' = 'client') => {
     setIsLoading(true)
     try {
-      const response = await engagementService.getEngagementById(engagementId)
-      if (response.success && response.data) {
+      const response =
+        role === 'admin'
+          ? await engagementService.getAdminEngagementById(engagementId)
+          : await engagementService.getEngagementById(engagementId)
+
+      if (response.success && response.data?.engagement) {
         setEngagement(response.data.engagement)
-        return response.data.engagement
       }
     } catch (err: any) {
       error(err.message || 'Failed to fetch engagement')
     } finally {
       setIsLoading(false)
     }
-  }, [error])
+  },
+  [error] // <-- add error here
+)
 
   // Client: Fetch engagement progress
   const fetchEngagementProgress = useCallback(async (engagementId: string) => {
