@@ -99,7 +99,7 @@ export default function AdminRootPage() {
   const router = useRouter()
 
   useEffect(() => {
-    router.push('/admin/protected/dashboard')
+    router.push('/admin/dashboard')
   }, [router])
 
   return null

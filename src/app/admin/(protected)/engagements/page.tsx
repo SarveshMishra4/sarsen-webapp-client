@@ -225,7 +225,7 @@ export default function AdminEngagementsPage() {
                         {format(new Date(eng.startDate), 'MMM d, yyyy')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <Link href={`/admin/protected/engagements/${eng._id || eng.id}`}>
+                        <Link href={`/admin/engagements/${eng._id || eng.id}`}>
                           <Button variant="outline" size="sm">
                             View
                           </Button>
