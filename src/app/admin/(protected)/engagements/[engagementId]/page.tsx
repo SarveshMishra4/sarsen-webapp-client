@@ -16,9 +16,13 @@ import { MessageComposer } from '@/components/messages/MessageComposer'
 import { StatusBadge } from '@/app/client/components/StatusBadge'
 import { useEngagement } from '@/hooks/useEngagement'
 
-export default function AdminEngagementMessagesPage() {
-  const params = useParams()
-  const engagementId = params.engagementId as string
+
+export default function AdminEngagementMessagesPage({
+  params,
+}: {
+  params: { engagementId: string }
+}) {
+  const engagementId = params.engagementId
   
   const { user } = useAuth()
   const { error } = useToast()
