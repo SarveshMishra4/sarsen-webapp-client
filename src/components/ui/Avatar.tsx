@@ -39,7 +39,12 @@ export const Avatar: React.FC<AvatarProps> = ({
   ]
 
   // Generate consistent color based on name
-  const colorIndex = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length
+  const safeName = name || 'User'
+
+const colorIndex =
+  safeName
+    .split('')
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length
   const bgColor = colors[colorIndex]
 
   if (src) {
@@ -59,7 +64,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         ${bgColor} ${sizeClasses[size]} ${className}
       `}
     >
-      {getInitials(name)}
+      {getInitials(safeName)}
     </div>
   )
 }
