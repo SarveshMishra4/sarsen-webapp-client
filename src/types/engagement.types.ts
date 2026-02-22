@@ -48,6 +48,7 @@ export interface EngagementProgress {
 }
 
 export interface EngagementData {
+  _id?: string   // 👈 add this
   id: string
   engagementId: string
   serviceCode: string
