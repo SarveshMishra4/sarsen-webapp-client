@@ -78,7 +78,7 @@ export default function AdminEngagementClient({
             <StatusBadge
               status={engagement.isCompleted ? 'completed' : 'active'}
             />
-            <Link href={`/admin/protected/engagements`}>
+            <Link href={`/admin/engagements`}>
               <Button variant="outline" size="sm">
                 Back to Engagements
               </Button>
