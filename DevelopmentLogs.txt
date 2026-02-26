@@ -1,0 +1,161 @@
+26th February 2026 : 
+
+We Did : 
+    - Initated the Project 
+    - This is how the Folder Structure Look Like
+
+    Webapp - Sarsen
+    |-- client
+    |   |-- .next
+    |   |-- node_modules
+    |   |-- public
+    |   |-- src\app
+    |   |   |-- favicon.ico
+    |   |   |-- globals.css
+    |   |   |-- layout.tsx
+    |   |   |-- page.tsx
+    |   |-- .gitignore
+    |   |-- eslint.config.mjs
+    |   |-- next-env.d.ts
+    |   |-- next.config.ts
+    |   |-- package-lock.json
+    |   |-- package.json
+    |   |-- postcss.config.mjs
+    |   |-- README.md
+    |   |-- tsconfig.json
+
+
+    We Expanded the Complete Folder Structure To This ...
+    Webapp - Sarsen
+    |-- client
+    |   |-- .next
+    |   |-- node_modules
+    |   |-- public
+    |   |-- src
+    |   |   |-- app
+    |   |   |   |-- App.tsx
+    |   |   |   |-- favicon.ico
+    |   |   |   |-- globals.css
+    |   |   |   |-- layout.tsx
+    |   |   |   |-- main.tsx
+    |   |   |   |-- page.tsx
+    |   |   |-- assets
+    |   |   |-- config
+    |   |   |-- design-system
+    |   |   |-- features
+    |   |   |-- layouts
+    |   |   |-- mock
+    |   |   |-- pages
+    |   |   |-- services
+    |   |   |-- store
+    |   |   |-- styles
+    |   |   |-- ui
+    |   |   |-- utils
+    |   |-- .gitignore
+    |   |-- DevelopmentLogs.txt
+    |   |-- eslint.config.mjs
+    |   |-- next-env.d.ts
+    |   |-- next.config.ts
+    |   |-- package-lock.json
+    |   |-- package.json
+    |   |-- postcss.config.mjs
+    |   |-- README.md
+    |   |-- tsconfig.json
+
+Our Principles : 
+    Principle 1: A Large App Is Not “One App” — It Is Many Systems
+    Principle 2: Every Folder Must Answer One Question
+    Principle 3: Flow of Information Must Be One Direction
+        App must flow like water:
+        Config → Data → Services → Logic → UI → Pages
+        Never backwards.
+    Principle 4: Design Is a System, Not Decoration
+
+
+Our Folder Structure Explained : 
+    📁 .next/ (Generated System Folder)
+    📁 node_modules/ (Dependency Warehouse)
+    📁 public/ (Static Assets)
+    📁 src/app/ (Routing Layer)
+    📁 src/assets/ (Raw Media Storage)
+    📁 src/config/ (Environment Brain)
+    📁 src/design-system/ (Visual Constitution)
+    📁 src/features/ (Business Engines)
+    📁 src/layouts/ (Screen Templates)
+    📁 src/mock/ (Fake Database)
+    📁 src/pages/ (⚠ Legacy / Transitional)
+    📁 src/services/ (API Gateway)
+    📁 src/store/ (Global State)
+    📁 src/styles/ (Global Styling)
+    📁 src/ui/ (Reusable UI Library)
+    📁 src/utils/ (Pure Functions)
+
+Our architecture is:
+    config      → rules
+    mock        → data
+    services    → access
+    utils       → helpers
+    hooks       → logic
+    ui          → components
+    features    → business
+    app         → routing
+
+Steps of Building : 
+    Step 1 : Develop Design System Tokens like Colors, Fonts Etc.
+    Step 2 : Tailwuing Configurations 
+    Step 3 : Global CSS Configurations
+    Step 4 : Develop User Interface components
+    Step 5 : Import all the Components over a Page 
+    Hierarchial Structure : Tokens → Tailwind → Components → Pages
+
+Our Folder Structure in User Interface Design : 
+    Webapp - Sarsen
+    |-- client
+    |   |-- .next
+    |   |-- node_modules
+    |   |-- public
+    |   |-- src
+    |   |   |-- app
+    |   |   |   |-- App.tsx
+    |   |   |   |-- favicon.ico
+    |   |   |   |-- globals.css
+    |   |   |   |-- layout.tsx
+    |   |   |   |-- main.tsx
+    |   |   |   |-- page.tsx
+    |   |   |-- assets
+    |   |   |-- config
+    |   |   |-- design-system
+    |   |   |-- features
+    |   |   |-- layouts
+    |   |   |-- mock
+    |   |   |-- pages
+    |   |   |-- services
+    |   |   |-- store
+    |   |   |-- styles
+    |   |   |-- ui
+    |   |   |   |-- patterns
+    |   |   |   |   |-- Card
+    |   |   |   |   |   |-- Card.tsx
+    |   |   |   |   |   |-- index.tsx
+    |   |   |   |   |-- Modal
+    |   |   |   |   |-- Table
+    |   |   |   |-- primitives
+    |   |   |   |   |-- Badge
+    |   |   |   |   |-- Button
+    |   |   |   |   |-- Input
+    |   |   |   |   |-- Loader
+    |   |   |   |   |-- Toast
+    |   |   |   |-- index.ts
+    |   |   |-- utils
+    |   |-- .gitignore
+    |   |-- DevelopmentLogs.txt
+    |   |-- eslint.config.mjs
+    |   |-- next-env.d.ts
+    |   |-- next.config.ts
+    |   |-- package-lock.json
+    |   |-- package.json
+    |   |-- postcss.config.mjs
+    |   |-- README.md
+    |   |-- tsconfig.json
+
+

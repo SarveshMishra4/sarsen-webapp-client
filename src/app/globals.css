@@ -1,26 +1,278 @@
+/******************************************************************
+ * GLOBAL DESIGN SYSTEM FILE — SARSEN CLIENT
+ ******************************************************************
+ *
+ * PURPOSE OF THIS FILE
+ * ---------------------
+ *
+ * This file is the SINGLE SOURCE OF TRUTH
+ * for:
+ *
+ * - Colors
+ * - Spacing
+ * - Typography
+ * - Radius
+ * - Shadows
+ * - Light / Dark Mode
+ * - Base Layout Rules
+ *
+ * Tailwind DOES NOT store values.
+ * This file DOES.
+ *
+ * Architecture:
+ *
+ * Tokens (here) → Tailwind → Components
+ *
+ ******************************************************************/
+
+/* ================================================================
+   IMPORT TAILWIND BASE STYLES
+   ================================================================ */
+
+/*
+  This line loads Tailwind’s:
+  - Preflight (reset)
+  - Utilities
+  - Components
+
+  Without this, Tailwind won't work.
+*/
 @import "tailwindcss";
 
+/* ================================================================
+   ROOT DESIGN TOKENS — LIGHT MODE (DEFAULT)
+   ================================================================ */
+
+/*
+  :root = Global scope for CSS variables.
+
+  All variables defined here are available
+  in the entire application.
+
+  These are your CORE DESIGN TOKENS.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ------------------------------------------------------------
+     COLORS — CORE PALETTE
+     ------------------------------------------------------------ */
+
+  /* Main brand color */
+  --color-primary: #2563eb;
+
+  /* Text on primary background */
+  --color-primary-foreground: #ffffff;
+
+  /* Secondary brand color */
+  --color-secondary: #64748b;
+
+  --color-secondary-foreground: #ffffff;
+
+  /* Page background */
+  --color-background: #ffffff;
+
+  /* Main text color */
+  --color-foreground: #171717;
+
+  /* Card / panel background */
+  --color-surface: #f8fafc;
+
+  --color-surface-foreground: #020617;
+
+  /* Muted UI elements */
+  --color-muted: #e2e8f0;
+  --color-muted-foreground: #475569;
+
+  /* Status colors */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+
+
+  /* ------------------------------------------------------------
+     SPACING SYSTEM
+     ------------------------------------------------------------ */
+
+  /*
+    All padding, margin, gap values
+    should come from here.
+  */
+
+  --space-xs: 0.25rem;   /* 4px  */
+  --space-sm: 0.5rem;    /* 8px  */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+
+
+  /* ------------------------------------------------------------
+     BORDER RADIUS SYSTEM
+     ------------------------------------------------------------ */
+
+  /*
+    Controls how rounded your UI feels.
+  */
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+
+  /* ------------------------------------------------------------
+     SHADOW SYSTEM
+     ------------------------------------------------------------ */
+
+  /*
+    Controls visual depth.
+  */
+
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.18);
+
+
+  /* ------------------------------------------------------------
+     TYPOGRAPHY SYSTEM
+     ------------------------------------------------------------ */
+
+  /*
+    Fonts should be controlled here.
+  */
+
+  --font-primary: Inter, system-ui, sans-serif;
+  --font-secondary: "JetBrains Mono", monospace;
+
+
+  /* ------------------------------------------------------------
+     FONT SIZES
+     ------------------------------------------------------------ */
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+
+/* ================================================================
+   DARK MODE TOKENS
+   ================================================================ */
+
+/*
+  Automatically activates when user
+  prefers dark mode.
+
+  We only override variables,
+  not styles.
+*/
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-background: #020617;
+    --color-foreground: #f8fafc;
+
+    --color-surface: #020617;
+    --color-surface-foreground: #f8fafc;
+
+    --color-muted: #1e293b;
+    --color-muted-foreground: #94a3b8;
+
+    --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.6);
+    --shadow-medium: 0 6px 24px rgba(0, 0, 0, 0.7);
+    --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.8);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* ================================================================
+   BASE APPLICATION STYLES
+   ================================================================ */
+
+/*
+  These styles apply to the entire app.
+  They define default behavior.
+*/
+
+html {
+  /*
+    Prevents font scaling issues
+  */
+  font-size: 16px;
 }
+
+body {
+  /*
+    Remove default margin
+  */
+  margin: 0;
+
+  /*
+    Set default background
+  */
+  background-color: var(--color-background);
+
+  /*
+    Set default text color
+  */
+  color: var(--color-foreground);
+
+  /*
+    Global font
+  */
+  font-family: var(--font-primary);
+
+  /*
+    Improve text rendering
+  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /*
+    Prevent horizontal scroll bugs
+  */
+  overflow-x: hidden;
+}
+
+
+/* ================================================================
+   BASIC ELEMENT NORMALIZATION
+   ================================================================ */
+
+/*
+  These prevent inconsistent browser behavior.
+*/
+
+button {
+  font-family: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ================================================================
+   DEBUG / DEVELOPMENT HELPERS (OPTIONAL)
+   ================================================================ */
+
+/*
+  Uncomment if you want to visually see layouts.
+
+*/
+
+/*
+* {
+  outline: 1px solid red;
+}
+*/

@@ -1,0 +1,21 @@
+/**
+ * shadows.tsx
+ *
+ * Defines box-shadow system.
+ *
+ * Used for cards, modals, dropdowns.
+ */
+
+export const shadows = {
+  none: "none",
+
+  sm: "0 1px 2px rgba(0,0,0,0.05)",
+
+  md: "0 4px 6px rgba(0,0,0,0.1)",
+
+  lg: "0 10px 15px rgba(0,0,0,0.15)",
+
+  xl: "0 20px 25px rgba(0,0,0,0.2)",
+
+  focus: "0 0 0 3px rgba(37, 99, 235, 0.4)", // Focus ring
+} as const;
