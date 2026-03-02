@@ -1,54 +1,33 @@
-// src/ui/primitives/Toast/Toast.tsx
+import { ToastItem } from "./toastStore";
 
-import React, { useEffect } from "react";
-
-export type ToastVariant = "success" | "error" | "info" | "warning";
-
-interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: ToastVariant;
-  duration?: number; // ms
-  onClose?: () => void;
+interface Props {
+  toast: ToastItem;
+  onClose: (id: string) => void;
 }
 
-export const Toast: React.FC<ToastProps> = ({
-  children,
-  variant = "info",
-  duration = 3000,
-  onClose,
-  className = "",
-  ...rest
-}) => {
-  useEffect(() => {
-    if (!duration) return;
+export default function Toast({ toast, onClose }: Props) {
+  const { id, message, type } = toast;
 
-    const timer = setTimeout(() => {
-      onClose?.();
-    }, duration);
+  const base =
+    "px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center justify-between gap-3 min-w-[260px] animate-slide-in";
 
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
-
-  const variantStyles: Record<ToastVariant, string> = {
-    success: "bg-green-600",
-    error: "bg-red-600",
-    info: "bg-black",
+  const styles = {
+    success: "bg-green-500 text-white",
+    error: "bg-red-500 text-white",
+    info: "bg-blue-500 text-white",
     warning: "bg-yellow-500 text-black",
   };
 
   return (
-    <div
-      {...rest}
-      className={`
-        fixed bottom-4 right-4
-        px-4 py-2 rounded shadow-lg
-        text-white
-        animate-fade-in
+    <div className={`${base} ${styles[type]}`}>
+      <span>{message}</span>
 
-        ${variantStyles[variant]}
-        ${className}
-      `}
-    >
-      {children}
+      <button
+        onClick={() => onClose(id)}
+        className="text-lg leading-none hover:opacity-70"
+      >
+        ×
+      </button>
     </div>
   );
-};
+}

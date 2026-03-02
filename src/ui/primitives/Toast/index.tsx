@@ -1,1 +1,2 @@
-export { Toast } from "./Toast";
+export { default as ToastProvider } from "./ToastProvider";
+export { useToast } from "./toastStore";
