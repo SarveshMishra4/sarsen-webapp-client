@@ -127,7 +127,7 @@ const ReportSection = () => {
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setSubmitted(true);
     // TODO: connect to backend / email automation later

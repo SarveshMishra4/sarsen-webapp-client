@@ -4,11 +4,21 @@ import Link from "next/link";
 import Image from "next/image";
 
 // ============================================================================
-// SIMPLE DIVIDER (optional decorative element)
+// SIMPLE DIVIDER COMPONENT
 // ============================================================================
-// A full‑width horizontal bar with a bottom border and background colour.
-// Height is fixed on desktop, but can be adjusted on smaller screens
-// while preserving the laptop look (h‑24 for large screens).
+// A purely decorative full-width horizontal bar rendered at the very top
+// of the footer, just above the main content area.
+//
+// Styling breakdown:
+//   h-24        → fixed height of 96px on all screen sizes
+//   w-full      → stretches the full width of its parent container
+//   border-b-2  → adds a 2px solid border along the bottom edge only
+//   border-gray-400 → border colour: medium gray (#9ca3af)
+//   bg-gray-300 → background fill colour: light gray (#d1d5db)
+//
+// This component is intentionally kept separate so it can be reused
+// or swapped out independently without touching the main footer logic.
+// ============================================================================
 const SimpleDivider = () => (
   <div className="h-24 w-full border-b-2 border-gray-400 bg-gray-300" />
 );
@@ -16,70 +26,137 @@ const SimpleDivider = () => (
 // ============================================================================
 // FOOTER COMPONENT
 // ============================================================================
-/**
- * Footer – displays company logo, navigation links, subscribe form,
- * social media icons, and legal information.
- *
- * Responsive behaviour:
- * - Mobile (default): stacked layout, full‑width elements, legal links left‑aligned.
- * - Tablet (md breakpoint): two‑column grid for logo/links and subscribe,
- *   hiding the empty spacer to optimise space, legal links right‑aligned.
- * - Desktop (lg breakpoint): three‑column grid with a central spacer,
- *   social icons and legal links side by side (legal links right‑aligned).
- */
+// The main site-wide footer rendered at the bottom of every page.
+//
+// Visual structure (top → bottom):
+//   1. SimpleDivider       – decorative gray bar
+//   2. Top Grid            – logo + nav links (left) | spacer | subscribe (right)
+//   3. Bottom Section      – "Powered by Google" badge + all legal links
+//   4. Copyright notice    – centred copyright line
+//
+// Responsive behaviour across three breakpoints:
+//   Mobile  (default / < 768px)  : single column, all items stacked,
+//                                   legal links left-aligned
+//   Tablet  (md  / ≥ 768px)      : 12-column grid, spacer hidden,
+//                                   logo takes 6 cols, subscribe takes 6 cols,
+//                                   legal links right-aligned
+//   Desktop (lg  / ≥ 1024px)     : 12-column grid, spacer visible (4 cols),
+//                                   logo 4 cols, subscribe 4 cols,
+//                                   badge and legal links sit side-by-side
+// ============================================================================
 export default function Footer() {
   return (
+    // -------------------------------------------------------------------------
+    // <footer> root element
+    //   border-t border-gray-200 → thin top border separating footer from page
+    //   bg-gray-100              → light gray background for the entire footer
+    //   text-gray-900            → default dark text colour inherited by children
+    // -------------------------------------------------------------------------
     <footer className="border-t border-gray-200 bg-gray-100 text-gray-900">
-      {/* Decorative divider – visible on all screens, height preserved on desktop */}
+
+      {/* ===================================================================
+          DECORATIVE DIVIDER
+          Rendered first so it appears as a thick bar at the very top of
+          the footer, before any text or interactive content.
+      =================================================================== */}
       <SimpleDivider />
 
-      {/* Main footer container: max width, horizontal padding, vertical spacing */}
+      {/* ===================================================================
+          MAIN CONTENT WRAPPER
+          Constrains the footer content to a maximum width of 1400px so it
+          doesn't stretch too wide on ultra-wide monitors, while remaining
+          full-width on smaller screens.
+
+          mx-auto          → centres the wrapper horizontally
+          max-w-[1400px]   → hard cap on content width (custom value)
+          px-4             → 16px horizontal padding on mobile
+          py-16            → 64px vertical padding top and bottom
+          md:px-8          → 32px horizontal padding on tablet and above
+      =================================================================== */}
       <div className="mx-auto max-w-[1400px] px-4 py-16 md:px-8">
-        {/* ================================================================== */}
-        {/* TOP GRID – Logo + Links | (Spacer) | Subscribe Form              */}
-        {/* ================================================================== */}
-        {/* 
-          Grid layout:
-          - Mobile: 1 column (all items stack).
-          - Tablet (md): 12‑column grid; left side (logo+links) takes 6 cols,
-            spacer is hidden, subscribe form takes 6 cols.
-          - Desktop (lg): left side 4 cols, spacer 4 cols (visible), subscribe 4 cols.
-        */}
+
+        {/* =================================================================
+            TOP GRID SECTION
+            Holds two content areas: logo+links (left) and subscribe (right).
+            A hidden spacer column creates the visual gap on desktop.
+
+            Layout by breakpoint:
+              Mobile  : grid-cols-1  → single column, items stack vertically
+              Tablet  : grid-cols-12 → 12-column grid activated
+              Desktop : grid-cols-12 → same grid, but spacer column becomes visible
+
+            gap-8     → 32px gap between grid items on mobile
+            mb-12     → 48px bottom margin, separating this from the bottom section
+            lg:gap-12 → 48px gap on desktop for a more airy feel
+        ================================================================= */}
         <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-12 lg:gap-12">
-          {/* Left side – Logo and quick links */}
-          {/* On tablet: spans 6 columns; on desktop: spans 4 columns */}
+
+          {/* ---------------------------------------------------------------
+              LEFT COLUMN – Company logo + quick navigation links
+
+              md:col-span-6  → occupies 6 of 12 columns on tablet (50%)
+              lg:col-span-4  → occupies 4 of 12 columns on desktop (~33%)
+              space-y-8      → 32px vertical gap between the logo block
+                               and the links list beneath it
+          --------------------------------------------------------------- */}
           <div className="space-y-8 md:col-span-6 lg:col-span-4">
-            {/* Company logo + name – inline link to homepage */}
+
+            {/* -------------------------------------------------------------
+                LOGO LINK
+                Wraps the logo image and company name in a single clickable
+                anchor that navigates to the homepage ("/").
+
+                inline-flex     → lays out image and text side-by-side
+                items-center    → vertically centres image relative to text
+                space-x-3       → 12px gap between image and text block
+            ------------------------------------------------------------- */}
             <Link href="/" className="inline-flex items-center space-x-3">
+
+              {/* Logo image container – fixed 48×48px box */}
               <div className="relative h-12 w-12">
                 <Image
-                  src="/assets/brand/Sarsen-Blue.svg"
-                  alt="Sarsen & Company"
+                  src="/assets/brand/Sarsen-Blue.svg"  // SVG brand mark
+                  alt="Sarsen & Company"               // accessible alt text
                   width={48}
                   height={48}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-contain" // scale to fit box
                 />
               </div>
+
+              {/* Company name – two lines stacked inside a div */}
               <div>
+                {/* Line 1: "Sarsen" */}
                 <div className="text-2xl font-bold leading-tight text-gray-900">
                   Sarsen
                 </div>
+                {/* Line 2: "& Company" */}
                 <div className="text-2xl font-bold leading-tight text-gray-900">
                   & Company
                 </div>
               </div>
-            </Link>
 
-            {/* Quick links (vertical list) */}
+            </Link>
+            {/* END LOGO LINK */}
+
+            {/* -------------------------------------------------------------
+                QUICK NAVIGATION LINKS
+                A vertical <ul> list of three footer nav links.
+                space-y-3 → 12px gap between each <li>
+            ------------------------------------------------------------- */}
             <ul className="space-y-3">
+
+              {/* Careers link – scrolls to the #careers section on /contact */}
               <li>
                 <Link
                   href="/contact#careers"
                   className="text-lg text-gray-700 transition-colors hover:text-[#002855]"
+                  //          ↑ base size   ↑ muted gray   ↑ smooth colour change  ↑ brand navy on hover
                 >
                   Careers
                 </Link>
               </li>
+
+              {/* How We Work link – scrolls to #how-we-work on /about */}
               <li>
                 <Link
                   href="/about#how-we-work"
@@ -88,6 +165,8 @@ export default function Footer() {
                   How We Work
                 </Link>
               </li>
+
+              {/* Our Approach link – scrolls to #approach on /contact */}
               <li>
                 <Link
                   href="/contact#approach"
@@ -96,162 +175,256 @@ export default function Footer() {
                   Our Approach
                 </Link>
               </li>
-            </ul>
-          </div>
 
-          {/* Spacer (empty) – used only on desktop to create balanced layout */}
-          {/* Hidden on mobile and tablet, visible on large screens */}
+            </ul>
+            {/* END QUICK NAVIGATION LINKS */}
+
+          </div>
+          {/* END LEFT COLUMN */}
+
+          {/* ---------------------------------------------------------------
+              CENTRE SPACER COLUMN (desktop only)
+              An empty div that pushes the subscribe form to the right on
+              desktop, creating a balanced three-column layout.
+
+              hidden          → invisible on mobile (takes no space)
+              md:hidden       → stays invisible on tablet
+              lg:block        → becomes visible (block-level) on desktop
+              lg:col-span-4   → occupies 4 of 12 columns on desktop (~33%)
+          --------------------------------------------------------------- */}
           <div className="hidden md:hidden lg:block lg:col-span-4" />
 
-          {/* Right side – Subscribe form */}
-          {/* On tablet: spans 6 columns; on desktop: spans 4 columns */}
+          {/* ---------------------------------------------------------------
+              RIGHT COLUMN – Email subscribe form
+
+              md:col-span-6  → 6 of 12 columns on tablet (right half)
+              lg:col-span-4  → 4 of 12 columns on desktop (right third)
+          --------------------------------------------------------------- */}
           <div className="md:col-span-6 lg:col-span-4">
+
+            {/* Section heading */}
             <h3 className="mb-3 text-xl font-bold text-gray-900">Subscribe</h3>
-            <p className="mb-5 text-sm leading-snug text-gray-600">
+
+            {/* Supporting description text */}
+            <p className="mb-5 text-md leading-snug text-gray-600">
               Select topics and stay current with our latest insights
             </p>
-            {/* Input + button: stacked on mobile, side‑by‑side on small screens and up */}
+
+            {/* -------------------------------------------------------------
+                INPUT + BUTTON ROW
+                Stacked vertically on mobile for full-width usability,
+                switches to a horizontal row on sm (≥ 640px) and above.
+
+                flex flex-col  → vertical stack on mobile
+                gap-3          → 12px gap between input and button
+                sm:flex-row    → horizontal row from 640px upward
+            ------------------------------------------------------------- */}
             <div className="flex flex-col gap-3 sm:flex-row">
+
+              {/* Email input field */}
               <input
                 type="email"
                 placeholder="Email address"
                 className="flex-1 rounded-md border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 focus:border-[#002855] focus:outline-none"
+                // flex-1                → grows to fill available space in the row
+                // rounded-md            → slightly rounded corners
+                // border-2 border-gray-300 → visible 2px border, light gray
+                // bg-white              → white background distinguishes it from footer
+                // px-4 py-3             → comfortable internal padding
+                // focus:border-[#002855]→ brand navy border on focus
+                // focus:outline-none    → removes browser default blue outline
                 aria-label="Email address for newsletter"
               />
+
+              {/* Submit button */}
               <button
-                className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-900"
+                className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#0A1E3D]"
+                // whitespace-nowrap  → prevents "Submit" from wrapping to two lines
+                // bg-[#002855]       → brand navy background
+                // px-8               → generous horizontal padding
+                // hover:bg-[#0A1E3D] → slightly darker navy on hover
                 aria-label="Subscribe to newsletter"
               >
                 Submit
               </button>
+
             </div>
+            {/* END INPUT + BUTTON ROW */}
+
           </div>
+          {/* END RIGHT COLUMN */}
+
         </div>
+        {/* END TOP GRID SECTION */}
 
-        {/* ================================================================== */}
-        {/* BOTTOM SECTION – Social icons + Legal links (first row)          */}
-        {/* ================================================================== */}
-        {/* 
-          On mobile: stacked (column), items aligned to the start.
-          On desktop (lg): row, centered vertically.
-          Legal links inside this row are left‑aligned on mobile,
-          right‑aligned on tablet and desktop.
-        */}
-        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-          {/* Social media icons – touch‑friendly size, wrapped on very small screens */}
-          <div className="flex flex-wrap gap-3">
-            {/* LinkedIn */}
-            <a
-              href="#"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-black transition-colors hover:bg-gray-800"
-              aria-label="LinkedIn"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-            </a>
+        {/* =================================================================
+            BOTTOM SECTION
+            Contains the "Powered by Google" badge on the left and all
+            legal/policy links on the right.
 
-            {/* X (Twitter) */}
-            <a
-              href="#"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-black transition-colors hover:bg-gray-800"
-              aria-label="X"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+            Layout by breakpoint:
+              Mobile  : flex-col items-start → badge and links stack vertically,
+                        both left-aligned
+              Tablet  : still column layout but gap reduced (md:gap-0)
+              Desktop : lg:flex-row lg:items-center → badge and links sit
+                        side-by-side, vertically centred
 
-            {/* Facebook */}
-            <a
-              href="#"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-black transition-colors hover:bg-gray-800"
-              aria-label="Facebook"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-              </svg>
-            </a>
+            flex flex-col      → vertical stack on mobile
+            items-start        → left-align children on mobile
+            justify-between    → push badge to left, links to right on desktop
+            gap-8              → 32px gap between badge and links on mobile
+            md:gap-0           → remove gap on tablet (items still stacked
+                                 but gap unnecessary as they are separated
+                                 by natural block flow)
+            lg:flex-row        → switch to horizontal row on desktop
+            lg:items-center    → vertically centre badge and links on desktop
+        ================================================================= */}
+        <div className="flex flex-col items-start justify-between gap-8 md:gap-0 lg:flex-row lg:items-center">
 
-            {/* YouTube */}
-            <a
-              href="#"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-black transition-colors hover:bg-gray-800"
-              aria-label="YouTube"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-              </svg>
-            </a>
+          {/* ---------------------------------------------------------------
+              "POWERED BY GOOGLE" BADGE
+              A small card-style element displaying the Google logo and
+              a two-line text label. Styled to look like a trusted badge.
 
-            {/* RSS */}
-            <a
-              href="#"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-black transition-colors hover:bg-gray-800"
-              aria-label="RSS"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z" />
-              </svg>
-            </a>
+              flex items-center  → logo and text side-by-side, vertically centred
+              gap-4              → 16px gap between logo and text
+              bg-gray-50         → slightly off-white card background
+              px-4 py-3          → comfortable padding inside the badge
+              rounded-lg         → rounded corners for a modern card look
+              border border-gray-200 → subtle 1px border to define the card edge
+          --------------------------------------------------------------- */}
+          <div className="flex items-center gap-4 bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
+
+            {/* Google SVG logo */}
+            <img
+              src="/assets/logos/Icons.svg"
+              alt="Google"
+              className="h-8 w-auto opacity-80"
+              // h-8        → 32px tall, width scales automatically
+              // opacity-80 → slightly translucent for a subtle, non-distracting look
+            />
+
+            {/* Badge text: two lines */}
+            <div className="text-sm leading-tight text-gray-700">
+              {/* Primary line – bold label */}
+              <div className="font-semibold text-gray-900">
+                Powered by Google
+              </div>
+              {/* Secondary line – descriptive subtitle */}
+              <div className="text-gray-500">
+                Search & Cloud Infrastructure
+              </div>
+            </div>
+
           </div>
+          {/* END BADGE */}
 
-          {/* Legal links – first row */}
-          {/* 
-            On mobile: left‑aligned (justify-start)
-            On tablet and desktop: right‑aligned (md:justify-end)
-          */}
-          <div className="flex w-full flex-wrap justify-start gap-x-6 gap-y-3 text-sm text-gray-600 md:justify-end lg:w-auto">
+          {/* ---------------------------------------------------------------
+              LEGAL LINKS – all nine links in one unified flex-wrap container
+
+              WHY ONE CONTAINER?
+              Previously split into two separate <div> elements, which caused
+              alignment inconsistencies across breakpoints. Merging them into
+              a single flex-wrap container lets the browser naturally reflow
+              all links at any viewport width while sharing one consistent
+              alignment rule.
+
+              flex             → activates flexbox
+              w-full           → full width on mobile so links can left-align
+              flex-wrap        → links wrap onto new lines when they don't fit
+              justify-start    → left-aligned on mobile
+              gap-x-6          → 24px horizontal gap between links
+              gap-y-3          → 12px vertical gap when links wrap to a new line
+              text-sm          → small text size (14px) appropriate for legal copy
+              text-gray-600    → muted gray, lower visual hierarchy than body text
+              md:justify-end   → right-aligned from tablet upward
+              lg:w-auto        → shrinks to content width on desktop, allowing
+                                 it to sit correctly beside the badge in the
+                                 same flex row (justify-between does the spacing)
+          --------------------------------------------------------------- */}
+          <div className="flex w-full flex-wrap justify-start  md:mt-4 lg:mt-0 gap-x-6 gap-y-3 text-sm text-gray-600 md:justify-start lg:w-auto">
+
+            {/* ── Row 1 links (appear first in source order) ── */}
+
+            {/* Contact page link */}
             <Link href="/contact#main" className="hover:text-[#002855] transition-colors">
               Contact
             </Link>
+
+            {/* FAQ anchor link */}
             <Link href="#faq" className="hover:text-[#002855] transition-colors">
               FAQ
             </Link>
+
+            {/* Privacy policy anchor */}
             <Link href="#privacy-policy" className="hover:text-[#002855] transition-colors">
               Privacy policy
             </Link>
+
+            {/* "Your privacy choices" – rendered as a <button> because it
+                typically triggers a cookie/consent management modal rather
+                than navigating to a new URL */}
             <button className="flex items-center gap-2 hover:text-[#002855] transition-colors">
+              {/* Small icon (a grid of squares – conventional privacy icon) */}
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M9.5 1.5v3h-3v-3h3zm-4 0v3h-3v-3h3zm8 0v3h-3v-3h3zm0 4v3h-3v-3h3zm0 4v3h-3v-3h3zm-4 0v3h-3v-3h3zm-4 0v3h-3v-3h3zm0-4v3h-3v-3h3zm4 0v3h-3v-3h3z" />
               </svg>
               Your privacy choices
             </button>
+
+            {/* Cookie preferences anchor */}
             <Link href="#cookie-preferences" className="hover:text-[#002855] transition-colors">
               Cookie preferences
             </Link>
-          </div>
-        </div>
 
-        {/* Second row of legal links */}
-        {/* 
-          Outer div uses justify-start on mobile, justify-end on tablet/desktop.
-          Inner flex container stays left‑aligned on mobile, right‑aligned on larger screens.
-        */}
-        <div className="mt-4 flex justify-start md:justify-end">
-          <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-600">
+            {/* ── Row 2 links (continue in the same flex container, wrapping naturally) ── */}
+
+            {/* Terms of use anchor */}
             <Link href="#terms-of-use" className="hover:text-[#002855] transition-colors">
               Terms of use
             </Link>
+
+            {/* Refund & Cancellation Policy anchor */}
             <Link href="#refund-cancellation" className="hover:text-[#002855] transition-colors">
               Refund & Cancellation Policy
             </Link>
+
+            {/* Disclaimer anchor */}
             <Link href="#disclaimer" className="hover:text-[#002855] transition-colors">
               Disclaimer
             </Link>
+
+            {/* Accessibility statement anchor */}
             <Link href="#accessibility" className="hover:text-[#002855] transition-colors">
               Accessibility statement
             </Link>
-          </div>
-        </div>
 
-        {/* ================================================================== */}
-        {/* COPYRIGHT NOTICE – added at the very bottom, centered on all screens */}
-        {/* ================================================================== */}
-        <div className="mt-8 pt-6 text-center text-sm text-gray-600">
-          <p>Copyright © 2019-2026 Sarsen & Company.</p>
+          </div>
+          {/* END LEGAL LINKS */}
+
         </div>
+        {/* END BOTTOM SECTION */}
+
+        {/* =================================================================
+            COPYRIGHT NOTICE
+            A single centred line of small print at the very bottom of
+            the footer, below all other content.
+
+            mt-8       → 32px top margin, separating it from the links above
+            pt-6       → 24px top padding (adds visual breathing room above
+                         the text, useful if a border-top is ever added)
+            text-center → centres the text on all screen sizes
+            text-md    → base text size (16px)
+            text-gray-600 → muted gray, consistent with legal link text
+        ================================================================= */}
+        <div className="mt-4 pt-6 text-center text-md text-gray-600">
+          <p>2019-2026 : All Rights Reserved Sarsen & Company.</p>
+        </div>
+        {/* END COPYRIGHT NOTICE */}
+
       </div>
+      {/* END MAIN CONTENT WRAPPER */}
+
     </footer>
   );
 }

@@ -1,0 +1,502 @@
+// app/services/page.tsx
+'use client';
+
+import React, { useState } from 'react';
+
+// =====================================================
+// HERO SECTION COMPONENT
+// Dark blue background with page title
+// =====================================================
+const ServicesHero = () => {
+  return (
+    <section className="relative bg-[#0A1E3D] min-h-[400px] pt-20 pb-16 px-4 overflow-hidden">
+      {/* Decorative stars/dots in background */}
+      <div className="absolute top-20 right-10 w-1 h-1 bg-blue-300 rounded-full opacity-60"></div>
+      <div className="absolute bottom-32 right-1/4 w-1 h-1 bg-blue-300 rounded-full opacity-60"></div>
+      <div className="absolute top-40 left-20 w-1 h-1 bg-blue-300 rounded-full opacity-60"></div>
+
+      <div className="max-w-7xl mx-auto">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-5xl text-white font-light mb-6">
+            Our Services
+          </h1>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            Comprehensive consulting services designed to help founders and business owners navigate 
+            challenges, unlock growth, and build sustainable businesses.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// SERVICE CARD COMPONENT
+// Reusable component for each service
+// =====================================================
+const ServiceCard = ({ service, index }: { service: any; index: number }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const bgColors = [
+    'bg-[#1E5A8E]',
+    'bg-[#2B7AB8]',
+    'bg-[#7B8FA5]',
+    'bg-[#3A8BC8]',
+    'bg-[#1E5A8E]',
+    'bg-[#8B9EB0]',
+    'bg-[#2B7AB8]',
+    'bg-[#6B7F95]'
+  ];
+
+  return (
+    <div className={`${bgColors[index % bgColors.length]} rounded-lg p-8 hover:shadow-xl transition-all duration-300`}>
+      <div className="text-white">
+        {/* Service Header */}
+        <div className="mb-6">
+          <div className="text-4xl mb-4">{service.icon}</div>
+          <h3 className="text-2xl md:text-3xl font-medium mb-2">
+            {service.title}
+          </h3>
+          <p className="text-white/90 text-base leading-relaxed">
+            {service.description}
+          </p>
+        </div>
+
+        {/* What We Do */}
+        <div className="mb-6 border-t border-white/20 pt-6">
+          <h4 className="text-lg font-semibold mb-3">What We Do</h4>
+          <ul className="space-y-2">
+{service.whatWeDo.map((item: string, i: number) => (
+              <li key={i} className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">•</span>
+                <span className="text-white/90 text-sm">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Deliverables */}
+        <div className="mb-6 border-t border-white/20 pt-6">
+          <h4 className="text-lg font-semibold mb-3">What You Get</h4>
+          <ul className="space-y-2">
+{service.deliverables.map((item: string, i: number) => (
+              <li key={i} className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">✓</span>
+                <span className="text-white/90 text-sm">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Pricing */}
+        <div className="border-t border-white/20 pt-6">
+          <div className="flex items-baseline justify-between mb-2">
+            <h4 className="text-lg font-semibold">Investment</h4>
+            <div className="text-right">
+              <p className="text-2xl font-bold">{service.pricing}</p>
+              {service.pricingNote && (
+                <p className="text-white/70 text-xs mt-1">{service.pricingNote}</p>
+              )}
+            </div>
+          </div>
+          <button className="w-full mt-4 bg-white text-gray-800 py-3 px-6 rounded hover:bg-gray-100 transition-colors font-medium">
+            Schedule Consultation
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
+// STRATEGIC SERVICES SECTION
+// =====================================================
+const StrategicServicesSection = () => {
+  const services = [
+    {
+      icon: "🎯",
+      title: "Product-Market Fit",
+      description: "Validate your product idea and find the right market positioning to achieve sustainable growth.",
+      whatWeDo: [
+        "Deep customer discovery interviews and market research",
+        "Competitive landscape analysis and positioning strategy",
+        "Value proposition refinement and messaging framework",
+        "Product roadmap alignment with market needs",
+        "Early adopter identification and validation testing",
+        "Metrics definition for PMF measurement"
+      ],
+      deliverables: [
+        "Comprehensive market analysis report",
+        "Customer persona documentation",
+        "Refined value proposition and positioning statement",
+        "Go-to-market strategy framework",
+        "Product roadmap recommendations",
+        "PMF measurement dashboard"
+      ],
+      pricing: "₹3,50,000 - ₹6,00,000",
+      pricingNote: "8-12 week engagement"
+    },
+    {
+      icon: "🚀",
+      title: "Go-To-Market Strategy",
+      description: "Launch successfully with a data-driven strategy that connects your product with the right customers.",
+      whatWeDo: [
+        "Market segmentation and target customer identification",
+        "Channel strategy development (digital, partnerships, sales)",
+        "Pricing strategy and revenue model optimization",
+        "Marketing and sales playbook creation",
+        "Launch timeline and milestone planning",
+        "Performance metrics and KPI framework setup"
+      ],
+      deliverables: [
+        "Complete GTM strategy document",
+        "Channel selection and prioritization matrix",
+        "Pricing model with scenario analysis",
+        "Marketing and sales playbooks",
+        "90-day launch plan with milestones",
+        "Budget allocation and ROI projections"
+      ],
+      pricing: "₹4,00,000 - ₹7,00,000",
+      pricingNote: "10-14 week engagement"
+    },
+    {
+      icon: "🔄",
+      title: "Business Turnaround",
+      description: "Stabilize struggling businesses and implement strategies to return to profitability and growth.",
+      whatWeDo: [
+        "Comprehensive financial and operational audit",
+        "Cash flow crisis management and restructuring",
+        "Cost optimization and efficiency improvement",
+        "Revenue recovery strategy development",
+        "Team restructuring and capability assessment",
+        "Stakeholder communication and confidence rebuilding"
+      ],
+      deliverables: [
+        "Detailed diagnostic report with priority actions",
+        "Financial restructuring plan",
+        "90-day stabilization roadmap",
+        "Cost reduction implementation guide",
+        "Revenue growth action plan",
+        "Monthly progress tracking system"
+      ],
+      pricing: "₹5,00,000 - ₹10,00,000",
+      pricingNote: "12-20 week engagement"
+    },
+    {
+      icon: "🔍",
+      title: "Diagnostic & Direction",
+      description: "Comprehensive business health assessment with clear strategic direction and actionable recommendations.",
+      whatWeDo: [
+        "360-degree business diagnostic across all functions",
+        "Financial health and unit economics analysis",
+        "Market position and competitive assessment",
+        "Organizational capability and culture evaluation",
+        "Growth opportunity identification",
+        "Strategic options development and evaluation"
+      ],
+      deliverables: [
+        "Comprehensive diagnostic report (50+ pages)",
+        "SWOT and strategic position analysis",
+        "3-year strategic roadmap",
+        "Priority initiatives with implementation timeline",
+        "Financial projections and scenario planning",
+        "Executive presentation and workshop"
+      ],
+      pricing: "₹2,50,000 - ₹4,50,000",
+      pricingNote: "6-8 week engagement"
+    }
+  ];
+
+  return (
+    <section className="bg-[#E8EEF2] py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-light text-gray-800 mb-4">
+            Strategic Services
+          </h2>
+          <p className="text-gray-600 text-sm max-w-3xl">
+            Comprehensive strategic consulting to help you find product-market fit, launch successfully, 
+            or turn around struggling operations.
+          </p>
+        </div>
+
+        {/* Service Cards Grid */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {services.map((service, index) => (
+            <ServiceCard key={index} service={service} index={index} />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// GROWTH & SCALING SERVICES SECTION
+// =====================================================
+const GrowthServicesSection = () => {
+  const services = [
+    {
+      icon: "📈",
+      title: "Growth Acceleration",
+      description: "Scale your business systematically with proven frameworks for sustainable, profitable growth.",
+      whatWeDo: [
+        "Growth audit and bottleneck identification",
+        "Customer acquisition optimization across channels",
+        "Retention and LTV improvement strategies",
+        "Sales process optimization and automation",
+        "Marketing funnel analysis and conversion improvement",
+        "Team scaling and organizational design for growth"
+      ],
+      deliverables: [
+        "Growth diagnostic and opportunity assessment",
+        "Channel-specific growth playbooks",
+        "Conversion optimization recommendations",
+        "Sales enablement toolkit",
+        "Marketing automation roadmap",
+        "6-month growth plan with targets"
+      ],
+      pricing: "₹3,50,000 - ₹6,50,000",
+      pricingNote: "10-16 week engagement"
+    },
+    {
+      icon: "💼",
+      title: "Fundraising Readiness",
+      description: "Prepare your business for fundraising with investor-ready materials and strategic positioning.",
+      whatWeDo: [
+        "Business model validation and refinement",
+        "Financial model building and scenario planning",
+        "Pitch deck creation and storytelling",
+        "Due diligence preparation and documentation",
+        "Investor targeting and outreach strategy",
+        "Pitch practice and presentation coaching"
+      ],
+      deliverables: [
+        "Investor-ready pitch deck",
+        "Comprehensive financial model (5-year projections)",
+        "Due diligence data room preparation",
+        "Investor target list with outreach strategy",
+        "Q&A preparation document",
+        "Valuation analysis and negotiation guidance"
+      ],
+      pricing: "₹2,00,000 - ₹4,00,000",
+      pricingNote: "6-10 week engagement"
+    },
+    {
+      icon: "⚙️",
+      title: "Operations Excellence",
+      description: "Build efficient, scalable operations that support rapid growth without breaking.",
+      whatWeDo: [
+        "End-to-end process mapping and optimization",
+        "Technology stack evaluation and recommendations",
+        "Automation opportunity identification",
+        "Quality control system implementation",
+        "Vendor management and cost optimization",
+        "Operational metrics and dashboard creation"
+      ],
+      deliverables: [
+        "Operations audit report",
+        "Process documentation and SOPs",
+        "Technology implementation roadmap",
+        "Automation and efficiency recommendations",
+        "Cost optimization plan",
+        "Operations dashboard and KPI tracking"
+      ],
+      pricing: "₹3,00,000 - ₹5,50,000",
+      pricingNote: "8-12 week engagement"
+    },
+    {
+      icon: "🎓",
+      title: "Founder Coaching",
+      description: "One-on-one coaching for founders navigating the challenges of building and scaling a business.",
+      whatWeDo: [
+        "Weekly one-on-one coaching sessions",
+        "Strategic decision-making support",
+        "Leadership development and capability building",
+        "Fundraising and investor relations guidance",
+        "Team building and culture development",
+        "Work-life balance and founder wellbeing"
+      ],
+      deliverables: [
+        "Personalized development plan",
+        "Weekly coaching sessions (60 minutes)",
+        "Between-session support via email/chat",
+        "Quarterly progress reviews",
+        "Resource library access",
+        "Peer network introductions"
+      ],
+      pricing: "₹75,000 - ₹1,50,000/month",
+      pricingNote: "3-6 month minimum commitment"
+    }
+  ];
+
+  return (
+    <section className="bg-[#0A1E3D] py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+            Growth & Scaling
+          </h2>
+          <p className="text-gray-300 text-sm max-w-3xl">
+            Services designed to help you accelerate growth, prepare for fundraising, optimize operations, 
+            and develop as a founder.
+          </p>
+        </div>
+
+        {/* Service Cards Grid */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {services.map((service, index) => (
+            <ServiceCard key={index} service={service} index={index + 4} />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// CUSTOM SOLUTIONS SECTION
+// =====================================================
+const CustomSolutionsSection = () => {
+  return (
+    <section className="bg-[#8B9EB0] py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left Column */}
+          <div>
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-6">
+              Custom Solutions
+            </h2>
+            <p className="text-white/90 text-lg leading-relaxed mb-6">
+              Every business is unique. If our standard services don't quite fit your needs, 
+              we create custom consulting engagements tailored to your specific challenges and goals.
+            </p>
+            <ul className="space-y-3 text-white mb-8">
+              <li className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">✓</span>
+                <span className="text-white/90">Flexible engagement models</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">✓</span>
+                <span className="text-white/90">Customized deliverables and timelines</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">✓</span>
+                <span className="text-white/90">Industry-specific expertise</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-300 mr-3 mt-1">✓</span>
+                <span className="text-white/90">Ongoing support and advisory</span>
+              </li>
+            </ul>
+            <button className="bg-white text-gray-700 px-8 py-4 rounded hover:shadow-xl transition-all duration-300 font-medium">
+              Discuss Your Needs
+            </button>
+          </div>
+
+          {/* Right Column - Decorative Element */}
+          <div className="relative h-96 flex items-center justify-center">
+            <svg viewBox="0 0 400 400" className="w-full h-full max-w-md">
+              {/* Interconnected circles representing custom solutions */}
+              <circle cx="200" cy="200" r="80" stroke="#FFFFFF" strokeWidth="2" fill="none" opacity="0.3" />
+              <circle cx="200" cy="200" r="60" stroke="#FFFFFF" strokeWidth="2" fill="none" opacity="0.5" />
+              <circle cx="200" cy="200" r="40" stroke="#FFFFFF" strokeWidth="2" fill="none" opacity="0.7" />
+              
+              {/* Outer nodes */}
+              <circle cx="140" cy="120" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              <circle cx="260" cy="120" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              <circle cx="300" cy="200" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              <circle cx="260" cy="280" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              <circle cx="140" cy="280" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              <circle cx="100" cy="200" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" strokeWidth="1.5" />
+              
+              {/* Connecting lines */}
+              <line x1="200" y1="200" x2="140" y2="120" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+              <line x1="200" y1="200" x2="260" y2="120" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+              <line x1="200" y1="200" x2="300" y2="200" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+              <line x1="200" y1="200" x2="260" y2="280" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+              <line x1="200" y1="200" x2="140" y2="280" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+              <line x1="200" y1="200" x2="100" y2="200" stroke="#FFFFFF" strokeWidth="1" opacity="0.3" />
+            </svg>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// FAQ SECTION
+// =====================================================
+const FAQSection = () => {
+  const faqs = [
+    {
+      question: "How do you price your services?",
+      answer: "Our pricing is based on the scope, complexity, and duration of the engagement. The ranges provided include all deliverables, meetings, and support during the project. We provide detailed proposals after an initial consultation to understand your specific needs."
+    },
+    {
+      question: "Can I combine multiple services?",
+      answer: "Absolutely! Many clients benefit from combining services. For example, Diagnostic & Direction often leads to a Go-To-Market or Growth Acceleration engagement. We can create bundled packages that offer better value."
+    },
+    {
+      question: "What is your typical engagement process?",
+      answer: "We start with a free consultation to understand your challenges and goals. Then we provide a detailed proposal outlining scope, deliverables, timeline, and investment. Once agreed, we kick off with an onboarding session and begin the engagement with regular check-ins and milestone reviews."
+    },
+    {
+      question: "Do you work with early-stage startups?",
+      answer: "Yes, we work with businesses at all stages, from pre-revenue startups to established companies. Our services are tailored to your stage, challenges, and budget. We also offer founder coaching for first-time entrepreneurs."
+    }
+  ];
+
+  return (
+    <section className="bg-[#E8EEF2] py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-light text-gray-800 mb-4">
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        {/* FAQ Items */}
+        <div className="space-y-6">
+          {faqs.map((faq, index) => (
+            <div key={index} className="bg-white rounded-lg p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                {faq.question}
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// MAIN SERVICES PAGE COMPONENT
+// =====================================================
+export default function ServicesPage() {
+  return (
+    <main className="min-h-screen">
+      <ServicesHero />
+      <StrategicServicesSection />
+      <GrowthServicesSection />
+      <CustomSolutionsSection />
+      <FAQSection />
+    </main>
+  );
+}

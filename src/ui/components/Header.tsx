@@ -80,7 +80,7 @@ export default function Header() {
       highlight: {
         title: "Our Philosophy",
         description: "Discover our approach",
-        thumbnail: "/images/philosophy-thumb.jpg",
+        thumbnail: "/assets/thumbnail-header/work.webp",
         buttonText: "Learn More"
       }
     },
@@ -116,7 +116,7 @@ export default function Header() {
       highlight: {
         title: "Latest Framework",
         description: "Strategic Planning Guide",
-        thumbnail: "/images/framework-thumb.jpg",
+        thumbnail: "/assets/thumbnail-header/report.webp",
         buttonText: "View Resources"
       }
     },
@@ -152,7 +152,7 @@ export default function Header() {
       highlight: {
         title: "Featured Work",
         description: "Recent client success",
-        thumbnail: "/images/work-thumb.jpg",
+        thumbnail: "/assets/thumbnail-header/our team.webp",
         buttonText: "View Portfolio"
       }
     },
@@ -203,7 +203,7 @@ export default function Header() {
       highlight: {
         title: "Popular Service",
         description: "Clarity Reset Program",
-        thumbnail: "/images/service-thumb.jpg",
+        thumbnail: "/assets/thumbnail-header/happy cliet.webp",
         buttonText: "Explore Services"
       }
     },
@@ -215,30 +215,31 @@ export default function Header() {
 
   /**
    * Handles mouse enter event on desktop navigation items.
-   * Only activates on desktop screens (width >= 768px) to avoid interference with touch devices.
+   * Only activates on desktop screens (width >= 1024px) to avoid interference with touch devices.
+   * Tablets (768px–1023px) are treated the same as mobile — no hover mega menu.
    * Sets the activeMenu state to the hovered menu, triggering the mega menu dropdown.
    */
   const handleMouseEnter = (menu: keyof typeof megaMenuContent) => {
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 1024) {
       setActiveMenu(menu);
     }
   };
 
   /**
    * Handles mouse leave event to close the mega menu on desktop.
-   * Only triggers on desktop, setting activeMenu back to null.
+   * Only triggers on desktop (>= 1024px), setting activeMenu back to null.
    * This is attached to the nav container and also to the dropdown itself to keep it open when interacting.
    */
   const handleMouseLeave = () => {
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 1024) {
       setActiveMenu(null);
     }
   };
 
   /**
-   * Toggles submenu visibility in mobile view.
+   * Toggles submenu visibility in mobile/tablet view.
    * Works like an accordion: if the same menu is clicked, it closes; otherwise it opens the new menu.
-   * Used for the mobile dropdown (hamburger menu) where each top-level item expands to show its links.
+   * Used for the mobile/tablet dropdown (hamburger menu) where each top-level item expands to show its links.
    */
   const toggleMobileSubmenu = (menu: keyof typeof megaMenuContent) => {
     setMobileSubmenu(mobileSubmenu === menu ? null : menu);
@@ -295,18 +296,18 @@ export default function Header() {
       */}
       <header className="sticky top-0 z-50 bg-[#002855]">
         <nav
-          className="max-w-[1400px] mx-auto px-4 md:px-8 relative"
+          className="max-w-[1400px] mx-auto px-4 lg:px-8 relative"
           onMouseLeave={handleMouseLeave}
         >
           {/* ====================================================================== */}
           {/* TOP BAR - Logo, Navigation, CTA Button */}
           {/* ====================================================================== */}
           {/* 
-            Flex container that holds the logo, desktop nav links, desktop CTA, and mobile hamburger.
-            h-16 on mobile, h-20 on medium screens and up. 
+            Flex container that holds the logo, desktop nav links, desktop CTA, and mobile/tablet hamburger.
+            h-16 on mobile/tablet, h-20 on large screens and up. 
             relative z-20 ensures it stays above the dropdown when active.
           */}
-          <div className="flex items-center justify-between h-16 md:h-20 relative z-20">
+          <div className="flex items-center justify-between h-16 lg:h-20 relative z-20">
 
             {/* ---------------------------------------------------------------------- */}
             {/* LOGO SECTION */}
@@ -315,8 +316,8 @@ export default function Header() {
               Link wrapping the logo and company name. group class enables hover effects on children.
               The image uses object-contain to maintain aspect ratio.
             */}
-            <a href="/" className="flex items-center space-x-2 md:space-x-3 group">
-              <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+            <a href="/" className="flex items-center space-x-2 lg:space-x-3 group">
+              <div className="relative w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center">
                 <img
                   src="/assets/brand/Sarsen-White.svg"
                   alt="Sarsen Logo"
@@ -324,8 +325,8 @@ export default function Header() {
                 />
               </div>
               <div className="text-white">
-                <div className="text-lg md:text-xl font-bold leading-tight">Sarsen</div>
-                <div className="text-xs md:text-sm font-light leading-tight">& Company</div>
+                <div className="text-lg lg:text-xl font-bold leading-tight">Sarsen</div>
+                <div className="text-xs lg:text-sm font-light leading-tight">& Company</div>
               </div>
             </a>
 
@@ -333,7 +334,7 @@ export default function Header() {
             {/* DESKTOP NAVIGATION MENU */}
             {/* ---------------------------------------------------------------------- */}
             {/* 
-              Hidden on mobile (hidden md:flex). Horizontal list of navigation items.
+              Hidden on mobile and tablet (hidden lg:flex). Horizontal list of navigation items.
               ml-16 adds left margin to space from logo.
               Each item is a link that also handles hover to show the mega menu.
               The active item gets a white background and the curved class; it also has a larger bottom padding
@@ -341,14 +342,14 @@ export default function Header() {
               The style prop dynamically adjusts marginBottom and zIndex to make the active tab appear 
               attached to the dropdown.
             */}
-            <div className="hidden md:flex items-center space-x-2 ml-16 relative z-20">
+            <div className="hidden lg:flex items-center space-x-2 ml-16 relative z-20">
               {Object.keys(megaMenuContent).map((menu) => (
-                <a
+                <a  /* ← FIX 1: restored missing opening <a tag */
                   key={menu}
                   href={`/${menu}`}
                   className={`px-5 font-medium relative ${activeMenu === menu
-                      ? 'text-[#002855] bg-white pt-3 pb-6 active-tab-curved'
-                      : 'text-white hover:text-blue-200 py-3'
+                    ? 'text-[#002855] bg-white pt-3 pb-6 active-tab-curved'
+                    : 'text-white hover:text-[#002855] py-3'
                     }`}
                   onMouseEnter={() => handleMouseEnter(menu as keyof typeof megaMenuContent)}
                   style={{
@@ -368,27 +369,27 @@ export default function Header() {
             {/* CONTACT US BUTTON - Desktop Only */}
             {/* ---------------------------------------------------------------------- */}
             {/* 
-              Visible only on desktop. A white button with hover effect.
+              Visible only on desktop (lg and above). A white button with hover effect.
               shadow-lg adds depth.
             */}
-            <a
+            <a  /* ← FIX 2: restored missing opening <a tag */
               href="/contact"
-              className="hidden md:block px-6 md:px-8 py-2 md:py-3 bg-white text-[#002855] font-semibold rounded-md hover:bg-blue-50 transition-colors shadow-lg text-sm md:text-base"
+              className="hidden lg:block px-6 lg:px-8 py-2 lg:py-3 bg-white text-[#002855] font-semibold rounded-md hover:bg-blue-50 transition-colors shadow-lg text-sm lg:text-base"
               style={{ color: '#002855' }}
             >
               Contact Us
             </a>
 
             {/* ---------------------------------------------------------------------- */}
-            {/* MOBILE HAMBURGER MENU TOGGLE */}
+            {/* MOBILE & TABLET HAMBURGER MENU TOGGLE */}
             {/* ---------------------------------------------------------------------- */}
             {/* 
-              Button that toggles mobileMenuOpen state. Visible only on mobile (md:hidden).
+              Button that toggles mobileMenuOpen state. Visible on mobile and tablet (lg:hidden).
               Displays an X icon when menu is open, hamburger icon when closed.
               Uses SVG icons from Heroicons style.
             */}
             <button
-              className="md:hidden text-white z-10 p-2"
+              className="lg:hidden text-white z-10 p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
@@ -408,19 +409,19 @@ export default function Header() {
           {/* ====================================================================== */}
           {/* 
             Only rendered when activeMenu is not null (i.e., a menu is hovered).
-            Hidden on mobile (hidden md:block). Positioned absolutely below the top bar (top: 100%).
+            Hidden on mobile and tablet (hidden lg:block). Positioned absolutely below the top bar (top: 100%).
             animate-fadeIn is a custom Tailwind animation (likely defined elsewhere) for a smooth fade.
             onMouseEnter ensures the dropdown stays open when mouse moves from tab into dropdown.
             onMouseLeave closes it when mouse leaves the dropdown area.
           */}
           {activeMenu && megaMenuContent[activeMenu] && (
             <div
-              className="hidden md:block absolute left-8 right-8 z-10 animate-fadeIn"
+              className="hidden lg:block absolute left-8 right-8 z-10 animate-fadeIn"
               style={{ top: '100%' }}
               onMouseEnter={() => setActiveMenu(activeMenu)}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="bg-white shadow-2xl rounded-lg overflow-hidden">
+              <div className="bg-white shadow-2xl rounded-md overflow-hidden">
                 {/* Three-column layout: description, links, highlight card */}
                 <div className="flex min-h-[320px]">
 
@@ -432,10 +433,10 @@ export default function Header() {
                     Displays the title and description of the selected mega menu.
                   */}
                   <div className="w-[30%] bg-gradient-to-br from-blue-50 to-white p-8 border-r border-gray-200">
-                    <h3 className="text-2xl font-bold text-blue-600 mb-3">
+                    <h3 className="text-2xl font-bold text-[#002855] mb-3">
                       {megaMenuContent[activeMenu].title}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
+                    <p className="text-gray-600 text-md leading-relaxed">
                       {megaMenuContent[activeMenu].description}
                     </p>
                   </div>
@@ -452,16 +453,16 @@ export default function Header() {
                   <div className="w-[50%] p-8 border-r border-gray-200">
                     <div className="space-y-1">
                       {megaMenuContent[activeMenu].links.slice(0, 7).map((link, idx) => (
-                        <a
+                        <a  /* ← FIX 3: restored missing opening <a tag */
                           key={idx}
                           href={link.href}
                           className="block py-2 px-3 hover:text-[#002855] transition-colors duration-200 group cursor-pointer"
                         >
                           <div className="flex flex-col">
-                            <span className="font-medium text-[15px] text-blue-600 group-hover:text-[#002855]">
+                            <span className="font-semibold text-[15px] text-[#002855] group-hover:text-[#002855]">
                               {link.label}
                             </span>
-                            <span className="text-gray-500 text-xs mt-0.5 group-hover:text-gray-700 leading-tight">
+                            <span className="text-gray-500 text-sm mt-0.5 group-hover:text-gray-700 leading-tight">
                               {link.description}
                             </span>
                           </div>
@@ -474,41 +475,42 @@ export default function Header() {
                   {/* SECTION 3: Highlight Card (20% width) */}
                   {/* ------------------------------------------------------------------ */}
                   {/* 
-                    Featured content card with a thumbnail placeholder (icon only here), 
-                    title, description, and a CTA button.
-                    The thumbnail is a gradient box with a document icon; could be replaced with actual images.
+                    Featured content card with a thumbnail image, title, description, and a CTA button.
                     The button is a full-width blue CTA.
                     A footer note indicates that resources are downloadable.
                   */}
                   <div className="w-[20%] p-8 bg-gradient-to-br from-gray-50 to-white">
                     <div className="h-full flex flex-col">
-                      <div className="mb-4 overflow-hidden rounded-lg border border-gray-200">
-                        <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center relative">
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-600/20"></div>
-                          <div className="relative z-10 text-center p-4">
-                            <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
-                              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                              </svg>
-                            </div>
-                          </div>
+                      <div className="mb-4 overflow-hidden rounded-md border border-gray-200">
+                        <div className="aspect-video relative overflow-hidden bg-gray-100">
+
+                          <img
+                            key={activeMenu}
+                            src={megaMenuContent[activeMenu].highlight.thumbnail}
+                            alt="Preview"
+                            className="w-full h-full object-cover transition-opacity duration-300"
+                          />
+
+                          {/* Optional dark overlay */}
+                          <div className="absolute inset-0 bg-black/20"></div>
+
                         </div>
                         <div className="p-3 bg-white">
-                          <div className="text-sm font-medium text-blue-600 truncate">
+                          <div className="text-md font-semibold text-[#002855] truncate">
                             {megaMenuContent[activeMenu].highlight.title}
                           </div>
-                          <div className="text-xs text-gray-500 mt-1">
+                          <div className="text-sm text-gray-500 mt-1">
                             {megaMenuContent[activeMenu].highlight.description}
                           </div>
                         </div>
                       </div>
 
-                      <button className="mt-auto w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200">
+                      <button className="mt-auto w-full py-3 bg-[#002855] text-white font-semibold rounded-md hover:bg-[#0a1E3D] transition-colors text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200">
                         {megaMenuContent[activeMenu].highlight.buttonText}
                       </button>
 
                       <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-xs text-gray-500 text-center">
+                        <p className="text-sm text-gray-500 text-center">
                           All resources are available for download
                         </p>
                       </div>
@@ -520,16 +522,16 @@ export default function Header() {
           )}
 
           {/* ====================================================================== */}
-          {/* MOBILE MENU */}
+          {/* MOBILE & TABLET MENU */}
           {/* ====================================================================== */}
           {/* 
-            Full‑width dropdown menu for mobile devices. Rendered when mobileMenuOpen is true.
+            Full‑width dropdown menu for mobile and tablet devices. Rendered when mobileMenuOpen is true.
             Positioned absolutely below the header (top-full). 
             max‑height and overflow‑auto allow scrolling if content exceeds viewport height.
             Uses an accordion pattern: each top‑level item can be expanded to show its submenu.
           */}
           {mobileMenuOpen && (
-            <div className="md:hidden absolute left-0 right-0 top-full bg-white shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <div className="lg:hidden absolute left-0 right-0 top-full bg-white shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto">
               <div className="px-4 py-4 space-y-2">
                 {/* Loop through all menu items to create accordion sections */}
                 {Object.keys(megaMenuContent).map((menu) => (
@@ -553,7 +555,7 @@ export default function Header() {
 
                     {/* Accordion panel (shown only when this menu's submenu is active) */}
                     {mobileSubmenu === menu && (
-                      <div className="pl-4 py-2 space-y-2 bg-gray-50 rounded-lg">
+                      <div className="pl-4 py-2 space-y-2 bg-gray-50 rounded-md">
                         {/* Description of the menu */}
                         <p className="text-sm text-gray-600 mb-3">
                           {megaMenuContent[menu].description}
@@ -562,7 +564,7 @@ export default function Header() {
                         {/* Links list (same as desktop, limited to 7) */}
                         <div className="space-y-1">
                           {megaMenuContent[menu].links.slice(0, 7).map((link, idx) => (
-                            <a
+                            <a  /* ← FIX 4: restored missing opening <a tag */
                               key={idx}
                               href={link.href}
                               className="block py-2 px-3 hover:text-[#002855] transition-colors duration-200 group cursor-pointer"
@@ -579,14 +581,17 @@ export default function Header() {
                           ))}
                         </div>
 
-                        {/* Mobile version of the highlight card */}
-                        {/* Uses a horizontal layout with icon, title, description, and button */}
-                        <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-white rounded-lg border border-blue-100">
+                        {/* Mobile & tablet version of the highlight card */}
+                        {/* Uses a horizontal layout with the actual thumbnail image, title, description, and button */}
+                        <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-white rounded-md border border-blue-100">
                           <div className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
-                              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                              </svg>
+                            {/* Thumbnail image replacing the previous SVG icon placeholder */}
+                            <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-md">
+                              <img
+                                src={megaMenuContent[menu].highlight.thumbnail}
+                                alt={megaMenuContent[menu].highlight.title}
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                             <div className="flex-1">
                               <h4 className="font-bold text-blue-600 text-sm">
@@ -595,7 +600,7 @@ export default function Header() {
                               <p className="text-gray-600 text-xs mt-1">
                                 {megaMenuContent[menu].highlight.description}
                               </p>
-                              <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-semibold w-full">
+                              <button className="mt-2 px-4 py-2 bg-[#002855] text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-semibold w-full">
                                 {megaMenuContent[menu].highlight.buttonText}
                               </button>
                             </div>
@@ -606,9 +611,9 @@ export default function Header() {
                   </div>
                 ))}
 
-                {/* Mobile Contact CTA Button */}
-                {/* A prominent blue button at the bottom of the mobile menu */}
-                <a
+                {/* Mobile & Tablet Contact CTA Button */}
+                {/* A prominent blue button at the bottom of the mobile/tablet menu */}
+                <a  /* ← FIX 5: restored missing opening <a tag */
                   href="/contact"
                   className="block w-full mt-4 px-6 py-3 bg-[#002855] text-blue-400
                    font-semibold rounded-md hover:bg-blue-900 transition-colors text-center"

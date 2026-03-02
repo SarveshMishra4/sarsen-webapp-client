@@ -49,7 +49,7 @@ export default function ToastProvider({ children }: Props) {
 
       {/* Toast Container */}
 
-      <div className="fixed top-5 right-5 z-50 flex flex-col gap-3">
+      <div className="fixed top-4 right-5 z-50 flex flex-col gap-3">
         {toasts.map((toast) => (
           <Toast
             key={toast.id}

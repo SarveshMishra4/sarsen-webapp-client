@@ -158,3 +158,86 @@ Our Folder Structure in User Interface Design :
     |   |-- README.md
     |   |-- tsconfig.json
 
+Current Folder Structure  : 
+    client
+    │
+    ├── public
+    │   └── assets
+    │       ├── brand
+    │       └── thumbnail-header
+    │
+    ├── src
+    │
+    │   ├── app                 (Next.js routes/pages)
+    │   │
+    │   │   ├── page.tsx        (Home)
+    │   │   ├── layout.tsx
+    │   │   ├── globals.css
+    │   │   ├── not-found.tsx
+    │   │
+    │   │   ├── about
+    │   │   ├── contact
+    │   │   ├── career
+    │   │   ├── work
+    │   │
+    │   │   ├── admin
+    │   │   │   ├── login
+    │   │   │   └── dashboard
+    │   │
+    │   │   ├── user
+    │   │   │   ├── login
+    │   │   │   └── dashboard
+    │   │
+    │   │   ├── services
+    │   │   │   ├── funding-readiness
+    │   │   │   ├── go-to-market
+    │   │   │   ├── product-market-fit
+    │   │   │   └── ...
+    │   │
+    │   │   ├── resources
+    │   │   │   ├── blog
+    │   │   │   ├── case-studies
+    │   │   │   ├── reports
+    │   │   │   ├── tools
+    │   │   │   └── events
+    │   │
+    │   │   ├── visual-design
+    │   │   ├── products
+    │   │   │   └── [slug]
+    │   │   │
+    │   │   └── toast
+    │   │
+    │   ├── assets              (Local images/icons)
+    │
+    │   ├── config              (App config)
+    │
+    │   ├── design-system       (Your UI rules)
+    │   │   ├── themes
+    │   │   └── tokens
+    │
+    │   ├── features            (Business features)
+    │   │   └── sample
+    │   │       ├── components
+    │   │       ├── hooks
+    │   │       └── services
+    │
+    │   ├── layouts             (Page layouts)
+    │
+    │   ├── mock                (Temporary data)
+    │
+    │   ├── services            (API calls)
+    │
+    │   ├── store               (Global state)
+    │
+    │   ├── styles              (Global styles)
+    │
+    │   ├── ui                  (Reusable UI library)
+    │   │   ├── components
+    │   │   ├── patterns
+    │   │   └── primitives
+    │
+    │   ├── utils               (Helper functions)
+    │
+    │   └── pages               (If still using pages router)
+    │
+    └── package.json
