@@ -22,47 +22,13 @@ const AboutHero = () => {
               </p>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-gray-300">
-                <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span className="text-sm sm:text-base">
-                  Diagnostic-first strategy for founder-led and growth-stage businesses
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 text-gray-300">
-                <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span className="text-sm sm:text-base">
-                  Quantitative, constraint-aware analysis focused on decision-critical outcomes
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 text-gray-300">
-                <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span className="text-sm sm:text-base">
-                  No generic advisory — only structured thinking that translates into execution
-                </span>
-              </div>
-            </div>
+            
           </div>
 
           <div className="relative h-80 sm:h-96 lg:h-[450px] flex items-center justify-center lg:justify-end">
             <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full max-w-lg h-full bg-gradient-to-br from-blue-900/20 to-transparent rounded-lg flex items-center justify-center border border-blue-800/30">
-                <div className="text-center text-blue-400/50 p-8">
-                  <svg className="w-24 h-24 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                  <p className="text-sm">
-                    Strategic Diagnostics<br />Illustration Placeholder
-                  </p>
-                </div>
+              <div className="w-full max-w-lg h-full  flex items-center justify-center ">
+                <img src="/assets/about/About Head.svg" alt="" />
               </div>
             </div>
           </div>
@@ -94,11 +60,7 @@ const WhyWeExistSection = () => {
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           <div className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300">
-            <div className="w-14 h-14 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-lg flex items-center justify-center mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
+            
             <h3 className="text-2xl font-medium text-gray-800 mb-4">The Problem</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
               Most advisory firms rely on standardized frameworks and recycled playbooks. The output often 
@@ -111,11 +73,7 @@ const WhyWeExistSection = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300">
-            <div className="w-14 h-14 bg-gradient-to-br from-[#2B7AB8] to-[#3A8BC8] rounded-lg flex items-center justify-center mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            </div>
+            
             <h3 className="text-2xl font-medium text-gray-800 mb-4">Our Solution</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
               We exist to address this gap through a diagnostic-first approach. Every engagement begins with 
@@ -322,9 +280,7 @@ const ThesisSection = () => {
               className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-lg flex items-center justify-center flex-shrink-0 text-white">
-                  {principle.icon}
-                </div>
+                
                 <div>
                   <h3 className="text-2xl font-medium text-gray-800 mb-2">
                     {principle.title}
@@ -336,22 +292,7 @@ const ThesisSection = () => {
                 {principle.description}
               </p>
 
-              <div className="space-y-2">
-                {principle.highlights.map((highlight, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                    </svg>
-                    <span className="text-sm text-gray-600 leading-tight">
-                      {highlight}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              
             </div>
           ))}
         </div>
@@ -363,9 +304,8 @@ const ThesisSection = () => {
             </h3>
             <div className="grid sm:grid-cols-2 gap-6 text-white">
               <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+
                 <div>
                   <p className="font-medium mb-1">No Generic Frameworks</p>
                   <p className="text-sm text-white/90">
@@ -374,9 +314,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
                 <div>
                   <p className="font-medium mb-1">Context-Aware Strategy</p>
                   <p className="text-sm text-white/90">
@@ -385,9 +323,8 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+
                 <div>
                   <p className="font-medium mb-1">Founder-Aligned Execution</p>
                   <p className="text-sm text-white/90">
@@ -396,9 +333,8 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+
                 <div>
                   <p className="font-medium mb-1">Decision-Grade Output</p>
                   <p className="text-sm text-white/90">
@@ -421,32 +357,32 @@ const ThesisSection = () => {
 const TeamSection = () => {
   const teamMembers = [
     {
-      name: 'Rajesh Kumar',
+      name: 'Greg Merlin',
       role: 'Founding Partner',
       expertise: 'Market Strategy & Growth',
       bio: '15+ years in strategy consulting with focus on growth-stage technology companies. Previously led strategic initiatives at leading consulting firms.',
-      image: null
+      image: '/assets/about/people/Greg.png'
     },
     {
-      name: 'Priya Sharma',
+      name: 'Sarvesh Mishra',
       role: 'Partner, Analytics',
       expertise: 'Quantitative Analysis & Research',
       bio: 'Expert in market research and financial modeling. Former investment analyst with deep experience in startup valuation and market sizing.',
-      image: null
+      image: '/assets/about/people/Sarvesh.png'
     },
     {
-      name: 'Arjun Mehta',
+      name: 'Vishal Gupta',
       role: 'Partner, Operations',
       expertise: 'Business Operations & Scaling',
       bio: 'Operational strategist with track record of helping 50+ startups scale efficiently. Background in process optimization and organizational design.',
-      image: null
+      image: '/assets/about/people/Vishal.png'
     },
     {
-      name: 'Ananya Iyer',
+      name: 'Aakansha Rao',
       role: 'Senior Consultant',
       expertise: 'Sector Research & Competitive Intelligence',
       bio: 'Specialist in sector-specific analysis and competitive strategy. Published researcher on Indian startup ecosystem trends and dynamics.',
-      image: null
+      image: '/assets/about/people/Georgia.png'
     }
   ];
 
@@ -466,20 +402,17 @@ const TeamSection = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300">
-              <div className="aspect-square bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] flex items-center justify-center">
-                <div className="text-center text-white/50">
-                  <svg className="w-20 h-20 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                  <p className="text-xs">Team Member<br/>Photo</p>
-                </div>
-              </div>
+              <div className="aspect-square overflow-hidden rounded-t-lg">
+  <img
+    src={member.image}
+    alt={member.name}
+    className="w-full h-full object-cover"
+  />
+</div>
               <div className="p-6">
                 <h3 className="text-xl font-medium text-white mb-1">{member.name}</h3>
                 <p className="text-blue-300 text-sm mb-2">{member.role}</p>
-                <p className="text-blue-200 text-xs font-medium mb-3 pb-3 border-b border-white/10">
-                  {member.expertise}
-                </p>
+                
                 <p className="text-gray-300 text-sm leading-relaxed">
                   {member.bio}
                 </p>
@@ -560,38 +493,7 @@ const CTASection = () => {
           </div>
         </div>
 
-        <div className="mt-12 grid sm:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">Email</h3>
-            <p className="text-sm text-gray-600">contact@yourfirm.com</p>
-          </div>
 
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#2B7AB8] to-[#3A8BC8] rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">Phone</h3>
-            <p className="text-sm text-gray-600">+91 98765 43210</p>
-          </div>
-
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#3A8BC8] to-[#4A9CD8] rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">Location</h3>
-            <p className="text-sm text-gray-600">Mumbai, India</p>
-          </div>
-        </div>
       </div>
     </section>
   );

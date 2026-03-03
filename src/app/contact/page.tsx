@@ -34,74 +34,7 @@ If there’s a clear way we can help, we’ll suggest next steps — if not, we�
 
           {/* ==================== RIGHT COLUMN ==================== */}
           {/* Illustration - Connection/Communication Theme */}
-          <div className="relative h-80 sm:h-96 lg:h-[450px] flex items-center justify-center lg:justify-end">
-            <div className="w-full h-full flex items-center justify-center">
-              
-              {/* SVG Illustration - Network/Communication */}
-              <svg viewBox="0 0 400 400" className="w-full max-w-md h-full">
-                <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#4A90E2" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#2B7AB8" stopOpacity="0.4" />
-                  </linearGradient>
-                </defs>
-
-                {/* Central Hub (You/Business) */}
-                <g>
-                  <circle cx="200" cy="200" r="45" fill="rgba(74, 144, 226, 0.15)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="200" cy="200" r="30" fill="rgba(74, 144, 226, 0.25)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="200" cy="200" r="18" fill="#4A90E2" />
-                  
-                  {/* Center Icon - Communication */}
-                  <path d="M 200 190 L 200 210 M 190 200 L 210 200" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                </g>
-
-                {/* Connecting Lines to Outer Nodes */}
-                <g opacity="0.6">
-                  <line x1="200" y1="200" x2="120" y2="100" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                  <line x1="200" y1="200" x2="280" y2="100" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                  <line x1="200" y1="200" x2="320" y2="200" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                  <line x1="200" y1="200" x2="280" y2="300" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                  <line x1="200" y1="200" x2="120" y2="300" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                  <line x1="200" y1="200" x2="80" y2="200" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4,4" />
-                </g>
-
-                {/* Outer Nodes (Services/Solutions) */}
-                <g>
-                  {/* Top Left */}
-                  <circle cx="120" cy="100" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="120" cy="100" r="10" fill="#1E5A8E" />
-                  
-                  {/* Top Right */}
-                  <circle cx="280" cy="100" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="280" cy="100" r="10" fill="#1E5A8E" />
-                  
-                  {/* Right */}
-                  <circle cx="320" cy="200" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="320" cy="200" r="10" fill="#1E5A8E" />
-                  
-                  {/* Bottom Right */}
-                  <circle cx="280" cy="300" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="280" cy="300" r="10" fill="#1E5A8E" />
-                  
-                  {/* Bottom Left */}
-                  <circle cx="120" cy="300" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="120" cy="300" r="10" fill="#1E5A8E" />
-                  
-                  {/* Left */}
-                  <circle cx="80" cy="200" r="20" fill="rgba(30, 90, 142, 0.3)" stroke="#4A90E2" strokeWidth="2" />
-                  <circle cx="80" cy="200" r="10" fill="#1E5A8E" />
-                </g>
-
-                {/* Animated Pulse Circles */}
-                <g className="animate-pulse" opacity="0.4">
-                  <circle cx="200" cy="200" r="60" fill="none" stroke="#4A90E2" strokeWidth="1" />
-                  <circle cx="200" cy="200" r="75" fill="none" stroke="#4A90E2" strokeWidth="1" opacity="0.5" />
-                </g>
-              </svg>
-
-            </div>
-          </div>
+          <img src="/assets/contact/Contact Head.svg" alt="" />
 
         </div>
       </div>
@@ -338,9 +271,7 @@ You don’t need a polished explanation — clarity comes later."
                   ) : (
                     <>
                       <span>Request a Review</span>
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
+                      
                     </>
                   )}
                 </button>
@@ -383,9 +314,8 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium mb-1 text-sm uppercase tracking-wide">Email</p>
-                    <a href="mailto:contact@sareen.com" className="text-white/90 hover:text-white transition-colors text-lg">
-                      contact@sareen.com
+                    <a href="mailto:contact@sarsen.com" className="text-white/90 hover:text-white transition-colors text-lg">
+                      contact@sarsen.com
                     </a>
                   </div>
                 </div>
@@ -398,7 +328,6 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium mb-1 text-sm uppercase tracking-wide">Phone</p>
                     <a href="tel:+919876543210" className="text-white/90 hover:text-white transition-colors text-lg">
                       +91 98765 43210
                     </a>
@@ -414,8 +343,7 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium mb-1 text-sm uppercase tracking-wide">Office</p>
-                    <p className="text-white/90 text-base leading-relaxed">
+                    <p className="text-white/90 text-lg leading-relaxed">
                       123 Business District<br />
                       Bangalore, Karnataka 560001<br />
                       India
@@ -431,11 +359,8 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium mb-1 text-sm uppercase tracking-wide">Hours</p>
-                    <p className="text-white/90 text-base leading-relaxed">
+                    <p className="text-white/90 text-lg leading-relaxed">
                       Mon-Fri: 9:00 AM - 6:00 PM<br />
-                      Sat: 10:00 AM - 2:00 PM<br />
-                      Sun: Closed
                     </p>
                   </div>
                 </div>
@@ -444,41 +369,106 @@ You don’t need a polished explanation — clarity comes later."
             </div>
 
             {/* Quick Links Card */}
-            <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
-              <h3 className="text-xl font-medium text-gray-800 mb-4">
-                Explore Before Reaching Out
-              </h3>
-              
-              <div className="space-y-3">
-                <a href="/services" className="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors py-2 group">
-                  <span>How We Help Founders Decide</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <a href="/resources" className="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors py-2 group">
-                  <span>Access Our Resources</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <a href="/about" className="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors py-2 group">
-                  <span>Read Our Thinking</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <a href="/blog" className="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors py-2 group">
-                  <span>How We’ve Helped Before</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-              </div>
-            </div>
+            <div className="bg-white text-slate-900 rounded-xl p-8 shadow-lg border border-gray-200">
+
+  {/* Heading */}
+  <h3 className="text-xl font-medium mb-4">
+    For You May Explore 
+  </h3>
+
+  {/* Links Section */}
+  <div className="space-y-3">
+
+    {/* Link 1 */}
+    <a
+      href="/services"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+    >
+      <span>How We Help Founders</span>
+
+      <svg
+        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </a>
+
+    {/* Link 2 */}
+    <a
+      href="/resources"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+    >
+      <span>Access Our Resources</span>
+
+      <svg
+        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </a>
+
+    {/* Link 3 */}
+    <a
+      href="/about"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+    >
+      <span>Read Our Thinking</span>
+
+      <svg
+        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </a>
+
+    {/* Link 4 */}
+    <a
+      href="/blog"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+    >
+      <span>Our Case Studies</span>
+
+      <svg
+        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </a>
+
+  </div>
+</div>
 
           </div>
 
