@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, {
@@ -165,21 +166,21 @@ const FEATURED_COHORT: CohortTeaser = {
 };
 
 // =====================================================
-// TAG COLOR MAP — Crimson/amber palette for events
+// TAG COLOR MAP — blues from homepage palette
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Summit:     { bg: 'rgba(239,68,68,0.12)',   text: '#FCA5A5' },
-  Masterclass:{ bg: 'rgba(251,146,60,0.11)',  text: '#FDBA74' },
-  Workshop:   { bg: 'rgba(251,191,36,0.11)',  text: '#FCD34D' },
-  Webinar:    { bg: 'rgba(167,139,250,0.11)', text: '#C4B5FD' },
-  Bootcamp:   { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
-  Roundtable: { bg: 'rgba(52,211,153,0.10)',  text: '#6EE7B7' },
-  Retreat:    { bg: 'rgba(244,114,182,0.10)', text: '#F9A8D4' },
+  Summit:     { bg: '#DBEAFE', text: '#1E40AF' },
+  Masterclass:{ bg: '#E0F2FE', text: '#0369A1' },
+  Workshop:   { bg: '#E0E7FF', text: '#3730A3' },
+  Webinar:    { bg: '#E6F0FF', text: '#1E3A8A' },
+  Bootcamp:   { bg: '#DBEAFE', text: '#1E40AF' },
+  Roundtable: { bg: '#E0F2FE', text: '#0369A1' },
+  Retreat:    { bg: '#E0E7FF', text: '#3730A3' },
 };
 
 const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: 'rgba(239,68,68,0.10)', text: '#FCA5A5' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 // =====================================================
 // ALL FILTER TAGS
@@ -191,7 +192,7 @@ const ALL_TAGS: string[] = [
 ];
 
 // =====================================================
-// PARTNER AUTH MODAL — copied exactly from Reports Hub
+// PARTNER AUTH MODAL — matches homepage modal
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -205,11 +206,11 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
   onClose,
   resourceTitle,
 }) => {
-  const [formData, setFormData]         = useState<PartnerFormData>({ partnerId: '', password: '' });
+  const [formData, setFormData] = useState<PartnerFormData>({ partnerId: '', password: '' });
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading]           = useState<boolean>(false);
-  const [error, setError]               = useState<string>('');
-  const [success, setSuccess]           = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -244,7 +245,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ backgroundColor: 'rgba(10, 2, 2, 0.82)' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
       onClick={handleBackdropClick}
     >
       <div
@@ -253,43 +254,27 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
       >
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
 
-          {/* Header */}
-          <div className="bg-[#002855] px-8 py-6 relative">
+          {/* Modal Header — plain, no gradient */}
+          <div className="px-8 py-6 relative border-b border-gray-200">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
-                Partner Access
-              </span>
-            </div>
-
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
-            <p className="text-blue-200 text-sm mt-1 truncate">
-              Accessing:{' '}
-              <span className="text-white font-medium">{resourceTitle}</span>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to register: <span className="font-medium text-gray-700">{resourceTitle}</span>
             </p>
           </div>
 
-          {/* Body */}
+          {/* Modal Body */}
           <div className="px-8 py-8">
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
-
                 {error && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -298,11 +283,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     <p className="text-sm text-red-700">{error}</p>
                   </div>
                 )}
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Partner ID
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
                   <input
                     type="text"
                     value={formData.partnerId}
@@ -315,11 +297,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     autoComplete="username"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Password
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -345,8 +324,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                         </svg>
                       ) : (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -354,7 +332,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     </button>
                   </div>
                 </div>
-
                 <button
                   type="submit"
                   disabled={loading}
@@ -374,18 +351,15 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     'Register for Event'
                   )}
                 </button>
-
                 <p className="text-center text-xs text-gray-400 pt-1">
                   Don&apos;t have a Partner ID?{' '}
-                  <a href="#" className="text-blue-600 hover:underline">
-                    Request Access
-                  </a>
+                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
                 </p>
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
@@ -399,8 +373,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
             )}
           </div>
         </div>
-
-        <p className="text-center text-xs mt-4" style={{ color: 'rgba(220,100,80,0.25)' }}>
+        <p className="text-center text-sm mt-4 text-gray-400">
           Partner access is monitored and logged for security purposes.
         </p>
       </div>
@@ -409,38 +382,35 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 };
 
 // =====================================================
-// HERO SECTION
-// Deep charcoal-crimson — distinct events identity.
-// Same layout as Reports Hub hero exactly.
+// HERO SECTION — updated to homepage palette
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#0D0404', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background: fine dot grid */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#EF4444" />
+            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dots)" />
       </svg>
-      {/* Crimson radial glow — top right */}
+      {/* Blue radial glow */}
       <div
         className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at top right, rgba(127,29,29,0.22) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)',
         }}
       />
-      {/* Deep amber glow — bottom left */}
       <div
         className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at bottom left, rgba(120,53,15,0.10) 0%, transparent 65%)',
+          background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)',
         }}
       />
     </div>
@@ -453,39 +423,26 @@ const HeroSection: FC = () => (
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
             style={{
-              backgroundColor: 'rgba(239,68,68,0.06)',
-              border: '1px solid rgba(239,68,68,0.16)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              border: '1px solid rgba(59,130,246,0.16)',
             }}
           >
-            <div
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: '#EF4444' }}
-            />
-            <span
-              className="text-xs font-medium tracking-widest uppercase"
-              style={{ color: '#EF4444' }}
-            >
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
+            <span className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Sarsen &amp; Company · Events
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#FEF2F2',
-                fontFamily: "'Georgia', 'Times New Roman', serif",
-              }}
+              className="font-light leading-none tracking-tight text-white"
+              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Rooms Worth
               <br />
-              <span style={{ color: '#EF4444' }}>Being In.</span>
+              <span className="text-blue-300">Being In.</span>
             </h1>
-            <p
-              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
-              style={{ color: '#5C1F1F' }}
-            >
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               Summits, masterclasses, workshops, and closed-door roundtables — designed for founders who move faster when surrounded by the right people.
             </p>
           </div>
@@ -498,24 +455,14 @@ const HeroSection: FC = () => (
               { value: '6',    label: 'Event formats'     },
             ].map((stat) => (
               <div key={stat.label}>
-                <p
-                  className="text-2xl font-light"
-                  style={{ color: '#FEF2F2', fontFamily: 'Georgia, serif' }}
-                >
-                  {stat.value}
-                </p>
-                <p
-                  className="text-xs tracking-widest uppercase mt-0.5"
-                  style={{ color: '#7F1D1D' }}
-                >
-                  {stat.label}
-                </p>
+                <p className="text-2xl font-light text-white">{stat.value}</p>
+                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT — Calendar/event visual motif */}
+        {/* RIGHT — Calendar/event visual motif (blue tones) */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
@@ -533,8 +480,8 @@ const HeroSection: FC = () => (
                     height: '300px',
                     top: layer * 8,
                     left: layer * 8,
-                    backgroundColor: `rgba(127,29,29,${0.05 * layer})`,
-                    border: `1px solid rgba(239,68,68,${0.04 * layer})`,
+                    backgroundColor: `rgba(19,43,71,${0.05 * layer})`,
+                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
                   }}
                 />
               ))}
@@ -544,25 +491,21 @@ const HeroSection: FC = () => (
                 style={{
                   width: '260px',
                   height: '300px',
-                  backgroundColor: '#1A0505',
-                  border: '1px solid rgba(239,68,68,0.18)',
+                  backgroundColor: '#132B47',
+                  border: '1px solid rgba(59,130,246,0.18)',
                 }}
               >
                 {/* Calendar header */}
                 <div
                   className="h-14 px-5 flex items-center justify-between"
-                  style={{ backgroundColor: 'rgba(127,29,29,0.55)' }}
+                  style={{ backgroundColor: '#0A1E3D' }}
                 >
-                  <div
-                    className="w-20 h-2 rounded-full"
-                    style={{ backgroundColor: 'rgba(239,68,68,0.40)' }}
-                  />
+                  <div className="w-20 h-2 rounded-full bg-blue-800/40" />
                   <div className="flex gap-1">
                     {[1, 2, 3].map((d) => (
                       <div
                         key={d}
-                        className="w-5 h-5 rounded"
-                        style={{ backgroundColor: `rgba(239,68,68,${0.08 + d * 0.06})` }}
+                        className="w-5 h-5 rounded bg-blue-800/30"
                       />
                     ))}
                   </div>
@@ -576,10 +519,10 @@ const HeroSection: FC = () => (
                       style={{
                         height: '22px',
                         backgroundColor: i === 3 || i === 8 || i === 15
-                          ? 'rgba(239,68,68,0.30)'
-                          : `rgba(239,68,68,${0.03 + (i % 3) * 0.02})`,
+                          ? 'rgba(59,130,246,0.30)'
+                          : `rgba(59,130,246,${0.03 + (i % 3) * 0.02})`,
                         border: i === 3 || i === 8 || i === 15
-                          ? '1px solid rgba(239,68,68,0.40)'
+                          ? '1px solid rgba(59,130,246,0.40)'
                           : 'none',
                       }}
                     />
@@ -588,9 +531,9 @@ const HeroSection: FC = () => (
                 {/* Event pill rows */}
                 <div className="px-5 space-y-2">
                   {[
-                    { w: '85%', color: 'rgba(239,68,68,0.22)' },
-                    { w: '65%', color: 'rgba(251,146,60,0.18)' },
-                    { w: '75%', color: 'rgba(167,139,250,0.15)' },
+                    { w: '85%', color: 'rgba(59,130,246,0.22)' },
+                    { w: '65%', color: 'rgba(96,165,250,0.18)' },
+                    { w: '75%', color: 'rgba(147,197,253,0.15)' },
                   ].map((row, i) => (
                     <div
                       key={i}
@@ -628,7 +571,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
       const style    = tag === 'All'
-        ? { bg: 'rgba(239,68,68,0.10)', text: '#EF4444' }
+        ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
 
       return (
@@ -636,13 +579,13 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
               ? {
-                  backgroundColor: '#7F1D1D',
-                  color: '#FCA5A5',
-                  border: '1px solid rgba(239,68,68,0.35)',
+                  backgroundColor: '#132B47',
+                  color: '#93C5FD',
+                  border: '1px solid rgba(59,130,246,0.40)',
                 }
               : {
                   backgroundColor: style.bg,
@@ -679,14 +622,14 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(event.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-500"
-      style={{ backgroundColor: '#180505', border: '1px solid rgba(239,68,68,0.10)' }}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Register for event: ${event.title}`}
     >
       {/* Header */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #7F1D1D 0%, #180505 65%)' }}
+        style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
         {/* Decorative calendar motif */}
         <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
@@ -700,8 +643,8 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
                 right: `${20 + (3 - l) * 12}px`,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                border: `1px solid rgba(239,68,68,${0.05 * l})`,
-                backgroundColor: `rgba(127,29,29,${0.04 * l})`,
+                border: `1px solid rgba(59,130,246,${0.05 * l})`,
+                backgroundColor: `rgba(19,43,71,${0.04 * l})`,
               }}
             />
           ))}
@@ -717,9 +660,9 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.04)',
-              color: '#EF4444',
-              border: '1px solid rgba(239,68,68,0.14)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.14)',
             }}
           >
             Featured
@@ -727,9 +670,9 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: seatsUrgent ? 'rgba(239,68,68,0.15)' : 'rgba(239,68,68,0.06)',
-              color: seatsUrgent ? '#FCA5A5' : '#FCA5A5',
-              border: `1px solid rgba(239,68,68,${seatsUrgent ? 0.30 : 0.12})`,
+              backgroundColor: seatsUrgent ? 'rgba(59,130,246,0.15)' : 'rgba(59,130,246,0.06)',
+              color: seatsUrgent ? '#93C5FD' : '#93C5FD',
+              border: `1px solid rgba(59,130,246,${seatsUrgent ? 0.30 : 0.12})`,
             }}
           >
             {event.seats}
@@ -740,19 +683,12 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-red-300 transition-colors duration-200"
-          style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
-            color: '#FEE2E2',
-            fontFamily: 'Georgia, serif',
-          }}
+          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {event.title}
         </h2>
-        <p
-          className="text-sm leading-relaxed mb-6 max-w-3xl"
-          style={{ color: '#5C1F1F' }}
-        >
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
           {event.excerpt}
         </p>
 
@@ -760,38 +696,36 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
           <div className="flex items-center gap-4 flex-wrap">
             {/* Date */}
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="#EF4444" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs" style={{ color: '#EF4444' }}>{event.date}</span>
+              <span className="text-xs text-blue-400">{event.date}</span>
             </div>
             {/* Location */}
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="text-xs" style={{ color: '#4B1111' }}>{event.location}</span>
+              <span className="text-xs text-gray-500">{event.location}</span>
             </div>
             {/* Format pill */}
             <span
               className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: 'rgba(127,29,29,0.4)', color: '#EF4444' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {event.format}
             </span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
-            style={{ color: '#EF4444' }}
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
           >
             Register now
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </div>
         </div>
@@ -822,10 +756,10 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(event.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-red-400"
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
-        backgroundColor: '#180505',
-        border: '1px solid rgba(239,68,68,0.08)',
+        backgroundColor: '#0A1E3D',
+        border: '1px solid rgba(59,130,246,0.08)',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
       }}
       aria-label={`Register for event: ${event.title}`}
@@ -839,12 +773,12 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
       {/* Header band */}
       <div
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
-        style={{ background: 'linear-gradient(155deg, #7F1D1D 0%, #180505 100%)' }}
+        style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
         {/* Corner calendar decoration */}
         <div className="absolute top-3 right-3 opacity-10" aria-hidden="true">
-          <div className="w-10 h-12 rounded border border-red-400" />
-          <div className="w-10 h-12 rounded border border-red-400 absolute top-1.5 left-1.5" />
+          <div className="w-10 h-12 rounded border border-blue-400" />
+          <div className="w-10 h-12 rounded border border-blue-400 absolute top-1.5 left-1.5" />
         </div>
 
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
@@ -859,12 +793,12 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
             className="px-2 py-0.5 rounded-full text-xs"
             style={{
               backgroundColor: seatsUrgent
-                ? 'rgba(239,68,68,0.18)'
+                ? 'rgba(59,130,246,0.18)'
                 : seatsInvite
-                ? 'rgba(167,139,250,0.10)'
-                : 'rgba(239,68,68,0.06)',
-              color: seatsUrgent ? '#FCA5A5' : seatsInvite ? '#C4B5FD' : '#FCA5A5',
-              border: `1px solid rgba(239,68,68,${seatsUrgent ? 0.28 : 0.12})`,
+                ? 'rgba(147,197,253,0.10)'
+                : 'rgba(59,130,246,0.06)',
+              color: seatsUrgent ? '#93C5FD' : seatsInvite ? '#93C5FD' : '#93C5FD',
+              border: `1px solid rgba(59,130,246,${seatsUrgent ? 0.28 : 0.12})`,
             }}
           >
             {event.seats}
@@ -876,9 +810,8 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
           className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
           aria-hidden="true"
         >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#EF4444" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </div>
       </div>
@@ -886,56 +819,47 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-red-300 transition-colors duration-200 line-clamp-2"
-          style={{
-            color: '#FECACA',
-            fontSize: '0.9rem',
-            fontFamily: 'Georgia, serif',
-          }}
+          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
         >
           {event.title}
         </h3>
-        <p
-          className="text-xs leading-relaxed mb-4 line-clamp-2"
-          style={{ color: '#7F1D1D' }}
-        >
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-400">
           {event.excerpt}
         </p>
 
         {/* Date + location */}
         <div className="space-y-1.5 mb-4">
           <div className="flex items-center gap-1.5">
-            <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="#EF4444" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 flex-shrink-0 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <span className="text-xs" style={{ color: '#EF4444' }}>{event.date}</span>
+            <span className="text-xs text-blue-400">{event.date}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="#6B3333" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <span className="text-xs line-clamp-1" style={{ color: '#4B1111' }}>{event.location}</span>
+            <span className="text-xs line-clamp-1 text-gray-500">{event.location}</span>
           </div>
         </div>
 
         {/* Footer */}
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(239,68,68,0.07)' }}
+          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
         >
           <span
             className="text-xs px-2 py-0.5 rounded"
-            style={{ backgroundColor: 'rgba(127,29,29,0.4)', color: '#9B1D1D' }}
+            style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
           >
             {event.format}
           </span>
-          <span className="text-xs" style={{ color: '#4B1111' }}>
-            {event.sector}
-          </span>
+          <span className="text-xs text-gray-500">{event.sector}</span>
         </div>
       </div>
     </article>
@@ -943,9 +867,7 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
 };
 
 // =====================================================
-// COHORT ADVERTISEMENT STRIP
-// Single cohort — warm saffron/amber identity
-// distinct from events crimson
+// COHORT ADVERTISEMENT STRIP — updated to blues
 // =====================================================
 
 interface CohortStripProps {
@@ -955,7 +877,7 @@ interface CohortStripProps {
 const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#1A1000', border: '1px solid rgba(251,191,36,0.12)' }}
+    style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -963,29 +885,25 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(251,191,36,0.10)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.10)' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="#FCD34D" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
           <div>
-            <p
-              className="text-xs font-medium tracking-widest uppercase"
-              style={{ color: '#FCD34D' }}
-            >
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Cohort Programme
             </p>
-            <p className="text-sm font-light" style={{ color: '#78580A' }}>
+            <p className="text-sm font-light text-gray-400">
               Learn alongside the best founders in India
             </p>
           </div>
         </div>
         <a
           href="/programmes/cohorts"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#FCD34D' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Cohorts
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1000,10 +918,10 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
         role="button"
         tabIndex={0}
         onKeyDown={(e) => e.key === 'Enter' && onCohortClick(FEATURED_COHORT.title)}
-        className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
         style={{
-          backgroundColor: '#261800',
-          border: '1px solid rgba(251,191,36,0.10)',
+          backgroundColor: '#132B47',
+          border: '1px solid rgba(59,130,246,0.10)',
         }}
         aria-label={`View cohort: ${FEATURED_COHORT.title}`}
       >
@@ -1014,16 +932,16 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span
                 className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold"
-                style={{ backgroundColor: 'rgba(251,191,36,0.12)', color: '#FCD34D' }}
+                style={{ backgroundColor: 'rgba(59,130,246,0.12)', color: '#93C5FD' }}
               >
                 {FEATURED_COHORT.tag}
               </span>
               <span
                 className="inline-block px-2.5 py-0.5 rounded-full text-xs"
                 style={{
-                  backgroundColor: 'rgba(239,68,68,0.08)',
-                  color: '#FCA5A5',
-                  border: '1px solid rgba(239,68,68,0.14)',
+                  backgroundColor: 'rgba(59,130,246,0.08)',
+                  color: '#93C5FD',
+                  border: '1px solid rgba(59,130,246,0.14)',
                 }}
               >
                 {FEATURED_COHORT.startDate}
@@ -1031,33 +949,29 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
             </div>
 
             <p
-              className="text-base font-medium leading-snug mb-2 group-hover:text-yellow-200 transition-colors duration-200"
-              style={{ color: '#FEF3C7', fontFamily: 'Georgia, serif' }}
+              className="text-base font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 text-white"
             >
               {FEATURED_COHORT.title}
             </p>
 
-            <p
-              className="text-sm font-medium mb-4"
-              style={{ color: '#FCD34D' }}
-            >
+            <p className="text-sm font-medium mb-4 text-blue-300">
               ✦ {FEATURED_COHORT.outcome}
             </p>
 
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="#78580A" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-xs" style={{ color: '#78580A' }}>{FEATURED_COHORT.duration}</span>
+                <span className="text-xs text-gray-500">{FEATURED_COHORT.duration}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="#78580A" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="text-xs" style={{ color: '#78580A' }}>{FEATURED_COHORT.format}</span>
+                <span className="text-xs text-gray-500">{FEATURED_COHORT.format}</span>
               </div>
             </div>
           </div>
@@ -1067,9 +981,9 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
             <div
               className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200 group-hover:gap-3"
               style={{
-                backgroundColor: 'rgba(251,191,36,0.10)',
-                color: '#FCD34D',
-                border: '1px solid rgba(251,191,36,0.20)',
+                backgroundColor: 'rgba(59,130,246,0.10)',
+                color: '#93C5FD',
+                border: '1px solid rgba(59,130,246,0.20)',
               }}
             >
               Apply for Cohort 7
@@ -1137,37 +1051,37 @@ export default function EventsHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#0D0404' }}>
+      <main className="min-h-screen bg-white">
 
-        {/* ── Hero ─────────────────────────────────── */}
+        {/* Hero */}
         <HeroSection />
 
-        {/* ── Content Area ─────────────────────────── */}
+        {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#5C1F1F' }}>
+            <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredEvents.length}{' '}
               {filteredEvents.length !== 1 ? 'events' : 'event'}
               {activeTag !== 'All' && (
                 <>
                   {' '}in{' '}
-                  <em style={{ color: '#EF4444' }}>{activeTag}</em>
+                  <em className="text-blue-600">{activeTag}</em>
                 </>
               )}
             </p>
           </div>
 
-          {/* ── Featured event ───────────────────────── */}
+          {/* Featured event */}
           {featured && (
             <div className="mb-8">
               <FeaturedEventCard event={featured} onOpen={openModal} />
             </div>
           )}
 
-          {/* ── First 3 grid cards ───────────────────── */}
+          {/* First 3 grid cards */}
           {beforeStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {beforeStrip.map((event, i) => (
@@ -1176,12 +1090,12 @@ export default function EventsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Cohort advertisement strip ───────────── */}
+          {/* Cohort advertisement strip */}
           {filteredEvents.length > 0 && (
             <CohortAdvertStrip onCohortClick={openModal} />
           )}
 
-          {/* ── Remaining grid cards ─────────────────── */}
+          {/* Remaining grid cards */}
           {afterStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {afterStrip.map((event, i) => (
@@ -1190,19 +1104,18 @@ export default function EventsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Empty state ──────────────────────────── */}
+          {/* Empty state */}
           {filteredEvents.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🗓</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#FEE2E2' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No events in &ldquo;{activeTag}&rdquo; right now
               </p>
-              <p className="text-sm" style={{ color: '#5C1F1F' }}>
+              <p className="text-sm text-gray-500">
                 Try a different type or{' '}
                 <button
                   type="button"
-                  className="underline"
-                  style={{ color: '#EF4444' }}
+                  className="underline text-blue-600"
                   onClick={() => setActiveTag('All')}
                 >
                   view all events
@@ -1212,10 +1125,10 @@ export default function EventsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── End message ──────────────────────────── */}
+          {/* End message */}
           {filteredEvents.length > 0 && (
             <div className="flex justify-center py-12">
-              <p className="text-sm" style={{ color: '#4B1111' }}>
+              <p className="text-sm text-gray-500">
                 All {filteredEvents.length} upcoming events shown.
               </p>
             </div>
@@ -1224,7 +1137,7 @@ export default function EventsHubPage(): React.JSX.Element {
         </div>
       </main>
 
-      {/* ── Partner Auth Modal ───────────────────────── */}
+      {/* Partner Auth Modal */}
       <PartnerAuthModal
         isOpen={modalState.open}
         onClose={closeModal}

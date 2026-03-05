@@ -148,8 +148,7 @@ const CouponBadge: FC<CouponBadgeProps> = ({ label, onRemove, accentRgb }) => (
 );
 
 // ════════════════════════════════════════════════════════════════
-// PURCHASE MODAL
-// Steps:  [questions] → [coupon + summary] → [processing] → [done/fail]
+// PURCHASE MODAL (unchanged — already complies with design language)
 // ════════════════════════════════════════════════════════════════
 
 type ModalStep = 'questions' | 'summary' | 'processing' | 'success' | 'failure';
@@ -377,7 +376,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ════════════════════════════════════════════════════════════════
-  // RENDER HELPERS
+  // RENDER HELPERS (unchanged)
   // ════════════════════════════════════════════════════════════════
 
   const renderQuestion = (q: ServiceQuestion) => {
@@ -574,7 +573,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ════════════════════════════════════════════════════════════════
-  // STEP: QUESTIONS
+  // STEP RENDERERS (unchanged)
   // ════════════════════════════════════════════════════════════════
 
   const renderQuestionsStep = () => (
@@ -669,10 +668,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     </>
   );
 
-  // ════════════════════════════════════════════════════════════════
-  // STEP: SUMMARY + COUPON + BUY
-  // ════════════════════════════════════════════════════════════════
-
   const renderSummaryStep = () => {
     const selectedFlexIds = (answers['flexible_services'] as string[]) ?? [];
     const selectedFlexItems = service.flexibleServices?.filter((f) =>
@@ -707,8 +702,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </div>
 
         <div ref={scrollRef} style={{ padding: '24px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
-
-          {/* Package details */}
           <div
             style={{
               background: '#F8FAFC',
@@ -766,7 +759,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           </div>
 
-          {/* Selected flexible services */}
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
               <p style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
@@ -796,7 +788,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           )}
 
-          {/* Deliverables */}
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
               You will receive
@@ -813,7 +804,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           </div>
 
-          {/* Coupon input */}
           <div
             style={{
               background: '#F8FAFC',
@@ -897,10 +887,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               </>
             )}
           </div>
-
         </div>
 
-        {/* Footer */}
         <div
           style={{
             padding: '16px 32px 24px',
@@ -976,10 +964,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     );
   };
 
-  // ════════════════════════════════════════════════════════════════
-  // STEP: PROCESSING
-  // ════════════════════════════════════════════════════════════════
-
   const renderProcessingStep = () => (
     <div style={{ padding: '64px 32px', textAlign: 'center' }}>
       <div style={{ marginBottom: '20px' }}>
@@ -996,10 +980,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       </p>
     </div>
   );
-
-  // ════════════════════════════════════════════════════════════════
-  // STEP: SUCCESS
-  // ════════════════════════════════════════════════════════════════
 
   const renderSuccessStep = () => (
     <div style={{ padding: '56px 32px', textAlign: 'center' }}>
@@ -1046,10 +1026,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       </button>
     </div>
   );
-
-  // ════════════════════════════════════════════════════════════════
-  // STEP: FAILURE
-  // ════════════════════════════════════════════════════════════════
 
   const renderFailureStep = () => (
     <div style={{ padding: '52px 32px', textAlign: 'center' }}>
@@ -1120,10 +1096,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     </div>
   );
 
-  // ════════════════════════════════════════════════════════════════
-  // MODAL WRAPPER
-  // ════════════════════════════════════════════════════════════════
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4"
@@ -1156,7 +1128,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE SECTIONS
+// PAGE SECTIONS (updated to design language)
 // ════════════════════════════════════════════════════════════════
 
 // ─── Hero ────────────────────────────────────────────────────────
@@ -1172,14 +1144,14 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
   return (
     <section
       className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-8"
-      style={{ backgroundColor: '#020814', minHeight: '480px' }}
+      style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
       {/* Dot grid */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <svg className="absolute inset-0 w-full h-full opacity-[0.035]">
           <defs>
             <pattern id="sp-dots" patternUnits="userSpaceOnUse" width="24" height="24">
-              <circle cx="2" cy="2" r="1" fill={service.accentColor} />
+              <circle cx="2" cy="2" r="1" fill="#93C5FD" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#sp-dots)" />
@@ -1197,24 +1169,23 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
       <div className="max-w-7xl mx-auto relative">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 mb-8" aria-label="Breadcrumb">
-          <a href="/services" style={{ color: `rgba(${rgb},0.60)`, fontSize: '0.78rem', textDecoration: 'none' }}
-            className="hover:opacity-100 transition-opacity">
+          <a href="/services" className="text-blue-300 hover:text-white transition-colors text-xs">
             Services
           </a>
-          <span style={{ color: `rgba(${rgb},0.30)`, fontSize: '0.78rem' }}>/</span>
-          <span style={{ color: `rgba(${rgb},0.70)`, fontSize: '0.78rem' }}>{service.packageNumber}</span>
+          <span className="text-blue-800">/</span>
+          <span className="text-blue-300 text-xs">{service.packageNumber}</span>
         </nav>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left */}
+          {/* Left column */}
           <div className="space-y-7">
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
                 <div
                   className="inline-flex items-center gap-2 rounded-full px-4 py-1.5"
                   style={{
-                    backgroundColor: `rgba(${rgb},0.06)`,
-                    border: `1px solid rgba(${rgb},0.16)`,
+                    backgroundColor: `rgba(${rgb},0.08)`,
+                    border: `1px solid rgba(${rgb},0.18)`,
                   }}
                 >
                   <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: service.accentColor }} />
@@ -1230,25 +1201,18 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 </span>
               </div>
 
-              <p className="text-xs tracking-widest uppercase" style={{ color: `rgba(${rgb},0.50)` }}>
+              <p className="text-xs tracking-widest uppercase text-blue-300/70">
                 {service.tagline}
               </p>
 
               <h1
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
-                  color: '#EEF2FF',
-                  fontFamily: 'Georgia, serif',
-                }}
+                className="font-light leading-tight tracking-tight text-white"
+                style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
               >
                 {service.title}
               </h1>
 
-              <p
-                className="text-base leading-relaxed font-light max-w-lg"
-                style={{ color: `rgba(${rgb},0.45)` }}
-              >
+              <p className="text-base leading-relaxed font-light max-w-lg text-gray-400">
                 {service.problemStatement}
               </p>
             </div>
@@ -1261,10 +1225,10 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 { label: 'Outcome', value: service.outcome },
               ].map((m) => (
                 <div key={m.label}>
-                  <p className="text-xs tracking-widest uppercase mb-0.5" style={{ color: `rgba(${rgb},0.35)` }}>
+                  <p className="text-xs tracking-widest uppercase mb-0.5 text-gray-500">
                     {m.label}
                   </p>
-                  <p className="text-sm" style={{ color: '#C7D2FE' }}>{m.value}</p>
+                  <p className="text-sm text-blue-300">{m.value}</p>
                 </div>
               ))}
             </div>
@@ -1297,53 +1261,46 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 </svg>
               </button>
 
-              <p className="text-xs" style={{ color: `rgba(${rgb},0.35)` }}>
+              <p className="text-xs text-gray-500">
                 Secure payment via Razorpay
               </p>
             </div>
           </div>
 
-          {/* Right — deliverables & impact preview */}
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{ backgroundColor: '#060C24', border: `1px solid rgba(${rgb},0.12)` }}
-          >
-            {/* Header band */}
-            <div
-              className="px-6 py-4"
-              style={{ background: `linear-gradient(135deg, rgba(${rgb},0.18) 0%, rgba(${rgb},0.04) 100%)` }}
-            >
-              <p className="text-xs tracking-widest uppercase" style={{ color: `rgba(${rgb},0.70)` }}>
-                What you receive
-              </p>
-            </div>
-            <div className="px-6 py-5 space-y-3">
-              {service.deliverables.map((d) => (
-                <div key={d} className="flex items-start gap-3">
+          {/* Right column — SVG placeholder */}
+          <div className="relative hidden lg:flex items-center justify-end" style={{ height: '420px' }} aria-hidden="true">
+            <div className="relative w-full max-w-lg h-full flex items-center justify-center">
+              {/* Large decorative quotation mark */}
+              <span
+                className="absolute select-none"
+                style={{
+                  fontSize: '22rem',
+                  color: 'rgba(59,130,246,0.05)',
+                  lineHeight: 1,
+                  top: '-2rem',
+                  right: '-1rem',
+                }}
+              >
+                &ldquo;
+              </span>
+              {/* Stacked lines motif */}
+              <div className="relative z-10 space-y-3 w-72">
+                {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
                   <div
-                    className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ backgroundColor: `rgba(${rgb},0.10)`, border: `1px solid rgba(${rgb},0.20)` }}
-                  >
-                    <svg className="w-3 h-3" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <p className="text-sm" style={{ color: '#C7D2FE' }}>{d}</p>
-                </div>
-              ))}
-            </div>
-            <div
-              className="px-6 py-4 mx-5 mb-5 rounded-xl"
-              style={{ background: `rgba(${rgb},0.06)`, border: `1px solid rgba(${rgb},0.10)` }}
-            >
-              <p className="text-xs tracking-widest uppercase mb-2" style={{ color: `rgba(${rgb},0.50)` }}>
-                Impact tracked by
-              </p>
-              {service.impactIndices.map((idx) => (
-                <p key={idx} className="text-sm font-medium" style={{ color: service.accentColor }}>
-                  ✦ {idx}
-                </p>
-              ))}
+                    key={i}
+                    className="rounded-full"
+                    style={{
+                      height: '3px',
+                      width: `${w}%`,
+                      background: `rgba(59,130,246,${0.06 + i * 0.04})`,
+                    }}
+                  />
+                ))}
+                <div
+                  className="mt-6 rounded-full"
+                  style={{ height: '2px', width: '30%', background: 'rgba(59,130,246,0.35)' }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1352,27 +1309,27 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
   );
 };
 
-// ─── Core Services Section ────────────────────────────────────────
+// ─── Core Services Section (updated backgrounds) ─────────────────
 
 const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16" style={{ backgroundColor: '#020814' }}>
+    <section className="px-4 sm:px-6 lg:px-8 py-16" style={{ backgroundColor: '#0A1E3D' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div>
-            <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `rgba(${rgb},0.45)` }}>
+            <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
               Core Services — Always Included
             </p>
             <h2
-              className="font-light mb-6"
-              style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
+              className="font-light mb-6 text-white"
+              style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
             >
               What we do<br />
               <span style={{ color: service.accentColor }}>in every engagement.</span>
             </h2>
-            <p className="text-sm leading-relaxed" style={{ color: `rgba(${rgb},0.40)` }}>
+            <p className="text-sm leading-relaxed text-gray-400">
               These {service.coreServices.length} services are mandatory and non-negotiable. Every client receives them in full, in the defined sequence.
             </p>
           </div>
@@ -1385,7 +1342,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                 style={{
                   padding: '14px 16px',
                   borderRadius: '10px',
-                  background: '#060C24',
+                  backgroundColor: '#132B47',
                   border: `1px solid rgba(${rgb},0.07)`,
                   animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 40}ms both`,
                 }}
@@ -1396,12 +1353,11 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                     background: `rgba(${rgb},0.10)`,
                     border: `1px solid rgba(${rgb},0.18)`,
                     color: service.accentColor,
-                    fontFamily: 'Georgia, serif',
                   }}
                 >
                   {i + 1}
                 </span>
-                <p className="text-sm" style={{ color: '#A5B4FC', lineHeight: 1.5 }}>{cs}</p>
+                <p className="text-sm text-blue-300 leading-relaxed">{cs}</p>
               </div>
             ))}
           </div>
@@ -1411,7 +1367,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Flexible Services Section ───────────────────────────────────
+// ─── Flexible Services Section (updated backgrounds) ─────────────
 
 const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1420,20 +1376,20 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   return (
     <section
       className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#030B1A', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `rgba(${rgb},0.45)` }}>
+        <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
           Flexible Services — Choose up to {service.maxFlexibleSelections}
         </p>
         <h2
-          className="font-light mb-2"
-          style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
+          className="font-light mb-2 text-white"
+          style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
           Customise your<br />
           <span style={{ color: service.accentColor }}>engagement.</span>
         </h2>
-        <p className="text-sm leading-relaxed mb-10 max-w-lg" style={{ color: `rgba(${rgb},0.40)` }}>
+        <p className="text-sm leading-relaxed mb-10 max-w-lg text-gray-400">
           Select up to {service.maxFlexibleSelections} of the following services when you complete your intake form.
         </p>
 
@@ -1444,7 +1400,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
               style={{
                 padding: '18px 20px',
                 borderRadius: '12px',
-                background: '#060C24',
+                backgroundColor: '#132B47',
                 border: `1px solid rgba(${rgb},0.08)`,
                 animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 50}ms both`,
               }}
@@ -1458,8 +1414,8 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: '#C7D2FE', fontFamily: 'Georgia, serif' }}>{fs.label}</p>
-              <p className="text-xs leading-relaxed" style={{ color: `rgba(${rgb},0.40)` }}>{fs.description}</p>
+              <p className="text-sm font-medium mb-1 text-blue-300">{fs.label}</p>
+              <p className="text-xs leading-relaxed text-gray-400">{fs.description}</p>
             </div>
           ))}
         </div>
@@ -1468,7 +1424,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Customer Service Roadmap Section ────────────────────────────
+// ─── Customer Service Roadmap Section (updated backgrounds) ──────
 
 const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1476,15 +1432,15 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   return (
     <section
       className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#020814', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `rgba(${rgb},0.45)` }}>
+        <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
           Customer Service Roadmap
         </p>
         <h2
-          className="font-light mb-10"
-          style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
+          className="font-light mb-10 text-white"
+          style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
           How we work<br />
           <span style={{ color: service.accentColor }}>together.</span>
@@ -1504,13 +1460,13 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
                 <div
                   className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10"
                   style={{
-                    background: '#020814',
+                    backgroundColor: '#132B47',
                     border: `1.5px solid rgba(${rgb},0.30)`,
                     animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
                   }}
                 >
                   <span
-                    style={{ color: service.accentColor, fontSize: '0.8rem', fontWeight: 700, fontFamily: 'Georgia, serif' }}
+                    style={{ color: service.accentColor, fontSize: '0.8rem', fontWeight: 700 }}
                   >
                     {step.step}
                   </span>
@@ -1524,10 +1480,10 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
                     animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
                   }}
                 >
-                  <p className="text-sm font-medium mb-1" style={{ color: '#C7D2FE', fontFamily: 'Georgia, serif' }}>
+                  <p className="text-sm font-medium mb-1 text-blue-300">
                     {step.title}
                   </p>
-                  <p className="text-sm leading-relaxed" style={{ color: `rgba(${rgb},0.40)` }}>
+                  <p className="text-sm leading-relaxed text-gray-400">
                     {step.description}
                   </p>
                 </div>
@@ -1540,7 +1496,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Targeted For + Outcome Banner ───────────────────────────────
+// ─── Targeted For + Outcome Banner (updated backgrounds) ─────────
 
 const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, onBuy }) => {
   const rgb = service.accentColorRgb;
@@ -1548,21 +1504,20 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
   return (
     <section
       className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#030B1A', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid sm:grid-cols-3 gap-6">
           {/* Who it's for */}
           <div
             className="sm:col-span-2 rounded-2xl p-8"
-            style={{ background: '#060C24', border: `1px solid rgba(${rgb},0.10)` }}
+            style={{ backgroundColor: '#132B47', border: `1px solid rgba(${rgb},0.10)` }}
           >
-            <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `rgba(${rgb},0.45)` }}>
+            <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
               Targeted for
             </p>
             <p
-              className="text-lg leading-relaxed font-light"
-              style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif' }}
+              className="text-lg leading-relaxed font-light text-white"
             >
               {service.targetedFor}
             </p>
@@ -1577,16 +1532,15 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
             }}
           >
             <div>
-              <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `rgba(${rgb},0.55)` }}>
+              <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
                 Investment
               </p>
               <p
-                className="text-3xl font-light mb-1"
-                style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif' }}
+                className="text-3xl font-light mb-1 text-white"
               >
                 {service.priceDisplay}
               </p>
-              <p className="text-xs mb-6" style={{ color: `rgba(${rgb},0.40)` }}>
+              <p className="text-xs mb-6 text-gray-400">
                 + GST · {service.duration}
               </p>
             </div>
@@ -1650,29 +1604,19 @@ export default function ServicePage({ service }: ServicePageProps): React.JSX.El
         html { scroll-behavior: smooth; }
       `}</style>
 
-     <main style={{ backgroundColor: "#020814", minHeight: "100vh" }}>
-  {service && (
-    <>
-      <PageHero service={service} onBuy={openModal} />
+      <main style={{ backgroundColor: "#0A1E3D", minHeight: "100vh" }}>
+        {service && (
+          <>
+            <PageHero service={service} onBuy={openModal} />
+            <CoreServicesSection service={service} />
+            {service.flexibleServices && <FlexibleServicesSection service={service} />}
+            <RoadmapSection service={service} />
+            <TargetBanner service={service} onBuy={openModal} />
+          </>
+        )}
+      </main>
 
-      <CoreServicesSection service={service} />
-
-      {service.flexibleServices && (
-        <FlexibleServicesSection service={service} />
-      )}
-
-      <RoadmapSection service={service} />
-
-      <TargetBanner service={service} onBuy={openModal} />
-    </>
-  )}
-</main>
-
-      <PurchaseModal
-        service={service}
-        isOpen={modalOpen}
-        onClose={closeModal}
-      />
+      <PurchaseModal service={service} isOpen={modalOpen} onClose={closeModal} />
     </>
   );
 }

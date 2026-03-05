@@ -12,9 +12,6 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [downloadTriggered, setDownloadTriggered] = useState(false);
 
-  const accentColor = '#3B4C6B';
-  const accentColorRgb = '59, 76, 107';
-
   // ---------- Safe defaults ----------
   const tags = Array.isArray(report?.tags) ? report.tags : [];
   const contentSections = Array.isArray(report?.contentSections)
@@ -84,12 +81,12 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
 
       <main className="bg-white min-h-screen">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-[#020814] to-[#0F1A2F] text-white overflow-hidden">
+        <section className="relative bg-[#0A1E3D] text-white overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full">
               <defs>
                 <pattern id="report-grid" patternUnits="userSpaceOnUse" width="40" height="40">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#report-grid)" />
@@ -106,22 +103,18 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
                   {tags.map((tag: string) => (
                     <span
                       key={tag}
-                      className="text-xs font-medium px-3 py-1 rounded-full"
-                      style={{
-                        backgroundColor: `rgba(${accentColorRgb}, 0.15)`,
-                        color: '#B3C7E5',
-                      }}
+                      className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight font-serif">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
                   {title}
                 </h1>
 
-                <p className="text-xl text-gray-300 font-light">
+                <p className="text-xl text-blue-300 font-light">
                   {subtitle}
                 </p>
 
@@ -141,7 +134,7 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
 
                 <button
                   onClick={openModal}
-                  className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white text-gray-900 font-semibold hover:bg-gray-100 transition-all shadow-lg"
+                  className="group inline-flex items-center gap-3 px-8 py-4 rounded-md border border-white  hover:bg-white text-white hover:text-[#0A1E3D] font-medium transition-all shadow-lg hover:shadow-xl"
                 >
                   Download Report
                 </button>
@@ -150,16 +143,14 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
               {/* Right column */}
               <div className="relative animate-fade-up-delay-1">
                 <div
-                  className="w-full aspect-[4/3] rounded-2xl bg-gray-800 border border-gray-700 flex items-center justify-center shadow-2xl"
-                  style={{ background: 'linear-gradient(145deg, #1E2A3A, #0F1A2F)' }}
+                  className="w-full aspect-[4/3] rounded-2xl bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-center">
-                    <p className="text-gray-500 font-mono text-sm">
-                      SBG Visual Placeholder
-                    </p>
-                    <p className="text-gray-700 text-xs mt-2">
-                      {featuredImagePlaceholder}
-                    </p>
+                    <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.618a2 2 0 011.105-1.79L9 2m0 0l5.447 2.724A2 2 0 0116 6.618v8.764a2 2 0 01-1.105 1.79L9 20m0 0V2" />
+                    </svg>
+                    <p className="text-blue-300/50 font-mono text-sm">SBG Visual Placeholder</p>
+                    <p className="text-blue-400/30 text-xs mt-2">{featuredImagePlaceholder}</p>
                   </div>
                 </div>
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
@@ -177,10 +168,7 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
                 idx === 0 ? 'animate-fade-up-delay-1' : 'animate-fade-up-delay-2'
               }`}
             >
-              <h2
-                className="text-2xl font-serif font-medium mb-4 text-gray-900 border-l-4 pl-4"
-                style={{ borderColor: accentColor }}
-              >
+              <h2 className="text-2xl font-medium mb-4 text-gray-900">
                 {section.heading}
               </h2>
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">
@@ -189,20 +177,7 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
             </section>
           ))}
 
-          {whatItDoesntCover.length > 0 && (
-            <section className="mt-12 p-6 bg-gray-50 rounded-xl border border-gray-200 animate-fade-up-delay-2">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">
-                What this report does NOT cover
-              </h3>
-              <ul className="space-y-2">
-                {whatItDoesntCover.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-gray-600">
-                    <span>• {item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          
         </article>
       </main>
 

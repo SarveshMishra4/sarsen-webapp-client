@@ -8,9 +8,6 @@ interface CaseStudyPageProps {
 }
 
 const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
-  const accentColor = '#3B4C6B'; // consistent with brand
-  const accentColorRgb = '59, 76, 107';
-
   // Helper to render paragraphs from a string (split by double newline or just newline)
   const renderParagraphs = (text: string) => {
     return text.split('\n').map((para, idx) => {
@@ -52,13 +49,13 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
 
       <main className="bg-white min-h-screen">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-[#020814] to-[#0F1A2F] text-white overflow-hidden">
+        <section className="relative bg-[#0A1E3D] text-white overflow-hidden">
           {/* Background grid */}
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full">
               <defs>
                 <pattern id="case-grid" patternUnits="userSpaceOnUse" width="40" height="40">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#case-grid)" />
@@ -72,8 +69,7 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
                 {/* Client and industry chips */}
                 <div className="flex flex-wrap gap-2">
                   <span
-                    className="text-xs font-medium px-3 py-1 rounded-full"
-                    style={{ backgroundColor: `rgba(${accentColorRgb}, 0.15)`, color: '#B3C7E5' }}
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800"
                   >
                     {study.industry}
                   </span>
@@ -87,11 +83,11 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight font-serif">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
                   {study.title}
                 </h1>
 
-                <p className="text-xl text-gray-300 font-light">
+                <p className="text-xl text-blue-300 font-light">
                   {study.subtitle}
                 </p>
 
@@ -100,18 +96,17 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
                 </p>
               </div>
 
-              {/* Right column: SBG Visual Placeholder */}
+              {/* Right column: SVG Visual Placeholder */}
               <div className="relative animate-fade-up-delay-1">
                 <div
-                  className="w-full aspect-[4/3] rounded-2xl bg-gray-800 border border-gray-700 flex items-center justify-center shadow-2xl"
-                  style={{ background: `linear-gradient(145deg, #1E2A3A, #0F1A2F)` }}
+                  className="w-full aspect-[4/3] rounded-2xl bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-center">
-                    <svg className="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.618a2 2 0 011.105-1.79L9 2m0 0l5.447 2.724A2 2 0 0116 6.618v8.764a2 2 0 01-1.105 1.79L9 20m0 0V2" />
                     </svg>
-                    <p className="text-gray-500 font-mono text-sm">SBG Visual Placeholder</p>
-                    <p className="text-gray-700 text-xs mt-2">{study.featuredImagePlaceholder}</p>
+                    <p className="text-blue-300/50 font-mono text-sm">SBG Visual Placeholder</p>
+                    <p className="text-blue-400/30 text-xs mt-2">{study.featuredImagePlaceholder}</p>
                   </div>
                 </div>
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
@@ -124,29 +119,29 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* Challenge */}
           <section className="mb-12 animate-fade-up-delay-1">
-            <h2 className="text-2xl font-serif font-medium mb-4 text-gray-900 border-l-4 pl-4" style={{ borderColor: `#${accentColor}` }}>The Challenge</h2>
+            <h2 className="text-2xl font-medium mb-4 text-gray-900">The Challenge</h2>
             <div className="prose prose-lg text-gray-700">{renderParagraphs(study.challenge)}</div>
           </section>
 
           {/* Approach */}
           <section className="mb-12 animate-fade-up-delay-1">
-            <h2 className="text-2xl font-serif font-medium mb-4 text-gray-900 border-l-4 pl-4" style={{ borderColor: `#${accentColor}` }}>Our Approach</h2>
+            <h2 className="text-2xl font-medium mb-4 text-gray-900">Our Approach</h2>
             <div className="prose prose-lg text-gray-700">{renderParagraphs(study.approach)}</div>
           </section>
 
           {/* Solution */}
           <section className="mb-12 animate-fade-up-delay-2">
-            <h2 className="text-2xl font-serif font-medium mb-4 text-gray-900 border-l-4 pl-4" style={{ borderColor: `#${accentColor}` }}>The Solution</h2>
+            <h2 className="text-2xl font-medium mb-4 text-gray-900">The Solution</h2>
             <div className="prose prose-lg text-gray-700">{renderParagraphs(study.solution)}</div>
           </section>
 
           {/* Results */}
           <section className="mb-12 animate-fade-up-delay-2">
-            <h2 className="text-2xl font-serif font-medium mb-4 text-gray-900 border-l-4 pl-4" style={{ borderColor: `#${accentColor}` }}>Results</h2>
+            <h2 className="text-2xl font-medium mb-4 text-gray-900">Results</h2>
             <ul className="space-y-2">
               {study.results.map((result, idx) => (
                 <li key={idx} className="flex items-start gap-3">
-                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-gray-800">{result}</span>

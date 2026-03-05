@@ -8,10 +8,6 @@ interface BlogPageProps {
 }
 
 const BlogPage: FC<BlogPageProps> = ({ post }) => {
-  // Accent color – we can use a consistent brand color, e.g., deep blue
-  const accentColor = '#3B4C6B'; // or from props if you want per‑post colors
-  const accentColorRgb = '59, 76, 107';
-
   return (
     <>
       <style>{`
@@ -26,13 +22,13 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
 
       <main className="bg-white min-h-screen">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-[#020814] to-[#0F1A2F] text-white overflow-hidden">
+        <section className="relative bg-[#0A1E3D] text-white overflow-hidden">
           {/* Background pattern (subtle) */}
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="blog-grid" patternUnits="userSpaceOnUse" width="40" height="40">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#blog-grid)" />
@@ -48,15 +44,14 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                   {post.tags.map(tag => (
                     <span
                       key={tag}
-                      className="text-xs font-medium px-3 py-1 rounded-full"
-                      style={{ backgroundColor: `rgba(${accentColorRgb}, 0.15)`, color: '#B3C7E5' }}
+                      className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight font-serif">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
                   {post.title}
                 </h1>
 
@@ -66,11 +61,11 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
 
                 {/* Author and meta */}
                 <div className="flex items-center gap-4 pt-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full bg-[#132B47] flex items-center justify-center text-white font-bold text-xl">
                     {post.author.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-medium">{post.author}</p>
+                    <p className="font-medium text-white">{post.author}</p>
                     {post.authorTitle && (
                       <p className="text-sm text-gray-400">{post.authorTitle}</p>
                     )}
@@ -86,15 +81,14 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
               {/* Right column: SBG Visual Placeholder */}
               <div className="relative animate-fade-up animation-delay-200">
                 <div
-                  className="w-full aspect-[4/3] rounded-2xl bg-gray-800 border border-gray-700 flex items-center justify-center shadow-2xl"
-                  style={{ background: `linear-gradient(145deg, #1E2A3A, #0F1A2F)` }}
+                  className="w-full aspect-[4/3] rounded-2xl bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-center">
-                    <svg className="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <p className="text-gray-500 font-mono text-sm">SBG Visual Placeholder</p>
-                    <p className="text-gray-700 text-xs mt-2">{post.featuredImagePlaceholder || 'Image'}</p>
+                    <p className="text-blue-300/50 font-mono text-sm">SBG Visual Placeholder</p>
+                    <p className="text-blue-400/30 text-xs mt-2">{post.featuredImagePlaceholder || 'Image'}</p>
                   </div>
                 </div>
                 {/* Decorative element */}
@@ -123,8 +117,8 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
             <span>Published by {post.author}</span>
             <div className="flex gap-4">
               {/* Placeholder for social share icons */}
-              <button className="hover:text-blue-600 transition">Share on LinkedIn</button>
-              <button className="hover:text-blue-600 transition">Share on Twitter</button>
+              <button className="hover:text-[#0A1E3D] transition">Share on LinkedIn</button>
+              <button className="hover:text-[#0A1E3D] transition">Share on Twitter</button>
             </div>
           </div>
         </article>

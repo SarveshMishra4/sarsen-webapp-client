@@ -19,14 +19,12 @@ interface Service {
   tag: string;
   targetedFor: string;
   coreServicesCount: number;
-  flexibleServicesCount: number | null; // null = not applicable
+  flexibleServicesCount: number | null;
   deliverables: string[];
   outcome: string;
   impactIndices: string[];
   featured?: boolean;
 }
-
-
 
 // =====================================================
 // SERVICES DATA — 8 packages from handbook
@@ -165,23 +163,22 @@ const ALL_SERVICES: Service[] = [
 ];
 
 // =====================================================
-// TAG COLOR MAP — navy/slate palette for services
-// Each tag has its own distinct accent
+// TAG COLOR MAP — blues from homepage palette
 // =====================================================
 
-const TAG_COLORS: Record<string, { bg: string; text: string; accent: string }> = {
-  Foundation:  { bg: 'rgba(99,102,241,0.12)',  text: '#A5B4FC', accent: '#6366F1' },
-  Validation:  { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9', accent: '#06B6D4' },
-  PMF:         { bg: 'rgba(52,211,153,0.10)',  text: '#6EE7B7', accent: '#10B981' },
-  GTM:         { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D', accent: '#F59E0B' },
-  Operations:  { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74', accent: '#F97316' },
-  Fundraising: { bg: 'rgba(167,139,250,0.12)', text: '#C4B5FD', accent: '#8B5CF6' },
-  Turnaround:  { bg: 'rgba(239,68,68,0.10)',   text: '#FCA5A5', accent: '#EF4444' },
-  Scale:       { bg: 'rgba(244,114,182,0.10)', text: '#F9A8D4', accent: '#EC4899' },
+const TAG_COLORS: Record<string, { bg: string; text: string }> = {
+  Foundation:  { bg: '#DBEAFE', text: '#1E40AF' },
+  Validation:  { bg: '#E0F2FE', text: '#0369A1' },
+  PMF:         { bg: '#E0E7FF', text: '#3730A3' },
+  GTM:         { bg: '#DBEAFE', text: '#1E40AF' },
+  Operations:  { bg: '#E6F0FF', text: '#1E3A8A' },
+  Fundraising: { bg: '#E0F2FE', text: '#0369A1' },
+  Turnaround:  { bg: '#E0E7FF', text: '#3730A3' },
+  Scale:       { bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const getTagStyle = (tag: string) =>
-  TAG_COLORS[tag] ?? { bg: 'rgba(99,102,241,0.10)', text: '#A5B4FC', accent: '#6366F1' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 // =====================================================
 // ALL FILTER TAGS
@@ -194,8 +191,6 @@ const ALL_TAGS: string[] = [
 
 // =====================================================
 // NAVIGATION HELPER
-// Routes to /services/[slug] using Next.js router or
-// falls back to window.location for plain React setups.
 // =====================================================
 
 const navigateToService = (slug: string): void => {
@@ -203,97 +198,67 @@ const navigateToService = (slug: string): void => {
 };
 
 // =====================================================
-// HERO SECTION
-// Deep navy/charcoal — services identity.
-// Same two-column layout as all other hubs.
+// HERO SECTION — dark blue background
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#020814', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background dot grid */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#6366F1" />
+            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dots)" />
       </svg>
-      {/* Indigo radial glow — top right */}
       <div
         className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(49,46,129,0.28) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)' }}
       />
-      {/* Deep blue glow — bottom left */}
       <div
         className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(30,27,100,0.14) 0%, transparent 65%)' }}
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)' }}
       />
     </div>
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-        {/* LEFT */}
         <div className="space-y-8">
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
             style={{
-              backgroundColor: 'rgba(99,102,241,0.06)',
-              border: '1px solid rgba(99,102,241,0.18)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              border: '1px solid rgba(59,130,246,0.16)',
             }}
           >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#818CF8' }} />
-            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#818CF8' }}>
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
+            <span className="text-xs font-medium tracking-widest  text-blue-300">
               Sarsen &amp; Company · Services
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#EEF2FF',
-                fontFamily: "'Georgia', 'Times New Roman', serif",
-              }}
+              className="font-light leading-none tracking-tight text-white"
+              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Structured
               <br />
-              <span style={{ color: '#818CF8' }}>Strategy.</span>
+              <span className="text-blue-300">Strategy.</span>
             </h1>
-            <p
-              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
-              style={{ color: '#1E1B5C' }}
-            >
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               Eight productised consulting packages — each scoped, repeatable, and built around a specific founder inflection point. Every engagement starts with Package 0.
             </p>
           </div>
 
-          {/* Global delivery rules — surfaced as stats */}
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '8',      label: 'Packages'             },
-              { value: 'Fixed',  label: 'Core scope, always'   },
-              { value: '2–3',    label: 'Flex services / pkg'  },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl font-light" style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif' }}>
-                  {stat.value}
-                </p>
-                <p className="text-xs tracking-widest uppercase mt-0.5" style={{ color: '#312E81' }}>
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
+          
         </div>
 
-        {/* RIGHT — package journey / progression visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
@@ -301,7 +266,6 @@ const HeroSection: FC = () => (
         >
           <div className="relative w-full max-w-lg h-full flex items-center justify-center">
             <div className="relative">
-              {/* Shadow stacks */}
               {[3, 2, 1].map((layer) => (
                 <div
                   key={layer}
@@ -311,45 +275,42 @@ const HeroSection: FC = () => (
                     height: '300px',
                     top: layer * 8,
                     left: layer * 8,
-                    backgroundColor: `rgba(49,46,129,${0.05 * layer})`,
-                    border: `1px solid rgba(99,102,241,${0.04 * layer})`,
+                    backgroundColor: `rgba(19,43,71,${0.05 * layer})`,
+                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
                   }}
                 />
               ))}
-              {/* Front — package progression card */}
               <div
                 className="relative rounded-xl overflow-hidden"
                 style={{
                   width: '260px',
                   height: '300px',
-                  backgroundColor: '#060C24',
-                  border: '1px solid rgba(99,102,241,0.20)',
+                  backgroundColor: '#132B47',
+                  border: '1px solid rgba(59,130,246,0.20)',
                 }}
               >
-                {/* Header */}
                 <div
                   className="h-12 px-5 flex items-center justify-between"
-                  style={{ backgroundColor: 'rgba(49,46,129,0.55)' }}
+                  style={{ backgroundColor: '#0A1E3D' }}
                 >
-                  <div className="w-16 h-2 rounded-full" style={{ backgroundColor: 'rgba(129,140,248,0.40)' }} />
+                  <div className="w-16 h-2 rounded-full bg-blue-800/40" />
                   <div
-                    className="text-xs px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}
+                    className="text-sm px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#93C5FD' }}
                   >
                     8 packages
                   </div>
                 </div>
-                {/* Package step rows */}
                 <div className="px-5 pt-4 space-y-2.5">
                   {[
-                    { num: '0', label: 'Diagnostic', color: '#6366F1', w: '100%' },
-                    { num: '1', label: 'Validation',  color: '#06B6D4', w: '80%'  },
-                    { num: '2', label: 'PMF Clarity', color: '#10B981', w: '72%'  },
-                    { num: '3', label: 'GTM',         color: '#F59E0B', w: '85%'  },
-                    { num: '4', label: 'Operations',  color: '#F97316', w: '68%'  },
-                    { num: '5', label: 'Fundraising', color: '#8B5CF6', w: '90%'  },
-                    { num: '6', label: 'Turnaround',  color: '#EF4444', w: '60%'  },
-                    { num: '7', label: 'Scale',       color: '#EC4899', w: '78%'  },
+                    { num: '0', label: 'Diagnostic', color: '#3B82F6', w: '100%' },
+                    { num: '1', label: 'Validation',  color: '#60A5FA', w: '80%'  },
+                    { num: '2', label: 'PMF Clarity', color: '#93C5FD', w: '72%'  },
+                    { num: '3', label: 'GTM',         color: '#3B82F6', w: '85%'  },
+                    { num: '4', label: 'Operations',  color: '#60A5FA', w: '68%'  },
+                    { num: '5', label: 'Fundraising', color: '#93C5FD', w: '90%'  },
+                    { num: '6', label: 'Turnaround',  color: '#3B82F6', w: '60%'  },
+                    { num: '7', label: 'Scale',       color: '#60A5FA', w: '78%'  },
                   ].map((row) => (
                     <div key={row.num} className="flex items-center gap-2.5">
                       <div
@@ -377,18 +338,16 @@ const HeroSection: FC = () => (
 
 // =====================================================
 // GLOBAL DELIVERY RULES BANNER
-// Shown below hero — sets expectations once for all
-// packages. Distinctive to the services hub.
 // =====================================================
 
 const DeliveryRulesBanner: FC = () => (
   <div
-    className="border-y"
-    style={{ backgroundColor: '#060C24', borderColor: 'rgba(99,102,241,0.10)' }}
+    className="border-y bg-white"
+    style={{ borderColor: '#E5E7EB' }}
   >
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
       <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
-        <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#4338CA' }}>
+        <p className="text-xs font-medium tracking-widest  text-gray-500">
           Global Delivery Rules
         </p>
         {[
@@ -398,8 +357,8 @@ const DeliveryRulesBanner: FC = () => (
           { icon: '→', label: 'Every package follows a chronological customer service roadmap' },
         ].map((rule) => (
           <div key={rule.label} className="flex items-center gap-2">
-            <span style={{ color: '#4338CA', fontSize: '10px' }}>{rule.icon}</span>
-            <span className="text-xs" style={{ color: '#2D2A70' }}>{rule.label}</span>
+            <span className="text-gray-400 text-xs">{rule.icon}</span>
+            <span className="text-xs text-gray-600">{rule.label}</span>
           </div>
         ))}
       </div>
@@ -426,7 +385,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
       const style    = tag === 'All'
-        ? { bg: 'rgba(99,102,241,0.10)', text: '#818CF8', accent: '#6366F1' }
+        ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
 
       return (
@@ -434,10 +393,10 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
-              ? { backgroundColor: '#1E1B58', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.38)' }
+              ? { backgroundColor: '#132B47', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
               : { backgroundColor: style.bg, color: style.text, border: '1px solid transparent', opacity: 0.65 }
           }
           aria-pressed={isActive}
@@ -451,6 +410,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 
 // =====================================================
 // FEATURED SERVICE CARD — full width, Package 0
+// Dark blue background with light text
 // =====================================================
 
 interface FeaturedServiceCardProps {
@@ -466,16 +426,15 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      style={{ backgroundColor: '#060C24', border: '1px solid rgba(99,102,241,0.12)' }}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
       aria-label={`View package: ${service.title}`}
     >
       {/* Header */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #1E1B58 0%, #060C24 65%)' }}
+        style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
-        {/* Decorative corner stacks */}
         <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
           {[3, 2, 1].map((l) => (
             <div
@@ -487,22 +446,16 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
                 right: `${20 + (3 - l) * 12}px`,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                border: `1px solid rgba(99,102,241,${0.05 * l})`,
-                backgroundColor: `rgba(49,46,129,${0.04 * l})`,
+                border: `1px solid rgba(59,130,246,${0.05 * l})`,
+                backgroundColor: `rgba(19,43,71,${0.04 * l})`,
               }}
             />
           ))}
         </div>
 
-        {/* Package number — large ghost text */}
         <div
           className="absolute right-8 top-1/2 -translate-y-1/2 font-light select-none"
-          style={{
-            fontSize: '8rem',
-            color: 'rgba(99,102,241,0.06)',
-            fontFamily: 'Georgia, serif',
-            lineHeight: 1,
-          }}
+          style={{ fontSize: '8rem', color: 'rgba(59,130,246,0.06)', lineHeight: 1 }}
           aria-hidden="true"
         >
           {service.packageNumber.split(' ')[1]}
@@ -515,47 +468,36 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
           >
             {service.tag}
           </span>
+          
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: 'rgba(255,255,255,0.04)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.16)' }}
-          >
-            {service.packageNumber}
-          </span>
-          <span
-            className="px-3 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: 'rgba(99,102,241,0.08)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.14)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.14)' }}
           >
             Compulsory Entry
           </span>
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
-        <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#312E81' }}>
+        <p className="text-xs tracking-widest  mb-2 text-blue-300/70">
           {service.tagline}
         </p>
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-indigo-300 transition-colors duration-200"
-          style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
-            color: '#E0E7FF',
-            fontFamily: 'Georgia, serif',
-          }}
+          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {service.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ color: '#1E1B5C' }}>
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
           {service.excerpt}
         </p>
 
-        {/* Deliverables */}
         <div className="flex flex-wrap gap-2 mb-6">
           {service.deliverables.map((d) => (
             <span
               key={d}
               className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: 'rgba(49,46,129,0.35)', color: '#6366F1' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {d}
             </span>
@@ -565,21 +507,20 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="#6366F1" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-xs" style={{ color: '#4338CA' }}>
+              <span className="text-xs text-gray-400">
                 {service.coreServicesCount} core services
               </span>
             </div>
-            <span className="text-xs" style={{ color: '#1E1B58' }}>
+            <span className="text-xs text-gray-500">
               {service.outcome}
             </span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
-            style={{ color: '#818CF8' }}
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
           >
             View this package
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -594,8 +535,7 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
 
 // =====================================================
 // STANDARD SERVICE CARD — 3-column grid
-// Each card shows: package number ghost, tag, core
-// count, flex count, deliverables, outcome, CTA
+// Dark blue background with light text
 // =====================================================
 
 interface ServiceCardProps {
@@ -612,34 +552,26 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-indigo-400 flex flex-col"
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col"
       style={{
-        backgroundColor: '#060C24',
-        border: '1px solid rgba(99,102,241,0.08)',
+        backgroundColor: '#0A1E3D',
+        border: '1px solid rgba(59,130,246,0.08)',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 55}ms both`,
       }}
       aria-label={`View package: ${service.title}`}
     >
-      {/* Top accent line — each tag colour */}
       <div
         className="h-0.5 w-full"
-        style={{ background: `linear-gradient(90deg, ${tagStyle.accent}50, transparent)` }}
+        style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
       />
 
-      {/* Header band */}
       <div
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
-        style={{ background: 'linear-gradient(155deg, #1E1B58 0%, #060C24 100%)' }}
+        style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
-        {/* Ghost package number */}
         <div
           className="absolute right-4 top-1/2 -translate-y-1/2 font-light select-none"
-          style={{
-            fontSize: '4.5rem',
-            color: 'rgba(99,102,241,0.07)',
-            fontFamily: 'Georgia, serif',
-            lineHeight: 1,
-          }}
+          style={{ fontSize: '4.5rem', color: 'rgba(59,130,246,0.07)', lineHeight: 1 }}
           aria-hidden="true"
         >
           {service.packageNumber.split(' ')[1]}
@@ -652,73 +584,54 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
           >
             {service.tag}
           </span>
-          <span
-            className="px-2 py-0.5 rounded-full text-xs"
-            style={{ backgroundColor: 'rgba(99,102,241,0.06)', color: '#6366F1', border: '1px solid rgba(99,102,241,0.12)' }}
-          >
-            {service.packageNumber}
-          </span>
+          
         </div>
 
-        {/* Enquire arrow */}
         <div className="absolute top-4 right-4 z-10 opacity-20 group-hover:opacity-60 transition-opacity" aria-hidden="true">
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#818CF8" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
+          
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-5 py-4 flex flex-col flex-1">
-        <p className="text-xs tracking-widest uppercase mb-1.5" style={{ color: '#2D2A70' }}>
+        <p className="text-sm   mb-1.5 text-blue-300/70">
           {service.tagline}
         </p>
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-indigo-300 transition-colors duration-200 line-clamp-2"
-          style={{ color: '#C7D2FE', fontSize: '0.9rem', fontFamily: 'Georgia, serif' }}
+          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
         >
           {service.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-3" style={{ color: '#1E1B5C' }}>
+        <p className="text-xs leading-relaxed mb-4 line-clamp-3 text-gray-400">
           {service.excerpt}
         </p>
 
-        {/* Deliverables — compact pills */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {service.deliverables.map((d) => (
             <span
               key={d}
               className="px-2 py-0.5 rounded text-xs"
-              style={{ backgroundColor: 'rgba(49,46,129,0.30)', color: '#4338CA' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {d}
             </span>
           ))}
         </div>
 
-        {/* Outcome callout */}
-        <p className="text-xs italic mb-4 flex-1" style={{ color: '#312E81' }}>
+        <p className="text-xs  mb-4 flex-1 text-gray-500">
           ✦ {service.outcome}
         </p>
 
-        {/* Footer */}
         <div
           className="flex items-center justify-between pt-3 mt-auto"
-          style={{ borderTop: '1px solid rgba(99,102,241,0.07)' }}
         >
           <div className="flex items-center gap-3">
-            <span className="text-xs" style={{ color: '#2D2A70' }}>
-              {service.coreServicesCount} core
+            <span className="text-xs text-gray-400">
+              {service.coreServicesCount} Modules
             </span>
-            {service.flexibleServicesCount !== null ? (
-              <span className="text-xs" style={{ color: '#1E1B58' }}>
-                {service.flexibleServicesCount} flex
-              </span>
-            ) : (
-              <span className="text-xs" style={{ color: '#1E1B58' }}>Fixed scope</span>
-            )}
+            
           </div>
-          <span className="text-xs" style={{ color: '#1E1B58' }}>
+          <span className="text-xs text-gray-500">
             {service.targetedFor.length > 30
               ? service.targetedFor.slice(0, 30) + '…'
               : service.targetedFor}
@@ -730,11 +643,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
 };
 
 // =====================================================
-// PACKAGE JOURNEY STRIP
-// Horizontal ordered flow of all 8 packages.
-// Inserted between batch 1 (Package 0 featured +
-// Packages 1–3) and batch 2 (Packages 4–7).
-// Unique to the services hub — explains the system.
+// PACKAGE JOURNEY STRIP — white background (already light)
 // =====================================================
 
 interface PackageJourneyStripProps {
@@ -743,34 +652,30 @@ interface PackageJourneyStripProps {
 
 const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#040A1C', border: '1px solid rgba(99,102,241,0.10)' }}
+    className="my-12 rounded-2xl overflow-hidden bg-white border border-gray-200"
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(99,102,241,0.10)' }}
+            className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-50"
           >
-            <svg className="w-4 h-4" fill="none" stroke="#818CF8" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#818CF8' }}>
+            <p className="text-xs font-medium tracking-widest  text-gray-500">
               The Package Journey
             </p>
-            <p className="text-sm font-light" style={{ color: '#1E1B58' }}>
+            <p className="text-sm font-light text-gray-600">
               Every engagement starts with Package 0 — then moves to where you need to go.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Journey flow — horizontal scroll on mobile */}
       <div
         className="flex items-start gap-0 overflow-x-auto pb-2"
         style={{ scrollbarWidth: 'none' } as React.CSSProperties}
@@ -779,7 +684,6 @@ const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
           const tagStyle = getTagStyle(service.tag);
           return (
             <React.Fragment key={service.id}>
-              {/* Package node */}
               <div
                 onClick={() => navigateToService(service.slug)}
                 role="button"
@@ -788,41 +692,36 @@ const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
                 className="group cursor-pointer flex-shrink-0 flex flex-col items-center text-center w-28 focus:outline-none"
                 aria-label={`Go to ${service.title}`}
               >
-                {/* Number circle */}
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-200 group-hover:scale-110"
                   style={{
-                    backgroundColor: `${tagStyle.accent}18`,
-                    border: `1.5px solid ${tagStyle.accent}35`,
+                    backgroundColor: `${tagStyle.text}18`,
+                    border: `1.5px solid ${tagStyle.text}35`,
                   }}
                 >
                   <span
                     className="text-sm font-semibold"
-                    style={{ color: tagStyle.text, fontFamily: 'Georgia, serif' }}
+                    style={{ color: tagStyle.text }}
                   >
                     {service.id}
                   </span>
                 </div>
-                {/* Tag pill */}
                 <span
                   className="px-2 py-0.5 rounded-full text-xs font-semibold mb-1"
                   style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
                 >
                   {service.tag}
                 </span>
-                {/* Short title */}
                 <p
-                  className="text-xs leading-snug group-hover:opacity-100 transition-opacity"
-                  style={{ color: '#2D2A70', opacity: 0.7, fontSize: '10px' }}
+                  className="text-xs leading-snug group-hover:opacity-100 transition-opacity text-gray-500"
+                  style={{ fontSize: '10px' }}
                 >
                   {service.title.split(':')[0].split('&')[0].trim()}
                 </p>
               </div>
-
-              {/* Arrow connector (not after last) */}
               {i < services.length - 1 && (
                 <div className="flex-shrink-0 flex items-start pt-4 px-1">
-                  <svg className="w-4 h-4" fill="none" stroke="#1E1B58" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
@@ -847,13 +746,11 @@ export default function ServicesHubPage(): React.JSX.Element {
       ? ALL_SERVICES
       : ALL_SERVICES.filter((s) => s.tag === activeTag);
 
-  const featured: Service | undefined = ALL_SERVICES[0]; // Package 0 always featured
+  const featured: Service | undefined = ALL_SERVICES[0];
   const gridServices: Service[]       = filteredServices.filter((s) => s.id !== 0);
 
-  // For the journey strip — always show all 8 regardless of filter
   const showJourneyStrip = activeTag === 'All';
 
-  // Split grid: first 3 before strip, rest after
   const beforeStrip: Service[] = gridServices.slice(0, 3);
   const afterStrip:  Service[] = gridServices.slice(3);
 
@@ -881,37 +778,37 @@ export default function ServicesHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#020814' }}>
+      <main className="min-h-screen bg-white">
 
-        {/* ── Hero ─────────────────────────────────── */}
+        {/* Hero */}
         <HeroSection />
 
-        {/* ── Global Delivery Rules Banner ─────────── */}
-        <DeliveryRulesBanner />
+        {/* Global Delivery Rules Banner */}
+        {/* <DeliveryRulesBanner /> */}
 
-        {/* ── Content Area ─────────────────────────── */}
+        {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#1E1B5C' }}>
+            <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredServices.length}{' '}
               {filteredServices.length !== 1 ? 'packages' : 'package'}
               {activeTag !== 'All' && (
-                <> in <em style={{ color: '#818CF8' }}>{activeTag}</em></>
+                <> in <em className="text-blue-600">{activeTag}</em></>
               )}
             </p>
           </div>
 
-          {/* ── Package 0 featured (always shown when filtering All or Foundation) ── */}
+          {/* Package 0 featured */}
           {(activeTag === 'All' || activeTag === 'Foundation') && featured && (
             <div className="mb-8">
               <FeaturedServiceCard service={featured} />
             </div>
           )}
 
-          {/* ── First 3 grid cards ───────────────────── */}
+          {/* First 3 grid cards */}
           {beforeStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {beforeStrip.map((service, i) => (
@@ -920,12 +817,12 @@ export default function ServicesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Package Journey Strip ─────────────────── */}
+          {/* Package Journey Strip
           {showJourneyStrip && (
             <PackageJourneyStrip services={ALL_SERVICES} />
-          )}
+          )} */}
 
-          {/* ── Remaining grid cards ─────────────────── */}
+          {/* Remaining grid cards */}
           {afterStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {afterStrip.map((service, i) => (
@@ -934,18 +831,17 @@ export default function ServicesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Empty state ──────────────────────────── */}
+          {/* Empty state */}
           {filteredServices.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📦</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#E0E7FF' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No packages in &ldquo;{activeTag}&rdquo;
               </p>
-              <p className="text-sm" style={{ color: '#1E1B5C' }}>
+              <p className="text-sm text-gray-500">
                 <button
                   type="button"
-                  className="underline"
-                  style={{ color: '#818CF8' }}
+                  className="underline text-blue-600"
                   onClick={() => setActiveTag('All')}
                 >
                   View all packages
@@ -954,10 +850,10 @@ export default function ServicesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── End note ─────────────────────────────── */}
+          {/* End note */}
           {filteredServices.length > 0 && (
             <div className="flex justify-center py-12">
-              <p className="text-sm text-center max-w-md" style={{ color: '#1E1B58' }}>
+              <p className="text-sm text-center max-w-md text-gray-500">
                 All packages are scoped, repeatable, and delivered with a defined customer service roadmap.
                 Every engagement begins with Package 0.
               </p>

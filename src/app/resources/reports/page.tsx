@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, {
@@ -15,7 +16,6 @@ import React, {
 // TYPE DEFINITIONS
 // =====================================================
 
-/** A single report item */
 interface Report {
   id: number;
   title: string;
@@ -28,7 +28,6 @@ interface Report {
   featured?: boolean;
 }
 
-/** Case study teaser shown in advertisement strip */
 interface CaseStudyTeaser {
   title: string;
   tag: string;
@@ -37,7 +36,6 @@ interface CaseStudyTeaser {
   year: string;
 }
 
-/** Blog teaser shown in advertisement strip */
 interface BlogTeaser {
   title: string;
   tag: string;
@@ -45,13 +43,11 @@ interface BlogTeaser {
   date: string;
 }
 
-/** Partner auth modal state */
 interface ModalState {
   open: boolean;
   title: string;
 }
 
-/** Partner auth form fields */
 interface PartnerFormData {
   partnerId: string;
   password: string;
@@ -519,6 +515,7 @@ const ALL_REPORTS: Report[] = [
   },
 ];
 
+
 const BATCH_SIZE = 25;
 
 // =====================================================
@@ -555,34 +552,30 @@ const FEATURED_BLOGS: BlogTeaser[] = [
   },
 ];
 
-const BATCH_SIZE_CONST = BATCH_SIZE;
-
 // =====================================================
-// TAG COLOR MAP
-// Emerald-anchored palette — distinct from navy (case
-// studies) and parchment (blogs) identities.
+// TAG COLOR MAP — blues from homepage palette
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  'Annual Report':    { bg: 'rgba(52,211,153,0.12)',  text: '#6EE7B7' },
-  'Sector Report':    { bg: 'rgba(96,165,250,0.10)',  text: '#93C5FD' },
-  'Research':         { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D' },
-  'Digest':           { bg: 'rgba(167,139,250,0.10)', text: '#C4B5FD' },
-  'Benchmarks':       { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
-  'Index':            { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC' },
-  'Longitudinal':     { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74' },
-  'Framework':        { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5' },
-  'Deep Dive':        { bg: 'rgba(129,140,248,0.10)', text: '#A5B4FC' },
-  'Emerging Markets': { bg: 'rgba(52,211,153,0.08)',  text: '#34D399' },
-  'Regulatory':       { bg: 'rgba(251,191,36,0.08)',  text: '#F59E0B' },
-  'Sector Map':       { bg: 'rgba(96,165,250,0.08)',  text: '#60A5FA' },
-  'Ecosystem':        { bg: 'rgba(34,211,238,0.08)',  text: '#06B6D4' },
-  'Fundraising':      { bg: 'rgba(167,139,250,0.08)', text: '#A78BFA' },
-  'Consumer Research':{ bg: 'rgba(251,146,60,0.08)',  text: '#FB923C' },
+  'Annual Report':    { bg: '#DBEAFE', text: '#1E40AF' },
+  'Sector Report':    { bg: '#E0F2FE', text: '#0369A1' },
+  'Research':         { bg: '#E6F0FF', text: '#1E3A8A' },
+  'Digest':           { bg: '#DBEAFE', text: '#1E40AF' },
+  'Benchmarks':       { bg: '#E0F2FE', text: '#0369A1' },
+  'Index':            { bg: '#E0E7FF', text: '#3730A3' },
+  'Longitudinal':     { bg: '#E6F0FF', text: '#1E3A8A' },
+  'Framework':        { bg: '#DBEAFE', text: '#1E40AF' },
+  'Deep Dive':        { bg: '#E0F2FE', text: '#0369A1' },
+  'Emerging Markets': { bg: '#E6F0FF', text: '#1E3A8A' },
+  'Regulatory':       { bg: '#E0E7FF', text: '#3730A3' },
+  'Sector Map':       { bg: '#DBEAFE', text: '#1E40AF' },
+  'Ecosystem':        { bg: '#E0F2FE', text: '#0369A1' },
+  'Fundraising':      { bg: '#E6F0FF', text: '#1E3A8A' },
+  'Consumer Research':{ bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: 'rgba(52,211,153,0.10)', text: '#6EE7B7' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 // =====================================================
 // ALL FILTER TAGS
@@ -595,8 +588,7 @@ const ALL_TAGS: string[] = [
 ];
 
 // =====================================================
-// PARTNER AUTH MODAL
-// Identical design language to all other hub pages.
+// PARTNER AUTH MODAL — matches homepage modal
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -610,11 +602,11 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
   onClose,
   resourceTitle,
 }) => {
-  const [formData, setFormData]         = useState<PartnerFormData>({ partnerId: '', password: '' });
+  const [formData, setFormData] = useState<PartnerFormData>({ partnerId: '', password: '' });
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading]           = useState<boolean>(false);
-  const [error, setError]               = useState<string>('');
-  const [success, setSuccess]           = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -649,7 +641,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ backgroundColor: 'rgba(2, 12, 8, 0.82)' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
       onClick={handleBackdropClick}
     >
       <div
@@ -658,43 +650,27 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
       >
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
 
-          {/* Header */}
-          <div className="bg-[#002855] px-8 py-6 relative">
+          {/* Modal Header — plain, no gradient */}
+          <div className="px-8 py-6 relative border-b border-gray-200">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
-                Partner Access
-              </span>
-            </div>
-
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
-            <p className="text-blue-200 text-sm mt-1 truncate">
-              Accessing:{' '}
-              <span className="text-white font-medium">{resourceTitle}</span>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to download: <span className="font-medium text-gray-700">{resourceTitle}</span>
             </p>
           </div>
 
-          {/* Body */}
+          {/* Modal Body */}
           <div className="px-8 py-8">
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
-
                 {error && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -703,11 +679,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     <p className="text-sm text-red-700">{error}</p>
                   </div>
                 )}
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Partner ID
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
                   <input
                     type="text"
                     value={formData.partnerId}
@@ -720,11 +693,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     autoComplete="username"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Password
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -750,8 +720,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                         </svg>
                       ) : (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -759,7 +728,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     </button>
                   </div>
                 </div>
-
                 <button
                   type="submit"
                   disabled={loading}
@@ -779,33 +747,27 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     'Download Report'
                   )}
                 </button>
-
                 <p className="text-center text-xs text-gray-400 pt-1">
                   Don&apos;t have a Partner ID?{' '}
-                  <a href="#" className="text-blue-600 hover:underline">
-                    Request Access
-                  </a>
+                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
                 </p>
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
                 <p className="text-gray-500 text-sm">
-                  Preparing{' '}
-                  <span className="font-medium text-gray-700">{resourceTitle}</span>{' '}
-                  for download…
+                  Preparing <span className="font-medium text-gray-700">{resourceTitle}</span> for download…
                 </p>
               </div>
             )}
           </div>
         </div>
-
-        <p className="text-center text-xs mt-4" style={{ color: 'rgba(100,200,140,0.25)' }}>
+        <p className="text-center text-sm mt-4 text-gray-400">
           Partner access is monitored and logged for security purposes.
         </p>
       </div>
@@ -814,41 +776,31 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 };
 
 // =====================================================
-// HERO SECTION
-// Deep forest green — research / scholarly identity.
-// Distinctly different from navy (case studies) and
-// warm parchment (blogs).
-// Right side: SVG visual placeholder.
+// HERO SECTION — colors updated to homepage palette
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#030D08', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: fine isometric dot grid */}
+    {/* Background: fine dot grid using blue-300 */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#34D399" />
+            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dots)" />
       </svg>
-      {/* Emerald radial glow — top right */}
       <div
         className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at top right, rgba(6,95,70,0.22) 0%, transparent 60%)',
-        }}
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)' }}
       />
-      {/* Deep teal glow — bottom left */}
       <div
         className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at bottom left, rgba(4,120,87,0.10) 0%, transparent 65%)',
-        }}
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)' }}
       />
     </div>
 
@@ -860,39 +812,26 @@ const HeroSection: FC = () => (
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
             style={{
-              backgroundColor: 'rgba(52,211,153,0.06)',
-              border: '1px solid rgba(52,211,153,0.16)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              border: '1px solid rgba(59,130,246,0.16)',
             }}
           >
-            <div
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: '#34D399' }}
-            />
-            <span
-              className="text-xs font-medium tracking-widest uppercase"
-              style={{ color: '#34D399' }}
-            >
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
+            <span className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Sarsen &amp; Company · Reports
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#ECFDF5',
-                fontFamily: "'Georgia', 'Times New Roman', serif",
-              }}
+              className="font-light leading-none tracking-tight text-white"
+              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Original
               <br />
-              <span style={{ color: '#34D399' }}>Research.</span>
+              <span className="text-blue-300">Research.</span>
             </h1>
-            <p
-              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
-              style={{ color: '#1F5C42' }}
-            >
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               Data-backed analysis on India&apos;s startup ecosystem — annual reports, sector deep-dives, benchmarks, and frameworks built for founders who make decisions with evidence.
             </p>
           </div>
@@ -905,38 +844,22 @@ const HeroSection: FC = () => (
               { value: '5,000+', label: 'Companies studied'},
             ].map((stat) => (
               <div key={stat.label}>
-                <p
-                  className="text-2xl font-light"
-                  style={{ color: '#ECFDF5', fontFamily: 'Georgia, serif' }}
-                >
-                  {stat.value}
-                </p>
-                <p
-                  className="text-xs tracking-widest uppercase mt-0.5"
-                  style={{ color: '#064E3B' }}
-                >
-                  {stat.label}
-                </p>
+                <p className="text-2xl font-light text-white">{stat.value}</p>
+                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* RIGHT — SVG visual placeholder */}
-        {/*
-          INTEGRATION NOTE:
-          Replace the decorative element below with:
-          <img src="/assets/reports/Hero Visual.svg" alt="" className="max-w-full h-auto" />
-        */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
           <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Stacked document motif */}
+            {/* Stacked document motif in blue tones */}
             <div className="relative">
-              {/* Shadow stacks */}
               {[3, 2, 1].map((layer) => (
                 <div
                   key={layer}
@@ -946,32 +869,26 @@ const HeroSection: FC = () => (
                     height: '300px',
                     top: layer * 8,
                     left: layer * 8,
-                    backgroundColor: `rgba(6,78,59,${0.06 * layer})`,
-                    border: `1px solid rgba(52,211,153,${0.04 * layer})`,
+                    backgroundColor: `rgba(19,43,71,${0.06 * layer})`,
+                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
                   }}
                 />
               ))}
-              {/* Front document */}
               <div
                 className="relative rounded-xl overflow-hidden"
                 style={{
                   width: '240px',
                   height: '300px',
-                  backgroundColor: '#062818',
-                  border: '1px solid rgba(52,211,153,0.18)',
+                  backgroundColor: '#132B47',
+                  border: '1px solid rgba(59,130,246,0.18)',
                 }}
               >
-                {/* Document header band */}
                 <div
                   className="h-12 px-5 flex items-center"
-                  style={{ backgroundColor: 'rgba(6,95,70,0.6)' }}
+                  style={{ backgroundColor: '#0A1E3D' }}
                 >
-                  <div
-                    className="w-16 h-2 rounded-full"
-                    style={{ backgroundColor: 'rgba(52,211,153,0.40)' }}
-                  />
+                  <div className="w-16 h-2 rounded-full bg-blue-800/40" />
                 </div>
-                {/* Document body lines */}
                 <div className="px-5 py-5 space-y-3">
                   {[80, 65, 72, 50, 68, 45, 60].map((w, i) => (
                     <div
@@ -980,11 +897,10 @@ const HeroSection: FC = () => (
                       style={{
                         height: '6px',
                         width: `${w}%`,
-                        backgroundColor: `rgba(52,211,153,${0.06 + i * 0.02})`,
+                        backgroundColor: `rgba(59,130,246,${0.06 + i * 0.02})`,
                       }}
                     />
                   ))}
-                  {/* Chart bar group */}
                   <div className="flex items-end gap-2 pt-3">
                     {[55, 75, 45, 90, 60, 80].map((h, i) => (
                       <div
@@ -992,7 +908,7 @@ const HeroSection: FC = () => (
                         className="flex-1 rounded-t-sm"
                         style={{
                           height: `${h * 0.5}px`,
-                          backgroundColor: `rgba(52,211,153,${0.12 + i * 0.04})`,
+                          backgroundColor: `rgba(59,130,246,${0.12 + i * 0.04})`,
                         }}
                       />
                     ))}
@@ -1010,7 +926,6 @@ const HeroSection: FC = () => (
 
 // =====================================================
 // TAG FILTER BAR
-// Emerald-toned — scrollable, accessible.
 // =====================================================
 
 interface TagFilterBarProps {
@@ -1028,7 +943,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
       const style    = tag === 'All'
-        ? { bg: 'rgba(52,211,153,0.10)', text: '#34D399' }
+        ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
 
       return (
@@ -1036,13 +951,13 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
               ? {
-                  backgroundColor: '#065F46',
-                  color: '#34D399',
-                  border: '1px solid rgba(52,211,153,0.35)',
+                  backgroundColor: '#132B47',
+                  color: '#93C5FD',
+                  border: '1px solid rgba(59,130,246,0.40)',
                 }
               : {
                   backgroundColor: style.bg,
@@ -1062,8 +977,6 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 
 // =====================================================
 // FEATURED REPORT CARD
-// Full-width — used for the very first report.
-// Emphasises page count, date, and a document icon.
 // =====================================================
 
 interface FeaturedReportCardProps {
@@ -1080,14 +993,14 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-      style={{ backgroundColor: '#041A0E', border: '1px solid rgba(52,211,153,0.10)' }}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Download report: ${report.title}`}
     >
       {/* Header */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #064E3B 0%, #041A0E 65%)' }}
+        style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
         {/* Stacked rectangle motif */}
         <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
@@ -1101,8 +1014,8 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
                 right: `${20 + (3 - l) * 12}px`,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                border: `1px solid rgba(52,211,153,${0.05 * l})`,
-                backgroundColor: `rgba(6,78,59,${0.04 * l})`,
+                border: `1px solid rgba(59,130,246,${0.05 * l})`,
+                backgroundColor: `rgba(19,43,71,${0.04 * l})`,
               }}
             />
           ))}
@@ -1118,9 +1031,9 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.04)',
-              color: '#34D399',
-              border: '1px solid rgba(52,211,153,0.14)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.14)',
             }}
           >
             Featured
@@ -1128,9 +1041,9 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(52,211,153,0.06)',
-              color: '#6EE7B7',
-              border: '1px solid rgba(52,211,153,0.12)',
+              backgroundColor: 'rgba(59,130,246,0.06)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.12)',
             }}
           >
             {report.pages}
@@ -1141,19 +1054,12 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-emerald-300 transition-colors duration-200"
-          style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
-            color: '#D1FAE5',
-            fontFamily: 'Georgia, serif',
-          }}
+          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {report.title}
         </h2>
-        <p
-          className="text-sm leading-relaxed mb-6 max-w-3xl"
-          style={{ color: '#1A5C38' }}
-        >
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
           {report.excerpt}
         </p>
 
@@ -1161,17 +1067,14 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
           <div className="flex items-center gap-4 flex-wrap">
             <span
               className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: 'rgba(6,78,59,0.5)', color: '#34D399' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {report.sector}
             </span>
-            <span className="text-xs" style={{ color: '#065F46' }}>
-              {report.date}
-            </span>
+            <span className="text-xs text-gray-500">{report.date}</span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
-            style={{ color: '#34D399' }}
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
           >
             Download report
             <svg
@@ -1193,8 +1096,6 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
 
 // =====================================================
 // STANDARD REPORT CARD
-// Used in the 3-column grid.
-// Emphasises tag, page count, and sector.
 // =====================================================
 
 interface ReportCardProps {
@@ -1212,10 +1113,10 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-emerald-400"
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
-        backgroundColor: '#041A0E',
-        border: '1px solid rgba(52,211,153,0.08)',
+        backgroundColor: '#0A1E3D',
+        border: '1px solid rgba(59,130,246,0.08)',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
       }}
       aria-label={`Download report: ${report.title}`}
@@ -1229,12 +1130,11 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       {/* Header band */}
       <div
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
-        style={{ background: 'linear-gradient(155deg, #064E3B 0%, #041A0E 100%)' }}
+        style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
-        {/* Subtle corner document stack decoration */}
         <div className="absolute top-3 right-3 opacity-10" aria-hidden="true">
-          <div className="w-10 h-12 rounded border border-emerald-400" />
-          <div className="w-10 h-12 rounded border border-emerald-400 absolute top-1.5 left-1.5" />
+          <div className="w-10 h-12 rounded border border-blue-400" />
+          <div className="w-10 h-12 rounded border border-blue-400 absolute top-1.5 left-1.5" />
         </div>
 
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
@@ -1244,25 +1144,23 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
           >
             {report.tag}
           </span>
-          {/* Page count pill */}
           <span
             className="px-2 py-0.5 rounded-full text-xs"
             style={{
-              backgroundColor: 'rgba(52,211,153,0.06)',
-              color: '#6EE7B7',
-              border: '1px solid rgba(52,211,153,0.12)',
+              backgroundColor: 'rgba(59,130,246,0.06)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.12)',
             }}
           >
             {report.pages}
           </span>
         </div>
 
-        {/* Lock icon */}
         <div
           className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
           aria-hidden="true"
         >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#34D399" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
@@ -1272,38 +1170,28 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
-          style={{
-            color: '#A7F3D0',
-            fontSize: '0.9rem',
-            fontFamily: 'Georgia, serif',
-          }}
+          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
         >
           {report.title}
         </h3>
-        <p
-          className="text-xs leading-relaxed mb-4 line-clamp-2"
-          style={{ color: '#065F46' }}
-        >
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-400">
           {report.excerpt}
         </p>
 
-        {/* Footer */}
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(52,211,153,0.07)' }}
+          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
         >
           <div className="flex items-center gap-2">
             <span
               className="text-xs px-2 py-0.5 rounded"
-              style={{ backgroundColor: 'rgba(6,78,59,0.4)', color: '#059669' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {report.sector}
             </span>
           </div>
-          <span className="text-xs" style={{ color: '#064E3B' }}>
-            {report.date}
-          </span>
+          <span className="text-xs text-gray-500">{report.date}</span>
         </div>
       </div>
     </article>
@@ -1311,9 +1199,7 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
 };
 
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP
-// Inserted after batch 1 (25 reports loaded).
-// Deep navy — consistent with case-studies hub identity.
+// CASE STUDIES ADVERTISEMENT STRIP — updated to blues
 // =====================================================
 
 interface CaseStudiesStripProps {
@@ -1323,7 +1209,7 @@ interface CaseStudiesStripProps {
 const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#040E1C', border: '1px solid rgba(96,165,250,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -1331,29 +1217,25 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(96,165,250,0.10)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="#60A5FA" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
           <div>
-            <p
-              className="text-xs font-medium tracking-widest uppercase"
-              style={{ color: '#60A5FA' }}
-            >
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Case Studies
             </p>
-            <p className="text-sm font-light" style={{ color: '#1E3A52' }}>
+            <p className="text-sm font-light text-gray-400">
               Real decisions. Real outcomes.
             </p>
           </div>
         </div>
         <a
           href="/resources/case-studies"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#60A5FA' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Cases
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1373,39 +1255,38 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
             className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
-              backgroundColor: '#081428',
-              border: '1px solid rgba(96,165,250,0.08)',
+              backgroundColor: '#0A1E3D',
+              border: '1px solid rgba(59,130,246,0.08)',
             }}
             aria-label={`View case study: ${cs.title}`}
           >
             <div className="flex items-center gap-2 mb-2">
               <span
                 className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
-                style={{ backgroundColor: 'rgba(96,165,250,0.10)', color: '#93C5FD' }}
+                style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
               >
                 {cs.tag}
               </span>
               <span
                 className="inline-block px-2 py-0.5 rounded-full text-xs"
                 style={{
-                  backgroundColor: 'rgba(52,211,153,0.08)',
-                  color: '#34D399',
-                  border: '1px solid rgba(52,211,153,0.12)',
+                  backgroundColor: 'rgba(59,130,246,0.08)',
+                  color: '#93C5FD',
+                  border: '1px solid rgba(59,130,246,0.12)',
                 }}
               >
                 {cs.outcome}
               </span>
             </div>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#C8DEFF', fontFamily: 'Georgia, serif' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {cs.title}
             </p>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs" style={{ color: '#2D4A6A' }}>{cs.sector}</span>
-              <span className="text-xs" style={{ color: '#1A2E40' }}>·</span>
-              <span className="text-xs" style={{ color: '#1A3A50' }}>{cs.year}</span>
+              <span className="text-xs text-gray-400">{cs.sector}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{cs.year}</span>
             </div>
           </div>
         ))}
@@ -1415,9 +1296,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
 );
 
 // =====================================================
-// BLOGS ADVERTISEMENT STRIP
-// Inserted after batch 2 (50 reports loaded).
-// Warm amber/parchment dark — blogs hub identity.
+// BLOGS ADVERTISEMENT STRIP — updated to blues
 // =====================================================
 
 interface BlogsStripProps {
@@ -1427,7 +1306,7 @@ interface BlogsStripProps {
 const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#1C1408', border: '1px solid rgba(200,184,138,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -1435,29 +1314,25 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(200,184,138,0.10)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="#C8B88A" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
           <div>
-            <p
-              className="text-xs font-medium tracking-widest uppercase"
-              style={{ color: '#C8B88A' }}
-            >
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
               From the Blog
             </p>
-            <p className="text-sm font-light" style={{ color: '#7A6A50' }}>
+            <p className="text-sm font-light text-gray-400">
               Thinking behind the numbers
             </p>
           </div>
         </div>
         <a
           href="/resources/blogs"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#C8B88A' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Articles
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1475,33 +1350,28 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
-              backgroundColor: '#2A1E0C',
-              border: '1px solid rgba(200,184,138,0.08)',
+              backgroundColor: '#0a1e3d',
+              border: '1px solid rgba(59,130,246,0.08)',
             }}
             aria-label={`Read blog: ${blog.title}`}
           >
             <span
               className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(200,184,138,0.10)', color: '#C8B88A' }}
+              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
             >
               {blog.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-amber-200 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#E8D8B0', fontFamily: 'Georgia, serif' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {blog.title}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: '#C8B88A' }}>
-                {blog.readTime} read
-              </span>
-              <span className="text-xs" style={{ color: '#3A2808' }}>·</span>
-              <span className="text-xs" style={{ color: '#6A5030' }}>
-                {blog.date}
-              </span>
+              <span className="text-xs text-blue-400">{blog.readTime} read</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{blog.date}</span>
             </div>
           </div>
         ))}
@@ -1512,8 +1382,6 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
 
 // =====================================================
 // LOAD MORE SENTINEL
-// IntersectionObserver-based trigger.
-// Fires 200px before reaching end of current list.
 // =====================================================
 
 interface LoadMoreSentinelProps {
@@ -1549,7 +1417,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
   return (
     <div ref={ref} className="flex justify-center py-12">
       {loading && (
-        <div className="flex items-center gap-3" style={{ color: '#1A5030' }}>
+        <div className="flex items-center gap-3 text-gray-500">
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -1558,7 +1426,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
         </div>
       )}
       {!loading && !hasMore && (
-        <p className="text-sm" style={{ color: '#064E3B' }}>
+        <p className="text-sm text-gray-500">
           All {totalCount} reports loaded.
         </p>
       )}
@@ -1568,17 +1436,14 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
 
 // =====================================================
 // PAGE ROOT COMPONENT
-// Orchestrates: filter → batched render → ad strips →
-// infinite scroll sentinel → partner auth modal.
 // =====================================================
 
 export default function ReportsHubPage(): React.JSX.Element {
   const [activeTag, setActiveTag]     = useState<string>('All');
-  const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE_CONST);
+  const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE);
   const [isLoading, setIsLoading]     = useState<boolean>(false);
   const [modalState, setModalState]   = useState<ModalState>({ open: false, title: '' });
 
-  // Derived filtered list from active tag
   const filteredReports: Report[] =
     activeTag === 'All'
       ? ALL_REPORTS
@@ -1587,17 +1452,15 @@ export default function ReportsHubPage(): React.JSX.Element {
   const visibleReports: Report[] = filteredReports.slice(0, loadedCount);
   const hasMore: boolean         = loadedCount < filteredReports.length;
 
-  // Reset batch count when filter changes
   useEffect(() => {
-    setLoadedCount(BATCH_SIZE_CONST);
+    setLoadedCount(BATCH_SIZE);
   }, [activeTag]);
 
-  // IntersectionObserver callback — loads next 25 after 600ms
   const loadMore = useCallback((): void => {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
     setTimeout(() => {
-      setLoadedCount((prev) => Math.min(prev + BATCH_SIZE_CONST, filteredReports.length));
+      setLoadedCount((prev) => Math.min(prev + BATCH_SIZE, filteredReports.length));
       setIsLoading(false);
     }, 600);
   }, [isLoading, hasMore, filteredReports.length]);
@@ -1605,7 +1468,6 @@ export default function ReportsHubPage(): React.JSX.Element {
   const openModal  = (title: string): void => setModalState({ open: true, title });
   const closeModal = (): void => setModalState({ open: false, title: '' });
 
-  // Batch slices for rendering with ad strip insertion
   const batch1: Report[]              = visibleReports.slice(0, 25);
   const batch2: Report[]              = visibleReports.slice(25, 50);
   const batch3: Report[]              = visibleReports.slice(50);
@@ -1637,30 +1499,30 @@ export default function ReportsHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#020D06' }}>
+      <main className="min-h-screen bg-white">
 
-        {/* ── Hero ───────────────────────────────────── */}
+        {/* Hero */}
         <HeroSection />
 
-        {/* ── Content Area ───────────────────────────── */}
+        {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#1A5030' }}>
+            <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredReports.length}{' '}
               {filteredReports.length !== 1 ? 'reports' : 'report'}
               {activeTag !== 'All' && (
                 <>
                   {' '}in{' '}
-                  <em style={{ color: '#34D399' }}>{activeTag}</em>
+                  <em className="text-blue-600">{activeTag}</em>
                 </>
               )}
             </p>
           </div>
 
-          {/* ── BATCH 1 ─────────────────────────────── */}
+          {/* Batch 1 */}
           {featured && (
             <div className="mb-8">
               <FeaturedReportCard report={featured} onOpen={openModal} />
@@ -1680,12 +1542,12 @@ export default function ReportsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── CASE STUDIES AD STRIP — after batch 1 ── */}
+          {/* Case studies ad strip */}
           {showCaseStudiesStrip && (
             <CaseStudiesAdvertStrip onCaseStudyClick={openModal} />
           )}
 
-          {/* ── BATCH 2 ─────────────────────────────── */}
+          {/* Batch 2 */}
           {batch2.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch2.map((report, i) => (
@@ -1699,12 +1561,12 @@ export default function ReportsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── BLOGS AD STRIP — after batch 2 ────────── */}
+          {/* Blogs ad strip */}
           {showBlogsStrip && (
             <BlogsAdvertStrip onBlogClick={openModal} />
           )}
 
-          {/* ── BATCH 3 ─────────────────────────────── */}
+          {/* Batch 3 */}
           {batch3.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch3.map((report, i) => (
@@ -1718,19 +1580,18 @@ export default function ReportsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Empty state ─────────────────────────── */}
+          {/* Empty state */}
           {filteredReports.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📭</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#A7F3D0' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No reports in &ldquo;{activeTag}&rdquo; yet
               </p>
-              <p className="text-sm" style={{ color: '#1A5030' }}>
+              <p className="text-sm text-gray-500">
                 Try a different type or{' '}
                 <button
                   type="button"
-                  className="underline"
-                  style={{ color: '#34D399' }}
+                  className="underline text-blue-600"
                   onClick={() => setActiveTag('All')}
                 >
                   view all
@@ -1740,7 +1601,7 @@ export default function ReportsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Load more sentinel ──────────────────── */}
+          {/* Load more sentinel */}
           {filteredReports.length > 0 && (
             <LoadMoreSentinel
               onVisible={loadMore}
@@ -1753,7 +1614,7 @@ export default function ReportsHubPage(): React.JSX.Element {
         </div>
       </main>
 
-      {/* ── Partner Auth Modal ───────────────────────── */}
+      {/* Partner Auth Modal */}
       <PartnerAuthModal
         isOpen={modalState.open}
         onClose={closeModal}

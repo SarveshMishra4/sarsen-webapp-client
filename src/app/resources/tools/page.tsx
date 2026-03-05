@@ -21,9 +21,9 @@ interface Tool {
   title: string;
   excerpt: string;
   tag: string;
-  format: string;       // e.g. "Excel Template", "Online Tool", "PDF Guide"
+  format: string;
   complexity: 'Beginner' | 'Intermediate' | 'Advanced';
-  useCase: string;      // one-line use case summary
+  useCase: string;
   featured?: boolean;
 }
 
@@ -61,7 +61,8 @@ interface PartnerFormData {
 // =====================================================
 
 const ALL_TOOLS: Tool[] = [
-  // ── Batch 1 (1–25) ────────────────────────────────────────────────────────
+  // (data unchanged – same as original)
+  // Batch 1 (1–25)
   {
     id: 1,
     title: 'Startup Valuation Calculator',
@@ -213,7 +214,7 @@ const ALL_TOOLS: Tool[] = [
     tag: 'Revenue', format: 'Excel Worksheet', complexity: 'Advanced', useCase: 'Pre-fundraise or growth plateau diagnosis',
   },
 
-  // ── Batch 2 (26–50) ──────────────────────────────────────────────────────
+  // Batch 2 (26–50)
   {
     id: 26,
     title: 'ESOP Pool Planning Tool',
@@ -365,7 +366,7 @@ const ALL_TOOLS: Tool[] = [
     tag: 'Metrics', format: 'Excel + Sheets', complexity: 'Advanced', useCase: 'Marketing budget allocation',
   },
 
-  // ── Batch 3 (51–75) ──────────────────────────────────────────────────────
+  // Batch 3 (51–75)
   {
     id: 51,
     title: 'Strategy on a Page Template',
@@ -537,30 +538,28 @@ const FEATURED_CASE_STUDIES: CaseStudyTeaser[] = [
 ];
 
 // =====================================================
-// TAG & COMPLEXITY COLOR MAPS
-// Industrial / engineering identity — amber yellow on
-// near-black. Distinct from navy, parchment, emerald.
+// TAG & COMPLEXITY COLOR MAPS — blues from homepage palette
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Valuation:   { bg: 'rgba(250,204,21,0.10)',  text: '#FACC15' },
-  Finance:     { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D' },
-  Metrics:     { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
-  Strategy:    { bg: 'rgba(129,140,248,0.10)', text: '#A5B4FC' },
-  Revenue:     { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC' },
-  Fundraising: { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5' },
-  People:      { bg: 'rgba(167,139,250,0.10)', text: '#C4B5FD' },
-  Operations:  { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74' },
+  Valuation:   { bg: '#DBEAFE', text: '#1E40AF' },
+  Finance:     { bg: '#E0F2FE', text: '#0369A1' },
+  Metrics:     { bg: '#E6F0FF', text: '#1E3A8A' },
+  Strategy:    { bg: '#DBEAFE', text: '#1E40AF' },
+  Revenue:     { bg: '#E0F2FE', text: '#0369A1' },
+  Fundraising: { bg: '#E6F0FF', text: '#1E3A8A' },
+  People:      { bg: '#E0E7FF', text: '#3730A3' },
+  Operations:  { bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const COMPLEXITY_COLORS: Record<Tool['complexity'], { bg: string; text: string; dot: string }> = {
-  Beginner:     { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC', dot: '#4ADE80' },
-  Intermediate: { bg: 'rgba(250,204,21,0.10)',  text: '#FACC15', dot: '#EAB308' },
-  Advanced:     { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5', dot: '#EF4444' },
+  Beginner:     { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
+  Intermediate: { bg: '#E0F2FE', text: '#0369A1', dot: '#2563EB' },
+  Advanced:     { bg: '#E6F0FF', text: '#1E3A8A', dot: '#1E3A8A' },
 };
 
 const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: 'rgba(250,204,21,0.08)', text: '#FACC15' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 const getComplexityStyle = (c: Tool['complexity']) => COMPLEXITY_COLORS[c];
 
@@ -574,8 +573,7 @@ const ALL_TAGS: string[] = [
 ];
 
 // =====================================================
-// PARTNER AUTH MODAL
-// Identical design language to all other hub pages.
+// PARTNER AUTH MODAL — matches homepage modal
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -624,7 +622,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ backgroundColor: 'rgba(5,4,0,0.82)' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
       onClick={handleBackdropClick}
     >
       <div
@@ -633,34 +631,20 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
       >
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
 
-          {/* Header */}
-          <div className="bg-[#002855] px-8 py-6 relative">
+          {/* Modal Header — plain white with border */}
+          <div className="px-8 py-6 relative border-b border-gray-200">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
-                Partner Access
-              </span>
-            </div>
-
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
-            <p className="text-blue-200 text-sm mt-1 truncate">
-              Accessing:{' '}
-              <span className="text-white font-medium">{resourceTitle}</span>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to access: <span className="font-medium text-gray-700">{resourceTitle}</span>
             </p>
           </div>
 
@@ -753,22 +737,21 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
                 <p className="text-gray-500 text-sm">
-                  Opening{' '}
-                  <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Opening <span className="font-medium text-gray-700">{resourceTitle}</span>…
                 </p>
               </div>
             )}
           </div>
         </div>
 
-        <p className="text-center text-xs mt-4" style={{ color: 'rgba(250,204,21,0.20)' }}>
+        <p className="text-center text-sm mt-4 text-gray-400">
           Partner access is monitored and logged for security purposes.
         </p>
       </div>
@@ -777,37 +760,34 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
 };
 
 // =====================================================
-// HERO SECTION
-// Near-black with amber/yellow industrial identity.
-// Completely distinct from navy, parchment, and emerald.
-// Right side: SVG visual placeholder.
+// HERO SECTION — dark blue with placeholder SVG
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#080706', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: amber crosshatch texture */}
+    {/* Background crosshatch texture using blue-300 */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="cross" patternUnits="userSpaceOnUse" width="20" height="20">
-            <line x1="10" y1="0" x2="10" y2="20" stroke="#FACC15" strokeWidth="0.6" />
-            <line x1="0" y1="10" x2="20" y2="10" stroke="#FACC15" strokeWidth="0.6" />
+            <line x1="10" y1="0" x2="10" y2="20" stroke="#93C5FD" strokeWidth="0.6" />
+            <line x1="0" y1="10" x2="20" y2="10" stroke="#93C5FD" strokeWidth="0.6" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#cross)" />
       </svg>
-      {/* Amber warm glow — top right */}
+      {/* Blue glow — top right */}
       <div
         className="absolute -top-20 right-0 w-[650px] h-[500px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(120,100,0,0.15) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.15) 0%, transparent 60%)' }}
       />
-      {/* Subtle amber glow — bottom left */}
+      {/* Blue glow — bottom left */}
       <div
         className="absolute bottom-0 left-0 w-[450px] h-[350px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(90,70,0,0.08) 0%, transparent 65%)' }}
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.08) 0%, transparent 65%)' }}
       />
     </div>
 
@@ -819,36 +799,29 @@ const HeroSection: FC = () => (
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
             style={{
-              backgroundColor: 'rgba(250,204,21,0.06)',
-              border: '1px solid rgba(250,204,21,0.16)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              border: '1px solid rgba(59,130,246,0.16)',
             }}
           >
             <div
               className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: '#FACC15' }}
+              style={{ backgroundColor: '#93C5FD' }}
             />
-            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#FACC15' }}>
+            <span className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Sarsen &amp; Company · Tools
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#FEF9EC',
-                fontFamily: "'Georgia', 'Times New Roman', serif",
-              }}
+              className="font-light leading-none tracking-tight text-white"
+              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Built to
               <br />
-              <span style={{ color: '#FACC15' }}>Decide.</span>
+              <span className="text-blue-300">Decide.</span>
             </h1>
-            <p
-              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
-              style={{ color: '#4A4030' }}
-            >
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               Calculators, templates, and frameworks for founders who make decisions with evidence. Every tool is built around a real decision, not a generic concept.
             </p>
           </div>
@@ -861,18 +834,8 @@ const HeroSection: FC = () => (
               { value: '3',   label: 'Complexity levels' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p
-                  className="text-2xl font-light"
-                  style={{ color: '#FEF9EC', fontFamily: 'Georgia, serif' }}
-                >
-                  {stat.value}
-                </p>
-                <p
-                  className="text-xs tracking-widest uppercase mt-0.5"
-                  style={{ color: '#302808' }}
-                >
-                  {stat.label}
-                </p>
+                <p className="text-2xl font-light text-white">{stat.value}</p>
+                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -891,78 +854,41 @@ const HeroSection: FC = () => (
           </div>
         </div>
 
-        {/* RIGHT — SVG visual placeholder */}
-        {/*
-          INTEGRATION NOTE:
-          Replace the decorative element below with:
-          <img src="/assets/tools/Hero Visual.svg" alt="" className="max-w-full h-auto" />
-        */}
+        {/* RIGHT — SVG placeholder (decorative) */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
           <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Engineering / tool motif: gear + grid */}
-            <div className="relative w-72 h-72 flex items-center justify-center">
-              {/* Outer ring */}
+            <span
+              className="absolute select-none"
+              style={{
+                fontSize: '22rem',
+                color: 'rgba(59,130,246,0.05)',
+                lineHeight: 1,
+                top: '-2rem',
+                right: '-1rem',
+              }}
+            >
+              &ldquo;
+            </span>
+            <div className="relative z-10 space-y-3 w-72">
+              {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
+                <div
+                  key={i}
+                  className="rounded-full"
+                  style={{
+                    height: '3px',
+                    width: `${w}%`,
+                    background: `rgba(59,130,246,${0.06 + i * 0.04})`,
+                  }}
+                />
+              ))}
               <div
-                className="absolute inset-0 rounded-full"
-                style={{ border: '1px solid rgba(250,204,21,0.10)' }}
+                className="mt-6 rounded-full"
+                style={{ height: '2px', width: '30%', background: 'rgba(59,130,246,0.35)' }}
               />
-              {/* Mid ring */}
-              <div
-                className="absolute rounded-full"
-                style={{ inset: '36px', border: '1px solid rgba(250,204,21,0.07)' }}
-              />
-              {/* Inner glow core */}
-              <div
-                className="absolute rounded-full"
-                style={{
-                  inset: '90px',
-                  background: 'radial-gradient(circle, rgba(120,100,0,0.18) 0%, transparent 70%)',
-                  border: '1px solid rgba(250,204,21,0.12)',
-                }}
-              />
-              {/* Format chips orbiting */}
-              {[
-                { label: 'Excel',     angle: 0   },
-                { label: 'Notion',    angle: 72  },
-                { label: 'Online',    angle: 144 },
-                { label: 'PDF Guide', angle: 216 },
-                { label: 'Template',  angle: 288 },
-              ].map(({ label, angle }) => {
-                const rad = (angle * Math.PI) / 180;
-                const r   = 118;
-                const x   = 50 + (r / 144) * 50 * Math.cos(rad);
-                const y   = 50 + (r / 144) * 50 * Math.sin(rad);
-                return (
-                  <div
-                    key={label}
-                    className="absolute transform -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap"
-                    style={{
-                      left: `${x}%`,
-                      top: `${y}%`,
-                      backgroundColor: 'rgba(20,16,4,0.95)',
-                      border: '1px solid rgba(250,204,21,0.18)',
-                      color: '#FACC15',
-                    }}
-                  >
-                    {label}
-                  </div>
-                );
-              })}
-              {/* Centre gear icon */}
-              <svg
-                className="relative z-10 w-12 h-12 opacity-20"
-                fill="none"
-                stroke="#FACC15"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
             </div>
           </div>
         </div>
@@ -973,8 +899,7 @@ const HeroSection: FC = () => (
 );
 
 // =====================================================
-// TAG FILTER BAR
-// Amber-toned — scrollable, keyboard accessible.
+// TAG FILTER BAR — blue palette
 // =====================================================
 
 interface TagFilterBarProps {
@@ -992,17 +917,17 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
       const style    = tag === 'All'
-        ? { bg: 'rgba(250,204,21,0.10)', text: '#FACC15' }
+        ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
       return (
         <button
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
-              ? { backgroundColor: '#3A2E00', color: '#FACC15', border: '1px solid rgba(250,204,21,0.35)' }
+              ? { backgroundColor: '#132B47', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
               : { backgroundColor: style.bg, color: style.text, border: '1px solid transparent', opacity: 0.65 }
           }
           aria-pressed={isActive}
@@ -1033,32 +958,24 @@ const FeaturedToolCard: FC<FeaturedToolCardProps> = ({ tool, onOpen }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(tool.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-      style={{ backgroundColor: '#100E04', border: '1px solid rgba(250,204,21,0.10)' }}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Access tool: ${tool.title}`}
     >
       {/* Header */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #2A2000 0%, #100E04 65%)' }}
+        style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
-        {/* Cross-hair grid decoration */}
-        <div className="absolute inset-0 overflow-hidden opacity-5" aria-hidden="true">
+        {/* Grid decoration */}
+        <div className="absolute inset-0 overflow-hidden opacity-10" aria-hidden="true">
           <svg className="w-full h-full" viewBox="0 0 600 220">
             {Array.from({ length: 16 }, (_, i) => (
-              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="220" stroke="#FACC15" strokeWidth="0.5" />
+              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="220" stroke="#93C5FD" strokeWidth="0.5" />
             ))}
             {Array.from({ length: 6 }, (_, i) => (
-              <line key={`h${i}`} x1="0" y1={i * 40} x2="600" y2={i * 40} stroke="#FACC15" strokeWidth="0.5" />
+              <line key={`h${i}`} x1="0" y1={i * 40} x2="600" y2={i * 40} stroke="#93C5FD" strokeWidth="0.5" />
             ))}
-          </svg>
-        </div>
-        {/* Gear watermark */}
-        <div className="absolute top-6 right-10 opacity-[0.07]" aria-hidden="true">
-          <svg className="w-28 h-28" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.8}
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </div>
 
@@ -1071,11 +988,10 @@ const FeaturedToolCard: FC<FeaturedToolCardProps> = ({ tool, onOpen }) => {
           </span>
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: 'rgba(255,255,255,0.04)', color: '#FACC15', border: '1px solid rgba(250,204,21,0.14)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.14)' }}
           >
             Featured
           </span>
-          {/* Complexity pill */}
           <span
             className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
             style={{ backgroundColor: complexityStyle.bg, color: complexityStyle.text }}
@@ -1089,15 +1005,15 @@ const FeaturedToolCard: FC<FeaturedToolCardProps> = ({ tool, onOpen }) => {
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="font-light leading-snug mb-2 group-hover:text-yellow-300 transition-colors duration-200"
-          style={{ fontSize: 'clamp(1.1rem,2.5vw,1.6rem)', color: '#FEF3C7', fontFamily: 'Georgia,serif' }}
+          className="font-light leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem,2.5vw,1.6rem)' }}
         >
           {tool.title}
         </h2>
-        <p className="text-xs mb-1 font-medium" style={{ color: '#FACC15' }}>
+        <p className="text-xs mb-1 font-medium text-blue-300">
           {tool.useCase}
         </p>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ color: '#3A3020' }}>
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
           {tool.excerpt}
         </p>
 
@@ -1105,14 +1021,13 @@ const FeaturedToolCard: FC<FeaturedToolCardProps> = ({ tool, onOpen }) => {
           <div className="flex items-center gap-3">
             <span
               className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: 'rgba(40,30,0,0.7)', color: '#A07800' }}
+              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {tool.format}
             </span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
-            style={{ color: '#FACC15' }}
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
           >
             Access tool
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1145,10 +1060,10 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(tool.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
-        backgroundColor: '#100E04',
-        border: '1px solid rgba(250,204,21,0.08)',
+        backgroundColor: '#0A1E3D',
+        border: '1px solid rgba(59,130,246,0.08)',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
       }}
       aria-label={`Access tool: ${tool.title}`}
@@ -1162,16 +1077,16 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
       {/* Header band */}
       <div
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
-        style={{ background: 'linear-gradient(155deg, #1E1800 0%, #100E04 100%)' }}
+        style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
         {/* Subtle grid bg */}
         <div className="absolute inset-0 overflow-hidden opacity-[0.04]" aria-hidden="true">
           <svg className="w-full h-full" viewBox="0 0 200 112">
             {Array.from({ length: 6 }, (_, i) => (
-              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="112" stroke="#FACC15" strokeWidth="0.5" />
+              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="112" stroke="#93C5FD" strokeWidth="0.5" />
             ))}
             {Array.from({ length: 3 }, (_, i) => (
-              <line key={`h${i}`} x1="0" y1={i * 40} x2="200" y2={i * 40} stroke="#FACC15" strokeWidth="0.5" />
+              <line key={`h${i}`} x1="0" y1={i * 40} x2="200" y2={i * 40} stroke="#93C5FD" strokeWidth="0.5" />
             ))}
           </svg>
         </div>
@@ -1197,7 +1112,7 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
           className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
           aria-hidden="true"
         >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
@@ -1206,36 +1121,36 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
 
       {/* Body */}
       <div className="px-5 py-4">
-        <p className="text-xs mb-1 font-medium" style={{ color: '#806600' }}>
+        <p className="text-xs mb-1 font-medium text-blue-300">
           {tool.useCase}
         </p>
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-yellow-300 transition-colors duration-200 line-clamp-2"
-          style={{ color: '#FEF3C7', fontSize: '0.9rem', fontFamily: 'Georgia, serif' }}
+          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
         >
           {tool.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#302808' }}>
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-400">
           {tool.excerpt}
         </p>
 
         {/* Footer */}
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(250,204,21,0.07)' }}
+          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
         >
           <span
             className="text-xs px-2 py-0.5 rounded"
-            style={{ backgroundColor: 'rgba(40,30,0,0.60)', color: '#705500' }}
+            style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
           >
             {tool.format}
           </span>
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
-            style={{ backgroundColor: 'rgba(250,204,21,0.06)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.06)' }}
             aria-hidden="true"
           >
-            <svg className="w-3 h-3" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
+            <svg className="w-3 h-3" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </div>
@@ -1246,8 +1161,7 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
 };
 
 // =====================================================
-// REPORTS ADVERTISEMENT STRIP — after batch 1
-// Emerald identity consistent with reports hub.
+// REPORTS ADVERTISEMENT STRIP — after batch 1 (blues)
 // =====================================================
 
 interface ReportsStripProps {
@@ -1257,32 +1171,31 @@ interface ReportsStripProps {
 const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#061814', border: '1px solid rgba(52,211,153,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(52,211,153,0.10)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4" fill="currentColor" style={{ color: '#34D399' }} viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#34D399' }}>
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Research &amp; Reports
             </p>
-            <p className="text-sm font-light" style={{ color: '#1A4A30' }}>
+            <p className="text-sm font-light text-gray-400">
               Data behind the decisions
             </p>
           </div>
         </div>
         <a
           href="/resources/reports"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#34D399' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Reports
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1299,26 +1212,25 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onReportClick(r.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            style={{ backgroundColor: '#0A2418', border: '1px solid rgba(52,211,153,0.08)' }}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
             aria-label={`Access report: ${r.title}`}
           >
             <span
               className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(52,211,153,0.10)', color: '#6EE7B7' }}
+              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
             >
               {r.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#B8F0D8', fontFamily: 'Georgia, serif' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {r.title}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: '#34D399' }}>{r.pages}</span>
-              <span className="text-xs" style={{ color: '#0A3020' }}>·</span>
-              <span className="text-xs" style={{ color: '#1A5030' }}>{r.date}</span>
+              <span className="text-xs text-blue-400">{r.pages}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{r.date}</span>
             </div>
           </div>
         ))}
@@ -1328,8 +1240,7 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
 );
 
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP — after batch 2
-// Deep navy identity consistent with case studies hub.
+// CASE STUDIES ADVERTISEMENT STRIP — after batch 2 (blues)
 // =====================================================
 
 interface CaseStudiesStripProps {
@@ -1339,33 +1250,32 @@ interface CaseStudiesStripProps {
 const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#040E1C', border: '1px solid rgba(96,165,250,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(96,165,250,0.10)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="#60A5FA" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#60A5FA' }}>
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
               Case Studies
             </p>
-            <p className="text-sm font-light" style={{ color: '#1E3A52' }}>
+            <p className="text-sm font-light text-gray-400">
               See the tools in action
             </p>
           </div>
         </div>
         <a
           href="/resources/case-studies"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#60A5FA' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Cases
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1383,33 +1293,32 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
             className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{ backgroundColor: '#081428', border: '1px solid rgba(96,165,250,0.08)' }}
+            style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
             aria-label={`View case study: ${cs.title}`}
           >
             <div className="flex items-center gap-2 mb-2">
               <span
                 className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
-                style={{ backgroundColor: 'rgba(96,165,250,0.10)', color: '#93C5FD' }}
+                style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
               >
                 {cs.tag}
               </span>
               <span
                 className="inline-block px-2 py-0.5 rounded-full text-xs"
-                style={{ backgroundColor: 'rgba(52,211,153,0.08)', color: '#34D399', border: '1px solid rgba(52,211,153,0.12)' }}
+                style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.12)' }}
               >
                 {cs.outcome}
               </span>
             </div>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#C8DEFF', fontFamily: 'Georgia, serif' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {cs.title}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: '#2D4A6A' }}>{cs.sector}</span>
-              <span className="text-xs" style={{ color: '#1A2E40' }}>·</span>
-              <span className="text-xs" style={{ color: '#1A3A50' }}>{cs.year}</span>
+              <span className="text-xs text-gray-400">{cs.sector}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{cs.year}</span>
             </div>
           </div>
         ))}
@@ -1420,7 +1329,6 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
 
 // =====================================================
 // LOAD MORE SENTINEL
-// IntersectionObserver-based — fires 200px early.
 // =====================================================
 
 interface LoadMoreSentinelProps {
@@ -1450,7 +1358,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
   return (
     <div ref={ref} className="flex justify-center py-12">
       {loading && (
-        <div className="flex items-center gap-3" style={{ color: '#3A2E00' }}>
+        <div className="flex items-center gap-3 text-gray-500">
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -1459,7 +1367,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
         </div>
       )}
       {!loading && !hasMore && (
-        <p className="text-sm" style={{ color: '#302800' }}>
+        <p className="text-sm text-gray-500">
           All {totalCount} tools loaded.
         </p>
       )}
@@ -1528,7 +1436,7 @@ export default function ToolsHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#060504' }}>
+      <main className="min-h-screen bg-white">
 
         <HeroSection />
 
@@ -1537,16 +1445,16 @@ export default function ToolsHubPage(): React.JSX.Element {
           {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#3A2E00' }}>
+            <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredTools.length}{' '}
               {filteredTools.length !== 1 ? 'tools' : 'tool'}
               {activeTag !== 'All' && (
-                <> in <em style={{ color: '#FACC15' }}>{activeTag}</em></>
+                <> in <em className="text-blue-600">{activeTag}</em></>
               )}
             </p>
           </div>
 
-          {/* ── BATCH 1 ─────────────────────────────── */}
+          {/* Batch 1 */}
           {featured && (
             <div className="mb-8">
               <FeaturedToolCard tool={featured} onOpen={openModal} />
@@ -1560,10 +1468,10 @@ export default function ToolsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── REPORTS AD STRIP — after batch 1 ─────── */}
+          {/* Reports ad strip */}
           {showReportsStrip && <ReportsAdvertStrip onReportClick={openModal} />}
 
-          {/* ── BATCH 2 ─────────────────────────────── */}
+          {/* Batch 2 */}
           {batch2.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch2.map((tool, i) => (
@@ -1572,10 +1480,10 @@ export default function ToolsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── CASE STUDIES AD STRIP — after batch 2 ── */}
+          {/* Case studies ad strip */}
           {showCaseStudiesStrip && <CaseStudiesAdvertStrip onCaseStudyClick={openModal} />}
 
-          {/* ── BATCH 3 ─────────────────────────────── */}
+          {/* Batch 3 */}
           {batch3.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch3.map((tool, i) => (
@@ -1584,19 +1492,18 @@ export default function ToolsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Empty state ─────────────────────────── */}
+          {/* Empty state */}
           {filteredTools.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🔩</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#FEF3C7' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No tools in &ldquo;{activeTag}&rdquo; yet
               </p>
-              <p className="text-sm" style={{ color: '#3A2E00' }}>
+              <p className="text-sm text-gray-500">
                 Try a different category or{' '}
                 <button
                   type="button"
-                  className="underline"
-                  style={{ color: '#FACC15' }}
+                  className="underline text-blue-600"
                   onClick={() => setActiveTag('All')}
                 >
                   view all
@@ -1606,7 +1513,7 @@ export default function ToolsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Load more sentinel ──────────────────── */}
+          {/* Load more sentinel */}
           {filteredTools.length > 0 && (
             <LoadMoreSentinel
               onVisible={loadMore}

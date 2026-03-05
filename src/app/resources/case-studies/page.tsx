@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, {
@@ -6,7 +7,6 @@ import React, {
   useEffect,
   useCallback,
   FC,
-  ReactNode,
   MouseEvent,
   FormEvent,
   ChangeEvent,
@@ -16,7 +16,6 @@ import React, {
 // TYPE DEFINITIONS
 // =====================================================
 
-/** A single case study item */
 interface CaseStudy {
   id: number;
   title: string;
@@ -24,12 +23,11 @@ interface CaseStudy {
   tag: string;
   sector: string;
   year: string;
-  outcome: string;       // e.g. "Revenue +40%"
-  duration: string;      // e.g. "6 months"
+  outcome: string;
+  duration: string;
   featured?: boolean;
 }
 
-/** Blog teaser shown in advertisement strip */
 interface BlogTeaser {
   title: string;
   tag: string;
@@ -37,7 +35,6 @@ interface BlogTeaser {
   date: string;
 }
 
-/** Report teaser shown in advertisement strip */
 interface ReportTeaser {
   title: string;
   pages: string;
@@ -45,13 +42,11 @@ interface ReportTeaser {
   tag: string;
 }
 
-/** Partner auth modal state */
 interface ModalState {
   open: boolean;
   title: string;
 }
 
-/** Partner auth form fields */
 interface PartnerFormData {
   partnerId: string;
   password: string;
@@ -143,7 +138,6 @@ const ALL_CASE_STUDIES: CaseStudy[] = [
   { id: 74, title: 'Closing the Strategic Gap Between Founders and Their Board',       excerpt: 'The board was asking questions the founders didn\'t have systems to answer. Every meeting created anxiety rather than value. We helped design the reporting cadence, the format, and the pre-meeting discipline that changed the dynamic.',              tag: 'Operations',  sector: 'Fintech',          year: '2024', outcome: 'Board dynamic fixed', duration: '2 months' },
   { id: 75, title: 'The Long Turnaround: Rebuilding a Business That Had Lost Its Way', excerpt: 'After three years of strong growth, a startup had drifted — multiple failed pivots, declining revenue, and a team that had lost confidence. We helped the new leadership team diagnose, stabilise, and rebuild around what had actually worked.',         tag: 'Strategy',    sector: 'Consumer App',     year: '2023', outcome: 'Growth restored',   duration: '11 months' },
 ];
-
 const BATCH_SIZE = 25;
 
 // =====================================================
@@ -163,24 +157,23 @@ const FEATURED_REPORTS: ReportTeaser[] = [
 ];
 
 // =====================================================
-// TAG / SECTOR COLOR MAP
-// Deep navy identity with distinct accent per tag
+// TAG COLOR MAP — blues from homepage palette
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Revenue:     { bg: 'rgba(96,165,250,0.10)',  text: '#93C5FD' },
-  Fundraising: { bg: 'rgba(52,211,153,0.10)',  text: '#6EE7B7' },
-  Pivot:       { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74' },
-  Operations:  { bg: 'rgba(167,139,250,0.10)', text: '#C4B5FD' },
-  Finance:     { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D' },
-  PMF:         { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
-  Scaling:     { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC' },
-  Leadership:  { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5' },
-  Strategy:    { bg: 'rgba(129,140,248,0.10)', text: '#A5B4FC' },
+  Revenue:     { bg: '#DBEAFE', text: '#1E40AF' },
+  Fundraising: { bg: '#E0F2FE', text: '#0369A1' },
+  Pivot:       { bg: '#E0E7FF', text: '#3730A3' },
+  Operations:  { bg: '#E6F0FF', text: '#1E3A8A' },
+  Finance:     { bg: '#DBEAFE', text: '#1E40AF' },
+  PMF:         { bg: '#E0E7FF', text: '#3730A3' },
+  Scaling:     { bg: '#E0F2FE', text: '#0369A1' },
+  Leadership:  { bg: '#E6F0FF', text: '#1E3A8A' },
+  Strategy:    { bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: 'rgba(96,165,250,0.08)', text: '#93C5FD' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 // =====================================================
 // ALL FILTER TAGS
@@ -192,9 +185,7 @@ const ALL_TAGS: string[] = [
 ];
 
 // =====================================================
-// PARTNER AUTH MODAL
-// Identical design language to blogs hub and
-// resources hub modals.
+// PARTNER AUTH MODAL — matches homepage modal
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -204,11 +195,11 @@ interface PartnerAuthModalProps {
 }
 
 const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resourceTitle }) => {
-  const [formData, setFormData]         = useState<PartnerFormData>({ partnerId: '', password: '' });
+  const [formData, setFormData] = useState<PartnerFormData>({ partnerId: '', password: '' });
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading]           = useState<boolean>(false);
-  const [error, setError]               = useState<string>('');
-  const [success, setSuccess]           = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -243,45 +234,29 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ backgroundColor: 'rgba(0,5,20,0.80)' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
       onClick={handleBackdropClick}
     >
-      <div
-        className="relative w-full max-w-md"
-        style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}
-      >
+      <div className="relative w-full max-w-md" style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}>
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-
-          {/* Header */}
-          <div className="bg-[#002855] px-8 py-6 relative">
+          {/* Modal Header — plain, no gradient */}
+          <div className="px-8 py-6 relative border-b border-gray-200">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
-                Partner Access
-              </span>
-            </div>
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
-            <p className="text-blue-200 text-sm mt-1 truncate">
-              Viewing:{' '}
-              <span className="text-white font-medium">{resourceTitle}</span>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to read: <span className="font-medium text-gray-700">{resourceTitle}</span>
             </p>
           </div>
 
-          {/* Body */}
+          {/* Modal Body */}
           <div className="px-8 py-8">
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -293,8 +268,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                     <p className="text-sm text-red-700">{error}</p>
                   </div>
                 )}
-
-                {/* Partner ID */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
                   <input
@@ -309,8 +282,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                     autoComplete="username"
                   />
                 </div>
-
-                {/* Password */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                   <div className="relative">
@@ -346,7 +317,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                     </button>
                   </div>
                 </div>
-
                 <button
                   type="submit"
                   disabled={loading}
@@ -366,7 +336,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                     'Access Case Study'
                   )}
                 </button>
-
                 <p className="text-center text-xs text-gray-400 pt-1">
                   Don&apos;t have a Partner ID?{' '}
                   <a href="#" className="text-blue-600 hover:underline">Request Access</a>
@@ -374,22 +343,20 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
                 <p className="text-gray-500 text-sm">
-                  Opening{' '}
-                  <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Opening <span className="font-medium text-gray-700">{resourceTitle}</span>…
                 </p>
               </div>
             )}
           </div>
         </div>
-
-        <p className="text-center text-xs mt-4" style={{ color: 'rgba(180,200,255,0.3)' }}>
+        <p className="text-center text-sm mt-4 text-gray-400">
           Partner access is monitored and logged for security purposes.
         </p>
       </div>
@@ -398,42 +365,37 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
 };
 
 // =====================================================
-// HERO SECTION
-// Deep navy — data / analytical identity.
-// Right side: SVG visual placeholder.
+// HERO SECTION — dark blue (#0A1E3D)
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#040E1C', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: subtle circuit-grid texture */}
+    {/* Background: subtle grid pattern using blue-300 */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" patternUnits="userSpaceOnUse" width="40" height="40">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#4B8BFF" strokeWidth="0.6" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.6" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
       </svg>
-      {/* Blue radial glow — top right */}
       <div
         className="absolute -top-20 right-0 w-[600px] h-[500px]"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(30,80,160,0.18) 0%, transparent 65%)' }}
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.18) 0%, transparent 65%)' }}
       />
-      {/* Cyan accent bottom-left */}
       <div
         className="absolute bottom-0 left-0 w-[400px] h-[300px]"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(6,182,212,0.06) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.06) 0%, transparent 70%)' }}
       />
     </div>
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        {/* LEFT — Headline */}
+        {/* LEFT */}
         <div className="space-y-8">
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
@@ -447,22 +409,18 @@ const HeroSection: FC = () => (
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#EFF6FF',
-              }}
+              className="font-light leading-none tracking-tight text-white"
+              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Real Work.
               <br />
-              <span style={{ color: '#60A5FA' }}>Real Outcomes.</span>
+              <span className="text-blue-300">Real Outcomes.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light" style={{ color: '#64748B' }}>
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               Documented engagements with Indian founders — the decisions we helped make, the problems we diagnosed, and the results that followed.
             </p>
           </div>
 
-          {/* Stats */}
           <div className="flex flex-wrap gap-8 pt-2">
             {[
               { value: '75+', label: 'Engagements'  },
@@ -470,57 +428,20 @@ const HeroSection: FC = () => (
               { value: '₹80Cr+', label: 'Capital influenced' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p
-                  className="text-2xl font-light"
-                  style={{ color: '#EFF6FF' }}
-                >
-                  {stat.value}
-                </p>
-                <p className="text-xs tracking-widest uppercase mt-0.5" style={{ color: '#334155' }}>
-                  {stat.label}
-                </p>
+                <p className="text-2xl font-light text-white">{stat.value}</p>
+                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT — SVG visual placeholder */}
-        {/*
-          INTEGRATION NOTE:
-          Replace contents with:
-          <img src="/assets/case-studies/Hero Visual.svg" alt="" className="max-w-full h-auto" />
-        */}
-        <div
-          className="relative hidden lg:flex items-center justify-end"
-          style={{ height: '420px' }}
-          aria-hidden="true"
-        >
+        {/* RIGHT — placeholder */}
+        <div className="relative hidden lg:flex items-center justify-end" style={{ height: '420px' }} aria-hidden="true">
           <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Abstract data-flow motif */}
             <div className="relative w-80 h-80">
-              {/* Outer ring */}
-              <div
-                className="absolute inset-0 rounded-full"
-                style={{ border: '1px solid rgba(96,165,250,0.12)' }}
-              />
-              {/* Mid ring */}
-              <div
-                className="absolute rounded-full"
-                style={{
-                  inset: '30px',
-                  border: '1px solid rgba(96,165,250,0.08)',
-                }}
-              />
-              {/* Core */}
-              <div
-                className="absolute rounded-full"
-                style={{
-                  inset: '80px',
-                  background: 'radial-gradient(circle, rgba(30,80,160,0.2) 0%, transparent 70%)',
-                  border: '1px solid rgba(96,165,250,0.15)',
-                }}
-              />
-              {/* Metric chips orbiting */}
+              <div className="absolute inset-0 rounded-full" style={{ border: '1px solid rgba(59,130,246,0.12)' }} />
+              <div className="absolute rounded-full" style={{ inset: '30px', border: '1px solid rgba(59,130,246,0.08)' }} />
+              <div className="absolute rounded-full" style={{ inset: '80px', background: 'radial-gradient(circle, rgba(30,64,175,0.2) 0%, transparent 70%)', border: '1px solid rgba(59,130,246,0.15)' }} />
               {[
                 { label: 'Revenue ×6', angle: 0   },
                 { label: 'Churn −52%', angle: 72  },
@@ -539,8 +460,8 @@ const HeroSection: FC = () => (
                     style={{
                       left: `${x}%`,
                       top: `${y}%`,
-                      backgroundColor: 'rgba(15,39,68,0.9)',
-                      border: '1px solid rgba(96,165,250,0.2)',
+                      backgroundColor: '#0A1E3D',
+                      border: '1px solid rgba(59,130,246,0.2)',
                       color: '#93C5FD',
                     }}
                   >
@@ -551,7 +472,6 @@ const HeroSection: FC = () => (
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -559,7 +479,6 @@ const HeroSection: FC = () => (
 
 // =====================================================
 // TAG FILTER BAR
-// Horizontally scrollable — dark navy identity.
 // =====================================================
 
 interface TagFilterBarProps {
@@ -577,7 +496,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
     {ALL_TAGS.map((tag) => {
       const isActive  = tag === activeTag;
       const tagStyle  = tag === 'All'
-        ? { bg: 'rgba(96,165,250,0.10)', text: '#93C5FD' }
+        ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
 
       return (
@@ -589,9 +508,9 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           style={
             isActive
               ? {
-                  backgroundColor: '#1E4A7A',
+                  backgroundColor: '#132B47',
                   color: '#93C5FD',
-                  border: '1px solid rgba(96,165,250,0.40)',
+                  border: '1px solid rgba(59,130,246,0.40)',
                 }
               : {
                   backgroundColor: tagStyle.bg,
@@ -611,8 +530,6 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 
 // =====================================================
 // FEATURED CASE STUDY CARD
-// Full-width — used for the very first item.
-// Shows outcome pill, sector badge, duration.
 // =====================================================
 
 interface FeaturedCardProps {
@@ -629,15 +546,13 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(study.title)}
       className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      style={{ backgroundColor: '#081428', border: '1px solid rgba(96,165,250,0.10)' }}
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Open case study: ${study.title}`}
     >
-      {/* Decorative header */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0D3B6E 0%, #081428 65%)' }}
+        style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
-        {/* Concentric ring decoration */}
         <div className="absolute inset-0 flex items-center justify-end pr-8" aria-hidden="true">
           {[180, 130, 80].map((size, i) => (
             <div
@@ -646,14 +561,13 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
               style={{
                 width: size,
                 height: size,
-                border: `1px solid rgba(96,165,250,${0.04 + i * 0.03})`,
+                border: `1px solid rgba(59,130,246,${0.04 + i * 0.03})`,
                 right: -size / 4,
               }}
             />
           ))}
         </div>
 
-        {/* Featured badge */}
         <div className="relative z-10 flex items-center gap-3">
           <span
             className="px-3 py-1 rounded-full text-xs font-semibold"
@@ -664,9 +578,9 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.06)',
-              color: '#60A5FA',
-              border: '1px solid rgba(96,165,250,0.15)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.15)',
             }}
           >
             Featured
@@ -674,9 +588,9 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(52,211,153,0.08)',
-              color: '#34D399',
-              border: '1px solid rgba(52,211,153,0.15)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.15)',
             }}
           >
             {study.outcome}
@@ -684,35 +598,23 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-8 sm:px-10 py-6">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200"
-          style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
-            color: '#E2EFFF',
-          }}
+          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {study.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ color: '#475569' }}>
-          {study.excerpt}
-        </p>
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">{study.excerpt}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span
-              className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: 'rgba(30,74,122,0.4)', color: '#7AA8D0' }}
-            >
+            <span className="px-2.5 py-1 rounded-md text-xs" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
               {study.sector}
             </span>
-            <span className="text-xs" style={{ color: '#334155' }}>{study.year}</span>
-            <span className="text-xs" style={{ color: '#334155' }}>{study.duration}</span>
+            <span className="text-xs text-gray-500">{study.year}</span>
+            <span className="text-xs text-gray-500">{study.duration}</span>
           </div>
-          <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
-            style={{ color: '#60A5FA' }}
-          >
+          <div className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300">
             Read case study
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -726,8 +628,6 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
 
 // =====================================================
 // STANDARD CASE STUDY CARD
-// Used in 3-column grid.
-// Shows outcome pill prominently.
 // =====================================================
 
 interface CaseStudyCardProps {
@@ -747,23 +647,16 @@ const CaseStudyCard: FC<CaseStudyCardProps> = ({ study, onOpen, animIndex }) => 
       className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
         backgroundColor: '#0A1E3D',
-        border: '1px solid rgba(96,165,250,0.08)',
+        border: '1px solid rgba(59,130,246,0.08)',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
       }}
       aria-label={`Open case study: ${study.title}`}
     >
-      {/* Top accent line using tag colour */}
-      <div
-        className="h-0.5 w-full"
-        style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
-      />
-
-      {/* Header gradient band */}
+      <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }} />
       <div
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
-        style={{ background: 'linear-gradient(160deg, #0D2744 0%, #0A1E3D 100%)' }}
+        style={{ background: 'linear-gradient(160deg, #132B47 0%, #0A1E3D 100%)' }}
       >
-        {/* Subtle ring decor */}
         <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
           <div className="w-14 h-14 rounded-full border border-blue-400" />
         </div>
@@ -774,54 +667,41 @@ const CaseStudyCard: FC<CaseStudyCardProps> = ({ study, onOpen, animIndex }) => 
           >
             {study.tag}
           </span>
-          {/* Outcome pill */}
           <span
             className="px-2.5 py-1 rounded-full text-xs font-medium"
             style={{
-              backgroundColor: 'rgba(52,211,153,0.08)',
-              color: '#34D399',
-              border: '1px solid rgba(52,211,153,0.15)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              color: '#93C5FD',
+              border: '1px solid rgba(59,130,246,0.15)',
             }}
           >
             {study.outcome}
           </span>
         </div>
-        {/* Lock */}
         <div className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity" aria-hidden="true">
-          <svg className="w-3.5 h-3.5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
-          style={{ color: '#C8DEFF', fontSize: '0.9rem' }}
+          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
         >
           {study.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#3D5A7A' }}>
-          {study.excerpt}
-        </p>
-
-        {/* Footer row */}
-        <div
-          className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(96,165,250,0.07)' }}
-        >
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-500">{study.excerpt}</p>
+        <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}>
           <div className="flex items-center gap-2">
-            <span
-              className="text-xs px-2 py-0.5 rounded"
-              style={{ backgroundColor: 'rgba(30,74,122,0.35)', color: '#4B78A0' }}
-            >
+            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
               {study.sector}
             </span>
-            <span className="text-xs" style={{ color: '#253A52' }}>{study.year}</span>
+            <span className="text-xs text-gray-600">{study.year}</span>
           </div>
-          <span className="text-xs" style={{ color: '#253A52' }}>{study.duration}</span>
+          <span className="text-xs text-gray-600">{study.duration}</span>
         </div>
       </div>
     </article>
@@ -829,9 +709,7 @@ const CaseStudyCard: FC<CaseStudyCardProps> = ({ study, onOpen, animIndex }) => 
 };
 
 // =====================================================
-// BLOGS ADVERTISEMENT STRIP
-// Inserted after batch 1 (25 studies loaded).
-// Warm parchment tones contrast the navy grid.
+// BLOGS ADVERTISEMENT STRIP — now using blues only
 // =====================================================
 
 interface BlogsStripProps {
@@ -841,35 +719,23 @@ interface BlogsStripProps {
 const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#1C1408', border: '1px solid rgba(200,184,138,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
-      {/* Strip header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(200,184,138,0.10)' }}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="#C8B88A" viewBox="0 0 24 24">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#132B47' }}>
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#C8B88A' }}>
-              From the Blog
-            </p>
-            <p className="text-sm font-light" style={{ color: '#7A6A50' }}>
-              Thinking behind the work
-            </p>
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">From the Blog</p>
+            <p className="text-sm font-light text-gray-400">Thinking behind the work</p>
           </div>
         </div>
-        <a
-          href="/resources/blogs"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#C8B88A' }}
-        >
+        <a href="/resources/blogs" className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity">
           All Articles
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -877,7 +743,6 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
         </a>
       </div>
 
-      {/* Blog teasers */}
       <div className="grid sm:grid-cols-3 gap-4">
         {FEATURED_BLOGS.map((blog) => (
           <div
@@ -886,26 +751,20 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2"
-            style={{ backgroundColor: '#2A1E0C', border: '1px solid rgba(200,184,138,0.08)' }}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
             aria-label={`Read blog: ${blog.title}`}
           >
-            <span
-              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(200,184,138,0.10)', color: '#C8B88A' }}
-            >
+            <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2" style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}>
               {blog.tag}
             </span>
-            <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-amber-200 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#E8D8B0' }}
-            >
+            <p className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
               {blog.title}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: '#C8B88A' }}>{blog.readTime} read</span>
-              <span className="text-xs" style={{ color: '#3A2808' }}>·</span>
-              <span className="text-xs" style={{ color: '#6A5030' }}>{blog.date}</span>
+              <span className="text-xs text-blue-400">{blog.readTime} read</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{blog.date}</span>
             </div>
           </div>
         ))}
@@ -915,9 +774,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
 );
 
 // =====================================================
-// REPORTS ADVERTISEMENT STRIP
-// Inserted after batch 2 (50 studies loaded).
-// Dark teal / emerald identity.
+// REPORTS ADVERTISEMENT STRIP — now using blues only
 // =====================================================
 
 interface ReportsStripProps {
@@ -927,34 +784,22 @@ interface ReportsStripProps {
 const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#061814', border: '1px solid rgba(52,211,153,0.10)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
-      {/* Strip header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(52,211,153,0.10)' }}
-          >
-            <svg className="w-4 h-4" fill="currentColor" style={{ color: '#34D399' }} viewBox="0 0 24 24">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}>
+            <svg className="w-4 h-4 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#34D399' }}>
-              Research &amp; Reports
-            </p>
-            <p className="text-sm font-light" style={{ color: '#1A4A30' }}>
-              Data-backed analysis for founders
-            </p>
+            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">Research &amp; Reports</p>
+            <p className="text-sm font-light text-gray-400">Data-backed analysis for founders</p>
           </div>
         </div>
-        <a
-          href="/resources/reports"
-          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-          style={{ color: '#34D399' }}
-        >
+        <a href="/resources/reports" className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity">
           All Reports
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -962,7 +807,6 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
         </a>
       </div>
 
-      {/* Report teasers */}
       <div className="grid sm:grid-cols-3 gap-4">
         {FEATURED_REPORTS.map((report) => (
           <div
@@ -971,26 +815,20 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2"
-            style={{ backgroundColor: '#0A2418', border: '1px solid rgba(52,211,153,0.08)' }}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
             aria-label={`Access report: ${report.title}`}
           >
-            <span
-              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(52,211,153,0.10)', color: '#6EE7B7' }}
-            >
+            <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2" style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}>
               {report.tag}
             </span>
-            <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#B8F0D8' }}
-            >
+            <p className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
               {report.title}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: '#34D399' }}>{report.pages}</span>
-              <span className="text-xs" style={{ color: '#0A3020' }}>·</span>
-              <span className="text-xs" style={{ color: '#1A5030' }}>{report.date}</span>
+              <span className="text-xs text-blue-400">{report.pages}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-500">{report.date}</span>
             </div>
           </div>
         ))}
@@ -1001,8 +839,6 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
 
 // =====================================================
 // LOAD MORE SENTINEL
-// IntersectionObserver-based. Fires 200px before
-// reaching the bottom of the current list.
 // =====================================================
 
 interface LoadMoreSentinelProps {
@@ -1012,12 +848,7 @@ interface LoadMoreSentinelProps {
   totalCount: number;
 }
 
-const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
-  onVisible,
-  loading,
-  hasMore,
-  totalCount,
-}) => {
+const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMore, totalCount }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1038,7 +869,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
   return (
     <div ref={ref} className="flex justify-center py-12">
       {loading && (
-        <div className="flex items-center gap-3" style={{ color: '#2D4A6A' }}>
+        <div className="flex items-center gap-3 text-gray-500">
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -1047,9 +878,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
         </div>
       )}
       {!loading && !hasMore && (
-        <p className="text-sm" style={{ color: '#1E3A52' }}>
-          All {totalCount} case studies loaded.
-        </p>
+        <p className="text-sm text-gray-500">All {totalCount} case studies loaded.</p>
       )}
     </div>
   );
@@ -1057,30 +886,25 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
 
 // =====================================================
 // PAGE ROOT COMPONENT
-// Orchestrates: filter → batched render → ad strips →
-// infinite scroll sentinel → partner auth modal.
 // =====================================================
 
 export default function CaseStudiesHubPage(): React.JSX.Element {
-  const [activeTag, setActiveTag]     = useState<string>('All');
+  const [activeTag, setActiveTag] = useState<string>('All');
   const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE);
-  const [isLoading, setIsLoading]     = useState<boolean>(false);
-  const [modalState, setModalState]   = useState<ModalState>({ open: false, title: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [modalState, setModalState] = useState<ModalState>({ open: false, title: '' });
 
-  // Filtered set derived from active tag
   const filteredStudies: CaseStudy[] = activeTag === 'All'
     ? ALL_CASE_STUDIES
     : ALL_CASE_STUDIES.filter((s) => s.tag === activeTag);
 
   const visibleStudies: CaseStudy[] = filteredStudies.slice(0, loadedCount);
-  const hasMore: boolean             = loadedCount < filteredStudies.length;
+  const hasMore: boolean = loadedCount < filteredStudies.length;
 
-  // Reset batch on filter change
   useEffect(() => {
     setLoadedCount(BATCH_SIZE);
   }, [activeTag]);
 
-  // IntersectionObserver callback — load next 25 after 600ms simulated delay
   const loadMore = useCallback((): void => {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
@@ -1090,18 +914,17 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
     }, 600);
   }, [isLoading, hasMore, filteredStudies.length]);
 
-  const openModal  = (title: string): void => setModalState({ open: true, title });
+  const openModal = (title: string): void => setModalState({ open: true, title });
   const closeModal = (): void => setModalState({ open: false, title: '' });
 
-  // Batch slices with ad strip insertion points
-  const batch1: CaseStudy[]     = visibleStudies.slice(0, 25);
-  const batch2: CaseStudy[]     = visibleStudies.slice(25, 50);
-  const batch3: CaseStudy[]     = visibleStudies.slice(50);
+  const batch1: CaseStudy[] = visibleStudies.slice(0, 25);
+  const batch2: CaseStudy[] = visibleStudies.slice(25, 50);
+  const batch3: CaseStudy[] = visibleStudies.slice(50);
 
   const featured: CaseStudy | undefined = batch1[0];
-  const restBatch1: CaseStudy[]         = batch1.slice(1);
+  const restBatch1: CaseStudy[] = batch1.slice(1);
 
-  const showBlogsStrip   = visibleStudies.length >= 25;
+  const showBlogsStrip = visibleStudies.length >= 25;
   const showReportsStrip = visibleStudies.length >= 50;
 
   return (
@@ -1126,27 +949,18 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#060F1C' }}>
-
-        {/* ── Hero ─────────────────────────────────────── */}
+      <main className="min-h-screen bg-white">
         <HeroSection />
 
-        {/* ── Content Area ─────────────────────────────── */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-
-          {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#2D4A6A' }}>
-              {filteredStudies.length} case{' '}
-              {filteredStudies.length !== 1 ? 'studies' : 'study'}
-              {activeTag !== 'All' && (
-                <> in <em style={{ color: '#4B78A0' }}>{activeTag}</em></>
-              )}
+            <p className="text-sm flex-shrink-0 text-gray-500">
+              {filteredStudies.length} case {filteredStudies.length !== 1 ? 'studies' : 'study'}
+              {activeTag !== 'All' && <> in <em className="text-blue-600">{activeTag}</em></>}
             </p>
           </div>
 
-          {/* ── BATCH 1 ───────────────────────────────── */}
           {featured && (
             <div className="mb-8">
               <FeaturedCaseStudyCard study={featured} onOpen={openModal} />
@@ -1156,69 +970,40 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
           {restBatch1.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {restBatch1.map((study, i) => (
-                <CaseStudyCard
-                  key={study.id}
-                  study={study}
-                  onOpen={openModal}
-                  animIndex={i}
-                />
+                <CaseStudyCard key={study.id} study={study} onOpen={openModal} animIndex={i} />
               ))}
             </div>
           )}
 
-          {/* ── BLOGS AD STRIP — after batch 1 ────────── */}
-          {showBlogsStrip && (
-            <BlogsAdvertStrip onBlogClick={openModal} />
-          )}
+          {showBlogsStrip && <BlogsAdvertStrip onBlogClick={openModal} />}
 
-          {/* ── BATCH 2 ───────────────────────────────── */}
           {batch2.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch2.map((study, i) => (
-                <CaseStudyCard
-                  key={study.id}
-                  study={study}
-                  onOpen={openModal}
-                  animIndex={i}
-                />
+                <CaseStudyCard key={study.id} study={study} onOpen={openModal} animIndex={i} />
               ))}
             </div>
           )}
 
-          {/* ── REPORTS AD STRIP — after batch 2 ─────── */}
-          {showReportsStrip && (
-            <ReportsAdvertStrip onReportClick={openModal} />
-          )}
+          {showReportsStrip && <ReportsAdvertStrip onReportClick={openModal} />}
 
-          {/* ── BATCH 3 ───────────────────────────────── */}
           {batch3.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch3.map((study, i) => (
-                <CaseStudyCard
-                  key={study.id}
-                  study={study}
-                  onOpen={openModal}
-                  animIndex={i}
-                />
+                <CaseStudyCard key={study.id} study={study} onOpen={openModal} animIndex={i} />
               ))}
             </div>
           )}
 
-          {/* ── Empty state ───────────────────────────── */}
           {filteredStudies.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🔍</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#C8DEFF' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No case studies in &ldquo;{activeTag}&rdquo; yet
               </p>
-              <p className="text-sm" style={{ color: '#2D4A6A' }}>
+              <p className="text-sm text-gray-500">
                 Try a different category or{' '}
-                <button
-                  type="button"
-                  className="underline"
-                  style={{ color: '#60A5FA' }}
-                  onClick={() => setActiveTag('All')}
-                >
+                <button type="button" className="underline text-blue-600" onClick={() => setActiveTag('All')}>
                   view all
                 </button>
                 .
@@ -1226,7 +1011,6 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Load more sentinel ────────────────────── */}
           {filteredStudies.length > 0 && (
             <LoadMoreSentinel
               onVisible={loadMore}
@@ -1235,16 +1019,10 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
               totalCount={filteredStudies.length}
             />
           )}
-
         </div>
       </main>
 
-      {/* ── Partner Auth Modal ────────────────────────── */}
-      <PartnerAuthModal
-        isOpen={modalState.open}
-        onClose={closeModal}
-        resourceTitle={modalState.title}
-      />
+      <PartnerAuthModal isOpen={modalState.open} onClose={closeModal} resourceTitle={modalState.title} />
     </>
   );
 }

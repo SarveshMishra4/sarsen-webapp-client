@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useCallback,
   FC,
-  ReactNode,
   MouseEvent,
   FormEvent,
   ChangeEvent,
@@ -158,31 +157,28 @@ const FEATURED_CASE_STUDIES: CaseStudyTeaser[] = [
 const BATCH_SIZE = 25;
 
 // =====================================================
-// TAG COLOR MAP
-// Maps content tags to warm editorial colour accents
-// consistent with the blog design identity.
+// TAG COLOR MAP — updated to use blues from homepage palette
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Strategy:    { bg: '#EDE6DA', text: '#5C3D00' },
-  Revenue:     { bg: '#E8F0E0', text: '#2A4A00' },
-  Finance:     { bg: '#E0EAF0', text: '#00304A' },
-  Metrics:     { bg: '#F0E8E0', text: '#4A2800' },
-  PMF:         { bg: '#E8E0F0', text: '#32004A' },
-  Operations:  { bg: '#F0EAE0', text: '#4A3000' },
-  Thinking:    { bg: '#E8F0EC', text: '#004A20' },
-  Fundraising: { bg: '#F0E0E8', text: '#4A0020' },
-  Customers:   { bg: '#E4F0E0', text: '#1A4A00' },
-  Advisory:    { bg: '#EAE8F0', text: '#20004A' },
-  Product:     { bg: '#F0ECE0', text: '#4A3800' },
+  Strategy:    { bg: '#DBEAFE', text: '#1E40AF' },   // blue-100, blue-800
+  Revenue:     { bg: '#E0F2FE', text: '#0369A1' },   // blue-100 variant, blue-700
+  Finance:     { bg: '#E6F0FF', text: '#1E3A8A' },   // custom light blue, blue-900
+  Metrics:     { bg: '#DBEAFE', text: '#1E40AF' },
+  PMF:         { bg: '#E0E7FF', text: '#3730A3' },   // indigo-100, indigo-800 (close to blue)
+  Operations:  { bg: '#E6F0FF', text: '#1E3A8A' },
+  Thinking:    { bg: '#DBEAFE', text: '#1E40AF' },
+  Fundraising: { bg: '#E0F2FE', text: '#0369A1' },
+  Customers:   { bg: '#E6F0FF', text: '#1E3A8A' },
+  Advisory:    { bg: '#E0E7FF', text: '#3730A3' },
+  Product:     { bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: '#EDE6DA', text: '#5C3D00' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
 
 // =====================================================
-// PARTNER AUTH MODAL
-// Identical to the resources hub modal.
+// PARTNER AUTH MODAL — redesigned to match homepage modal
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -231,35 +227,25 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ backgroundColor: '#002855' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
       onClick={handleBackdropClick}
     >
       <div className="relative w-full max-w-md" style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}>
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-
-          {/* Modal Header */}
-          <div className="bg-[#002855] px-8 py-6 relative">
+          {/* Modal Header — plain, no gradient */}
+          <div className="px-8 py-6 relative border-b border-gray-200">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">Partner Access</span>
-            </div>
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
-            <p className="text-blue-200 text-sm mt-1 truncate">
-              Reading: <span className="text-white font-medium">{resourceTitle}</span>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to read: <span className="font-medium text-gray-700">{resourceTitle}</span>
             </p>
           </div>
 
@@ -348,8 +334,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
@@ -361,7 +347,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
             )}
           </div>
         </div>
-        <p className="text-center text-sm mt-4" style={{ color: 'rgba(255,255,255,0.35)' }}>
+        <p className="text-center text-sm mt-4 text-gray-400">
           Partner access is monitored and logged for security purposes.
         </p>
       </div>
@@ -370,30 +356,28 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
 };
 
 // =====================================================
-// HERO SECTION
-// Dark navy — editorial feel.
-// Right side: SVG visual placeholder.
+// HERO SECTION — colors updated to homepage palette
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#002855', minHeight: '520px' }}
+    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background — fine diagonal hatching */}
+    {/* Background — fine diagonal hatching using blue-300 */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="hatch" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="12" stroke="#C8B88A" strokeWidth="1" />
+            <line x1="0" y1="0" x2="0" y2="12" stroke="#93C5FD" strokeWidth="1" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#hatch)" />
       </svg>
-      {/* Warm glow bottom-left */}
+      {/* Warm glow bottom-left — using blue-300 with opacity */}
       <div
         className="absolute bottom-0 left-0 w-[500px] h-[300px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(ellipse, rgba(180,140,60,0.08) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse, rgba(147,197,253,0.08) 0%, transparent 70%)' }}
       />
     </div>
 
@@ -404,28 +388,26 @@ const HeroSection: FC = () => (
         <div className="space-y-7">
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-2"
-            style={{ backgroundColor: 'rgba(200,184,138,0.08)', border: '1px solid rgba(200,184,138,0.18)' }}
+            style={{ backgroundColor: 'rgba(147,197,253,0.08)', border: '1px solid rgba(147,197,253,0.18)' }}
           >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#C8B88A' }} />
-            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#C8B88A' }}>
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#93C5FD' }} />
+            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#93C5FD' }}>
               Sarsen &amp; Company · Blogs
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight"
+              className="font-light leading-none tracking-tight text-white"
               style={{
                 fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-                color: '#F5F0E8',
-                
               }}
             >
               Thinking
               <br />
               <span style={{ color: '#ffffff' }}>Out Loud.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light" style={{ color: '#9A9080' }}>
+            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
               In-depth perspectives on strategy, revenue architecture, capital decisions, and the structural realities of building startups in India.
             </p>
           </div>
@@ -438,32 +420,26 @@ const HeroSection: FC = () => (
               { value: '5 min', label: 'Avg. read'  },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-light" style={{ color: '#F5F0E8' }}>{stat.value}</p>
-                <p className="text-xs tracking-widest uppercase" style={{ color: '#ffffff' }}>{stat.label}</p>
+                <p className="text-2xl font-light text-white">{stat.value}</p>
+                <p className="text-xs tracking-widest uppercase text-gray-300">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT — SVG visual placeholder */}
-        {/*
-          INTEGRATION NOTE:
-          Replace contents with:
-          <img src="/assets/blogs/Hero Visual.svg" alt="" className="max-w-full h-auto" />
-        */}
+        {/* RIGHT — SVG visual placeholder (unchanged layout, only colors adjusted) */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
           <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Large decorative quotation mark */}
+            {/* Large decorative quotation mark — now using blue-300 with low opacity */}
             <span
               className="absolute select-none"
               style={{
                 fontSize: '22rem',
-               
-                color: 'rgba(200,184,138,0.05)',
+                color: 'rgba(147,197,253,0.05)',
                 lineHeight: 1,
                 top: '-2rem',
                 right: '-1rem',
@@ -471,7 +447,7 @@ const HeroSection: FC = () => (
             >
               &ldquo;
             </span>
-            {/* Stacked lines — editorial motif */}
+            {/* Stacked lines — using blue-300 with varying opacity */}
             <div className="relative z-10 space-y-3 w-72">
               {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
                 <div
@@ -480,13 +456,13 @@ const HeroSection: FC = () => (
                   style={{
                     height: '3px',
                     width: `${w}%`,
-                    background: `rgba(200,184,138,${0.06 + i * 0.04})`,
+                    background: `rgba(147,197,253,${0.06 + i * 0.04})`,
                   }}
                 />
               ))}
               <div
                 className="mt-6 rounded-full"
-                style={{ height: '2px', width: '30%', background: 'rgba(200,184,138,0.35)' }}
+                style={{ height: '2px', width: '30%', background: 'rgba(147,197,253,0.35)' }}
               />
             </div>
           </div>
@@ -498,8 +474,7 @@ const HeroSection: FC = () => (
 );
 
 // =====================================================
-// FEATURED BLOG CARD
-// Large format — used for the very first post.
+// FEATURED BLOG CARD — colors updated
 // =====================================================
 
 interface FeaturedCardProps {
@@ -515,8 +490,8 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onRead(post.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#C8B88A]"
-      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(200,184,138,0.12)' }}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
+      style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
       aria-label={`Read: ${post.title}`}
     >
       {/* Decorative header band */}
@@ -525,7 +500,7 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
         style={{ backgroundColor: '#0A1E3D' }}
       >
         <div className="absolute inset-0 flex items-center justify-end pr-8 opacity-[0.06]">
-          <span style={{ fontSize: '140px',  color: '#C8B88A', lineHeight: 1 }}>
+          <span style={{ fontSize: '140px', color: '#93C5FD', lineHeight: 1 }}>
             &ldquo;
           </span>
         </div>
@@ -538,7 +513,7 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
           </span>
           <span
             className="text-xs px-3 py-1 rounded-full"
-            style={{ backgroundColor: 'rgba(200,184,138,0.08)', color: '#C8B88A', border: '1px solid rgba(200,184,138,0.15)' }}
+            style={{ backgroundColor: 'rgba(147,197,253,0.08)', color: '#93C5FD', border: '1px solid rgba(147,197,253,0.15)' }}
           >
             Featured
           </span>
@@ -547,20 +522,20 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
 
       <div className="px-8 py-6">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-[#C8B88A] transition-colors duration-200"
-          style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', color: '#F0EAD8' }}
+          className="font-light leading-snug mb-3 group-hover:text-[#93C5FD] transition-colors duration-200 text-white"
+          style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}
         >
           {post.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-5" style={{ color: '#7A7060' }}>{post.excerpt}</p>
+        <p className="text-sm leading-relaxed mb-5 text-gray-400">{post.excerpt}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="text-xs" style={{ color: '#5A5040' }}>{post.date}</span>
-            <span className="text-xs" style={{ color: '#5A5040' }}>{post.readTime} read</span>
+            <span className="text-xs text-gray-500">{post.date}</span>
+            <span className="text-xs text-gray-500">{post.readTime} read</span>
           </div>
           <div
             className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-2.5 transition-all duration-200"
-            style={{ color: '#C8B88A' }}
+            style={{ color: '#93C5FD' }}
           >
             Read article
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -574,14 +549,12 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
 };
 
 // =====================================================
-// STANDARD BLOG CARD
-// Compact — used in the 3-column grid.
+// STANDARD BLOG CARD — colors updated
 // =====================================================
 
 interface BlogCardProps {
   post: BlogPost;
   onRead: (title: string) => void;
-  /** Stagger index for entrance animation delay */
   animIndex: number;
 }
 
@@ -593,15 +566,15 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onRead(post.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#C8B88A]"
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
       style={{
         backgroundColor: '#FFFFFF',
-        border: '1px solid #E8E0D0',
+        border: '1px solid #E5E7EB',
         animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 40}ms both`,
       }}
       aria-label={`Read: ${post.title}`}
     >
-      {/* Colour band top */}
+      {/* Colour band top — using tag color */}
       <div
         className="h-1.5 w-full"
         style={{ background: `linear-gradient(90deg, ${tagStyle.bg}, transparent)` }}
@@ -615,29 +588,29 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
           >
             {post.tag}
           </span>
-          {/* Lock indicator */}
-          <svg className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 opacity-30 group-hover:opacity-70 transition-opacity" fill="none" stroke="#2C1810" viewBox="0 0 24 24" aria-hidden="true">
+          {/* Lock indicator — using gray-600 */}
+          <svg className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 opacity-30 group-hover:opacity-70 transition-opacity" fill="none" stroke="#4B5563" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
 
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-[#5C3D00] transition-colors duration-200 line-clamp-2"
-          style={{ color: '#1A1008', fontSize: '0.925rem' }}
+          className="font-medium leading-snug mb-2 group-hover:text-[#1E40AF] transition-colors duration-200 line-clamp-2 text-gray-900"
+          style={{ fontSize: '0.925rem' }}
         >
           {post.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#c1c1c1' }}>
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-500">
           {post.excerpt}
         </p>
 
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid #F0E8DC' }}
+          style={{ borderTop: '1px solid #E5E7EB' }}
         >
-          <span className="text-xs" style={{ color: '#B0A080' }}>{post.readTime} read</span>
-          <span className="text-xs" style={{ color: '#C0A870' }}>{post.date}</span>
+          <span className="text-xs text-gray-500">{post.readTime} read</span>
+          <span className="text-xs text-gray-500">{post.date}</span>
         </div>
       </div>
     </article>
@@ -645,8 +618,7 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
 };
 
 // =====================================================
-// REPORTS ADVERTISEMENT STRIP
-// Inserted after batch 1 loads.
+// REPORTS ADVERTISEMENT STRIP — colors updated
 // =====================================================
 
 interface ReportStripProps {
@@ -664,25 +636,24 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'rgba(52,211,153,0.1)' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" style={{ color: '#ffffff' }}>
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#ffffff' }}>
+            <p className="text-xs font-medium tracking-widest uppercase text-white">
               Research &amp; Reports
             </p>
-            <p className="text-sm font-light" style={{ color: '#93B4D4' }}>
+            <p className="text-sm font-light text-gray-400">
               Data-backed analysis for founders
             </p>
           </div>
         </div>
         <a
           href="/resources/reports"
-          className="text-xs font-medium flex items-center gap-1 transition-colors hover:opacity-80"
-          style={{ color: '#ffffff' }}
+          className="text-xs font-medium flex items-center gap-1 text-white hover:opacity-80 transition-colors"
         >
           All Reports
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -700,29 +671,28 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2"
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
-              backgroundColor: '#0F2744',
-              border: '1px solid rgba(52,211,153,0.1)',
+              backgroundColor: '#132B47',
+              border: '1px solid rgba(59,130,246,0.1)',
             }}
             aria-label={`Access report: ${report.title}`}
           >
             <span
               className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(52,211,153,0.1)', color: '#ffffff' }}
+              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#ffffff' }}
             >
               {report.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#D1FAE5' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {report.title}
             </p>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs" style={{ color: '#34D399' }}>{report.pages}</span>
-              <span className="text-xs" style={{ color: '#1E4070' }}>·</span>
-              <span className="text-xs" style={{ color: '#4B78A0' }}>{report.date}</span>
+              <span className="text-xs text-blue-400">{report.pages}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-400">{report.date}</span>
             </div>
           </div>
         ))}
@@ -732,8 +702,7 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
 );
 
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP
-// Inserted after batch 2 loads.
+// CASE STUDIES ADVERTISEMENT STRIP — colors updated
 // =====================================================
 
 interface CaseStudyStripProps {
@@ -743,7 +712,7 @@ interface CaseStudyStripProps {
 const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) => (
   <div
     className="my-12 rounded-2xl overflow-hidden"
-    style={{ backgroundColor: '#002588' }}
+    style={{ backgroundColor: '#0A1E3D' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -751,26 +720,25 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: '#0A1E3D' }}
+            style={{ backgroundColor: '#132B47' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="#E07030" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#E07030' }}>
+            <p className="text-xs font-medium tracking-widest uppercase text-white">
               Case Studies
             </p>
-            <p className="text-sm font-light" style={{ color: '#8A6040' }}>
+            <p className="text-sm font-light text-gray-400">
               Real decisions. Real outcomes.
             </p>
           </div>
         </div>
         <a
           href="/resources/case-studies"
-          className="text-xs font-medium flex items-center gap-1 transition-colors hover:opacity-80"
-          style={{ color: '#E07030' }}
+          className="text-xs font-medium flex items-center gap-1 text-blue-400 hover:opacity-80 transition-colors"
         >
           All Cases
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -788,29 +756,28 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2"
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
-              backgroundColor: '#0A1E3D',
-            
+              backgroundColor: '#132B47',
+              border: '1px solid rgba(59,130,246,0.1)',
             }}
             aria-label={`Access case study: ${cs.title}`}
           >
             <span
               className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(200,75,0,0.15)', color: '#cfcfcf' }}
+              style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#ffffff' }}
             >
               {cs.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-orange-300 transition-colors duration-200 line-clamp-2"
-              style={{ color: '#ffffff' }}
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {cs.title}
             </p>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs" style={{ color: '#e1e1e1' }}>{cs.sector}</span>
-              <span className="text-xs" style={{ color: '#4A2800' }}>·</span>
-              <span className="text-xs" style={{ color: '#c7c7c7' }}>{cs.year}</span>
+              <span className="text-xs text-gray-300">{cs.sector}</span>
+              <span className="text-xs text-gray-600">·</span>
+              <span className="text-xs text-gray-400">{cs.year}</span>
             </div>
           </div>
         ))}
@@ -820,9 +787,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
 );
 
 // =====================================================
-// LOAD MORE SENTINEL
-// Invisible div at the bottom of the loaded list.
-// IntersectionObserver triggers the next batch load.
+// LOAD MORE SENTINEL — colors updated
 // =====================================================
 
 interface LoadMoreSentinelProps {
@@ -852,7 +817,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
   return (
     <div ref={ref} className="flex justify-center py-10">
       {loading && (
-        <div className="flex items-center gap-3" style={{ color: '#9B8A72' }}>
+        <div className="flex items-center gap-3 text-gray-500">
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -861,7 +826,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
         </div>
       )}
       {!loading && !hasMore && (
-        <p className="text-sm" style={{ color: '#6A6050' }}>
+        <p className="text-sm text-gray-500">
           You&apos;ve reached the end — {ALL_BLOGS.length} articles total.
         </p>
       )}
@@ -870,8 +835,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
 };
 
 // =====================================================
-// TAG FILTER BAR
-// Horizontal scrollable tag filter above the grid.
+// TAG FILTER BAR — updated colors
 // =====================================================
 
 const ALL_TAGS: string[] = [
@@ -893,16 +857,16 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   >
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
-      const style = tag === 'All' ? { bg: '#1A1008', text: '#F0E8D0' } : getTagStyle(tag);
+      const style = tag === 'All' ? { bg: '#0A1E3D', text: '#93C5FD' } : getTagStyle(tag);
       return (
         <button
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C8B88A]"
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
           style={
             isActive
-              ? { backgroundColor: '#1A1008', color: '#C8B88A', border: '1px solid rgba(200,184,138,0.40)' }
+              ? { backgroundColor: '#0A1E3D', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
               : { backgroundColor: style.bg, color: style.text, border: '1px solid transparent', opacity: 0.7 }
           }
           aria-pressed={isActive}
@@ -916,16 +880,14 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 
 // =====================================================
 // MAIN PAGE COMPONENT
-// Orchestrates batched loading, filter, and modal.
 // =====================================================
 
-export default function BlogsHubPage(): React.JSX.Element {
+export default function BlogsHubPage() {
   const [activeTag, setActiveTag]     = useState<string>('All');
   const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE);
   const [isLoading, setIsLoading]     = useState<boolean>(false);
   const [modalState, setModalState]   = useState<ModalState>({ open: false, title: '' });
 
-  // Derive filtered set whenever tag changes; reset loaded count
   const filteredBlogs: BlogPost[] = activeTag === 'All'
     ? ALL_BLOGS
     : ALL_BLOGS.filter((b) => b.tag === activeTag);
@@ -933,12 +895,10 @@ export default function BlogsHubPage(): React.JSX.Element {
   const visibleBlogs: BlogPost[]  = filteredBlogs.slice(0, loadedCount);
   const hasMore: boolean          = loadedCount < filteredBlogs.length;
 
-  // Reset count when filter changes
   useEffect(() => {
     setLoadedCount(BATCH_SIZE);
   }, [activeTag]);
 
-  // IntersectionObserver callback — load next batch with simulated delay
   const loadMore = useCallback((): void => {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
@@ -951,11 +911,9 @@ export default function BlogsHubPage(): React.JSX.Element {
   const openModal  = (title: string): void => setModalState({ open: true, title });
   const closeModal = (): void => setModalState({ open: false, title: '' });
 
-  // Determine whether to insert ad strips based on how many batches are visible
   const showReportStrip     = visibleBlogs.length >= 25;
   const showCaseStudyStrip  = visibleBlogs.length >= 50;
 
-  // Split visible blogs around ad strip insertion points
   const batch1: BlogPost[] = visibleBlogs.slice(0, 25);
   const batch2: BlogPost[] = visibleBlogs.slice(25, 50);
   const batch3: BlogPost[] = visibleBlogs.slice(50);
@@ -985,27 +943,26 @@ export default function BlogsHubPage(): React.JSX.Element {
         }
       `}</style>
 
-      <main className="min-h-screen" style={{ backgroundColor: '#F7F4EF' }}>
+      <main className="min-h-screen" style={{ backgroundColor: '#E8EEF2' }}>
 
-        {/* ── Hero ───────────────────────────────────────── */}
+        {/* Hero */}
         <HeroSection />
 
-        {/* ── Content Area ───────────────────────────────── */}
+        {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
-            <p className="text-sm flex-shrink-0" style={{ color: '#9B8A72' }}>
+            <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}
               {activeTag !== 'All' && <> in <em>{activeTag}</em></>}
             </p>
           </div>
 
-          {/* ── BATCH 1 ──────────────────────────────────── */}
+          {/* Batch 1 */}
           {featured && (
             <div className="mb-8">
-              {/* Featured card full-width */}
               <FeaturedBlogCard post={featured} onRead={openModal} />
             </div>
           )}
@@ -1018,12 +975,12 @@ export default function BlogsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── REPORTS AD STRIP — after batch 1 ─────────── */}
+          {/* Reports ad strip */}
           {showReportStrip && (
             <ReportsAdvertStrip onReportClick={openModal} />
           )}
 
-          {/* ── BATCH 2 ──────────────────────────────────── */}
+          {/* Batch 2 */}
           {batch2.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch2.map((post, i) => (
@@ -1032,12 +989,12 @@ export default function BlogsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── CASE STUDIES AD STRIP — after batch 2 ──── */}
+          {/* Case studies ad strip */}
           {showCaseStudyStrip && (
             <CaseStudiesAdvertStrip onCaseStudyClick={openModal} />
           )}
 
-          {/* ── BATCH 3 ──────────────────────────────────── */}
+          {/* Batch 3 */}
           {batch3.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {batch3.map((post, i) => (
@@ -1046,19 +1003,18 @@ export default function BlogsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── Empty state ──────────────────────────────── */}
+          {/* Empty state */}
           {filteredBlogs.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📖</p>
-              <p className="text-lg font-light mb-1" style={{ color: '#1A1008' }}>
+              <p className="text-lg font-light mb-1 text-gray-900">
                 No articles in &ldquo;{activeTag}&rdquo; yet
               </p>
-              <p className="text-sm" style={{ color: '#9B8A72' }}>
+              <p className="text-sm text-gray-500">
                 Try a different category or{' '}
                 <button
                   type="button"
-                  className="underline"
-                  style={{ color: '#5C3D00' }}
+                  className="underline text-blue-800"
                   onClick={() => setActiveTag('All')}
                 >
                   view all
@@ -1068,7 +1024,7 @@ export default function BlogsHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* ── IntersectionObserver sentinel ────────────── */}
+          {/* Load more sentinel */}
           {filteredBlogs.length > 0 && (
             <LoadMoreSentinel
               onVisible={loadMore}
@@ -1080,7 +1036,7 @@ export default function BlogsHubPage(): React.JSX.Element {
         </div>
       </main>
 
-      {/* ── Partner Auth Modal ─────────────────────────── */}
+      {/* Partner Auth Modal */}
       <PartnerAuthModal
         isOpen={modalState.open}
         onClose={closeModal}
