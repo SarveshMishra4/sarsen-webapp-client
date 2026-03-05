@@ -1,917 +1,1764 @@
-// app/reports/page.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  FC,
+  MouseEvent,
+  FormEvent,
+  ChangeEvent,
+} from 'react';
 
 // =====================================================
-// REPORTS & RESEARCH HUB PAGE
-// Features:
-// - Infinite scrolling to show 36 reports
-// - Click on any report opens authentication modal
-// - Requires Partner ID + Password to access
-// - Shows we have extensive research without revealing content
+// TYPE DEFINITIONS
 // =====================================================
 
-// =====================================================
-// AUTHENTICATION MODAL
-// =====================================================
-interface AuthModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  reportTitle: string;
-  onAuthenticate: (partnerId: string, password: string) => void;
+/** A single report item */
+interface Report {
+  id: number;
+  title: string;
+  excerpt: string;
+  tag: string;
+  pages: string;
+  date: string;
+  year: number;
+  sector: string;
+  featured?: boolean;
 }
 
-function AuthenticationModal({ isOpen, onClose, reportTitle, onAuthenticate }: AuthModalProps) {
-  const [partnerId, setPartnerId] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+/** Case study teaser shown in advertisement strip */
+interface CaseStudyTeaser {
+  title: string;
+  tag: string;
+  sector: string;
+  outcome: string;
+  year: string;
+}
+
+/** Blog teaser shown in advertisement strip */
+interface BlogTeaser {
+  title: string;
+  tag: string;
+  readTime: string;
+  date: string;
+}
+
+/** Partner auth modal state */
+interface ModalState {
+  open: boolean;
+  title: string;
+}
+
+/** Partner auth form fields */
+interface PartnerFormData {
+  partnerId: string;
+  password: string;
+}
+
+// =====================================================
+// REPORTS DATA — 75 reports, loaded 25 at a time
+// =====================================================
+
+const ALL_REPORTS: Report[] = [
+  // ── Batch 1 (1–25) ──────────────────────────────────────────────────────
+  {
+    id: 1,
+    title: 'Indian Startup Ecosystem Report 2026',
+    excerpt: 'Our most comprehensive annual publication. Covers funding trends across all stages, sector-wise growth patterns, tier-2 city emergence, founder demographics, and the structural shifts defining India\'s entrepreneurial decade.',
+    tag: 'Annual Report', pages: '142 pages', date: 'Feb 2026', year: 2026, sector: 'Cross-Sector', featured: true,
+  },
+  {
+    id: 2,
+    title: 'State of B2B SaaS in India — 2025 Review',
+    excerpt: 'Benchmarks across ARR growth, net revenue retention, CAC payback, and team efficiency ratios for Indian B2B SaaS companies at seed through Series B. Includes 200+ company dataset with cohort comparisons.',
+    tag: 'Sector Report', pages: '68 pages', date: 'Dec 2025', year: 2025, sector: 'B2B SaaS',
+  },
+  {
+    id: 3,
+    title: 'Founder Mental Models: A Survey of 200 Indian Founders',
+    excerpt: 'How founders make decisions under uncertainty, which frameworks they rely on, where they get systematically stuck, and what distinguishes the decision quality of founders who navigated difficult transitions successfully.',
+    tag: 'Research', pages: '54 pages', date: 'Nov 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 4,
+    title: 'Seed Funding Landscape: H2 2025 Digest',
+    excerpt: 'Deal flow analysis for seed rounds in India during H2 2025. Sector distribution, cheque size evolution, investor activity patterns, and the structural differences between rounds that closed and those that stalled.',
+    tag: 'Digest', pages: '32 pages', date: 'Jan 2026', year: 2026, sector: 'Fundraising',
+  },
+  {
+    id: 5,
+    title: 'Unit Economics Benchmarks by Sector 2025',
+    excerpt: 'CAC, LTV, payback period, and gross margin norms across 12 startup categories in India. Includes distribution curves, not just averages — so founders can understand where they actually stand relative to peers.',
+    tag: 'Benchmarks', pages: '48 pages', date: 'Oct 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 6,
+    title: 'The Operational Maturity Index — Indian Startups 2025',
+    excerpt: 'A scored framework assessing how founders build systems, delegate, and create accountability as they scale from 10 to 100 people. Identifies the five most common operational failure modes and what distinguishes high-maturity teams.',
+    tag: 'Index', pages: '60 pages', date: 'Sep 2025', year: 2025, sector: 'Operations',
+  },
+  {
+    id: 7,
+    title: 'D2C Brand Profitability Report 2025',
+    excerpt: 'Margin structures, blended CAC trends, LTV curves, and post-funding realities for direct-to-consumer brands in India. Analyses which D2C models are structurally profitable and which are growth-at-all-costs plays in disguise.',
+    tag: 'Sector Report', pages: '44 pages', date: 'Aug 2025', year: 2025, sector: 'D2C',
+  },
+  {
+    id: 8,
+    title: 'Capital Efficiency in Indian Startups — 5 Year Longitudinal Study',
+    excerpt: 'How efficiently Indian startups convert external capital into durable, defensible value over a five-year window. Tracks 300 companies from seed through Series B, measuring capital efficiency ratios across sectors and vintages.',
+    tag: 'Longitudinal', pages: '88 pages', date: 'Jul 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 9,
+    title: 'The Fundability Framework — Investor Expectation Report',
+    excerpt: 'What seed and Series A investors in India are actually evaluating — in their own words. Based on 200+ structured investor interviews. Covers business model requirements, team assessment, and the metrics that create fundable narratives.',
+    tag: 'Framework', pages: '52 pages', date: 'Jun 2025', year: 2025, sector: 'Fundraising',
+  },
+  {
+    id: 10,
+    title: 'Tier-2 Startup Hubs: Emerging Opportunity Report',
+    excerpt: 'Deep dives into five emerging startup cities — Jaipur, Indore, Kochi, Ahmedabad, and Chandigarh. Covers talent availability, infrastructure maturity, investor access, cost structures, and sector-specific opportunity assessment.',
+    tag: 'Emerging Markets', pages: '76 pages', date: 'May 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 11,
+    title: 'Pricing Architecture in Indian SaaS — A Deep Dive',
+    excerpt: 'How Indian SaaS companies price across segments, channels, and geographies. Identifies pricing pattern clusters, analyses which models correlate with higher NRR, and documents the most common pricing mistakes at each growth stage.',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Apr 2025', year: 2025, sector: 'B2B SaaS',
+  },
+  {
+    id: 12,
+    title: 'Healthtech in India: Where Value Is Actually Being Created',
+    excerpt: 'A sector map of India\'s healthtech landscape — which subsectors are attracting capital, where exits have occurred, what the regulatory environment means for different business models, and which whitespaces remain genuinely open.',
+    tag: 'Sector Report', pages: '62 pages', date: 'Mar 2025', year: 2025, sector: 'Healthtech',
+  },
+  {
+    id: 13,
+    title: 'Founder Burnout and Performance: What the Data Shows',
+    excerpt: 'A sensitive but necessary analysis. Survey data from 400 founders on stress indicators, performance degradation patterns, the decisions that suffer first, and what structural interventions actually improve outcomes.',
+    tag: 'Research', pages: '38 pages', date: 'Feb 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 14,
+    title: 'The Indian Series A: What It Actually Takes in 2025',
+    excerpt: 'Structural analysis of 80 Indian Series A rounds closed in 2024. Covers median metrics at the time of closing, how metrics requirements have shifted since 2021, and the investor narrative patterns that appear across successful rounds.',
+    tag: 'Fundraising', pages: '46 pages', date: 'Jan 2025', year: 2025, sector: 'Fundraising',
+  },
+  {
+    id: 15,
+    title: 'Edtech After the Correction: 2024 State of the Sector',
+    excerpt: 'Following the 2022–23 correction, this report analyses which edtech models survived, which are structurally viable at scale, where the remaining whitespace lies, and what the unit economics of durable edtech businesses look like.',
+    tag: 'Sector Report', pages: '50 pages', date: 'Dec 2024', year: 2024, sector: 'Edtech',
+  },
+  {
+    id: 16,
+    title: 'Fintech Regulation and Its Impact on Business Models',
+    excerpt: 'How RBI, SEBI, and IRDAI regulatory changes over 2022–2024 reshaped the Indian fintech landscape. Documents which regulations created moats for incumbents, which opened new whitespace, and what compliance now costs early-stage companies.',
+    tag: 'Regulatory', pages: '58 pages', date: 'Nov 2024', year: 2024, sector: 'Fintech',
+  },
+  {
+    id: 17,
+    title: 'HR Tech in India — A Maturity and Opportunity Map',
+    excerpt: 'India\'s HR technology landscape mapped by maturity, adoption depth, and whitespace. Identifies the 12 subsectors with the most credible growth trajectories and the unit economics that distinguish scalable models from feature companies.',
+    tag: 'Sector Map', pages: '54 pages', date: 'Oct 2024', year: 2024, sector: 'HRTech',
+  },
+  {
+    id: 18,
+    title: 'Revenue Architecture Patterns Across 150 Indian Startups',
+    excerpt: 'A taxonomy of how Indian startups structure revenue — pricing models, contract types, expansion motions, and retention levers. Identifies seven distinct revenue architecture patterns and correlates them with growth and margin outcomes.',
+    tag: 'Research', pages: '72 pages', date: 'Sep 2024', year: 2024, sector: 'Cross-Sector',
+  },
+  {
+    id: 19,
+    title: 'The State of Bootstrapped Businesses in India 2024',
+    excerpt: 'First-of-its-kind analysis of Indian companies that have scaled to ₹5Cr+ ARR without external capital. Covers their unit economics, growth patterns, challenges at scale, and whether they face structural ceilings that bootstrapping cannot solve.',
+    tag: 'Research', pages: '42 pages', date: 'Aug 2024', year: 2024, sector: 'Cross-Sector',
+  },
+  {
+    id: 20,
+    title: 'Climate Tech Funding in India — The Emerging Landscape',
+    excerpt: 'A current-state analysis of climate technology investment in India. Maps funded companies, investor thesis patterns, regulatory tailwinds, and the segments attracting serious capital versus those with whitespace but no clear monetisation path.',
+    tag: 'Sector Report', pages: '48 pages', date: 'Jul 2024', year: 2024, sector: 'Climate Tech',
+  },
+  {
+    id: 21,
+    title: 'Indias Angel Investing Ecosystem — Depth and Distribution',
+    excerpt: 'Mapping the angel investing landscape across 12 Indian cities. Analyses cheque size patterns, sector preferences, syndication behaviour, follow-on rates, and the structural differences between angel networks that create value and those that don\'t.',
+    tag: 'Ecosystem', pages: '36 pages', date: 'Jun 2024', year: 2024, sector: 'Fundraising',
+  },
+  {
+    id: 22,
+    title: 'Female Founders in India: Access, Capital, and Outcomes',
+    excerpt: 'A data-driven analysis of female-founded startup outcomes in India — funding access gaps, sector distribution, performance benchmarks, and the structural conditions that correlate with better outcomes for women-led ventures.',
+    tag: 'Research', pages: '52 pages', date: 'May 2024', year: 2024, sector: 'Cross-Sector',
+  },
+  {
+    id: 23,
+    title: 'Logistics and Supply Chain Tech: A Sector Analysis',
+    excerpt: 'India\'s logistics technology sector mapped in full. Covers B2B freight, last-mile delivery, warehousing tech, cold chain, and cross-border commerce — with unit economics benchmarks and investor activity analysis for each subsegment.',
+    tag: 'Sector Report', pages: '64 pages', date: 'Apr 2024', year: 2024, sector: 'Logistics',
+  },
+  {
+    id: 24,
+    title: 'Post-Series A Failure Modes: A Retrospective Analysis',
+    excerpt: 'Analyses 40 Indian startups that raised Series A between 2018–2021 and subsequently failed or significantly underperformed. Identifies the six most common structural failure modes — with frequency data and preventability assessments.',
+    tag: 'Research', pages: '58 pages', date: 'Mar 2024', year: 2024, sector: 'Cross-Sector',
+  },
+  {
+    id: 25,
+    title: 'The Indian Consumer: Spending Behaviour Post-Pandemic',
+    excerpt: 'Consumer spending pattern shifts across income segments, geographies, and categories — and how they have evolved through 2022–2024. Essential reading for any founder building a consumer-facing business in India.',
+    tag: 'Consumer Research', pages: '66 pages', date: 'Feb 2024', year: 2024, sector: 'Consumer',
+  },
+
+  // ── Batch 2 (26–50) ──────────────────────────────────────────────────────
+  {
+    id: 26,
+    title: 'Proptech in India: The Second Wave',
+    excerpt: 'After the first proptech wave stalled on liquidity issues, a second generation of companies is addressing different parts of the stack. This report maps where they are, what\'s working, and where the structural opportunity remains.',
+    tag: 'Sector Report', pages: '56 pages', date: 'Jan 2024', year: 2024, sector: 'Proptech',
+  },
+  {
+    id: 27,
+    title: 'Indian Startup Ecosystem Report 2025',
+    excerpt: 'The 2025 edition of our annual flagship report. Funding trends across all stages, sector-wise growth patterns, tier-2 city emergence, founder demographics, and the structural shifts that defined the year.',
+    tag: 'Annual Report', pages: '138 pages', date: 'Feb 2025', year: 2025, sector: 'Cross-Sector',
+  },
+  {
+    id: 28,
+    title: 'SaaS Churn in India — The Definitive Analysis',
+    excerpt: 'Logo churn, revenue churn, and gross revenue retention benchmarks for Indian SaaS companies. Analyses churn by segment, ACV, product category, and company age — with a diagnostic framework for identifying churn root causes.',
+    tag: 'Deep Dive', pages: '44 pages', date: 'Nov 2023', year: 2023, sector: 'B2B SaaS',
+  },
+  {
+    id: 29,
+    title: 'The Funding Winter Was Real: What the Data Shows',
+    excerpt: 'A rigorous look at what actually happened to Indian startup funding in 2022–2023. Which sectors were hit hardest, which continued to attract capital, what valuations reset looked like across stages, and what structural changes persist.',
+    tag: 'Research', pages: '48 pages', date: 'Oct 2023', year: 2023, sector: 'Fundraising',
+  },
+  {
+    id: 30,
+    title: 'Agritech in India — Persistent Challenges, Structural Opportunity',
+    excerpt: 'An honest assessment of why agritech has been harder than anticipated — and where genuine structural opportunity exists for ventures willing to operate in complexity. Includes unit economics analysis of the most viable business models.',
+    tag: 'Sector Report', pages: '60 pages', date: 'Sep 2023', year: 2023, sector: 'Agritech',
+  },
+  {
+    id: 31,
+    title: 'Talent Economics in Indian Startups',
+    excerpt: 'How Indian startups hire, compensate, retain, and lose talent across different stages. Covers salary benchmarks by role and stage, equity distribution norms, attrition rates by function, and the conditions that predict retention.',
+    tag: 'Benchmarks', pages: '54 pages', date: 'Aug 2023', year: 2023, sector: 'Cross-Sector',
+  },
+  {
+    id: 32,
+    title: 'Revenue-Based Financing: A New Capital Option for Indian Founders',
+    excerpt: 'An analysis of revenue-based financing as an alternative to equity dilution — how it works, who it suits, what the real cost of capital looks like, and how Indian founders are currently using it relative to traditional options.',
+    tag: 'Framework', pages: '36 pages', date: 'Jul 2023', year: 2023, sector: 'Fundraising',
+  },
+  {
+    id: 33,
+    title: 'The Co-Founder Relationship: Data From 150 Indian Founding Teams',
+    excerpt: 'Survey data from 150 multi-founder teams on equity splits, role boundaries, conflict patterns, and relationship breakdowns. Identifies the structural predictors of co-founder conflict and the arrangements correlated with long-term cohesion.',
+    tag: 'Research', pages: '40 pages', date: 'Jun 2023', year: 2023, sector: 'Cross-Sector',
+  },
+  {
+    id: 34,
+    title: 'Gaming and Interactive Entertainment in India',
+    excerpt: 'India\'s gaming sector mapped across mobile, PC, cloud, and interactive entertainment. Covers monetisation model performance, player economics, regulatory risk from real-money gaming restrictions, and the structural whitespace remaining.',
+    tag: 'Sector Report', pages: '50 pages', date: 'May 2023', year: 2023, sector: 'Gaming',
+  },
+  {
+    id: 35,
+    title: 'B2B Marketplace Economics in India',
+    excerpt: 'The unit economics and structural viability of B2B marketplace models across sectors. Analyses take rate benchmarks, supplier fragmentation requirements, demand aggregation dynamics, and the conditions under which B2B marketplaces create defensible value.',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Apr 2023', year: 2023, sector: 'Marketplace',
+  },
+  {
+    id: 36,
+    title: 'Insurtech in India: Between Regulation and Opportunity',
+    excerpt: 'A clear-eyed view of India\'s insurtech sector — where capital has gone, what the regulatory constraints actually mean, which models are viable under current rules, and where the structural opportunity lies for a decade-long view.',
+    tag: 'Sector Report', pages: '46 pages', date: 'Mar 2023', year: 2023, sector: 'Insurtech',
+  },
+  {
+    id: 37,
+    title: 'Enterprise Sales in India — A Founders Guide',
+    excerpt: 'How enterprise sales works differently in India — procurement cycles, decision-making structures, champions vs. blockers, relationship versus capability selling, and the tactical differences between Indian corporate and government enterprise sales.',
+    tag: 'Framework', pages: '42 pages', date: 'Feb 2023', year: 2023, sector: 'B2B SaaS',
+  },
+  {
+    id: 38,
+    title: 'Indian Startup Ecosystem Report 2024',
+    excerpt: 'The 2024 edition of our annual flagship report. A year of recalibration — funding data, sector performance, the return of discipline to valuations, and early signals of the next growth cycle.',
+    tag: 'Annual Report', pages: '130 pages', date: 'Feb 2024', year: 2024, sector: 'Cross-Sector',
+  },
+  {
+    id: 39,
+    title: 'Mental Health and the Founder Economy',
+    excerpt: 'A follow-on to our founder burnout research. Analyses the systemic factors in the startup ecosystem that contribute to founder mental health challenges — and the structural changes at company and ecosystem level that would meaningfully help.',
+    tag: 'Research', pages: '34 pages', date: 'Jan 2023', year: 2023, sector: 'Cross-Sector',
+  },
+  {
+    id: 40,
+    title: 'The ₹10Cr ARR Question: What Changes and What Doesn\'t',
+    excerpt: 'A research report on the structural shifts required as SaaS companies cross the ₹10Cr ARR threshold. Analyses team composition changes, process requirements, go-to-market evolution, and where founders consistently make the transition harder than it needs to be.',
+    tag: 'Research', pages: '46 pages', date: 'Dec 2022', year: 2022, sector: 'B2B SaaS',
+  },
+  {
+    id: 41,
+    title: 'Spacetech and DeepTech: India\'s Long-Cycle Opportunity',
+    excerpt: 'Analysis of India\'s emerging spacetech and deep technology ecosystem — post-ISRO commercialisation, early private sector activity, international capital interest, and the realistic timelines for commercial returns in each subsegment.',
+    tag: 'Sector Report', pages: '58 pages', date: 'Nov 2022', year: 2022, sector: 'Deep Tech',
+  },
+  {
+    id: 42,
+    title: 'The Acqui-Hire Market in India',
+    excerpt: 'A little-discussed but real exit path — acqui-hires in the Indian startup ecosystem. Data on frequency, deal structures, valuations paid per employee, sectors where it is most active, and what founders need to know when considering it.',
+    tag: 'Research', pages: '32 pages', date: 'Oct 2022', year: 2022, sector: 'Fundraising',
+  },
+  {
+    id: 43,
+    title: 'Customer Acquisition Cost Benchmarks — India 2022',
+    excerpt: 'Channel-level and blended CAC benchmarks across 15 product categories in India. Includes performance marketing, content, events, and outbound. Analyses which channels are most capital-efficient by stage, sector, and deal size.',
+    tag: 'Benchmarks', pages: '40 pages', date: 'Sep 2022', year: 2022, sector: 'Cross-Sector',
+  },
+  {
+    id: 44,
+    title: 'The ESOP Landscape in Indian Startups',
+    excerpt: 'ESOP pool sizes, strike price practices, vesting structures, and liquidity event outcomes across 200 Indian startups. Identifies common structural problems with ESOP design that create long-term retention and trust issues.',
+    tag: 'Framework', pages: '38 pages', date: 'Aug 2022', year: 2022, sector: 'Cross-Sector',
+  },
+  {
+    id: 45,
+    title: 'Mobility and EV: The Infrastructure Bet',
+    excerpt: 'India\'s electric vehicle and mobility technology ecosystem analysed through the lens of infrastructure dependency. Maps which business models require infrastructure that does not yet exist versus those viable today — with capital flow data.',
+    tag: 'Sector Report', pages: '54 pages', date: 'Jul 2022', year: 2022, sector: 'Mobility',
+  },
+  {
+    id: 46,
+    title: 'Startup Governance: Why It Matters Earlier Than You Think',
+    excerpt: 'A research report on governance practices in Indian startups from seed through Series B. Covers board composition evolution, information rights, consent matters, and the structural problems that emerge when governance is deferred.',
+    tag: 'Framework', pages: '44 pages', date: 'Jun 2022', year: 2022, sector: 'Cross-Sector',
+  },
+  {
+    id: 47,
+    title: 'Consumer Subscription Models in India — Viability Analysis',
+    excerpt: 'Which consumer subscription models are structurally viable in India, at what price points, in which categories. Analyses retention curves, payment failure rates, downgrade patterns, and the behavioural differences between Indian and Western subscription consumers.',
+    tag: 'Deep Dive', pages: '48 pages', date: 'May 2022', year: 2022, sector: 'Consumer',
+  },
+  {
+    id: 48,
+    title: 'Impact Investing in India — Returns and Reality',
+    excerpt: 'An evidence-based assessment of impact investing outcomes in India — where returns have materialised, which theses underperformed, what the real trade-offs between impact and return are, and where the next generation of impact capital is flowing.',
+    tag: 'Research', pages: '52 pages', date: 'Apr 2022', year: 2022, sector: 'Impact',
+  },
+  {
+    id: 49,
+    title: 'The Vernacular Internet and Bharat-First Products',
+    excerpt: 'India\'s next 500 million internet users are not English-first. This report maps the vernacular content and product opportunity — user behaviour differences, monetisation challenges, infrastructure constraints, and where significant bets are being placed.',
+    tag: 'Sector Report', pages: '50 pages', date: 'Mar 2022', year: 2022, sector: 'Consumer',
+  },
+  {
+    id: 50,
+    title: 'SaaS for SMBs in India — The Viability Question',
+    excerpt: 'Selling software to Indian SMBs has historically been difficult. This report analyses why, what has changed, which models are beginning to work, and what the structural requirements for viable SMB SaaS look like in the current environment.',
+    tag: 'Deep Dive', pages: '46 pages', date: 'Feb 2022', year: 2022, sector: 'B2B SaaS',
+  },
+
+  // ── Batch 3 (51–75) ──────────────────────────────────────────────────────
+  {
+    id: 51,
+    title: 'Indian Startup Ecosystem Report 2023',
+    excerpt: 'The 2023 edition — a year of correction, recalibration, and resilience. Full funding data, sectoral analysis, founder sentiment survey, and the structural forces that will shape the recovery.',
+    tag: 'Annual Report', pages: '126 pages', date: 'Feb 2023', year: 2023, sector: 'Cross-Sector',
+  },
+  {
+    id: 52,
+    title: 'Biotech and Pharma Innovation in India',
+    excerpt: 'India\'s biopharmaceutical and biotech innovation landscape — from generic export dominance to novel drug discovery. Maps emerging capabilities, capital flows, regulatory environment, and the infrastructure gaps that constrain more ambitious bets.',
+    tag: 'Sector Report', pages: '62 pages', date: 'Jan 2022', year: 2022, sector: 'Biotech',
+  },
+  {
+    id: 53,
+    title: 'Cohort Retention Analysis: What the Best SaaS Companies Do Differently',
+    excerpt: 'Deep analysis of cohort retention curves across 80 Indian SaaS companies. Identifies the structural practices — onboarding, customer success touchpoints, expansion motions — that separate companies with flat retention curves from those with improving ones.',
+    tag: 'Research', pages: '44 pages', date: 'Dec 2021', year: 2021, sector: 'B2B SaaS',
+  },
+  {
+    id: 54,
+    title: 'Wealthtech in India — A Decade of Evolution',
+    excerpt: 'Ten years of wealthtech in India — from early robo-advisors through discount brokers to the current generation of full-stack platforms. Analyses which models created durable value, which competed on margin to exhaustion, and what the next wave looks like.',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Nov 2021', year: 2021, sector: 'Fintech',
+  },
+  {
+    id: 55,
+    title: 'The Role of Advisors in Indian Startup Success',
+    excerpt: 'Survey data from 300 Indian startups on advisor relationships — how they are structured, what value is actually delivered versus claimed, which engagement models produce measurable outcomes, and how founders can get more from advisory relationships.',
+    tag: 'Research', pages: '36 pages', date: 'Oct 2021', year: 2021, sector: 'Cross-Sector',
+  },
+  {
+    id: 56,
+    title: 'Food and Beverage Brands in the Digital Age',
+    excerpt: 'How Indian F&B brands are building in a DTC-first world — channel mix, unit economics by category, cold chain dependency, shelf life constraints on margin, and the structural differences between packaged food, beverages, and fresh categories.',
+    tag: 'Sector Report', pages: '48 pages', date: 'Sep 2021', year: 2021, sector: 'Consumer',
+  },
+  {
+    id: 57,
+    title: 'Competitive Moats in Indian SaaS — What Actually Works',
+    excerpt: 'A research report on the durability of competitive advantages claimed by Indian SaaS companies. Tests which moats — network effects, switching costs, data advantages, workflow lock-in — have actually held up under competitive pressure.',
+    tag: 'Research', pages: '50 pages', date: 'Aug 2021', year: 2021, sector: 'B2B SaaS',
+  },
+  {
+    id: 58,
+    title: 'Indian Startup Ecosystem Report 2022',
+    excerpt: 'The 2022 edition — the peak and the turn. A record year for funding followed by the correction. Full data, sectoral analysis, and an early look at what the recalibration would demand from founders.',
+    tag: 'Annual Report', pages: '118 pages', date: 'Feb 2022', year: 2022, sector: 'Cross-Sector',
+  },
+  {
+    id: 59,
+    title: 'Marketplace Liquidity — The Hardest Problem in Platform Building',
+    excerpt: 'An analysis of how Indian marketplace companies have tackled the chicken-and-egg problem — which strategies worked at what scale, what the data shows about minimum viable liquidity thresholds, and the structural interventions that accelerate it.',
+    tag: 'Deep Dive', pages: '42 pages', date: 'Jul 2021', year: 2021, sector: 'Marketplace',
+  },
+  {
+    id: 60,
+    title: 'Cross-Border SaaS from India — The Playbook',
+    excerpt: 'How Indian SaaS companies successfully sell internationally — target geography selection, localisation requirements, pricing for global markets, channel strategies, and the operational infrastructure that international expansion demands at each stage.',
+    tag: 'Framework', pages: '52 pages', date: 'Jun 2021', year: 2021, sector: 'B2B SaaS',
+  },
+  {
+    id: 61,
+    title: 'The ONDC Opportunity — Open Commerce in India',
+    excerpt: 'A structural analysis of the Open Network for Digital Commerce — what it means for existing commerce platforms, where new value can be created, which business models it disrupts, and the realistic timeline for material impact on consumer behaviour.',
+    tag: 'Regulatory', pages: '38 pages', date: 'May 2021', year: 2021, sector: 'Commerce',
+  },
+  {
+    id: 62,
+    title: 'How Investors Read Financial Models — A Founder\'s Guide',
+    excerpt: 'The order in which investors review financial models, which assumptions they stress-test first, the specific numbers they triangulate, and the model architectures that signal sophistication versus those that signal inexperience.',
+    tag: 'Framework', pages: '34 pages', date: 'Apr 2021', year: 2021, sector: 'Fundraising',
+  },
+  {
+    id: 63,
+    title: 'Developer Tools Market in India — A Quiet Giant',
+    excerpt: 'India\'s developer tools market analysed from both a domestic and global-from-India perspective. Maps the 40M+ developer base, adoption patterns, willingness to pay, competitive dynamics, and the channels that work for developer acquisition.',
+    tag: 'Sector Report', pages: '46 pages', date: 'Mar 2021', year: 2021, sector: 'Dev Tools',
+  },
+  {
+    id: 64,
+    title: 'Customer Success as a Growth Function — Evidence from Indian SaaS',
+    excerpt: 'Survey data on how Indian SaaS companies structure, staff, and measure customer success. Identifies the practices correlated with above-average NRR, the CS-to-ARR staffing ratios that hold at different scales, and the expansion playbooks that work.',
+    tag: 'Research', pages: '40 pages', date: 'Feb 2021', year: 2021, sector: 'B2B SaaS',
+  },
+  {
+    id: 65,
+    title: 'Smart Cities and Urban Infrastructure Tech',
+    excerpt: 'India\'s smart city initiative and the technology opportunity it creates — from traffic management through water systems to civic engagement platforms. Maps which subsectors are genuinely active, which are stuck in procurement, and where private capital is needed.',
+    tag: 'Sector Report', pages: '54 pages', date: 'Jan 2021', year: 2021, sector: 'Infrastructure',
+  },
+  {
+    id: 66,
+    title: 'The Seed Stage in India — What Has Changed',
+    excerpt: 'A longitudinal analysis of how India\'s seed investing landscape has evolved from 2016 to 2024. Covers cheque sizes, investor expectations, the rise of pre-seed, syndication dynamics, and the structural differences between seed rounds that go on to raise Series A and those that don\'t.',
+    tag: 'Research', pages: '44 pages', date: 'Dec 2020', year: 2020, sector: 'Fundraising',
+  },
+  {
+    id: 67,
+    title: 'Indian Startup Ecosystem Report 2021',
+    excerpt: 'The 2021 edition — the year of recovery and acceleration. Funding surged, new sectors emerged, and valuations expanded rapidly. Full data, sectoral analysis, and the early signals of the correction that followed.',
+    tag: 'Annual Report', pages: '112 pages', date: 'Feb 2021', year: 2021, sector: 'Cross-Sector',
+  },
+  {
+    id: 68,
+    title: 'Retention Marketing in Indian Consumer Apps',
+    excerpt: 'How Indian consumer apps retain users — push notifications, in-app messaging, email, loyalty mechanics, and re-engagement playbooks. Benchmarks open rates, re-activation rates, and churn patterns by category and user cohort.',
+    tag: 'Deep Dive', pages: '38 pages', date: 'Nov 2020', year: 2020, sector: 'Consumer',
+  },
+  {
+    id: 69,
+    title: 'The Hiring Market for Senior Talent in Indian Startups',
+    excerpt: 'How Indian startups compete for VP and C-suite talent — compensation structures, equity norms, search processes, onboarding failures, and what distinguishes hiring processes that attract exceptional senior candidates from those that consistently fall short.',
+    tag: 'Benchmarks', pages: '42 pages', date: 'Oct 2020', year: 2020, sector: 'Cross-Sector',
+  },
+  {
+    id: 70,
+    title: 'India Stack and the Infrastructure Advantage',
+    excerpt: 'An analytical primer on India\'s digital public infrastructure — UPI, Aadhaar, DigiLocker, ONDC, and the emerging data stack — and the structural advantage it creates for Indian fintech and commerce startups relative to global peers building without equivalent infrastructure.',
+    tag: 'Framework', pages: '48 pages', date: 'Sep 2020', year: 2020, sector: 'Fintech',
+  },
+  {
+    id: 71,
+    title: 'Building for Rural India — Constraints and Opportunities',
+    excerpt: 'A research report on products and services designed primarily for rural Indian users. Maps the connectivity infrastructure, income distribution, digital literacy, and payment behaviour that define the design constraints — and the scale of the opportunity within them.',
+    tag: 'Research', pages: '50 pages', date: 'Aug 2020', year: 2020, sector: 'Consumer',
+  },
+  {
+    id: 72,
+    title: 'Mental Models for Market Sizing',
+    excerpt: 'A practical framework report on market sizing — TAM/SAM/SOM methodology, the common mistakes investors identify in market size claims, how to build bottom-up models that survive scrutiny, and what different market size signals mean for fundability.',
+    tag: 'Framework', pages: '30 pages', date: 'Jul 2020', year: 2020, sector: 'Fundraising',
+  },
+  {
+    id: 73,
+    title: 'Indian Startup Ecosystem Report 2020',
+    excerpt: 'The 2020 edition — a year unlike any other. COVID-19\'s impact on Indian startups, which sectors contracted and which accelerated, the shift to digital across categories, and the structural reshaping of founder and investor behaviour.',
+    tag: 'Annual Report', pages: '108 pages', date: 'Feb 2020', year: 2020, sector: 'Cross-Sector',
+  },
+  {
+    id: 74,
+    title: 'The Board-Founder Dynamic — Survey and Analysis',
+    excerpt: 'Survey data from 120 founder-board relationships on expectations, communication quality, strategic value delivered, and conflict patterns. Identifies what distinguishes board relationships that make founders better from those that create drag.',
+    tag: 'Research', pages: '40 pages', date: 'Jun 2020', year: 2020, sector: 'Cross-Sector',
+  },
+  {
+    id: 75,
+    title: 'Decade in Review: Indian Startup Ecosystem 2010–2020',
+    excerpt: 'A ten-year retrospective on India\'s startup decade — capital flows, exit patterns, the companies that defined each era, the structural changes to the ecosystem, and what the next decade is likely to demand from founders and investors alike.',
+    tag: 'Annual Report', pages: '160 pages', date: 'Dec 2020', year: 2020, sector: 'Cross-Sector',
+  },
+];
+
+const BATCH_SIZE = 25;
+
+// =====================================================
+// ADVERTISEMENT DATA
+// =====================================================
+
+const FEATURED_CASE_STUDIES: CaseStudyTeaser[] = [
+  {
+    title: 'From ₹80L to ₹5Cr: Restructuring a Fragile Revenue Base',
+    tag: 'Revenue', sector: 'B2B SaaS', outcome: 'Revenue ×6.25', year: '2024',
+  },
+  {
+    title: 'Fixing the Unit Economics Before the Series A',
+    tag: 'Fundraising', sector: 'D2C', outcome: 'Round closed', year: '2024',
+  },
+  {
+    title: 'A Pricing Audit That Added 40% to Revenue',
+    tag: 'Revenue', sector: 'B2B SaaS', outcome: '+40% revenue', year: '2024',
+  },
+];
+
+const FEATURED_BLOGS: BlogTeaser[] = [
+  {
+    title: "Pricing Is a Strategy, Not a Number",
+    tag: 'Revenue', readTime: '6 min', date: 'Feb 14, 2026',
+  },
+  {
+    title: "The Real Meaning of Capital Efficiency",
+    tag: 'Finance', readTime: '6 min', date: 'Dec 22, 2025',
+  },
+  {
+    title: "Why Your Pitch Deck Isn't the Problem",
+    tag: 'Fundraising', readTime: '6 min', date: 'Oct 29, 2025',
+  },
+];
+
+const BATCH_SIZE_CONST = BATCH_SIZE;
+
+// =====================================================
+// TAG COLOR MAP
+// Emerald-anchored palette — distinct from navy (case
+// studies) and parchment (blogs) identities.
+// =====================================================
+
+const TAG_COLORS: Record<string, { bg: string; text: string }> = {
+  'Annual Report':    { bg: 'rgba(52,211,153,0.12)',  text: '#6EE7B7' },
+  'Sector Report':    { bg: 'rgba(96,165,250,0.10)',  text: '#93C5FD' },
+  'Research':         { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D' },
+  'Digest':           { bg: 'rgba(167,139,250,0.10)', text: '#C4B5FD' },
+  'Benchmarks':       { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
+  'Index':            { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC' },
+  'Longitudinal':     { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74' },
+  'Framework':        { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5' },
+  'Deep Dive':        { bg: 'rgba(129,140,248,0.10)', text: '#A5B4FC' },
+  'Emerging Markets': { bg: 'rgba(52,211,153,0.08)',  text: '#34D399' },
+  'Regulatory':       { bg: 'rgba(251,191,36,0.08)',  text: '#F59E0B' },
+  'Sector Map':       { bg: 'rgba(96,165,250,0.08)',  text: '#60A5FA' },
+  'Ecosystem':        { bg: 'rgba(34,211,238,0.08)',  text: '#06B6D4' },
+  'Fundraising':      { bg: 'rgba(167,139,250,0.08)', text: '#A78BFA' },
+  'Consumer Research':{ bg: 'rgba(251,146,60,0.08)',  text: '#FB923C' },
+};
+
+const getTagStyle = (tag: string): { bg: string; text: string } =>
+  TAG_COLORS[tag] ?? { bg: 'rgba(52,211,153,0.10)', text: '#6EE7B7' };
+
+// =====================================================
+// ALL FILTER TAGS
+// =====================================================
+
+const ALL_TAGS: string[] = [
+  'All', 'Annual Report', 'Sector Report', 'Research',
+  'Benchmarks', 'Framework', 'Deep Dive', 'Digest',
+  'Longitudinal', 'Index', 'Regulatory',
+];
+
+// =====================================================
+// PARTNER AUTH MODAL
+// Identical design language to all other hub pages.
+// =====================================================
+
+interface PartnerAuthModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  resourceTitle: string;
+}
+
+const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
+  isOpen,
+  onClose,
+  resourceTitle,
+}) => {
+  const [formData, setFormData]         = useState<PartnerFormData>({ partnerId: '', password: '' });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading]           = useState<boolean>(false);
+  const [error, setError]               = useState<string>('');
+  const [success, setSuccess]           = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({ partnerId: '', password: '' });
+      setError('');
+      setSuccess(false);
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setError('');
-    setIsLoading(true);
-
-    // Simulate authentication delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Simple authentication (replace with real API call in production)
-    // For demo: partnerId = "partner123", password = "reports2024"
-    if (partnerId === 'partner123' && password === 'reports2024') {
-      onAuthenticate(partnerId, password);
-      onClose();
-    } else {
-      setError('Invalid Partner ID or Password');
-      setIsLoading(false);
-    }
+    setLoading(true);
+    setTimeout(() => {
+      if (formData.partnerId && formData.password) {
+        setSuccess(true);
+        setLoading(false);
+      } else {
+        setError('Invalid Partner ID or password. Please try again.');
+        setLoading(false);
+      }
+    }, 1000);
   };
 
-  const handleClose = () => {
-    setPartnerId('');
-    setPassword('');
-    setError('');
-    setIsLoading(false);
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
-        onClick={handleClose}
-      ></div>
-
-      {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all">
-          
-          {/* Close Button */}
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Icon */}
-          <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-
-          {/* Title */}
-          <h2 className="text-2xl font-light text-gray-800 text-center mb-2">
-            Partner Access Required
-          </h2>
-          <p className="text-gray-600 text-center mb-6">
-            Enter your credentials to access: <strong>{reportTitle}</strong>
-          </p>
-
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-              <svg className="w-5 h-5 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            
-            {/* Partner ID */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Partner ID
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  value={partnerId}
-                  onChange={(e) => setPartnerId(e.target.value)}
-                  required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Enter your Partner ID"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Enter your password"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-medium shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Verifying...
-                </>
-              ) : (
-                <>
-                  Access Report
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Help Text */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Don't have access?{' '}
-              <Link href="/contact" className="text-green-600 hover:text-green-700 font-medium">
-                Contact us
-              </Link>{' '}
-              to become a partner
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// =====================================================
-// REPORT CARD
-// =====================================================
-interface Report {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  keyFindings: string[];
-  publicationDate: string;
-  pages: number;
-  researchType: 'Primary' | 'Secondary' | 'Mixed Methods';
-}
-
-function ReportCard({ report, onClick }: { report: Report; onClick: () => void }) {
-  const getResearchTypeColor = (type: string) => {
-    switch (type) {
-      case 'Primary': return 'bg-blue-100 text-blue-700';
-      case 'Secondary': return 'bg-orange-100 text-orange-700';
-      case 'Mixed Methods': return 'bg-indigo-100 text-indigo-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
+  const handleBackdropClick = (e: MouseEvent<HTMLDivElement>): void => {
+    if (e.target === e.currentTarget) onClose();
   };
 
   return (
     <div
-      onClick={onClick}
-      className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer border border-gray-200 hover:border-green-300"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      style={{ backgroundColor: 'rgba(2, 12, 8, 0.82)' }}
+      onClick={handleBackdropClick}
     >
-      {/* Image Placeholder */}
-      <div className="relative h-48 bg-gradient-to-br from-green-900 to-green-700 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
-        </div>
-        <div className="relative z-10 text-center">
-          <svg className="w-16 h-16 text-white/80 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <p className="text-white font-medium text-lg">{report.title}</p>
-          <p className="text-green-200 text-sm">{report.category}</p>
-        </div>
-        
-        {/* Lock Overlay on Hover */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <div className="text-center">
-            <svg className="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            <p className="text-white font-medium">Click to Access</p>
+      <div
+        className="relative w-full max-w-md"
+        style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}
+      >
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+
+          {/* Header */}
+          <div className="bg-[#002855] px-8 py-6 relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              aria-label="Close modal"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
+                Partner Access
+              </span>
+            </div>
+
+            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
+            <p className="text-blue-200 text-sm mt-1 truncate">
+              Accessing:{' '}
+              <span className="text-white font-medium">{resourceTitle}</span>
+            </p>
+          </div>
+
+          {/* Body */}
+          <div className="px-8 py-8">
+            {!success ? (
+              <form onSubmit={handleSubmit} className="space-y-5">
+
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                    <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Partner ID
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.partnerId}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setFormData((p) => ({ ...p, partnerId: e.target.value }))
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    placeholder="e.g. SSP-2024-XXXX"
+                    required
+                    autoComplete="username"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={formData.password}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setFormData((p) => ({ ...p, password: e.target.value }))
+                      }
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      placeholder="Enter your password"
+                      required
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                    loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
+                  }`}
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Authenticating…
+                    </>
+                  ) : (
+                    'Download Report'
+                  )}
+                </button>
+
+                <p className="text-center text-xs text-gray-400 pt-1">
+                  Don&apos;t have a Partner ID?{' '}
+                  <a href="#" className="text-blue-600 hover:underline">
+                    Request Access
+                  </a>
+                </p>
+              </form>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                <p className="text-gray-500 text-sm">
+                  Preparing{' '}
+                  <span className="font-medium text-gray-700">{resourceTitle}</span>{' '}
+                  for download…
+                </p>
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <span className={`text-xs px-3 py-1 rounded-full font-medium ${getResearchTypeColor(report.researchType)}`}>
-            {report.researchType}
-          </span>
-          <span className="text-xs text-gray-500">{report.pages} pages</span>
-        </div>
-
-        <h3 className="text-xl font-medium text-gray-900 mb-3 group-hover:text-green-700 transition-colors">
-          {report.title}
-        </h3>
-
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {report.description}
+        <p className="text-center text-xs mt-4" style={{ color: 'rgba(100,200,140,0.25)' }}>
+          Partner access is monitored and logged for security purposes.
         </p>
-
-        {/* Key Findings Preview */}
-        <div className="space-y-2 mb-4">
-          {report.keyFindings.slice(0, 2).map((finding, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
-              <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span className="line-clamp-1">{finding}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Publication Info */}
-        <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
-          <span className="text-sm text-gray-500">Published: {report.publicationDate}</span>
-          <svg className="w-5 h-5 text-green-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
       </div>
     </div>
   );
-}
+};
 
 // =====================================================
-// MAIN REPORTS & RESEARCH HUB PAGE
-// With Infinite Scrolling
+// HERO SECTION
+// Deep forest green — research / scholarly identity.
+// Distinctly different from navy (case studies) and
+// warm parchment (blogs).
+// Right side: SVG visual placeholder.
 // =====================================================
-export default function ReportsPage() {
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-  const [displayedReports, setDisplayedReports] = useState<Report[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
-  const observerTarget = useRef(null);
 
-  // ALL REPORTS DATA (36 precise reports)
-  const allReports: Report[] = [
-    {
-      id: 'report-001',
-      title: 'The State of SaaS 2024',
-      category: 'Technology',
-      description: 'Comprehensive analysis of SaaS industry trends, growth metrics, and investment patterns for 2024.',
-      keyFindings: ['Average SaaS valuation multiples down 35%', 'Profitability prioritized over growth', 'AI integration becoming table stakes'],
-      publicationDate: 'Jan 2024',
-      pages: 85,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-002',
-      title: 'AI in Enterprise: Adoption & ROI',
-      category: 'Artificial Intelligence',
-      description: 'Enterprise AI adoption rates, implementation challenges, and measurable ROI across industries.',
-      keyFindings: ['67% of enterprises have AI pilots', 'Average ROI 3.2x within 12 months', 'Data quality is primary barrier'],
-      publicationDate: 'Feb 2024',
-      pages: 72,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-003',
-      title: 'Consumer Spending Shift Report',
-      category: 'Economics',
-      description: 'Analysis of post-pandemic consumer behavior changes and spending pattern evolution.',
-      keyFindings: ['Experience spending up 42%', 'Subscription fatigue setting in', 'Value-conscious luxury emerging'],
-      publicationDate: 'Mar 2024',
-      pages: 68,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-004',
-      title: 'Remote Work Productivity Study',
-      category: 'Workplace',
-      description: 'Longitudinal study on remote work productivity, collaboration patterns, and team dynamics.',
-      keyFindings: ['Asynchronous work increases output 28%', 'Hybrid models outperform fully remote', 'Documentation quality critical'],
-      publicationDate: 'Dec 2023',
-      pages: 56,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-005',
-      title: 'Climate Tech Investment Trends',
-      category: 'Sustainability',
-      description: 'Analysis of venture capital flowing into climate technology and emerging green sectors.',
-      keyFindings: ['Climate tech funding up 240% since 2020', 'Carbon capture most funded sector', 'Policy driving 60% of investments'],
-      publicationDate: 'Jan 2024',
-      pages: 91,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-006',
-      title: 'Healthcare Innovation Index',
-      category: 'Healthcare',
-      description: 'Comprehensive index tracking innovation adoption in healthcare across digital health, biotech, and services.',
-      keyFindings: ['Telehealth adoption stabilized at 35%', 'AI diagnostics accuracy matches specialists', 'Regulatory barriers slowing adoption'],
-      publicationDate: 'Feb 2024',
-      pages: 77,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-007',
-      title: 'Fintech Regulatory Landscape',
-      category: 'Finance',
-      description: 'Global regulatory framework analysis for fintech including crypto, payments, and digital banking.',
-      keyFindings: ['EU leading in digital asset regulation', 'US regulatory fragmentation increasing', 'Asia adopting sandbox approach'],
-      publicationDate: 'Mar 2024',
-      pages: 83,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-008',
-      title: 'E-commerce Personalization ROI',
-      category: 'Retail',
-      description: 'Study on personalization implementation costs versus revenue impact in e-commerce.',
-      keyFindings: ['Personalization increases AOV by 28%', 'AI-driven recommendations outperform rules-based', 'Privacy concerns reducing opt-in rates'],
-      publicationDate: 'Jan 2024',
-      pages: 62,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-009',
-      title: 'Supply Chain Resilience Report',
-      category: 'Operations',
-      description: 'Post-pandemic supply chain adaptations and resilience strategies across manufacturing sectors.',
-      keyFindings: ['Nearshoring increased 45%', 'Digital twin adoption up 300%', 'Inventory buffers normalized at 25% higher'],
-      publicationDate: 'Nov 2023',
-      pages: 74,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-010',
-      title: 'EdTech Market Evolution',
-      category: 'Education',
-      description: 'Analysis of education technology market shifts post-pandemic and emerging business models.',
-      keyFindings: ['Corporate training market growing 18% CAGR', 'Micro-credentials gaining employer recognition', 'Gamification improves retention 40%'],
-      publicationDate: 'Feb 2024',
-      pages: 59,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-011',
-      title: 'Digital Advertising Effectiveness',
-      category: 'Marketing',
-      description: 'ROI analysis across digital advertising channels including privacy impact measurement.',
-      keyFindings: ['CTV advertising ROI highest at 4.2x', 'Privacy changes reduced targeting effectiveness 35%', 'Contextual targeting resurgence'],
-      publicationDate: 'Mar 2024',
-      pages: 66,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-012',
-      title: 'Cybersecurity Spend Analysis',
-      category: 'Security',
-      description: 'Enterprise cybersecurity spending patterns and effectiveness metrics across threat categories.',
-      keyFindings: ['AI security tools reduce breach detection time 80%', 'Zero trust adoption at 45% of enterprises', 'Ransomware payments down 60%'],
-      publicationDate: 'Jan 2024',
-      pages: 71,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-013',
-      title: 'Metaverse Business Applications',
-      category: 'Emerging Tech',
-      description: 'Practical business applications of metaverse technologies beyond consumer entertainment.',
-      keyFindings: ['Industrial training most viable use case', 'AR outperforms VR in enterprise adoption', 'ROI timelines averaging 3-5 years'],
-      publicationDate: 'Dec 2023',
-      pages: 63,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-014',
-      title: 'Electric Vehicle Infrastructure',
-      category: 'Transportation',
-      description: 'Analysis of EV charging infrastructure growth and business models across markets.',
-      keyFindings: ['Charging as a service growing 65% CAGR', 'Fleet charging underserved market', 'Grid integration becoming critical'],
-      publicationDate: 'Feb 2024',
-      pages: 78,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-015',
-      title: 'API Economy Impact Study',
-      category: 'Technology',
-      description: 'Economic impact analysis of API-first business models and integration market growth.',
-      keyFindings: ['API-driven companies grow 3x faster', '$125 Billion  API economy by 2026', 'Security concerns main adoption barrier'],
-      publicationDate: 'Jan 2024',
-      pages: 69,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-016',
-      title: 'Consumer Privacy Preferences',
-      category: 'Data',
-      description: 'Global study on consumer privacy attitudes and willingness to share data for value.',
-      keyFindings: ['72% willing to share data for personalized experiences', 'Privacy as premium emerging trend', 'Generational divide in privacy concerns'],
-      publicationDate: 'Mar 2024',
-      pages: 55,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-017',
-      title: 'Renewable Energy Economics',
-      category: 'Energy',
-      description: 'Cost competitiveness analysis of renewable energy sources versus traditional fossil fuels.',
-      keyFindings: ['Solar LCOE down 85% since 2010', 'Storage costs critical for grid integration', 'Policy subsidies still driving adoption'],
-      publicationDate: 'Feb 2024',
-      pages: 82,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-018',
-      title: 'Digital Health Adoption Barriers',
-      category: 'Healthcare',
-      description: 'Study on barriers to digital health adoption among providers and patients.',
-      keyFindings: ['Interoperability is primary barrier', 'Provider workflow integration critical', 'Reimbursement models lagging'],
-      publicationDate: 'Jan 2024',
-      pages: 61,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-019',
-      title: 'Future of Work Skills Gap',
-      category: 'Workforce',
-      description: 'Analysis of emerging skill requirements and current workforce capability gaps.',
-      keyFindings: ['AI literacy gap affects 65% of workforce', 'Critical thinking skills in high demand', 'Reskilling ROI averages 150%'],
-      publicationDate: 'Mar 2024',
-      pages: 73,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-020',
-      title: 'Blockchain Beyond Crypto',
-      category: 'Technology',
-      description: 'Analysis of blockchain technology applications outside cryptocurrency markets.',
-      keyFindings: ['Supply chain transparency leading use case', 'Enterprise adoption slower than expected', 'Interoperability protocols gaining traction'],
-      publicationDate: 'Feb 2024',
-      pages: 67,
-      researchType: 'Mixed Methods'
-    },
-    // 16 Additional Reports (Total 36)
-    {
-      id: 'report-021',
-      title: 'Marketing Attribution Evolution',
-      category: 'Marketing',
-      description: 'How marketing attribution models are evolving in cookieless, privacy-first world.',
-      keyFindings: ['Multi-touch attribution adoption at 35%', 'AI models improving accuracy 40%', 'ROI measurement gap increasing'],
-      publicationDate: 'Jan 2024',
-      pages: 58,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-022',
-      title: 'Quantum Computing Readiness',
-      category: 'Emerging Tech',
-      description: 'Enterprise readiness for quantum computing and practical near-term applications.',
-      keyFindings: ['Financial services most prepared sector', 'Encryption migration beginning', '$ 25 Billion market by 2030'],
-      publicationDate: 'Mar 2024',
-      pages: 76,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-023',
-      title: 'Sustainable Packaging Markets',
-      category: 'Sustainability',
-      description: 'Growth analysis of sustainable packaging solutions and circular economy models.',
-      keyFindings: ['Compostable packaging growing 22% CAGR', 'Retailer pressure driving adoption', 'Cost premium narrowing to 15%'],
-      publicationDate: 'Feb 2024',
-      pages: 64,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-024',
-      title: 'Voice Commerce Adoption',
-      category: 'Retail',
-      description: 'Consumer adoption of voice-enabled shopping and smart speaker purchasing behavior.',
-      keyFindings: ['Voice commerce growing 25% annually', 'Low-value items dominate purchases', 'Privacy concerns limiting growth'],
-      publicationDate: 'Jan 2024',
-      pages: 53,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-025',
-      title: '5G Business Impact Study',
-      category: 'Telecom',
-      description: 'Measured business impact of 5G implementation across industry verticals.',
-      keyFindings: ['Manufacturing seeing 30% efficiency gains', 'Network slicing enabling new models', 'Enterprise adoption slower than expected'],
-      publicationDate: 'Mar 2024',
-      pages: 79,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-026',
-      title: 'Alternative Protein Markets',
-      category: 'Food Tech',
-      description: 'Market analysis of plant-based and cultivated meat alternatives growth trajectories.',
-      keyFindings: ['Price parity with animal protein by 2027', 'Taste barriers still significant', '$ 140 Billion market by 2030'],
-      publicationDate: 'Feb 2024',
-      pages: 68,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-027',
-      title: 'Digital Twin Adoption Rates',
-      category: 'Industry 4.0',
-      description: 'Adoption analysis of digital twin technology across manufacturing and infrastructure.',
-      keyFindings: ['Predictive maintenance driving 60% of adoption', 'ROI averaging 3.5x', 'Implementation complexity high'],
-      publicationDate: 'Jan 2024',
-      pages: 62,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-028',
-      title: 'Creator Economy Metrics',
-      category: 'Digital Media',
-      description: 'Economic analysis of creator economy platforms, revenue models, and sustainability.',
-      keyFindings: ['Top 1% earners capture 80% of revenue', 'Brand partnerships most lucrative', 'Platform dependency concerns growing'],
-      publicationDate: 'Mar 2024',
-      pages: 57,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-029',
-      title: 'Smart City ROI Analysis',
-      category: 'Urban Tech',
-      description: 'Return on investment analysis of smart city technologies and implementation models.',
-      keyFindings: ['Traffic optimization delivers fastest ROI', 'Public-private partnerships most successful', 'Data integration is major challenge'],
-      publicationDate: 'Feb 2024',
-      pages: 84,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-030',
-      title: 'Low-Code Development Impact',
-      category: 'Software',
-      description: 'Impact analysis of low-code/no-code platforms on software development and digital transformation.',
-      keyFindings: ['Development speed increased 5-10x', 'Shadow IT concerns emerging', 'Professional developers still needed'],
-      publicationDate: 'Jan 2024',
-      pages: 59,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-031',
-      title: 'Space Economy Opportunities',
-      category: 'Aerospace',
-      description: 'Commercial space economy analysis including satellite, launch, and space tourism markets.',
-      keyFindings: ['Satellite internet leading commercial segment', 'Launch costs down 90% in decade', '$ 1Trillion market by 2040'],
-      publicationDate: 'Mar 2024',
-      pages: 88,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-032',
-      title: 'Employee Monitoring Ethics',
-      category: 'Workplace',
-      description: 'Study on employee monitoring technologies and ethical implementation frameworks.',
-      keyFindings: ['Productivity monitoring increasing 45%', 'Transparency reduces resistance 80%', 'Legal frameworks lagging'],
-      publicationDate: 'Feb 2024',
-      pages: 65,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-033',
-      title: 'Biometric Payment Adoption',
-      category: 'Fintech',
-      description: 'Consumer adoption and security analysis of biometric payment technologies.',
-      keyFindings: ['Facial recognition payments growing fastest', 'Security concerns slowing adoption', 'Asia leading adoption at 35%'],
-      publicationDate: 'Jan 2024',
-      pages: 56,
-      researchType: 'Secondary'
-    },
-    {
-      id: 'report-034',
-      title: 'Carbon Accounting Standards',
-      category: 'ESG',
-      description: 'Analysis of emerging carbon accounting standards and measurement methodologies.',
-      keyFindings: ['Scope 3 emissions hardest to measure', 'Software solutions growing 40% CAGR', 'Regulatory pressure driving adoption'],
-      publicationDate: 'Mar 2024',
-      pages: 72,
-      researchType: 'Primary'
-    },
-    {
-      id: 'report-035',
-      title: 'Drone Delivery Economics',
-      category: 'Logistics',
-      description: 'Economic feasibility analysis of drone delivery systems across urban and rural markets.',
-      keyFindings: ['Rural delivery most economically viable', 'Regulatory approval major bottleneck', 'Cost per delivery target $2'],
-      publicationDate: 'Feb 2024',
-      pages: 63,
-      researchType: 'Mixed Methods'
-    },
-    {
-      id: 'report-036',
-      title: 'Neurotechnology Applications',
-      category: 'Health Tech',
-      description: 'Analysis of neurotechnology applications in healthcare, wellness, and human enhancement.',
-      keyFindings: ['Mental health applications most advanced', 'Consumer wearables accuracy improving', 'Ethical concerns significant'],
-      publicationDate: 'Jan 2024',
-      pages: 74,
-      researchType: 'Secondary'
-    }
-  ];
+const HeroSection: FC = () => (
+  <section
+    className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
+    style={{ backgroundColor: '#030D08', minHeight: '520px' }}
+  >
+    {/* Background: fine isometric dot grid */}
+    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
+            <circle cx="2" cy="2" r="1" fill="#34D399" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)" />
+      </svg>
+      {/* Emerald radial glow — top right */}
+      <div
+        className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at top right, rgba(6,95,70,0.22) 0%, transparent 60%)',
+        }}
+      />
+      {/* Deep teal glow — bottom left */}
+      <div
+        className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at bottom left, rgba(4,120,87,0.10) 0%, transparent 65%)',
+        }}
+      />
+    </div>
 
-  // Load initial reports
-  useEffect(() => {
-    setDisplayedReports(allReports.slice(0, 9));
-  }, []);
+    <div className="max-w-7xl mx-auto relative">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-  // Infinite scroll logic
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          loadMoreReports();
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [displayedReports, hasMore]);
-
-  const loadMoreReports = () => {
-    const currentLength = displayedReports.length;
-    const nextReports = allReports.slice(currentLength, currentLength + 9);
-    
-    if (nextReports.length > 0) {
-      setTimeout(() => {
-        setDisplayedReports([...displayedReports, ...nextReports]);
-        setPage(page + 1);
-      }, 500);
-    }
-
-    if (currentLength + nextReports.length >= allReports.length) {
-      setHasMore(false);
-    }
-  };
-
-  const handleReportClick = (report: Report) => {
-    setSelectedReport(report);
-    setShowAuthModal(true);
-  };
-
-  const handleAuthenticate = (partnerId: string, password: string) => {
-    // Store authentication in session
-    sessionStorage.setItem('partnerAuth', 'true');
-    sessionStorage.setItem('partnerId', partnerId);
-    
-    // Redirect to actual report page
-    window.location.href = `/reports/${selectedReport?.id}`;
-  };
-
-  return (
-    <main className="min-h-screen bg-white">
-      
-      {/* Hero Section */}
-      <section className="bg-[#0A2E1A] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block px-3 py-1 bg-green-600/20 rounded-full text-green-400 text-xs font-medium mb-6">
-            RESEARCH INSIGHTS
+        {/* LEFT — Headline */}
+        <div className="space-y-8">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            style={{
+              backgroundColor: 'rgba(52,211,153,0.06)',
+              border: '1px solid rgba(52,211,153,0.16)',
+            }}
+          >
+            <div
+              className="w-1.5 h-1.5 rounded-full animate-pulse"
+              style={{ backgroundColor: '#34D399' }}
+            />
+            <span
+              className="text-xs font-medium tracking-widest uppercase"
+              style={{ color: '#34D399' }}
+            >
+              Sarsen &amp; Company · Reports
+            </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-light leading-tight mb-6">
-            Data-Driven Intelligence &<br/>
-            <span className="text-green-300">Market Analysis</span>
-          </h1>
-          <p className="text-xl text-green-200 font-light leading-relaxed mb-8 max-w-3xl mx-auto">
-            Access 36 proprietary research reports with deep market insights, trend analysis, and strategic intelligence. Make informed decisions with validated data.
-          </p>
-          <div className="flex items-center justify-center gap-6 text-green-200">
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">36</div>
-              <div className="text-sm">Research Reports</div>
-            </div>
-            <div className="w-px h-12 bg-green-600"></div>
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">12</div>
-              <div className="text-sm">Industry Categories</div>
-            </div>
-            <div className="w-px h-12 bg-green-600"></div>
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">2500+</div>
-              <div className="text-sm">Data Points Analyzed</div>
+
+          <div className="space-y-4">
+            <h1
+              className="font-light leading-none tracking-tight"
+              style={{
+                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+                color: '#ECFDF5',
+                fontFamily: "'Georgia', 'Times New Roman', serif",
+              }}
+            >
+              Original
+              <br />
+              <span style={{ color: '#34D399' }}>Research.</span>
+            </h1>
+            <p
+              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
+              style={{ color: '#1F5C42' }}
+            >
+              Data-backed analysis on India&apos;s startup ecosystem — annual reports, sector deep-dives, benchmarks, and frameworks built for founders who make decisions with evidence.
+            </p>
+          </div>
+
+          {/* Stats */}
+          <div className="flex flex-wrap gap-8 pt-2">
+            {[
+              { value: '75+',    label: 'Publications'     },
+              { value: '6',      label: 'Annual editions'  },
+              { value: '5,000+', label: 'Companies studied'},
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p
+                  className="text-2xl font-light"
+                  style={{ color: '#ECFDF5', fontFamily: 'Georgia, serif' }}
+                >
+                  {stat.value}
+                </p>
+                <p
+                  className="text-xs tracking-widest uppercase mt-0.5"
+                  style={{ color: '#064E3B' }}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT — SVG visual placeholder */}
+        {/*
+          INTEGRATION NOTE:
+          Replace the decorative element below with:
+          <img src="/assets/reports/Hero Visual.svg" alt="" className="max-w-full h-auto" />
+        */}
+        <div
+          className="relative hidden lg:flex items-center justify-end"
+          style={{ height: '420px' }}
+          aria-hidden="true"
+        >
+          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
+            {/* Stacked document motif */}
+            <div className="relative">
+              {/* Shadow stacks */}
+              {[3, 2, 1].map((layer) => (
+                <div
+                  key={layer}
+                  className="absolute rounded-xl"
+                  style={{
+                    width: '240px',
+                    height: '300px',
+                    top: layer * 8,
+                    left: layer * 8,
+                    backgroundColor: `rgba(6,78,59,${0.06 * layer})`,
+                    border: `1px solid rgba(52,211,153,${0.04 * layer})`,
+                  }}
+                />
+              ))}
+              {/* Front document */}
+              <div
+                className="relative rounded-xl overflow-hidden"
+                style={{
+                  width: '240px',
+                  height: '300px',
+                  backgroundColor: '#062818',
+                  border: '1px solid rgba(52,211,153,0.18)',
+                }}
+              >
+                {/* Document header band */}
+                <div
+                  className="h-12 px-5 flex items-center"
+                  style={{ backgroundColor: 'rgba(6,95,70,0.6)' }}
+                >
+                  <div
+                    className="w-16 h-2 rounded-full"
+                    style={{ backgroundColor: 'rgba(52,211,153,0.40)' }}
+                  />
+                </div>
+                {/* Document body lines */}
+                <div className="px-5 py-5 space-y-3">
+                  {[80, 65, 72, 50, 68, 45, 60].map((w, i) => (
+                    <div
+                      key={i}
+                      className="rounded-full"
+                      style={{
+                        height: '6px',
+                        width: `${w}%`,
+                        backgroundColor: `rgba(52,211,153,${0.06 + i * 0.02})`,
+                      }}
+                    />
+                  ))}
+                  {/* Chart bar group */}
+                  <div className="flex items-end gap-2 pt-3">
+                    {[55, 75, 45, 90, 60, 80].map((h, i) => (
+                      <div
+                        key={i}
+                        className="flex-1 rounded-t-sm"
+                        style={{
+                          height: `${h * 0.5}px`,
+                          backgroundColor: `rgba(52,211,153,${0.12 + i * 0.04})`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Notice Banner */}
-      <section className="bg-green-50 border-b border-green-100 py-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center gap-3 text-sm text-gray-700">
-            <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      </div>
+    </div>
+  </section>
+);
+
+// =====================================================
+// TAG FILTER BAR
+// Emerald-toned — scrollable, accessible.
+// =====================================================
+
+interface TagFilterBarProps {
+  activeTag: string;
+  onTagChange: (tag: string) => void;
+}
+
+const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
+  <div
+    className="flex gap-2 overflow-x-auto pb-1"
+    style={{ scrollbarWidth: 'none' } as React.CSSProperties}
+    role="toolbar"
+    aria-label="Filter reports by type"
+  >
+    {ALL_TAGS.map((tag) => {
+      const isActive = tag === activeTag;
+      const style    = tag === 'All'
+        ? { bg: 'rgba(52,211,153,0.10)', text: '#34D399' }
+        : getTagStyle(tag);
+
+      return (
+        <button
+          key={tag}
+          type="button"
+          onClick={() => onTagChange(tag)}
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          style={
+            isActive
+              ? {
+                  backgroundColor: '#065F46',
+                  color: '#34D399',
+                  border: '1px solid rgba(52,211,153,0.35)',
+                }
+              : {
+                  backgroundColor: style.bg,
+                  color: style.text,
+                  border: '1px solid transparent',
+                  opacity: 0.65,
+                }
+          }
+          aria-pressed={isActive}
+        >
+          {tag}
+        </button>
+      );
+    })}
+  </div>
+);
+
+// =====================================================
+// FEATURED REPORT CARD
+// Full-width — used for the very first report.
+// Emphasises page count, date, and a document icon.
+// =====================================================
+
+interface FeaturedReportCardProps {
+  report: Report;
+  onOpen: (title: string) => void;
+}
+
+const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => {
+  const tagStyle = getTagStyle(report.tag);
+
+  return (
+    <article
+      onClick={() => onOpen(report.title)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+      style={{ backgroundColor: '#041A0E', border: '1px solid rgba(52,211,153,0.10)' }}
+      aria-label={`Download report: ${report.title}`}
+    >
+      {/* Header */}
+      <div
+        className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #064E3B 0%, #041A0E 65%)' }}
+      >
+        {/* Stacked rectangle motif */}
+        <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
+          {[3, 2, 1].map((l) => (
+            <div
+              key={l}
+              className="absolute rounded-lg"
+              style={{
+                width: `${80 + l * 20}px`,
+                height: `${110 + l * 25}px`,
+                right: `${20 + (3 - l) * 12}px`,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                border: `1px solid rgba(52,211,153,${0.05 * l})`,
+                backgroundColor: `rgba(6,78,59,${0.04 * l})`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 flex items-center gap-3 flex-wrap">
+          <span
+            className="px-3 py-1 rounded-full text-xs font-semibold"
+            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+          >
+            {report.tag}
+          </span>
+          <span
+            className="px-3 py-1 rounded-full text-xs font-medium"
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.04)',
+              color: '#34D399',
+              border: '1px solid rgba(52,211,153,0.14)',
+            }}
+          >
+            Featured
+          </span>
+          <span
+            className="px-3 py-1 rounded-full text-xs font-medium"
+            style={{
+              backgroundColor: 'rgba(52,211,153,0.06)',
+              color: '#6EE7B7',
+              border: '1px solid rgba(52,211,153,0.12)',
+            }}
+          >
+            {report.pages}
+          </span>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-8 sm:px-10 py-6 sm:py-8">
+        <h2
+          className="font-light leading-snug mb-3 group-hover:text-emerald-300 transition-colors duration-200"
+          style={{
+            fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
+            color: '#D1FAE5',
+            fontFamily: 'Georgia, serif',
+          }}
+        >
+          {report.title}
+        </h2>
+        <p
+          className="text-sm leading-relaxed mb-6 max-w-3xl"
+          style={{ color: '#1A5C38' }}
+        >
+          {report.excerpt}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span
+              className="px-2.5 py-1 rounded-md text-xs"
+              style={{ backgroundColor: 'rgba(6,78,59,0.5)', color: '#34D399' }}
+            >
+              {report.sector}
+            </span>
+            <span className="text-xs" style={{ color: '#065F46' }}>
+              {report.date}
+            </span>
+          </div>
+          <div
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
+            style={{ color: '#34D399' }}
+          >
+            Download report
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            <p>
-              <strong>Partner Access Required:</strong> All research reports require partner verification. 
-              <Link href="/contact" className="text-green-600 hover:text-green-700 font-medium ml-2">
-                Request Access
-              </Link>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+// =====================================================
+// STANDARD REPORT CARD
+// Used in the 3-column grid.
+// Emphasises tag, page count, and sector.
+// =====================================================
+
+interface ReportCardProps {
+  report: Report;
+  onOpen: (title: string) => void;
+  animIndex: number;
+}
+
+const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
+  const tagStyle = getTagStyle(report.tag);
+
+  return (
+    <article
+      onClick={() => onOpen(report.title)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-emerald-400"
+      style={{
+        backgroundColor: '#041A0E',
+        border: '1px solid rgba(52,211,153,0.08)',
+        animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
+      }}
+      aria-label={`Download report: ${report.title}`}
+    >
+      {/* Top accent line */}
+      <div
+        className="h-0.5 w-full"
+        style={{ background: `linear-gradient(90deg, ${tagStyle.text}35, transparent)` }}
+      />
+
+      {/* Header band */}
+      <div
+        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+        style={{ background: 'linear-gradient(155deg, #064E3B 0%, #041A0E 100%)' }}
+      >
+        {/* Subtle corner document stack decoration */}
+        <div className="absolute top-3 right-3 opacity-10" aria-hidden="true">
+          <div className="w-10 h-12 rounded border border-emerald-400" />
+          <div className="w-10 h-12 rounded border border-emerald-400 absolute top-1.5 left-1.5" />
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2 flex-wrap">
+          <span
+            className="px-2.5 py-1 rounded-full text-xs font-semibold"
+            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+          >
+            {report.tag}
+          </span>
+          {/* Page count pill */}
+          <span
+            className="px-2 py-0.5 rounded-full text-xs"
+            style={{
+              backgroundColor: 'rgba(52,211,153,0.06)',
+              color: '#6EE7B7',
+              border: '1px solid rgba(52,211,153,0.12)',
+            }}
+          >
+            {report.pages}
+          </span>
+        </div>
+
+        {/* Lock icon */}
+        <div
+          className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+          aria-hidden="true"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#34D399" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-5 py-4">
+        <h3
+          className="font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
+          style={{
+            color: '#A7F3D0',
+            fontSize: '0.9rem',
+            fontFamily: 'Georgia, serif',
+          }}
+        >
+          {report.title}
+        </h3>
+        <p
+          className="text-xs leading-relaxed mb-4 line-clamp-2"
+          style={{ color: '#065F46' }}
+        >
+          {report.excerpt}
+        </p>
+
+        {/* Footer */}
+        <div
+          className="flex items-center justify-between pt-3"
+          style={{ borderTop: '1px solid rgba(52,211,153,0.07)' }}
+        >
+          <div className="flex items-center gap-2">
+            <span
+              className="text-xs px-2 py-0.5 rounded"
+              style={{ backgroundColor: 'rgba(6,78,59,0.4)', color: '#059669' }}
+            >
+              {report.sector}
+            </span>
+          </div>
+          <span className="text-xs" style={{ color: '#064E3B' }}>
+            {report.date}
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+// =====================================================
+// CASE STUDIES ADVERTISEMENT STRIP
+// Inserted after batch 1 (25 reports loaded).
+// Deep navy — consistent with case-studies hub identity.
+// =====================================================
+
+interface CaseStudiesStripProps {
+  onCaseStudyClick: (title: string) => void;
+}
+
+const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick }) => (
+  <div
+    className="my-12 rounded-2xl overflow-hidden"
+    style={{ backgroundColor: '#040E1C', border: '1px solid rgba(96,165,250,0.10)' }}
+  >
+    <div className="px-6 sm:px-8 py-6 sm:py-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(96,165,250,0.10)' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="#60A5FA" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <p
+              className="text-xs font-medium tracking-widest uppercase"
+              style={{ color: '#60A5FA' }}
+            >
+              Case Studies
+            </p>
+            <p className="text-sm font-light" style={{ color: '#1E3A52' }}>
+              Real decisions. Real outcomes.
             </p>
           </div>
         </div>
-      </section>
+        <a
+          href="/resources/case-studies"
+          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
+          style={{ color: '#60A5FA' }}
+        >
+          All Cases
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
 
-      {/* Reports Grid with Infinite Scroll */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedReports.map((report) => (
-              <ReportCard
-                key={report.id}
-                report={report}
-                onClick={() => handleReportClick(report)}
-              />
-            ))}
-          </div>
-
-          {/* Loading Indicator */}
-          {hasMore && (
-            <div ref={observerTarget} className="flex justify-center items-center py-12">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading more reports...</p>
-              </div>
-            </div>
-          )}
-
-          {/* End Message */}
-          {!hasMore && (
-            <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">You've viewed all {allReports.length} research reports</p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+      {/* Case study teasers */}
+      <div className="grid sm:grid-cols-3 gap-4">
+        {FEATURED_CASE_STUDIES.map((cs) => (
+          <div
+            key={cs.title}
+            onClick={() => onCaseStudyClick(cs.title)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{
+              backgroundColor: '#081428',
+              border: '1px solid rgba(96,165,250,0.08)',
+            }}
+            aria-label={`View case study: ${cs.title}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
+                style={{ backgroundColor: 'rgba(96,165,250,0.10)', color: '#93C5FD' }}
               >
-                <span>Become a Partner for Full Access</span>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
+                {cs.tag}
+              </span>
+              <span
+                className="inline-block px-2 py-0.5 rounded-full text-xs"
+                style={{
+                  backgroundColor: 'rgba(52,211,153,0.08)',
+                  color: '#34D399',
+                  border: '1px solid rgba(52,211,153,0.12)',
+                }}
+              >
+                {cs.outcome}
+              </span>
+            </div>
+            <p
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
+              style={{ color: '#C8DEFF', fontFamily: 'Georgia, serif' }}
+            >
+              {cs.title}
+            </p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-xs" style={{ color: '#2D4A6A' }}>{cs.sector}</span>
+              <span className="text-xs" style={{ color: '#1A2E40' }}>·</span>
+              <span className="text-xs" style={{ color: '#1A3A50' }}>{cs.year}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// =====================================================
+// BLOGS ADVERTISEMENT STRIP
+// Inserted after batch 2 (50 reports loaded).
+// Warm amber/parchment dark — blogs hub identity.
+// =====================================================
+
+interface BlogsStripProps {
+  onBlogClick: (title: string) => void;
+}
+
+const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
+  <div
+    className="my-12 rounded-2xl overflow-hidden"
+    style={{ backgroundColor: '#1C1408', border: '1px solid rgba(200,184,138,0.10)' }}
+  >
+    <div className="px-6 sm:px-8 py-6 sm:py-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(200,184,138,0.10)' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="#C8B88A" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <p
+              className="text-xs font-medium tracking-widest uppercase"
+              style={{ color: '#C8B88A' }}
+            >
+              From the Blog
+            </p>
+            <p className="text-sm font-light" style={{ color: '#7A6A50' }}>
+              Thinking behind the numbers
+            </p>
+          </div>
+        </div>
+        <a
+          href="/resources/blogs"
+          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
+          style={{ color: '#C8B88A' }}
+        >
+          All Articles
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      {/* Blog teasers */}
+      <div className="grid sm:grid-cols-3 gap-4">
+        {FEATURED_BLOGS.map((blog) => (
+          <div
+            key={blog.title}
+            onClick={() => onBlogClick(blog.title)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            style={{
+              backgroundColor: '#2A1E0C',
+              border: '1px solid rgba(200,184,138,0.08)',
+            }}
+            aria-label={`Read blog: ${blog.title}`}
+          >
+            <span
+              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
+              style={{ backgroundColor: 'rgba(200,184,138,0.10)', color: '#C8B88A' }}
+            >
+              {blog.tag}
+            </span>
+            <p
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-amber-200 transition-colors duration-200 line-clamp-2"
+              style={{ color: '#E8D8B0', fontFamily: 'Georgia, serif' }}
+            >
+              {blog.title}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs" style={{ color: '#C8B88A' }}>
+                {blog.readTime} read
+              </span>
+              <span className="text-xs" style={{ color: '#3A2808' }}>·</span>
+              <span className="text-xs" style={{ color: '#6A5030' }}>
+                {blog.date}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// =====================================================
+// LOAD MORE SENTINEL
+// IntersectionObserver-based trigger.
+// Fires 200px before reaching end of current list.
+// =====================================================
+
+interface LoadMoreSentinelProps {
+  onVisible: () => void;
+  loading: boolean;
+  hasMore: boolean;
+  totalCount: number;
+}
+
+const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
+  onVisible,
+  loading,
+  hasMore,
+  totalCount,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) onVisible();
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [onVisible, hasMore]);
+
+  return (
+    <div ref={ref} className="flex justify-center py-12">
+      {loading && (
+        <div className="flex items-center gap-3" style={{ color: '#1A5030' }}>
+          <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <span className="text-sm tracking-wide">Loading more reports…</span>
+        </div>
+      )}
+      {!loading && !hasMore && (
+        <p className="text-sm" style={{ color: '#064E3B' }}>
+          All {totalCount} reports loaded.
+        </p>
+      )}
+    </div>
+  );
+};
+
+// =====================================================
+// PAGE ROOT COMPONENT
+// Orchestrates: filter → batched render → ad strips →
+// infinite scroll sentinel → partner auth modal.
+// =====================================================
+
+export default function ReportsHubPage(): React.JSX.Element {
+  const [activeTag, setActiveTag]     = useState<string>('All');
+  const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE_CONST);
+  const [isLoading, setIsLoading]     = useState<boolean>(false);
+  const [modalState, setModalState]   = useState<ModalState>({ open: false, title: '' });
+
+  // Derived filtered list from active tag
+  const filteredReports: Report[] =
+    activeTag === 'All'
+      ? ALL_REPORTS
+      : ALL_REPORTS.filter((r) => r.tag === activeTag);
+
+  const visibleReports: Report[] = filteredReports.slice(0, loadedCount);
+  const hasMore: boolean         = loadedCount < filteredReports.length;
+
+  // Reset batch count when filter changes
+  useEffect(() => {
+    setLoadedCount(BATCH_SIZE_CONST);
+  }, [activeTag]);
+
+  // IntersectionObserver callback — loads next 25 after 600ms
+  const loadMore = useCallback((): void => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      setLoadedCount((prev) => Math.min(prev + BATCH_SIZE_CONST, filteredReports.length));
+      setIsLoading(false);
+    }, 600);
+  }, [isLoading, hasMore, filteredReports.length]);
+
+  const openModal  = (title: string): void => setModalState({ open: true, title });
+  const closeModal = (): void => setModalState({ open: false, title: '' });
+
+  // Batch slices for rendering with ad strip insertion
+  const batch1: Report[]              = visibleReports.slice(0, 25);
+  const batch2: Report[]              = visibleReports.slice(25, 50);
+  const batch3: Report[]              = visibleReports.slice(50);
+  const featured: Report | undefined  = batch1[0];
+  const restBatch1: Report[]          = batch1.slice(1);
+
+  const showCaseStudiesStrip = visibleReports.length >= 25;
+  const showBlogsStrip       = visibleReports.length >= 50;
+
+  return (
+    <>
+      <style>{`
+        @keyframes cardIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes modalIn {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        *::-webkit-scrollbar { display: none; }
+        * { -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+
+      <main className="min-h-screen" style={{ backgroundColor: '#020D06' }}>
+
+        {/* ── Hero ───────────────────────────────────── */}
+        <HeroSection />
+
+        {/* ── Content Area ───────────────────────────── */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+          {/* Filter bar + count */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+            <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
+            <p className="text-sm flex-shrink-0" style={{ color: '#1A5030' }}>
+              {filteredReports.length}{' '}
+              {filteredReports.length !== 1 ? 'reports' : 'report'}
+              {activeTag !== 'All' && (
+                <>
+                  {' '}in{' '}
+                  <em style={{ color: '#34D399' }}>{activeTag}</em>
+                </>
+              )}
+            </p>
+          </div>
+
+          {/* ── BATCH 1 ─────────────────────────────── */}
+          {featured && (
+            <div className="mb-8">
+              <FeaturedReportCard report={featured} onOpen={openModal} />
             </div>
           )}
 
-        </div>
-      </section>
+          {restBatch1.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {restBatch1.map((report, i) => (
+                <ReportCard
+                  key={report.id}
+                  report={report}
+                  onOpen={openModal}
+                  animIndex={i}
+                />
+              ))}
+            </div>
+          )}
 
-      {/* Research Categories Overview */}
-      <section className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-light text-gray-900 text-center mb-12">
-            Comprehensive Research Coverage
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              'Technology & SaaS',
-              'Artificial Intelligence',
-              'Healthcare Innovation',
-              'Fintech & Digital Finance',
-              'Sustainability & ESG',
-              'Retail & E-commerce',
-              'Workplace & HR Tech',
-              'Emerging Technologies',
-              'Marketing & Advertising',
-              'Supply Chain & Logistics',
-              'Energy & Cleantech',
-              'Education Technology'
-            ].map((category, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">{category}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          {/* ── CASE STUDIES AD STRIP — after batch 1 ── */}
+          {showCaseStudiesStrip && (
+            <CaseStudiesAdvertStrip onCaseStudyClick={openModal} />
+          )}
 
-      {/* CTA Section */}
-      <section className="bg-[#0A2E1A] py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-light text-white mb-6">
-            Make Decisions with<br/>
-            <span className="text-green-300">Data-Driven Confidence</span>
-          </h2>
-          <p className="text-green-200 text-xl mb-10 max-w-2xl mx-auto">
-            Join partners who leverage our research to identify opportunities, mitigate risks, and stay ahead of market trends.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center bg-white text-green-900 px-8 py-4 rounded-lg hover:bg-green-50 transition-all duration-300 font-medium shadow-lg"
-            >
-              <span>Get Partner Access</span>
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <Link
-              href="/case-studies"
-              className="inline-flex items-center justify-center border-2 border-green-500 text-green-300 px-8 py-4 rounded-lg hover:bg-green-500/10 transition-all duration-300 font-medium"
-            >
-              <span>View Case Studies</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+          {/* ── BATCH 2 ─────────────────────────────── */}
+          {batch2.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {batch2.map((report, i) => (
+                <ReportCard
+                  key={report.id}
+                  report={report}
+                  onOpen={openModal}
+                  animIndex={i}
+                />
+              ))}
+            </div>
+          )}
 
-      {/* Authentication Modal */}
-      <AuthenticationModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        reportTitle={selectedReport?.title || ''}
-        onAuthenticate={handleAuthenticate}
+          {/* ── BLOGS AD STRIP — after batch 2 ────────── */}
+          {showBlogsStrip && (
+            <BlogsAdvertStrip onBlogClick={openModal} />
+          )}
+
+          {/* ── BATCH 3 ─────────────────────────────── */}
+          {batch3.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {batch3.map((report, i) => (
+                <ReportCard
+                  key={report.id}
+                  report={report}
+                  onOpen={openModal}
+                  animIndex={i}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* ── Empty state ─────────────────────────── */}
+          {filteredReports.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <p className="text-4xl mb-4">📭</p>
+              <p className="text-lg font-light mb-1" style={{ color: '#A7F3D0' }}>
+                No reports in &ldquo;{activeTag}&rdquo; yet
+              </p>
+              <p className="text-sm" style={{ color: '#1A5030' }}>
+                Try a different type or{' '}
+                <button
+                  type="button"
+                  className="underline"
+                  style={{ color: '#34D399' }}
+                  onClick={() => setActiveTag('All')}
+                >
+                  view all
+                </button>
+                .
+              </p>
+            </div>
+          )}
+
+          {/* ── Load more sentinel ──────────────────── */}
+          {filteredReports.length > 0 && (
+            <LoadMoreSentinel
+              onVisible={loadMore}
+              loading={isLoading}
+              hasMore={hasMore}
+              totalCount={filteredReports.length}
+            />
+          )}
+
+        </div>
+      </main>
+
+      {/* ── Partner Auth Modal ───────────────────────── */}
+      <PartnerAuthModal
+        isOpen={modalState.open}
+        onClose={closeModal}
+        resourceTitle={modalState.title}
       />
-
-    </main>
+    </>
   );
 }

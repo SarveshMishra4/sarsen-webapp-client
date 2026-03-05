@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Head from 'next/head'; // Added for viewport meta
 
 // =====================================================
 // TYPESCRIPT INTERFACES
@@ -36,43 +37,41 @@ type WorkTypeContent = {
 // =====================================================
 const WorkHero = () => {
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 right-20 w-64 h-64 border-2 border-white rounded-full"></div>
-        <div className="absolute bottom-20 left-20 w-48 h-48 border-2 border-white rounded-full"></div>
+    <section className="relative bg-[#0A1E3D] min-h-[520px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+  <div className="max-w-7xl mx-auto">
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      {/* LEFT: TEXT CONTENT */}
+      <div className="max-w-xl">
+
+        {/* Title */}
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white mb-6 leading-tight">
+          How We Work With Founders
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-md sm:text-xl text-blue-200 font-light leading-relaxed mb-12">
+          We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
+        </p>
+
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="max-w-4xl">
-          {/* Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white mb-6 leading-tight">
-            How We Work With Founders
-          </h1>
+      {/* RIGHT: GRAPHIC / SVG */}
+      <div className="relative flex justify-center lg:justify-end">
+        <div className="w-full h-80 sm:h-96 lg:h-[450px] max-w-md p-8">
 
-          {/* Subtitle */}
-          <p className="text-xl sm:text-2xl text-blue-200 font-light leading-relaxed mb-12 max-w-3xl">
-            We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
-          </p>
+          <img
+            src="/assets/work/Work Head.svg"
+            alt="How We Work Illustration"
+            className="w-full h-full"
+          />
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 pt-12 border-t border-blue-800/30">
-            <div>
-              <div className="text-4xl sm:text-5xl font-light text-white mb-2">7</div>
-              <div className="text-blue-300 text-sm sm:text-base">Productized Packages</div>
-            </div>
-            <div>
-              <div className="text-4xl sm:text-5xl font-light text-white mb-2">12+</div>
-              <div className="text-blue-300 text-sm sm:text-base">Industry Sectors</div>
-            </div>
-            <div>
-              <div className="text-4xl sm:text-5xl font-light text-white mb-2">100%</div>
-              <div className="text-blue-300 text-sm sm:text-base">Clarity-Focused</div>
-            </div>
-          </div>
         </div>
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
   );
 };
 
@@ -81,43 +80,38 @@ const WorkHero = () => {
 // =====================================================
 const EngagementPhilosophy = () => {
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
-          {/* Left: Content */}
-          <div className="space-y-6">
-            <div className="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-              Our Philosophy
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 leading-tight">
-              Work on Engagement: Combined Use
-            </h2>
-            
-            <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
-              <p>
-                Most consultants offer either advice or execution. We offer neither in isolation.
-              </p>
-              <p>
-                Our engagements are structured to give you <strong>diagnostic precision</strong>, <strong>strategic direction</strong>, and <strong>execution-ready frameworks</strong>—all delivered in a defined timeline with zero scope creep.
-              </p>
-              <p>
-                We combine deep analysis with practical tools. You don't get a hundred-slide deck. You get Google Sheets with scoring logic, decision frameworks, and roadmaps you can immediately implement.
-              </p>
-            </div>
-          </div>
+    <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 ">
+      <div className='max-w-7xl mx-auto'>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-900 leading-tight mb-6">
+        Work on Engagement: Combined Use
+      </h2>
 
-          {/* Right: Visual Element */}
-          <div className="relative h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center border border-gray-300">
-            <div className="text-center text-gray-400 p-8">
-              <svg className="w-24 h-24 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <p className="text-sm">Engagement Model<br/>Illustration Placeholder</p>
-            </div>
-          </div>
-        </div>
+      <div className=" text-gray-700 text-lg leading-relaxed">
+
+        <p>
+          Most consultants offer either advice or execution. We offer neither in isolation.
+        </p>
+
+        <p>
+          Our engagements are structured to give you{" "}
+          <strong>diagnostic precision</strong>,{" "}
+          <strong>strategic direction</strong>, and{" "}
+          <strong>execution-ready frameworks</strong>
+          —all delivered in a defined timeline with zero scope creep.
+        </p>
+
+        <p>
+          We combine deep analysis with practical tools. You don't get a hundred-slide deck.
+          You get Google Sheets with scoring logic, decision frameworks, and roadmaps you can
+          immediately implement.
+        </p>
+
       </div>
+      </div>
+      
+
+
+
     </section>
   );
 };
@@ -153,9 +147,7 @@ const HowWeEngage = () => {
     <section className="bg-[#E8EEF2] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 sm:mb-16">
-          <div className="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-            Our Approach
-          </div>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
             How We Engage With Clients
           </h2>
@@ -166,14 +158,12 @@ const HowWeEngage = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {engagementSteps.map((step, index) => (
-            <div 
+            <div
               key={index}
-              className="bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all duration-300"
+              className="bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-[#002855] hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-                  {step.number}
-                </div>
+
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
                     {step.title}
@@ -267,12 +257,10 @@ const WorkTypes = () => {
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="mb-12 sm:mb-16">
-          <div className="text-blue-300 text-sm font-semibold uppercase tracking-wider mb-3">
-            Types of Work
-          </div>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4">
             What We Do For Clients
           </h2>
@@ -285,31 +273,28 @@ const WorkTypes = () => {
         <div className="flex flex-wrap gap-4 mb-12">
           <button
             onClick={() => setActiveTab('communication')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-              activeTab === 'communication'
-                ? 'bg-white text-[#0A1E3D]'
-                : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
-            }`}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'communication'
+              ? 'bg-white text-[#0A1E3D]'
+              : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
+              }`}
           >
             Communication & Guidance
           </button>
           <button
             onClick={() => setActiveTab('sector')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-              activeTab === 'sector'
-                ? 'bg-white text-[#0A1E3D]'
-                : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
-            }`}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'sector'
+              ? 'bg-white text-[#0A1E3D]'
+              : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
+              }`}
           >
             Work by Sector
           </button>
           <button
             onClick={() => setActiveTab('storytelling')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-              activeTab === 'storytelling'
-                ? 'bg-white text-[#0A1E3D]'
-                : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
-            }`}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'storytelling'
+              ? 'bg-white text-[#0A1E3D]'
+              : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
+              }`}
           >
             Storytelling & Presentations
           </button>
@@ -328,9 +313,9 @@ const WorkTypes = () => {
           {activeTab === 'sector' ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {(currentContent as SectorContent).sectors.map((sector, index) => (
-                <div 
+                <div
                   key={index}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-blue-700/30 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-blue-700/30 hover:border-[#002855] hover:bg-white/10 transition-all duration-300"
                 >
                   <h4 className="text-white font-semibold text-lg mb-2">
                     {sector.name}
@@ -344,7 +329,7 @@ const WorkTypes = () => {
           ) : (
             <div className="space-y-6">
               {(currentContent as CommunicationContent | StorytellingContent).points.map((point, index) => (
-                <div 
+                <div
                   key={index}
                   className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-blue-700/30"
                 >
@@ -403,12 +388,10 @@ const CaseStudyApproach = () => {
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="mb-12 sm:mb-16">
-          <div className="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-            Real Work
-          </div>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
             How We Actually Help
           </h2>
@@ -420,28 +403,27 @@ const CaseStudyApproach = () => {
         {/* Case Study Cards */}
         <div className="grid lg:grid-cols-2 gap-8">
           {caseStudies.map((caseStudy, index) => (
-            <div 
+            <div
               key={index}
               onClick={() => setSelectedCase(index)}
-              className={`bg-gray-50 rounded-xl p-8 border-2 cursor-pointer transition-all duration-300 ${
-                selectedCase === index 
-                  ? 'border-blue-500 shadow-lg' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
+              className={`bg-gray-50 rounded-md p-8 border-2 cursor-pointer transition-all duration-300 ${selectedCase === index
+                ? 'border-[#002855] shadow-lg'
+                : 'border-gray-200 hover:border-gray-300'
+                }`}
             >
               <div className="flex items-start justify-between mb-4">
-                <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-semibold">
+                <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-md text-md ">
                   {caseStudy.sector}
                 </span>
               </div>
-              
+
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {caseStudy.title}
               </h3>
 
               <div className="space-y-4">
                 <div>
-                  <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                  <div className="text-sm font-semibold text-gray-500   mb-1">
                     Challenge
                   </div>
                   <p className="text-gray-700">
@@ -450,7 +432,7 @@ const CaseStudyApproach = () => {
                 </div>
 
                 <div>
-                  <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                  <div className="text-sm font-semibold text-gray-500   mb-1">
                     Approach
                   </div>
                   <p className="text-gray-700">
@@ -459,7 +441,7 @@ const CaseStudyApproach = () => {
                 </div>
 
                 <div>
-                  <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                  <div className="text-sm font-semibold text-gray-500  mb-1">
                     Outcome
                   </div>
                   <p className="text-gray-900 font-medium">
@@ -475,7 +457,7 @@ const CaseStudyApproach = () => {
           <p className="text-gray-600 mb-6">
             Every client situation is different. These examples show the structure, not a template.
           </p>
-          <Link 
+          <Link
             href="/contact#main"
             className="inline-block bg-[#0A1E3D] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#132B47] transition-all duration-300 shadow-lg"
           >
@@ -494,11 +476,9 @@ const OurProcess = () => {
   return (
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="mb-12 sm:mb-16">
-          <div className="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-            Our Process
-          </div>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
             How Work Actually Flows
           </h2>
@@ -508,80 +488,15 @@ const OurProcess = () => {
         </div>
 
         {/* Process Diagram */}
-        <div className="bg-white rounded-2xl p-8 sm:p-10 lg:p-12 border-2 border-gray-300 overflow-x-auto">
-          <svg 
-            viewBox="0 0 1200 400" 
-            className="w-full h-auto min-w-[800px]"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            {/* Horizontal Line */}
-            <line x1="100" y1="200" x2="1100" y2="200" stroke="#0A1E3D" strokeWidth="3" strokeLinecap="round" />
-
-            {/* Step 1: Discovery */}
-            <g>
-              <line x1="150" y1="180" x2="150" y2="220" stroke="#0A1E3D" strokeWidth="2" />
-              <circle cx="150" cy="200" r="40" fill="rgba(10, 30, 61, 0.1)" stroke="#0A1E3D" strokeWidth="3" />
-              <circle cx="150" cy="200" r="25" fill="rgba(10, 30, 61, 0.3)" />
-              <text x="150" y="210" textAnchor="middle" fill="#0A1E3D" fontSize="24" fontWeight="bold">1</text>
-              <text x="150" y="130" textAnchor="middle" fill="#374151" fontSize="16" fontWeight="600">DISCOVERY</text>
-              <text x="150" y="280" textAnchor="middle" fill="#6B7280" fontSize="13">Understand the</text>
-              <text x="150" y="300" textAnchor="middle" fill="#6B7280" fontSize="13">actual problem</text>
-            </g>
-
-            {/* Step 2: Diagnosis */}
-            <g>
-              <line x1="325" y1="180" x2="325" y2="220" stroke="#0A1E3D" strokeWidth="2" />
-              <circle cx="325" cy="200" r="45" fill="rgba(10, 30, 61, 0.15)" stroke="#0A1E3D" strokeWidth="3" />
-              <circle cx="325" cy="200" r="28" fill="rgba(10, 30, 61, 0.35)" />
-              <text x="325" y="210" textAnchor="middle" fill="#0A1E3D" fontSize="24" fontWeight="bold">2</text>
-              <text x="325" y="130" textAnchor="middle" fill="#374151" fontSize="16" fontWeight="600">DIAGNOSIS</text>
-              <text x="325" y="280" textAnchor="middle" fill="#6B7280" fontSize="13">Isolate root</text>
-              <text x="325" y="300" textAnchor="middle" fill="#6B7280" fontSize="13">causes</text>
-            </g>
-
-            {/* Step 3: Strategy (Larger) */}
-            <g>
-              <line x1="550" y1="170" x2="550" y2="230" stroke="#0A1E3D" strokeWidth="2" />
-              <circle cx="550" cy="200" r="55" fill="rgba(10, 30, 61, 0.2)" stroke="#0A1E3D" strokeWidth="4" />
-              <circle cx="550" cy="200" r="35" fill="rgba(10, 30, 61, 0.4)" />
-              <text x="550" y="212" textAnchor="middle" fill="#0A1E3D" fontSize="28" fontWeight="bold">3</text>
-              <text x="550" y="120" textAnchor="middle" fill="#0A1E3D" fontSize="18" fontWeight="700">STRATEGY</text>
-              <text x="550" y="290" textAnchor="middle" fill="#6B7280" fontSize="13">Design execution-</text>
-              <text x="550" y="310" textAnchor="middle" fill="#6B7280" fontSize="13">ready roadmap</text>
-            </g>
-
-            {/* Step 4: Delivery */}
-            <g>
-              <line x1="775" y1="180" x2="775" y2="220" stroke="#0A1E3D" strokeWidth="2" />
-              <circle cx="775" cy="200" r="45" fill="rgba(10, 30, 61, 0.15)" stroke="#0A1E3D" strokeWidth="3" />
-              <circle cx="775" cy="200" r="28" fill="rgba(10, 30, 61, 0.35)" />
-              <text x="775" y="210" textAnchor="middle" fill="#0A1E3D" fontSize="24" fontWeight="bold">4</text>
-              <text x="775" y="130" textAnchor="middle" fill="#374151" fontSize="16" fontWeight="600">DELIVERY</text>
-              <text x="775" y="280" textAnchor="middle" fill="#6B7280" fontSize="13">Hand over</text>
-              <text x="775" y="300" textAnchor="middle" fill="#6B7280" fontSize="13">documents & tools</text>
-            </g>
-
-            {/* Step 5: Support */}
-            <g>
-              <line x1="1000" y1="180" x2="1000" y2="220" stroke="#0A1E3D" strokeWidth="2" />
-              <circle cx="1000" cy="200" r="40" fill="rgba(10, 30, 61, 0.1)" stroke="#0A1E3D" strokeWidth="3" />
-              <circle cx="1000" cy="200" r="25" fill="rgba(10, 30, 61, 0.3)" />
-              <text x="1000" y="210" textAnchor="middle" fill="#0A1E3D" fontSize="24" fontWeight="bold">5</text>
-              <text x="1000" y="130" textAnchor="middle" fill="#374151" fontSize="16" fontWeight="600">SUPPORT</text>
-              <text x="1000" y="280" textAnchor="middle" fill="#6B7280" fontSize="13">Follow-up for</text>
-              <text x="1000" y="300" textAnchor="middle" fill="#6B7280" fontSize="13">implementation</text>
-            </g>
-
-            {/* Arrow at end */}
-            <path d="M 1090 200 L 1110 190 L 1110 210 Z" fill="#0A1E3D" />
-          </svg>
+        <div className="bg-[#002855] rounded-md p-8 sm:p-10 lg:p-12 border-2 border-gray-300 overflow-x-auto">
+          <img src="/assets/home/Methedology.svg" alt="" />
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-500 rounded-xl p-8 sm:p-10">
+        <div className="mt-12 bg-gradient-to-br from-blue-50 to-blue-100  rounded-md p-8 sm:p-10">
           <h3 className="text-xl font-semibold text-gray-900 mb-3">
             Why This Structure?
           </h3>
-          <p className="text-gray-700 leading-relaxed mb-4">
+          <p className="text-gray-700 leading-relaxed ">
             Most consulting engagements fail because scope expands, timelines drift, and deliverables become vague. Our process is rigid by design.
           </p>
           <p className="text-gray-700 leading-relaxed">
@@ -639,11 +554,9 @@ const WhatYouGet = () => {
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="mb-12 sm:mb-16">
-          <div className="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-            Deliverables
-          </div>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
             What You Actually Get
           </h2>
@@ -654,13 +567,11 @@ const WhatYouGet = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {deliverables.map((item, index) => (
-            <div 
+            <div
               key={index}
               className="bg-gray-50 rounded-xl p-8 border border-gray-200 hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white mb-6">
-                {item.icon}
-              </div>
+
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {item.title}
               </h3>
@@ -688,19 +599,71 @@ const WorkFooterCTA = () => {
         <p className="text-xl text-blue-200 font-light mb-10 leading-relaxed">
           Every engagement begins with the Business Diagnostic & Direction Package. It's compulsory because clarity must come before execution.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center isolate">
+
+          {/* Primary CTA */}
           <Link
             href="/packages/business-diagnostic"
-            className="inline-block bg-white text-[#0A1E3D] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-all duration-300 shadow-lg"
+            className="
+      inline-flex
+      items-center
+      justify-center
+
+      px-8
+      py-4
+      rounded-lg
+      font-semibold
+      text-lg
+      shadow-lg
+
+      bg-white
+      text-[#002855]
+
+      transition-all
+      duration-300
+
+      hover:bg-black
+      hover:text-[#002855]
+
+      !bg-white
+      !text-black
+    "
           >
             Start With Diagnostic
           </Link>
+
+          {/* Secondary CTA */}
           <Link
             href="/contact#main"
-            className="inline-block bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-[#0A1E3D] transition-all duration-300"
+            className="
+      inline-flex
+      items-center
+      justify-center
+
+      px-8
+      py-4
+      rounded-lg
+      font-semibold
+      text-lg
+
+      border-2
+      border-white
+
+      bg-transparent
+      text-[#002855]
+
+      transition-all
+      duration-300
+
+      hover:bg-white
+      hover:text-[#002855]
+
+      !text-white
+    "
           >
             Talk to Our Team
           </Link>
+
         </div>
       </div>
     </section>
@@ -708,19 +671,49 @@ const WorkFooterCTA = () => {
 };
 
 // =====================================================
-// MAIN PAGE COMPONENT
+// MAIN PAGE COMPONENT (with responsive enhancements)
 // =====================================================
 export default function WorkPage() {
   return (
-    <main className="min-h-screen">
-      <WorkHero />
-      <EngagementPhilosophy />
-      <HowWeEngage />
-      <WorkTypes />
-      <CaseStudyApproach />
-      <OurProcess />
-      <WhatYouGet />
-      <WorkFooterCTA />
-    </main>
+    <>
+      <Head>
+        {/* Viewport meta for proper scaling on mobile devices */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+        {/* Optional: ensure touch interactions are optimized */}
+        <meta name="format-detection" content="telephone=no" />
+      </Head>
+
+      {/* Global style tweaks for ultra-small screens (no changes to components) */}
+      <style jsx global>{`
+        @media (max-width: 480px) {
+          /* Reduce excessive padding on cards and sections */
+          .p-8 { padding: 1.5rem; }
+          .p-10 { padding: 1.5rem; }
+          .p-12 { padding: 1.5rem; }
+          .px-8 { padding-left: 1rem; padding-right: 1rem; }
+          .py-16 { padding-top: 3rem; padding-bottom: 3rem; }
+          .gap-8 { gap: 1.5rem; }
+          .text-5xl { font-size: 2.5rem; }
+          .text-4xl { font-size: 2rem; }
+          .text-3xl { font-size: 1.75rem; }
+          .min-h-[520px] { min-height: auto; }
+          /* Ensure images never overflow */
+          img { max-width: 100%; height: auto; }
+        }
+        /* Additional touch-friendly adjustments */
+        button, a { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      `}</style>
+
+      <main className="min-h-screen">
+        <WorkHero />
+        <EngagementPhilosophy />
+        <HowWeEngage />
+        <WorkTypes />
+        <CaseStudyApproach />
+        <OurProcess />
+        <WhatYouGet />
+        <WorkFooterCTA />
+      </main>
+    </>
   );
 }

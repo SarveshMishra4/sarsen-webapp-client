@@ -1,4 +1,3 @@
-
 // app/contact/page.tsx
 'use client';
 
@@ -11,7 +10,7 @@ import React, { useState } from 'react';
 // =====================================================
 const ContactHeroSection = () => {
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -19,13 +18,13 @@ const ContactHeroSection = () => {
           {/* ==================== LEFT COLUMN ==================== */}
           {/* Headline and Subtext */}
           <div className="space-y-6">
-            <h1 className="text-3xl sm:text-3xl lg:text-4xl text-white font-light ">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white font-light leading-tight">
               Bring Clarity to Your Business Decisions
             </h1>
-            <p className="text-xl sm:text-xl text-gray-300 font-light leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300 font-light leading-relaxed">
 We work with founders who need clarity before making high-impact decisions — growth, capital, pricing, or restructuring.            </p>
             <div className="pt-4">
-              <p className="text-gray-400 text-base">
+              <p className="text-gray-400 text-sm sm:text-base">
                 Share a few details below and we’ll review your situation before responding.
 If there’s a clear way we can help, we’ll suggest next steps — if not, we’ll tell you that too.
               </p>
@@ -34,7 +33,7 @@ If there’s a clear way we can help, we’ll suggest next steps — if not, we�
 
           {/* ==================== RIGHT COLUMN ==================== */}
           {/* Illustration - Connection/Communication Theme */}
-          <img src="/assets/contact/Contact Head.svg" alt="" />
+          <img src="/assets/contact/Contact Head.svg" alt="" className="max-w-full h-auto" />
 
         </div>
       </div>
@@ -101,14 +100,14 @@ const ContactFormSection = () => {
 
           {/* ==================== LEFT COLUMN - CONTACT FORM ==================== */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl shadow-2xl p-8 sm:p-10 lg:p-12">
+            <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 lg:p-10">
               
               {/* Form Header */}
               <div className="mb-8">
-                <h2 className="text-3xl sm:text-4xl font-light text-gray-800 mb-3">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-800 mb-3">
                   Tell Us What’s Stuck
                 </h2>
-                <p className="text-gray-600 text-base">
+                <p className="text-gray-600 text-sm sm:text-base">
                   This isn’t a sales form. It’s the first step in understanding whether — and how — we can help.
 The more context you share, the more useful our response will be.
                 </p>
@@ -296,11 +295,11 @@ You don’t need a polished explanation — clarity comes later."
           </div>
 
           {/* ==================== RIGHT COLUMN - CONTACT INFO ==================== */}
-          <div className="lg:col-span-2 flex flex-col justify-between">
+          <div className="lg:col-span-2 flex flex-col justify-between gap-6 lg:gap-8">
             
             {/* Contact Information Card */}
-            <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-xl p-8 text-white shadow-xl">
-              <h3 className="text-2xl font-light mb-6">
+            <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-xl p-6 sm:p-8 text-white shadow-xl">
+              <h3 className="text-xl sm:text-2xl font-light mb-6">
                 Contact Information
               </h3>
 
@@ -314,7 +313,7 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <a href="mailto:contact@sarsen.com" className="text-white/90 hover:text-white transition-colors text-lg">
+                    <a href="mailto:contact@sarsen.com" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
                       contact@sarsen.com
                     </a>
                   </div>
@@ -328,7 +327,7 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <a href="tel:+919876543210" className="text-white/90 hover:text-white transition-colors text-lg">
+                    <a href="tel:+919876543210" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
                       +91 98765 43210
                     </a>
                   </div>
@@ -343,7 +342,7 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="text-white/90 text-lg leading-relaxed">
+                    <p className="text-white/90 text-base sm:text-lg leading-relaxed">
                       123 Business District<br />
                       Bangalore, Karnataka 560001<br />
                       India
@@ -359,7 +358,7 @@ You don’t need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="text-white/90 text-lg leading-relaxed">
+                    <p className="text-white/90 text-base sm:text-lg leading-relaxed">
                       Mon-Fri: 9:00 AM - 6:00 PM<br />
                     </p>
                   </div>
@@ -369,10 +368,10 @@ You don’t need a polished explanation — clarity comes later."
             </div>
 
             {/* Quick Links Card */}
-            <div className="bg-white text-slate-900 rounded-xl p-8 shadow-lg border border-gray-200">
+            <div className="bg-white text-slate-900 rounded-xl p-6 sm:p-8 shadow-lg border border-gray-200">
 
   {/* Heading */}
-  <h3 className="text-xl font-medium mb-4">
+  <h3 className="text-lg sm:text-xl font-medium mb-4">
     For You May Explore 
   </h3>
 
@@ -382,7 +381,7 @@ You don’t need a polished explanation — clarity comes later."
     {/* Link 1 */}
     <a
       href="/services"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>How We Help Founders</span>
 
@@ -404,7 +403,7 @@ You don’t need a polished explanation — clarity comes later."
     {/* Link 2 */}
     <a
       href="/resources"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Access Our Resources</span>
 
@@ -426,7 +425,7 @@ You don’t need a polished explanation — clarity comes later."
     {/* Link 3 */}
     <a
       href="/about"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Read Our Thinking</span>
 
@@ -448,7 +447,7 @@ You don’t need a polished explanation — clarity comes later."
     {/* Link 4 */}
     <a
       href="/blog"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600"
+      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Our Case Studies</span>
 
@@ -554,10 +553,10 @@ const FAQSection = () => {
               {/* Question Button */}
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 sm:px-8 py-5 sm:py-6 flex items-center justify-between text-left hover:bg-[#1a3a5c] transition-colors duration-300 group"
+                className="w-full px-4 sm:px-6 md:px-8 py-5 sm:py-6 flex items-center justify-between text-left hover:bg-[#1a3a5c] transition-colors duration-300 group"
                 aria-expanded={openIndex === index}
               >
-                <span className="text-white font-medium pr-4 text-base sm:text-lg group-hover:text-blue-300 transition-colors duration-300">
+                <span className="text-white font-medium pr-4 text-sm sm:text-base lg:text-lg group-hover:text-blue-300 transition-colors duration-300">
                   {faq.question}
                 </span>
                 <svg
@@ -578,7 +577,7 @@ const FAQSection = () => {
                   openIndex === index ? 'max-h-96' : 'max-h-0'
                 }`}
               >
-                <div className="px-6 sm:px-8 pb-5 sm:pb-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+                <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-6 text-gray-300 text-sm sm:text-base leading-relaxed">
                   {faq.answer}
                 </div>
               </div>
@@ -588,7 +587,7 @@ const FAQSection = () => {
 
         {/* Still Have Questions CTA */}
         <div className="mt-12 sm:mt-16 text-center">
-          <p className="text-gray-400 text-xl">
+          <p className="text-gray-400 text-lg sm:text-xl">
             Still have Questions ?
           </p>
           <button 
@@ -632,7 +631,7 @@ const FinalCTASection = () => {
         </h2>
 
         {/* Subtext */}
-        <p className="text-gray-300 text-lg sm:text-xl mb-10 sm:mb-12 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-300 text-base sm:text-lg lg:text-xl mb-10 sm:mb-12 leading-relaxed max-w-3xl mx-auto">
           Our diagnostic sessions are designed for founders who value clarity over guesswork.
 Start with a paid strategic diagnostic to determine the right path forward.
         </p>
@@ -643,15 +642,15 @@ Start with a paid strategic diagnostic to determine the right path forward.
           {/* Primary CTA */}
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
           >
-            <span>Book a Diagostic Session</span>
+            <span>Book a Diagnostic Session</span>
           </button>
 
           {/* Secondary CTA */}
           <a 
             href="/services"
-            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:text-[#0A1E3D] text-white px-8 sm:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
+            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
           >
             <span>Our Case Studies</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -666,32 +665,32 @@ Start with a paid strategic diagnostic to determine the right path forward.
             
             <div>
               <div className="text-blue-400 mb-2">
-                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <p className="text-white font-medium text-lg mb-1">2-Week Delivery</p>
-              <p className="text-gray-400 text-sm">Fast turnaround on most projects</p>
+              <p className="text-white font-medium text-base sm:text-lg mb-1">2-Week Delivery</p>
+              <p className="text-gray-400 text-xs sm:text-sm">Fast turnaround on most projects</p>
             </div>
 
             <div>
               <div className="text-blue-400 mb-2">
-                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <p className="text-white font-medium text-lg mb-1">Tangible Outputs</p>
-              <p className="text-gray-400 text-sm">Models, frameworks, not vague advice</p>
+              <p className="text-white font-medium text-base sm:text-lg mb-1">Tangible Outputs</p>
+              <p className="text-gray-400 text-xs sm:text-sm">Models, frameworks, not vague advice</p>
             </div>
 
             <div>
               <div className="text-blue-400 mb-2">
-                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <p className="text-white font-medium text-lg mb-1">1/10th the Cost</p>
-              <p className="text-gray-400 text-sm">Compared to Big 4 consulting</p>
+              <p className="text-white font-medium text-base sm:text-lg mb-1">1/10th the Cost</p>
+              <p className="text-gray-400 text-xs sm:text-sm">Compared to Big 4 consulting</p>
             </div>
 
           </div>

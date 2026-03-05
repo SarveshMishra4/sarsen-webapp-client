@@ -1,1023 +1,1629 @@
-// app/tools/page.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  FC,
+  MouseEvent,
+  FormEvent,
+  ChangeEvent,
+} from 'react';
 
 // =====================================================
-// TOOLS HUB PAGE
-// Features:
-// - Infinite scrolling to show many tools
-// - Click on any tool opens authentication modal
-// - Requires Partner ID + Password to access
-// - Shows we have many tools without revealing content
+// TYPE DEFINITIONS
 // =====================================================
 
-// =====================================================
-// AUTHENTICATION MODAL
-// =====================================================
-interface AuthModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  toolName: string;
-  onAuthenticate: (partnerId: string, password: string) => void;
+/** A single tool item */
+interface Tool {
+  id: number;
+  title: string;
+  excerpt: string;
+  tag: string;
+  format: string;       // e.g. "Excel Template", "Online Tool", "PDF Guide"
+  complexity: 'Beginner' | 'Intermediate' | 'Advanced';
+  useCase: string;      // one-line use case summary
+  featured?: boolean;
 }
 
-function AuthenticationModal({ isOpen, onClose, toolName, onAuthenticate }: AuthModalProps) {
-  const [partnerId, setPartnerId] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+/** Report teaser shown in advertisement strip */
+interface ReportTeaser {
+  title: string;
+  pages: string;
+  date: string;
+  tag: string;
+}
+
+/** Case study teaser shown in advertisement strip */
+interface CaseStudyTeaser {
+  title: string;
+  tag: string;
+  sector: string;
+  outcome: string;
+  year: string;
+}
+
+/** Partner auth modal state */
+interface ModalState {
+  open: boolean;
+  title: string;
+}
+
+/** Partner auth form fields */
+interface PartnerFormData {
+  partnerId: string;
+  password: string;
+}
+
+// =====================================================
+// TOOLS DATA — 75 tools, loaded 25 at a time
+// =====================================================
+
+const ALL_TOOLS: Tool[] = [
+  // ── Batch 1 (1–25) ────────────────────────────────────────────────────────
+  {
+    id: 1,
+    title: 'Startup Valuation Calculator',
+    excerpt: 'Calculate your company\'s valuation using three methodologies simultaneously — DCF, revenue multiples, and comparable transactions. Automatically reconciles outputs and surfaces the assumptions driving the gap between methods.',
+    tag: 'Valuation', format: 'Excel + Web App', complexity: 'Advanced', useCase: 'Pre-fundraise valuation benchmarking', featured: true,
+  },
+  {
+    id: 2,
+    title: '13-Week Cash Flow Forecaster',
+    excerpt: 'Project your weekly cash position across a 13-week rolling window. Includes AR/AP timing assumptions, scenario toggles for delayed collections, and a runway countdown that updates in real time as inputs change.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Short-term liquidity management',
+  },
+  {
+    id: 3,
+    title: 'Unit Economics Dashboard',
+    excerpt: 'CAC, LTV, payback period, and contribution margin in a single pre-built model. Enter your actuals and the dashboard benchmarks them against sector norms, flags structural problems, and shows the levers that move each metric.',
+    tag: 'Metrics', format: 'Excel + Notion', complexity: 'Intermediate', useCase: 'Investor-grade unit economics reporting',
+  },
+  {
+    id: 4,
+    title: 'Market Sizing Framework (TAM / SAM / SOM)',
+    excerpt: 'A structured template for building bottom-up and top-down market size calculations. Includes an investor-facing output slide, assumption documentation cells, and a sensitivity table showing how estimates change with key variables.',
+    tag: 'Strategy', format: 'Slides + Guide', complexity: 'Beginner', useCase: 'Pitch deck market sizing slide',
+  },
+  {
+    id: 5,
+    title: 'Pricing Audit Worksheet',
+    excerpt: 'A structured worksheet for testing whether your current pricing is economically sound. Runs six diagnostic checks — value capture rate, competitive anchoring, segment alignment, expansion potential, churn correlation, and gross margin contribution.',
+    tag: 'Revenue', format: 'Excel Worksheet', complexity: 'Intermediate', useCase: 'Revenue architecture review',
+  },
+  {
+    id: 6,
+    title: 'Investor Readiness Scorecard',
+    excerpt: 'Self-assessment tool covering all dimensions institutional investors evaluate at seed and Series A — business model clarity, unit economics, team, market, traction, and capital efficiency. Outputs a scored readiness profile with specific gaps identified.',
+    tag: 'Fundraising', format: 'Online Assessment', complexity: 'Beginner', useCase: 'Pre-fundraise gap identification',
+  },
+  {
+    id: 7,
+    title: 'Team Psychometric Assessment',
+    excerpt: 'A structured framework for evaluating team dynamics, leadership style distribution, decision-making tendencies, and cultural fit across a founding team or senior leadership group. Outputs a team profile with gap analysis.',
+    tag: 'People', format: 'Online Tool', complexity: 'Intermediate', useCase: 'Leadership team composition audit',
+  },
+  {
+    id: 8,
+    title: 'Financial Model Template — Early Stage Startup',
+    excerpt: 'A complete driver-based financial model with P&L, balance sheet, and cash flow statement. Built for pre-Series A startups. Includes revenue build, headcount planning, capex assumptions, and a three-scenario toggle.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Advanced', useCase: '3-statement fundraising model',
+  },
+  {
+    id: 9,
+    title: 'OKR & Accountability Framework',
+    excerpt: 'Quarterly goal-setting and structured review process designed specifically for founder-led teams of 10–50 people. Includes company-level, team-level, and individual OKR templates with a weekly check-in cadence protocol.',
+    tag: 'Operations', format: 'Notion Template', complexity: 'Beginner', useCase: 'Quarterly planning and execution',
+  },
+  {
+    id: 10,
+    title: 'Pitch Deck Builder — Slide Framework',
+    excerpt: 'Investor-tested slide structure with detailed guidance notes for every section. Covers all 12 standard slides, common mistakes on each, what data to include, and how each slide connects to the investor\'s evaluation framework.',
+    tag: 'Fundraising', format: 'Slides Template', complexity: 'Beginner', useCase: 'Series seed/A pitch deck construction',
+  },
+  {
+    id: 11,
+    title: 'Burn Rate Analyser',
+    excerpt: 'Input your actuals and projections to get a granular view of what is driving burn. Segments burn by function, identifies the highest-leverage cost lines, and models what specific cuts or hires do to your runway and breakeven timeline.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Burn structure diagnosis and planning',
+  },
+  {
+    id: 12,
+    title: 'Sales Pipeline Tracker & Forecasting Model',
+    excerpt: 'Stage-weighted pipeline model that converts deal-by-deal data into probabilistic revenue forecasts. Includes conversion rate benchmarks, average cycle time inputs, and a quarterly forecast output with confidence intervals.',
+    tag: 'Revenue', format: 'Excel + Sheets', complexity: 'Intermediate', useCase: 'Predictable revenue forecasting',
+  },
+  {
+    id: 13,
+    title: 'Cap Table Modelling Tool',
+    excerpt: 'Model your cap table through multiple funding rounds. Shows pre- and post-money ownership for all stakeholders, dilution waterfall, and liquidation preference stack. Includes ESOP pool modelling and convertible note conversion scenarios.',
+    tag: 'Fundraising', format: 'Excel Template', complexity: 'Advanced', useCase: 'Dilution and exit scenario planning',
+  },
+  {
+    id: 14,
+    title: 'Customer Cohort Analysis Template',
+    excerpt: 'Pre-built cohort analysis in Excel. Enter monthly revenue by acquisition cohort and the template generates retention curves, LTV by cohort, and payback period visualisations. Includes a benchmarking overlay for sector norms.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Retention and LTV visualisation for investors',
+  },
+  {
+    id: 15,
+    title: 'Hiring Decision Framework',
+    excerpt: 'A structured tool for making senior hiring decisions. Covers role scoping, scorecard construction, structured interview design, reference check protocol, and a final decision matrix that forces explicit trade-off evaluation.',
+    tag: 'People', format: 'Notion Template', complexity: 'Beginner', useCase: 'Reducing senior hire failure rate',
+  },
+  {
+    id: 16,
+    title: 'SaaS Metrics Dashboard',
+    excerpt: 'Pre-built SaaS metrics calculator covering MRR, ARR, MoM growth, NRR, gross churn, logo churn, CAC, LTV/CAC, and payback period. Inputs are raw billing data; outputs are investor-grade metric cards with trend lines.',
+    tag: 'Metrics', format: 'Excel + Google Sheets', complexity: 'Intermediate', useCase: 'Monthly SaaS health reporting',
+  },
+  {
+    id: 17,
+    title: 'Customer Discovery Interview Guide',
+    excerpt: 'A structured interview protocol for conducting high-quality customer discovery conversations. Includes question bank by interview stage, synthesis template, insight clustering framework, and a decision tree for translating findings into product or positioning changes.',
+    tag: 'Strategy', format: 'PDF Guide + Template', complexity: 'Beginner', useCase: 'Product and positioning validation',
+  },
+  {
+    id: 18,
+    title: 'Fundraising CRM & Process Tracker',
+    excerpt: 'A Notion-based CRM purpose-built for fundraising. Tracks investor pipeline by stage, manages follow-up cadence, stores all communication history, and provides a visual status dashboard showing where your round stands at any point.',
+    tag: 'Fundraising', format: 'Notion Template', complexity: 'Beginner', useCase: 'Fundraising process management',
+  },
+  {
+    id: 19,
+    title: 'Pricing Model Simulator',
+    excerpt: 'Simulate the revenue impact of different pricing structures — subscription vs. usage-based vs. seat-based vs. outcome-based. Models annual recurring revenue, cash flow timing differences, and churn sensitivity for each pricing architecture.',
+    tag: 'Revenue', format: 'Excel Template', complexity: 'Advanced', useCase: 'Pricing model selection and stress-testing',
+  },
+  {
+    id: 20,
+    title: 'Org Design Diagnostic',
+    excerpt: 'Evaluates your current org structure against growth stage requirements. Identifies role overlaps, accountability gaps, span-of-control problems, and reporting line inefficiencies. Outputs a prioritised list of structural changes with estimated impact.',
+    tag: 'Operations', format: 'Online Assessment', complexity: 'Intermediate', useCase: 'Operational restructure planning',
+  },
+  {
+    id: 21,
+    title: 'D2C Unit Economics Calculator',
+    excerpt: 'Purpose-built unit economics model for direct-to-consumer brands. Covers blended CAC by channel, contribution margin by SKU, repurchase rate modelling, LTV with discounting, and a break-even analysis at different AOV and margin assumptions.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Intermediate', useCase: 'D2C profitability analysis',
+  },
+  {
+    id: 22,
+    title: 'Board Meeting Preparation Kit',
+    excerpt: 'A complete template pack for preparing, running, and following up from board meetings. Includes board pack format, pre-read structure, meeting agenda template, decision log, and a 15-question prompt list for the CEO pre-read review.',
+    tag: 'Operations', format: 'Template Pack', complexity: 'Beginner', useCase: 'Improving board meeting quality',
+  },
+  {
+    id: 23,
+    title: 'Breakeven & Contribution Margin Calculator',
+    excerpt: 'Calculates unit-level and company-level breakeven across different revenue assumptions. Models fixed vs. variable cost splits, contribution margin by product line, and the revenue volume required for EBITDA breakeven under different headcount scenarios.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Beginner', useCase: 'Financial viability assessment',
+  },
+  {
+    id: 24,
+    title: 'Competitive Landscape Mapping Tool',
+    excerpt: 'A structured framework for mapping your competitive landscape across two strategic dimensions. Identifies whitespace, crowded segments, and positioning opportunities. Includes a slide-ready output and a feature comparison matrix template.',
+    tag: 'Strategy', format: 'Template + Guide', complexity: 'Beginner', useCase: 'Investor and strategy pitch preparation',
+  },
+  {
+    id: 25,
+    title: 'Revenue Leakage Audit',
+    excerpt: 'Systematic framework for identifying where revenue is being lost across six dimensions: pricing gaps, contract structure problems, upsell capture rate, churn root causes, billing errors, and discount discipline. Average finding: 15–30% of theoretical revenue leaking.',
+    tag: 'Revenue', format: 'Excel Worksheet', complexity: 'Advanced', useCase: 'Pre-fundraise or growth plateau diagnosis',
+  },
+
+  // ── Batch 2 (26–50) ──────────────────────────────────────────────────────
+  {
+    id: 26,
+    title: 'ESOP Pool Planning Tool',
+    excerpt: 'Model the size, structure, and dilutive impact of your ESOP pool across multiple funding rounds. Includes strike price scenarios, vesting schedule analysis, and a tax impact estimator for employees at different income levels.',
+    tag: 'Fundraising', format: 'Excel Template', complexity: 'Advanced', useCase: 'Equity compensation planning',
+  },
+  {
+    id: 27,
+    title: 'Weekly Operating Rhythm Template',
+    excerpt: 'A complete cadence design for founder-led companies — weekly, monthly, and quarterly meeting structures, agenda templates, decision log format, and a 15-minute daily standup protocol that keeps small teams aligned without meeting overhead.',
+    tag: 'Operations', format: 'Notion Template', complexity: 'Beginner', useCase: 'Operational cadence design',
+  },
+  {
+    id: 28,
+    title: 'Customer Lifetime Value Modelling Tool',
+    excerpt: 'Build multi-year LTV projections incorporating cohort retention curves, expansion revenue, gross margin evolution, and discount rate assumptions. Outputs LTV by acquisition channel, segment, and vintage with confidence ranges.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Advanced', useCase: 'LTV-driven CAC budget allocation',
+  },
+  {
+    id: 29,
+    title: 'Go-to-Market Strategy Canvas',
+    excerpt: 'A one-page canvas for mapping the core elements of your GTM strategy — ICP definition, value proposition, channel selection, sales motion, pricing model, and competitive positioning. Includes a validation checklist and common failure pattern guide.',
+    tag: 'Strategy', format: 'PDF Canvas + Guide', complexity: 'Beginner', useCase: 'New product or market GTM planning',
+  },
+  {
+    id: 30,
+    title: 'Investor Outreach Email Templates',
+    excerpt: 'Twelve email templates for every stage of the investor relationship — cold outreach, warm introduction request, follow-up after meeting, post-term-sheet communication, and investor update formats. Each template includes guidance notes and common mistakes to avoid.',
+    tag: 'Fundraising', format: 'Template Pack', complexity: 'Beginner', useCase: 'Fundraising communication',
+  },
+  {
+    id: 31,
+    title: 'Churn Root Cause Diagnostic',
+    excerpt: 'A structured six-step diagnostic for identifying the primary cause of customer churn. Works through product, onboarding, customer success, pricing, competitive, and relationship failure modes. Outputs a ranked hypothesis list with data collection requirements for each.',
+    tag: 'Revenue', format: 'Online Tool', complexity: 'Intermediate', useCase: 'Churn reduction prioritisation',
+  },
+  {
+    id: 32,
+    title: 'Scenario Planning Model',
+    excerpt: 'Three-scenario financial model (base, upside, downside) with a single input sheet driving all outputs. Includes revenue, headcount, burn, and runway outputs for each scenario, plus a decision matrix linking scenario triggers to prescribed management responses.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Board-level scenario planning',
+  },
+  {
+    id: 33,
+    title: 'Sales Compensation Design Tool',
+    excerpt: 'Design a sales compensation structure that aligns incentives with business goals. Models total OTE, base/variable split, quota-setting methodology, accelerator tiers, and the margin impact of different attainment scenarios.',
+    tag: 'Revenue', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Sales incentive structure design',
+  },
+  {
+    id: 34,
+    title: 'Product Roadmap Prioritisation Framework',
+    excerpt: 'A scoring model for prioritising your product backlog against business outcomes rather than feature requests. Uses a weighted matrix across customer value, strategic alignment, technical complexity, and revenue impact with a forced-rank output.',
+    tag: 'Strategy', format: 'Notion + Excel', complexity: 'Intermediate', useCase: 'Product strategy and backlog management',
+  },
+  {
+    id: 35,
+    title: 'Fundraising Data Room Checklist',
+    excerpt: 'Exhaustive checklist of everything investors expect in a data room at seed through Series B — financial documents, legal documents, operational metrics, customer data, and team information. Includes priority sequencing for different investor types.',
+    tag: 'Fundraising', format: 'PDF Checklist', complexity: 'Beginner', useCase: 'Due diligence preparation',
+  },
+  {
+    id: 36,
+    title: 'NPS and Customer Satisfaction Analyser',
+    excerpt: 'Template for collecting, segmenting, and analysing NPS data. Includes the survey design, segment breakdown by cohort, correlation analysis with retention, and an action planning framework that converts NPS responses into specific product or CS improvements.',
+    tag: 'Metrics', format: 'Excel + Survey Template', complexity: 'Beginner', useCase: 'Customer satisfaction measurement',
+  },
+  {
+    id: 37,
+    title: 'Content Strategy Framework',
+    excerpt: 'Structured approach to building a content strategy aligned with your GTM motion. Covers audience mapping, content pillar definition, channel prioritisation, production workflow, and a measurement framework connecting content activity to pipeline metrics.',
+    tag: 'Strategy', format: 'Template Pack', complexity: 'Intermediate', useCase: 'Inbound and thought leadership strategy',
+  },
+  {
+    id: 38,
+    title: 'Term Sheet Annotator',
+    excerpt: 'An annotated guide to every clause in a standard Indian seed/Series A term sheet. Explains the investor rationale behind each term, founder-friendly vs. investor-friendly variants, red flags to negotiate, and the deal-level impact of each provision.',
+    tag: 'Fundraising', format: 'PDF Guide', complexity: 'Intermediate', useCase: 'Term sheet review and negotiation',
+  },
+  {
+    id: 39,
+    title: 'Headcount Planning Model',
+    excerpt: 'Forward-looking headcount model by function and seniority. Links hiring plan to revenue assumptions, models the lag between hire and productivity, estimates total cost of employment, and projects headcount-driven burn across a 24-month planning horizon.',
+    tag: 'Operations', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Hiring plan and burn forecasting',
+  },
+  {
+    id: 40,
+    title: 'Founder 360 Self-Assessment',
+    excerpt: 'A structured 360-degree self-assessment covering the six competency domains founders need to develop across different company stages. Produces a personalised gap analysis and a prioritised development roadmap based on your current stage and next milestone.',
+    tag: 'People', format: 'Online Assessment', complexity: 'Beginner', useCase: 'Founder development planning',
+  },
+  {
+    id: 41,
+    title: 'Financial Health Scorecard',
+    excerpt: 'A 12-metric scorecard for assessing the financial health of an early-stage startup. Covers burn multiple, rule of 40, gross margin, net revenue retention, CAC payback, working capital ratio, and runway — with benchmarks and traffic-light scoring.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Monthly financial health review',
+  },
+  {
+    id: 42,
+    title: 'Partnership Agreement Evaluation Framework',
+    excerpt: 'Structured framework for evaluating whether a proposed commercial partnership is worth pursuing. Assesses strategic alignment, incentive structure, exit provisions, operational burden, opportunity cost, and the conditions that make the partnership reversible.',
+    tag: 'Strategy', format: 'PDF Framework', complexity: 'Intermediate', useCase: 'Strategic partnership evaluation',
+  },
+  {
+    id: 43,
+    title: 'Customer Onboarding Audit Tool',
+    excerpt: 'Diagnoses your current onboarding experience across five dimensions: time-to-value, activation checkpoint design, user communication cadence, failure detection, and human touchpoint appropriateness. Produces a scored assessment with improvement priorities.',
+    tag: 'Revenue', format: 'Online Tool', complexity: 'Intermediate', useCase: 'Activation rate improvement',
+  },
+  {
+    id: 44,
+    title: 'Exit Scenario Planner',
+    excerpt: 'Models founder and shareholder returns across different exit scenarios — acquisition at various multiples, IPO, secondary sale, and wind-down. Incorporates liquidation preference stacks, ESOP treatment, and carry calculations for each stakeholder.',
+    tag: 'Fundraising', format: 'Excel Template', complexity: 'Advanced', useCase: 'Exit planning and stakeholder alignment',
+  },
+  {
+    id: 45,
+    title: 'Competitive Pricing Intelligence Template',
+    excerpt: 'A structured template for tracking competitor pricing, packaging, and positioning changes over time. Includes a data collection protocol, analysis framework, and a quarterly review process that translates competitive pricing moves into actionable responses.',
+    tag: 'Revenue', format: 'Notion Template', complexity: 'Beginner', useCase: 'Ongoing competitive pricing monitoring',
+  },
+  {
+    id: 46,
+    title: 'Annual Operating Plan Template',
+    excerpt: 'A complete AOP framework for founder-led companies — top-down strategy translation, function-level goal setting, budget allocation, initiative prioritisation, and the quarterly review cadence that keeps the plan alive rather than forgotten by February.',
+    tag: 'Operations', format: 'Excel + Notion', complexity: 'Advanced', useCase: 'Annual planning process',
+  },
+  {
+    id: 47,
+    title: 'Customer Segmentation Model',
+    excerpt: 'Segment your customer base by revenue, engagement, growth potential, and strategic fit. Produces a four-quadrant portfolio view, identifies which segments to invest in, defend, harvest, or exit, and models the revenue impact of each choice.',
+    tag: 'Strategy', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Customer portfolio strategy',
+  },
+  {
+    id: 48,
+    title: 'Investor Update Template — Monthly & Quarterly',
+    excerpt: 'Two templates — one for monthly updates, one for quarterly board updates — structured to maintain investor confidence, share bad news constructively, demonstrate learning velocity, and reduce the time founders spend on reporting.',
+    tag: 'Fundraising', format: 'Template Pack', complexity: 'Beginner', useCase: 'Investor relations management',
+  },
+  {
+    id: 49,
+    title: 'Working Capital Optimisation Tool',
+    excerpt: 'Analyses your working capital cycle — AR days, AP days, inventory turns — and models the cash flow impact of improving each dimension. Identifies the single highest-leverage intervention for your specific working capital profile.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Cash flow optimisation without fundraising',
+  },
+  {
+    id: 50,
+    title: 'Marketing Attribution Model',
+    excerpt: 'Multi-touch attribution model for B2B and B2C marketing channels. Compares first-touch, last-touch, linear, time-decay, and data-driven attribution outputs. Helps reallocate budget based on true channel contribution to pipeline and revenue.',
+    tag: 'Metrics', format: 'Excel + Sheets', complexity: 'Advanced', useCase: 'Marketing budget allocation',
+  },
+
+  // ── Batch 3 (51–75) ──────────────────────────────────────────────────────
+  {
+    id: 51,
+    title: 'Strategy on a Page Template',
+    excerpt: 'A structured one-page format for articulating your company\'s strategy clearly enough that every employee can explain it. Covers mission, 3-year ambition, strategic priorities, key bets, and success metrics — with a facilitation guide for the leadership workshop.',
+    tag: 'Strategy', format: 'Template + Guide', complexity: 'Beginner', useCase: 'Strategic clarity and team alignment',
+  },
+  {
+    id: 52,
+    title: 'Gross Margin Improvement Calculator',
+    excerpt: 'Models the gross margin impact of changes to COGS, pricing, product mix, channel mix, and customer segment mix. Surfaces the two or three changes that produce the most margin improvement with the least operational disruption.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Margin improvement prioritisation',
+  },
+  {
+    id: 53,
+    title: 'Post-Mortem Analysis Template',
+    excerpt: 'Structured framework for conducting post-mortems on failed initiatives, missed targets, and significant mistakes. Separates causal analysis from blame, produces actionable system-level recommendations, and tracks whether changes were actually implemented.',
+    tag: 'Operations', format: 'Notion Template', complexity: 'Beginner', useCase: 'Learning from failure systematically',
+  },
+  {
+    id: 54,
+    title: 'Channel Strategy Evaluation Tool',
+    excerpt: 'Evaluates potential go-to-market channels across eight dimensions: CAC, scalability, control, speed to validate, capital requirement, competitive intensity, feedback quality, and strategic fit. Forces explicit trade-off comparison between up to six channels.',
+    tag: 'Strategy', format: 'Excel Template', complexity: 'Intermediate', useCase: 'GTM channel selection and prioritisation',
+  },
+  {
+    id: 55,
+    title: 'Revenue Recognition & Deferred Revenue Tracker',
+    excerpt: 'For SaaS and services companies with annual or multi-year contracts. Tracks deferred revenue balances, models recognition timing, produces GAAP-compliant revenue schedules, and generates the reconciliation between billings, bookings, and recognised revenue.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Advanced', useCase: 'GAAP revenue recognition for investor reporting',
+  },
+  {
+    id: 56,
+    title: 'Churn Cohort Visualisation Tool',
+    excerpt: 'Transforms your subscription revenue data into cohort-level churn visualisations. Shows monthly and annual retention by cohort, identifies inflection points in the retention curve, and benchmarks performance against sector medians.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Churn trend analysis and investor reporting',
+  },
+  {
+    id: 57,
+    title: 'Negotiation Preparation Framework',
+    excerpt: 'Structured preparation tool for high-stakes negotiations — fundraising, partnerships, hiring, and commercial contracts. Covers BATNA mapping, reservation price setting, value-creation moves, and scenario planning for the most likely counterparty responses.',
+    tag: 'Strategy', format: 'PDF Framework', complexity: 'Intermediate', useCase: 'Pre-negotiation strategic preparation',
+  },
+  {
+    id: 58,
+    title: 'Performance Management Toolkit',
+    excerpt: 'A complete performance management system for 10–50 person companies. Covers goal-setting, 1:1 cadence, performance review format, feedback delivery protocol, improvement plan template, and the documentation required for a fair exit process.',
+    tag: 'People', format: 'Notion Template Pack', complexity: 'Intermediate', useCase: 'Building a performance culture',
+  },
+  {
+    id: 59,
+    title: 'Expansion Revenue Modelling Tool',
+    excerpt: 'Models NRR improvement scenarios through upsell, cross-sell, and seat expansion motions. Shows how different expansion rates compound over 24 months and what expansion is worth in terms of CAC payback reduction and ARR growth acceleration.',
+    tag: 'Revenue', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Customer expansion strategy',
+  },
+  {
+    id: 60,
+    title: 'Risk Register & Mitigation Tracker',
+    excerpt: 'A structured risk identification and monitoring tool for early-stage companies. Covers strategic, operational, financial, regulatory, and people risks. Includes a probability/impact matrix, mitigation action tracker, and a quarterly review protocol.',
+    tag: 'Operations', format: 'Notion Template', complexity: 'Beginner', useCase: 'Board-level risk governance',
+  },
+  {
+    id: 61,
+    title: 'Burn Multiple Calculator',
+    excerpt: 'Calculates your burn multiple — net burn divided by net new ARR — and benchmarks it against stage-appropriate norms. Models the operational changes required to reach efficient growth thresholds and shows the fundraising impact of different efficiency trajectories.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Beginner', useCase: 'Capital efficiency benchmarking',
+  },
+  {
+    id: 62,
+    title: 'Sales Process Design Toolkit',
+    excerpt: 'Framework for designing or auditing a B2B sales process. Covers stage definitions, exit criteria, buyer activity alignment, qualification methodology, CRM field design, and the management cadence required to make the process repeatable.',
+    tag: 'Revenue', format: 'Template + Guide', complexity: 'Intermediate', useCase: 'Sales process design and documentation',
+  },
+  {
+    id: 63,
+    title: 'Product-Market Fit Diagnostic',
+    excerpt: 'Sean Ellis-inspired PMF survey with updated analysis framework. Produces a PMF score, segment breakdown of responses, and a structured interpretation guide that tells you whether you have PMF, who you have it with, and what the weakest holding points are.',
+    tag: 'Strategy', format: 'Survey + Analysis Template', complexity: 'Beginner', useCase: 'PMF measurement and interpretation',
+  },
+  {
+    id: 64,
+    title: 'Gross Revenue Retention Calculator',
+    excerpt: 'Calculates GRR from your billing data, decomposes churn into logo churn, contraction, and pricing churn, and benchmarks against sector norms. Includes a sensitivity model showing how GRR improvement translates to company valuation at different ARR multiples.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Intermediate', useCase: 'SaaS health and investor reporting',
+  },
+  {
+    id: 65,
+    title: 'Founder Compensation Benchmarking Tool',
+    excerpt: 'Benchmark founder salary and equity against stage-appropriate norms across Indian startups. Covers cash compensation, equity refreshes, and the structural trade-offs between paying founders below-market versus preserving runway.',
+    tag: 'People', format: 'Online Tool', complexity: 'Beginner', useCase: 'Founder compensation decisions',
+  },
+  {
+    id: 66,
+    title: 'Customer Success Playbook Template',
+    excerpt: 'A complete CS playbook framework — onboarding tracks, health score definitions, EBR cadence, renewal process, expansion trigger mapping, and escalation protocols. Designed for CS teams of 2–10 people at companies with 50–500 customers.',
+    tag: 'Revenue', format: 'Notion Template Pack', complexity: 'Intermediate', useCase: 'Customer success systemisation',
+  },
+  {
+    id: 67,
+    title: 'Operations Health Diagnostic',
+    excerpt: 'A 40-question diagnostic covering meeting effectiveness, decision-making clarity, information flow, cross-functional coordination, and execution discipline. Produces an operational maturity score with specific, prioritised improvement recommendations.',
+    tag: 'Operations', format: 'Online Assessment', complexity: 'Intermediate', useCase: 'Operational baseline assessment',
+  },
+  {
+    id: 68,
+    title: 'Demand Forecasting Model',
+    excerpt: 'Statistical demand forecasting model for consumer and B2B companies. Incorporates seasonality, trend, and external variables. Produces monthly forecasts with confidence intervals and a scenario overlay for promotional or macroeconomic shocks.',
+    tag: 'Metrics', format: 'Excel Template', complexity: 'Advanced', useCase: 'Supply chain and capacity planning',
+  },
+  {
+    id: 69,
+    title: 'Delegation Decision Tool',
+    excerpt: 'A structured framework for deciding which decisions to delegate, to whom, and with what level of authority. Produces a decision rights matrix for your team and identifies where authority is currently misaligned with capability.',
+    tag: 'Operations', format: 'Template + Guide', complexity: 'Beginner', useCase: 'Founder delegation and time recovery',
+  },
+  {
+    id: 70,
+    title: 'Convertible Note / SAFE Modelling Tool',
+    excerpt: 'Models the conversion economics of SAFEs and convertible notes at a qualified financing. Shows post-money ownership for all stakeholders, the effective price paid by note-holders, and sensitivity to different valuation caps and discount rates.',
+    tag: 'Fundraising', format: 'Excel Template', complexity: 'Advanced', useCase: 'Pre-seed and bridge round planning',
+  },
+  {
+    id: 71,
+    title: 'Investor Sentiment Tracker',
+    excerpt: 'Tracks every investor interaction across your active fundraise — meetings, responses, stated objections, and follow-up commitments. Surfaces patterns in what is resonating and what is generating friction, enabling real-time narrative adjustment.',
+    tag: 'Fundraising', format: 'Notion Template', complexity: 'Beginner', useCase: 'Active fundraise management',
+  },
+  {
+    id: 72,
+    title: 'COGS Decomposition Tool',
+    excerpt: 'Decomposes your cost of goods sold into its structural components and models the gross margin impact of changes to each. Identifies which COGS drivers are fixed, semi-variable, and variable — and what scale does to each category.',
+    tag: 'Finance', format: 'Excel Template', complexity: 'Intermediate', useCase: 'Gross margin improvement analysis',
+  },
+  {
+    id: 73,
+    title: 'B2B ICP Definition Framework',
+    excerpt: 'Structured framework for defining your Ideal Customer Profile with precision. Covers firmographic, technographic, behavioural, and situational ICP dimensions, plus a validation protocol for testing ICP assumptions against your actual best customers.',
+    tag: 'Strategy', format: 'Template + Guide', complexity: 'Beginner', useCase: 'Sales and marketing ICP alignment',
+  },
+  {
+    id: 74,
+    title: 'Fundraising Valuation Negotiation Guide',
+    excerpt: 'A practical guide to negotiating your valuation in a seed or Series A round. Covers anchor-setting, comparable selection, the investor\'s valuation framework, negotiation sequencing, and the points at which walking away creates leverage.',
+    tag: 'Fundraising', format: 'PDF Guide', complexity: 'Intermediate', useCase: 'Valuation negotiation preparation',
+  },
+  {
+    id: 75,
+    title: 'Strategic Decision Journal',
+    excerpt: 'A structured template for logging major strategic decisions as they are made. Records the context, options considered, decision made, the assumptions it depends on, and a 90-day review date. Creates an institutional memory of how the company thinks and learns.',
+    tag: 'Strategy', format: 'Notion Template', complexity: 'Beginner', useCase: 'Strategic learning and decision quality',
+  },
+];
+
+const BATCH_SIZE = 25;
+
+// =====================================================
+// ADVERTISEMENT DATA
+// =====================================================
+
+const FEATURED_REPORTS: ReportTeaser[] = [
+  { title: 'Indian Startup Ecosystem Report 2026', pages: '142 pages', date: 'Feb 2026', tag: 'Annual Report' },
+  { title: 'Unit Economics Benchmarks by Sector 2025', pages: '48 pages', date: 'Oct 2025', tag: 'Benchmarks' },
+  { title: 'The Fundability Framework — Investor Expectation Report', pages: '52 pages', date: 'Jun 2025', tag: 'Framework' },
+];
+
+const FEATURED_CASE_STUDIES: CaseStudyTeaser[] = [
+  { title: 'A Pricing Audit That Added 40% to Revenue', tag: 'Revenue', sector: 'B2B SaaS', outcome: '+40% revenue', year: '2024' },
+  { title: 'Cash Runway Extension Without Cutting Product', tag: 'Finance', sector: 'Edtech', outcome: '+8 months runway', year: '2023' },
+  { title: 'When the Market Wasn\'t Wrong, the Segment Was', tag: 'PMF', sector: 'Healthtech', outcome: 'PMF achieved', year: '2024' },
+];
+
+// =====================================================
+// TAG & COMPLEXITY COLOR MAPS
+// Industrial / engineering identity — amber yellow on
+// near-black. Distinct from navy, parchment, emerald.
+// =====================================================
+
+const TAG_COLORS: Record<string, { bg: string; text: string }> = {
+  Valuation:   { bg: 'rgba(250,204,21,0.10)',  text: '#FACC15' },
+  Finance:     { bg: 'rgba(251,191,36,0.10)',  text: '#FCD34D' },
+  Metrics:     { bg: 'rgba(34,211,238,0.10)',  text: '#67E8F9' },
+  Strategy:    { bg: 'rgba(129,140,248,0.10)', text: '#A5B4FC' },
+  Revenue:     { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC' },
+  Fundraising: { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5' },
+  People:      { bg: 'rgba(167,139,250,0.10)', text: '#C4B5FD' },
+  Operations:  { bg: 'rgba(251,146,60,0.10)',  text: '#FDBA74' },
+};
+
+const COMPLEXITY_COLORS: Record<Tool['complexity'], { bg: string; text: string; dot: string }> = {
+  Beginner:     { bg: 'rgba(74,222,128,0.10)',  text: '#86EFAC', dot: '#4ADE80' },
+  Intermediate: { bg: 'rgba(250,204,21,0.10)',  text: '#FACC15', dot: '#EAB308' },
+  Advanced:     { bg: 'rgba(248,113,113,0.10)', text: '#FCA5A5', dot: '#EF4444' },
+};
+
+const getTagStyle = (tag: string): { bg: string; text: string } =>
+  TAG_COLORS[tag] ?? { bg: 'rgba(250,204,21,0.08)', text: '#FACC15' };
+
+const getComplexityStyle = (c: Tool['complexity']) => COMPLEXITY_COLORS[c];
+
+// =====================================================
+// ALL FILTER TAGS
+// =====================================================
+
+const ALL_TAGS: string[] = [
+  'All', 'Finance', 'Revenue', 'Fundraising', 'Strategy',
+  'Metrics', 'Operations', 'People', 'Valuation',
+];
+
+// =====================================================
+// PARTNER AUTH MODAL
+// Identical design language to all other hub pages.
+// =====================================================
+
+interface PartnerAuthModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  resourceTitle: string;
+}
+
+const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resourceTitle }) => {
+  const [formData, setFormData]         = useState<PartnerFormData>({ partnerId: '', password: '' });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading]           = useState<boolean>(false);
+  const [error, setError]               = useState<string>('');
+  const [success, setSuccess]           = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({ partnerId: '', password: '' });
+      setError('');
+      setSuccess(false);
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setError('');
-    setIsLoading(true);
-
-    // Simulate authentication delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Simple authentication (replace with real API call in production)
-    // For demo: partnerId = "partner123", password = "tools2024"
-    if (partnerId === 'partner123' && password === 'tools2024') {
-      onAuthenticate(partnerId, password);
-      onClose();
-    } else {
-      setError('Invalid Partner ID or Password');
-      setIsLoading(false);
-    }
+    setLoading(true);
+    setTimeout(() => {
+      if (formData.partnerId && formData.password) {
+        setSuccess(true);
+        setLoading(false);
+      } else {
+        setError('Invalid Partner ID or password. Please try again.');
+        setLoading(false);
+      }
+    }, 1000);
   };
 
-  const handleClose = () => {
-    setPartnerId('');
-    setPassword('');
-    setError('');
-    setIsLoading(false);
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
-        onClick={handleClose}
-      ></div>
-
-      {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all">
-          
-          {/* Close Button */}
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Icon */}
-          <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </div>
-
-          {/* Title */}
-          <h2 className="text-2xl font-light text-gray-800 text-center mb-2">
-            Partner Access Required
-          </h2>
-          <p className="text-gray-600 text-center mb-6">
-            Enter your credentials to access: <strong>{toolName}</strong>
-          </p>
-
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-              <svg className="w-5 h-5 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            
-            {/* Partner ID */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Partner ID
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  value={partnerId}
-                  onChange={(e) => setPartnerId(e.target.value)}
-                  required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter your Partner ID"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter your password"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-medium shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Verifying...
-                </>
-              ) : (
-                <>
-                  Access Tool
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Help Text */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Don't have access?{' '}
-              <Link href="/contact" className="text-purple-600 hover:text-purple-700 font-medium">
-                Contact us
-              </Link>{' '}
-              to become a partner
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// =====================================================
-// TOOL CARD
-// =====================================================
-interface Tool {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  features: string[];
-  usage: string;
-  lastUpdated: string;
-  complexity: 'Basic' | 'Intermediate' | 'Advanced';
-}
-
-function ToolCard({ tool, onClick }: { tool: Tool; onClick: () => void }) {
-  const getComplexityColor = (complexity: string) => {
-    switch (complexity) {
-      case 'Basic': return 'bg-green-100 text-green-700';
-      case 'Intermediate': return 'bg-yellow-100 text-yellow-700';
-      case 'Advanced': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
+  const handleBackdropClick = (e: MouseEvent<HTMLDivElement>): void => {
+    if (e.target === e.currentTarget) onClose();
   };
 
   return (
     <div
-      onClick={onClick}
-      className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer border border-gray-200 hover:border-purple-300"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      style={{ backgroundColor: 'rgba(5,4,0,0.82)' }}
+      onClick={handleBackdropClick}
     >
-      {/* Image Placeholder */}
-      <div className="relative h-48 bg-gradient-to-br from-purple-900 to-purple-700 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
-        </div>
-        <div className="relative z-10 text-center">
-          <svg className="w-16 h-16 text-white/80 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <p className="text-white font-medium text-lg">{tool.name}</p>
-          <p className="text-purple-200 text-sm">{tool.category}</p>
-        </div>
-        
-        {/* Lock Overlay on Hover */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <div className="text-center">
-            <svg className="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            <p className="text-white font-medium">Click to Access</p>
+      <div
+        className="relative w-full max-w-md"
+        style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}
+      >
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+
+          {/* Header */}
+          <div className="bg-[#002855] px-8 py-6 relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              aria-label="Close modal"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <span className="text-blue-200 text-xs font-medium tracking-widest uppercase">
+                Partner Access
+              </span>
+            </div>
+
+            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
+            <p className="text-blue-200 text-sm mt-1 truncate">
+              Accessing:{' '}
+              <span className="text-white font-medium">{resourceTitle}</span>
+            </p>
+          </div>
+
+          {/* Body */}
+          <div className="px-8 py-8">
+            {!success ? (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                    <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
+                  <input
+                    type="text"
+                    value={formData.partnerId}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setFormData((p) => ({ ...p, partnerId: e.target.value }))
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    placeholder="e.g. SSP-2024-XXXX"
+                    required
+                    autoComplete="username"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={formData.password}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setFormData((p) => ({ ...p, password: e.target.value }))
+                      }
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      placeholder="Enter your password"
+                      required
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                    loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
+                  }`}
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Authenticating…
+                    </>
+                  ) : 'Access Tool'}
+                </button>
+
+                <p className="text-center text-xs text-gray-400 pt-1">
+                  Don&apos;t have a Partner ID?{' '}
+                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
+                </p>
+              </form>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                <p className="text-gray-500 text-sm">
+                  Opening{' '}
+                  <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                </p>
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <span className={`text-xs px-3 py-1 rounded-full font-medium ${getComplexityColor(tool.complexity)}`}>
-            {tool.complexity}
-          </span>
-          <span className="text-xs text-gray-500">Updated: {tool.lastUpdated}</span>
-        </div>
-
-        <h3 className="text-xl font-medium text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">
-          {tool.name}
-        </h3>
-
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {tool.description}
+        <p className="text-center text-xs mt-4" style={{ color: 'rgba(250,204,21,0.20)' }}>
+          Partner access is monitored and logged for security purposes.
         </p>
-
-        {/* Features Preview */}
-        <div className="space-y-2 mb-4">
-          {tool.features.slice(0, 2).map((feature, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
-              <svg className="w-4 h-4 text-purple-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span className="line-clamp-1">{feature}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Usage */}
-        <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
-          <span className="text-sm text-gray-500">{tool.usage}</span>
-          <svg className="w-5 h-5 text-purple-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
       </div>
     </div>
   );
-}
+};
 
 // =====================================================
-// MAIN TOOLS HUB PAGE
-// With Infinite Scrolling
+// HERO SECTION
+// Near-black with amber/yellow industrial identity.
+// Completely distinct from navy, parchment, and emerald.
+// Right side: SVG visual placeholder.
 // =====================================================
-export default function ToolsPage() {
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
-  const [displayedTools, setDisplayedTools] = useState<Tool[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
-  const observerTarget = useRef(null);
 
-  // ALL TOOLS DATA (50+ tools for demonstration)
-  const allTools: Tool[] = [
-    {
-      id: 'tool-001',
-      name: 'PMF Validation Framework',
-      category: 'Product Strategy',
-      description: 'Comprehensive framework to validate Product-Market Fit across multiple dimensions with quantitative scoring.',
-      features: ['NPS Analysis', 'Retention Metrics', 'Growth Loops', 'Customer Interviews'],
-      usage: 'Use for early-stage startups to validate market need',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-002',
-      name: 'GTM Strategy Builder',
-      category: 'Go-to-Market',
-      description: 'Step-by-step framework to build, test, and scale your go-to-market strategy.',
-      features: ['ICP Definition', 'Channel Strategy', 'Sales Motion', 'Pricing Model'],
-      usage: 'Use when launching new products or entering new markets',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-003',
-      name: 'Unit Economics Calculator',
-      category: 'Finance & Metrics',
-      description: 'Dynamic calculator to model and optimize your business unit economics.',
-      features: ['CAC Calculation', 'LTV Modeling', 'Payback Period', 'Cohort Analysis'],
-      usage: 'Use for financial planning and investor readiness',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-004',
-      name: 'Scale-Up Playbook',
-      category: 'Operations',
-      description: 'Comprehensive playbook for scaling from $1M to $10M+ ARR.',
-      features: ['Team Structure', 'Process Automation', 'Metrics Dashboard', 'Growth Levers'],
-      usage: 'Use when transitioning from startup to scale-up',
-      lastUpdated: 'Dec 2023',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-005',
-      name: 'Fundraising Tracker',
-      category: 'Fundraising',
-      description: 'Complete tracker to manage your fundraising process from seed to Series B.',
-      features: ['Investor Pipeline', 'Deck Versioning', 'Term Sheet Analysis', 'Timeline Tracking'],
-      usage: 'Use during active fundraising rounds',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-006',
-      name: 'Pricing Strategy Toolkit',
-      category: 'Monetization',
-      description: 'Framework to develop and test pricing strategies for maximum revenue capture.',
-      features: ['Value Metric Analysis', 'Competitive Benchmarking', 'Packaging Options', 'A/B Testing'],
-      usage: 'Use when designing or optimizing pricing models',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-007',
-      name: 'Customer Journey Mapper',
-      category: 'UX & Growth',
-      description: 'Visual tool to map and optimize the entire customer journey.',
-      features: ['Touchpoint Analysis', 'Friction Detection', 'Optimization Points', 'Retention Levers'],
-      usage: 'Use to improve conversion rates and customer satisfaction',
-      lastUpdated: 'Nov 2023',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-008',
-      name: 'Market Entry Analyzer',
-      category: 'Strategy',
-      description: 'Framework to analyze and plan market entry strategies for new geographies.',
-      features: ['Market Sizing', 'Competition Analysis', 'Localization Strategy', 'Risk Assessment'],
-      usage: 'Use when expanding to new markets or regions',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-009',
-      name: 'Team Performance Dashboard',
-      category: 'HR & Operations',
-      description: 'Comprehensive dashboard to track and optimize team performance metrics.',
-      features: ['OKR Tracking', 'Productivity Metrics', 'Engagement Scores', 'Retention Analytics'],
-      usage: 'Use for team management and performance optimization',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-010',
-      name: 'Competitive Intelligence Hub',
-      category: 'Market Research',
-      description: 'Centralized platform to track and analyze competitive landscape.',
-      features: ['Competitor Tracking', 'Feature Comparison', 'Market Positioning', 'SWOT Analysis'],
-      usage: 'Use for ongoing competitive analysis',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-011',
-      name: 'Conversion Rate Optimizer',
-      category: 'Growth',
-      description: 'Data-driven framework to systematically improve conversion rates across funnel.',
-      features: ['Funnel Analysis', 'A/B Testing Framework', 'CRO Experiments', 'Heatmap Analysis'],
-      usage: 'Use to optimize website and app conversion rates',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-012',
-      name: 'Content Strategy Planner',
-      category: 'Marketing',
-      description: 'Complete content strategy framework from ideation to measurement.',
-      features: ['Content Calendar', 'SEO Optimization', 'Distribution Strategy', 'ROI Tracking'],
-      usage: 'Use for developing and executing content strategies',
-      lastUpdated: 'Dec 2023',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-013',
-      name: 'Crisis Management Playbook',
-      category: 'Operations',
-      description: 'Step-by-step playbook for managing business crises and recovery.',
-      features: ['Risk Assessment', 'Response Framework', 'Communication Templates', 'Recovery Planning'],
-      usage: 'Use for business continuity planning',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-014',
-      name: 'M&A Integration Framework',
-      category: 'Corporate Development',
-      description: 'Comprehensive framework for successful post-merger integration.',
-      features: ['Integration Planning', 'Cultural Alignment', 'Synergy Realization', 'Risk Management'],
-      usage: 'Use during acquisition integration',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-015',
-      name: 'Product Roadmap Builder',
-      category: 'Product Management',
-      description: 'Strategic framework to build and communicate product roadmaps.',
-      features: ['Stakeholder Alignment', 'Prioritization Matrix', 'Release Planning', 'Feedback Integration'],
-      usage: 'Use for product planning and stakeholder management',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-016',
-      name: 'Sales Playbook Generator',
-      category: 'Sales',
-      description: 'Framework to create and optimize sales playbooks for different customer segments.',
-      features: ['ICP Profiles', 'Sales Scripts', 'Objection Handling', 'Competitive Positioning'],
-      usage: 'Use for sales team enablement',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-017',
-      name: 'Culture Code Builder',
-      category: 'HR & Culture',
-      description: 'Framework to define, build, and maintain company culture.',
-      features: ['Values Definition', 'Culture Assessment', 'Hiring for Culture', 'Retention Strategies'],
-      usage: 'Use for culture building and maintenance',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-018',
-      name: 'Board Meeting Planner',
-      category: 'Governance',
-      description: 'Complete framework for effective board meeting preparation and execution.',
-      features: ['Agenda Builder', 'Metrics Dashboard', 'Action Item Tracker', 'Follow-up System'],
-      usage: 'Use for board meeting preparation',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-019',
-      name: 'Digital Transformation Roadmap',
-      category: 'Technology',
-      description: 'Framework to plan and execute digital transformation initiatives.',
-      features: ['Current State Analysis', 'Future State Design', 'Implementation Planning', 'Change Management'],
-      usage: 'Use for digital transformation projects',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-020',
-      name: 'Customer Success Framework',
-      category: 'Customer Success',
-      description: 'Comprehensive framework for building and scaling customer success operations.',
-      features: ['Onboarding Optimization', 'Health Scoring', 'Renewal Forecasting', 'Expansion Strategy'],
-      usage: 'Use for building customer success teams',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    // Additional 30 tools for infinite scroll
-    {
-      id: 'tool-021',
-      name: 'Brand Positioning Matrix',
-      category: 'Brand Strategy',
-      description: 'Framework to define and test brand positioning in competitive markets.',
-      features: ['Positioning Statement', 'Competitive Mapping', 'Audience Testing', 'Messaging Framework'],
-      usage: 'Use for brand strategy development',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-022',
-      name: 'Agile Transformation Toolkit',
-      category: 'Project Management',
-      description: 'Complete toolkit for implementing agile methodologies across organizations.',
-      features: ['Agile Assessment', 'Transformation Roadmap', 'Team Coaching', 'Metrics Tracking'],
-      usage: 'Use for agile transformations',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-023',
-      name: 'Data Analytics Framework',
-      category: 'Analytics',
-      description: 'Framework to build data analytics capabilities from scratch.',
-      features: ['Data Strategy', 'Metrics Definition', 'Dashboard Design', 'Insight Generation'],
-      usage: 'Use for building analytics functions',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-024',
-      name: 'Partner Ecosystem Builder',
-      category: 'Business Development',
-      description: 'Framework to build and manage strategic partner ecosystems.',
-      features: ['Partner Identification', 'Relationship Management', 'Co-marketing Planning', 'Revenue Sharing'],
-      usage: 'Use for partner strategy development',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-025',
-      name: 'Innovation Pipeline Manager',
-      category: 'Innovation',
-      description: 'System to manage innovation from ideation to implementation.',
-      features: ['Idea Collection', 'Validation Framework', 'Portfolio Management', 'Commercialization Planning'],
-      usage: 'Use for innovation management',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-026',
-      name: 'Risk Assessment Matrix',
-      category: 'Risk Management',
-      description: 'Framework to identify, assess, and mitigate business risks.',
-      features: ['Risk Identification', 'Impact Assessment', 'Mitigation Planning', 'Monitoring System'],
-      usage: 'Use for risk management planning',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-027',
-      name: 'Sustainability Strategy Builder',
-      category: 'ESG',
-      description: 'Framework to develop and implement sustainability strategies.',
-      features: ['Materiality Assessment', 'Goal Setting', 'Implementation Planning', 'Reporting Framework'],
-      usage: 'Use for sustainability strategy development',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-028',
-      name: 'Talent Acquisition Playbook',
-      category: 'HR',
-      description: 'Complete playbook for building high-performing talent acquisition functions.',
-      features: ['Sourcing Strategy', 'Interview Process', 'Candidate Experience', 'Onboarding Optimization'],
-      usage: 'Use for building recruiting functions',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-029',
-      name: 'Digital Marketing ROI Calculator',
-      category: 'Marketing',
-      description: 'Tool to calculate and optimize digital marketing ROI across channels.',
-      features: ['Channel Attribution', 'ROI Calculation', 'Budget Optimization', 'Performance Forecasting'],
-      usage: 'Use for marketing budget optimization',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-030',
-      name: 'Supply Chain Optimizer',
-      category: 'Operations',
-      description: 'Framework to optimize supply chain operations and reduce costs.',
-      features: ['Process Mapping', 'Bottleneck Analysis', 'Cost Optimization', 'Risk Mitigation'],
-      usage: 'Use for supply chain optimization',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-031',
-      name: 'Legal Compliance Checker',
-      category: 'Legal',
-      description: 'Framework to ensure legal compliance across operations.',
-      features: ['Compliance Assessment', 'Gap Analysis', 'Remediation Planning', 'Monitoring System'],
-      usage: 'Use for legal compliance management',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-032',
-      name: 'Remote Work Toolkit',
-      category: 'HR & Operations',
-      description: 'Complete toolkit for building and managing remote-first organizations.',
-      features: ['Remote Policy Builder', 'Collaboration Framework', 'Productivity Tracking', 'Culture Maintenance'],
-      usage: 'Use for remote work implementation',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-033',
-      name: 'API Strategy Framework',
-      category: 'Technology',
-      description: 'Framework to develop and execute API strategies.',
-      features: ['API Design', 'Developer Experience', 'Monetization Strategy', 'Ecosystem Building'],
-      usage: 'Use for API strategy development',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-034',
-      name: 'Mentorship Program Builder',
-      category: 'HR & Development',
-      description: 'Framework to build and scale effective mentorship programs.',
-      features: ['Program Design', 'Matching Algorithm', 'Progress Tracking', 'Impact Measurement'],
-      usage: 'Use for mentorship program development',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-035',
-      name: 'Exit Planning Framework',
-      category: 'Strategy',
-      description: 'Comprehensive framework for business exit planning and execution.',
-      features: ['Exit Readiness Assessment', 'Valuation Optimization', 'Buyer Identification', 'Transaction Management'],
-      usage: 'Use for exit planning',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-036',
-      name: 'Community Building Playbook',
-      category: 'Marketing',
-      description: 'Playbook to build and engage online communities.',
-      features: ['Community Strategy', 'Engagement Framework', 'Moderation Guidelines', 'Growth Tactics'],
-      usage: 'Use for community building',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-037',
-      name: 'Influencer Marketing Toolkit',
-      category: 'Marketing',
-      description: 'Complete toolkit for planning and executing influencer marketing campaigns.',
-      features: ['Influencer Identification', 'Campaign Planning', 'Performance Tracking', 'Relationship Management'],
-      usage: 'Use for influencer marketing',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-038',
-      name: 'Data Privacy Framework',
-      category: 'Legal & Compliance',
-      description: 'Framework to ensure data privacy compliance (GDPR, CCPA, etc.).',
-      features: ['Data Mapping', 'Compliance Assessment', 'Policy Development', 'Incident Response'],
-      usage: 'Use for data privacy compliance',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-039',
-      name: 'Performance Marketing Optimizer',
-      category: 'Marketing',
-      description: 'Framework to optimize performance marketing across channels.',
-      features: ['Channel Analysis', 'Bid Optimization', 'Creative Testing', 'ROI Maximization'],
-      usage: 'Use for performance marketing optimization',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-040',
-      name: 'Customer Feedback Analyzer',
-      category: 'Product & UX',
-      description: 'Tool to collect, analyze, and act on customer feedback.',
-      features: ['Feedback Collection', 'Sentiment Analysis', 'Trend Identification', 'Action Planning'],
-      usage: 'Use for customer feedback analysis',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-041',
-      name: 'B2B Sales Framework',
-      category: 'Sales',
-      description: 'Complete framework for B2B sales strategy and execution.',
-      features: ['Account Planning', 'Sales Process Design', 'Pipeline Management', 'Forecasting'],
-      usage: 'Use for B2B sales strategy',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-042',
-      name: 'Mobile App Growth Framework',
-      category: 'Growth',
-      description: 'Framework to drive growth for mobile applications.',
-      features: ['ASO Optimization', 'User Acquisition', 'Retention Strategy', 'Monetization'],
-      usage: 'Use for mobile app growth',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-043',
-      name: 'Event Marketing Planner',
-      category: 'Marketing',
-      description: 'Complete framework for planning and executing successful events.',
-      features: ['Event Strategy', 'Budget Planning', 'Promotion Strategy', 'ROI Measurement'],
-      usage: 'Use for event planning',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-044',
-      name: 'Technical Debt Assessment',
-      category: 'Technology',
-      description: 'Framework to assess and prioritize technical debt reduction.',
-      features: ['Debt Identification', 'Impact Analysis', 'Prioritization Matrix', 'Remediation Planning'],
-      usage: 'Use for technical debt management',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    },
-    {
-      id: 'tool-045',
-      name: 'Diversity & Inclusion Framework',
-      category: 'HR',
-      description: 'Comprehensive framework to build diverse and inclusive organizations.',
-      features: ['D&I Assessment', 'Strategy Development', 'Implementation Planning', 'Measurement'],
-      usage: 'Use for D&I program development',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-046',
-      name: 'Email Marketing Optimizer',
-      category: 'Marketing',
-      description: 'Framework to optimize email marketing performance.',
-      features: ['List Segmentation', 'Content Strategy', 'A/B Testing', 'Automation Flows'],
-      usage: 'Use for email marketing optimization',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-047',
-      name: 'Strategic Planning Workbook',
-      category: 'Strategy',
-      description: 'Workbook for annual strategic planning and execution.',
-      features: ['SWOT Analysis', 'Goal Setting', 'Initiative Planning', 'Progress Tracking'],
-      usage: 'Use for strategic planning sessions',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-048',
-      name: 'User Research Toolkit',
-      category: 'Product & UX',
-      description: 'Complete toolkit for conducting user research.',
-      features: ['Research Planning', 'Methodology Selection', 'Analysis Framework', 'Insight Synthesis'],
-      usage: 'Use for user research projects',
-      lastUpdated: 'Feb 2024',
-      complexity: 'Intermediate'
-    },
-    {
-      id: 'tool-049',
-      name: 'KPI Dashboard Builder',
-      category: 'Analytics',
-      description: 'Framework to design and implement effective KPI dashboards.',
-      features: ['KPI Selection', 'Dashboard Design', 'Data Integration', 'Alert System'],
-      usage: 'Use for dashboard development',
-      lastUpdated: 'Jan 2024',
-      complexity: 'Basic'
-    },
-    {
-      id: 'tool-050',
-      name: 'Channel Partnership Framework',
-      category: 'Business Development',
-      description: 'Framework to build and manage successful channel partnerships.',
-      features: ['Partner Identification', 'Program Design', 'Enablement Strategy', 'Performance Tracking'],
-      usage: 'Use for channel partner program development',
-      lastUpdated: 'Mar 2024',
-      complexity: 'Advanced'
-    }
-  ];
+const HeroSection: FC = () => (
+  <section
+    className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
+    style={{ backgroundColor: '#080706', minHeight: '520px' }}
+  >
+    {/* Background: amber crosshatch texture */}
+    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="cross" patternUnits="userSpaceOnUse" width="20" height="20">
+            <line x1="10" y1="0" x2="10" y2="20" stroke="#FACC15" strokeWidth="0.6" />
+            <line x1="0" y1="10" x2="20" y2="10" stroke="#FACC15" strokeWidth="0.6" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#cross)" />
+      </svg>
+      {/* Amber warm glow — top right */}
+      <div
+        className="absolute -top-20 right-0 w-[650px] h-[500px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(120,100,0,0.15) 0%, transparent 60%)' }}
+      />
+      {/* Subtle amber glow — bottom left */}
+      <div
+        className="absolute bottom-0 left-0 w-[450px] h-[350px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(90,70,0,0.08) 0%, transparent 65%)' }}
+      />
+    </div>
 
-  // Load initial tools
-  useEffect(() => {
-    setDisplayedTools(allTools.slice(0, 9));
-  }, []);
+    <div className="max-w-7xl mx-auto relative">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-  // Infinite scroll logic
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          loadMoreTools();
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [displayedTools, hasMore]);
-
-  const loadMoreTools = () => {
-    const currentLength = displayedTools.length;
-    const nextTools = allTools.slice(currentLength, currentLength + 9);
-    
-    if (nextTools.length > 0) {
-      setTimeout(() => {
-        setDisplayedTools([...displayedTools, ...nextTools]);
-        setPage(page + 1);
-      }, 500);
-    }
-
-    if (currentLength + nextTools.length >= allTools.length) {
-      setHasMore(false);
-    }
-  };
-
-  const handleToolClick = (tool: Tool) => {
-    setSelectedTool(tool);
-    setShowAuthModal(true);
-  };
-
-  const handleAuthenticate = (partnerId: string, password: string) => {
-    // Store authentication in session
-    sessionStorage.setItem('partnerAuth', 'true');
-    sessionStorage.setItem('partnerId', partnerId);
-    
-    // Redirect to actual tool page
-    window.location.href = `/tools/${selectedTool?.id}`;
-  };
-
-  return (
-    <main className="min-h-screen bg-white">
-      
-      {/* Hero Section */}
-      <section className="bg-[#1A0B2E] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block px-3 py-1 bg-purple-600/20 rounded-full text-purple-400 text-xs font-medium mb-6">
-            EXECUTIVE TOOLKIT
+        {/* LEFT — Headline */}
+        <div className="space-y-8">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            style={{
+              backgroundColor: 'rgba(250,204,21,0.06)',
+              border: '1px solid rgba(250,204,21,0.16)',
+            }}
+          >
+            <div
+              className="w-1.5 h-1.5 rounded-full animate-pulse"
+              style={{ backgroundColor: '#FACC15' }}
+            />
+            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#FACC15' }}>
+              Sarsen &amp; Company · Tools
+            </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-light leading-tight mb-6">
-            Strategic Frameworks &<br/>
-            <span className="text-purple-300">Operational Tools</span>
-          </h1>
-          <p className="text-xl text-purple-200 font-light leading-relaxed mb-8 max-w-3xl mx-auto">
-            Access 50+ proprietary frameworks, calculators, and playbooks used by top-performing companies. Transform theory into execution.
-          </p>
-          <div className="flex items-center justify-center gap-6 text-purple-200">
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">50+</div>
-              <div className="text-sm">Tools & Frameworks</div>
-            </div>
-            <div className="w-px h-12 bg-purple-600"></div>
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">15</div>
-              <div className="text-sm">Categories</div>
-            </div>
-            <div className="w-px h-12 bg-purple-600"></div>
-            <div className="text-center">
-              <div className="text-3xl font-light text-white mb-1">1000+</div>
-              <div className="text-sm">Hours Saved</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Notice Banner */}
-      <section className="bg-purple-50 border-b border-purple-100 py-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center gap-3 text-sm text-gray-700">
-            <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            <p>
-              <strong>Partner Access Required:</strong> All tools require partner verification. 
-              <Link href="/contact" className="text-purple-600 hover:text-purple-700 font-medium ml-2">
-                Request Access
-              </Link>
+          <div className="space-y-4">
+            <h1
+              className="font-light leading-none tracking-tight"
+              style={{
+                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+                color: '#FEF9EC',
+                fontFamily: "'Georgia', 'Times New Roman', serif",
+              }}
+            >
+              Built to
+              <br />
+              <span style={{ color: '#FACC15' }}>Decide.</span>
+            </h1>
+            <p
+              className="text-base sm:text-lg leading-relaxed max-w-md font-light"
+              style={{ color: '#4A4030' }}
+            >
+              Calculators, templates, and frameworks for founders who make decisions with evidence. Every tool is built around a real decision, not a generic concept.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Tools Grid with Infinite Scroll */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedTools.map((tool) => (
-              <ToolCard
-                key={tool.id}
-                tool={tool}
-                onClick={() => handleToolClick(tool)}
-              />
+          {/* Stats */}
+          <div className="flex flex-wrap gap-8 pt-2">
+            {[
+              { value: '75+', label: 'Tools available'   },
+              { value: '8',   label: 'Categories'        },
+              { value: '3',   label: 'Complexity levels' },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p
+                  className="text-2xl font-light"
+                  style={{ color: '#FEF9EC', fontFamily: 'Georgia, serif' }}
+                >
+                  {stat.value}
+                </p>
+                <p
+                  className="text-xs tracking-widest uppercase mt-0.5"
+                  style={{ color: '#302808' }}
+                >
+                  {stat.label}
+                </p>
+              </div>
             ))}
           </div>
 
-          {/* Loading Indicator */}
-          {hasMore && (
-            <div ref={observerTarget} className="flex justify-center items-center py-12">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading more tools...</p>
-              </div>
-            </div>
-          )}
-
-          {/* End Message */}
-          {!hasMore && (
-            <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">You've viewed all {allTools.length} tools</p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-              >
-                <span>Become a Partner for Full Access</span>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#1A0B2E] py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-light text-white mb-6">
-            Ready to Accelerate Your<br/>
-            <span className="text-purple-300">Strategic Execution?</span>
-          </h2>
-          <p className="text-purple-200 text-xl mb-10 max-w-2xl mx-auto">
-            Join partners who are using these tools to drive measurable business outcomes and achieve strategic goals faster.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center bg-white text-purple-900 px-8 py-4 rounded-lg hover:bg-purple-50 transition-all duration-300 font-medium shadow-lg"
-            >
-              <span>Get Partner Access</span>
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <Link
-              href="/services"
-              className="inline-flex items-center justify-center border-2 border-purple-500 text-purple-300 px-8 py-4 rounded-lg hover:bg-purple-500/10 transition-all duration-300 font-medium"
-            >
-              <span>View All Services</span>
-            </Link>
+          {/* Complexity legend */}
+          <div className="flex flex-wrap gap-4 pt-1">
+            {(['Beginner', 'Intermediate', 'Advanced'] as Tool['complexity'][]).map((level) => {
+              const cs = getComplexityStyle(level);
+              return (
+                <div key={level} className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cs.dot }} />
+                  <span className="text-xs" style={{ color: cs.text }}>{level}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </section>
 
-      {/* Authentication Modal */}
-      <AuthenticationModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        toolName={selectedTool?.name || ''}
-        onAuthenticate={handleAuthenticate}
+        {/* RIGHT — SVG visual placeholder */}
+        {/*
+          INTEGRATION NOTE:
+          Replace the decorative element below with:
+          <img src="/assets/tools/Hero Visual.svg" alt="" className="max-w-full h-auto" />
+        */}
+        <div
+          className="relative hidden lg:flex items-center justify-end"
+          style={{ height: '420px' }}
+          aria-hidden="true"
+        >
+          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
+            {/* Engineering / tool motif: gear + grid */}
+            <div className="relative w-72 h-72 flex items-center justify-center">
+              {/* Outer ring */}
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{ border: '1px solid rgba(250,204,21,0.10)' }}
+              />
+              {/* Mid ring */}
+              <div
+                className="absolute rounded-full"
+                style={{ inset: '36px', border: '1px solid rgba(250,204,21,0.07)' }}
+              />
+              {/* Inner glow core */}
+              <div
+                className="absolute rounded-full"
+                style={{
+                  inset: '90px',
+                  background: 'radial-gradient(circle, rgba(120,100,0,0.18) 0%, transparent 70%)',
+                  border: '1px solid rgba(250,204,21,0.12)',
+                }}
+              />
+              {/* Format chips orbiting */}
+              {[
+                { label: 'Excel',     angle: 0   },
+                { label: 'Notion',    angle: 72  },
+                { label: 'Online',    angle: 144 },
+                { label: 'PDF Guide', angle: 216 },
+                { label: 'Template',  angle: 288 },
+              ].map(({ label, angle }) => {
+                const rad = (angle * Math.PI) / 180;
+                const r   = 118;
+                const x   = 50 + (r / 144) * 50 * Math.cos(rad);
+                const y   = 50 + (r / 144) * 50 * Math.sin(rad);
+                return (
+                  <div
+                    key={label}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      backgroundColor: 'rgba(20,16,4,0.95)',
+                      border: '1px solid rgba(250,204,21,0.18)',
+                      color: '#FACC15',
+                    }}
+                  >
+                    {label}
+                  </div>
+                );
+              })}
+              {/* Centre gear icon */}
+              <svg
+                className="relative z-10 w-12 h-12 opacity-20"
+                fill="none"
+                stroke="#FACC15"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+);
+
+// =====================================================
+// TAG FILTER BAR
+// Amber-toned — scrollable, keyboard accessible.
+// =====================================================
+
+interface TagFilterBarProps {
+  activeTag: string;
+  onTagChange: (tag: string) => void;
+}
+
+const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
+  <div
+    className="flex gap-2 overflow-x-auto pb-1"
+    style={{ scrollbarWidth: 'none' } as React.CSSProperties}
+    role="toolbar"
+    aria-label="Filter tools by category"
+  >
+    {ALL_TAGS.map((tag) => {
+      const isActive = tag === activeTag;
+      const style    = tag === 'All'
+        ? { bg: 'rgba(250,204,21,0.10)', text: '#FACC15' }
+        : getTagStyle(tag);
+      return (
+        <button
+          key={tag}
+          type="button"
+          onClick={() => onTagChange(tag)}
+          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          style={
+            isActive
+              ? { backgroundColor: '#3A2E00', color: '#FACC15', border: '1px solid rgba(250,204,21,0.35)' }
+              : { backgroundColor: style.bg, color: style.text, border: '1px solid transparent', opacity: 0.65 }
+          }
+          aria-pressed={isActive}
+        >
+          {tag}
+        </button>
+      );
+    })}
+  </div>
+);
+
+// =====================================================
+// FEATURED TOOL CARD — full-width, first item only
+// =====================================================
+
+interface FeaturedToolCardProps {
+  tool: Tool;
+  onOpen: (title: string) => void;
+}
+
+const FeaturedToolCard: FC<FeaturedToolCardProps> = ({ tool, onOpen }) => {
+  const tagStyle        = getTagStyle(tool.tag);
+  const complexityStyle = getComplexityStyle(tool.complexity);
+
+  return (
+    <article
+      onClick={() => onOpen(tool.title)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen(tool.title)}
+      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      style={{ backgroundColor: '#100E04', border: '1px solid rgba(250,204,21,0.10)' }}
+      aria-label={`Access tool: ${tool.title}`}
+    >
+      {/* Header */}
+      <div
+        className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #2A2000 0%, #100E04 65%)' }}
+      >
+        {/* Cross-hair grid decoration */}
+        <div className="absolute inset-0 overflow-hidden opacity-5" aria-hidden="true">
+          <svg className="w-full h-full" viewBox="0 0 600 220">
+            {Array.from({ length: 16 }, (_, i) => (
+              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="220" stroke="#FACC15" strokeWidth="0.5" />
+            ))}
+            {Array.from({ length: 6 }, (_, i) => (
+              <line key={`h${i}`} x1="0" y1={i * 40} x2="600" y2={i * 40} stroke="#FACC15" strokeWidth="0.5" />
+            ))}
+          </svg>
+        </div>
+        {/* Gear watermark */}
+        <div className="absolute top-6 right-10 opacity-[0.07]" aria-hidden="true">
+          <svg className="w-28 h-28" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.8}
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-3 flex-wrap">
+          <span
+            className="px-3 py-1 rounded-full text-xs font-semibold"
+            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+          >
+            {tool.tag}
+          </span>
+          <span
+            className="px-3 py-1 rounded-full text-xs font-medium"
+            style={{ backgroundColor: 'rgba(255,255,255,0.04)', color: '#FACC15', border: '1px solid rgba(250,204,21,0.14)' }}
+          >
+            Featured
+          </span>
+          {/* Complexity pill */}
+          <span
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
+            style={{ backgroundColor: complexityStyle.bg, color: complexityStyle.text }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: complexityStyle.dot }} />
+            {tool.complexity}
+          </span>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-8 sm:px-10 py-6 sm:py-8">
+        <h2
+          className="font-light leading-snug mb-2 group-hover:text-yellow-300 transition-colors duration-200"
+          style={{ fontSize: 'clamp(1.1rem,2.5vw,1.6rem)', color: '#FEF3C7', fontFamily: 'Georgia,serif' }}
+        >
+          {tool.title}
+        </h2>
+        <p className="text-xs mb-1 font-medium" style={{ color: '#FACC15' }}>
+          {tool.useCase}
+        </p>
+        <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ color: '#3A3020' }}>
+          {tool.excerpt}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span
+              className="px-2.5 py-1 rounded-md text-xs"
+              style={{ backgroundColor: 'rgba(40,30,0,0.7)', color: '#A07800' }}
+            >
+              {tool.format}
+            </span>
+          </div>
+          <div
+            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200"
+            style={{ color: '#FACC15' }}
+          >
+            Access tool
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+// =====================================================
+// STANDARD TOOL CARD — 3-column grid
+// =====================================================
+
+interface ToolCardProps {
+  tool: Tool;
+  onOpen: (title: string) => void;
+  animIndex: number;
+}
+
+const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
+  const tagStyle        = getTagStyle(tool.tag);
+  const complexityStyle = getComplexityStyle(tool.complexity);
+
+  return (
+    <article
+      onClick={() => onOpen(tool.title)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen(tool.title)}
+      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      style={{
+        backgroundColor: '#100E04',
+        border: '1px solid rgba(250,204,21,0.08)',
+        animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${animIndex * 45}ms both`,
+      }}
+      aria-label={`Access tool: ${tool.title}`}
+    >
+      {/* Top accent line */}
+      <div
+        className="h-0.5 w-full"
+        style={{ background: `linear-gradient(90deg, ${tagStyle.text}30, transparent)` }}
       />
 
-    </main>
+      {/* Header band */}
+      <div
+        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+        style={{ background: 'linear-gradient(155deg, #1E1800 0%, #100E04 100%)' }}
+      >
+        {/* Subtle grid bg */}
+        <div className="absolute inset-0 overflow-hidden opacity-[0.04]" aria-hidden="true">
+          <svg className="w-full h-full" viewBox="0 0 200 112">
+            {Array.from({ length: 6 }, (_, i) => (
+              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="112" stroke="#FACC15" strokeWidth="0.5" />
+            ))}
+            {Array.from({ length: 3 }, (_, i) => (
+              <line key={`h${i}`} x1="0" y1={i * 40} x2="200" y2={i * 40} stroke="#FACC15" strokeWidth="0.5" />
+            ))}
+          </svg>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2 flex-wrap">
+          <span
+            className="px-2.5 py-1 rounded-full text-xs font-semibold"
+            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+          >
+            {tool.tag}
+          </span>
+          <span
+            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs"
+            style={{ backgroundColor: complexityStyle.bg, color: complexityStyle.text }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: complexityStyle.dot }} />
+            {tool.complexity}
+          </span>
+        </div>
+
+        {/* Lock icon */}
+        <div
+          className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+          aria-hidden="true"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-5 py-4">
+        <p className="text-xs mb-1 font-medium" style={{ color: '#806600' }}>
+          {tool.useCase}
+        </p>
+        <h3
+          className="font-medium leading-snug mb-2 group-hover:text-yellow-300 transition-colors duration-200 line-clamp-2"
+          style={{ color: '#FEF3C7', fontSize: '0.9rem', fontFamily: 'Georgia, serif' }}
+        >
+          {tool.title}
+        </h3>
+        <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#302808' }}>
+          {tool.excerpt}
+        </p>
+
+        {/* Footer */}
+        <div
+          className="flex items-center justify-between pt-3"
+          style={{ borderTop: '1px solid rgba(250,204,21,0.07)' }}
+        >
+          <span
+            className="text-xs px-2 py-0.5 rounded"
+            style={{ backgroundColor: 'rgba(40,30,0,0.60)', color: '#705500' }}
+          >
+            {tool.format}
+          </span>
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
+            style={{ backgroundColor: 'rgba(250,204,21,0.06)' }}
+            aria-hidden="true"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="#FACC15" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+// =====================================================
+// REPORTS ADVERTISEMENT STRIP — after batch 1
+// Emerald identity consistent with reports hub.
+// =====================================================
+
+interface ReportsStripProps {
+  onReportClick: (title: string) => void;
+}
+
+const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
+  <div
+    className="my-12 rounded-2xl overflow-hidden"
+    style={{ backgroundColor: '#061814', border: '1px solid rgba(52,211,153,0.10)' }}
+  >
+    <div className="px-6 sm:px-8 py-6 sm:py-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(52,211,153,0.10)' }}
+          >
+            <svg className="w-4 h-4" fill="currentColor" style={{ color: '#34D399' }} viewBox="0 0 24 24">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#34D399' }}>
+              Research &amp; Reports
+            </p>
+            <p className="text-sm font-light" style={{ color: '#1A4A30' }}>
+              Data behind the decisions
+            </p>
+          </div>
+        </div>
+        <a
+          href="/resources/reports"
+          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
+          style={{ color: '#34D399' }}
+        >
+          All Reports
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4">
+        {FEATURED_REPORTS.map((r) => (
+          <div
+            key={r.title}
+            onClick={() => onReportClick(r.title)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onReportClick(r.title)}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            style={{ backgroundColor: '#0A2418', border: '1px solid rgba(52,211,153,0.08)' }}
+            aria-label={`Access report: ${r.title}`}
+          >
+            <span
+              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
+              style={{ backgroundColor: 'rgba(52,211,153,0.10)', color: '#6EE7B7' }}
+            >
+              {r.tag}
+            </span>
+            <p
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-emerald-300 transition-colors duration-200 line-clamp-2"
+              style={{ color: '#B8F0D8', fontFamily: 'Georgia, serif' }}
+            >
+              {r.title}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs" style={{ color: '#34D399' }}>{r.pages}</span>
+              <span className="text-xs" style={{ color: '#0A3020' }}>·</span>
+              <span className="text-xs" style={{ color: '#1A5030' }}>{r.date}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// =====================================================
+// CASE STUDIES ADVERTISEMENT STRIP — after batch 2
+// Deep navy identity consistent with case studies hub.
+// =====================================================
+
+interface CaseStudiesStripProps {
+  onCaseStudyClick: (title: string) => void;
+}
+
+const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick }) => (
+  <div
+    className="my-12 rounded-2xl overflow-hidden"
+    style={{ backgroundColor: '#040E1C', border: '1px solid rgba(96,165,250,0.10)' }}
+  >
+    <div className="px-6 sm:px-8 py-6 sm:py-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(96,165,250,0.10)' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="#60A5FA" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#60A5FA' }}>
+              Case Studies
+            </p>
+            <p className="text-sm font-light" style={{ color: '#1E3A52' }}>
+              See the tools in action
+            </p>
+          </div>
+        </div>
+        <a
+          href="/resources/case-studies"
+          className="text-xs font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
+          style={{ color: '#60A5FA' }}
+        >
+          All Cases
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4">
+        {FEATURED_CASE_STUDIES.map((cs) => (
+          <div
+            key={cs.title}
+            onClick={() => onCaseStudyClick(cs.title)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
+            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ backgroundColor: '#081428', border: '1px solid rgba(96,165,250,0.08)' }}
+            aria-label={`View case study: ${cs.title}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
+                style={{ backgroundColor: 'rgba(96,165,250,0.10)', color: '#93C5FD' }}
+              >
+                {cs.tag}
+              </span>
+              <span
+                className="inline-block px-2 py-0.5 rounded-full text-xs"
+                style={{ backgroundColor: 'rgba(52,211,153,0.08)', color: '#34D399', border: '1px solid rgba(52,211,153,0.12)' }}
+              >
+                {cs.outcome}
+              </span>
+            </div>
+            <p
+              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
+              style={{ color: '#C8DEFF', fontFamily: 'Georgia, serif' }}
+            >
+              {cs.title}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs" style={{ color: '#2D4A6A' }}>{cs.sector}</span>
+              <span className="text-xs" style={{ color: '#1A2E40' }}>·</span>
+              <span className="text-xs" style={{ color: '#1A3A50' }}>{cs.year}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// =====================================================
+// LOAD MORE SENTINEL
+// IntersectionObserver-based — fires 200px early.
+// =====================================================
+
+interface LoadMoreSentinelProps {
+  onVisible: () => void;
+  loading: boolean;
+  hasMore: boolean;
+  totalCount: number;
+}
+
+const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
+  onVisible, loading, hasMore, totalCount,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0].isIntersecting) onVisible(); },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [onVisible, hasMore]);
+
+  return (
+    <div ref={ref} className="flex justify-center py-12">
+      {loading && (
+        <div className="flex items-center gap-3" style={{ color: '#3A2E00' }}>
+          <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <span className="text-sm tracking-wide">Loading more tools…</span>
+        </div>
+      )}
+      {!loading && !hasMore && (
+        <p className="text-sm" style={{ color: '#302800' }}>
+          All {totalCount} tools loaded.
+        </p>
+      )}
+    </div>
+  );
+};
+
+// =====================================================
+// PAGE ROOT COMPONENT
+// =====================================================
+
+export default function ToolsHubPage(): React.JSX.Element {
+  const [activeTag, setActiveTag]     = useState<string>('All');
+  const [loadedCount, setLoadedCount] = useState<number>(BATCH_SIZE);
+  const [isLoading, setIsLoading]     = useState<boolean>(false);
+  const [modalState, setModalState]   = useState<ModalState>({ open: false, title: '' });
+
+  const filteredTools: Tool[] =
+    activeTag === 'All' ? ALL_TOOLS : ALL_TOOLS.filter((t) => t.tag === activeTag);
+
+  const visibleTools: Tool[] = filteredTools.slice(0, loadedCount);
+  const hasMore: boolean     = loadedCount < filteredTools.length;
+
+  useEffect(() => { setLoadedCount(BATCH_SIZE); }, [activeTag]);
+
+  const loadMore = useCallback((): void => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      setLoadedCount((prev) => Math.min(prev + BATCH_SIZE, filteredTools.length));
+      setIsLoading(false);
+    }, 600);
+  }, [isLoading, hasMore, filteredTools.length]);
+
+  const openModal  = (title: string): void => setModalState({ open: true, title });
+  const closeModal = (): void => setModalState({ open: false, title: '' });
+
+  const batch1: Tool[]             = visibleTools.slice(0, 25);
+  const batch2: Tool[]             = visibleTools.slice(25, 50);
+  const batch3: Tool[]             = visibleTools.slice(50);
+  const featured: Tool | undefined = batch1[0];
+  const restBatch1: Tool[]         = batch1.slice(1);
+
+  const showReportsStrip     = visibleTools.length >= 25;
+  const showCaseStudiesStrip = visibleTools.length >= 50;
+
+  return (
+    <>
+      <style>{`
+        @keyframes cardIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes modalIn {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        *::-webkit-scrollbar { display: none; }
+        * { -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+
+      <main className="min-h-screen" style={{ backgroundColor: '#060504' }}>
+
+        <HeroSection />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+          {/* Filter bar + count */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+            <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
+            <p className="text-sm flex-shrink-0" style={{ color: '#3A2E00' }}>
+              {filteredTools.length}{' '}
+              {filteredTools.length !== 1 ? 'tools' : 'tool'}
+              {activeTag !== 'All' && (
+                <> in <em style={{ color: '#FACC15' }}>{activeTag}</em></>
+              )}
+            </p>
+          </div>
+
+          {/* ── BATCH 1 ─────────────────────────────── */}
+          {featured && (
+            <div className="mb-8">
+              <FeaturedToolCard tool={featured} onOpen={openModal} />
+            </div>
+          )}
+          {restBatch1.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {restBatch1.map((tool, i) => (
+                <ToolCard key={tool.id} tool={tool} onOpen={openModal} animIndex={i} />
+              ))}
+            </div>
+          )}
+
+          {/* ── REPORTS AD STRIP — after batch 1 ─────── */}
+          {showReportsStrip && <ReportsAdvertStrip onReportClick={openModal} />}
+
+          {/* ── BATCH 2 ─────────────────────────────── */}
+          {batch2.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {batch2.map((tool, i) => (
+                <ToolCard key={tool.id} tool={tool} onOpen={openModal} animIndex={i} />
+              ))}
+            </div>
+          )}
+
+          {/* ── CASE STUDIES AD STRIP — after batch 2 ── */}
+          {showCaseStudiesStrip && <CaseStudiesAdvertStrip onCaseStudyClick={openModal} />}
+
+          {/* ── BATCH 3 ─────────────────────────────── */}
+          {batch3.length > 0 && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+              {batch3.map((tool, i) => (
+                <ToolCard key={tool.id} tool={tool} onOpen={openModal} animIndex={i} />
+              ))}
+            </div>
+          )}
+
+          {/* ── Empty state ─────────────────────────── */}
+          {filteredTools.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <p className="text-4xl mb-4">🔩</p>
+              <p className="text-lg font-light mb-1" style={{ color: '#FEF3C7' }}>
+                No tools in &ldquo;{activeTag}&rdquo; yet
+              </p>
+              <p className="text-sm" style={{ color: '#3A2E00' }}>
+                Try a different category or{' '}
+                <button
+                  type="button"
+                  className="underline"
+                  style={{ color: '#FACC15' }}
+                  onClick={() => setActiveTag('All')}
+                >
+                  view all
+                </button>
+                .
+              </p>
+            </div>
+          )}
+
+          {/* ── Load more sentinel ──────────────────── */}
+          {filteredTools.length > 0 && (
+            <LoadMoreSentinel
+              onVisible={loadMore}
+              loading={isLoading}
+              hasMore={hasMore}
+              totalCount={filteredTools.length}
+            />
+          )}
+
+        </div>
+      </main>
+
+      <PartnerAuthModal
+        isOpen={modalState.open}
+        onClose={closeModal}
+        resourceTitle={modalState.title}
+      />
+    </>
   );
 }

@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 // =====================================================
 const AboutHero = () => {
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
@@ -25,10 +25,10 @@ const AboutHero = () => {
             
           </div>
 
-          <div className="relative h-80 sm:h-96 lg:h-[450px] flex items-center justify-center lg:justify-end">
+          <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
             <div className="w-full h-full flex items-center justify-center">
               <div className="w-full max-w-lg h-full  flex items-center justify-center ">
-                <img src="/assets/about/About Head.svg" alt="" />
+                <img src="/assets/about/About Head.svg" alt="" className="max-w-full h-auto" />
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@ const WhyWeExistSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          <div className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">The Problem</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
@@ -72,7 +72,7 @@ const WhyWeExistSection = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">Our Solution</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
@@ -86,10 +86,10 @@ const WhyWeExistSection = () => {
           </div>
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 sm:p-10 lg:p-12 text-white">
+        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-6 sm:p-8 lg:p-12 text-white">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-2xl sm:text-3xl font-light mb-4">Our Core Belief</h3>
-            <p className="text-lg sm:text-xl leading-relaxed opacity-95">
+            <p className="text-base sm:text-lg lg:text-xl leading-relaxed opacity-95">
               Strategy is not storytelling. It is the disciplined process of making informed decisions under 
               uncertainty. Every recommendation we deliver is grounded in evidence, quantitative reasoning, 
               and a clear view of what can realistically be executed.
@@ -109,19 +109,19 @@ const MissionVisionSection = () => {
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
           
           {/* Mission */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 sm:p-10 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
               <h2 className="text-3xl sm:text-4xl font-light text-white">Our Mission</h2>
             </div>
-            <p className="text-gray-300 text-lg leading-relaxed mb-6">
+            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
               To empower growth-stage businesses with strategic clarity through diagnostic rigor, quantitative 
               analysis, and fact-based insights that drive sustainable competitive advantage.
             </p>
@@ -148,9 +148,9 @@ const MissionVisionSection = () => {
           </div>
 
           {/* Vision */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 sm:p-10 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -158,7 +158,7 @@ const MissionVisionSection = () => {
               </div>
               <h2 className="text-3xl sm:text-4xl font-light text-white">Our Vision</h2>
             </div>
-            <p className="text-gray-300 text-lg leading-relaxed mb-6">
+            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
               To become the most trusted strategic partner for India's growth-stage businesses, known for our 
               unwavering commitment to diagnostic excellence and measurable business impact.
             </p>
@@ -273,11 +273,11 @@ const ThesisSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
           {principles.map((principle, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg p-8 sm:p-10 hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-lg shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-6">
                 
@@ -288,7 +288,7 @@ const ThesisSection = () => {
                 </div>
               </div>
 
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <p className="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
                 {principle.description}
               </p>
 
@@ -297,14 +297,14 @@ const ThesisSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 sm:p-10 lg:p-12">
+        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-6 sm:p-8 lg:p-12">
           <div className="max-w-4xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-light text-white mb-6 text-center">
               What Sets Us Apart
             </h3>
             <div className="grid sm:grid-cols-2 gap-6 text-white">
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">No Generic Frameworks</p>
@@ -314,7 +314,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
                 <div>
                   <p className="font-medium mb-1">Context-Aware Strategy</p>
                   <p className="text-sm text-white/90">
@@ -323,7 +323,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">Founder-Aligned Execution</p>
@@ -333,7 +333,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8'/>
+                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">Decision-Grade Output</p>
@@ -399,7 +399,7 @@ const TeamSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300">
               <div className="aspect-square overflow-hidden rounded-t-lg">
@@ -421,7 +421,7 @@ const TeamSection = () => {
           ))}
         </div>
 
-        <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-2xl p-8 sm:p-10 lg:p-12 border border-white/10">
+        <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-2xl sm:text-3xl font-light text-white mb-6">
               Join Our Team
@@ -452,7 +452,7 @@ const CTASection = () => {
         <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
-            <div className="p-8 sm:p-10 lg:p-12">
+            <div className="p-6 sm:p-8 lg:p-12">
               <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 ">
                 Start with a Strategic Diagnostic
               </h2>
