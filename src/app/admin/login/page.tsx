@@ -1,30 +1,35 @@
-// app/admin/login/page.tsx
-// Admin login page — identical design language, admin semantics only
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Head from 'next/head'; // Added for viewport meta
+import { useRouter, useSearchParams } from 'next/navigation';
+import { apiRequest } from '@/services/api';
+import { setAdminToken } from '@/services/cookies';
+import { useAuth } from '../../context/AuthContext';
+
+interface AdminLoginResponse {
+  token: string;
+  admin: {
+    _id: string;
+    email: string;
+  };
+}
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { loginAdmin } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    rememberMe: false
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,56 +37,47 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    // Simulated admin authentication
-    setTimeout(() => {
-      if (formData.email && formData.password) {
-        // Store admin session (replace with real auth later)
-        localStorage.setItem(
-          'adminSession',
-          JSON.stringify({
-            email: formData.email,
-            role: 'admin',
-            token: 'admin-token-' + Date.now()
-          })
-        );
+    try {
+      const data = await apiRequest<AdminLoginResponse>('POST', '/admin/login', {
+        body: {
+          email: formData.email,
+          password: formData.password,
+        },
+      });
 
-        // Redirect to admin dashboard
-        router.push('/admin/dashboard');
-      } else {
-        setError('Invalid admin credentials');
-        setLoading(false);
-      }
-    }, 1000);
+      // Store token in cookie (7 days — matches backend admin JWT expiry)
+      setAdminToken(data.token);
+
+      // Tell the app the admin is logged in
+      loginAdmin(data.admin, data.token);
+
+      // Redirect to wherever they were going, or default to admin dashboard
+      const redirect = searchParams?.get('redirect') ?? '/admin/dashboard';
+      router.push(redirect);
+
+    } catch (err: any) {
+      setError(err.message ?? 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      <Head>
-        {/* Viewport meta for proper scaling on mobile devices */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        {/* Optional: ensure touch interactions are optimized */}
-        <meta name="format-detection" content="telephone=no" />
-      </Head>
-
-      {/* Global style tweaks for ultra-small screens (no changes to component internals) */}
       <style jsx global>{`
         @media (max-width: 480px) {
-          /* Reduce excessive padding on cards and sections */
-          .p-8 { padding: 1.5rem; }
-          .p-6 { padding: 1rem; }
+          .p-8  { padding: 1.5rem; }
+          .p-6  { padding: 1rem; }
           .px-8 { padding-left: 1rem; padding-right: 1rem; }
           .py-6 { padding-top: 1rem; padding-bottom: 1rem; }
           .py-8 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-          .gap-6 { gap: 1rem; }
+          .gap-6    { gap: 1rem; }
           .text-4xl { font-size: 2rem; }
           .text-2xl { font-size: 1.5rem; }
-          .text-lg { font-size: 1rem; }
-          /* Ensure the card never overflows */
+          .text-lg  { font-size: 1rem; }
           .max-w-md { max-width: 100%; }
-          /* Adjust decorative blurs for small screens */
           .w-72, .w-96 { width: 12rem; height: 12rem; }
         }
-        /* Additional touch-friendly adjustments */
         button, a { cursor: pointer; -webkit-tap-highlight-color: transparent; }
       `}</style>
 
@@ -96,14 +92,10 @@ export default function AdminLoginPage() {
         {/* Login Card */}
         <div className="relative w-full max-w-md">
 
-          {/* Logo / Brand */}
+          {/* Brand */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-light text-white mb-2">
-              Sarsen Strategy Partners
-            </h1>
-            <p className="text-blue-300 text-lg font-light">
-              Administrative Access
-            </p>
+            <h1 className="text-4xl font-light text-white mb-2">Sarsen Strategy Partners</h1>
+            <p className="text-blue-300 text-lg font-light">Administrative Access</p>
           </div>
 
           {/* Card */}
@@ -111,17 +103,14 @@ export default function AdminLoginPage() {
 
             {/* Header */}
             <div className="bg-[#002855] text-center px-8 py-6">
-              <h2 className="text-2xl font-light text-white mb-1">
-                Admin Sign In
-              </h2>
-              <p className="text-blue-100 text-md">
-                Restricted access for internal use only
-              </p>
+              <h2 className="text-2xl font-light text-white mb-1">Admin Sign In</h2>
+              <p className="text-blue-100 text-md">Restricted access for internal use only</p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="px-8 py-8 space-y-6">
 
+              {/* Error Message */}
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
                   <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -136,17 +125,16 @@ export default function AdminLoginPage() {
                 <label className="block text-md font-medium text-gray-700 mb-2">
                   Admin Email
                 </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full pl-4 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-                    placeholder="admin@sarsen.com"
-                    required
-                  />
-                </div>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full pl-4 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  placeholder="admin@sarsen.com"
+                  required
+                  autoComplete="email"
+                />
               </div>
 
               {/* Password */}
@@ -163,8 +151,8 @@ export default function AdminLoginPage() {
                     className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                     placeholder="Enter admin password"
                     required
+                    autoComplete="current-password"
                   />
-                  {/* Show/Hide Password Toggle */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(v => !v)}
@@ -185,29 +173,24 @@ export default function AdminLoginPage() {
                 </div>
               </div>
 
-              {/* Remember */}
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleInputChange}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">
-                  Remember this device
-                </span>
-              </label>
-
               {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
-                  loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
-                }`}
+                className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
+                  }`}
               >
-                {loading ? 'Authenticating…' : 'Sign In as Admin'}
+                {loading ? (
+                  <>
+                    <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Authenticating...</span>
+                  </>
+                ) : (
+                  <span>Sign In as Admin</span>
+                )}
               </button>
 
             </form>

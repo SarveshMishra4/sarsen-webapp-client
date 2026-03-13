@@ -3,9 +3,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Message } from './types';
 
-export const MessagesSection = ({ messages, onSendMessage }: {
+export const MessagesSection = ({ 
+  messages, 
+  onSendMessage,
+  isLocked // 1. Extract isLocked from props
+}: {
   messages: Message[];
   onSendMessage: (content: string) => void;
+  isLocked?: boolean; // 2. Add it to the TypeScript definition
 }) => {
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -19,7 +24,8 @@ export const MessagesSection = ({ messages, onSendMessage }: {
   }, [messages]);
 
   const handleSend = () => {
-    if (!newMessage.trim()) return;
+    // 3. Prevent sending if locked
+    if (!newMessage.trim() || isLocked) return; 
     onSendMessage(newMessage.trim());
     setNewMessage('');
   };
@@ -27,7 +33,10 @@ export const MessagesSection = ({ messages, onSendMessage }: {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      // 4. Prevent Enter key from triggering send if locked
+      if (!isLocked) {
+        handleSend();
+      }
     }
   };
 
@@ -96,12 +105,19 @@ export const MessagesSection = ({ messages, onSendMessage }: {
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             rows={2}
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+            disabled={isLocked} // 5. Disable textarea when locked
+            className={`flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
+              isLocked ? 'bg-gray-200 cursor-not-allowed text-gray-500' : 'bg-white'
+            }`}
+            placeholder={
+              isLocked 
+                ? "This engagement has been delivered and is locked." 
+                : "Type your message... (Press Enter to send, Shift+Enter for new line)"
+            }
           />
           <button
             onClick={handleSend}
-            disabled={!newMessage.trim()}
+            disabled={isLocked || !newMessage.trim()} // 6. Disable button when locked
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-lg font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <span className="hidden sm:inline">Send</span>
@@ -111,7 +127,9 @@ export const MessagesSection = ({ messages, onSendMessage }: {
           </button>
         </div>
         <p className="text-xs text-gray-500 mt-2">
-          Press Enter to send, Shift+Enter for new line
+          {isLocked 
+            ? "Messages are read-only for delivered projects." 
+            : "Press Enter to send, Shift+Enter for new line"}
         </p>
       </div>
 

@@ -4,13 +4,13 @@ import React from 'react';
 import { Message } from './types';
 import { MessagesSection } from './messages-section';
 
-export const MessagesTab = ({
-  messages,
-  onSendMessage,
-}: {
+interface MessagesTabProps {
   messages: Message[];
   onSendMessage: (content: string) => void;
-}) => {
+  isLocked?: boolean;
+}
+
+export const MessagesTab = ({ messages, onSendMessage, isLocked }: MessagesTabProps) => {
   const unreadMessages = messages.filter(m => m.sentBy === 'admin' && !m.read).length;
 
   return (
@@ -25,6 +25,7 @@ export const MessagesTab = ({
       <MessagesSection 
         messages={messages}
         onSendMessage={onSendMessage}
+        isLocked={isLocked} 
       />
     </section>
   );

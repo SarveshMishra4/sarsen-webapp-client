@@ -4,13 +4,13 @@ import Header from "../../src/ui/components/Header";
 import Footer from "../../src/ui/components/Footer";
 import { Ropa_Sans } from 'next/font/google';
 import { ToastProvider } from "@/ui/primitives/Toast";
-
+import { AuthProvider } from "./context/AuthContext";
 
 const ropaSans = Ropa_Sans({
-  weight: ['400'], // Ropa Sans only comes in 400 (regular) and 400 italic
+  weight: ['400'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-ropa-sans', // this CSS variable will hold the font
+  variable: '--font-ropa-sans',
 });
 
 export const metadata: Metadata = {
@@ -20,7 +20,12 @@ export const metadata: Metadata = {
 
 /**
  * RootLayout – wraps all pages with the global header and footer.
- * 
+ *
+ * AuthProvider  — must be outermost so every page and component
+ *                 can call useAuth() to read who is logged in.
+ * ToastProvider — inside AuthProvider so toasts can reference auth
+ *                 state if needed in future.
+ *
  * @param children - The page content to render between Header and Footer.
  * @returns The complete HTML document with header, main content, and footer.
  */
@@ -30,15 +35,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${ropaSans.variable} font-sans`}> {/* Apply Ropa Sans font globally */}
-      <body className="antialiased"> {/* Adds font smoothing */}
-        {/* Global Toast System */}
-        <ToastProvider>
-        <Header />
-        {/* Main content area – ensures footer stays at bottom if content is short */}
-        <main className="min-h-[calc(100vh-80px-400px)]">{children}</main>
-        <Footer />
-        </ToastProvider>
+    <html lang="en" className={`${ropaSans.variable} font-sans`}>
+      <body className="antialiased">
+        <AuthProvider>
+          <ToastProvider>
+            <Header />
+            <main className="min-h-[calc(100vh-80px-400px)]">{children}</main>
+            <Footer />
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );

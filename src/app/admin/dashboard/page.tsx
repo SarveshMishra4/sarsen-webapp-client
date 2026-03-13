@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/AuthContext';
+import { getAdminToken } from '@/services/cookies';
 import {
   ContactMessage,
   ServiceBooking,
@@ -19,10 +22,30 @@ import { CohortsTab } from './cohorts-tab';
 import { CouponsTab } from './coupons-tab';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'contacts' | 'bookings' | 'blogs' | 'subscribers' | 'cohorts' | 'coupons'>('overview');
+  const router = useRouter();
+  const { admin, logoutAdmin } = useAuth();
+
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'contacts' | 'bookings' | 'blogs' | 'subscribers' | 'cohorts' | 'coupons'
+  >('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Sample data - Replace with actual API calls
+  // ── Auth check ────────────────────────────────────────────────────────────
+  // Middleware handles the redirect, but this is a client-side safety net.
+  useEffect(() => {
+    const token = getAdminToken();
+    if (!token) {
+      router.push('/admin/login');
+    }
+  }, [router]);
+
+  // ── Logout ────────────────────────────────────────────────────────────────
+  const handleLogout = () => {
+    logoutAdmin();
+    router.push('/admin/login');
+  };
+
+  // ── Sample data (replace with API calls in Block 4) ───────────────────────
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([
     {
       id: '1',
@@ -80,7 +103,6 @@ export default function AdminDashboard() {
     },
   ]);
 
-  // Engagement data
   const [engagements, setEngagements] = useState<Engagement[]>([
     {
       id: '1',
@@ -94,7 +116,6 @@ export default function AdminDashboard() {
     },
   ]);
 
-  // Cohorts data
   const [cohorts, setCohorts] = useState<Cohort[]>([
     {
       id: '1',
@@ -104,53 +125,32 @@ export default function AdminDashboard() {
       price: 4999,
       maxSeats: 20,
       enrolledCount: 12,
-      enrolledEmails: ['alice@example.com', 'bob@example.com', 'charlie@example.com'],
+      enrolledEmails: ['alice@example.com', 'bob@example.com'],
       status: 'upcoming',
       description: 'Intensive 3-month program on growth strategies.',
     },
-    {
-      id: '2',
-      name: 'Revenue Acceleration',
-      startDate: '2025-05-15',
-      endDate: '2025-08-15',
-      price: 5999,
-      maxSeats: 15,
-      enrolledCount: 5,
-      enrolledEmails: ['david@example.com', 'eve@example.com'],
-      status: 'upcoming',
-      description: 'Focus on revenue operations and scaling.',
-    },
   ]);
 
-  // Coupons data
   const [coupons, setCoupons] = useState<Coupon[]>([
     {
       id: '1',
       code: 'EARLY10',
       discountPercentage: 10,
-      applicableServices: ['Growth & Revenue Strategy', 'Workshop'],
+      applicableServices: ['Growth & Revenue Strategy'],
       expiryDate: '2025-12-31',
       maxUses: 50,
       currentUses: 12,
       isActive: true,
     },
-    {
-      id: '2',
-      code: 'FLAT20',
-      discountPercentage: 20,
-      applicableServices: ['ALL'],
-      expiryDate: '2025-06-30',
-      maxUses: 100,
-      currentUses: 35,
-      isActive: true,
-    },
   ]);
 
-  // List of available service names for coupon filtering
-  const availableServices = Array.from(new Set(serviceBookings.map(b => b.serviceType)));
+  const availableServices = Array.from(
+    new Set(serviceBookings.map(b => b.serviceType))
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
+
       {/* SIDEBAR */}
       <aside
         className={`bg-[#0A1E3D] text-white transition-all duration-300 ${
@@ -159,7 +159,9 @@ export default function AdminDashboard() {
       >
         {/* Logo and Toggle */}
         <div className="p-6 flex items-center justify-between flex-shrink-0">
-          {sidebarOpen && <h1 className="text-xl font-semibold truncate">Admin Panel</h1>}
+          {sidebarOpen && (
+            <h1 className="text-xl font-semibold truncate">Admin Panel</h1>
+          )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-blue-900/30 rounded-lg transition-colors ml-auto"
@@ -170,22 +172,24 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Navigation - scrollable */}
+        {/* Admin email when sidebar open */}
+        {sidebarOpen && admin?.email && (
+          <div className="px-6 pb-4 -mt-2">
+            <p className="text-xs text-blue-300 truncate">{admin.email}</p>
+          </div>
+        )}
+
+        {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 space-y-1">
+
           <button
             onClick={() => setActiveTab('overview')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'overview' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Overview' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             {sidebarOpen && <span className="truncate">Overview</span>}
           </button>
@@ -195,28 +199,19 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'contacts' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Contact Messages' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             {sidebarOpen && (
               <div className="flex items-center justify-between w-full">
                 <span className="truncate">Contact Messages</span>
-                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
-                  {contactMessages.filter((m) => m.status === 'unread').length}
-                </span>
+                {contactMessages.filter(m => m.status === 'unread').length > 0 && (
+                  <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
+                    {contactMessages.filter(m => m.status === 'unread').length}
+                  </span>
+                )}
               </div>
-            )}
-            {!sidebarOpen && (
-              <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full absolute left-12 top-1/2 -translate-y-1/2">
-                {contactMessages.filter((m) => m.status === 'unread').length}
-              </span>
             )}
           </button>
 
@@ -225,28 +220,19 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'bookings' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Engagement Workspace' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
             {sidebarOpen && (
               <div className="flex items-center justify-between w-full">
                 <span className="truncate">Engagement Workspace</span>
-                <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
-                  {serviceBookings.filter((b) => b.status === 'pending').length}
-                </span>
+                {serviceBookings.filter(b => b.status === 'pending').length > 0 && (
+                  <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
+                    {serviceBookings.filter(b => b.status === 'pending').length}
+                  </span>
+                )}
               </div>
-            )}
-            {!sidebarOpen && (
-              <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full absolute left-12 top-1/2 -translate-y-1/2">
-                {serviceBookings.filter((b) => b.status === 'pending').length}
-              </span>
             )}
           </button>
 
@@ -255,15 +241,9 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'blogs' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Blog Posts' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
             {sidebarOpen && <span className="truncate">Blog Posts</span>}
           </button>
@@ -273,26 +253,18 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'subscribers' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Subscribers' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             {sidebarOpen && <span className="truncate">Subscribers</span>}
           </button>
 
-          {/* Cohorts Button */}
           <button
             onClick={() => setActiveTab('cohorts')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'cohorts' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Cohorts' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -300,25 +272,20 @@ export default function AdminDashboard() {
             {sidebarOpen && (
               <div className="flex items-center justify-between w-full">
                 <span className="truncate">Cohorts</span>
-                <span className="bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
-                  {cohorts.filter(c => c.status === 'upcoming').length}
-                </span>
+                {cohorts.filter(c => c.status === 'upcoming').length > 0 && (
+                  <span className="bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
+                    {cohorts.filter(c => c.status === 'upcoming').length}
+                  </span>
+                )}
               </div>
-            )}
-            {!sidebarOpen && (
-              <span className="bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full absolute left-12 top-1/2 -translate-y-1/2">
-                {cohorts.filter(c => c.status === 'upcoming').length}
-              </span>
             )}
           </button>
 
-          {/* Coupons Button */}
           <button
             onClick={() => setActiveTab('coupons')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'coupons' ? 'bg-blue-600' : 'hover:bg-blue-900/30'
             }`}
-            title={!sidebarOpen ? 'Coupons' : ''}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l5 5a2 2 0 01.586 1.414V19a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
@@ -326,29 +293,24 @@ export default function AdminDashboard() {
             {sidebarOpen && (
               <div className="flex items-center justify-between w-full">
                 <span className="truncate">Coupons</span>
-                <span className="bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
-                  {coupons.filter(c => c.isActive).length}
-                </span>
+                {coupons.filter(c => c.isActive).length > 0 && (
+                  <span className="bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-1">
+                    {coupons.filter(c => c.isActive).length}
+                  </span>
+                )}
               </div>
-            )}
-            {!sidebarOpen && (
-              <span className="bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full absolute left-12 top-1/2 -translate-y-1/2">
-                {coupons.filter(c => c.isActive).length}
-              </span>
             )}
           </button>
         </nav>
 
-        {/* Logout Button - fixed at bottom */}
+        {/* Logout — fixed at bottom */}
         <div className="p-4 border-t border-blue-900/30 flex-shrink-0">
-          <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-600/20 rounded-lg transition-colors text-red-400">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-600/20 rounded-lg transition-colors text-red-400"
+          >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             {sidebarOpen && <span className="truncate">Logout</span>}
           </button>
@@ -357,29 +319,27 @@ export default function AdminDashboard() {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 p-8 overflow-y-auto">
-        {/* HEADER */}
         <div className="mb-8">
           <h2 className="text-3xl font-light text-gray-800 mb-2">
-            {activeTab === 'overview' && 'Dashboard Overview'}
-            {activeTab === 'contacts' && 'Contact Messages'}
-            {activeTab === 'bookings' && 'Engagement Workspace'}
-            {activeTab === 'blogs' && 'Blog Management'}
+            {activeTab === 'overview'    && 'Dashboard Overview'}
+            {activeTab === 'contacts'    && 'Contact Messages'}
+            {activeTab === 'bookings'    && 'Engagement Workspace'}
+            {activeTab === 'blogs'       && 'Blog Management'}
             {activeTab === 'subscribers' && 'Email Subscribers'}
-            {activeTab === 'cohorts' && 'Cohorts Management'}
-            {activeTab === 'coupons' && 'Coupon Management'}
+            {activeTab === 'cohorts'     && 'Cohorts Management'}
+            {activeTab === 'coupons'     && 'Coupon Management'}
           </h2>
           <p className="text-gray-600">
-            {activeTab === 'overview' && "Welcome back! Here's what's happening with your business today."}
-            {activeTab === 'contacts' && 'Manage all contact form submissions from your website.'}
-            {activeTab === 'bookings' && 'Manage client engagements, send resources, questionnaires, and messages.'}
-            {activeTab === 'blogs' && 'Create, edit, and publish blog posts for your website.'}
+            {activeTab === 'overview'    && "Welcome back! Here's what's happening with your business today."}
+            {activeTab === 'contacts'    && 'Manage all contact form submissions from your website.'}
+            {activeTab === 'bookings'    && 'Manage client engagements, send resources, questionnaires, and messages.'}
+            {activeTab === 'blogs'       && 'Create, edit, and publish blog posts for your website.'}
             {activeTab === 'subscribers' && 'Manage your email newsletter subscriber list.'}
-            {activeTab === 'cohorts' && 'View and edit upcoming cohorts and enrollees.'}
-            {activeTab === 'coupons' && 'Create and manage discount coupons.'}
+            {activeTab === 'cohorts'     && 'View and edit upcoming cohorts and enrollees.'}
+            {activeTab === 'coupons'     && 'Create and manage discount coupons.'}
           </p>
         </div>
 
-        {/* TAB CONTENT */}
         {activeTab === 'overview' && (
           <OverviewTab
             contactMessages={contactMessages}
@@ -388,7 +348,12 @@ export default function AdminDashboard() {
             subscribers={subscribers}
           />
         )}
-        {activeTab === 'contacts' && <ContactsTab contactMessages={contactMessages} setContactMessages={setContactMessages} />}
+        {activeTab === 'contacts' && (
+          <ContactsTab
+            contactMessages={contactMessages}
+            setContactMessages={setContactMessages}
+          />
+        )}
         {activeTab === 'bookings' && (
           <EngagementWorkspaceTab
             serviceBookings={serviceBookings}
@@ -397,9 +362,15 @@ export default function AdminDashboard() {
             setEngagements={setEngagements}
           />
         )}
-        {activeTab === 'blogs' && <BlogsTab blogPosts={blogPosts} setBlogPosts={setBlogPosts} />}
-        {activeTab === 'subscribers' && <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} />}
-        {activeTab === 'cohorts' && <CohortsTab cohorts={cohorts} setCohorts={setCohorts} />}
+        {activeTab === 'blogs' && (
+          <BlogsTab blogPosts={blogPosts} setBlogPosts={setBlogPosts} />
+        )}
+        {activeTab === 'subscribers' && (
+          <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} />
+        )}
+        {activeTab === 'cohorts' && (
+          <CohortsTab cohorts={cohorts} setCohorts={setCohorts} />
+        )}
         {activeTab === 'coupons' && (
           <CouponsTab
             coupons={coupons}
