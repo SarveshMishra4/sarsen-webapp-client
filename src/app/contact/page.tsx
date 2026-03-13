@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { apiRequest } from '@/services/api';
 
 // =====================================================
 // CONTACT HERO SECTION
@@ -25,8 +26,8 @@ const ContactHeroSection = () => {
 We work with founders who need clarity before making high-impact decisions — growth, capital, pricing, or restructuring.            </p>
             <div className="pt-4">
               <p className="text-gray-400 text-sm sm:text-base">
-                Share a few details below and we’ll review your situation before responding.
-If there’s a clear way we can help, we’ll suggest next steps — if not, we’ll tell you that too.
+                Share a few details below and we'll review your situation before responding.
+If there's a clear way we can help, we'll suggest next steps — if not, we'll tell you that too.
               </p>
             </div>
           </div>
@@ -57,26 +58,46 @@ const ContactFormSection = () => {
     message: ''
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted,    setSubmitted]    = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error,        setError]        = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError('');
+
+    // ─────────────────────────────────────────────────────────────────────
+    // The backend expects: { name, email, message }
+    // The extra fields (company, phone, revenueStage, serviceInterest) are
+    // appended to the message body so no context is lost on the admin side.
+    // ─────────────────────────────────────────────────────────────────────
+    const enrichedMessage = [
+      formData.message,
+      formData.phone        ? `Phone: ${formData.phone}`                     : '',
+      formData.company      ? `Company: ${formData.company}`                 : '',
+      formData.revenueStage ? `Business Stage: ${formData.revenueStage}`     : '',
+      formData.serviceInterest ? `Area of Interest: ${formData.serviceInterest}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    try {
+      await apiRequest('POST', '/contact', {
+        body: {
+          name:    formData.name,
+          email:   formData.email,
+          message: enrichedMessage,
+        },
+      });
+
       setSubmitted(true);
-      
+
       // Reset form after 5 seconds
       setTimeout(() => {
         setSubmitted(false);
@@ -90,7 +111,13 @@ const ContactFormSection = () => {
           message: ''
         });
       }, 5000);
-    }, 1500);
+
+    } catch (err: any) {
+      // err.message comes directly from the backend — always human readable
+      setError(err.message ?? 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -105,10 +132,10 @@ const ContactFormSection = () => {
               {/* Form Header */}
               <div className="mb-8">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-800 mb-3">
-                  Tell Us What’s Stuck
+                  Tell Us What's Stuck
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  This isn’t a sales form. It’s the first step in understanding whether — and how — we can help.
+                  This isn't a sales form. It's the first step in understanding whether — and how — we can help.
 The more context you share, the more useful our response will be.
                 </p>
               </div>
@@ -249,9 +276,16 @@ The more context you share, the more useful our response will be.
                     rows={6}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300 text-gray-800"
                     placeholder="For example: stalled growth, fundraising confusion, pricing issues, team inefficiency, or strategic indecision.
-You don’t need a polished explanation — clarity comes later."
+You don't need a polished explanation — clarity comes later."
                   ></textarea>
                 </div>
+
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <button
@@ -268,10 +302,7 @@ You don’t need a polished explanation — clarity comes later."
                       <span>Sending...</span>
                     </>
                   ) : (
-                    <>
-                      <span>Request a Review</span>
-                      
-                    </>
+                    <span>Request a Review</span>
                   )}
                 </button>
 
@@ -384,19 +415,8 @@ You don’t need a polished explanation — clarity comes later."
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>How We Help Founders</span>
-
-      <svg
-        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5l7 7-7 7"
-        />
+      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </a>
 
@@ -406,19 +426,8 @@ You don’t need a polished explanation — clarity comes later."
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Access Our Resources</span>
-
-      <svg
-        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5l7 7-7 7"
-        />
+      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </a>
 
@@ -428,19 +437,8 @@ You don’t need a polished explanation — clarity comes later."
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Read Our Thinking</span>
-
-      <svg
-        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5l7 7-7 7"
-        />
+      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </a>
 
@@ -450,19 +448,8 @@ You don’t need a polished explanation — clarity comes later."
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Our Case Studies</span>
-
-      <svg
-        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5l7 7-7 7"
-        />
+      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </a>
 
@@ -492,7 +479,7 @@ const FAQSection = () => {
     },
     {
       question: "Do you offer free consultations or calls?",
-      answer: "No. We don’t believe in unpaid advisory conversations. Every interaction starts with a paid diagnostic session where we analyze your situation and provide structured guidance. This ensures focus, seriousness, and real value for both sides."
+      answer: "No. We don't believe in unpaid advisory conversations. Every interaction starts with a paid diagnostic session where we analyze your situation and provide structured guidance. This ensures focus, seriousness, and real value for both sides."
     },
     {
       question: "How long does a typical engagement last?",
@@ -520,7 +507,7 @@ const FAQSection = () => {
     },
     {
       question: "What if I'm not sure which service I need?",
-      answer: "That’s exactly what our Strategic Diagnostic & Direction engagement is designed for. Most founders don’t come to us with clearly defined problems — they come with symptoms. The diagnostic helps us identify what actually needs attention and what doesn’t. If you’re at an early stage, it brings clarity on direction, priorities, and what to focus on next. If you’re already generating revenue, it helps identify the constraints limiting growth. If you’re scaling, it surfaces operational, financial, or structural inefficiencies that need correction. The diagnostic is a paid, structured engagement and serves as the entry point to all our work. It ensures that any subsequent strategy or execution is based on facts, not assumptions."
+      answer: "That's exactly what our Strategic Diagnostic & Direction engagement is designed for. Most founders don't come to us with clearly defined problems — they come with symptoms. The diagnostic helps us identify what actually needs attention and what doesn't. If you're at an early stage, it brings clarity on direction, priorities, and what to focus on next. If you're already generating revenue, it helps identify the constraints limiting growth. If you're scaling, it surfaces operational, financial, or structural inefficiencies that need correction. The diagnostic is a paid, structured engagement and serves as the entry point to all our work. It ensures that any subsequent strategy or execution is based on facts, not assumptions."
     }
   ];
 
@@ -595,7 +582,6 @@ const FAQSection = () => {
             className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-300 flex items-center gap-1 mx-auto group"
           >
             <span>Send us a message</span>
-
           </button>
         </div>
 
@@ -603,8 +589,6 @@ const FAQSection = () => {
     </section>
   );
 };
-
-
 
 // =====================================================
 // FINAL CTA SECTION

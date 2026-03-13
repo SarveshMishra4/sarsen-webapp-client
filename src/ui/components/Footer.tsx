@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { apiRequest } from "@/services/api";
 
 // ============================================================================
 // SIMPLE DIVIDER COMPONENT
@@ -45,6 +47,47 @@ const SimpleDivider = () => (
 //                                   badge and legal links sit side-by-side
 // ============================================================================
 export default function Footer() {
+
+  // ── Newsletter state ───────────────────────────────────────────────────────
+  // Three possible states:
+  //   idle       → default, show input + button
+  //   loading    → request in flight, button disabled
+  //   success    → show confirmation message
+  //   error      → show inline error, allow retry
+  const [email,           setEmail]           = useState('');
+  const [newsletterState, setNewsletterState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [newsletterError, setNewsletterError] = useState('');
+
+  const handleNewsletterSubmit = async () => {
+    if (!email || !email.includes('@')) {
+      setNewsletterError('Please enter a valid email address.');
+      setNewsletterState('error');
+      return;
+    }
+
+    setNewsletterState('loading');
+    setNewsletterError('');
+
+    try {
+      await apiRequest('POST', '/newsletter/subscribe', {
+        body: { email },
+      });
+      // Success — show confirmation
+      setNewsletterState('success');
+      setEmail('');
+    } catch (err: any) {
+      // 409 means already subscribed — treat it as success, not an error
+      // Any other error shows the backend message
+      if (err.status === 409) {
+        setNewsletterState('success');
+        setEmail('');
+      } else {
+        setNewsletterError(err.message ?? 'Something went wrong. Please try again.');
+        setNewsletterState('error');
+      }
+    }
+  };
+
   return (
     // -------------------------------------------------------------------------
     // <footer> root element
@@ -150,7 +193,6 @@ export default function Footer() {
                 <Link
                   href="/contact#careers"
                   className="text-lg text-gray-700 transition-colors hover:text-[#002855]"
-                  //          ↑ base size   ↑ muted gray   ↑ smooth colour change  ↑ brand navy on hover
                 >
                   Careers
                 </Link>
@@ -210,46 +252,69 @@ export default function Footer() {
               Select topics and stay current with our latest insights
             </p>
 
-            {/* -------------------------------------------------------------
-                INPUT + BUTTON ROW
-                Stacked vertically on mobile for full-width usability,
-                switches to a horizontal row on sm (≥ 640px) and above.
+            {/* ── Success state – replace input with confirmation ── */}
+            {newsletterState === 'success' ? (
+              <p className="text-green-700 font-medium text-sm">
+                ✓ You are subscribed. Thank you!
+              </p>
+            ) : (
+              <>
+                {/* -------------------------------------------------------------
+                    INPUT + BUTTON ROW
+                    Stacked vertically on mobile for full-width usability,
+                    switches to a horizontal row on sm (≥ 640px) and above.
 
-                flex flex-col  → vertical stack on mobile
-                gap-3          → 12px gap between input and button
-                sm:flex-row    → horizontal row from 640px upward
-            ------------------------------------------------------------- */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+                    flex flex-col  → vertical stack on mobile
+                    gap-3          → 12px gap between input and button
+                    sm:flex-row    → horizontal row from 640px upward
+                ------------------------------------------------------------- */}
+                <div className="flex flex-col gap-3 sm:flex-row">
 
-              {/* Email input field */}
-              <input
-                type="email"
-                placeholder="Email address"
-                className="flex-1 rounded-md border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 focus:border-[#002855] focus:outline-none"
-                // flex-1                → grows to fill available space in the row
-                // rounded-md            → slightly rounded corners
-                // border-2 border-gray-300 → visible 2px border, light gray
-                // bg-white              → white background distinguishes it from footer
-                // px-4 py-3             → comfortable internal padding
-                // focus:border-[#002855]→ brand navy border on focus
-                // focus:outline-none    → removes browser default blue outline
-                aria-label="Email address for newsletter"
-              />
+                  {/* Email input field */}
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                      // Clear error as soon as user starts typing again
+                      if (newsletterState === 'error') setNewsletterState('idle');
+                    }}
+                    placeholder="Email address"
+                    className="flex-1 rounded-md border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 focus:border-[#002855] focus:outline-none"
+                    // flex-1                → grows to fill available space in the row
+                    // rounded-md            → slightly rounded corners
+                    // border-2 border-gray-300 → visible 2px border, light gray
+                    // bg-white              → white background distinguishes it from footer
+                    // px-4 py-3             → comfortable internal padding
+                    // focus:border-[#002855]→ brand navy border on focus
+                    // focus:outline-none    → removes browser default blue outline
+                    aria-label="Email address for newsletter"
+                    onKeyDown={e => { if (e.key === 'Enter') handleNewsletterSubmit(); }}
+                  />
 
-              {/* Submit button */}
-              <button
-                className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#0A1E3D]"
-                // whitespace-nowrap  → prevents "Submit" from wrapping to two lines
-                // bg-[#002855]       → brand navy background
-                // px-8               → generous horizontal padding
-                // hover:bg-[#0A1E3D] → slightly darker navy on hover
-                aria-label="Subscribe to newsletter"
-              >
-                Submit
-              </button>
+                  {/* Submit button */}
+                  <button
+                    onClick={handleNewsletterSubmit}
+                    disabled={newsletterState === 'loading'}
+                    className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#0A1E3D] disabled:opacity-60 disabled:cursor-not-allowed"
+                    // whitespace-nowrap  → prevents "Submit" from wrapping to two lines
+                    // bg-[#002855]       → brand navy background
+                    // px-8               → generous horizontal padding
+                    // hover:bg-[#0A1E3D] → slightly darker navy on hover
+                    aria-label="Subscribe to newsletter"
+                  >
+                    {newsletterState === 'loading' ? 'Submitting...' : 'Submit'}
+                  </button>
 
-            </div>
-            {/* END INPUT + BUTTON ROW */}
+                </div>
+                {/* END INPUT + BUTTON ROW */}
+
+                {/* Inline error message — only shown when state is 'error' */}
+                {newsletterState === 'error' && newsletterError && (
+                  <p className="mt-2 text-sm text-red-600">{newsletterError}</p>
+                )}
+              </>
+            )}
 
           </div>
           {/* END RIGHT COLUMN */}
@@ -342,7 +407,7 @@ export default function Footer() {
                                  it to sit correctly beside the badge in the
                                  same flex row (justify-between does the spacing)
           --------------------------------------------------------------- */}
-          <div className="flex w-full flex-wrap justify-start  md:mt-4 lg:mt-0 gap-x-6 gap-y-3 text-sm text-gray-600 md:justify-start lg:w-auto">
+          <div className="flex w-full flex-wrap justify-start md:mt-4 lg:mt-0 gap-x-6 gap-y-3 text-sm text-gray-600 md:justify-start lg:w-auto">
 
             {/* ── Row 1 links (appear first in source order) ── */}
 
