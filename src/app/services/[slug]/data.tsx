@@ -13,6 +13,13 @@
 // The frontend sends the coupon code to the API, receives the
 // discounted price back, and re-renders the price display.
 // Discount percentages are NEVER hardcoded here.
+//
+// BACKEND LINK NOTE:
+// backendId is the MongoDB _id of the corresponding Service
+// document. It is used by the buy button to call
+// POST /payments/create-order. All other content (descriptions,
+// questions, deliverables, roadmap) lives here in the frontend
+// and is never stored in the backend.
 // ================================================================
 
 export type QuestionType =
@@ -52,6 +59,7 @@ export interface CustomerServiceStep {
 
 export interface ServiceData {
   id: number;
+  backendId: string;    // MongoDB _id — used for payments/coupons API calls
   slug: string;
   packageNumber: string;
   title: string;
@@ -62,7 +70,7 @@ export interface ServiceData {
   targetedFor: string;
   problemStatement: string; // longer narrative for the page hero
   excerpt: string;          // shorter card description (used in hub)
-  price: number;            // base price in INR (paise × 100 for Razorpay)
+  price: number;            // base price in paise (× 100 for Razorpay)
   priceDisplay: string;     // human-readable e.g. "₹49,000"
   duration: string;         // e.g. "2 weeks"
   deliveryFormat: string;   // e.g. "2 sessions + async work"
@@ -118,6 +126,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 0,
+    backendId: '69b3c3d64ad479822f297e25',
     slug: 'business-diagnostic-direction',
     packageNumber: 'Package 0',
     title: 'Business Diagnostic & Direction',
@@ -128,7 +137,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Founders who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
     problemStatement: 'Most founders are running their business on instinct and incomplete information. They know something is wrong but cannot name it precisely. They have priorities but cannot rank them. They have goals but no clear path. This package ends that ambiguity.',
     excerpt: 'The mandatory starting point. A 314-question diagnostic system that maps your business model, value chain, control levers, and bottlenecks — then translates that into a strategic direction for the next 12 months and a 3–5 year trajectory.',
-    price: 4900000,     // ₹49,000 in paise
+    price: 4900000,
     priceDisplay: '₹49,000',
     duration: '2 weeks',
     deliveryFormat: '2 sessions + async diagnostic',
@@ -228,6 +237,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 1,
+    backendId: '69b3c3e94ad479822f297e27',
     slug: 'idea-to-validation',
     packageNumber: 'Package 1',
     title: 'Idea-to-Validation',
@@ -337,6 +347,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 2,
+    backendId: '69b3c3fa4ad479822f297e29',
     slug: 'product-market-fit-clarity',
     packageNumber: 'Package 2',
     title: 'Product–Market Fit Clarity',
@@ -455,6 +466,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 3,
+    backendId: '69b3c4074ad479822f297e2b',
     slug: 'go-to-market-strategy',
     packageNumber: 'Package 3',
     title: 'Go-To-Market Strategy',
@@ -585,6 +597,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 4,
+    backendId: '69b3c41e4ad479822f297e2d',
     slug: 'operations-scalability',
     packageNumber: 'Package 4',
     title: 'Operations & Scalability',
@@ -707,6 +720,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 5,
+    backendId: '69b3c42a4ad479822f297e2f',
     slug: 'fundraising-readiness',
     packageNumber: 'Package 5',
     title: 'Fundraising Readiness',
@@ -835,6 +849,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 6,
+    backendId: '69b3c43a4ad479822f297e31',
     slug: 'turnaround-stabilisation',
     packageNumber: 'Package 6',
     title: 'Turnaround & Stabilisation',
@@ -933,6 +948,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // ──────────────────────────────────────────────────────────────
   {
     id: 7,
+    backendId: '69b3c4464ad479822f297e33',
     slug: 'scale-expansion-strategy',
     packageNumber: 'Package 7',
     title: 'Scale & Expansion Strategy',
@@ -1065,6 +1081,11 @@ export function getServiceBySlug(slug: string): ServiceData | undefined {
 /** Get a service by numeric id. */
 export function getServiceById(id: number): ServiceData | undefined {
   return ALL_SERVICES_DATA.find((s) => s.id === id);
+}
+
+/** Get a service by MongoDB backendId. */
+export function getServiceByBackendId(backendId: string): ServiceData | undefined {
+  return ALL_SERVICES_DATA.find((s) => s.backendId === backendId);
 }
 
 /** All slugs — used for static path generation in Next.js */

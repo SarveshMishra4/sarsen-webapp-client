@@ -4,7 +4,8 @@ import Header from "../../src/ui/components/Header";
 import Footer from "../../src/ui/components/Footer";
 import { Ropa_Sans } from 'next/font/google';
 import { ToastProvider } from "@/ui/primitives/Toast";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "../app/context/AuthContext";
+import Script from "next/script";
 
 const ropaSans = Ropa_Sans({
   weight: ['400'],
@@ -37,6 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${ropaSans.variable} font-sans`}>
       <body className="antialiased">
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="lazyOnload"
+        />
         <AuthProvider>
           <ToastProvider>
             <Header />

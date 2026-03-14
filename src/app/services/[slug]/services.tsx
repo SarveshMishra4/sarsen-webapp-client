@@ -1,43 +1,45 @@
 'use client';
 
 /**
- * ServicePage.jsx
+ * ServicePage.tsx
  * ─────────────────────────────────────────────────────────────────
  * THE MOULD — individual service page layout.
  * Reads one ServiceData object (resolved by slug before render)
  * and renders the full page + purchase modal.
  *
  * USAGE (Next.js App Router example):
- *   // app/services/[slug]/page.tsx
- *   import { getServiceBySlug } from '@/data/services.data';
- *   import ServicePage from '@/components/ServicePage';
- *   export default function Page({ params }) {
- *     const service = getServiceBySlug(params.slug);
- *     if (!service) notFound();
- *     return <ServicePage service={service} />;
- *   }
+ * // app/services/[slug]/page.tsx
+ * import { getServiceBySlug } from '@/data/services.data';
+ * import ServicePage from '@/components/ServicePage';
+ * export default function Page({ params }) {
+ * const service = getServiceBySlug(params.slug);
+ * if (!service) notFound();
+ * return <ServicePage service={service} />;
+ * }
  *
  * RAZORPAY NOTE:
- *   Add the Razorpay script to your _document / layout:
- *   <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+ * Add the Razorpay script to your layout:
+ * <Script src="https://checkout.razorpay.com/v1/checkout.js" />
  *
  * COUPON NOTE:
- *   Coupon validation hits your API at POST /api/coupons/validate
- *   Expected request:  { code: string, serviceId: number }
- *   Expected response: { valid: boolean, discountedPrice: number,
- *                        discountLabel: string, message?: string }
- *   Discount % is NEVER in the frontend — only the final price.
+ * Coupon validation hits POST /coupons/validate
+ * Request:  { code: string, serviceId: string (MongoDB _id) }
+ * Response: { valid: boolean, finalPrice: number,
+ * discountLabel: string, message?: string }
+ * Discount % is NEVER in the frontend — only the final price.
  *
  * PAYMENT FLOW:
- *   1. User fills form → clicks Buy
- *   2. POST /api/orders/create → returns { orderId, amount, currency }
- *   3. Razorpay modal opens with those values
- *   4. On payment success → POST /api/orders/confirm with
- *      { razorpay_payment_id, razorpay_order_id, razorpay_signature,
- *        formAnswers, serviceId, couponCode? }
- *   5. Backend verifies signature → sends confirmation email → stores data
- *   6. Frontend shows success state
- *   On payment failure → show failure message with support email
+ * 1. User fills form → clicks Buy
+ * 2. POST /payments/create-order → { orderId, amount, currency }
+ * Sends: { serviceId (backendId), couponCode?, purchaseAnswers }
+ * 3. Razorpay modal opens with those values
+ * 4. On Razorpay handler fire → payment confirmed server-side
+ * via webhook. Frontend shows success immediately.
+ * 5. On payment failure → show failure message with support email
+ *
+ * NOTE: There is no frontend confirm step. The Razorpay webhook
+ * handles server-side verification automatically. When the
+ * handler fires, the payment is already confirmed.
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -49,8 +51,10 @@ import React, {
   FC,
   MouseEvent,
   ChangeEvent,
-  FormEvent,
 } from 'react';
+import { apiRequest } from '@/services/api';
+import { getUserToken } from '@/services/cookies';
+import { useAuth } from '../../context/AuthContext';
 
 // ─── Types (mirror services.data.ts — import in real project) ────
 
@@ -69,6 +73,7 @@ interface CustomerServiceStep { step: number; title: string; description: string
 
 export interface ServiceData {
   id: number;
+  backendId: string;    // MongoDB _id — used for all API calls
   slug: string;
   packageNumber: string;
   title: string;
@@ -100,19 +105,14 @@ const SUPPORT_EMAIL = 'support@sarsenandcompany.com';
 
 // ─── Razorpay global type shim ────────────────────────────────────
 
-export {};
+export { };
 
 declare global {
   interface Window {
-    Razorpay:
-      | any
-      | (new (options: Record<string, unknown>) => {
-          open: () => void;
-          on: (
-            event: string,
-            handler: (res: Record<string, unknown>) => void
-          ) => void;
-        });
+    Razorpay: any | (new (options: Record<string, unknown>) => {
+      open: () => void;
+      on: (event: string, handler: (res: Record<string, unknown>) => void) => void;
+    });
   }
 }
 
@@ -148,7 +148,7 @@ const CouponBadge: FC<CouponBadgeProps> = ({ label, onRemove, accentRgb }) => (
 );
 
 // ════════════════════════════════════════════════════════════════
-// PURCHASE MODAL (unchanged — already complies with design language)
+// PURCHASE MODAL
 // ════════════════════════════════════════════════════════════════
 
 type ModalStep = 'questions' | 'summary' | 'processing' | 'success' | 'failure';
@@ -160,16 +160,20 @@ interface PurchaseModalProps {
 }
 
 const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => {
+  // ── Dedicated Email State ──────────────────────────────────────
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const { user } = useAuth();
   // ── Form answers keyed by question id ─────────────────────────
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
-  const [step, setStep]       = useState<ModalStep>('questions');
-  const [errors, setErrors]   = useState<Record<string, string>>({});
+  const [step, setStep] = useState<ModalStep>('questions');
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   // ── Coupon state ───────────────────────────────────────────────
-  const [couponInput, setCouponInput]       = useState('');
-  const [couponLoading, setCouponLoading]   = useState(false);
-  const [couponError, setCouponError]       = useState('');
-  const [appliedCoupon, setAppliedCoupon]   = useState<{
+  const [couponInput, setCouponInput] = useState('');
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<{
     code: string;
     label: string;
     finalPrice: number;
@@ -184,6 +188,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   // Reset everything when modal closes
   useEffect(() => {
     if (!isOpen) {
+      setEmail('');
+      setEmailError('');
       setAnswers({});
       setStep('questions');
       setErrors({});
@@ -216,7 +222,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     if (current.includes(optionValue)) {
       setAnswer(questionId, current.filter((v) => v !== optionValue));
     } else {
-      if (max && current.length >= max) return; // enforce max selections
+      if (max && current.length >= max) return;
       setAnswer(questionId, [...current, optionValue]);
     }
     if (errors[questionId]) setErrors((prev) => ({ ...prev, [questionId]: '' }));
@@ -225,44 +231,66 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   // ── Validation ─────────────────────────────────────────────────
 
   const validateQuestions = (): boolean => {
+    let isValid = true;
     const newErrors: Record<string, string> = {};
+
+    // 1. Validate hardcoded email
+    if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError('A valid email address is required.');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+
+    // 2. Validate dynamic questions
     service.questions.forEach((q) => {
       if (!q.required) return;
       const val = answers[q.id];
       if (!val || (Array.isArray(val) ? val.length === 0 : val.trim() === '')) {
         newErrors[q.id] = 'This field is required.';
+        isValid = false;
       }
     });
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return isValid;
   };
 
   // ── Coupon application ─────────────────────────────────────────
+  // Hits POST /coupons/validate
+  // serviceId is the MongoDB backendId, not the numeric frontend id
 
   const applyCoupon = async () => {
     if (!couponInput.trim()) return;
     setCouponLoading(true);
     setCouponError('');
     try {
-      const res = await fetch('/api/coupons/validate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: couponInput.trim().toUpperCase(), serviceId: service.id }),
+      const data = await apiRequest<{
+        valid: boolean;
+        finalPrice: number;
+        finalPriceDisplay: string;
+        discountLabel: string;
+        message?: string;
+      }>('POST', '/coupons/validate', {
+        body: {
+          code: couponInput.trim().toUpperCase(),
+          serviceId: service.backendId,
+        },
       });
-      const data = await res.json();
+
       if (data.valid) {
         setAppliedCoupon({
           code: couponInput.trim().toUpperCase(),
-          label: data.discountLabel,       // e.g. "20% off"
-          finalPrice: data.discountedPrice, // in paise
-          finalPriceDisplay: data.discountedPriceDisplay, // e.g. "₹39,200"
+          label: data.discountLabel,
+          finalPrice: data.finalPrice,
+          finalPriceDisplay: data.finalPriceDisplay,
         });
         setCouponInput('');
       } else {
         setCouponError(data.message ?? 'This coupon code is not valid for this package.');
       }
-    } catch {
-      setCouponError('Could not verify coupon. Please check your connection and try again.');
+    } catch (err: any) {
+      setCouponError(err.message ?? 'Could not verify coupon. Please check your connection and try again.');
     } finally {
       setCouponLoading(false);
     }
@@ -275,69 +303,63 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ── Payment ────────────────────────────────────────────────────
+  // Step 1: POST /payments/create-order
+  //   Sends serviceId (backendId), optional couponCode,
+  //   and purchaseAnswers (the form responses)
+  //   Returns { orderId, amount, currency, keyId }
+  //
+  // Step 2: Open Razorpay modal with those values
+  //
+  // Step 3: Razorpay handler fires on success.
+  //   No frontend confirm needed — webhook handles verification.
+  //   Show success screen immediately.
 
   const initiatePayment = async () => {
     setStep('processing');
 
-    const finalAmount = appliedCoupon ? appliedCoupon.finalPrice : service.price;
+    // Inside initiatePayment in ServicePage.tsx
+    const purchaseAnswers = service.questions.map((q) => ({
+      questionId: q.id || 'unknown_id',
+      questionText: q.label || 'Unknown Question', // Fallback to string
+      answer: Array.isArray(answers[q.id])
+        ? (answers[q.id] as string[]).join(', ')
+        : (answers[q.id] as string) || '', // Ensure empty string, not undefined
+    }));
 
     try {
-      // 1. Create order on backend
-      const orderRes = await fetch('/api/orders/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          serviceId: service.id,
-          amount: finalAmount,
-          couponCode: appliedCoupon?.code ?? null,
-        }),
+      const orderData = await apiRequest<{
+        orderId: string;
+        amount: number;
+        currency: string;
+        keyId: string;
+      }>('POST', '/payments/create-order', {
+        body: {
+          serviceId: service.backendId,
+          userEmail: email, // Change this from user?.email ?? '' to just email
+          couponCode: appliedCoupon?.code ?? undefined,
+          purchaseAnswers,
+        },
+        token: getUserToken() ?? undefined,
       });
-      const orderData = await orderRes.json();
 
       if (!orderData.orderId) throw new Error('Order creation failed.');
 
-      // 2. Open Razorpay modal
       const rzp = new window.Razorpay({
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: finalAmount,
-        currency: 'INR',
+        key: orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: orderData.amount,
+        currency: orderData.currency ?? 'INR',
         name: 'Sarsen & Company',
         description: service.title,
         order_id: orderData.orderId,
         theme: { color: service.accentColor },
         modal: {
           ondismiss: () => {
-            // User closed Razorpay without paying
             setFailureReason('Payment was cancelled. No amount has been charged.');
             setStep('failure');
           },
         },
-        handler: async (paymentResponse: Record<string, string>) => {
-          // 3. Confirm payment on backend
-          try {
-            const confirmRes = await fetch('/api/orders/confirm', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_payment_id: paymentResponse.razorpay_payment_id,
-                razorpay_order_id:   paymentResponse.razorpay_order_id,
-                razorpay_signature:  paymentResponse.razorpay_signature,
-                serviceId:   service.id,
-                formAnswers: answers,
-                couponCode:  appliedCoupon?.code ?? null,
-              }),
-            });
-            const confirmData = await confirmRes.json();
-            if (confirmData.success) {
-              setStep('success');
-            } else {
-              setFailureReason('Payment was received but confirmation failed. Please contact our support team immediately.');
-              setStep('failure');
-            }
-          } catch {
-            setFailureReason('Payment was received but we could not confirm your order. Please contact support immediately.');
-            setStep('failure');
-          }
+        handler: async (_paymentResponse: Record<string, string>) => {
+          setStep('success');
         },
       });
 
@@ -349,8 +371,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
       rzp.open();
 
-    } catch {
-      setFailureReason('We could not initiate the payment. Please try again or contact support.');
+    } catch (err: any) {
+      setFailureReason(err.message ?? 'We could not initiate the payment. Please try again or contact support.');
       setStep('failure');
     }
   };
@@ -364,9 +386,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
   // ── Price display ──────────────────────────────────────────────
 
-  const displayPrice     = appliedCoupon ? appliedCoupon.finalPriceDisplay : service.priceDisplay;
-  const isDiscounted     = !!appliedCoupon;
-  const originalPrice    = service.priceDisplay;
+  const displayPrice = appliedCoupon ? appliedCoupon.finalPriceDisplay : service.priceDisplay;
+  const isDiscounted = !!appliedCoupon;
+  const originalPrice = service.priceDisplay;
 
   // ── Flexible services max (for multiselect guard) ──────────────
 
@@ -380,8 +402,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   // ════════════════════════════════════════════════════════════════
 
   const renderQuestion = (q: ServiceQuestion) => {
-    const error   = errors[q.id];
-    const val     = answers[q.id];
+    const error = errors[q.id];
+    const val = answers[q.id];
     const flexMax = getFlexMax(q.id);
 
     const labelStyle: React.CSSProperties = {
@@ -492,7 +514,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
         case 'multiselect': {
           const selected = (val as string[]) ?? [];
-          const atMax    = flexMax !== null && selected.length >= flexMax;
+          const atMax = flexMax !== null && selected.length >= flexMax;
           return (
             <div className="space-y-2 mt-1">
               {flexMax && (
@@ -501,7 +523,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 </p>
               )}
               {q.options?.map((o) => {
-                const checked  = selected.includes(o.value);
+                const checked = selected.includes(o.value);
                 const disabled = !checked && (atMax ?? false);
                 return (
                   <label
@@ -614,6 +636,39 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       </div>
 
       <div ref={scrollRef} style={{ padding: '28px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
+
+        {/* ── NEW HARDCODED EMAIL FIELD ── */}
+        <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
+          <label style={{ color: '#1E293B', fontSize: '0.85rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
+            Email Address <span style={{ color: '#EF4444', marginLeft: '3px' }}>*</span>
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (emailError) setEmailError('');
+            }}
+            placeholder="you@company.com"
+            style={{
+              width: '100%',
+              padding: '10px 14px',
+              borderRadius: '8px',
+              border: emailError ? '1px solid #EF4444' : '1px solid #CBD5E1',
+              fontSize: '0.85rem',
+              color: '#0F172A',
+              outline: 'none',
+              background: '#F8FAFC',
+              transition: 'border-color 0.15s',
+              boxSizing: 'border-box',
+            }}
+          />
+          {emailError && (
+            <p style={{ fontSize: '0.72rem', color: '#EF4444', marginTop: '4px' }}>{emailError}</p>
+          )}
+        </div>
+
+        {/* ── DYNAMIC QUESTIONS ── */}
         {service.questions.map(renderQuestion)}
       </div>
 
@@ -804,6 +859,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           </div>
 
+          {/* ── Coupon section ── */}
           <div
             style={{
               background: '#F8FAFC',
@@ -1116,11 +1172,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           }}
           className="sm:rounded-2xl"
         >
-          {step === 'questions'   && renderQuestionsStep()}
-          {step === 'summary'     && renderSummaryStep()}
-          {step === 'processing'  && renderProcessingStep()}
-          {step === 'success'     && renderSuccessStep()}
-          {step === 'failure'     && renderFailureStep()}
+          {step === 'questions' && renderQuestionsStep()}
+          {step === 'summary' && renderSummaryStep()}
+          {step === 'processing' && renderProcessingStep()}
+          {step === 'success' && renderSuccessStep()}
+          {step === 'failure' && renderFailureStep()}
         </div>
       </div>
     </div>
@@ -1128,7 +1184,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE SECTIONS (updated to design language)
+// PAGE SECTIONS (unchanged — no UI changes)
 // ════════════════════════════════════════════════════════════════
 
 // ─── Hero ────────────────────────────────────────────────────────
@@ -1267,10 +1323,9 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
             </div>
           </div>
 
-          {/* Right column — SVG placeholder */}
+          {/* Right column — decorative */}
           <div className="relative hidden lg:flex items-center justify-end" style={{ height: '420px' }} aria-hidden="true">
             <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-              {/* Large decorative quotation mark */}
               <span
                 className="absolute select-none"
                 style={{
@@ -1283,7 +1338,6 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
               >
                 &ldquo;
               </span>
-              {/* Stacked lines motif */}
               <div className="relative z-10 space-y-3 w-72">
                 {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
                   <div
@@ -1309,7 +1363,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
   );
 };
 
-// ─── Core Services Section (updated backgrounds) ─────────────────
+// ─── Core Services Section ────────────────────────────────────────
 
 const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1367,7 +1421,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Flexible Services Section (updated backgrounds) ─────────────
+// ─── Flexible Services Section ────────────────────────────────────
 
 const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1410,8 +1464,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                 style={{ background: `rgba(${rgb},0.10)`, border: `1px solid rgba(${rgb},0.16)` }}
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
               <p className="text-sm font-medium mb-1 text-blue-300">{fs.label}</p>
@@ -1424,7 +1477,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Customer Service Roadmap Section (updated backgrounds) ──────
+// ─── Customer Service Roadmap Section ────────────────────────────
 
 const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1447,7 +1500,6 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
         </h2>
 
         <div className="relative">
-          {/* Vertical connector line */}
           <div
             className="absolute left-5 top-6 bottom-6 w-px hidden sm:block"
             style={{ background: `linear-gradient(to bottom, rgba(${rgb},0.30), rgba(${rgb},0.05))` }}
@@ -1456,7 +1508,6 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
           <div className="space-y-6">
             {service.customerServiceRoadmap.map((step, i) => (
               <div key={step.step} className="flex gap-5 relative">
-                {/* Step circle */}
                 <div
                   className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10"
                   style={{
@@ -1465,13 +1516,10 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
                     animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
                   }}
                 >
-                  <span
-                    style={{ color: service.accentColor, fontSize: '0.8rem', fontWeight: 700 }}
-                  >
+                  <span style={{ color: service.accentColor, fontSize: '0.8rem', fontWeight: 700 }}>
                     {step.step}
                   </span>
                 </div>
-                {/* Content */}
                 <div
                   className="flex-1 pb-6"
                   style={{
@@ -1480,12 +1528,8 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
                     animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
                   }}
                 >
-                  <p className="text-sm font-medium mb-1 text-blue-300">
-                    {step.title}
-                  </p>
-                  <p className="text-sm leading-relaxed text-gray-400">
-                    {step.description}
-                  </p>
+                  <p className="text-sm font-medium mb-1 text-blue-300">{step.title}</p>
+                  <p className="text-sm leading-relaxed text-gray-400">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -1496,7 +1540,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Targeted For + Outcome Banner (updated backgrounds) ─────────
+// ─── Targeted For + Outcome Banner ───────────────────────────────
 
 const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, onBuy }) => {
   const rgb = service.accentColorRgb;
@@ -1508,7 +1552,6 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid sm:grid-cols-3 gap-6">
-          {/* Who it's for */}
           <div
             className="sm:col-span-2 rounded-2xl p-8"
             style={{ backgroundColor: '#132B47', border: `1px solid rgba(${rgb},0.10)` }}
@@ -1516,14 +1559,11 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
             <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
               Targeted for
             </p>
-            <p
-              className="text-lg leading-relaxed font-light text-white"
-            >
+            <p className="text-lg leading-relaxed font-light text-white">
               {service.targetedFor}
             </p>
           </div>
 
-          {/* CTA card */}
           <div
             className="rounded-2xl p-8 flex flex-col justify-between"
             style={{
@@ -1535,9 +1575,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
               <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
                 Investment
               </p>
-              <p
-                className="text-3xl font-light mb-1 text-white"
-              >
+              <p className="text-3xl font-light mb-1 text-white">
                 {service.priceDisplay}
               </p>
               <p className="text-xs mb-6 text-gray-400">
@@ -1585,7 +1623,7 @@ interface ServicePageProps {
 export default function ServicePage({ service }: ServicePageProps): React.JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const openModal  = useCallback(() => setModalOpen(true),  []);
+  const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => setModalOpen(false), []);
 
   return (

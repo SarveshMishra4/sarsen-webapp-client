@@ -494,16 +494,6 @@ const SuccessStep: FC<{ cohort: Cohort; onClose: () => void }> = ({ cohort, onCl
 );
 
 // ─────────────────────────────────────────────────────────────
-// RAZORPAY GLOBAL TYPE
-// ─────────────────────────────────────────────────────────────
-
-declare global {
-  interface Window {
-    Razorpay: new (options: Record<string, unknown>) => { open: () => void };
-  }
-}
-
-// ─────────────────────────────────────────────────────────────
 // MAIN MODAL (blue theme)
 // ─────────────────────────────────────────────────────────────
 
@@ -619,8 +609,9 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
       handler: () => { setPaying(false); setPhase({ kind: 'success' }); },
     };
 
-    if (typeof window !== 'undefined' && window.Razorpay) {
-      new window.Razorpay(options).open();
+    if (typeof window !== 'undefined' && (window as any).Razorpay) {
+      const RazorpayConstructor = (window as any).Razorpay;
+      new RazorpayConstructor(options).open();
     } else {
       // Razorpay script not loaded — simulate for local dev
       setTimeout(() => { setPaying(false); setPhase({ kind: 'success' }); }, 1500);
