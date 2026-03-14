@@ -6,6 +6,8 @@ import { apiRequest } from '@/services/api';
 import { setUserToken } from '@/services/cookies';
 import { useAuth } from '../../context/AuthContext';
 
+export const dynamic = 'force-dynamic';
+
 interface LoginResponse {
   token: string;
   user: {
