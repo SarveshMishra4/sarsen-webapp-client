@@ -30,16 +30,21 @@
  *
  * PAYMENT FLOW:
  * 1. User fills form → clicks Buy
- * 2. POST /payments/create-order → { orderId, amount, currency }
- * Sends: { serviceId (backendId), couponCode?, purchaseAnswers }
+ * 2. POST /payments/create-order → { orderId, amount, currency, keyId }
+ *    Sends: { serviceId (backendId), userEmail, couponCode?, purchaseAnswers }
  * 3. Razorpay modal opens with those values
- * 4. On Razorpay handler fire → payment confirmed server-side
- * via webhook. Frontend shows success immediately.
- * 5. On payment failure → show failure message with support email
+ * 4. User pays → Razorpay handler fires with:
+ *    { razorpay_order_id, razorpay_payment_id, razorpay_signature }
+ * 5. POST /payments/verify → { engagementId, isNewUser, plainPassword }
+ *    Backend verifies HMAC signature, creates user account (if new),
+ *    generates password, creates Engagement, stores PurchaseQuestionnaire.
+ * 6. Success screen shows — new users see their generated password ONCE.
+ *    Password is never stored in plain text after this moment.
+ * 7. On payment failure → show failure message with support email
  *
- * NOTE: There is no frontend confirm step. The Razorpay webhook
- * handles server-side verification automatically. When the
- * handler fires, the payment is already confirmed.
+ * NOTE: The Razorpay webhook (POST /payments/webhook) also runs in production
+ * as a server-side backup. fulfillAfterPayment has idempotency protection
+ * so the user/engagement is never created twice even if both paths fire.
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -183,6 +188,16 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   // ── Payment failure details ────────────────────────────────────
   const [failureReason, setFailureReason] = useState('');
 
+  // ── Post-payment verification state ───────────────────────────
+  // plainPassword: the generated password returned from POST /payments/verify.
+  //   Only exists for NEW users — null for returning customers.
+  //   This is the only moment the plain password exists — shown once, never stored.
+  // verifyLoading: true while we are calling /payments/verify after Razorpay fires.
+  //   Shows a "Confirming your payment..." message instead of the success screen
+  //   while the server creates the user and engagement.
+  const [plainPassword, setPlainPassword] = useState<string | null>(null);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Reset everything when modal closes
@@ -198,6 +213,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       setCouponError('');
       setAppliedCoupon(null);
       setFailureReason('');
+      setPlainPassword(null);   // Clear generated password when modal closes
+      setVerifyLoading(false);  // Clear verify loading state when modal closes
     }
   }, [isOpen]);
 
@@ -303,40 +320,60 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ── Payment ────────────────────────────────────────────────────
+  //
+  // FULL FLOW (4 steps):
+  //
   // Step 1: POST /payments/create-order
-  //   Sends serviceId (backendId), optional couponCode,
-  //   and purchaseAnswers (the form responses)
-  //   Returns { orderId, amount, currency, keyId }
+  //   Sends serviceId, userEmail, optional couponCode, purchaseAnswers.
+  //   Backend creates a Razorpay order and a PENDING Payment record in MongoDB.
+  //   Returns { orderId, amount, currency, keyId }.
   //
-  // Step 2: Open Razorpay modal with those values
+  // Step 2: Open Razorpay modal
+  //   The Razorpay SDK opens a payment UI using orderId and keyId.
+  //   The user completes payment inside Razorpay's modal.
   //
-  // Step 3: Razorpay handler fires on success.
-  //   No frontend confirm needed — webhook handles verification.
-  //   Show success screen immediately.
+  // Step 3: Razorpay handler fires
+  //   After the user pays, Razorpay calls our handler function with:
+  //     razorpay_order_id, razorpay_payment_id, razorpay_signature
+  //   We do NOT show success here yet — we must verify first.
+  //
+  // Step 4: POST /payments/verify
+  //   We send the three Razorpay values to our backend.
+  //   Backend verifies the HMAC signature, creates the user account,
+  //   generates a password (new users only), creates the Engagement,
+  //   and returns { plainPassword, isNewUser, engagementId }.
+  //   NOW we show the success screen with the password.
+  //
+  // WHY Step 4 instead of just showing success on Step 3?
+  //   The webhook (which does the same work) cannot reach localhost.
+  //   Step 4 is the localhost-safe equivalent — it also works in production
+  //   as a fast, user-facing path. The webhook is a production backup.
 
   const initiatePayment = async () => {
     setStep('processing');
 
-    // Inside initiatePayment in ServicePage.tsx
+    // Build the purchaseAnswers array from the form state.
+    // Every question gets an entry — unanswered optional questions get an empty string.
     const purchaseAnswers = service.questions.map((q) => ({
-      questionId: q.id || 'unknown_id',
-      questionText: q.label || 'Unknown Question', // Fallback to string
+      questionId:   q.id    || 'unknown_id',
+      questionText: q.label || 'Unknown Question',
       answer: Array.isArray(answers[q.id])
-        ? (answers[q.id] as string[]).join(', ')
-        : (answers[q.id] as string) || '', // Ensure empty string, not undefined
+        ? (answers[q.id] as string[]).join(', ')   // multiselect: join array to CSV string
+        : (answers[q.id] as string) || '',          // single value: use as-is, or empty string
     }));
 
     try {
+      // ── Step 1: Create the Razorpay order on our backend ──────────
       const orderData = await apiRequest<{
         orderId: string;
-        amount: number;
+        amount:  number;
         currency: string;
-        keyId: string;
+        keyId:   string;
       }>('POST', '/payments/create-order', {
         body: {
-          serviceId: service.backendId,
-          userEmail: email, // Change this from user?.email ?? '' to just email
-          couponCode: appliedCoupon?.code ?? undefined,
+          serviceId:       service.backendId,
+          userEmail:       email,
+          couponCode:      appliedCoupon?.code ?? undefined,
           purchaseAnswers,
         },
         token: getUserToken() ?? undefined,
@@ -344,22 +381,63 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
       if (!orderData.orderId) throw new Error('Order creation failed.');
 
+      // ── Step 2 & 3: Open Razorpay modal ───────────────────────────
       const rzp = new window.Razorpay({
-        key: orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderData.amount,
-        currency: orderData.currency ?? 'INR',
-        name: 'Sarsen & Company',
+        key:         orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount:      orderData.amount,
+        currency:    orderData.currency ?? 'INR',
+        name:        'Sarsen & Company',
         description: service.title,
-        order_id: orderData.orderId,
-        theme: { color: service.accentColor },
+        order_id:    orderData.orderId,
+        theme:       { color: service.accentColor },
+
         modal: {
           ondismiss: () => {
+            // User closed the Razorpay modal without paying
             setFailureReason('Payment was cancelled. No amount has been charged.');
             setStep('failure');
           },
         },
-        handler: async (_paymentResponse: Record<string, string>) => {
-          setStep('success');
+
+        // ── Step 4: This fires after the user pays successfully ──────
+        // paymentResponse contains the three Razorpay identifiers.
+        // We send them to POST /payments/verify which:
+        //   - Verifies the HMAC signature (proves Razorpay processed it)
+        //   - Creates the user account and generates a password
+        //   - Creates the Engagement with checklist
+        //   - Returns the plainPassword (new users only)
+        handler: async (paymentResponse: Record<string, string>) => {
+          setVerifyLoading(true); // Show "Confirming your payment..." while backend works
+
+          try {
+            const verifyData = await apiRequest<{
+              engagementId:  string;
+              isNewUser:     boolean;
+              plainPassword: string | null;
+            }>('POST', '/payments/verify', {
+              body: {
+                razorpay_order_id:   paymentResponse.razorpay_order_id,
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_signature:  paymentResponse.razorpay_signature,
+              },
+            });
+
+            // Store the password in state so renderSuccessStep can display it.
+            // This is the only moment the plain password exists.
+            setPlainPassword(verifyData.plainPassword);
+            setStep('success');
+
+          } catch (verifyErr: any) {
+            // Verification failed — payment may have gone through but our
+            // backend could not process it. Show support contact.
+            setFailureReason(
+              verifyErr.message ??
+              'Payment was received but we could not confirm your account setup. Please contact support.'
+            );
+            setStep('failure');
+          } finally {
+            setVerifyLoading(false);
+          }
         },
       });
 
@@ -1021,6 +1099,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   const renderProcessingStep = () => (
+    // This screen shows in two situations:
+    // 1. verifyLoading = false → Razorpay modal is opening / user is paying
+    // 2. verifyLoading = true  → User paid, we are calling POST /payments/verify
+    //    to verify the signature, create the user account, and generate the password
     <div style={{ padding: '64px 32px', textAlign: 'center' }}>
       <div style={{ marginBottom: '20px' }}>
         <svg className="w-10 h-10 animate-spin mx-auto" fill="none" viewBox="0 0 24 24" style={{ color: service.accentColor }}>
@@ -1029,42 +1111,114 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </svg>
       </div>
       <p style={{ fontSize: '1rem', fontWeight: 600, color: '#0F172A', marginBottom: '6px', fontFamily: 'Georgia, serif' }}>
-        Opening Razorpay…
+        {verifyLoading ? 'Setting up your account…' : 'Opening Razorpay…'}
       </p>
       <p style={{ fontSize: '0.82rem', color: '#64748B' }}>
-        Please do not close this window. Complete the payment in the Razorpay window.
+        {verifyLoading
+          ? 'Payment received. Creating your account and engagement — just a moment.'
+          : 'Please do not close this window. Complete the payment in the Razorpay window.'}
       </p>
     </div>
   );
 
   const renderSuccessStep = () => (
-    <div style={{ padding: '56px 32px', textAlign: 'center' }}>
-      <div
-        style={{
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: `rgba(${accentRgb},0.10)`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto 20px',
-          border: `1.5px solid rgba(${accentRgb},0.25)`,
-        }}
-      >
+    // SUCCESS SCREEN
+    //
+    // Two cases:
+    // 1. plainPassword is set → new user. Show the password box prominently.
+    //    This is the ONLY time the password will ever be visible.
+    //    After the user closes this modal, the plain text password is gone forever.
+    //    Only the bcrypt hash remains in the database.
+    //
+    // 2. plainPassword is null → returning customer. Show a welcome-back message.
+    //    No password is generated or shown — they already have one.
+    <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+
+      {/* ── Success icon ── */}
+      <div style={{
+        width: '56px',
+        height: '56px',
+        borderRadius: '50%',
+        background: `rgba(${accentRgb},0.10)`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: '0 auto 20px',
+        border: `1.5px solid rgba(${accentRgb},0.25)`,
+      }}>
         <svg className="w-7 h-7" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
       </div>
+
       <h3 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#0F172A', marginBottom: '8px', fontFamily: 'Georgia, serif' }}>
         Payment Confirmed
       </h3>
-      <p style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '6px', maxWidth: '340px', margin: '0 auto 8px' }}>
+
+      <p style={{ fontSize: '0.85rem', color: '#475569', maxWidth: '340px', margin: '0 auto 16px' }}>
         Your purchase of <strong>{service.title}</strong> is confirmed.
       </p>
-      <p style={{ fontSize: '0.82rem', color: '#64748B', maxWidth: '340px', margin: '0 auto 24px' }}>
-        You will receive a confirmation email shortly. Our team will reach out within 24 hours to schedule your first session.
+
+      {/* ── PASSWORD BOX — new users only ── */}
+      {/* plainPassword is only non-null when the backend created a new user account */}
+      {plainPassword && (
+        <div style={{
+          background: '#F0FDF4',
+          border: '1.5px solid #86EFAC',
+          borderRadius: '10px',
+          padding: '16px 20px',
+          maxWidth: '340px',
+          margin: '0 auto 20px',
+          textAlign: 'left',
+        }}>
+          <p style={{
+            fontSize: '0.72rem',
+            fontWeight: 600,
+            color: '#16A34A',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            marginBottom: '6px',
+          }}>
+            Your Account Password
+          </p>
+          <p style={{ fontSize: '0.72rem', color: '#15803D', marginBottom: '10px' }}>
+            Your account has been created with the email below. Save this password — it will <strong>not</strong> be shown again.
+          </p>
+
+          {/* The password itself — displayed in monospace for clarity */}
+          <div style={{
+            background: '#DCFCE7',
+            borderRadius: '7px',
+            padding: '10px 14px',
+            fontFamily: 'monospace',
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            color: '#14532D',
+            letterSpacing: '0.12em',
+            textAlign: 'center',
+            border: '1px solid #86EFAC',
+            userSelect: 'all', // Lets the user select all text with one click
+          }}>
+            {plainPassword}
+          </div>
+
+          <p style={{ fontSize: '0.68rem', color: '#16A34A', marginTop: '8px', textAlign: 'center' }}>
+            Account email: <strong>{email}</strong>
+          </p>
+        </div>
+      )}
+
+      {/* ── Returning customer message — no password ── */}
+      {!plainPassword && (
+        <p style={{ fontSize: '0.82rem', color: '#64748B', maxWidth: '340px', margin: '0 auto 20px' }}>
+          Welcome back. Your new engagement has been added to your existing account.
+        </p>
+      )}
+
+      <p style={{ fontSize: '0.78rem', color: '#94A3B8', maxWidth: '320px', margin: '0 auto 24px' }}>
+        Our team will reach out within 24 hours to schedule your first session.
       </p>
+
       <button
         onClick={onClose}
         style={{
