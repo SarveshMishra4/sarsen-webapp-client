@@ -12,8 +12,7 @@ import { QuestionnairesTab } from './questionnaires-tab';
 import { ResourcesTab } from './resources-tab';
 import { MessagesTab } from './messages-tab';
 
-// ─── Backend Shape Types ──────────────────────────────────────────────────────
-// These interfaces define the expected structure of data returned from your API.
+// ─── Backend shape types ──────────────────────────────────────────────────────
 
 interface EngagementSummary {
   _id: string;
@@ -76,8 +75,7 @@ interface ApiNotification {
   createdAt: string;
 }
 
-// ─── Engagement Card Component ────────────────────────────────────────────────
-// Renders individual engagement summaries in the main list view.
+// ─── Engagement Card ──────────────────────────────────────────────────────────
 
 function EngagementCard({
   engagement,
@@ -93,7 +91,6 @@ function EngagementCard({
       onClick={onClick}
       className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
     >
-      {/* Title and Status Badge */}
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-xl font-medium text-gray-800">
           {engagement.serviceId?.title ?? 'Engagement'}
@@ -109,7 +106,6 @@ function EngagementCard({
         </span>
       </div>
 
-      {/* Date and Progress Bar */}
       <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -134,7 +130,6 @@ function EngagementCard({
         </div>
       </div>
 
-      {/* Action Indicator */}
       <div className="flex items-center justify-end text-blue-600 gap-1 group-hover:gap-2 transition-all">
         <span className="text-sm font-medium">
           {isDelivered ? 'View' : 'Continue'}
@@ -147,35 +142,43 @@ function EngagementCard({
   );
 }
 
-// ─── Main Dashboard Component ─────────────────────────────────────────────────
+// ─── Main Dashboard ───────────────────────────────────────────────────────────
 
 export default function UserDashboard() {
   const router = useRouter();
   const { user, logoutUser } = useAuth();
 
-  // ── List View State ──
+  // ── List view state ──
   const [engagements,     setEngagements]     = useState<EngagementSummary[]>([]);
   const [listLoading,     setListLoading]     = useState(true);
   const [listError,       setListError]       = useState('');
 
-  // ── Detail View State ──
+  // ── Detail view state ──
   const [selected,        setSelected]        = useState<EngagementDetail | null>(null);
   const [detailLoading,   setDetailLoading]   = useState(false);
   const [activeTab,       setActiveTab]       = useState<'overview' | 'questionnaires' | 'resources' | 'messages'>('overview');
 
-  // ── Tab Data State ──
+  // ── Tab data ──
   const [messages,        setMessages]        = useState<ApiMessage[]>([]);
   const [files,           setFiles]           = useState<ApiFile[]>([]);
   const [questionnaires,  setQuestionnaires]  = useState<ApiQuestionnaire[]>([]);
   const [notifications,   setNotifications]   = useState<ApiNotification[]>([]);
   const [unreadCount,     setUnreadCount]     = useState(0);
 
-  // ── Questionnaire Modal State ──
+  // ── Questionnaire modal ──
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<ApiQuestionnaire | null>(null);
+
+  // ── Feedback state ──
+  const [feedbackRating,    setFeedbackRating]    = useState(0);
+  const [feedbackComment,   setFeedbackComment]   = useState('');
+  const [feedbackLoading,   setFeedbackLoading]   = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [feedbackError,     setFeedbackError]     = useState('');
 
   const token = getUserToken();
 
-  // ── Fetch Engagement List ─────────────────────────────────────────────────
+  // ── Fetch engagement list ─────────────────────────────────────────────────
+
   const fetchEngagements = useCallback(async () => {
     setListLoading(true);
     setListError('');
@@ -195,7 +198,8 @@ export default function UserDashboard() {
     fetchEngagements();
   }, [fetchEngagements]);
 
-  // ── Fetch Notifications ───────────────────────────────────────────────────
+  // ── Fetch notifications ───────────────────────────────────────────────────
+
   const fetchNotifications = useCallback(async () => {
     try {
       const data = await apiRequest<{ notifications: ApiNotification[]; unread: number }>(
@@ -208,13 +212,12 @@ export default function UserDashboard() {
 
   useEffect(() => {
     fetchNotifications();
-    // Poll for new notifications every minute
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
   }, [fetchNotifications]);
 
-  // ── Open Engagement Detail ────────────────────────────────────────────────
-  // Fetches comprehensive data for a single engagement when clicked.
+  // ── Open engagement detail ────────────────────────────────────────────────
+
   const openEngagement = async (id: string) => {
     setDetailLoading(true);
     setSelected(null);
@@ -237,7 +240,8 @@ export default function UserDashboard() {
     }
   };
 
-  // ── Send Message ──────────────────────────────────────────────────────────
+  // ── Send message ──────────────────────────────────────────────────────────
+
   const handleSendMessage = async (content: string) => {
     if (!selected) return;
     try {
@@ -245,7 +249,7 @@ export default function UserDashboard() {
         body: { content },
         token: token ?? undefined,
       });
-      // Refresh messages list after successfully sending
+      // Refresh messages
       const data = await apiRequest<{ messages: ApiMessage[] }>(
         'GET', `/engagements/${selected._id}/messages`, { token: token ?? undefined }
       );
@@ -255,7 +259,8 @@ export default function UserDashboard() {
     }
   };
 
-  // ── Submit Questionnaire ──────────────────────────────────────────────────
+  // ── Submit questionnaire ──────────────────────────────────────────────────
+
   const handleQuestionnaireSubmit = async (
     questionnaireId: string,
     answers: { questionId: string; answerText: string }[]
@@ -265,21 +270,21 @@ export default function UserDashboard() {
         body: { answers },
         token: token ?? undefined,
       });
-      
-      // Refresh questionnaires list after submission
+      // Refresh questionnaires
       if (selected) {
         const data = await apiRequest<{ questionnaires: ApiQuestionnaire[] }>(
           'GET', `/engagements/${selected._id}/questionnaires`, { token: token ?? undefined }
         );
         setQuestionnaires(data.questionnaires ?? []);
       }
-      setSelectedQuestionnaire(null); // Close modal
+      setSelectedQuestionnaire(null);
     } catch (err: any) {
       alert(err.message ?? 'Failed to submit questionnaire.');
     }
   };
 
-  // ── Mark Notification as Read ─────────────────────────────────────────────
+  // ── Mark notification as read ─────────────────────────────────────────────
+
   const handleMarkNotificationRead = async (id: string) => {
     try {
       await apiRequest('PATCH', `/notifications/${id}/read`, {
@@ -293,18 +298,46 @@ export default function UserDashboard() {
   };
 
   // ── Logout ────────────────────────────────────────────────────────────────
+
   const handleLogout = () => {
     logoutUser();
-    router.push('/login'); // Fixed redirect to point to generic /login or /user/login as per your route structure
+    router.push('/login');
   };
 
-  // ── Back to List ──────────────────────────────────────────────────────────
+  // ── Back to list ──────────────────────────────────────────────────────────
+
   const handleBack = () => {
     setSelected(null);
     setMessages([]);
     setFiles([]);
     setQuestionnaires([]);
-    fetchEngagements(); // Refresh in case progress changed while viewing
+    setFeedbackRating(0);
+    setFeedbackComment('');
+    setFeedbackSubmitted(false);
+    setFeedbackError('');
+    fetchEngagements();
+  };
+
+  // Submit feedback (3.9)
+  const handleFeedbackSubmit = async () => {
+    if (!selected || feedbackRating === 0) return;
+    setFeedbackLoading(true);
+    setFeedbackError('');
+    try {
+      await apiRequest('POST', `/feedback/engagements/${selected._id}`, {
+        body: { rating: feedbackRating, comments: feedbackComment.trim() || undefined },
+        token: token ?? undefined,
+      });
+      setFeedbackSubmitted(true);
+    } catch (err: any) {
+      if (err.status === 409) {
+        setFeedbackSubmitted(true);
+      } else {
+        setFeedbackError(err.message ?? 'Failed to submit feedback. Please try again.');
+      }
+    } finally {
+      setFeedbackLoading(false);
+    }
   };
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -482,7 +515,7 @@ export default function UserDashboard() {
               </div>
             </div>
 
-            {/* Navigation Tabs */}
+            {/* Tabs */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 mb-8">
               <div className="flex gap-2 flex-wrap">
                 {(['overview', 'questionnaires', 'resources', 'messages'] as const).map(tab => (
@@ -506,7 +539,7 @@ export default function UserDashboard() {
               </div>
             </div>
 
-            {/* Tab Contents */}
+            {/* Tab Content */}
             {activeTab === 'overview' && (
               <OverviewTab
                 user={{ 
@@ -515,7 +548,6 @@ export default function UserDashboard() {
                   name: user?.email ?? '',
                   packagePurchased: selected.serviceId?.title ?? '',
                   purchaseDate: selected.createdAt,
-                  // FIXED: Changed 'completed' to 'inactive' to match the expected interface
                   status: selected.status === 'delivered' ? 'inactive' : 'active',
                   lastLogin: new Date().toISOString(),
                 }}
@@ -602,15 +634,91 @@ export default function UserDashboard() {
                   read: true,
                 }))}
                 onSendMessage={handleSendMessage}
-                // FIXED: Property included. Remember to add `isLocked?: boolean` to MessagesTabProps in your messages-tab.tsx file!
-                isLocked={selected.status === 'delivered'} 
+                isLocked={selected.status === 'delivered'}
               />
+            )}
+
+            {/* ── FEEDBACK SECTION (3.9) — only when delivered ── */}
+            {selected.status === 'delivered' && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mt-6">
+                {feedbackSubmitted ? (
+                  <div className="text-center py-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-800 mb-1">Thank you for your feedback</h3>
+                    <p className="text-sm text-gray-500">Your response has been recorded.</p>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-lg font-medium text-gray-800 mb-1">How was your experience?</h3>
+                    <p className="text-sm text-gray-500 mb-6">Your engagement has been delivered. We would love to hear your feedback.</p>
+
+                    {/* Star rating */}
+                    <div className="flex items-center gap-2 mb-5">
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button
+                          key={star}
+                          onClick={() => setFeedbackRating(star)}
+                          className="transition-transform hover:scale-110"
+                          aria-label={`Rate ${star} stars`}
+                        >
+                          <svg
+                            className="w-8 h-8"
+                            fill={star <= feedbackRating ? '#F59E0B' : 'none'}
+                            stroke={star <= feedbackRating ? '#F59E0B' : '#D1D5DB'}
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                            />
+                          </svg>
+                        </button>
+                      ))}
+                      {feedbackRating > 0 && (
+                        <span className="text-sm text-gray-500 ml-2">
+                          {['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][feedbackRating]}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Comment */}
+                    <textarea
+                      value={feedbackComment}
+                      onChange={e => setFeedbackComment(e.target.value)}
+                      placeholder="Any additional comments? (optional)"
+                      rows={3}
+                      className="w-full border border-gray-200 rounded-lg p-3 text-sm text-gray-700 resize-none focus:outline-none focus:border-blue-400 bg-gray-50"
+                    />
+
+                    {feedbackError && (
+                      <p className="text-sm text-red-600 mt-2">{feedbackError}</p>
+                    )}
+
+                    <button
+                      onClick={handleFeedbackSubmit}
+                      disabled={feedbackRating === 0 || feedbackLoading}
+                      className="mt-4 px-6 py-2.5 bg-[#0A1E3D] text-white text-sm font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#0d2a52] transition-colors flex items-center gap-2"
+                    >
+                      {feedbackLoading && (
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                      )}
+                      {feedbackLoading ? 'Submitting…' : 'Submit Feedback'}
+                    </button>
+                  </>
+                )}
+              </div>
             )}
           </>
         )}
       </main>
 
-      {/* Questionnaire Form Modal */}
+      {/* Questionnaire Modal */}
       {selectedQuestionnaire && (
         <QuestionnaireModal
           questionnaire={{
