@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiRequest } from '@/services/api';
 import { setAdminToken } from '@/services/cookies';
 import { useAuth } from '../../context/AuthContext';
+
+// Add this line right here! It tells Next.js NOT to pre-render this page at build time.
+export const dynamic = 'force-dynamic';
 
 interface AdminLoginResponse {
   token: string;
@@ -14,7 +17,8 @@ interface AdminLoginResponse {
   };
 }
 
-export default function AdminLoginPage() {
+// 1. We moved all the logic and UI into this inner component
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { loginAdmin } = useAuth();
@@ -204,5 +208,14 @@ export default function AdminLoginPage() {
         </div>
       </div>
     </>
+  );
+}
+
+// 2. We wrap the form component in a Suspense boundary for the default export
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0A1E3D] flex items-center justify-center text-white">Loading Admin Portal...</div>}>
+      <AdminLoginForm />
+    </Suspense>
   );
 }
