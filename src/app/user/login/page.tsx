@@ -1,12 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiRequest } from '@/services/api';
 import { setUserToken } from '@/services/cookies';
 import { useAuth } from '../../context/AuthContext';
-
-export const dynamic = 'force-dynamic';
 
 interface LoginResponse {
   token: string;
@@ -16,7 +14,8 @@ interface LoginResponse {
   };
 }
 
-export default function LoginPage() {
+// 1. Move everything into this inner component
+function UserLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { loginUser } = useAuth();
@@ -221,5 +220,14 @@ export default function LoginPage() {
         </div>
       </div>
     </>
+  );
+}
+
+// 2. Wrap it all in Suspense here
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0A1E3D] flex items-center justify-center text-white">Loading Login...</div>}>
+      <UserLoginForm />
+    </Suspense>
   );
 }
