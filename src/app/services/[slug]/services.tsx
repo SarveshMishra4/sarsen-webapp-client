@@ -282,30 +282,32 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     setCouponLoading(true);
     setCouponError('');
     try {
+      // Backend returns { finalPrice: number (paise), couponId: string }
+      // A successful response means valid. Errors thrown as ApiError with exact message.
       const data = await apiRequest<{
-        valid: boolean;
         finalPrice: number;
-        finalPriceDisplay: string;
-        discountLabel: string;
-        message?: string;
+        couponId:   string;
       }>('POST', '/coupons/validate', {
         body: {
-          code: couponInput.trim().toUpperCase(),
+          code:      couponInput.trim().toUpperCase(),
           serviceId: service.backendId,
         },
       });
 
-      if (data.valid) {
-        setAppliedCoupon({
-          code: couponInput.trim().toUpperCase(),
-          label: data.discountLabel,
-          finalPrice: data.finalPrice,
-          finalPriceDisplay: data.finalPriceDisplay,
-        });
-        setCouponInput('');
-      } else {
-        setCouponError(data.message ?? 'This coupon code is not valid for this package.');
-      }
+      const finalPriceRupees  = data.finalPrice / 100;
+      const originalRupees    = service.price / 100;
+      const savedRupees       = originalRupees - finalPriceRupees;
+      const finalPriceDisplay = `₹${finalPriceRupees.toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
+      const discountLabel     = `Save ₹${savedRupees.toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
+
+      setAppliedCoupon({
+        code:              couponInput.trim().toUpperCase(),
+        label:             discountLabel,
+        finalPrice:        data.finalPrice,
+        finalPriceDisplay: finalPriceDisplay,
+      });
+      setCouponInput('');
+
     } catch (err: any) {
       setCouponError(err.message ?? 'Could not verify coupon. Please check your connection and try again.');
     } finally {
