@@ -365,8 +365,12 @@ export default function UserDashboard() {
               <NotificationBell
                 notifications={notifications.map(n => ({
                   id:        n._id,
-                  type:      n.type as any,
-                  title:     n.type,
+                  type:      (n.type === 'file' ? 'resource' : n.type) as any,
+                  title:     n.type === 'message'       ? 'New Message' :
+                             n.type === 'questionnaire' ? 'New Questionnaire' :
+                             n.type === 'file'          ? 'New Resource Shared' :
+                             n.type === 'resource'      ? 'New Resource Shared' :
+                             'Notification',
                   message:   n.message,
                   createdAt: n.createdAt,
                   read:      n.isRead,
@@ -556,7 +560,7 @@ export default function UserDashboard() {
                   title: q.title,
                   description: '',
                   sentBy: 'Consultant',
-                  sentAt: '',
+                  sentAt: q.deadline ?? new Date().toISOString(),
                   status: q.isSubmitted ? 'completed' : 'pending',
                   questions: q.questions.map(qn => ({
                     id: qn._id,
@@ -594,7 +598,7 @@ export default function UserDashboard() {
                   title: q.title,
                   description: q.deadline ? `Due: ${new Date(q.deadline).toLocaleDateString()}` : '',
                   sentBy: 'Consultant',
-                  sentAt: '',
+                  sentAt: q.deadline ?? new Date().toISOString(),
                   dueDate: q.deadline,
                   status: q.isSubmitted ? 'completed' : 'pending',
                   questions: q.questions.map(qn => ({
