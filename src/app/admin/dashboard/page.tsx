@@ -95,18 +95,18 @@ export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // ── Data state ────────────────────────────────────────────────────────────
-  const [engagements,    setEngagements]    = useState<ApiEngagement[]>([]);
-  const [contacts,       setContacts]       = useState<ApiContact[]>([]);
-  const [subscribers,    setSubscribers]    = useState<ApiSubscriber[]>([]);
-  const [coupons,        setCoupons]        = useState<ApiCoupon[]>([]);
-  const [services,       setServices]       = useState<ApiService[]>([]);
-  const [notifications,  setNotifications]  = useState<ApiNotification[]>([]);
-  const [feedback,       setFeedback]       = useState<ApiFeedback[]>([]);
-  const [unreadCount,    setUnreadCount]    = useState(0);
+  const [engagements, setEngagements] = useState<ApiEngagement[]>([]);
+  const [contacts, setContacts] = useState<ApiContact[]>([]);
+  const [subscribers, setSubscribers] = useState<ApiSubscriber[]>([]);
+  const [coupons, setCoupons] = useState<ApiCoupon[]>([]);
+  const [services, setServices] = useState<ApiService[]>([]);
+  const [notifications, setNotifications] = useState<ApiNotification[]>([]);
+  const [feedback, setFeedback] = useState<ApiFeedback[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   // ── Loading / error state ─────────────────────────────────────────────────
   const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState('');
+  const [error, setError] = useState('');
 
   // ── Auth guard ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -128,12 +128,12 @@ export default function AdminDashboard() {
           apiRequest<{ services: ApiService[] }>('GET', '/services', { token }),
           apiRequest<{ feedback: ApiFeedback[] }>('GET', '/feedback/admin', { token }),
         ]);
-      setEngagements(engData.engagements   ?? []);
-      setContacts(contactData.submissions  ?? []);
-      setSubscribers(subData.subscribers   ?? []);
-      setCoupons(couponData.coupons         ?? []);
-      setServices(serviceData.services     ?? []);
-      setFeedback(feedbackData.feedback    ?? []);
+      setEngagements(engData.engagements ?? []);
+      setContacts(contactData.submissions ?? []);
+      setSubscribers(subData.subscribers ?? []);
+      setCoupons(couponData.coupons ?? []);
+      setServices(serviceData.services ?? []);
+      setFeedback(feedbackData.feedback ?? []);
     } catch (err: any) {
       setError(err.message ?? 'Failed to load dashboard data.');
     } finally {
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
       );
       setNotifications(data.notifications ?? []);
       setUnreadCount(data.unread ?? 0);
-    } catch {}
+    } catch { }
   }, [token]);
 
   useEffect(() => {
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
       await apiRequest('PATCH', `/notifications/${id}/read`, { token: token ?? undefined });
       setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
       setUnreadCount(prev => Math.max(0, prev - 1));
-    } catch {}
+    } catch { }
   };
 
   // ── Logout ────────────────────────────────────────────────────────────────
@@ -176,9 +176,9 @@ export default function AdminDashboard() {
   };
 
   // ── Sidebar badge counts ──────────────────────────────────────────────────
-  const newContactCount   = contacts.filter(c => c.status === 'new').length;
-  const activeEngCount    = engagements.filter(e => e.status === 'active').length;
-const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
+  const newContactCount = contacts.filter(c => c.status === 'new').length;
+  const activeEngCount = engagements.filter(e => e.status === 'active').length;
+  const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
   // ─────────────────────────────────────────────────────────────────────────
   // RENDER
   // ─────────────────────────────────────────────────────────────────────────
@@ -188,9 +188,8 @@ const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
 
       {/* SIDEBAR */}
       <aside
-        className={`bg-[#0A1E3D] text-white transition-all duration-300 ${
-          sidebarOpen ? 'w-64' : 'w-20'
-        } flex-shrink-0 flex flex-col h-screen sticky top-0`}
+        className={`bg-[#0A1E3D] text-white transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'
+          } flex-shrink-0 flex flex-col h-screen sticky top-0`}
       >
         <div className="p-6 flex items-center justify-between flex-shrink-0">
           {sidebarOpen && <h1 className="text-xl font-semibold truncate">Admin Panel</h1>}
@@ -211,8 +210,8 @@ const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
         )}
 
         {/* Notification bell row */}
-                {/* Notification bell row */}
-        {sidebarOpen && (
+        {/* Notification bell row */}
+        {/* {sidebarOpen && (
           <div className="px-6 pb-3 -mt-1 flex items-center gap-2">
             <AdminNotificationBell
               notifications={notifications}
@@ -221,7 +220,7 @@ const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
             />
             <span className="text-xs text-blue-300">{unreadCount > 0 ? `${unreadCount} unread` : 'No new notifications'}</span>
           </div>
-        )}
+        )} */}
 
         <nav className="flex-1 overflow-y-auto px-3 space-y-1">
           {[
@@ -278,9 +277,8 @@ const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                activeTab === id ? 'bg-blue-600' : 'hover:bg-blue-900/30'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === id ? 'bg-blue-600' : 'hover:bg-blue-900/30'
+                }`}
             >
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {icon}
@@ -313,87 +311,104 @@ const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto">
+        {/* Top bar with admin info and bell */}
+        <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+          <div className="flex items-center gap-3">
+            {/* Optional: logo or title */}
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-600">{admin?.email}</span>
+            <AdminNotificationBell
+              notifications={notifications}
+              unreadCount={unreadCount}
+              onMarkAsRead={handleMarkNotificationRead}
+            />
+          </div>
+        </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-32">
-            <svg className="animate-spin w-8 h-8 text-[#0A1E3D]" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-          </div>
-        ) : error ? (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-            <p className="text-red-700 mb-4">{error}</p>
-            <button onClick={fetchAll} className="px-4 py-2 bg-[#0A1E3D] text-white rounded-lg">
-              Retry
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="mb-8">
-              <h2 className="text-3xl font-light text-gray-800 mb-2">
-                {activeTab === 'overview'     && 'Dashboard Overview'}
-                {activeTab === 'contacts'     && 'Contact Messages'}
-                {activeTab === 'engagements'  && 'Engagement Workspace'}
-                {activeTab === 'blogs'        && 'Blog Management'}
-                {activeTab === 'subscribers'  && 'Email Subscribers'}
-                {activeTab === 'cohorts'      && 'Cohorts Management'}
-                {activeTab === 'coupons'      && 'Coupon Management'}
-              </h2>
-              <p className="text-gray-600">
-                {activeTab === 'overview'    && "Welcome back. Here's what's happening today."}
-                {activeTab === 'contacts'    && 'Manage all contact form submissions.'}
-                {activeTab === 'engagements' && 'Manage client engagements, checklist, files, questionnaires, and messages.'}
-                {activeTab === 'blogs'       && 'Create, edit, and publish blog posts.'}
-                {activeTab === 'subscribers' && 'View your newsletter subscriber list.'}
-                {activeTab === 'cohorts'     && 'View and manage cohorts.'}
-                {activeTab === 'coupons'     && 'Create and manage discount coupons.'}
-              </p>
+        {/* Page content */}
+        <div className="p-8">
+          {loading ? (
+            <div className="flex items-center justify-center py-32">
+              <svg className="animate-spin w-8 h-8 text-[#0A1E3D]" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
             </div>
+          ) : error ? (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+              <p className="text-red-700 mb-4">{error}</p>
+              <button onClick={fetchAll} className="px-4 py-2 bg-[#0A1E3D] text-white rounded-lg">
+                Retry
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h2 className="text-3xl font-light text-gray-800 mb-2">
+                  {activeTab === 'overview' && 'Dashboard Overview'}
+                  {activeTab === 'contacts' && 'Contact Messages'}
+                  {activeTab === 'engagements' && 'Engagement Workspace'}
+                  {activeTab === 'blogs' && 'Blog Management'}
+                  {activeTab === 'subscribers' && 'Email Subscribers'}
+                  {activeTab === 'cohorts' && 'Cohorts Management'}
+                  {activeTab === 'coupons' && 'Coupon Management'}
+                </h2>
+                <p className="text-gray-600">
+                  {activeTab === 'overview' && "Welcome back. Here's what's happening today."}
+                  {activeTab === 'contacts' && 'Manage all contact form submissions.'}
+                  {activeTab === 'engagements' && 'Manage client engagements, checklist, files, questionnaires, and messages.'}
+                  {activeTab === 'blogs' && 'Create, edit, and publish blog posts.'}
+                  {activeTab === 'subscribers' && 'View your newsletter subscriber list.'}
+                  {activeTab === 'cohorts' && 'View and manage cohorts.'}
+                  {activeTab === 'coupons' && 'Create and manage discount coupons.'}
+                </p>
+              </div>
 
-            {activeTab === 'overview' && (
-              <OverviewTab
-                engagements={engagements}
-                contacts={contacts}
-                feedback={feedback}
-                subscribers={subscribers}
-              />
-            )}
-            {activeTab === 'contacts' && (
-              <ContactsTab
-                contacts={contacts}
-                setContacts={setContacts}
-                token={token ?? ''}
-              />
-            )}
-            {activeTab === 'engagements' && (
-              <EngagementWorkspaceTab
-                engagements={engagements}
-                setEngagements={setEngagements}
-                token={token ?? ''}
-                onRefresh={fetchAll}
-              />
-            )}
-            {activeTab === 'subscribers' && (
-  <SubscribersTab
-    subscribers={subscribers}
-    setSubscribers={setSubscribers}
-    token={token ?? ''}
-  />
-)}
-            {activeTab === 'coupons' && (
-              <CouponsTab
-                coupons={coupons}
-                setCoupons={setCoupons}
-                services={services}
-                token={token ?? ''}
-              />
-            )}
-            {activeTab === 'blogs' && <BlogsTab />}
-            {activeTab === 'cohorts' && <CohortsTab />}
-          </>
-        )}
+              {activeTab === 'overview' && (
+                <OverviewTab
+                  engagements={engagements}
+                  contacts={contacts}
+                  feedback={feedback}
+                  subscribers={subscribers}
+                />
+              )}
+              {activeTab === 'contacts' && (
+                <ContactsTab
+                  contacts={contacts}
+                  setContacts={setContacts}
+                  token={token ?? ''}
+                />
+              )}
+              {activeTab === 'engagements' && (
+                <EngagementWorkspaceTab
+                  engagements={engagements}
+                  setEngagements={setEngagements}
+                  token={token ?? ''}
+                  onRefresh={fetchAll}
+                />
+              )}
+              {activeTab === 'subscribers' && (
+                <SubscribersTab
+                  subscribers={subscribers}
+                  setSubscribers={setSubscribers}
+                  token={token ?? ''}
+                />
+              )}
+              {activeTab === 'coupons' && (
+                <CouponsTab
+                  coupons={coupons}
+                  setCoupons={setCoupons}
+                  services={services}
+                  token={token ?? ''}
+                />
+              )}
+              {activeTab === 'blogs' && <BlogsTab />}
+              {activeTab === 'cohorts' && <CohortsTab />}
+            </>
+          )}
+        </div>
       </main>
     </div>
   );
