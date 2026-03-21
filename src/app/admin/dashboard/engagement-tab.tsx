@@ -445,7 +445,7 @@ function QuestionnairesManagement({
     setNewQuestion({ question: '', type: 'text', options: '', required: true });
   };
 
- const handleCreateQuestionnaire = async () => {
+const handleCreateQuestionnaire = async () => {
   if (!formData.title || formData.questions.length === 0) {
     alert('Please add a title and at least one question');
     return;
@@ -460,16 +460,25 @@ function QuestionnairesManagement({
     // Convert YYYY-MM-DD to ISO datetime string (midnight UTC)
     const deadlineISO = new Date(formData.deadline).toISOString();
 
-    const created = await apiRequest<{ questionnaire: { _id: string } }>(
+    // POST to create questionnaire; response is the created questionnaire object
+    const created = await apiRequest<any>(
       'POST', `/engagements/${engagementId}/questionnaires/admin`,
       { body: { title: formData.title, deadline: deadlineISO }, token }
     );
-    const qId = created.questionnaire._id;
+
+    // Extract questionnaire ID – handle both possible shapes
+    const questionnaireId = created._id ?? created.questionnaire?._id;
+    if (!questionnaireId) {
+      throw new Error('Failed to retrieve questionnaire ID from response.');
+    }
+
+    // Add each question using the questionnaire ID
     for (let i = 0; i < formData.questions.length; i++) {
-      await apiRequest('POST', `/questionnaires/${qId}/questions/admin`, {
+      await apiRequest('POST', `/questionnaires/${questionnaireId}/questions/admin`, {
         body: { text: formData.questions[i].question, order: i + 1 }, token,
       });
     }
+
     await refreshQuestionnaires();
     setFormData({ title: '', description: '', deadline: '', questions: [] });
     setIsCreating(false);
