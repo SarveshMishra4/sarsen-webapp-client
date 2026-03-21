@@ -41,12 +41,13 @@ function setCookie(name: string, value: string, days: number): void {
   if (typeof document === 'undefined') return;
   const expires = new Date();
   expires.setDate(expires.getDate() + days);
-  document.cookie = [
-    `${name}=${encodeURIComponent(value)}`, // FIX 2: encode the value
-    `expires=${expires.toUTCString()}`,
-    'path=/',
-    'SameSite=Lax',                         // FIX 1: Lax instead of Strict
-  ].join('; ');
+document.cookie = [
+  `${name}=${encodeURIComponent(value)}`,
+  `expires=${expires.toUTCString()}`,
+  'path=/',
+  'SameSite=Lax',
+  'Secure',          // ← add this line
+].join('; ');
 }
 
 function getCookie(name: string): string | null {
