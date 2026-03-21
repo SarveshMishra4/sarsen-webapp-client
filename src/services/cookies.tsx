@@ -20,6 +20,7 @@ function setCookie(name: string, value: string, days: number): void {
   const expires = new Date();
   expires.setDate(expires.getDate() + days);
   const isSecure = window.location.protocol === 'https:';
+  console.log(`[setCookie] Setting ${name} with days=${days}, isSecure=${isSecure}`);
   const cookieParts = [
     `${name}=${value}`,
     `expires=${expires.toUTCString()}`,
@@ -27,17 +28,22 @@ function setCookie(name: string, value: string, days: number): void {
     'SameSite=Lax',
   ];
   if (isSecure) cookieParts.push('Secure');
-  document.cookie = cookieParts.join('; ');
+  const cookieString = cookieParts.join('; ');
+  document.cookie = cookieString;
+  console.log(`[setCookie] Cookie string: ${cookieString}`);
 }
 
 function getCookie(name: string): string | null {
   if (typeof document === 'undefined') return null;
   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? decodeURIComponent(match[2]) : null;
+  const value = match ? decodeURIComponent(match[2]) : null;
+  console.log(`[getCookie] ${name} => ${value ? value.substring(0, 20) + '...' : 'null'}`);
+  return value;
 }
 
 function deleteCookie(name: string): void {
   if (typeof document === 'undefined') return;
+  console.log(`[deleteCookie] Deleting ${name}`);
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
@@ -58,13 +64,17 @@ export function clearUserToken(): void {
 // ─── Admin token ──────────────────────────────────────────────────────────────
 
 export function setAdminToken(token: string): void {
+  console.log('[setAdminToken] called with token:', token.substring(0, 20) + '...');
   setCookie(ADMIN_TOKEN_KEY, token, 7);
 }
 
 export function getAdminToken(): string | null {
-  return getCookie(ADMIN_TOKEN_KEY);
+  const token = getCookie(ADMIN_TOKEN_KEY);
+  console.log('[getAdminToken] returning:', token ? token.substring(0, 20) + '...' : null);
+  return token;
 }
 
 export function clearAdminToken(): void {
+  console.log('[clearAdminToken] called');
   deleteCookie(ADMIN_TOKEN_KEY);
 }
