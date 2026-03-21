@@ -85,7 +85,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-800">Coupon Management</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Coupon Management</h2>
         {!isCreating && (
           <button
             onClick={() => { setIsCreating(true); setError(''); }}
@@ -107,40 +107,40 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
 
       {isCreating && (
         <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
-          <h3 className="text-lg font-medium mb-2">Create New Coupon</h3>
-          <p className="text-xs text-blue-600 mb-4">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Create New Coupon</h3>
+          <p className="text-xs text-blue-800 mb-4">
             Price is a flat override — the coupon replaces the service price entirely (not a percentage off).
           </p>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Coupon Code *</label>
+              <label className="block text-sm font-medium text-gray-800 mb-1">Coupon Code *</label>
               <input
                 type="text"
                 value={formData.code}
                 onChange={e => setFormData(f => ({ ...f, code: e.target.value.toUpperCase() }))}
-                className="w-full px-4 py-2 border rounded-lg font-mono tracking-wider"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 font-mono tracking-wider"
                 placeholder="e.g. SARSEN20"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Final Price (paise) *</label>
+              <label className="block text-sm font-medium text-gray-800 mb-1">Final Price (paise) *</label>
               <input
                 type="number"
                 value={formData.price}
                 onChange={e => setFormData(f => ({ ...f, price: e.target.value }))}
-                className="w-full px-4 py-2 border rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900"
                 placeholder="e.g. 3500000 = ₹35,000"
               />
               {formData.price && (
-                <p className="text-xs text-green-600 mt-1">= {formatPrice(Number(formData.price))}</p>
+                <p className="text-xs text-green-700 mt-1">= {formatPrice(Number(formData.price))}</p>
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Service *</label>
+              <label className="block text-sm font-medium text-gray-800 mb-1">Service *</label>
               <select
                 value={formData.serviceId}
                 onChange={e => setFormData(f => ({ ...f, serviceId: e.target.value }))}
-                className="w-full px-4 py-2 border rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900"
               >
                 <option value="">— Select a service —</option>
                 {services.map(s => (
@@ -149,12 +149,12 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Expiry Date</label>
+              <label className="block text-sm font-medium text-gray-800 mb-1">Expiry Date</label>
               <input
                 type="date"
                 value={formData.expiryDate}
                 onChange={e => setFormData(f => ({ ...f, expiryDate: e.target.value }))}
-                className="w-full px-4 py-2 border rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900"
               />
             </div>
           </div>
@@ -167,7 +167,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
               onChange={e => setFormData(f => ({ ...f, isActive: e.target.checked }))}
               className="w-4 h-4 rounded"
             />
-            <label htmlFor="isActive" className="text-sm">Active immediately</label>
+            <label htmlFor="isActive" className="text-sm text-gray-800">Active immediately</label>
           </div>
 
           <div className="flex gap-3 mt-6">
@@ -190,7 +190,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
 
       {coupons.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <p className="text-gray-400">No coupons yet.</p>
+          <p className="text-gray-600">No coupons yet.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -198,9 +198,9 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
             <div key={coupon._id} className="bg-white rounded-xl p-5 border shadow-sm">
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <span className="text-xl font-bold text-gray-800 font-mono tracking-wider">{coupon.code}</span>
+                  <span className="text-xl font-bold text-gray-900 font-mono tracking-wider">{coupon.code}</span>
                   <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
-                    coupon.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                    coupon.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                   }`}>
                     {coupon.isActive ? 'Active' : 'Inactive'}
                   </span>
@@ -208,11 +208,10 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
               </div>
 
               <div className="space-y-1 text-sm mb-4">
-                {/* Changed label color from text-gray-500 to text-gray-700 for better contrast */}
-                <p><span className="text-gray-700">Price:</span> {formatPrice(coupon.price)}</p>
-                <p><span className="text-gray-700">Service:</span> {coupon.serviceId?.title ?? 'Unknown'}</p>
+                <p><span className="text-gray-700 font-medium">Price:</span> <span className="text-gray-900">{formatPrice(coupon.price)}</span></p>
+                <p><span className="text-gray-700 font-medium">Service:</span> <span className="text-gray-900">{coupon.serviceId?.title ?? 'Unknown'}</span></p>
                 {coupon.expiryDate && (
-                  <p><span className="text-gray-700">Expires:</span> {new Date(coupon.expiryDate).toLocaleDateString()}</p>
+                  <p><span className="text-gray-700 font-medium">Expires:</span> <span className="text-gray-900">{new Date(coupon.expiryDate).toLocaleDateString()}</span></p>
                 )}
               </div>
 
@@ -222,8 +221,8 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
                   disabled={togglingId === coupon._id}
                   className={`w-full text-xs px-3 py-2 rounded-lg transition-colors disabled:opacity-50 ${
                     coupon.isActive
-                      ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                      : 'bg-green-100 text-green-700 hover:bg-green-200'
+                      ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                      : 'bg-green-100 text-green-800 hover:bg-green-200'
                   }`}
                 >
                   {togglingId === coupon._id ? '…' : coupon.isActive ? 'Deactivate' : 'Activate'}
