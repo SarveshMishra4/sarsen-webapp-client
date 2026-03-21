@@ -46,7 +46,6 @@ function formatIST(dateString: string): string {
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
     hour12: true,
   };
   
@@ -106,7 +105,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200 flex flex-wrap gap-2">
         {[
           { key: 'all', label: 'All' },
-          { key: 'new', label: 'New' },
+          { key: 'new', label: 'Pending' },
           { key: 'in_progress', label: 'In Progress' },
           { key: 'resolved', label: 'Responded' },
           { key: 'ignored', label: 'Ignored' },
