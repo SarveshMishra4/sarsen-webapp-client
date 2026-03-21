@@ -12,7 +12,7 @@ interface ContactsTabProps {
 
 // Display names for each status
 const STATUS_DISPLAY: Record<string, string> = {
-  new:         'New',
+  new:         'Pending',
   in_progress: 'In Progress',
   resolved:    'Responded',
   ignored:     'Ignored',
