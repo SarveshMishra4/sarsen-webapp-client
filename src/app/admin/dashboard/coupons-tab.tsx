@@ -11,10 +11,6 @@ interface CouponsTabProps {
   token: string;
 }
 
-// NOTE: Backend uses flat price override (not percentage).
-// The original UI had discountPercentage — replaced with price (paise).
-// Format helper converts paise → readable rupees.
-
 const formatPrice = (paise: number) =>
   `₹${(paise / 100).toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
 
@@ -36,7 +32,6 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
     setFormData({ code: '', price: '', serviceId: '', isActive: true, expiryDate: '' });
   };
 
-  // ── Toggle active / inactive ──────────────────────────────────────────────
   const toggleActive = async (id: string, current: boolean) => {
     setTogglingId(id);
     setError('');
@@ -53,7 +48,6 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
     }
   };
 
-  // ── Create coupon ─────────────────────────────────────────────────────────
   const handleCreate = async () => {
     if (!formData.code.trim() || !formData.price || !formData.serviceId) {
       setError('Code, price, and service are required.');
@@ -62,11 +56,10 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
     setCreating(true);
     setError('');
     try {
-      // Convert expiry date to ISO string if provided
       let expiryDateISO: string | undefined;
       if (formData.expiryDate) {
         const dateObj = new Date(formData.expiryDate);
-        expiryDateISO = dateObj.toISOString(); // e.g., "2025-12-31T00:00:00.000Z"
+        expiryDateISO = dateObj.toISOString();
       }
 
       const data = await apiRequest<{ coupon: ApiCoupon }>('POST', '/coupons/admin', {
@@ -91,7 +84,6 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
 
   return (
     <div className="space-y-6">
-      {/* Header — matches original */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold text-gray-800">Coupon Management</h2>
         {!isCreating && (
@@ -113,7 +105,6 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
         </div>
       )}
 
-      {/* Create form — matches original blue panel style */}
       {isCreating && (
         <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
           <h3 className="text-lg font-medium mb-2">Create New Coupon</h3>
@@ -197,7 +188,6 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
         </div>
       )}
 
-      {/* Coupon cards — matches original grid card layout */}
       {coupons.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
           <p className="text-gray-400">No coupons yet.</p>
@@ -218,10 +208,11 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
               </div>
 
               <div className="space-y-1 text-sm mb-4">
-                <p><span className="text-gray-500">Price:</span> {formatPrice(coupon.price)}</p>
-                <p><span className="text-gray-500">Service:</span> {coupon.serviceId?.title ?? 'Unknown'}</p>
+                {/* Changed label color from text-gray-500 to text-gray-700 for better contrast */}
+                <p><span className="text-gray-700">Price:</span> {formatPrice(coupon.price)}</p>
+                <p><span className="text-gray-700">Service:</span> {coupon.serviceId?.title ?? 'Unknown'}</p>
                 {coupon.expiryDate && (
-                  <p><span className="text-gray-500">Expires:</span> {new Date(coupon.expiryDate).toLocaleDateString()}</p>
+                  <p><span className="text-gray-700">Expires:</span> {new Date(coupon.expiryDate).toLocaleDateString()}</p>
                 )}
               </div>
 
