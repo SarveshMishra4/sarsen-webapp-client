@@ -204,7 +204,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {coupons.map(coupon => (
+          {coupons.filter(coupon => coupon && coupon._id).map(coupon => (
             <div key={coupon._id} className="bg-white rounded-xl p-5 border shadow-sm">
               <div className="flex justify-between items-start mb-3">
                 <div>

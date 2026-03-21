@@ -177,8 +177,7 @@ export default function AdminDashboard() {
   // ── Sidebar badge counts ──────────────────────────────────────────────────
   const newContactCount   = contacts.filter(c => c.status === 'new').length;
   const activeEngCount    = engagements.filter(e => e.status === 'active').length;
-  const activeCouponCount = coupons.filter(c => c.isActive).length;
-
+const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
   // ─────────────────────────────────────────────────────────────────────────
   // RENDER
   // ─────────────────────────────────────────────────────────────────────────
