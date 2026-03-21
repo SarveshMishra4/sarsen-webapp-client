@@ -10,7 +10,6 @@ interface SubscribersTabProps {
   token: string;
 }
 
-// Helper to format date in IST (same as contacts)
 function formatIST(dateString: string): string {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
@@ -25,7 +24,9 @@ function formatIST(dateString: string): string {
   const formatted = date.toLocaleString('en-IN', options);
   const [datePart, timePart] = formatted.split(', ');
   if (!timePart) return formatted;
-  const capitalizedTime = timePart.replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
+  const capitalizedTime = timePart.replace(/\b(am|pm)\b/i, (match) => 
+    match.charAt(0).toUpperCase() + match.slice(1).toLowerCase()
+  );
   return `${datePart} - ${capitalizedTime}`;
 }
 
