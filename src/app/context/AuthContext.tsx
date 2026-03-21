@@ -15,7 +15,7 @@
  *
  * ── What changed and WHY ────────────────────────────────────────────────────
  *
- * FIX — isAuthReady flag
+ * FIX 1 — isAuthReady flag
  *
  *   The original code started with user = null and admin = null.
  *   The useEffect that reads cookies and restores the session only runs
@@ -41,6 +41,13 @@
  *   This eliminates the flash-of-unauthenticated-content AND the incorrect
  *   logout-on-refresh, because we never redirect until we actually know
  *   whether a token exists in the cookie.
+ *
+ * FIX 2 — decodeJwtPayload now handles 'id' field
+ *
+ *   The backend JWT uses 'id' as the key, not 'adminId' or 'userId'.
+ *   The old code only checked for 'adminId' and 'userId', found neither,
+ *   returned null, and then clearAdminToken() deleted the valid cookie.
+ *   Fixed by adding 'id' to both the type and the null check.
  */
 
 import React, {
@@ -105,7 +112,12 @@ const AuthContext = createContext<AuthContextType | null>(null);
 // Decodes a JWT payload without any library.
 // Only reads the public payload — does NOT verify the signature.
 // Signature verification happens on the backend on every request.
-function decodeJwtPayload(token: string): { userId?: string; adminId?: string; email?: string } | null {
+function decodeJwtPayload(token: string): {
+  id?: string;       // FIX 2: backend uses 'id', not 'adminId' or 'userId'
+  userId?: string;
+  adminId?: string;
+  email?: string;
+} | null {
   try {
     const payload = token.split('.')[1];
     return JSON.parse(atob(payload));
@@ -116,11 +128,14 @@ function decodeJwtPayload(token: string): { userId?: string; adminId?: string; e
 
 function payloadToUser(token: string): AuthUser | null {
   const payload = decodeJwtPayload(token);
-  if (!payload || (!payload.userId && !payload.adminId) || !payload.email) {
+  // FIX 2: check for 'id' first — that is what the backend puts in the JWT.
+  // Old code only checked userId and adminId, found neither, returned null,
+  // which caused clearAdminToken() to delete the valid cookie on every refresh.
+  if (!payload || (!payload.id && !payload.userId && !payload.adminId) || !payload.email) {
     return null;
   }
   return {
-    _id:   payload.userId ?? payload.adminId ?? '',
+    _id:   payload.id ?? payload.userId ?? payload.adminId ?? '',  // FIX 2
     email: payload.email,
   };
 }
@@ -130,7 +145,7 @@ function payloadToUser(token: string): AuthUser | null {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user,        setUser]        = useState<AuthUser | null>(null);
   const [admin,       setAdmin]       = useState<AuthUser | null>(null);
-  const [isAuthReady, setIsAuthReady] = useState(false); // FIX: starts false
+  const [isAuthReady, setIsAuthReady] = useState(false); // FIX 1: starts false
 
   // On first load: restore session from cookies if tokens exist.
   // We set isAuthReady=true in the finally-equivalent position so that
@@ -152,7 +167,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       else clearAdminToken();
     }
 
-    // FIX: only NOW do we tell the rest of the app that auth state is known.
+    // FIX 1: only NOW do we tell the rest of the app that auth state is known.
     // Any component that checks isAuthReady before redirecting will now wait
     // for this line before making any routing decisions.
     setIsAuthReady(true);
@@ -184,7 +199,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       admin,
       isUserLoggedIn:  !!user,
       isAdminLoggedIn: !!admin,
-      isAuthReady,        // FIX: exposed to consumers
+      isAuthReady,        // FIX 1: exposed to consumers
       loginUser,
       loginAdmin,
       logoutUser,
