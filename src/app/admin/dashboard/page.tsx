@@ -121,14 +121,14 @@ export default function AdminDashboard() {
       const [engData, contactData, subData, couponData, serviceData, feedbackData] =
         await Promise.all([
           apiRequest<{ engagements: ApiEngagement[] }>('GET', '/engagements/admin', { token }),
-          apiRequest<{ contacts: ApiContact[] }>('GET', '/contact/admin', { token }),
+          apiRequest<{ submissions: ApiContact[] }>('GET', '/contact/admin', { token }),
           apiRequest<{ subscribers: ApiSubscriber[] }>('GET', '/newsletter/admin/subscribers', { token }),
           apiRequest<{ coupons: ApiCoupon[] }>('GET', '/coupons/admin', { token }),
           apiRequest<{ services: ApiService[] }>('GET', '/services', { token }),
           apiRequest<{ feedback: ApiFeedback[] }>('GET', '/feedback/admin', { token }),
         ]);
       setEngagements(engData.engagements   ?? []);
-      setContacts(contactData.contacts     ?? []);
+      setContacts(contactData.submissions  ?? []);
       setSubscribers(subData.subscribers   ?? []);
       setCoupons(couponData.coupons         ?? []);
       setServices(serviceData.services     ?? []);
