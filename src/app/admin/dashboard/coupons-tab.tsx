@@ -62,13 +62,20 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
     setCreating(true);
     setError('');
     try {
+      // Convert expiry date to ISO string if provided
+      let expiryDateISO: string | undefined;
+      if (formData.expiryDate) {
+        const dateObj = new Date(formData.expiryDate);
+        expiryDateISO = dateObj.toISOString(); // e.g., "2025-12-31T00:00:00.000Z"
+      }
+
       const data = await apiRequest<{ coupon: ApiCoupon }>('POST', '/coupons/admin', {
         body: {
           code:       formData.code.trim().toUpperCase(),
           price:      Number(formData.price),
           serviceId:  formData.serviceId,
           isActive:   formData.isActive,
-          expiryDate: formData.expiryDate || undefined,
+          expiryDate: expiryDateISO,
         },
         token,
       });
