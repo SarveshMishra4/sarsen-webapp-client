@@ -34,18 +34,37 @@ const CARD_STYLES: Record<string, string> = {
   ignored:     'bg-blue-50 border-blue-200',
 };
 
-// Helper to format date in Indian Standard Time (IST)
+// Helper to format date in Indian Standard Time (IST) with custom format
 function formatIST(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleString('en-IN', {
+  
+  // Get the date parts in IST using toLocaleString
+  const options: Intl.DateTimeFormatOptions = {
     timeZone: 'Asia/Kolkata',
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
     hour12: true,
-  });
+  };
+  
+  const formatted = date.toLocaleString('en-IN', options);
+  
+  // 'en-IN' produces something like "13 Mar 2026, 12:21:14 pm"
+  // We'll split it to remove the comma and capitalize AM/PM
+  let [datePart, timePart] = formatted.split(', ');
+  if (!timePart) {
+    // fallback if no comma found
+    timePart = '';
+  }
+  
+  // Capitalize AM/PM (convert "pm" to "PM", "am" to "AM")
+  timePart = timePart.replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
+  
+  // Return with dash between date and time
+  return `${datePart} - ${timePart}`;
 }
 
 export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) {
