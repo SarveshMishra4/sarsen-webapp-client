@@ -12,18 +12,18 @@ interface ContactsTabProps {
 
 // Display names for each status
 const STATUS_DISPLAY: Record<string, string> = {
-  new:         'new',
-  in_progress: 'in progress',
-  resolved:    'responded',
-  ignored:     'ignored',
+  new:         'New',
+  in_progress: 'In Progress',
+  resolved:    'Responded',
+  ignored:     'Ignored',
 };
 
 // Badge colors (kept distinct for visibility)
 const BADGE_COLORS: Record<string, string> = {
-  new:         'bg-gray-100 text-gray-700',
-  in_progress: 'bg-yellow-100 text-yellow-800',
-  resolved:    'bg-orange-100 text-orange-800',
-  ignored:     'bg-blue-100 text-blue-800',
+  new:         'bg-gray-300 text-gray-700',
+  in_progress: 'bg-yellow-300 text-yellow-800',
+  resolved:    'bg-orange-300 text-orange-800',
+  ignored:     'bg-blue-300 text-blue-800',
 };
 
 // Card background & border colors per status
