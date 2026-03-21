@@ -19,12 +19,15 @@ function setCookie(name: string, value: string, days: number): void {
   if (typeof document === 'undefined') return;
   const expires = new Date();
   expires.setDate(expires.getDate() + days);
-  document.cookie = [
+  const isSecure = window.location.protocol === 'https:';
+  const cookieParts = [
     `${name}=${value}`,
     `expires=${expires.toUTCString()}`,
     'path=/',
-    'SameSite=Strict',
-  ].join('; ');
+    'SameSite=Lax',
+  ];
+  if (isSecure) cookieParts.push('Secure');
+  document.cookie = cookieParts.join('; ');
 }
 
 function getCookie(name: string): string | null {
