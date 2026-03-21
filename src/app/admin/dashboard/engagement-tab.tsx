@@ -445,31 +445,40 @@ function QuestionnairesManagement({
     setNewQuestion({ question: '', type: 'text', options: '', required: true });
   };
 
-  const handleCreateQuestionnaire = async () => {
-    if (!formData.title || formData.questions.length === 0) {
-      alert('Please add a title and at least one question'); return;
+ const handleCreateQuestionnaire = async () => {
+  if (!formData.title || formData.questions.length === 0) {
+    alert('Please add a title and at least one question');
+    return;
+  }
+  if (!formData.deadline) {
+    alert('Please select a deadline.');
+    return;
+  }
+  setCreating(true);
+  setError('');
+  try {
+    // Convert YYYY-MM-DD to ISO datetime string (midnight UTC)
+    const deadlineISO = new Date(formData.deadline).toISOString();
+
+    const created = await apiRequest<{ questionnaire: { _id: string } }>(
+      'POST', `/engagements/${engagementId}/questionnaires/admin`,
+      { body: { title: formData.title, deadline: deadlineISO }, token }
+    );
+    const qId = created.questionnaire._id;
+    for (let i = 0; i < formData.questions.length; i++) {
+      await apiRequest('POST', `/questionnaires/${qId}/questions/admin`, {
+        body: { text: formData.questions[i].question, order: i + 1 }, token,
+      });
     }
-    setCreating(true); setError('');
-    try {
-      const created = await apiRequest<{ questionnaire: { _id: string } }>(
-        'POST', `/engagements/${engagementId}/questionnaires/admin`,
-        { body: { title: formData.title, deadline: formData.deadline || undefined }, token }
-      );
-      const qId = created.questionnaire._id;
-      for (let i = 0; i < formData.questions.length; i++) {
-        await apiRequest('POST', `/questionnaires/${qId}/questions/admin`, {
-          body: { text: formData.questions[i].question, order: i + 1 }, token,
-        });
-      }
-      await refreshQuestionnaires();
-      setFormData({ title: '', description: '', deadline: '', questions: [] });
-      setIsCreating(false);
-    } catch (err: any) {
-      setError(err.message ?? 'Failed to create questionnaire.');
-    } finally {
-      setCreating(false);
-    }
-  };
+    await refreshQuestionnaires();
+    setFormData({ title: '', description: '', deadline: '', questions: [] });
+    setIsCreating(false);
+  } catch (err: any) {
+    setError(err.message ?? 'Failed to create questionnaire.');
+  } finally {
+    setCreating(false);
+  }
+};
 
   // Local-only delete — no backend delete endpoint for questionnaires
   const handleDeleteQuestionnaire = (questionnaireId: string) => {
