@@ -1,16 +1,40 @@
 'use client';
 
 import React, { useState } from 'react';
+import { apiRequest } from '@/services/api';
 import type { ApiSubscriber } from './page';
 
 interface SubscribersTabProps {
   subscribers: ApiSubscriber[];
+  setSubscribers: React.Dispatch<React.SetStateAction<ApiSubscriber[]>>;
+  token: string;
 }
 
-export function SubscribersTab({ subscribers }: SubscribersTabProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+// Helper to format date in IST (same as contacts)
+function formatIST(dateString: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Kolkata',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  };
+  const formatted = date.toLocaleString('en-IN', options);
+  const [datePart, timePart] = formatted.split(', ');
+  if (!timePart) return formatted;
+  const capitalizedTime = timePart.replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
+  return `${datePart} - ${capitalizedTime}`;
+}
 
-  // Backend only stores email + createdAt — no status field
+export function SubscribersTab({ subscribers, setSubscribers, token }: SubscribersTabProps) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [error, setError] = useState('');
+
   const filteredSubscribers = subscribers.filter(sub =>
     sub.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -18,7 +42,10 @@ export function SubscribersTab({ subscribers }: SubscribersTabProps) {
   const exportToCSV = () => {
     const csv = [
       ['Email', 'Subscribed At'].join(','),
-      ...filteredSubscribers.map(sub => [sub.email, new Date(sub.createdAt).toLocaleDateString()].join(',')),
+      ...filteredSubscribers.map(sub => [
+        sub.email,
+        formatIST(sub.createdAt)
+      ].join(',')),
     ].join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -30,9 +57,23 @@ export function SubscribersTab({ subscribers }: SubscribersTabProps) {
     window.URL.revokeObjectURL(url);
   };
 
+  const deleteSubscriber = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this subscriber?')) return;
+    setDeletingId(id);
+    setError('');
+    try {
+      await apiRequest('DELETE', `/newsletter/admin/subscribers/${id}`, { token });
+      setSubscribers(prev => prev.filter(sub => sub._id !== id));
+    } catch (err: any) {
+      setError(err.message ?? 'Failed to delete subscriber.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* Stats — matches original layout */}
+      {/* Stats */}
       <div className="grid md:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <div className="flex items-center justify-between">
@@ -89,6 +130,8 @@ export function SubscribersTab({ subscribers }: SubscribersTabProps) {
         </button>
       </div>
 
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
       {/* Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
@@ -97,6 +140,7 @@ export function SubscribersTab({ subscribers }: SubscribersTabProps) {
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Email</th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Subscribed At</th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -113,7 +157,25 @@ export function SubscribersTab({ subscribers }: SubscribersTabProps) {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {new Date(subscriber.createdAt).toLocaleDateString()}
+                    {formatIST(subscriber.createdAt)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => deleteSubscriber(subscriber._id)}
+                      disabled={deletingId === subscriber._id}
+                      className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                    >
+                      {deletingId === subscriber._id ? (
+                        <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      )}
+                    </button>
                   </td>
                 </tr>
               ))}

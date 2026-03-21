@@ -381,8 +381,12 @@ export default function AdminDashboard() {
               />
             )}
             {activeTab === 'subscribers' && (
-              <SubscribersTab subscribers={subscribers} />
-            )}
+  <SubscribersTab
+    subscribers={subscribers}
+    setSubscribers={setSubscribers}
+    token={token ?? ''}
+  />
+)}
             {activeTab === 'coupons' && (
               <CouponsTab
                 coupons={coupons}
