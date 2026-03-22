@@ -39,13 +39,13 @@ export function CohortsTab() {
       </div>
 
       {cohorts.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <div className="bg-white rounded-md border border-gray-200 p-12 text-center">
           <p className="text-gray-400">No cohorts yet.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {cohorts.map(cohort => (
-            <div key={cohort.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <div key={cohort.id} className="bg-white rounded-md shadow-sm border border-gray-200 p-5">
               {editingCohort?.id === cohort.id ? (
                 <EditCohortForm cohort={cohort} onSave={handleSaveEdit} onCancel={() => setEditingCohort(null)} />
               ) : (
@@ -69,11 +69,11 @@ export function CohortsTab() {
                   </div>
                   <div className="flex gap-2 mt-4">
                     <button onClick={() => handleEdit(cohort)}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 rounded-lg transition-colors">
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 rounded-md transition-colors">
                       Edit Details
                     </button>
                     <button onClick={() => setShowEnrolledModal(cohort)}
-                      className="flex-1 bg-gray-600 hover:bg-gray-700 text-white text-sm py-2 rounded-lg transition-colors">
+                      className="flex-1 bg-gray-600 hover:bg-gray-700 text-white text-sm py-2 rounded-md transition-colors">
                       View Enrollees ({cohort.enrolledCount})
                     </button>
                   </div>
@@ -87,7 +87,7 @@ export function CohortsTab() {
       {/* Enrolled Emails Modal */}
       {showEnrolledModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6">
+          <div className="bg-white rounded-md max-w-lg w-full max-h-[80vh] overflow-y-auto p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-medium text-gray-800">{showEnrolledModal.name} — Enrollees</h3>
               <button onClick={() => setShowEnrolledModal(null)} className="text-gray-500 hover:text-gray-700">
@@ -99,7 +99,7 @@ export function CohortsTab() {
             {showEnrolledModal.enrolledEmails.length > 0 ? (
               <ul className="space-y-2">
                 {showEnrolledModal.enrolledEmails.map((email, idx) => (
-                  <li key={idx} className="p-2 bg-gray-50 rounded text-gray-800">{email}</li>
+                  <li key={idx} className="p-2 bg-gray-50 rounded-md text-gray-800">{email}</li>
                 ))}
               </ul>
             ) : (
@@ -127,29 +127,29 @@ function EditCohortForm({ cohort, onSave, onCancel }: {
   return (
     <form onSubmit={e => { e.preventDefault(); onSave(form); }} className="space-y-3">
       <input type="text" name="name" value={form.name} onChange={handleChange}
-        placeholder="Cohort Name" className="w-full px-3 py-2 border rounded-lg text-sm" required />
+        placeholder="Cohort Name" className="w-full px-3 py-2 border rounded-md text-sm" required />
       <div className="grid grid-cols-2 gap-2">
         <input type="date" name="startDate" value={form.startDate.slice(0,10)} onChange={handleChange}
-          className="px-3 py-2 border rounded-lg text-sm" required />
+          className="px-3 py-2 border rounded-md text-sm" required />
         <input type="date" name="endDate" value={form.endDate.slice(0,10)} onChange={handleChange}
-          className="px-3 py-2 border rounded-lg text-sm" required />
+          className="px-3 py-2 border rounded-md text-sm" required />
       </div>
       <div className="grid grid-cols-2 gap-2">
         <input type="number" name="price" value={form.price} onChange={handleChange}
-          placeholder="Price" className="px-3 py-2 border rounded-lg text-sm" required />
+          placeholder="Price" className="px-3 py-2 border rounded-md text-sm" required />
         <input type="number" name="maxSeats" value={form.maxSeats} onChange={handleChange}
-          placeholder="Max Seats" className="px-3 py-2 border rounded-lg text-sm" required />
+          placeholder="Max Seats" className="px-3 py-2 border rounded-md text-sm" required />
       </div>
-      <select name="status" value={form.status} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg text-sm">
+      <select name="status" value={form.status} onChange={handleChange} className="w-full px-3 py-2 border rounded-md text-sm">
         <option value="upcoming">Upcoming</option>
         <option value="active">Active</option>
         <option value="ended">Ended</option>
       </select>
       <textarea name="description" value={form.description || ''} onChange={handleChange}
-        placeholder="Description (optional)" rows={2} className="w-full px-3 py-2 border rounded-lg text-sm" />
+        placeholder="Description (optional)" rows={2} className="w-full px-3 py-2 border rounded-md text-sm" />
       <div className="flex gap-2 pt-2">
-        <button type="submit" className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm">Save</button>
-        <button type="button" onClick={onCancel} className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 rounded-lg text-sm">Cancel</button>
+        <button type="submit" className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-md text-sm">Save</button>
+        <button type="button" onClick={onCancel} className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 rounded-md text-sm">Cancel</button>
       </div>
     </form>
   );

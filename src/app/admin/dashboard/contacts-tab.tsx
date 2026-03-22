@@ -102,7 +102,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200 flex flex-wrap gap-2">
+      <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200 flex flex-wrap gap-2">
         {[
           { key: 'all', label: 'All' },
           { key: 'new', label: 'Pending' },
@@ -113,7 +113,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
           <button
             key={key}
             onClick={() => setFilterStatus(key as any)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               filterStatus === key
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -143,7 +143,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
             return (
               <div
                 key={contact._id}
-                className={`rounded-xl shadow-sm border overflow-hidden ${cardStyle}`}
+                className={`rounded-md shadow-sm border overflow-hidden ${cardStyle}`}
               >
                 {/* Header (always visible) */}
                 <div
@@ -200,7 +200,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
                             key={s}
                             onClick={() => updateStatus(contact._id, s)}
                             disabled={statusLoading || contact.status === s}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors disabled:opacity-50 ${
+                            className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-colors disabled:opacity-50 ${
                               contact.status === s
                                 ? `${BADGE_COLORS[s]} border-current`
                                 : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'
@@ -216,7 +216,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
                     <div className="pt-2">
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                        className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
                       >
                         Reply via Email
                       </a>

@@ -220,7 +220,7 @@ export default function AdminDashboard() {
           {sidebarOpen && <h1 className="text-xl font-semibold truncate">Admin Panel</h1>}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-blue-900/30 rounded-lg transition-colors ml-auto"
+            className="p-2 hover:bg-blue-900/30 rounded-md transition-colors ml-auto"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -234,7 +234,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Notification bell row */}
         {/* Notification bell row */}
         {/* {sidebarOpen && (
           <div className="px-6 pb-3 -mt-1 flex items-center gap-2">
@@ -302,7 +301,7 @@ export default function AdminDashboard() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === id ? 'bg-blue-600' : 'hover:bg-blue-900/30'
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${activeTab === id ? 'bg-blue-600' : 'hover:bg-blue-900/30'
                 }`}
             >
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,7 +324,7 @@ export default function AdminDashboard() {
         <div className="p-4 border-t border-blue-900/30 flex-shrink-0">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-600/20 rounded-lg transition-colors text-red-400"
+            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-600/20 rounded-md transition-colors text-red-400"
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -362,9 +361,9 @@ export default function AdminDashboard() {
               </svg>
             </div>
           ) : error ? (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+            <div className="bg-red-50 border border-red-200 rounded-md p-8 text-center">
               <p className="text-red-700 mb-4">{error}</p>
-              <button onClick={fetchAll} className="px-4 py-2 bg-[#0A1E3D] text-white rounded-lg">
+              <button onClick={fetchAll} className="px-4 py-2 bg-[#0A1E3D] text-white rounded-md">
                 Retry
               </button>
             </div>

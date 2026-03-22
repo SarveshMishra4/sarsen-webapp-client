@@ -70,9 +70,9 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
       {/* Stats Grid — matches original card layout */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div key={index} className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <div className={`${stat.color} text-white p-3 rounded-lg`}>{stat.icon}</div>
+              <div className={`${stat.color} text-white p-3 rounded-md`}>{stat.icon}</div>
               <span className="text-3xl font-light text-gray-800">{stat.value}</span>
             </div>
             <h3 className="text-gray-700 text-sm font-medium mb-0.5">{stat.title}</h3>
@@ -84,14 +84,14 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
       {/* Recent Activity — matches original two-column layout */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent Engagements */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
           <h3 className="text-xl font-medium text-gray-800 mb-4">Recent Engagements</h3>
           {engagements.length === 0 ? (
             <p className="text-sm text-gray-400 text-center py-8">No engagements yet.</p>
           ) : (
             <div className="space-y-3">
               {engagements.slice(0, 5).map(e => (
-                <div key={e._id} className="p-4 bg-gray-50 rounded-lg">
+                <div key={e._id} className="p-4 bg-gray-50 rounded-md">
                   <div className="flex items-start justify-between mb-1">
                     <h4 className="font-medium text-gray-800 text-sm truncate">{e.userId?.email ?? '—'}</h4>
                     <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ml-2 ${
@@ -114,14 +114,14 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
         </div>
 
         {/* Recent Contacts */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
           <h3 className="text-xl font-medium text-gray-800 mb-4">Recent Contact Messages</h3>
           {contacts.length === 0 ? (
             <p className="text-sm text-gray-400 text-center py-8">No contact messages yet.</p>
           ) : (
             <div className="space-y-3">
               {contacts.slice(0, 5).map(c => (
-                <div key={c._id} className="p-4 bg-gray-50 rounded-lg">
+                <div key={c._id} className="p-4 bg-gray-50 rounded-md">
                   <div className="flex items-start justify-between mb-2">
                     <h4 className="font-medium text-gray-800 text-sm">{c.name}</h4>
                     <span className={`text-xs px-2 py-1 rounded-full ${
@@ -142,11 +142,11 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
 
       {/* Recent Feedback */}
       {feedback.length > 0 && (
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
           <h3 className="text-xl font-medium text-gray-800 mb-4">Recent Feedback</h3>
           <div className="space-y-3">
             {feedback.slice(0, 5).map(f => (
-              <div key={f._id} className="p-4 bg-gray-50 rounded-lg">
+              <div key={f._id} className="p-4 bg-gray-50 rounded-md">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-medium text-gray-800">{f.userId?.email ?? '—'}</p>
                   <div className="flex gap-0.5">
