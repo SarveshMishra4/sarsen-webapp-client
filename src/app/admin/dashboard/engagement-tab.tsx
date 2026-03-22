@@ -674,7 +674,7 @@ const handleCreateQuestionnaire = async () => {
                       return (
                         <div key={qn._id} className="bg-white rounded p-3">
                           <p className="text-xs text-gray-600 mb-1">{qn.text}</p>
-                          <p className="text-sm font-medium text-gray-800">{answer?.answerText ?? <span className="text-gray-300 italic">No answer</span>}</p>
+                          <p className="text-sm font-medium text-gray-800">{answer?.answerText ?? <span className="text-gray-300 ">No answer</span>}</p>
                         </div>
                       );
                     })}
@@ -1107,7 +1107,7 @@ export function EngagementWorkspaceTab({ engagements, setEngagements, token, onR
                   {purchaseAnswers.map((a, i) => (
                     <div key={i} className="bg-gray-50 rounded-lg p-4">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">{a.questionText}</p>
-                      <p className="text-sm text-gray-800">{a.answer || <span className="text-gray-300 italic">No answer</span>}</p>
+                      <p className="text-sm text-gray-800">{a.answer || <span className="text-gray-300 ">No answer</span>}</p>
                     </div>
                   ))}
                 </div>

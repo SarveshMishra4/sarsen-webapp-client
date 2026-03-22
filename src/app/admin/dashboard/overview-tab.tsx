@@ -157,7 +157,7 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
                     ))}
                   </div>
                 </div>
-                {f.comments && <p className="text-sm text-gray-500 italic">"{f.comments}"</p>}
+                {f.comments && <p className="text-sm text-gray-500 ">"{f.comments}"</p>}
               </div>
             ))}
           </div>

@@ -1035,9 +1035,9 @@ interface QuoteBlockProps {
 
 const QuoteBlock: React.FC<QuoteBlockProps> = ({ quote, author, role, className = '' }) => {
   return (
-    <div className={`p-6 bg-gray-50 border-l-4 border-accent-gold italic ${className}`}>
+    <div className={`p-6 bg-gray-50 border-l-4 border-accent-gold  ${className}`}>
       <p className="text-lg text-gray-700">"{quote}"</p>
-      <cite className="text-sm text-gray-600 mt-2 block not-italic">
+      <cite className="text-sm text-gray-600 mt-2 block not-">
         — {author}{role && `, ${role}`}
       </cite>
     </div>

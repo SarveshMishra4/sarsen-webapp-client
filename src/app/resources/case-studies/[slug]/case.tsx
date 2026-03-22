@@ -154,7 +154,7 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
           {study.testimonial && (
             <section className="mb-12 p-8 rounded-2xl bg-gray-50 border border-gray-200 animate-fade-up-delay-2">
               <svg className="w-8 h-8 text-gray-400 mb-2" fill="currentColor" viewBox="0 0 24 24">“</svg>
-              <p className="text-lg italic text-gray-700 mb-4">{study.testimonial.quote}</p>
+              <p className="text-lg  text-gray-700 mb-4">{study.testimonial.quote}</p>
               <p className="font-medium text-gray-900">— {study.testimonial.author}</p>
               <p className="text-sm text-gray-500">{study.testimonial.authorTitle}</p>
             </section>
