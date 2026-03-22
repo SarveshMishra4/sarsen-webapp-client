@@ -89,7 +89,7 @@ function EngagementCard({
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
+      className="bg-white rounded-md p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
     >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-xl font-medium text-gray-800">
@@ -404,7 +404,7 @@ export default function UserDashboard() {
               />
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-md transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -434,17 +434,17 @@ export default function UserDashboard() {
                 </svg>
               </div>
             ) : listError ? (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+              <div className="bg-red-50 border border-red-200 rounded-md p-8 text-center">
                 <p className="text-red-700 mb-4">{listError}</p>
                 <button
                   onClick={fetchEngagements}
-                  className="px-4 py-2 bg-[#0A1E3D] text-white rounded-lg"
+                  className="px-4 py-2 bg-[#0A1E3D] text-white rounded-md"
                 >
                   Try Again
                 </button>
               </div>
             ) : engagements.length === 0 ? (
-              <div className="bg-white rounded-xl p-12 text-center">
+              <div className="bg-white rounded-md p-12 text-center">
                 <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
@@ -489,14 +489,14 @@ export default function UserDashboard() {
             </button>
 
             {/* Welcome / Status Banner */}
-            <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 mb-8 text-white">
+            <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] rounded-md p-8 mb-8 text-white">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h2 className="text-3xl font-light mb-2">
                     {selected.serviceId?.title}
                   </h2>
                   {selected.status === 'delivered' && (
-                    <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-400/30 rounded-lg px-3 py-1 mb-4">
+                    <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-400/30 rounded-md px-3 py-1 mb-4">
                       <svg className="w-4 h-4 text-green-300" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                       </svg>
@@ -518,23 +518,23 @@ export default function UserDashboard() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
                     <p className="text-3xl font-light mb-1">
                       {questionnaires.filter(q => q.isSubmitted).length}
                     </p>
                     <p className="text-sm text-blue-100">Questionnaires Done</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
                     <p className="text-3xl font-light mb-1">
                       {questionnaires.filter(q => !q.isSubmitted).length}
                     </p>
                     <p className="text-sm text-blue-100">Pending</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
                     <p className="text-3xl font-light mb-1">{files.length}</p>
                     <p className="text-sm text-blue-100">Files Shared</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
                     <p className="text-3xl font-light mb-1">
                       {messages.filter(m => m.senderRole === 'admin').length}
                     </p>
@@ -545,13 +545,13 @@ export default function UserDashboard() {
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 mb-8">
+            <div className="bg-white rounded-md shadow-sm border border-gray-200 p-2 mb-8">
               <div className="flex gap-2 flex-wrap">
                 {(['overview', 'questionnaires', 'resources', 'messages'] as const).map(tab => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`flex-1 px-6 py-3 rounded-lg font-medium transition-colors relative capitalize ${
+                    className={`flex-1 px-6 py-3 rounded-md font-medium transition-colors relative capitalize ${
                       activeTab === tab
                         ? 'bg-[#0A1E3D] text-white'
                         : 'text-gray-600 hover:bg-gray-100'
@@ -669,7 +669,7 @@ export default function UserDashboard() {
 
             {/* ── FEEDBACK SECTION (3.9) — only when delivered ── */}
             {selected.status === 'delivered' && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mt-6">
+              <div className="bg-white rounded-md shadow-sm border border-gray-200 p-8 mt-6">
                 {feedbackSubmitted ? (
                   <div className="text-center py-4">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -719,7 +719,7 @@ export default function UserDashboard() {
                       onChange={e => setFeedbackComment(e.target.value)}
                       placeholder="Any additional comments? (optional)"
                       rows={3}
-                      className="w-full border border-gray-200 rounded-lg p-3 text-sm text-gray-700 resize-none focus:outline-none focus:border-blue-400 bg-gray-50"
+                      className="w-full border border-gray-200 rounded-md p-3 text-sm text-gray-700 resize-none focus:outline-none focus:border-blue-400 bg-gray-50"
                     />
 
                     {feedbackError && (
@@ -729,7 +729,7 @@ export default function UserDashboard() {
                     <button
                       onClick={handleFeedbackSubmit}
                       disabled={feedbackRating === 0 || feedbackLoading}
-                      className="mt-4 px-6 py-2.5 bg-[#0A1E3D] text-white text-sm font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#0d2a52] transition-colors flex items-center gap-2"
+                      className="mt-4 px-6 py-2.5 bg-[#0A1E3D] text-white text-sm font-medium rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#0d2a52] transition-colors flex items-center gap-2"
                     >
                       {feedbackLoading && (
                         <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

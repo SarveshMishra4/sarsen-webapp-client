@@ -50,10 +50,10 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-3xl w-full my-8">
+      <div className="bg-white rounded-md max-w-3xl w-full my-8">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] px-8 py-6 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] px-8 py-6 rounded-t-md">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <h2 className="text-2xl font-light text-white mb-2">{questionnaire.title}</h2>
@@ -61,7 +61,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
             </div>
             <button
               onClick={onClose}
-              className="text-white hover:bg-white/20 p-2 rounded-lg transition-colors"
+              className="text-white hover:bg-white/20 p-2 rounded-md transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -88,7 +88,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
         <div className="px-8 py-6 max-h-[60vh] overflow-y-auto">
           <div className="space-y-6">
             {currentQuestions.map((question, idx) => (
-              <div key={question.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div key={question.id} className="bg-gray-50 rounded-md p-6 border border-gray-200">
                 <label className="block text-sm font-medium text-gray-800 mb-3">
                   {currentPage * questionsPerPage + idx + 1}. {question.question}
                   {question.required && <span className="text-red-500 ml-1">*</span>}
@@ -104,7 +104,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                     value={responses[question.id] || ''}
                     onChange={(e) => handleResponseChange(question.id, e.target.value)}
                     placeholder={question.placeholder}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 )}
 
@@ -114,7 +114,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                     value={responses[question.id] || ''}
                     onChange={(e) => handleResponseChange(question.id, e.target.value)}
                     placeholder={question.placeholder}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 )}
 
@@ -124,7 +124,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                     onChange={(e) => handleResponseChange(question.id, e.target.value)}
                     placeholder={question.placeholder}
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 )}
 
@@ -132,7 +132,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                   <select
                     value={responses[question.id] || ''}
                     onChange={(e) => handleResponseChange(question.id, e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select an option...</option>
                     {question.options?.map(option => (
@@ -144,7 +144,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                 {question.type === 'radio' && (
                   <div className="space-y-2">
                     {question.options?.map(option => (
-                      <label key={option} className="flex items-center gap-3 cursor-pointer p-3 hover:bg-gray-100 rounded-lg transition-colors">
+                      <label key={option} className="flex items-center gap-3 cursor-pointer p-3 hover:bg-gray-100 rounded-md transition-colors">
                         <input
                           type="radio"
                           name={question.id}
@@ -162,7 +162,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                 {question.type === 'multiselect' && (
                   <div className="space-y-2">
                     {question.options?.map(option => (
-                      <label key={option} className="flex items-center gap-3 cursor-pointer p-3 hover:bg-gray-100 rounded-lg transition-colors">
+                      <label key={option} className="flex items-center gap-3 cursor-pointer p-3 hover:bg-gray-100 rounded-md transition-colors">
                         <input
                           type="checkbox"
                           checked={(responses[question.id] || []).includes(option)}
@@ -180,7 +180,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
                     type="date"
                     value={responses[question.id] || ''}
                     onChange={(e) => handleResponseChange(question.id, e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 )}
               </div>
@@ -189,12 +189,12 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
         </div>
 
         {/* Footer Navigation */}
-        <div className="px-8 py-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+        <div className="px-8 py-6 border-t border-gray-200 bg-gray-50 rounded-b-md">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
               disabled={currentPage === 0}
-              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+              className={`px-6 py-3 rounded-md font-medium transition-colors ${
                 currentPage === 0
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -210,14 +210,14 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
             {currentPage < totalPages - 1 ? (
               <button
                 onClick={() => setCurrentPage(currentPage + 1)}
-                className="px-6 py-3 bg-[#0A1E3D] text-white rounded-lg hover:bg-[#132B47] transition-colors font-medium"
+                className="px-6 py-3 bg-[#0A1E3D] text-white rounded-md hover:bg-[#132B47] transition-colors font-medium"
               >
                 Next
               </button>
             ) : (
               <button
                 onClick={handleSubmitQuestionnaire}
-                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+                className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors font-medium"
               >
                 Submit Questionnaire
               </button>

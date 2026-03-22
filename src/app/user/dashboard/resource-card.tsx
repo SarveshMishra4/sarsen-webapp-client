@@ -12,12 +12,12 @@ export const ResourceCard = ({ resource }: { resource: Resource }) => {
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
+      className="bg-white rounded-md p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
     >
       <div className="flex flex-col items-center text-center">
         
         {/* Icon */}
-        <div className={`w-20 h-20 bg-gradient-to-br ${getFileColor(resource.type)} rounded-2xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+        <div className={`w-20 h-20 bg-gradient-to-br ${getFileColor(resource.type)} rounded-md flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
           {getFileIcon(resource.type)}
         </div>
 
@@ -52,7 +52,7 @@ export const ResourceCard = ({ resource }: { resource: Resource }) => {
         </div>
 
         {/* Action Button */}
-        <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 group-hover:gap-3">
+        <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-2 group-hover:gap-3">
           <span>Open</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

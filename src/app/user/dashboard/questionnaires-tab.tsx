@@ -23,7 +23,7 @@ export const QuestionnairesTab = ({
         {questionnaires.map((questionnaire) => (
           <div
             key={questionnaire.id}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg transition-all"
+            className="bg-white rounded-md p-6 shadow-sm border border-gray-200 hover:shadow-lg transition-all"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
@@ -72,7 +72,7 @@ export const QuestionnairesTab = ({
             {questionnaire.status === 'completed' ? (
               <button
                 disabled
-                className="w-full bg-green-100 text-green-700 py-3 px-4 rounded-lg font-medium cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-green-100 text-green-700 py-3 px-4 rounded-md font-medium cursor-not-allowed flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
@@ -82,7 +82,7 @@ export const QuestionnairesTab = ({
             ) : (
               <button
                 onClick={() => onStartQuestionnaire(questionnaire)}
-                className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 group"
+                className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-colors flex items-center justify-center gap-2 group"
               >
                 <span>{questionnaire.status === 'in-progress' ? 'Continue' : 'Start'} Questionnaire</span>
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@ export const QuestionnairesTab = ({
       </div>
 
       {questionnaires.length === 0 && (
-        <div className="bg-white rounded-xl p-12 text-center">
+        <div className="bg-white rounded-md p-12 text-center">
           <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>

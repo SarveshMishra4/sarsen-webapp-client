@@ -41,10 +41,10 @@ export const MessagesSection = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-[600px] flex flex-col">
+    <div className="bg-white rounded-md shadow-sm border border-gray-200 h-[600px] flex flex-col">
       
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-xl">
+      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-md">
         <h3 className="text-lg font-medium text-gray-800">Messages</h3>
         <p className="text-sm text-gray-600">
           {messages.length} message{messages.length !== 1 ? 's' : ''}
@@ -61,7 +61,7 @@ export const MessagesSection = ({
                 className={`flex ${message.sentBy === 'client' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[70%] rounded-lg p-4 ${
+                  className={`max-w-[70%] rounded-md p-4 ${
                     message.sentBy === 'client'
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-800'
@@ -98,7 +98,7 @@ export const MessagesSection = ({
       </div>
 
       {/* Message Input */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+      <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-md">
         <div className="flex gap-3">
           <textarea
             value={newMessage}
@@ -106,7 +106,7 @@ export const MessagesSection = ({
             onKeyPress={handleKeyPress}
             rows={2}
             disabled={isLocked} // 5. Disable textarea when locked
-            className={`flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
+            className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
               isLocked ? 'bg-gray-200 cursor-not-allowed text-gray-500' : 'bg-white'
             }`}
             placeholder={
@@ -118,7 +118,7 @@ export const MessagesSection = ({
           <button
             onClick={handleSend}
             disabled={isLocked || !newMessage.trim()} // 6. Disable button when locked
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-lg font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <span className="hidden sm:inline">Send</span>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
