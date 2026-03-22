@@ -81,7 +81,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
               {/* Right column: SBG Visual Placeholder */}
               <div className="relative animate-fade-up animation-delay-200">
                 <div
-                  className="w-full aspect-[4/3] rounded-2xl bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
+                  className="w-full aspect-[4/3] rounded-md bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-center">
                     <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

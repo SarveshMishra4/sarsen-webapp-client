@@ -71,7 +71,7 @@ function formatINR(paise: number): string {
 // ─────────────────────────────────────────────────────────────
 
 const INPUT =
-  'w-full px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors bg-[#132B47] border border-blue-800/30 text-white placeholder-gray-500';
+  'w-full px-4 py-3 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors bg-[#132B47] border border-blue-800/30 text-white placeholder-gray-500';
 const LABEL =
   'block text-sm font-medium mb-1.5 text-blue-200';
 const HELP =
@@ -299,7 +299,7 @@ const CouponStep: FC<CouponStepProps> = ({
 
       {/* Order summary */}
       <div
-        className="rounded-xl p-5 space-y-3"
+        className="rounded-md p-5 space-y-3"
         style={{ backgroundColor: 'rgba(59,130,246,0.04)', border: '1px solid rgba(59,130,246,0.12)' }}
       >
         <p className="text-xs font-medium tracking-widest uppercase text-gray-500">
@@ -363,7 +363,7 @@ const CouponStep: FC<CouponStepProps> = ({
             type="button"
             onClick={onApplyCoupon}
             disabled={!couponCode || couponState === 'valid' || couponState === 'checking'}
-            className="px-4 py-3 rounded-lg text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 py-3 rounded-md text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
               backgroundColor: 'rgba(59,130,246,0.14)',
               color: '#93C5FD',
@@ -387,7 +387,7 @@ const CouponStep: FC<CouponStepProps> = ({
 
       {/* Security note */}
       <div
-        className="flex items-start gap-3 rounded-lg p-3"
+        className="flex items-start gap-3 rounded-md p-3"
         style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid rgba(59,130,246,0.08)' }}
       >
         <svg className="w-4 h-4 flex-shrink-0 mt-0.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -405,7 +405,7 @@ const CouponStep: FC<CouponStepProps> = ({
         <button
           type="button"
           onClick={onBack}
-          className="px-4 py-3 rounded-lg text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="px-4 py-3 rounded-md text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={{
             backgroundColor: 'rgba(59,130,246,0.06)',
             color: '#9CA3AF',
@@ -418,7 +418,7 @@ const CouponStep: FC<CouponStepProps> = ({
           type="button"
           onClick={onPay}
           disabled={paying}
-          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold transition-all shadow-lg disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-md text-sm font-semibold transition-all shadow-lg disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={{ backgroundColor: paying ? '#1D4ED8' : '#2563EB', color: '#ffffff' }}
         >
           {paying ? (
@@ -481,7 +481,7 @@ const SuccessStep: FC<{ cohort: Cohort; onClose: () => void }> = ({ cohort, onCl
     <button
       type="button"
       onClick={onClose}
-      className="mt-8 px-6 py-3 rounded-lg text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="mt-8 px-6 py-3 rounded-md text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
         backgroundColor: 'rgba(59,130,246,0.10)',
         color: '#93C5FD',
@@ -646,7 +646,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
       >
         {/* ── Shell ─────────────────────────────────────── */}
         <div
-          className="rounded-2xl overflow-hidden flex flex-col"
+          className="rounded-md overflow-hidden flex flex-col"
           style={{
             backgroundColor: '#0A1E3D',
             border: '1px solid rgba(59,130,246,0.14)',
@@ -727,7 +727,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
                     <button
                       type="button"
                       onClick={handleBack}
-                      className="px-4 py-3 rounded-lg text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="px-4 py-3 rounded-md text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-blue-400"
                       style={{
                         backgroundColor: 'rgba(59,130,246,0.06)',
                         color: '#9CA3AF',
@@ -740,7 +740,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="flex-1 py-3 rounded-lg text-sm font-semibold transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="flex-1 py-3 rounded-md text-sm font-semibold transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     style={{ backgroundColor: '#2563EB', color: '#ffffff' }}
                   >
                     {phase.stepIndex < totalSteps - 1 ? 'Continue →' : 'Review & Pay →'}

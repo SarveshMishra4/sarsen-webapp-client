@@ -99,7 +99,7 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
               {/* Right column: SVG Visual Placeholder */}
               <div className="relative animate-fade-up-delay-1">
                 <div
-                  className="w-full aspect-[4/3] rounded-2xl bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
+                  className="w-full aspect-[4/3] rounded-md bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-center">
                     <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,7 +152,7 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
 
           {/* Testimonial (if exists) */}
           {study.testimonial && (
-            <section className="mb-12 p-8 rounded-2xl bg-gray-50 border border-gray-200 animate-fade-up-delay-2">
+            <section className="mb-12 p-8 rounded-md bg-gray-50 border border-gray-200 animate-fade-up-delay-2">
               <svg className="w-8 h-8 text-gray-400 mb-2" fill="currentColor" viewBox="0 0 24 24">“</svg>
               <p className="text-lg  text-gray-700 mb-4">{study.testimonial.quote}</p>
               <p className="font-medium text-gray-900">— {study.testimonial.author}</p>

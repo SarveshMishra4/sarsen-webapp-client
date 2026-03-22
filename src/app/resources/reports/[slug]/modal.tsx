@@ -62,7 +62,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
       onClick={handleBackdropClick}
     >
       <div className="relative w-full max-w-md" style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}>
-        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
 
           {/* Modal Header */}
           <div className="bg-[#002855] px-8 py-6 relative">
@@ -76,7 +76,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
               </svg>
             </button>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-md bg-blue-500/20 flex items-center justify-center">
                 <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -95,7 +95,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                     </svg>
@@ -110,7 +110,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       setFormData((p) => ({ ...p, partnerId: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                     placeholder="e.g. SSP-2024-XXXX"
                     required
                     autoComplete="username"
@@ -125,7 +125,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setFormData((p) => ({ ...p, password: e.target.value }))
                       }
-                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                       placeholder="Enter your password"
                       required
                       autoComplete="current-password"
@@ -154,7 +154,7 @@ const ReportAuthModal: FC<ReportAuthModalProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                     loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}
                 >

@@ -153,7 +153,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
     >
       <div className="relative w-full max-w-md animate-fadeIn">
         {/* Card */}
-        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
 
           {/* Modal Header */}
           <div className="bg-[#002855] px-8 py-6 relative">
@@ -168,7 +168,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
             </button>
 
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-md bg-blue-500/20 flex items-center justify-center">
                 <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -192,7 +192,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 
                 {/* Error Banner */}
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                     </svg>
@@ -209,7 +209,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     type="text"
                     value={formData.partnerId}
                     onChange={handlePartnerIdChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                     placeholder="e.g. SSP-2024-XXXX"
                     required
                     autoComplete="username"
@@ -226,7 +226,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                       type={showPassword ? 'text' : 'password'}
                       value={formData.password}
                       onChange={handlePasswordChange}
-                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                       placeholder="Enter your password"
                       required
                       autoComplete="current-password"
@@ -257,7 +257,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                     loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}
                 >
@@ -401,7 +401,7 @@ const HeroSection: FC = () => {
                 {(['📄', '📊', '🎯', '🔧', '📅', '🎓'] as const).map((icon, i) => (
                   <div
                     key={i}
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-blue-500/10 border border-blue-700/30 flex items-center justify-center text-xl sm:text-2xl backdrop-blur-sm"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-md bg-blue-500/10 border border-blue-700/30 flex items-center justify-center text-xl sm:text-2xl backdrop-blur-sm"
                   >
                     {icon}
                   </div>
@@ -577,7 +577,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <div className="flex items-start gap-4">
             <div
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-md flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: cardStyle.iconBg }}
               aria-hidden="true"
             >
@@ -603,7 +603,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
           {/* Hub Page CTA — navigates to individual category hub */}
           <a
             href={hubHref}
-            className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition-all duration-300 hover:shadow-lg group"
+            className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-md font-medium text-sm transition-all duration-300 hover:shadow-lg group"
             style={{
               backgroundColor: cardStyle.ctaBg,
               color: cardStyle.ctaText,
@@ -764,6 +764,7 @@ const toolsData: ResourceItem[] = [
 // =====================================================
 // CARD STYLES — UNIQUE VISUAL IDENTITY PER CATEGORY
 // Each CardStyle object fully satisfies the CardStyle interface.
+// All borderRadius values changed to '0.375rem' (rounded-md)
 // =====================================================
 
 const blogCardStyle: CardStyle = {
@@ -776,7 +777,7 @@ const blogCardStyle: CardStyle = {
   ctaBorder: '#1A1008',
   arrowBg: '#1A1008',
   arrowColor: '#F7F4EF',
-  borderRadius: '4px',
+  borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#E5DDD0',
   headerBg: (i: number) =>
@@ -810,7 +811,7 @@ const caseStudyCardStyle: CardStyle = {
   ctaBorder: '#1E4A7A',
   arrowBg: '#132B47',
   arrowColor: '#60A5FA',
-  borderRadius: '12px',
+  borderRadius: '0.375rem',
   cardBg: '#0F2744',
   cardBorder: '#1E4070',
   headerBg: (i: number) =>
@@ -848,7 +849,7 @@ const eventCardStyle: CardStyle = {
   ctaBorder: '#C84B00',
   arrowBg: '#FFF0E6',
   arrowColor: '#C84B00',
-  borderRadius: '16px',
+  borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#FFD5B5',
   headerBg: (i: number) =>
@@ -885,7 +886,7 @@ const reportCardStyle: CardStyle = {
   ctaBorder: '#065F46',
   arrowBg: '#0D1F2D',
   arrowColor: '#34D399',
-  borderRadius: '8px',
+  borderRadius: '0.375rem',
   cardBg: '#162435',
   cardBorder: '#1E3A4A',
   headerBg: (i: number) =>
@@ -928,7 +929,7 @@ const cohortCardStyle: CardStyle = {
   ctaBorder: '#6B21A8',
   arrowBg: '#EDE0FF',
   arrowColor: '#7C3AED',
-  borderRadius: '20px',
+  borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#DDD0F5',
   headerBg: (i: number) =>
@@ -965,7 +966,7 @@ const toolCardStyle: CardStyle = {
   ctaBorder: '#3A3A20',
   arrowBg: '#1C1C24',
   arrowColor: '#FACC15',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   cardBg: '#16161E',
   cardBorder: '#2A2A38',
   headerBg: (_i: number) => 'linear-gradient(135deg, #1A1A24 0%, #0F0F18 100%)',

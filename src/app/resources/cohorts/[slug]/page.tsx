@@ -48,7 +48,7 @@ const MetaRow: FC<{ icon: React.ReactNode; label: string; value: string }> = ({
 }) => (
   <div className="flex items-start gap-3">
     <div
-      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+      className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5"
       style={{ backgroundColor: '#EFF6FF' }}
     >
       {icon}
@@ -165,7 +165,7 @@ export default function CohortPage({ params }: PageProps) {
               <button
                 type="button"
                 onClick={() => setModalOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-md text-sm font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 style={{ backgroundColor: '#0A1E3D', color: '#ffffff', border: '1px solid rgba(59,130,246,0.3)' }}
               >
                 Apply for {cohort.cohortNumber}
@@ -254,7 +254,7 @@ export default function CohortPage({ params }: PageProps) {
 
           {/* ── What you will work on ─────────────────────── */}
           <div
-            className="rounded-2xl p-8 mb-8 bg-white border border-gray-200"
+            className="rounded-md p-8 mb-8 bg-white border border-gray-200"
           >
             <h2 className="text-lg font-light mb-4 text-gray-900">
               What you will work on
@@ -266,7 +266,7 @@ export default function CohortPage({ params }: PageProps) {
 
           {/* ── Application overview ─────────────────────── */}
           <div
-            className="rounded-2xl p-8 mb-12 bg-white border border-gray-200"
+            className="rounded-md p-8 mb-12 bg-white border border-gray-200"
           >
             <h2 className="text-lg font-light mb-6 text-gray-900">
               Application process
@@ -326,7 +326,7 @@ export default function CohortPage({ params }: PageProps) {
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-md text-sm font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
               style={{ backgroundColor: '#0A1E3D', color: '#ffffff' }}
             >
               Apply for {cohort.cohortNumber}
