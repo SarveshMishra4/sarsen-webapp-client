@@ -1445,16 +1445,14 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
               ))}
             </div>
 
-            {/* CTA */}
+            {/* CTA — UPDATED: white background, dark blue text, subtle hover shadow */}
             <div className="flex items-center gap-4 flex-wrap pt-2">
               <button
                 onClick={onBuy}
-                className="group"
+                className="group bg-white text-[#002855] hover:shadow-md transition-shadow"
                 style={{
                   padding: '14px 32px',
                   borderRadius: '10px',
-                  background: `rgba(${rgb},1)`,
-                  color: '#fff',
                   fontSize: '0.95rem',
                   fontWeight: 700,
                   border: 'none',
@@ -1463,8 +1461,6 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   alignItems: 'center',
                   gap: '8px',
                   letterSpacing: '0.01em',
-                  boxShadow: `0 8px 24px rgba(${rgb},0.30)`,
-                  transition: 'all 0.2s',
                 }}
               >
                 Get Started — {service.priceDisplay}
@@ -1738,22 +1734,17 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
                 + GST · {service.duration}
               </p>
             </div>
+            {/* CTA — UPDATED: white background, dark blue text, subtle hover shadow */}
             <button
               onClick={onBuy}
+              className="bg-white text-[#002855] hover:shadow-md transition-shadow w-full flex items-center justify-center gap-1.5"
               style={{
-                width: '100%',
                 padding: '12px',
                 borderRadius: '9px',
-                background: `rgba(${rgb},1)`,
-                color: '#fff',
                 fontSize: '0.88rem',
                 fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
               }}
             >
               Get Started
