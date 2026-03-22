@@ -230,7 +230,7 @@ const HeroSection: FC = () => (
 
         <div className="space-y-8">
           <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
             style={{
               backgroundColor: 'rgba(59,130,246,0.08)',
               border: '1px solid rgba(59,130,246,0.16)',
@@ -269,7 +269,7 @@ const HeroSection: FC = () => (
               {[3, 2, 1].map((layer) => (
                 <div
                   key={layer}
-                  className="absolute rounded-xl"
+                  className="absolute rounded-md"
                   style={{
                     width: '260px',
                     height: '300px',
@@ -281,7 +281,7 @@ const HeroSection: FC = () => (
                 />
               ))}
               <div
-                className="relative rounded-xl overflow-hidden"
+                className="relative rounded-md overflow-hidden"
                 style={{
                   width: '260px',
                   height: '300px',
@@ -295,7 +295,7 @@ const HeroSection: FC = () => (
                 >
                   <div className="w-16 h-2 rounded-full bg-blue-800/40" />
                   <div
-                    className="text-sm px-2 py-0.5 rounded-full"
+                    className="text-sm px-2 py-0.5 rounded-md"
                     style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#93C5FD' }}
                   >
                     8 packages
@@ -314,7 +314,7 @@ const HeroSection: FC = () => (
                   ].map((row) => (
                     <div key={row.num} className="flex items-center gap-2.5">
                       <div
-                        className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
+                        className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: `${row.color}18`, border: `1px solid ${row.color}30` }}
                       >
                         <span style={{ color: row.color, fontSize: '8px', fontWeight: 700 }}>{row.num}</span>
@@ -337,7 +337,7 @@ const HeroSection: FC = () => (
 );
 
 // =====================================================
-// GLOBAL DELIVERY RULES BANNER
+// GLOBAL DELIVERY RULES BANNER — kept as is (border only)
 // =====================================================
 
 const DeliveryRulesBanner: FC = () => (
@@ -367,7 +367,7 @@ const DeliveryRulesBanner: FC = () => (
 );
 
 // =====================================================
-// TAG FILTER BAR
+// TAG FILTER BAR — fixed clipping, rounded-md
 // =====================================================
 
 interface TagFilterBarProps {
@@ -377,7 +377,7 @@ interface TagFilterBarProps {
 
 const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   <div
-    className="flex gap-2 overflow-x-auto pb-1"
+    className="flex gap-2 overflow-x-auto overflow-visible py-2"
     style={{ scrollbarWidth: 'none' } as React.CSSProperties}
     role="toolbar"
     aria-label="Filter services by type"
@@ -393,7 +393,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="flex-shrink-0 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
               ? { backgroundColor: '#132B47', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
@@ -426,7 +426,7 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
       aria-label={`View package: ${service.title}`}
     >
@@ -439,7 +439,7 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
           {[3, 2, 1].map((l) => (
             <div
               key={l}
-              className="absolute rounded-xl"
+              className="absolute rounded-md"
               style={{
                 width: `${80 + l * 20}px`,
                 height: `${100 + l * 25}px`,
@@ -463,14 +463,14 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
 
         <div className="relative z-10 flex items-center gap-3 flex-wrap">
           <span
-            className="px-3 py-1 rounded-full text-xs font-semibold"
+            className="px-3 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {service.tag}
           </span>
           
           <span
-            className="px-3 py-1 rounded-full text-xs font-medium"
+            className="px-3 py-1 rounded-md text-xs font-medium"
             style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.14)' }}
           >
             Compulsory Entry
@@ -552,7 +552,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col"
       style={{
         backgroundColor: '#0A1E3D',
         border: '1px solid rgba(59,130,246,0.08)',
@@ -579,7 +579,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
 
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
           <span
-            className="px-2.5 py-1 rounded-full text-xs font-semibold"
+            className="px-2.5 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {service.tag}
@@ -610,7 +610,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
           {service.deliverables.map((d) => (
             <span
               key={d}
-              className="px-2 py-0.5 rounded text-xs"
+              className="px-2 py-0.5 rounded-md text-xs"
               style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {d}
@@ -652,13 +652,13 @@ interface PackageJourneyStripProps {
 
 const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden bg-white border border-gray-200"
+    className="my-12 rounded-md overflow-hidden bg-white border border-gray-200"
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-50"
+            className="w-8 h-8 rounded-md flex items-center justify-center bg-blue-50"
           >
             <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -707,7 +707,7 @@ const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
                   </span>
                 </div>
                 <span
-                  className="px-2 py-0.5 rounded-full text-xs font-semibold mb-1"
+                  className="px-2 py-0.5 rounded-md text-xs font-semibold mb-1"
                   style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
                 >
                   {service.tag}
@@ -796,7 +796,7 @@ export default function ServicesHubPage(): React.JSX.Element {
               {filteredServices.length}{' '}
               {filteredServices.length !== 1 ? 'packages' : 'package'}
               {activeTag !== 'All' && (
-                <> in  className="text-blue-600"{activeTag}</>
+                <span className="text-blue-600"> in {activeTag}</span>
               )}
             </p>
           </div>
@@ -817,10 +817,10 @@ export default function ServicesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* Package Journey Strip
+          {/* Package Journey Strip */}
           {showJourneyStrip && (
             <PackageJourneyStrip services={ALL_SERVICES} />
-          )} */}
+          )}
 
           {/* Remaining grid cards */}
           {afterStrip.length > 0 && (

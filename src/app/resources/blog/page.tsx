@@ -956,7 +956,7 @@ export default function BlogsHubPage() {
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
             <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}
-              {activeTag !== 'All' && <> in {activeTag}</>}
+              {activeTag !== 'All' && <span className="text-blue-600"> in {activeTag}</span>}
             </p>
           </div>
 

@@ -133,7 +133,7 @@ interface CouponBadgeProps {
 
 const CouponBadge: FC<CouponBadgeProps> = ({ label, onRemove, accentRgb }) => (
   <span
-    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold"
     style={{
       backgroundColor: `rgba(${accentRgb},0.12)`,
       color: `rgba(${accentRgb},1)`,
@@ -699,7 +699,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
         <div className="flex items-center gap-2 mb-3">
           <span
-            className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+            className="px-2.5 py-0.5 rounded-md text-xs font-semibold"
             style={{ backgroundColor: `rgba(${accentRgb},0.15)`, color: service.accentColor }}
           >
             {service.tag}
@@ -1326,7 +1326,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             overflow: 'hidden',
             boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
           }}
-          className="sm:rounded-2xl"
+          className="sm:rounded-md"
         >
           {step === 'questions' && renderQuestionsStep()}
           {step === 'summary' && renderSummaryStep()}
@@ -1394,7 +1394,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
                 <div
-                  className="inline-flex items-center gap-2 rounded-full px-4 py-1.5"
+                  className="inline-flex items-center gap-2 rounded-md px-4 py-1.5"
                   style={{
                     backgroundColor: `rgba(${rgb},0.08)`,
                     border: `1px solid rgba(${rgb},0.18)`,
@@ -1406,7 +1406,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   </span>
                 </div>
                 <span
-                  className="text-xs px-2.5 py-1 rounded-full"
+                  className="text-xs px-2.5 py-1 rounded-md"
                   style={{ backgroundColor: `rgba(${rgb},0.08)`, color: service.accentColor, border: `1px solid rgba(${rgb},0.14)` }}
                 >
                   {service.packageNumber}
@@ -1612,7 +1612,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
               }}
             >
               <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center mb-3"
+                className="w-7 h-7 rounded-md flex items-center justify-center mb-3"
                 style={{ background: `rgba(${rgb},0.10)`, border: `1px solid rgba(${rgb},0.16)` }}
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
@@ -1705,7 +1705,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
       <div className="max-w-7xl mx-auto">
         <div className="grid sm:grid-cols-3 gap-6">
           <div
-            className="sm:col-span-2 rounded-2xl p-8"
+            className="sm:col-span-2 rounded-md p-8"
             style={{ backgroundColor: '#132B47', border: `1px solid rgba(${rgb},0.10)` }}
           >
             <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
@@ -1717,7 +1717,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
           </div>
 
           <div
-            className="rounded-2xl p-8 flex flex-col justify-between"
+            className="rounded-md p-8 flex flex-col justify-between"
             style={{
               background: `linear-gradient(145deg, rgba(${rgb},0.12) 0%, rgba(${rgb},0.04) 100%)`,
               border: `1px solid rgba(${rgb},0.18)`,

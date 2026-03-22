@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, {
@@ -648,7 +647,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
         className="relative w-full max-w-md"
         style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}
       >
-        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
 
           {/* Modal Header — plain, no gradient */}
           <div className="px-8 py-6 relative border-b border-gray-200">
@@ -672,7 +671,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                     </svg>
@@ -687,7 +686,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       setFormData((p) => ({ ...p, partnerId: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                     placeholder="e.g. SSP-2024-XXXX"
                     required
                     autoComplete="username"
@@ -702,7 +701,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setFormData((p) => ({ ...p, password: e.target.value }))
                       }
-                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                       placeholder="Enter your password"
                       required
                       autoComplete="current-password"
@@ -731,7 +730,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                     loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}
                 >
@@ -810,7 +809,7 @@ const HeroSection: FC = () => (
         {/* LEFT — Headline */}
         <div className="space-y-8">
           <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
             style={{
               backgroundColor: 'rgba(59,130,246,0.08)',
               border: '1px solid rgba(59,130,246,0.16)',
@@ -863,7 +862,7 @@ const HeroSection: FC = () => (
               {[3, 2, 1].map((layer) => (
                 <div
                   key={layer}
-                  className="absolute rounded-xl"
+                  className="absolute rounded-md"
                   style={{
                     width: '240px',
                     height: '300px',
@@ -875,7 +874,7 @@ const HeroSection: FC = () => (
                 />
               ))}
               <div
-                className="relative rounded-xl overflow-hidden"
+                className="relative rounded-md overflow-hidden"
                 style={{
                   width: '240px',
                   height: '300px',
@@ -925,7 +924,7 @@ const HeroSection: FC = () => (
 );
 
 // =====================================================
-// TAG FILTER BAR
+// TAG FILTER BAR — fixed clipping, updated to rounded-md
 // =====================================================
 
 interface TagFilterBarProps {
@@ -935,7 +934,7 @@ interface TagFilterBarProps {
 
 const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   <div
-    className="flex gap-2 overflow-x-auto pb-1"
+    className="flex gap-2 overflow-x-auto overflow-visible py-2"
     style={{ scrollbarWidth: 'none' } as React.CSSProperties}
     role="toolbar"
     aria-label="Filter reports by type"
@@ -951,7 +950,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="flex-shrink-0 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
               ? {
@@ -993,7 +992,7 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Download report: ${report.title}`}
     >
@@ -1007,7 +1006,7 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
           {[3, 2, 1].map((l) => (
             <div
               key={l}
-              className="absolute rounded-lg"
+              className="absolute rounded-md"
               style={{
                 width: `${80 + l * 20}px`,
                 height: `${110 + l * 25}px`,
@@ -1023,13 +1022,13 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
 
         <div className="relative z-10 flex items-center gap-3 flex-wrap">
           <span
-            className="px-3 py-1 rounded-full text-xs font-semibold"
+            className="px-3 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {report.tag}
           </span>
           <span
-            className="px-3 py-1 rounded-full text-xs font-medium"
+            className="px-3 py-1 rounded-md text-xs font-medium"
             style={{
               backgroundColor: 'rgba(59,130,246,0.08)',
               color: '#93C5FD',
@@ -1039,7 +1038,7 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
             Featured
           </span>
           <span
-            className="px-3 py-1 rounded-full text-xs font-medium"
+            className="px-3 py-1 rounded-md text-xs font-medium"
             style={{
               backgroundColor: 'rgba(59,130,246,0.06)',
               color: '#93C5FD',
@@ -1113,7 +1112,7 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(report.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
         backgroundColor: '#0A1E3D',
         border: '1px solid rgba(59,130,246,0.08)',
@@ -1133,19 +1132,19 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
         style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
         <div className="absolute top-3 right-3 opacity-10" aria-hidden="true">
-          <div className="w-10 h-12 rounded border border-blue-400" />
-          <div className="w-10 h-12 rounded border border-blue-400 absolute top-1.5 left-1.5" />
+          <div className="w-10 h-12 rounded-md border border-blue-400" />
+          <div className="w-10 h-12 rounded-md border border-blue-400 absolute top-1.5 left-1.5" />
         </div>
 
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
           <span
-            className="px-2.5 py-1 rounded-full text-xs font-semibold"
+            className="px-2.5 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {report.tag}
           </span>
           <span
-            className="px-2 py-0.5 rounded-full text-xs"
+            className="px-2 py-0.5 rounded-md text-xs"
             style={{
               backgroundColor: 'rgba(59,130,246,0.06)',
               color: '#93C5FD',
@@ -1185,7 +1184,7 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
         >
           <div className="flex items-center gap-2">
             <span
-              className="text-xs px-2 py-0.5 rounded"
+              className="text-xs px-2 py-0.5 rounded-md"
               style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
             >
               {report.sector}
@@ -1208,7 +1207,7 @@ interface CaseStudiesStripProps {
 
 const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden"
+    className="my-12 rounded-md overflow-hidden"
     style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
@@ -1216,7 +1215,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-8 h-8 rounded-md flex items-center justify-center"
             style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
             <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1253,7 +1252,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               backgroundColor: '#0A1E3D',
               border: '1px solid rgba(59,130,246,0.08)',
@@ -1262,13 +1261,13 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
           >
             <div className="flex items-center gap-2 mb-2">
               <span
-                className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
+                className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold"
                 style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
               >
                 {cs.tag}
               </span>
               <span
-                className="inline-block px-2 py-0.5 rounded-full text-xs"
+                className="inline-block px-2 py-0.5 rounded-md text-xs"
                 style={{
                   backgroundColor: 'rgba(59,130,246,0.08)',
                   color: '#93C5FD',
@@ -1305,7 +1304,7 @@ interface BlogsStripProps {
 
 const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden"
+    className="my-12 rounded-md overflow-hidden"
     style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
@@ -1313,7 +1312,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-8 h-8 rounded-md flex items-center justify-center"
             style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
             <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1350,7 +1349,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               backgroundColor: '#0a1e3d',
               border: '1px solid rgba(59,130,246,0.08)',
@@ -1358,7 +1357,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             aria-label={`Read blog: ${blog.title}`}
           >
             <span
-              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
+              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
               style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
             >
               {blog.tag}
@@ -1514,10 +1513,10 @@ export default function ReportsHubPage(): React.JSX.Element {
               {filteredReports.length}{' '}
               {filteredReports.length !== 1 ? 'reports' : 'report'}
               {activeTag !== 'All' && (
-                <>
+                <span className="text-blue-600">
                   {' '}in{' '}
-                   className="text-blue-600"{activeTag}
-                </>
+                  {activeTag}
+                </span>
               )}
             </p>
           </div>

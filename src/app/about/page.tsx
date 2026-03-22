@@ -59,7 +59,7 @@ const WhyWeExistSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">The Problem</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
@@ -72,7 +72,7 @@ const WhyWeExistSection = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">Our Solution</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
@@ -86,7 +86,7 @@ const WhyWeExistSection = () => {
           </div>
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-6 sm:p-8 lg:p-12 text-white">
+        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 lg:p-12 text-white">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-2xl sm:text-3xl font-light mb-4">Our Core Belief</h3>
             <p className="text-base sm:text-lg lg:text-xl leading-relaxed opacity-95">
@@ -112,9 +112,9 @@ const MissionVisionSection = () => {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
           
           {/* Mission */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-white/10 rounded-md flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -148,9 +148,9 @@ const MissionVisionSection = () => {
           </div>
 
           {/* Vision */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-white/10 rounded-md flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -277,7 +277,7 @@ const ThesisSection = () => {
           {principles.map((principle, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-md shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-6">
                 
@@ -297,7 +297,7 @@ const ThesisSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-6 sm:p-8 lg:p-12">
+        <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 lg:p-12">
           <div className="max-w-4xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-light text-white mb-6 text-center">
               What Sets Us Apart
@@ -401,8 +401,8 @@ const TeamSection = () => {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {teamMembers.map((member, index) => (
-            <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300">
-              <div className="aspect-square overflow-hidden rounded-t-lg">
+            <div key={index} className="bg-white/5 backdrop-blur-sm rounded-md overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div className="aspect-square overflow-hidden rounded-t-md">
   <img
     src={member.image}
     alt={member.name}
@@ -421,7 +421,7 @@ const TeamSection = () => {
           ))}
         </div>
 
-        <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/10">
+        <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-2xl sm:text-3xl font-light text-white mb-6">
               Join Our Team
@@ -431,7 +431,7 @@ const TeamSection = () => {
               our commitment to diagnostic rigor and measurable impact. If you're passionate about 
               helping growth-stage businesses succeed, we'd love to hear from you.
             </p>
-            <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
+            <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
               <span>View Open Positions</span>
               
             </button>
@@ -449,7 +449,7 @@ const CTASection = () => {
   return (
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl overflow-hidden">
+        <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             <div className="p-6 sm:p-8 lg:p-12">
@@ -462,11 +462,11 @@ const CTASection = () => {
                 decision-ready next steps.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
+                <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
                   <span>Initiate Diagnostic Engagement</span>
                   
                 </button>
-                <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white/10 transition-colors font-medium inline-flex items-center justify-center gap-2">
+                <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-md hover:bg-white/10 transition-colors font-medium inline-flex items-center justify-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -476,7 +476,7 @@ const CTASection = () => {
             </div>
 
             <div className="relative h-64 sm:h-80 lg:h-96 p-8 flex items-center justify-center">
-              <div className="w-full max-w-sm bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20">
+              <div className="w-full max-w-sm bg-white/10 backdrop-blur-sm rounded-md p-8 border border-white/20">
                 <div className="text-center text-white">
                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

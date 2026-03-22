@@ -127,7 +127,7 @@ const ContactFormSection = () => {
 
           {/* ==================== LEFT COLUMN - CONTACT FORM ==================== */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 lg:p-10">
+            <div className="bg-white rounded-md shadow-2xl p-6 sm:p-8 lg:p-10">
               
               {/* Form Header */}
               <div className="mb-8">
@@ -155,7 +155,7 @@ The more context you share, the more useful our response will be.
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
                     placeholder="Alex Doe"
                   />
                 </div>
@@ -175,7 +175,7 @@ The more context you share, the more useful our response will be.
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
                       placeholder="alex@company.com"
                     />
                   </div>
@@ -191,7 +191,7 @@ The more context you share, the more useful our response will be.
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
                       placeholder="+91 98765 43210"
                     />
                   </div>
@@ -208,7 +208,7 @@ The more context you share, the more useful our response will be.
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800"
                     placeholder="Your Company Pvt Ltd"
                   />
                 </div>
@@ -226,7 +226,7 @@ The more context you share, the more useful our response will be.
                       name="revenueStage"
                       value={formData.revenueStage}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
                     >
                       <option value="">Select stage</option>
                       <option value="pre-revenue">Pre-revenue</option>
@@ -249,7 +249,7 @@ The more context you share, the more useful our response will be.
                       name="serviceInterest"
                       value={formData.serviceInterest}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
                     >
                       <option value="">Select service</option>
                       <option value="growth">Growth & Revenue Strategy</option>
@@ -274,7 +274,7 @@ The more context you share, the more useful our response will be.
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300 text-gray-800"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300 text-gray-800"
                     placeholder="For example: stalled growth, fundraising confusion, pricing issues, team inefficiency, or strategic indecision.
 You don't need a polished explanation — clarity comes later."
                   ></textarea>
@@ -282,7 +282,7 @@ You don't need a polished explanation — clarity comes later."
 
                 {/* Error Message */}
                 {error && (
-                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
                     <p className="text-red-700 text-sm">{error}</p>
                   </div>
                 )}
@@ -291,7 +291,7 @@ You don't need a polished explanation — clarity comes later."
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-4 px-6 rounded-lg transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-4 px-6 rounded-md transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -308,7 +308,7 @@ You don't need a polished explanation — clarity comes later."
 
                 {/* Success Message */}
                 {submitted && (
-                  <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                  <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-md">
                     <div className="flex items-center">
                       <svg className="w-6 h-6 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -329,7 +329,7 @@ You don't need a polished explanation — clarity comes later."
           <div className="lg:col-span-2 flex flex-col justify-between gap-6 lg:gap-8">
             
             {/* Contact Information Card */}
-            <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-xl p-6 sm:p-8 text-white shadow-xl">
+            <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 text-white shadow-xl">
               <h3 className="text-xl sm:text-2xl font-light mb-6">
                 Contact Information
               </h3>
@@ -399,7 +399,7 @@ You don't need a polished explanation — clarity comes later."
             </div>
 
             {/* Quick Links Card */}
-            <div className="bg-white text-slate-900 rounded-xl p-6 sm:p-8 shadow-lg border border-gray-200">
+            <div className="bg-white text-slate-900 rounded-md p-6 sm:p-8 shadow-lg border border-gray-200">
 
   {/* Heading */}
   <h3 className="text-lg sm:text-xl font-medium mb-4">
@@ -535,7 +535,7 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#132B47] rounded-xl overflow-hidden transition-all duration-300 border border-blue-900/30 hover:border-blue-700/50"
+              className="bg-[#132B47] rounded-md overflow-hidden transition-all duration-300 border border-blue-900/30 hover:border-blue-700/50"
             >
               {/* Question Button */}
               <button
@@ -626,7 +626,7 @@ Start with a paid strategic diagnostic to determine the right path forward.
           {/* Primary CTA */}
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
           >
             <span>Book a Diagnostic Session</span>
           </button>
@@ -634,7 +634,7 @@ Start with a paid strategic diagnostic to determine the right path forward.
           {/* Secondary CTA */}
           <a 
             href="/services"
-            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
+            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
           >
             <span>Our Case Studies</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
