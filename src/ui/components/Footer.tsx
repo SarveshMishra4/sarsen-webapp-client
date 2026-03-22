@@ -355,10 +355,10 @@ export default function Footer() {
               gap-4              → 16px gap between logo and text
               bg-gray-50         → slightly off-white card background
               px-4 py-3          → comfortable padding inside the badge
-              rounded-lg         → rounded corners for a modern card look
+              rounded-md         → medium rounded corners (changed from rounded-lg)
               border border-gray-200 → subtle 1px border to define the card edge
           --------------------------------------------------------------- */}
-          <div className="flex items-center gap-4 bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
+          <div className="flex items-center gap-4 bg-gray-50 px-4 py-3 rounded-md border border-gray-200">
 
             {/* Google SVG logo */}
             <img
