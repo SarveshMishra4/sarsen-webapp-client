@@ -148,14 +148,14 @@ const ReportSection = () => {
             </div>
 
             <div className="relative flex justify-center lg:justify-end">
-              <div className="bg-white rounded-xl shadow-2xl overflow-hidden max-w-md w-full transform transition-transform duration-300 hover:scale-105">
+              <div className="bg-white rounded-md shadow-2xl overflow-hidden max-w-md w-full transform transition-transform duration-300 hover:scale-105">
                 <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] h-64 sm:h-72 md:h-80 relative overflow-hidden">
                   <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-10 left-10 w-32 h-32 border-2 border-white rounded-full"></div>
                     <div className="absolute bottom-10 right-10 w-24 h-24 border-2 border-white rounded-full"></div>
                   </div>
 
-                  <div className="absolute inset-0 overflow-hidden rounded-t-xl rounded-b-none">
+                  <div className="absolute inset-0 overflow-hidden rounded-t-md rounded-b-none">
                     <img
                       src="/assets/home/Report 2026.webp"
                       alt="Report 2026"
@@ -167,7 +167,7 @@ const ReportSection = () => {
                 <div className="p-6 bg-white">
                   <button
                     onClick={() => setShowModal(true)}
-                    className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-6 rounded-lg transition-all duration-300 font-medium text-base flex items-center justify-center gap-2"
+                    className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2"
                   >
                     Request Full Report
                   </button>
@@ -180,7 +180,7 @@ const ReportSection = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
-          <div className="bg-white max-w-lg w-full rounded-xl p-6 sm:p-8 relative">
+          <div className="bg-white max-w-lg w-full rounded-md p-6 sm:p-8 relative">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -198,11 +198,11 @@ const ReportSection = () => {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <input required placeholder="Full Name" className="w-full border px-4 py-3 rounded-lg" />
-                  <input required type="email" placeholder="Work Email" className="w-full border px-4 py-3 rounded-lg" />
-                  <input required placeholder="Phone Number" className="w-full border px-4 py-3 rounded-lg" />
+                  <input required placeholder="Full Name" className="w-full border px-4 py-3 rounded-md" />
+                  <input required type="email" placeholder="Work Email" className="w-full border px-4 py-3 rounded-md" />
+                  <input required placeholder="Phone Number" className="w-full border px-4 py-3 rounded-md" />
 
-                  <select required className="w-full border px-4 py-3 rounded-lg">
+                  <select required className="w-full border px-4 py-3 rounded-md">
                     <option value="">Which best describes you?</option>
                     <option>Founder / Co-founder</option>
                     <option>CXO / Leadership</option>
@@ -211,7 +211,7 @@ const ReportSection = () => {
                     <option>Exploring entrepreneurship</option>
                   </select>
 
-                  <select required className="w-full border px-4 py-3 rounded-lg">
+                  <select required className="w-full border px-4 py-3 rounded-md">
                     <option value="">Current business stage</option>
                     <option>Pre-idea / Exploring</option>
                     <option>Idea validated, no revenue</option>
@@ -221,7 +221,7 @@ const ReportSection = () => {
                     <option>Post-fundraise</option>
                   </select>
 
-                  <select required className="w-full border px-4 py-3 rounded-lg">
+                  <select required className="w-full border px-4 py-3 rounded-md">
                     <option value="">Biggest uncertainty right now</option>
                     <option>Are we scaling too early ?</option>
                     <option>Are these the right customers ?</option>
@@ -231,7 +231,7 @@ const ReportSection = () => {
                     <option>Unsure or Something Else</option>
                   </select>
 
-                  <button type="submit" className="w-full bg-[#0A1E3D] text-white py-3 rounded-lg">
+                  <button type="submit" className="w-full bg-[#0A1E3D] text-white py-3 rounded-md">
                     Email me the report
                   </button>
                 </form>
@@ -330,7 +330,7 @@ const CompanyHelpsSection = () => {
           </p>
         </div>
 
-        <div className="mb-16 bg-[#132B47] rounded-2xl p-8 border border-blue-900/30">
+        <div className="mb-16 bg-[#132B47] rounded-md p-8 border border-blue-900/30">
           <div className="text-center text-blue-400/50 py-12">
             <img src="/assets/home/Speciality.svg" alt="" className="h-48 sm:h-64 mx-auto" />
           </div>
@@ -343,7 +343,7 @@ const CompanyHelpsSection = () => {
               className={`absolute inset-0 transition-opacity duration-700 ${index === activeCard ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
             >
-              <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-2xl p-6 sm:p-8 lg:p-12 border border-blue-800/30 hover:border-blue-700/50 transition-all duration-300 h-full overflow-y-auto">
+              <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-6 sm:p-8 lg:p-12 border border-blue-800/30 hover:border-blue-700/50 transition-all duration-300 h-full overflow-y-auto">
                 <h3 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium mb-4 sm:mb-6 leading-tight">
                   {area.title}
                 </h3>
@@ -382,7 +382,7 @@ const CompanyHelpsSection = () => {
             </div>
 
             <div className="flex-shrink-0">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center gap-3 group">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-md transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center gap-3 group">
                 <span>Read Our Case Studies</span>
 
               </button>
@@ -510,7 +510,7 @@ const TestimonialsSection = () => {
           {/* LEFT — Quote Card */}
           <div className="order-2 lg:order-1">
             <div key={`card-${activeIndex}`} className="animate-slideInLeft">
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-200">
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-md p-6 sm:p-8 lg:p-10 border border-gray-200">
 
                 {/* Custom SVG Quotation Mark */}
                 <div className="mb-5">
@@ -541,7 +541,7 @@ const TestimonialsSection = () => {
               className="animate-fadeUp w-full max-w-xs"
             >
               {/* Card */}
-              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-5">
+              <div className="bg-white rounded-md border border-gray-200 shadow-sm px-5 py-5">
                 <div className="flex items-center gap-4">
 
                   {/* Circular avatar — left */}
@@ -749,7 +749,7 @@ const FreeResourcesSection = () => {
             {resources.map((resource, index) => (
               <div
                 key={index}
-                className={`${resource.bg} rounded-2xl p-6 sm:p-8 min-w-[280px] sm:min-w-[320px] md:min-w-[340px] h-[240px] sm:h-[260px] flex flex-col justify-between hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden flex-shrink-0`}
+                className={`${resource.bg} rounded-md p-6 sm:p-8 min-w-[280px] sm:min-w-[320px] md:min-w-[340px] h-[240px] sm:h-[260px] flex flex-col justify-between hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden flex-shrink-0`}
               >
 
                 <div className="relative z-10">
@@ -773,7 +773,7 @@ const FreeResourcesSection = () => {
         </div>
 
         <div className="flex justify-end mt-8">
-          <button className="bg-white text-gray-800 px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg hover:shadow-xl transition-all duration-300 font-medium border border-gray-300 hover:border-gray-400 flex items-center gap-2 group text-sm sm:text-base">
+          <button className="bg-white text-gray-800 px-5 sm:px-8 py-2.5 sm:py-4 rounded-md hover:shadow-xl transition-all duration-300 font-medium border border-gray-300 hover:border-gray-400 flex items-center gap-2 group text-sm sm:text-base">
             <span>More Resources</span>
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -814,7 +814,7 @@ const StoryProcessSection = () => {
           </h3>
         </div>
 
-        <div className="bg-[#132B47] rounded-2xl p-4 sm:p-6 lg:p-12 overflow-x-auto border border-blue-900/30">
+        <div className="bg-[#132B47] rounded-md p-4 sm:p-6 lg:p-12 overflow-x-auto border border-blue-900/30">
           <img src="/assets/home/Methedology.svg" alt="" className="h-48 sm:h-64 mx-auto max-w-full" />
         </div>
 

@@ -131,7 +131,7 @@ const WhyJoinUsSection = () => {
           {reasons.map((reason, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg p-6 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group"
+              className="bg-white rounded-md p-6 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center gap-4 mb-4">
                 
@@ -211,7 +211,7 @@ const OpenPositionsSection = () => {
               <button
                 key={dept}
                 onClick={() => setSelectedDepartment(dept)}
-                className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base ${
+                className={`px-4 sm:px-6 py-2 rounded-md font-medium transition-all duration-300 text-sm sm:text-base ${
                   selectedDepartment === dept
                     ? 'bg-white text-[#0A1E3D] shadow-lg'
                     : 'bg-blue-900/30 text-blue-300 hover:bg-blue-900/50'
@@ -228,7 +228,7 @@ const OpenPositionsSection = () => {
             {filteredPositions.map((position, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-lg p-6 border border-blue-800/30 hover:border-blue-700/50 hover:shadow-xl transition-all duration-300"
+                className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-6 border border-blue-800/30 hover:border-blue-700/50 hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
                   <div>
@@ -236,16 +236,16 @@ const OpenPositionsSection = () => {
                       {position.title}
                     </h3>
                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                      <span className="text-xs font-medium text-blue-400 bg-blue-600/20 px-2 sm:px-3 py-1 rounded">
+                      <span className="text-xs font-medium text-blue-400 bg-blue-600/20 px-2 sm:px-3 py-1 rounded-md">
                         {position.department}
                       </span>
-                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded">
+                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded-md">
                         {position.location}
                       </span>
-                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded">
+                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded-md">
                         {position.type}
                       </span>
-                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded">
+                      <span className="text-xs font-medium text-gray-300 bg-gray-700/30 px-2 sm:px-3 py-1 rounded-md">
                         {position.experience}
                       </span>
                     </div>
@@ -255,7 +255,7 @@ const OpenPositionsSection = () => {
                     href={`mailto:${applicationEmail}?subject=${encodeURIComponent(
                       emailSubject
                     )}&body=${emailBody}`}
-                    className="bg-white text-[#0A1E3D] px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base"
+                    className="bg-white text-[#0A1E3D] px-6 py-3 rounded-md hover:bg-gray-100 transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base"
                   >
                     Apply Now
                   </a>
@@ -286,10 +286,10 @@ const LinkedInCTASection = () => {
   return (
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        <div className="bg-gradient-to-br from-[#0A1E3D] to-[#1a3a5c] rounded-2xl p-6 sm:p-8 lg:p-12 border border-blue-800/30 shadow-2xl">
+        <div className="bg-gradient-to-br from-[#0A1E3D] to-[#1a3a5c] rounded-md p-6 sm:p-8 lg:p-12 border border-blue-800/30 shadow-2xl">
           
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-[#0077B5] rounded-lg mb-6 shadow-lg">
+            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-[#0077B5] rounded-md mb-6 shadow-lg">
               <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
@@ -306,7 +306,7 @@ const LinkedInCTASection = () => {
               href="https://www.linkedin.com/company/sarsen-and-company"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#0077B5] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#006396] transition-all duration-300 font-medium shadow-lg group text-base sm:text-lg"
+              className="inline-flex items-center gap-3 bg-[#0077B5] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#006396] transition-all duration-300 font-medium shadow-lg group text-base sm:text-lg"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -372,7 +372,7 @@ const WhoWereLookingForSection = () => {
           {qualities.map((quality, index) => (
             <div
               key={index}
-              className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-lg p-6 border border-blue-800/30 hover:border-blue-700/50 hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-6 border border-blue-800/30 hover:border-blue-700/50 hover:shadow-xl transition-all duration-300"
             >
               <h3 className="text-lg sm:text-xl font-medium text-white mb-3">
                 {quality.title}
@@ -449,7 +449,7 @@ const ApplicationProcessSection = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="relative bg-white rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300"
+              className="relative bg-white rounded-md p-6 border border-gray-200 hover:shadow-xl transition-all duration-300"
             >
               <div className="absolute -top-4 -left-4 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-full flex items-center justify-center text-white font-medium shadow-lg text-sm sm:text-base">
                 {step.number}
@@ -459,7 +459,7 @@ const ApplicationProcessSection = () => {
                   <h3 className="text-base sm:text-lg font-medium text-gray-900">
                     {step.title}
                   </h3>
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded whitespace-nowrap ml-2">
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md whitespace-nowrap ml-2">
                     {step.duration}
                   </span>
                 </div>

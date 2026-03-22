@@ -160,7 +160,7 @@ const HowWeEngage = () => {
           {engagementSteps.map((step, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-[#002855] hover:shadow-lg transition-all duration-300"
+              className="bg-white rounded-md p-8 border-2 border-gray-200 hover:border-[#002855] hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start gap-6">
 
@@ -273,7 +273,7 @@ const WorkTypes = () => {
         <div className="flex flex-wrap gap-4 mb-12">
           <button
             onClick={() => setActiveTab('communication')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'communication'
+            className={`px-6 py-3 rounded-md font-semibold transition-all duration-300 ${activeTab === 'communication'
               ? 'bg-white text-[#0A1E3D]'
               : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
               }`}
@@ -282,7 +282,7 @@ const WorkTypes = () => {
           </button>
           <button
             onClick={() => setActiveTab('sector')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'sector'
+            className={`px-6 py-3 rounded-md font-semibold transition-all duration-300 ${activeTab === 'sector'
               ? 'bg-white text-[#0A1E3D]'
               : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
               }`}
@@ -291,7 +291,7 @@ const WorkTypes = () => {
           </button>
           <button
             onClick={() => setActiveTab('storytelling')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeTab === 'storytelling'
+            className={`px-6 py-3 rounded-md font-semibold transition-all duration-300 ${activeTab === 'storytelling'
               ? 'bg-white text-[#0A1E3D]'
               : 'bg-blue-900/30 text-blue-200 hover:bg-blue-900/50'
               }`}
@@ -301,7 +301,7 @@ const WorkTypes = () => {
         </div>
 
         {/* Content */}
-        <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-2xl p-8 sm:p-10 lg:p-12 border border-blue-800/30">
+        <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-8 sm:p-10 lg:p-12 border border-blue-800/30">
           <h3 className="text-2xl sm:text-3xl font-medium text-white mb-4">
             {currentContent.title}
           </h3>
@@ -315,7 +315,7 @@ const WorkTypes = () => {
               {(currentContent as SectorContent).sectors.map((sector, index) => (
                 <div
                   key={index}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-blue-700/30 hover:border-[#002855] hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-sm rounded-md p-6 border border-blue-700/30 hover:border-[#002855] hover:bg-white/10 transition-all duration-300"
                 >
                   <h4 className="text-white font-semibold text-lg mb-2">
                     {sector.name}
@@ -331,7 +331,7 @@ const WorkTypes = () => {
               {(currentContent as CommunicationContent | StorytellingContent).points.map((point, index) => (
                 <div
                   key={index}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-blue-700/30"
+                  className="bg-white/5 backdrop-blur-sm rounded-md p-6 border border-blue-700/30"
                 >
                   <h4 className="text-white font-semibold text-xl mb-3">
                     {point.heading}
@@ -459,7 +459,7 @@ const CaseStudyApproach = () => {
           </p>
           <Link
             href="/contact#main"
-            className="inline-block bg-[#0A1E3D] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#132B47] transition-all duration-300 shadow-lg"
+            className="inline-block bg-[#0A1E3D] text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-[#132B47] transition-all duration-300 shadow-lg"
           >
             Discuss Your Situation
           </Link>
@@ -492,7 +492,7 @@ const OurProcess = () => {
           <img src="/assets/home/Methedology.svg" alt="" />
         </div>
 
-        <div className="mt-12 bg-gradient-to-br from-blue-50 to-blue-100  rounded-md p-8 sm:p-10">
+        <div className="mt-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md p-8 sm:p-10">
           <h3 className="text-xl font-semibold text-gray-900 mb-3">
             Why This Structure?
           </h3>
@@ -569,7 +569,7 @@ const WhatYouGet = () => {
           {deliverables.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-50 rounded-xl p-8 border border-gray-200 hover:shadow-lg transition-all duration-300"
+              className="bg-gray-50 rounded-md p-8 border border-gray-200 hover:shadow-lg transition-all duration-300"
             >
 
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
@@ -611,7 +611,7 @@ const WorkFooterCTA = () => {
 
       px-8
       py-4
-      rounded-lg
+      rounded-md
       font-semibold
       text-lg
       shadow-lg
@@ -642,7 +642,7 @@ const WorkFooterCTA = () => {
 
       px-8
       py-4
-      rounded-lg
+      rounded-md
       font-semibold
       text-lg
 
