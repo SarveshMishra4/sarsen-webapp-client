@@ -957,7 +957,7 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
             <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredStudies.length} case {filteredStudies.length !== 1 ? 'studies' : 'study'}
-              {activeTag !== 'All' && <> in <em className="text-blue-600">{activeTag}</em></>}
+              {activeTag !== 'All' && <> in  className="text-blue-600"{activeTag}</>}
             </p>
           </div>
 

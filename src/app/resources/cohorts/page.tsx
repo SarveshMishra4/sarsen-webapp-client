@@ -604,7 +604,7 @@ export default function CohortsHubPage(): React.JSX.Element {
               {filteredCohorts.length}{' '}
               {filteredCohorts.length !== 1 ? 'cohorts' : 'cohort'}
               {activeTag !== 'All' && (
-                <> in <em className="text-blue-600">{activeTag}</em></>
+                <> in  className="text-blue-600"{activeTag}</>
               )}
             </p>
           </div>

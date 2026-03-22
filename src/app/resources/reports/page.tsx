@@ -1516,7 +1516,7 @@ export default function ReportsHubPage(): React.JSX.Element {
               {activeTag !== 'All' && (
                 <>
                   {' '}in{' '}
-                  <em className="text-blue-600">{activeTag}</em>
+                   className="text-blue-600"{activeTag}
                 </>
               )}
             </p>

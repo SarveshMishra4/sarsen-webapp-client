@@ -796,7 +796,7 @@ export default function ServicesHubPage(): React.JSX.Element {
               {filteredServices.length}{' '}
               {filteredServices.length !== 1 ? 'packages' : 'package'}
               {activeTag !== 'All' && (
-                <> in <em className="text-blue-600">{activeTag}</em></>
+                <> in  className="text-blue-600"{activeTag}</>
               )}
             </p>
           </div>

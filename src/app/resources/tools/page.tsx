@@ -1449,7 +1449,7 @@ export default function ToolsHubPage(): React.JSX.Element {
               {filteredTools.length}{' '}
               {filteredTools.length !== 1 ? 'tools' : 'tool'}
               {activeTag !== 'All' && (
-                <> in <em className="text-blue-600">{activeTag}</em></>
+                <> in  className="text-blue-600"{activeTag}</>
               )}
             </p>
           </div>
