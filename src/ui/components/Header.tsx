@@ -344,7 +344,7 @@ export default function Header() {
             */}
             <div className="hidden lg:flex items-center space-x-2 ml-16 relative z-20">
               {Object.keys(megaMenuContent).map((menu) => (
-                <a  /* ← FIX 1: restored missing opening <a tag */
+                <a
                   key={menu}
                   href={`/${menu}`}
                   className={`px-5 font-medium relative ${activeMenu === menu
@@ -372,7 +372,7 @@ export default function Header() {
               Visible only on desktop (lg and above). A white button with hover effect.
               shadow-lg adds depth.
             */}
-            <a  /* ← FIX 2: restored missing opening <a tag */
+            <a
               href="/contact"
               className="hidden lg:block px-6 lg:px-8 py-2 lg:py-3 bg-white text-[#002855] font-semibold rounded-md hover:bg-blue-50 transition-colors shadow-lg text-sm lg:text-base"
               style={{ color: '#002855' }}
@@ -453,7 +453,7 @@ export default function Header() {
                   <div className="w-[50%] p-8 border-r border-gray-200">
                     <div className="space-y-1">
                       {megaMenuContent[activeMenu].links.slice(0, 7).map((link, idx) => (
-                        <a  /* ← FIX 3: restored missing opening <a tag */
+                        <a
                           key={idx}
                           href={link.href}
                           className="block py-2 px-3 hover:text-[#002855] transition-colors duration-200 group cursor-pointer"
@@ -564,7 +564,7 @@ export default function Header() {
                         {/* Links list (same as desktop, limited to 7) */}
                         <div className="space-y-1">
                           {megaMenuContent[menu].links.slice(0, 7).map((link, idx) => (
-                            <a  /* ← FIX 4: restored missing opening <a tag */
+                            <a
                               key={idx}
                               href={link.href}
                               className="block py-2 px-3 hover:text-[#002855] transition-colors duration-200 group cursor-pointer"
@@ -613,7 +613,7 @@ export default function Header() {
 
                 {/* Mobile & Tablet Contact CTA Button */}
                 {/* A prominent blue button at the bottom of the mobile/tablet menu */}
-                <a  /* ← FIX 5: restored missing opening <a tag */
+                <a
                   href="/contact"
                   className="block w-full mt-4 px-6 py-3 bg-[#002855] text-blue-400
                    font-semibold rounded-md hover:bg-blue-900 transition-colors text-center"
