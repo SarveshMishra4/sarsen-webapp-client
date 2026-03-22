@@ -231,7 +231,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
       onClick={handleBackdropClick}
     >
       <div className="relative w-full max-w-md" style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}>
-        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
           {/* Modal Header — plain, no gradient */}
           <div className="px-8 py-6 relative border-b border-gray-200">
             <button
@@ -254,7 +254,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                     </svg>
@@ -269,7 +269,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       setFormData((p) => ({ ...p, partnerId: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                     placeholder="e.g. SSP-2024-XXXX"
                     required
                     autoComplete="username"
@@ -284,7 +284,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setFormData((p) => ({ ...p, password: e.target.value }))
                       }
-                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                       placeholder="Enter your password"
                       required
                       autoComplete="current-password"
@@ -313,7 +313,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                     loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}
                 >
@@ -387,7 +387,7 @@ const HeroSection: FC = () => (
         {/* LEFT */}
         <div className="space-y-7">
           <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
             style={{ backgroundColor: 'rgba(147,197,253,0.08)', border: '1px solid rgba(147,197,253,0.18)' }}
           >
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#93C5FD' }} />
@@ -490,7 +490,7 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onRead(post.title)}
-      className="group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
       aria-label={`Read: ${post.title}`}
     >
@@ -506,13 +506,13 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
         </div>
         <div className="relative z-10 flex items-center gap-3">
           <span
-            className="px-3 py-1 rounded-full text-xs font-semibold"
+            className="px-3 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {post.tag}
           </span>
           <span
-            className="text-xs px-3 py-1 rounded-full"
+            className="text-xs px-3 py-1 rounded-md"
             style={{ backgroundColor: 'rgba(147,197,253,0.08)', color: '#93C5FD', border: '1px solid rgba(147,197,253,0.15)' }}
           >
             Featured
@@ -566,7 +566,7 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onRead(post.title)}
-      className="group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
       style={{
         backgroundColor: '#FFFFFF',
         border: '1px solid #E5E7EB',
@@ -583,7 +583,7 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
       <div className="px-5 py-5">
         <div className="flex items-start justify-between gap-3 mb-3">
           <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold flex-shrink-0"
+            className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold flex-shrink-0"
             style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
           >
             {post.tag}
@@ -627,7 +627,7 @@ interface ReportStripProps {
 
 const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden"
+    className="my-12 rounded-md overflow-hidden"
     style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
@@ -635,7 +635,7 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-8 h-8 rounded-md flex items-center justify-center"
             style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -671,7 +671,7 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               backgroundColor: '#132B47',
               border: '1px solid rgba(59,130,246,0.1)',
@@ -679,7 +679,7 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
             aria-label={`Access report: ${report.title}`}
           >
             <span
-              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
+              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
               style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#ffffff' }}
             >
               {report.tag}
@@ -711,7 +711,7 @@ interface CaseStudyStripProps {
 
 const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) => (
   <div
-    className="my-12 rounded-2xl overflow-hidden"
+    className="my-12 rounded-md overflow-hidden"
     style={{ backgroundColor: '#0A1E3D' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
@@ -719,7 +719,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-8 h-8 rounded-md flex items-center justify-center"
             style={{ backgroundColor: '#132B47' }}
           >
             <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -756,7 +756,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               backgroundColor: '#132B47',
               border: '1px solid rgba(59,130,246,0.1)',
@@ -764,7 +764,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
             aria-label={`Access case study: ${cs.title}`}
           >
             <span
-              className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-2"
+              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
               style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#ffffff' }}
             >
               {cs.tag}
@@ -835,7 +835,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
 };
 
 // =====================================================
-// TAG FILTER BAR — updated colors
+// TAG FILTER BAR — updated colors and rounded-md, fixed overflow
 // =====================================================
 
 const ALL_TAGS: string[] = [
@@ -850,7 +850,7 @@ interface TagFilterBarProps {
 
 const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   <div
-    className="flex gap-2 overflow-x-auto pb-2"
+    className="flex gap-2 overflow-x-auto overflow-visible py-2"
     style={{ scrollbarWidth: 'none' } as React.CSSProperties}
     role="toolbar"
     aria-label="Filter blogs by category"
@@ -863,7 +863,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           key={tag}
           type="button"
           onClick={() => onTagChange(tag)}
-          className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
+          className="flex-shrink-0 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#93C5FD]"
           style={
             isActive
               ? { backgroundColor: '#0A1E3D', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
@@ -952,7 +952,7 @@ export default function BlogsHubPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 mt-4 ">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 ">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
             <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}
