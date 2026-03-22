@@ -952,7 +952,7 @@ export default function BlogsHubPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 pt-4 ">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 mt-4 ">
             <TagFilterBar activeTag={activeTag} onTagChange={setActiveTag} />
             <p className="text-sm flex-shrink-0 text-gray-500">
               {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}
