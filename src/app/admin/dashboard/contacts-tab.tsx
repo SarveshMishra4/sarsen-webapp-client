@@ -186,7 +186,7 @@ export function ContactsTab({ contacts, setContacts, token }: ContactsTabProps) 
                   <div className="border-t border-gray-100 p-6 bg-white/80 space-y-4">
                     <div>
                       <h4 className="text-sm font-medium text-gray-700 mb-2">Message:</h4>
-                      <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                      <p className="text-gray-700 whitespace-pre-wrap ">
                         {contact.message}
                       </p>
                     </div>

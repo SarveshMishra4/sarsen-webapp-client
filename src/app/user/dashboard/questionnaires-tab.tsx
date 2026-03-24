@@ -13,7 +13,7 @@ export const QuestionnairesTab = ({
   return (
     <section id="questionnaires">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-light text-gray-800">Your Questionnaires</h2>
+        <h2 className="text-2xl  text-gray-800">Your Questionnaires</h2>
         <span className="text-sm text-gray-600">
           {questionnaires.filter(q => q.status === 'pending').length} pending
         </span>

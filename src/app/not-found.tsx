@@ -120,10 +120,10 @@ export default function NotFound() {
               </svg>
 
                {/* Consultant message */}
-                <h1 className="text-white text-2xl lg:text-3xl font-light leading-snug mb-3 tracking-tight">
+                <h1 className="text-white text-2xl lg:text-3xl   mb-3 ">
                   Resource Does Not Exist.
                 </h1>
-                <p className="text-gray-400 text-sm lg:text-base font-light leading-relaxed max-w-xs">
+                <p className="text-gray-400 text-sm lg:text-base   max-w-xs">
                   The Resource You Requested Has Not Been Found.
                 </p>
               
@@ -165,10 +165,10 @@ export default function NotFound() {
                 </svg>
 
                 {/* Consultant message */}
-                <h1 className="text-white text-2xl lg:text-3xl font-light leading-snug mb-3 tracking-tight">
+                <h1 className="text-white text-2xl lg:text-3xl   mb-3 ">
                   Resource Does Not Exist.
                 </h1>
-                <p className="text-gray-400 text-sm lg:text-base font-light leading-relaxed max-w-xs">
+                <p className="text-gray-400 text-sm lg:text-base   max-w-xs">
                   The Resource You Requested Has Not Been Found.
                 </p>
               </div>
@@ -202,7 +202,7 @@ export default function NotFound() {
         >
           <Link
             href="/"
-            className="flex items-center justify-center gap-3 bg-blue-700 hover:bg-blue-600 text-white px-7 py-3.5 rounded-md transition-colors duration-300 font-medium text-sm tracking-wide shadow-lg"
+            className="flex items-center justify-center gap-3 bg-blue-700 hover:bg-blue-600 text-white px-7 py-3.5 rounded-md transition-colors duration-300 font-medium text-sm  shadow-lg"
           >
             <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -212,7 +212,7 @@ export default function NotFound() {
 
           <Link
             href="/about"
-            className="flex items-center justify-center gap-3 bg-transparent border border-blue-700/60 hover:border-blue-500 text-blue-300 hover:text-white px-7 py-3.5 rounded-md transition-colors duration-300 font-medium text-sm tracking-wide"
+            className="flex items-center justify-center gap-3 bg-transparent border border-blue-700/60 hover:border-blue-500 text-blue-300 hover:text-white px-7 py-3.5 rounded-md transition-colors duration-300 font-medium text-sm "
           >
             Learn About Sarsen
           </Link>
@@ -246,7 +246,7 @@ export default function NotFound() {
                 <h3 className="text-white text-sm font-medium mb-0.5 group-hover:text-blue-300 transition-colors duration-300">
                   Our Services
                 </h3>
-                <p className="text-gray-500 text-sm leading-snug">Consulting engagements and service offerings</p>
+                <p className="text-gray-500 text-sm ">Consulting engagements and service offerings</p>
               </div>
             </Link>
 
@@ -262,7 +262,7 @@ export default function NotFound() {
                 <h3 className="text-white text-sm font-medium mb-0.5 group-hover:text-blue-300 transition-colors duration-300">
                   Reports & Research
                 </h3>
-                <p className="text-gray-500 text-sm leading-snug">Industry analysis and proprietary research</p>
+                <p className="text-gray-500 text-sm ">Industry analysis and proprietary research</p>
               </div>
             </Link>
 
@@ -278,7 +278,7 @@ export default function NotFound() {
                 <h3 className="text-white text-sm font-medium mb-0.5 group-hover:text-blue-300 transition-colors duration-300">
                   Free Resources
                 </h3>
-                <p className="text-gray-500 text-sm leading-snug">Frameworks and tools for founders</p>
+                <p className="text-gray-500 text-sm ">Frameworks and tools for founders</p>
               </div>
             </Link>
 
@@ -294,7 +294,7 @@ export default function NotFound() {
                 <h3 className="text-white text-sm font-medium mb-0.5 group-hover:text-blue-300 transition-colors duration-300">
                   Contact Us
                 </h3>
-                <p className="text-gray-500 text-sm leading-snug">Reach the Sarsen team directly</p>
+                <p className="text-gray-500 text-sm ">Reach the Sarsen team directly</p>
               </div>
             </Link>
 

@@ -79,7 +79,7 @@ export function SubscribersTab({ subscribers, setSubscribers, token }: Subscribe
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm mb-1">Total Subscribers</p>
-              <p className="text-3xl font-light text-gray-800">{subscribers.length}</p>
+              <p className="text-3xl  text-gray-800">{subscribers.length}</p>
             </div>
             <div className="bg-blue-500 text-white p-3 rounded-md">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@ export function SubscribersTab({ subscribers, setSubscribers, token }: Subscribe
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm mb-1">Showing</p>
-              <p className="text-3xl font-light text-gray-800">{filteredSubscribers.length}</p>
+              <p className="text-3xl  text-gray-800">{filteredSubscribers.length}</p>
             </div>
             <div className="bg-green-500 text-white p-3 rounded-md">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,9 +138,9 @@ export function SubscribersTab({ subscribers, setSubscribers, token }: Subscribe
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Subscribed At</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600">Email</th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600">Subscribed At</th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

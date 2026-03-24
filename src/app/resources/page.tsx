@@ -174,12 +174,12 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <span className="text-blue-200 text-sm font-medium tracking-wide uppercase">
+              <span className="text-blue-200 text-sm font-medium  uppercase">
                 Partner Access
               </span>
             </div>
 
-            <h2 className="text-2xl font-light text-white">Sign In to Continue</h2>
+            <h2 className="text-2xl  text-white">Sign In to Continue</h2>
             <p className="text-blue-200 text-sm mt-1 truncate">
               Accessing: <span className="text-white font-medium">{resourceTitle}</span>
             </p>
@@ -349,17 +349,17 @@ const HeroSection: FC = () => {
           <div className="space-y-7">
             <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-blue-300 text-xs font-medium tracking-widest uppercase">
+              <span className="text-blue-300 text-xs font-medium st uppercase">
                 Partner Resources
               </span>
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight tracking-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl  text-white  ">
                 The Resource
                 <span className="block text-blue-300">Hub</span>
               </h1>
-              <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-lg font-light">
+              <p className="text-gray-300 text-base sm:text-lg  max-w-lg ">
                 Curated knowledge for founders navigating complexity. Access blogs, case studies,
                 events, reports, cohorts, and strategic tools — all in one place.
               </p>
@@ -483,13 +483,13 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
         style={{ background: cardStyle.bodyBg }}
       >
         <h3
-          className="text-sm font-semibold leading-snug line-clamp-2"
+          className="text-sm font-semibold  line-clamp-2"
           style={{ color: cardStyle.cardTitle }}
         >
           {item.title}
         </h3>
         <p
-          className="text-xs leading-relaxed line-clamp-2"
+          className="text-xs  line-clamp-2"
           style={{ color: cardStyle.cardDesc }}
         >
           {item.description}
@@ -586,7 +586,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
             <div>
               <h2
                 id={`${id}-heading`}
-                className="text-3xl sm:text-4xl lg:text-5xl font-light leading-tight"
+                className="text-3xl sm:text-4xl lg:text-5xl  "
                 style={{ color: cardStyle.titleColor }}
               >
                 {title}

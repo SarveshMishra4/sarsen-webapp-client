@@ -98,8 +98,8 @@ function AdminLoginForm() {
 
           {/* Brand */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-light text-white mb-2">Sarsen Strategy Partners</h1>
-            <p className="text-blue-300 text-lg font-light">Administrative Access</p>
+            <h1 className="text-4xl  text-white mb-2">Sarsen Strategy Partners</h1>
+            <p className="text-blue-300 text-lg ">Administrative Access</p>
           </div>
 
           {/* Card */}
@@ -107,7 +107,7 @@ function AdminLoginForm() {
 
             {/* Header */}
             <div className="bg-[#002855] text-center px-8 py-6">
-              <h2 className="text-2xl font-light text-white mb-1">Admin Sign In</h2>
+              <h2 className="text-2xl  text-white mb-1">Admin Sign In</h2>
               <p className="text-blue-100 text-md">Restricted access for internal use only</p>
             </div>
 

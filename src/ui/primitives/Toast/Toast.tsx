@@ -24,7 +24,7 @@ export default function Toast({ toast, onClose }: Props) {
 
       <button
         onClick={() => onClose(id)}
-        className="text-lg leading-none hover:opacity-70"
+        className="text-lg  hover:opacity-70"
       >
         ✕
       </button>

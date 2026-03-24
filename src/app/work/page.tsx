@@ -45,12 +45,12 @@ const WorkHero = () => {
       <div className="max-w-xl">
 
         {/* Title */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white mb-6 leading-tight">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-6 ">
           How We Work With Founders
         </h1>
 
         {/* Subtitle */}
-        <p className="text-md sm:text-xl text-blue-200 font-light leading-relaxed mb-12">
+        <p className="text-md sm:text-xl text-blue-200   mb-12">
           We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
         </p>
 
@@ -82,11 +82,11 @@ const EngagementPhilosophy = () => {
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 ">
       <div className='max-w-7xl mx-auto'>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-900 leading-tight mb-6">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-gray-900  mb-6">
         Work on Engagement: Combined Use
       </h2>
 
-      <div className=" text-gray-700 text-lg leading-relaxed">
+      <div className=" text-gray-700 text-lg ">
 
         <p>
           Most consultants offer either advice or execution. We offer neither in isolation.
@@ -148,10 +148,10 @@ const HowWeEngage = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 sm:mb-16">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-900 mb-4">
             How We Engage With Clients
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-3xl ">
             Four non-negotiable principles guide every engagement. These aren't marketing claims—they're operational constraints we build into our delivery.
           </p>
         </div>
@@ -168,7 +168,7 @@ const HowWeEngage = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-600 ">
                     {step.description}
                   </p>
                 </div>
@@ -261,10 +261,10 @@ const WorkTypes = () => {
         {/* Header */}
         <div className="mb-12 sm:mb-16">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-4">
             What We Do For Clients
           </h2>
-          <p className="text-xl text-blue-200 font-light leading-relaxed max-w-3xl">
+          <p className="text-xl text-blue-200   max-w-3xl">
             Three core areas where founders need structured thinking, not generic advice.
           </p>
         </div>
@@ -305,7 +305,7 @@ const WorkTypes = () => {
           <h3 className="text-2xl sm:text-3xl font-medium text-white mb-4">
             {currentContent.title}
           </h3>
-          <p className="text-blue-200 text-lg mb-8 leading-relaxed">
+          <p className="text-blue-200 text-lg mb-8 ">
             {currentContent.description}
           </p>
 
@@ -320,7 +320,7 @@ const WorkTypes = () => {
                   <h4 className="text-white font-semibold text-lg mb-2">
                     {sector.name}
                   </h4>
-                  <p className="text-blue-200 text-sm leading-relaxed">
+                  <p className="text-blue-200 text-sm ">
                     {sector.description}
                   </p>
                 </div>
@@ -336,7 +336,7 @@ const WorkTypes = () => {
                   <h4 className="text-white font-semibold text-xl mb-3">
                     {point.heading}
                   </h4>
-                  <p className="text-blue-200 leading-relaxed">
+                  <p className="text-blue-200 ">
                     {point.text}
                   </p>
                 </div>
@@ -392,10 +392,10 @@ const CaseStudyApproach = () => {
         {/* Header */}
         <div className="mb-12 sm:mb-16">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-900 mb-4">
             How We Actually Help
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-3xl ">
             These aren't polished success stories. They're simplified versions of real engagements where the work was messy, uncertain, and required discipline.
           </p>
         </div>
@@ -479,10 +479,10 @@ const OurProcess = () => {
 
         <div className="mb-12 sm:mb-16">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-900 mb-4">
             How Work Actually Flows
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-3xl ">
             Every engagement follows the same five-stage structure. This isn't consulting theater—it's a system designed to deliver clarity in defined time.
           </p>
         </div>
@@ -496,10 +496,10 @@ const OurProcess = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-3">
             Why This Structure?
           </h3>
-          <p className="text-gray-700 leading-relaxed ">
+          <p className="text-gray-700  ">
             Most consulting engagements fail because scope expands, timelines drift, and deliverables become vague. Our process is rigid by design.
           </p>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-700 ">
             You always know where you are, what's next, and when things will be delivered. No surprise extensions. No "just one more thing." Clarity requires constraints.
           </p>
         </div>
@@ -557,10 +557,10 @@ const WhatYouGet = () => {
 
         <div className="mb-12 sm:mb-16">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-900 mb-4">
             What You Actually Get
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-3xl ">
             Not vague advice. Not motivational speeches. Not dependency. You get tools, clarity, and confidence to execute independently.
           </p>
         </div>
@@ -575,7 +575,7 @@ const WhatYouGet = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {item.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 ">
                 {item.description}
               </p>
             </div>
@@ -593,10 +593,10 @@ const WorkFooterCTA = () => {
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6">
           Ready to Start?
         </h2>
-        <p className="text-xl text-blue-200 font-light mb-10 leading-relaxed">
+        <p className="text-xl text-blue-200  mb-10 ">
           Every engagement begins with the Business Diagnostic & Direction Package. It's compulsory because clarity must come before execution.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center isolate">

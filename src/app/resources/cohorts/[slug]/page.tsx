@@ -54,7 +54,7 @@ const MetaRow: FC<{ icon: React.ReactNode; label: string; value: string }> = ({
       {icon}
     </div>
     <div>
-      <p className="text-xs tracking-widest uppercase text-gray-500">{label}</p>
+      <p className="text-xs sttext-gray-500">{label}</p>
       <p className="text-sm font-medium mt-0.5 text-gray-900">{value}</p>
     </div>
   </div>
@@ -144,7 +144,7 @@ export default function CohortPage({ params }: PageProps) {
 
             {/* Title */}
             <h1
-              className="font-light leading-tight mb-4 text-white"
+              className="  mb-4 text-white"
               style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
             >
               {cohort.title}
@@ -156,7 +156,7 @@ export default function CohortPage({ params }: PageProps) {
             </p>
 
             {/* Excerpt */}
-            <p className="text-base leading-relaxed mb-10 max-w-2xl text-gray-400">
+            <p className="text-base  mb-10 max-w-2xl text-gray-400">
               {cohort.excerpt}
             </p>
 
@@ -256,10 +256,10 @@ export default function CohortPage({ params }: PageProps) {
           <div
             className="rounded-md p-8 mb-8 bg-white border border-gray-200"
           >
-            <h2 className="text-lg font-light mb-4 text-gray-900">
+            <h2 className="text-lg  mb-4 text-gray-900">
               What you will work on
             </h2>
-            <p className="text-sm leading-relaxed text-gray-600">
+            <p className="text-sm  text-gray-600">
               {cohort.excerpt}
             </p>
           </div>
@@ -268,7 +268,7 @@ export default function CohortPage({ params }: PageProps) {
           <div
             className="rounded-md p-8 mb-12 bg-white border border-gray-200"
           >
-            <h2 className="text-lg font-light mb-6 text-gray-900">
+            <h2 className="text-lg  mb-6 text-gray-900">
               Application process
             </h2>
             <div className="space-y-4">
@@ -316,7 +316,7 @@ export default function CohortPage({ params }: PageProps) {
           {/* ── Sticky bottom CTA ────────────────────────── */}
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
             <div>
-              <p className="text-xl font-light text-gray-900">
+              <p className="text-xl  text-gray-900">
                 {cohort.priceDisplay}
               </p>
               <p className="text-xs mt-0.5 text-gray-500">

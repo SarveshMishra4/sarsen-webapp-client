@@ -169,11 +169,11 @@ export default function Footer() {
               {/* Company name – two lines stacked inside a div */}
               <div>
                 {/* Line 1: "Sarsen" */}
-                <div className="text-2xl font-bold leading-tight text-gray-900">
+                <div className="text-2xl font-bold  text-gray-900">
                   Sarsen
                 </div>
                 {/* Line 2: "& Company" */}
-                <div className="text-2xl font-bold leading-tight text-gray-900">
+                <div className="text-2xl font-bold  text-gray-900">
                   & Company
                 </div>
               </div>
@@ -248,7 +248,7 @@ export default function Footer() {
             <h3 className="mb-3 text-xl font-bold text-gray-900">Subscribe</h3>
 
             {/* Supporting description text */}
-            <p className="mb-5 text-md leading-snug text-gray-600">
+            <p className="mb-5 text-md  text-gray-600">
               Select topics and stay current with our latest insights
             </p>
 
@@ -370,7 +370,7 @@ export default function Footer() {
             />
 
             {/* Badge text: two lines */}
-            <div className="text-sm leading-tight text-gray-700">
+            <div className="text-sm  text-gray-700">
               {/* Primary line – bold label */}
               <div className="font-semibold text-gray-900">
                 Powered by Google

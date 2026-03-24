@@ -97,8 +97,8 @@ function UserLoginForm() {
 
           {/* Brand */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-light text-white mb-2">Sarsen Strategy Partners</h1>
-            <p className="text-blue-300 text-lg font-light">Client Dashboard Access</p>
+            <h1 className="text-4xl  text-white mb-2">Sarsen Strategy Partners</h1>
+            <p className="text-blue-300 text-lg ">Client Dashboard Access</p>
           </div>
 
           {/* Card */}
@@ -106,7 +106,7 @@ function UserLoginForm() {
 
             {/* Header */}
             <div className="bg-[#002855] px-8 py-6">
-              <h2 className="text-2xl text-center font-light text-white mb-1">Welcome Back</h2>
+              <h2 className="text-2xl text-center  text-white mb-1">Welcome Back</h2>
               <p className="text-blue-100 text-md text-center">Sign In to Access Your Dashboard</p>
             </div>
 

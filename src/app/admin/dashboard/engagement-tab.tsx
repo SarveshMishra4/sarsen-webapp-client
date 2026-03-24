@@ -162,7 +162,7 @@ function EngagementOverview({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{files.length}</p>
+              <p className="text-2xl  text-gray-800">{files.length}</p>
               <p className="text-xs text-gray-600">Resources Shared</p>
             </div>
           </div>
@@ -175,7 +175,7 @@ function EngagementOverview({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{questionnaires.length}</p>
+              <p className="text-2xl  text-gray-800">{questionnaires.length}</p>
               <p className="text-xs text-gray-600">Questionnaires</p>
             </div>
           </div>
@@ -188,7 +188,7 @@ function EngagementOverview({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{messages.length}</p>
+              <p className="text-2xl  text-gray-800">{messages.length}</p>
               <p className="text-xs text-gray-600">Messages</p>
             </div>
           </div>
@@ -829,15 +829,15 @@ function MessagesManagement({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-md p-4 border border-gray-200">
           <p className="text-sm text-gray-600 mb-1">Total Messages</p>
-          <p className="text-2xl font-light text-gray-800">{messages.length}</p>
+          <p className="text-2xl  text-gray-800">{messages.length}</p>
         </div>
         <div className="bg-white rounded-md p-4 border border-gray-200">
           <p className="text-sm text-gray-600 mb-1">From Admin</p>
-          <p className="text-2xl font-light text-gray-800">{messages.filter(m => m.senderRole === 'admin').length}</p>
+          <p className="text-2xl  text-gray-800">{messages.filter(m => m.senderRole === 'admin').length}</p>
         </div>
         <div className="bg-white rounded-md p-4 border border-gray-200">
           <p className="text-sm text-gray-600 mb-1">From Client</p>
-          <p className="text-2xl font-light text-gray-800">{messages.filter(m => m.senderRole === 'user').length}</p>
+          <p className="text-2xl  text-gray-800">{messages.filter(m => m.senderRole === 'user').length}</p>
         </div>
       </div>
     </div>
@@ -1106,7 +1106,7 @@ export function EngagementWorkspaceTab({ engagements, setEngagements, token, onR
                 <div className="space-y-3">
                   {purchaseAnswers.map((a, i) => (
                     <div key={i} className="bg-gray-50 rounded-md p-4">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">{a.questionText}</p>
+                      <p className="text-xs font-medium text-gray-500 mb-1">{a.questionText}</p>
                       <p className="text-sm text-gray-800">{a.answer || <span className="text-gray-300 ">No answer</span>}</p>
                     </div>
                   ))}
@@ -1121,7 +1121,7 @@ export function EngagementWorkspaceTab({ engagements, setEngagements, token, onR
                 <div className="bg-amber-50 border border-amber-200 rounded-md p-5">
                   <p className="text-sm font-medium text-amber-800 mb-2">New password — shown once only</p>
                   <div className="flex items-center gap-3">
-                    <code className="bg-white border border-amber-200 rounded px-3 py-2 text-base font-mono text-amber-900 tracking-widest">{resetPasswordText}</code>
+                    <code className="bg-white border border-amber-200 rounded px-3 py-2 text-base font-mono text-amber-900 st">{resetPasswordText}</code>
                     <button onClick={() => navigator.clipboard.writeText(resetPasswordText)} className="px-3 py-2 bg-amber-500 text-white text-sm rounded-md hover:bg-amber-600 transition-colors">Copy</button>
                   </div>
                   <p className="text-xs text-amber-600 mt-2">This will not be shown again. Share it with the user now.</p>

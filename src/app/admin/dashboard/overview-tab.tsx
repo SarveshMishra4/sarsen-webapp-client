@@ -73,7 +73,7 @@ export function OverviewTab({ engagements, contacts, feedback, subscribers }: Ov
           <div key={index} className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <div className={`${stat.color} text-white p-3 rounded-md`}>{stat.icon}</div>
-              <span className="text-3xl font-light text-gray-800">{stat.value}</span>
+              <span className="text-3xl  text-gray-800">{stat.value}</span>
             </div>
             <h3 className="text-gray-700 text-sm font-medium mb-0.5">{stat.title}</h3>
             <p className="text-xs text-gray-400">{stat.sub}</p>

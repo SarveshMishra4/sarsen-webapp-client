@@ -1401,7 +1401,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   }}
                 >
                   <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: service.accentColor }} />
-                  <span className="text-xs font-medium tracking-widest uppercase" style={{ color: service.accentColor }}>
+                  <span className="text-xs font-medium st uppercase" style={{ color: service.accentColor }}>
                     {service.tag}
                   </span>
                 </div>
@@ -1413,18 +1413,18 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 </span>
               </div>
 
-              <p className="text-xs tracking-widest uppercase text-blue-300/70">
+              <p className="text-xs sttext-blue-300/70">
                 {service.tagline}
               </p>
 
               <h1
-                className="font-light leading-tight tracking-tight text-white"
+                className="   text-white"
                 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
               >
                 {service.title}
               </h1>
 
-              <p className="text-base leading-relaxed font-light max-w-lg text-gray-400">
+              <p className="text-base   max-w-lg text-gray-400">
                 {service.problemStatement}
               </p>
             </div>
@@ -1437,7 +1437,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 { label: 'Outcome', value: service.outcome },
               ].map((m) => (
                 <div key={m.label}>
-                  <p className="text-xs tracking-widest uppercase mb-0.5 text-gray-500">
+                  <p className="text-xs stmb-0.5 text-gray-500">
                     {m.label}
                   </p>
                   <p className="text-sm text-blue-300">{m.value}</p>
@@ -1525,17 +1525,17 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div>
-            <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
+            <p className="text-xs stmb-3 text-blue-300/70">
               Core Services — Always Included
             </p>
             <h2
-              className="font-light mb-6 text-white"
+              className=" mb-6 text-white"
               style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
             >
               What we do<br />
               <span style={{ color: service.accentColor }}>in every engagement.</span>
             </h2>
-            <p className="text-sm leading-relaxed text-gray-400">
+            <p className="text-sm  text-gray-400">
               These {service.coreServices.length} services are mandatory and non-negotiable. Every client receives them in full, in the defined sequence.
             </p>
           </div>
@@ -1563,7 +1563,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                 >
                   {i + 1}
                 </span>
-                <p className="text-sm text-blue-300 leading-relaxed">{cs}</p>
+                <p className="text-sm text-blue-300 ">{cs}</p>
               </div>
             ))}
           </div>
@@ -1585,17 +1585,17 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
       style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
+        <p className="text-xs stmb-3 text-blue-300/70">
           Flexible Services — Choose up to {service.maxFlexibleSelections}
         </p>
         <h2
-          className="font-light mb-2 text-white"
+          className=" mb-2 text-white"
           style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
           Customise your<br />
           <span style={{ color: service.accentColor }}>engagement.</span>
         </h2>
-        <p className="text-sm leading-relaxed mb-10 max-w-lg text-gray-400">
+        <p className="text-sm  mb-10 max-w-lg text-gray-400">
           Select up to {service.maxFlexibleSelections} of the following services when you complete your intake form.
         </p>
 
@@ -1620,7 +1620,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
                 </svg>
               </div>
               <p className="text-sm font-medium mb-1 text-blue-300">{fs.label}</p>
-              <p className="text-xs leading-relaxed text-gray-400">{fs.description}</p>
+              <p className="text-xs  text-gray-400">{fs.description}</p>
             </div>
           ))}
         </div>
@@ -1640,11 +1640,11 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
       style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
+        <p className="text-xs stmb-3 text-blue-300/70">
           Customer Service Roadmap
         </p>
         <h2
-          className="font-light mb-10 text-white"
+          className=" mb-10 text-white"
           style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
           How we work<br />
@@ -1681,7 +1681,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
                   }}
                 >
                   <p className="text-sm font-medium mb-1 text-blue-300">{step.title}</p>
-                  <p className="text-sm leading-relaxed text-gray-400">{step.description}</p>
+                  <p className="text-sm  text-gray-400">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -1708,10 +1708,10 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
             className="sm:col-span-2 rounded-md p-8"
             style={{ backgroundColor: '#132B47', border: `1px solid rgba(${rgb},0.10)` }}
           >
-            <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
+            <p className="text-xs stmb-3 text-blue-300/70">
               Targeted for
             </p>
-            <p className="text-lg leading-relaxed font-light text-white">
+            <p className="text-lg   text-white">
               {service.targetedFor}
             </p>
           </div>
@@ -1724,10 +1724,10 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
             }}
           >
             <div>
-              <p className="text-xs tracking-widest uppercase mb-3 text-blue-300/70">
+              <p className="text-xs stmb-3 text-blue-300/70">
                 Investment
               </p>
-              <p className="text-3xl font-light mb-1 text-white">
+              <p className="text-3xl  mb-1 text-white">
                 {service.priceDisplay}
               </p>
               <p className="text-xs mb-6 text-gray-400">

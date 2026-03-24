@@ -11,7 +11,7 @@ export default function AccessibilityStatementPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-light mb-4">Accessibility Statement</h1>
+          <h1 className="text-4xl md:text-5xl  mb-4">Accessibility Statement</h1>
           <p className="text-xl text-blue-100">
             Last Updated: February 10, 2025
           </p>
@@ -25,10 +25,10 @@ export default function AccessibilityStatementPage() {
           {/* Our Commitment */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Our Commitment to Accessibility</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Sarsen Strategy Partners is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards to ensure our website and services are accessible to all users.
             </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We believe that everyone, regardless of ability or technology, should be able to access our strategic consulting services, resources, and information. Accessibility is an ongoing effort, and we are dedicated to making our digital presence inclusive and user-friendly.
             </p>
           </section>
@@ -36,7 +36,7 @@ export default function AccessibilityStatementPage() {
           {/* Standards and Guidelines */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Accessibility Standards</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Our website strives to conform to the following accessibility standards:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -50,7 +50,7 @@ export default function AccessibilityStatementPage() {
           {/* Accessibility Features */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">3. Accessibility Features</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Our website includes the following accessibility features:
             </p>
 
@@ -105,7 +105,7 @@ export default function AccessibilityStatementPage() {
           {/* Assistive Technologies */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">4. Compatible Assistive Technologies</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Our website is designed to be compatible with the following assistive technologies:
             </p>
             
@@ -137,7 +137,7 @@ export default function AccessibilityStatementPage() {
           {/* Known Limitations */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">5. Known Limitations</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Despite our best efforts, some limitations may exist:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -146,7 +146,7 @@ export default function AccessibilityStatementPage() {
               <li><strong>Historical Content:</strong> Older content may not meet current accessibility standards. We are progressively updating this content.</li>
               <li><strong>Complex Interactive Features:</strong> Some advanced interactive features may have accessibility limitations. We are actively working to improve these.</li>
             </ul>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               If you encounter accessibility barriers with any of our content, please contact us so we can provide an alternative or work toward a solution.
             </p>
           </section>
@@ -154,7 +154,7 @@ export default function AccessibilityStatementPage() {
           {/* Ongoing Efforts */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Ongoing Accessibility Efforts</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We are continuously working to enhance the accessibility of our website through:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -170,7 +170,7 @@ export default function AccessibilityStatementPage() {
           {/* Alternative Access */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Alternative Access to Services</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               If you experience difficulty accessing any content or using any features on our website, we offer alternative ways to access our services:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -185,12 +185,12 @@ export default function AccessibilityStatementPage() {
           {/* Feedback and Reporting */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Feedback and Accessibility Issues</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We welcome your feedback on the accessibility of our website and services. If you encounter accessibility barriers, please let us know:
             </p>
 
             <h3 className="text-xl font-medium text-gray-800 mb-3">8.1 How to Report Issues</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               When reporting accessibility issues, please provide:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -202,7 +202,7 @@ export default function AccessibilityStatementPage() {
             </ul>
 
             <h3 className="text-xl font-medium text-gray-800 mb-3">8.2 Response Timeline</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We are committed to addressing accessibility issues promptly:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
@@ -215,7 +215,7 @@ export default function AccessibilityStatementPage() {
           {/* Legal Compliance */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Legal and Regulatory Compliance</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Sarsen Strategy Partners complies with applicable accessibility laws and regulations, including:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -224,7 +224,7 @@ export default function AccessibilityStatementPage() {
               <li>Section 508 of the Rehabilitation Act (for U.S. clients)</li>
               <li>EN 301 549 (European accessibility standard, for EU clients)</li>
             </ul>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               We recognize that accessibility is not just a legal requirement but a moral imperative and business opportunity. We are committed to going beyond minimum compliance to create truly inclusive digital experiences.
             </p>
           </section>
@@ -232,7 +232,7 @@ export default function AccessibilityStatementPage() {
           {/* Third-Party Content */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Third-Party Services and Content</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Our website may integrate third-party services such as:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -242,7 +242,7 @@ export default function AccessibilityStatementPage() {
               <li>Analytics and tracking services</li>
               <li>Social media platforms</li>
             </ul>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               While we strive to select accessible third-party services, we cannot control their accessibility features. If you experience issues with third-party content, please contact us, and we will work with you to find an accessible alternative or solution.
             </p>
           </section>
@@ -250,7 +250,7 @@ export default function AccessibilityStatementPage() {
           {/* Contact Information */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Contact Our Accessibility Team</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               For accessibility-related questions, feedback, or to request assistance:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
@@ -267,7 +267,7 @@ export default function AccessibilityStatementPage() {
           {/* Updates to Statement */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Updates to This Statement</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               This Accessibility Statement was last updated on February 10, 2025. We review and update this statement regularly to reflect our ongoing accessibility improvements and changes to applicable standards. Please check back periodically for updates.
             </p>
           </section>
@@ -275,21 +275,21 @@ export default function AccessibilityStatementPage() {
           {/* Formal Complaints */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">13. Formal Complaints Process</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               If you are not satisfied with our response to an accessibility issue:
             </p>
             <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
-              <li className="leading-relaxed">
+              <li className="">
                 <strong>Internal Escalation:</strong> Request escalation to our senior management team
               </li>
-              <li className="leading-relaxed">
+              <li className="">
                 <strong>Written Complaint:</strong> Submit a formal written complaint detailing the issue and resolution sought
               </li>
-              <li className="leading-relaxed">
+              <li className="">
                 <strong>External Resources:</strong> You may also contact relevant accessibility advocacy organizations or regulatory bodies in your jurisdiction
               </li>
             </ol>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               We are committed to working constructively with you to resolve any accessibility concerns.
             </p>
           </section>
@@ -297,7 +297,7 @@ export default function AccessibilityStatementPage() {
           {/* Acknowledgment */}
           <section className="bg-blue-50 rounded-lg p-6 border border-blue-100">
             <h2 className="text-xl font-medium text-gray-800 mb-3">Our Commitment</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               Sarsen Strategy Partners is committed to ensuring equal access to our services for all individuals. Accessibility is an ongoing journey, not a destination. We are dedicated to continuous improvement and welcome your partnership in making our digital presence truly inclusive.
             </p>
           </section>

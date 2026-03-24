@@ -142,7 +142,7 @@ export default function SelectEngagementPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
-              <h1 className="text-2xl font-light">Sarsen Strategy Partners</h1>
+              <h1 className="text-2xl ">Sarsen Strategy Partners</h1>
               <div className="hidden md:block h-8 w-px bg-white/20"></div>
               <div className="hidden md:block">
                 <p className="text-sm text-blue-200">Welcome,</p>
@@ -166,7 +166,7 @@ export default function SelectEngagementPage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h2 className="text-3xl font-light text-gray-800 mb-2">Select Your Engagement</h2>
+          <h2 className="text-3xl  text-gray-800 mb-2">Select Your Engagement</h2>
           <p className="text-gray-600">
             You have {engagements.length} active engagement{engagements.length !== 1 ? 's' : ''}. Choose one to continue.
           </p>

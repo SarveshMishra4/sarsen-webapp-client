@@ -325,8 +325,8 @@ export default function Header() {
                 />
               </div>
               <div className="text-white">
-                <div className="text-lg lg:text-xl font-bold leading-tight">Sarsen</div>
-                <div className="text-xs lg:text-sm font-light leading-tight">& Company</div>
+                <div className="text-lg lg:text-xl font-bold ">Sarsen</div>
+                <div className="text-xs lg:text-sm  ">& Company</div>
               </div>
             </a>
 
@@ -436,7 +436,7 @@ export default function Header() {
                     <h3 className="text-2xl font-bold text-[#002855] mb-3">
                       {megaMenuContent[activeMenu].title}
                     </h3>
-                    <p className="text-gray-600 text-md leading-relaxed">
+                    <p className="text-gray-600 text-md ">
                       {megaMenuContent[activeMenu].description}
                     </p>
                   </div>
@@ -462,7 +462,7 @@ export default function Header() {
                             <span className="font-semibold text-[15px] text-[#002855] group-hover:text-[#002855]">
                               {link.label}
                             </span>
-                            <span className="text-gray-500 text-sm mt-0.5 group-hover:text-gray-700 leading-tight">
+                            <span className="text-gray-500 text-sm mt-0.5 group-hover:text-gray-700 ">
                               {link.description}
                             </span>
                           </div>
@@ -573,7 +573,7 @@ export default function Header() {
                                 <span className="font-medium text-[15px] text-blue-600 group-hover:text-[#002855]">
                                   {link.label}
                                 </span>
-                                <span className="text-gray-500 text-xs mt-0.5 group-hover:text-gray-700 leading-tight">
+                                <span className="text-gray-500 text-xs mt-0.5 group-hover:text-gray-700 ">
                                   {link.description}
                                 </span>
                               </div>

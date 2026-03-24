@@ -8,7 +8,7 @@ export const ResourcesTab = ({ resources }: { resources: Resource[] }) => {
   return (
     <section id="resources">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-light text-gray-800">Shared Resources</h2>
+        <h2 className="text-2xl  text-gray-800">Shared Resources</h2>
         <span className="text-sm text-gray-600">{resources.length} files</span>
       </div>
 

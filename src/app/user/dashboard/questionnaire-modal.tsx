@@ -56,7 +56,7 @@ export const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
         <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] px-8 py-6 rounded-t-md">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <h2 className="text-2xl font-light text-white mb-2">{questionnaire.title}</h2>
+              <h2 className="text-2xl  text-white mb-2">{questionnaire.title}</h2>
               <p className="text-blue-100 text-sm">{questionnaire.description}</p>
             </div>
             <button

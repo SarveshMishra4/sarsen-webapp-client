@@ -22,7 +22,7 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
         );
       }
       return (
-        <p key={idx} className="mb-4 text-gray-700 leading-relaxed">
+        <p key={idx} className="mb-4 text-gray-700 ">
           {trimmed}
         </p>
       );
@@ -83,11 +83,11 @@ const CaseStudyPage: FC<CaseStudyPageProps> = ({ study }) => {
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl   text-white">
                   {study.title}
                 </h1>
 
-                <p className="text-xl text-blue-300 font-light">
+                <p className="text-xl text-blue-300 ">
                   {study.subtitle}
                 </p>
 

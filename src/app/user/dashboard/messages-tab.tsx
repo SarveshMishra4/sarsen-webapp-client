@@ -16,7 +16,7 @@ export const MessagesTab = ({ messages, onSendMessage, isLocked }: MessagesTabPr
   return (
     <section id="messages">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-light text-gray-800">Messages</h2>
+        <h2 className="text-2xl  text-gray-800">Messages</h2>
         <span className="text-sm text-gray-600">
           {unreadMessages} unread
         </span>

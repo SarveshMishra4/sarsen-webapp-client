@@ -75,7 +75,7 @@ export default async function ProductPage({ params }: PageProps) {
               Overview
             </h2>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 ">
               {product.longDescription}
             </p>
 

@@ -65,12 +65,12 @@ const HeroSection = () => {
             
 
             <div className="space-y-4">
-              <h2 className="text-xl sm:text-2xl text-white font-light tracking-wide">
+              <h2 className="text-xl sm:text-2xl text-white  ">
                 Running a startup means making irreversible decisions with incomplete information.
               </h2>
 
               <div className="min-h-[100px] sm:min-h-[120px]">
-                <p className="text-xl sm:text-2xl md:text-2xl text-blue-300 font-light leading-tight">
+                <p className="text-xl sm:text-2xl md:text-2xl text-blue-300  ">
                   {typedProblem}
                   <span className="animate-pulse"></span>
                 </p>
@@ -114,17 +114,17 @@ const ReportSection = () => {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             <div className="space-y-6">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 ">
                 Indian Startup Ecosystem Report 2026
               </h2>
 
               <div className="space-y-4">
-                <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                <p className="text-gray-700 text-base sm:text-lg ">
                   Comprehensive analysis of India's startup landscape covering funding trends,
                   sector-wise growth patterns, emerging opportunities across tier-1 and tier-2
                   cities, and strategic insights for founders and investors.
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-600 text-sm sm:text-base ">
                   Based on data from 5,000+ startups, 200+ investor interviews, and ground-level
                   research across 15 major startup hubs. Essential reading for anyone navigating
                   the Indian entrepreneurial ecosystem.
@@ -318,10 +318,10 @@ const CompanyHelpsSection = () => {
       <div className="max-w-7xl mx-auto">
 
         <div className="max-w-4xl mb-16 sm:mb-20">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
             Sarsen & Company Specializes In
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
+          <p className="text-gray-300 text-base sm:text-lg ">
             We work with founders at moments where progress slows, decisions feel heavier, and effort no longer translates into results.
 
             These are not execution problems. They are structural problems — in pricing, positioning, capital planning, internal systems, or the product itself.
@@ -344,10 +344,10 @@ const CompanyHelpsSection = () => {
                 }`}
             >
               <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-6 sm:p-8 lg:p-12 border border-blue-800/30 hover:border-blue-700/50 transition-all duration-300 h-full overflow-y-auto">
-                <h3 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium mb-4 sm:mb-6 leading-tight">
+                <h3 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium mb-4 sm:mb-6 ">
                   {area.title}
                 </h3>
-                <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+                <p className="text-gray-300 text-sm sm:text-base lg:text-lg ">
                   {area.description}
                 </p>
               </div>
@@ -496,10 +496,10 @@ const TestimonialsSection = () => {
 
         {/* Header */}
         <div className="text-center mb-10 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-6">
             Accomplished Entrepreneurs Understand This
           </h2>
-          <p className="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto ">
             Those who have built billion-dollar businesses emphasize the critical importance of
             strategic thinking, external guidance, and making informed decisions at every stage.
           </p>
@@ -521,7 +521,7 @@ const TestimonialsSection = () => {
                 </div>
 
                 {/* Quote Text */}
-                <blockquote className="text-gray-700 text-sm sm:text-base lg:text-lg leading-relaxed mb-6">
+                <blockquote className="text-gray-700 text-sm sm:text-base lg:text-lg  mb-6">
                   {person.quote}
                 </blockquote>
 
@@ -567,7 +567,7 @@ const TestimonialsSection = () => {
 
                   {/* Name + title — right */}
                   <div>
-                    <h3 className="text-gray-900 font-bold text-sm sm:text-base leading-tight">{person.name}</h3>
+                    <h3 className="text-gray-900 font-bold text-sm sm:text-base ">{person.name}</h3>
                     <p className="text-gray-500 text-xs sm:text-sm mt-0.5">{person.title}</p>
                   </div>
 
@@ -701,7 +701,7 @@ const FreeResourcesSection = () => {
       <div className="max-w-7xl mx-auto">
 
         <div className="mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4">
             Free Resources
           </h2>
           <p className="text-gray-600 text-base sm:text-lg max-w-3xl">
@@ -757,7 +757,7 @@ const FreeResourcesSection = () => {
                     {resource.title}
                   </h3>
 
-                  <p className="text-white/90 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-none">
+                  <p className="text-white/90 text-xs sm:text-sm  line-clamp-4 sm:line-clamp-none">
                     {resource.description}
                   </p>
                 </div>
@@ -794,22 +794,22 @@ const StoryProcessSection = () => {
       <div className="max-w-7xl mx-auto">
 
         <div className="mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6">
             Our Story & Process
           </h2>
 
           <div className="max-w-4xl">
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
+            <p className="text-gray-300 text-base sm:text-lg  mb-4">
               Most founders don’t lack effort or intelligence — they lack clear signal. Too many variables change at once: growth stalls, cash tightens, teams slow down, and every decision feels risky.
             </p>
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-400 text-sm sm:text-base ">
               Our process exists to remove noise before prescribing action. We don’t start with solutions. We start by isolating what actually matters, so every subsequent decision becomes easier, faster, and defensible.
             </p>
           </div>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-2xl sm:text-3xl font-light text-white mb-8">
+          <h3 className="text-2xl sm:text-3xl  text-white mb-8">
             How We Work
           </h3>
         </div>

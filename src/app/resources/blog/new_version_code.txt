@@ -17,10 +17,10 @@ const ArticlesHero = () => {
           {/* Left Column: Text Content */}
           <div className="space-y-8 lg:space-y-10">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-light leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white  ">
                 Insights & Articles
               </h1>
-              <p className="text-xl sm:text-2xl text-blue-300 font-light leading-relaxed">
+              <p className="text-xl sm:text-2xl text-blue-300  ">
                 Strategic perspectives grounded in diagnostic analysis, market research, and quantitative rigor.
               </p>
             </div>
@@ -137,10 +137,10 @@ const FeaturedArticleSection = () => {
               <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-white text-xs font-medium mb-4">
                 FEATURED ARTICLE
               </div>
-              <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 leading-tight">
+              <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
                 The State of Indian Startup Funding: A Quantitative Analysis
               </h2>
-              <p className="text-white/90 text-base sm:text-lg leading-relaxed mb-6">
+              <p className="text-white/90 text-base sm:text-lg  mb-6">
                 An in-depth examination of funding patterns across 5,000+ Indian startups over 24 months, 
                 revealing sector-specific trends, valuation dynamics, and emerging investment themes through 
                 rigorous data analysis and market intelligence.
@@ -337,7 +337,7 @@ const ArticlesGridSection = ({ activeFilter }: { activeFilter: string }) => {
         
         {/* Section Header */}
         <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl font-light text-gray-800">
+          <h2 className="text-2xl sm:text-3xl  text-gray-800">
             {activeFilter === 'All Articles' ? 'Latest Articles' : activeFilter}
           </h2>
           <p className="text-gray-600 text-sm mt-2">
@@ -377,12 +377,12 @@ const ArticlesGridSection = ({ activeFilter }: { activeFilter: string }) => {
                 </div>
 
                 {/* Article Title */}
-                <h3 className="text-lg font-medium text-gray-900 mb-2 leading-tight">
+                <h3 className="text-lg font-medium text-gray-900 mb-2 ">
                   {article.title}
                 </h3>
                 
                 {/* Article Excerpt */}
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                <p className="text-gray-600 text-sm mb-4 ">
                   {article.excerpt}
                 </p>
 
@@ -431,10 +431,10 @@ const NewsletterSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 sm:p-10 lg:p-12">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 leading-tight">
+            <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
               Subscribe to Strategic Insights
             </h2>
-            <p className="text-white/90 text-base sm:text-lg leading-relaxed mb-8">
+            <p className="text-white/90 text-base sm:text-lg  mb-8">
               Receive our latest articles, market analysis, and strategic perspectives delivered directly 
               to your inbox. Join 5,000+ business leaders staying ahead of market trends.
             </p>
@@ -460,15 +460,15 @@ const NewsletterSection = () => {
             {/* Subscription Benefits */}
             <div className="grid sm:grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/20">
               <div className="text-white">
-                <div className="text-2xl font-light mb-1">Weekly</div>
+                <div className="text-2xl  mb-1">Weekly</div>
                 <div className="text-white/80 text-sm">Market Analysis</div>
               </div>
               <div className="text-white">
-                <div className="text-2xl font-light mb-1">Monthly</div>
+                <div className="text-2xl  mb-1">Monthly</div>
                 <div className="text-white/80 text-sm">Deep-Dive Reports</div>
               </div>
               <div className="text-white">
-                <div className="text-2xl font-light mb-1">Exclusive</div>
+                <div className="text-2xl  mb-1">Exclusive</div>
                 <div className="text-white/80 text-sm">Strategic Frameworks</div>
               </div>
             </div>
@@ -547,7 +547,7 @@ const TopicsSection = () => {
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-light text-gray-800 mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-4xl  text-gray-800 mb-4 ">
             Browse by Topic
           </h2>
           <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
@@ -588,10 +588,10 @@ const CTASection = () => {
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
             Need Strategic Guidance?
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
+          <p className="text-gray-300 text-base sm:text-lg  mb-8">
             Our articles provide frameworks and perspectives, but every business faces unique challenges. 
             Let's discuss how our diagnostic, data-driven approach can address your specific strategic questions.
           </p>

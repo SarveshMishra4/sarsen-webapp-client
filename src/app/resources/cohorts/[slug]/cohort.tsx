@@ -302,11 +302,11 @@ const CouponStep: FC<CouponStepProps> = ({
         className="rounded-md p-5 space-y-3"
         style={{ backgroundColor: 'rgba(59,130,246,0.04)', border: '1px solid rgba(59,130,246,0.12)' }}
       >
-        <p className="text-xs font-medium tracking-widest uppercase text-gray-500">
+        <p className="text-xs font-medium sttext-gray-500">
           Order Summary
         </p>
         <p
-          className="font-medium leading-snug text-white"
+          className="font-medium  text-white"
           style={{ fontFamily: 'Georgia, serif', fontSize: '0.95rem' }}
         >
           {cohort.title}
@@ -356,7 +356,7 @@ const CouponStep: FC<CouponStepProps> = ({
               setCouponCode(e.target.value.toUpperCase().trim())
             }
             placeholder="e.g. SARSEN10"
-            className={`${INPUT} flex-1 uppercase tracking-wider`}
+            className={`${INPUT} flex-1`}
             disabled={couponState === 'valid'}
           />
           <button
@@ -462,12 +462,12 @@ const SuccessStep: FC<{ cohort: Cohort; onClose: () => void }> = ({ cohort, onCl
       </svg>
     </div>
     <h3
-      className="text-xl font-light mb-2 text-white"
+      className="text-xl  mb-2 text-white"
       style={{ fontFamily: 'Georgia, serif' }}
     >
       Application Confirmed
     </h3>
-    <p className="text-sm leading-relaxed mb-2 text-gray-400">
+    <p className="text-sm  mb-2 text-gray-400">
       Your application and payment for{' '}
       <span className="font-medium text-blue-400">{cohort.cohortNumber}</span>{' '}
       of the{' '}
@@ -685,7 +685,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
             </div>
 
             <h2
-              className="text-xl font-light pr-8 text-white"
+              className="text-xl  pr-8 text-white"
               style={{ fontFamily: 'Georgia, serif' }}
             >
               {headerTitle}

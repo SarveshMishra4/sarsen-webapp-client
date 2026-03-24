@@ -110,11 +110,11 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl   text-white">
                   {title}
                 </h1>
 
-                <p className="text-xl text-blue-300 font-light">
+                <p className="text-xl text-blue-300 ">
                   {subtitle}
                 </p>
 
@@ -171,7 +171,7 @@ const ReportPage: FC<ReportPageProps> = ({ report }) => {
               <h2 className="text-2xl font-medium mb-4 text-gray-900">
                 {section.heading}
               </h2>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+              <p className="text-gray-700  whitespace-pre-line">
                 {section.text}
               </p>
             </section>

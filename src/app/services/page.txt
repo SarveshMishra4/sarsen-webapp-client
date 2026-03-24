@@ -17,10 +17,10 @@ const ServicesHero = () => {
 
       <div className="max-w-7xl mx-auto">
         <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-5xl text-white font-light mb-6">
+          <h1 className="text-4xl md:text-5xl text-white  mb-6">
             Our Services
           </h1>
-          <p className="text-gray-300 text-lg leading-relaxed">
+          <p className="text-gray-300 text-lg ">
             Comprehensive consulting services designed to help founders and business owners navigate 
             challenges, unlock growth, and build sustainable businesses.
           </p>
@@ -57,7 +57,7 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
           <h3 className="text-2xl md:text-3xl font-medium mb-2">
             {service.title}
           </h3>
-          <p className="text-white/90 text-base leading-relaxed">
+          <p className="text-white/90 text-base ">
             {service.description}
           </p>
         </div>
@@ -213,7 +213,7 @@ const StrategicServicesSection = () => {
         
         {/* Section Header */}
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-800 mb-4">
+          <h2 className="text-3xl md:text-4xl  text-gray-800 mb-4">
             Strategic Services
           </h2>
           <p className="text-gray-600 text-sm max-w-3xl">
@@ -339,7 +339,7 @@ const GrowthServicesSection = () => {
         
         {/* Section Header */}
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+          <h2 className="text-3xl md:text-4xl  text-white mb-4">
             Growth & Scaling
           </h2>
           <p className="text-gray-300 text-sm max-w-3xl">
@@ -371,10 +371,10 @@ const CustomSolutionsSection = () => {
           
           {/* Left Column */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-light text-white mb-6">
+            <h2 className="text-3xl md:text-4xl  text-white mb-6">
               Custom Solutions
             </h2>
-            <p className="text-white/90 text-lg leading-relaxed mb-6">
+            <p className="text-white/90 text-lg  mb-6">
               Every business is unique. If our standard services don't quite fit your needs, 
               we create custom consulting engagements tailored to your specific challenges and goals.
             </p>
@@ -462,7 +462,7 @@ const FAQSection = () => {
         
         {/* Section Header */}
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-800 mb-4">
+          <h2 className="text-3xl md:text-4xl  text-gray-800 mb-4">
             Frequently Asked Questions
           </h2>
         </div>
@@ -474,7 +474,7 @@ const FAQSection = () => {
               <h3 className="text-lg font-semibold text-gray-800 mb-3">
                 {faq.question}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 text-sm ">
                 {faq.answer}
               </p>
             </div>

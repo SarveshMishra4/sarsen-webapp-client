@@ -51,7 +51,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl   text-white">
                   {post.title}
                 </h1>
 
@@ -104,7 +104,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
             {/* Render content with line breaks – if content is HTML, use dangerouslySetInnerHTML */}
             {post.content.split('\n').map((paragraph, idx) =>
               paragraph.trim() ? (
-                <p key={idx} className="mb-4 text-gray-700 leading-relaxed">
+                <p key={idx} className="mb-4 text-gray-700 ">
                   {paragraph}
                 </p>
               ) : null

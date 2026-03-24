@@ -14,15 +14,15 @@ const CareersHero = () => {
 
           {/* LEFT: TEXT CONTENT */}
           <div className="max-w-xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white font-light mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white  mb-6 ">
               Work on real business problems.
             </h1>
 
-            <p className="text-xl sm:text-2xl text-blue-300 font-light leading-relaxed mb-6">
+            <p className="text-xl sm:text-2xl text-blue-300   mb-6">
               Strategy that gets executed — not admired.
             </p>
 
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-300 text-base sm:text-lg ">
               We work with founders in high-constraint environments — limited capital, incomplete information,
               and decisions with real consequences.
               
@@ -118,10 +118,10 @@ const WhyJoinUsSection = () => {
       <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4 ">
             Why Join Sarsen & Company ?
           </h2>
-          <p className="text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="text-gray-700 text-base sm:text-lg  max-w-3xl mx-auto">
             This is not a place to hide, coast, or collect brand names.  
             It’s a place to think clearly, take responsibility, and do work that matters.
           </p>
@@ -136,12 +136,12 @@ const WhyJoinUsSection = () => {
               <div className="flex items-center gap-4 mb-4">
                 
                 <div className="flex-1">
-                  <h3 className="text-lg font-medium text-gray-900 group-hover:text-[#0A1E3D] transition-colors mb-2 leading-tight">
+                  <h3 className="text-lg font-medium text-gray-900 group-hover:text-[#0A1E3D] transition-colors mb-2 ">
                     {reason.title}
                   </h3>
                 </div>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 text-sm ">
                 {reason.description}
               </p>
             </div>
@@ -199,10 +199,10 @@ const OpenPositionsSection = () => {
       <div className="max-w-7xl mx-auto">
         
         <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4 leading-tight text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-4  text-center">
             Current Openings
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto text-center mb-8">
+          <p className="text-gray-300 text-base sm:text-lg  max-w-3xl mx-auto text-center mb-8">
             Explore opportunities to join our growing team. We work with people who value clarity, ownership, and execution.
           </p>
 
@@ -261,7 +261,7 @@ const OpenPositionsSection = () => {
                   </a>
                 </div>
 
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-300 text-sm ">
                   {position.description}
                 </p>
               </div>
@@ -295,10 +295,10 @@ const LinkedInCTASection = () => {
               </svg>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white mb-4 leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-4 ">
               Stay Updated on Career Opportunities
             </h2>
-            <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto mb-8">
+            <p className="text-gray-300 text-sm sm:text-base lg:text-lg  max-w-2xl mx-auto mb-8">
               Don't see the right role today? Follow us on LinkedIn where we post new career opportunities regularly, share insights about our work, and give you a behind-the-scenes look at life at Sarsen & Company.
             </p>
 
@@ -360,10 +360,10 @@ const WhoWereLookingForSection = () => {
       <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
             Who We're Looking For
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="text-gray-300 text-base sm:text-lg  max-w-3xl mx-auto">
             Skills can be taught. We hire for characteristics that can't.
           </p>
         </div>
@@ -377,7 +377,7 @@ const WhoWereLookingForSection = () => {
               <h3 className="text-lg sm:text-xl font-medium text-white mb-3">
                 {quality.title}
               </h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm ">
                 {quality.description}
               </p>
             </div>
@@ -437,10 +437,10 @@ const ApplicationProcessSection = () => {
       <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4 ">
             Our Application Process
           </h2>
-          <p className="text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="text-gray-700 text-base sm:text-lg  max-w-3xl mx-auto">
             Transparent, respectful, and designed to identify mutual fit efficiently.
           </p>
         </div>
@@ -463,7 +463,7 @@ const ApplicationProcessSection = () => {
                     {step.duration}
                   </span>
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-gray-600 text-sm ">
                   {step.description}
                 </p>
               </div>
@@ -472,7 +472,7 @@ const ApplicationProcessSection = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-6">
+          <p className="text-gray-700 text-sm sm:text-base  max-w-2xl mx-auto mb-6">
             Total timeline from application to offer typically takes 2-3 weeks. We move quickly for candidates we're excited about.
           </p>
         </div>

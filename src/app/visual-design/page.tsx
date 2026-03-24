@@ -780,7 +780,7 @@ const Table: React.FC<TableProps> = ({ headers, rows, className = '' }) => {
         <thead className="bg-gray-50">
           <tr>
             {headers.map((h, i) => (
-              <th key={i} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th key={i} className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                 {h}
               </th>
             ))}
@@ -1224,7 +1224,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data, className = '' }) 
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th key={col.key} className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                 {col.header}
               </th>
             ))}

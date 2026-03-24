@@ -109,7 +109,7 @@ export default function YourPrivacyChoicesPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-light mb-4">Your Privacy Choices</h1>
+          <h1 className="text-4xl md:text-5xl  mb-4">Your Privacy Choices</h1>
           <p className="text-xl text-blue-100">
             Control how your personal information is used
           </p>
@@ -132,10 +132,10 @@ export default function YourPrivacyChoicesPage() {
         {/* Introduction */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8">
           <h2 className="text-2xl font-medium text-gray-800 mb-4">Your Privacy Rights</h2>
-          <p className="text-gray-600 leading-relaxed mb-4">
+          <p className="text-gray-600  mb-4">
             At Sarsen Strategy Partners, we respect your privacy and give you control over your personal information. You have the right to make choices about how your data is collected, used, and shared.
           </p>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-gray-600 ">
             Use this page to manage your privacy preferences, exercise your data rights, and understand how we protect your information. For more details, please review our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
           </p>
         </div>

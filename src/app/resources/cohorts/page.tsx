@@ -60,20 +60,20 @@ const HeroSection: FC = () => (
             style={{ backgroundColor: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.16)' }}
           >
             <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium tracking-widest uppercase text-blue-300">
+            <span className="text-xs font-medium sttext-blue-300">
               Sarsen &amp; Company · Cohorts
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight text-white"
+              className="   text-white"
               style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Build with a<br />
               <span className="text-blue-300">Cohort.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
+            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
               Structured programmes for founders at specific inflection points — fundraising,
               scaling, sector-specific challenges. Peer accountability, expert input, and real
               work done in real time.
@@ -87,8 +87,8 @@ const HeroSection: FC = () => (
               { value: '87%',  label: 'Raise within 9 mo.' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-light text-white">{stat.value}</p>
-                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">
+                <p className="text-2xl  text-white">{stat.value}</p>
+                <p className="text-xs stmt-0.5 text-gray-500">
                   {stat.label}
                 </p>
               </div>
@@ -300,13 +300,13 @@ const FeaturedCohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void }> = 
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem,2.5vw,1.6rem)' }}
         >
           {cohort.title}
         </h2>
         <p className="text-sm font-medium mb-4 text-blue-300">✦ {cohort.outcome}</p>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
           {cohort.excerpt}
         </p>
         <div className="flex items-center justify-between flex-wrap gap-4">
@@ -394,13 +394,13 @@ const CohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void; animIndex: n
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-1.5 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium  mb-1.5 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {cohort.title}
         </h3>
         <p className="text-xs font-medium mb-2 text-blue-300">✦ {cohort.outcome}</p>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-400">
+        <p className="text-xs  mb-4 line-clamp-2 text-gray-400">
           {cohort.excerpt}
         </p>
         <div className="space-y-1.5 mb-4">
@@ -460,10 +460,10 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
               </svg>
             </div>
             <div>
-              <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
+              <p className="text-xs font-medium sttext-blue-300">
                 Upcoming Event
               </p>
-              <p className="text-sm font-light text-gray-400">A room worth being in</p>
+              <p className="text-sm  text-gray-400">A room worth being in</p>
             </div>
           </div>
           <a
@@ -506,7 +506,7 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
                 )}
               </div>
               <p
-                className="text-base font-medium leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+                className="text-base font-medium  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
               >
                 {FEATURED_EVENT.title}
               </p>
@@ -645,7 +645,7 @@ export default function CohortsHubPage(): React.JSX.Element {
           {filteredCohorts.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🎓</p>
-              <p className="text-lg font-light mb-1 text-gray-900">
+              <p className="text-lg  mb-1 text-gray-900">
                 No cohorts in &ldquo;{activeTag}&rdquo; right now
               </p>
               <p className="text-sm text-gray-500">

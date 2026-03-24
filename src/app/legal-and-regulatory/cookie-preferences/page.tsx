@@ -118,7 +118,7 @@ export default function CookiePreferencesPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-light mb-4">Cookie Preferences</h1>
+          <h1 className="text-4xl md:text-5xl  mb-4">Cookie Preferences</h1>
           <p className="text-xl text-blue-100">
             Manage your cookie settings and preferences
           </p>
@@ -141,13 +141,13 @@ export default function CookiePreferencesPage() {
         {/* Introduction */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8">
           <h2 className="text-2xl font-medium text-gray-800 mb-4">About Cookies</h2>
-          <p className="text-gray-600 leading-relaxed mb-4">
+          <p className="text-gray-600  mb-4">
             Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience by remembering your preferences, understanding how you use our site, and improving our services.
           </p>
-          <p className="text-gray-600 leading-relaxed mb-4">
+          <p className="text-gray-600  mb-4">
             You can control which cookies we use by adjusting your preferences below. Please note that disabling certain cookies may affect the functionality of our website.
           </p>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-gray-600 ">
             For more detailed information about how we use cookies and process your data, please read our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
           </p>
         </div>
@@ -190,7 +190,7 @@ export default function CookiePreferencesPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 ">
                       {category.description}
                     </p>
                   </div>
@@ -249,7 +249,7 @@ export default function CookiePreferencesPage() {
           
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Cookie Duration</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Cookies may be stored on your device for different periods:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
@@ -261,7 +261,7 @@ export default function CookiePreferencesPage() {
 
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Managing Cookies in Your Browser</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               You can also manage cookies directly through your browser settings. Here's how:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
@@ -270,21 +270,21 @@ export default function CookiePreferencesPage() {
               <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data</li>
               <li><strong>Edge:</strong> Settings → Cookies and site permissions → Manage and delete cookies</li>
             </ul>
-            <p className="text-gray-600 leading-relaxed text-sm">
+            <p className="text-gray-600  text-sm">
               Note: Blocking all cookies may prevent you from using certain features of our website.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Do Not Track (DNT)</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               We respect Do Not Track (DNT) browser settings. If you enable DNT in your browser, we will not track your activity across other websites. However, essential cookies required for website functionality will still be used.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Third-Party Services</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We use the following third-party services that may set cookies:
             </p>
             <div className="space-y-3">
@@ -308,14 +308,14 @@ export default function CookiePreferencesPage() {
 
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Updates to Cookie Policy</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               We may update our cookie practices from time to time. When we make changes, we will update the "Last Updated" date on this page and notify you through our website. Please review your cookie preferences periodically.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">Contact Us</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               If you have questions about our use of cookies:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">

@@ -378,7 +378,7 @@ export default function UserDashboard() {
           <div className="flex items-center justify-between">
 
             <div className="flex items-center gap-6">
-              <h1 className="text-2xl font-light">Sarsen Strategy Partners</h1>
+              <h1 className="text-2xl ">Sarsen Strategy Partners</h1>
               <div className="hidden md:block h-8 w-px bg-white/20" />
               <div className="hidden md:block">
                 <p className="text-sm text-blue-200">Welcome back,</p>
@@ -422,7 +422,7 @@ export default function UserDashboard() {
         {!selected && !detailLoading && (
           <>
             <div className="mb-8">
-              <h2 className="text-3xl font-light text-gray-800 mb-2">Your Engagements</h2>
+              <h2 className="text-3xl  text-gray-800 mb-2">Your Engagements</h2>
               <p className="text-gray-600">Select an engagement to view details and continue working.</p>
             </div>
 
@@ -492,7 +492,7 @@ export default function UserDashboard() {
             <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] rounded-md p-8 mb-8 text-white">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h2 className="text-3xl font-light mb-2">
+                  <h2 className="text-3xl  mb-2">
                     {selected.serviceId?.title}
                   </h2>
                   {selected.status === 'delivered' && (
@@ -519,23 +519,23 @@ export default function UserDashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
-                    <p className="text-3xl font-light mb-1">
+                    <p className="text-3xl  mb-1">
                       {questionnaires.filter(q => q.isSubmitted).length}
                     </p>
                     <p className="text-sm text-blue-100">Questionnaires Done</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
-                    <p className="text-3xl font-light mb-1">
+                    <p className="text-3xl  mb-1">
                       {questionnaires.filter(q => !q.isSubmitted).length}
                     </p>
                     <p className="text-sm text-blue-100">Pending</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
-                    <p className="text-3xl font-light mb-1">{files.length}</p>
+                    <p className="text-3xl  mb-1">{files.length}</p>
                     <p className="text-sm text-blue-100">Files Shared</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-md p-4">
-                    <p className="text-3xl font-light mb-1">
+                    <p className="text-3xl  mb-1">
                       {messages.filter(m => m.senderRole === 'admin').length}
                     </p>
                     <p className="text-sm text-blue-100">Messages</p>

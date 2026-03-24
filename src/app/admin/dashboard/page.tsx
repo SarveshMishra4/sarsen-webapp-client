@@ -370,7 +370,7 @@ export default function AdminDashboard() {
           ) : (
             <>
               <div className="mb-8">
-                <h2 className="text-3xl font-light text-gray-800 mb-2">
+                <h2 className="text-3xl  text-gray-800 mb-2">
                   {activeTab === 'overview' && 'Dashboard Overview'}
                   {activeTab === 'contacts' && 'Contact Messages'}
                   {activeTab === 'engagements' && 'Engagement Workspace'}

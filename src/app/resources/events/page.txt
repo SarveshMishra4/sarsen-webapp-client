@@ -19,10 +19,10 @@ const EventsHero = () => {
           {/* Left Column: Text Content */}
           <div className="space-y-8 lg:space-y-10">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-light leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white  ">
                 Seminars & Events
               </h1>
-              <p className="text-xl sm:text-2xl text-blue-300 font-light leading-relaxed">
+              <p className="text-xl sm:text-2xl text-blue-300  ">
                 Curated forums for strategic dialogue, executive learning, and data-driven decision making.
               </p>
             </div>
@@ -147,10 +147,10 @@ const FeaturedEventSection = () => {
               <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-white text-xs font-medium mb-4">
                 FLAGSHIP EVENT
               </div>
-              <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 leading-tight">
+              <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
                 Strategic Leadership Summit 2025
               </h2>
-              <p className="text-white/90 text-base sm:text-lg leading-relaxed mb-6">
+              <p className="text-white/90 text-base sm:text-lg  mb-6">
                 A two-day immersive summit bringing together C-suite executives, founders, and strategy leaders 
                 for deep-dive sessions on market intelligence, competitive positioning, and operational 
                 excellence — anchored by proprietary research and live diagnostic frameworks.
@@ -382,7 +382,7 @@ const EventsGridSection = ({ activeFilter }: { activeFilter: string }) => {
 
         {/* Section Header */}
         <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl font-light text-gray-800">
+          <h2 className="text-2xl sm:text-3xl  text-gray-800">
             {activeFilter === 'All Events' ? 'Upcoming Events' : activeFilter}
           </h2>
           <p className="text-gray-600 text-sm mt-2">
@@ -433,12 +433,12 @@ const EventsGridSection = ({ activeFilter }: { activeFilter: string }) => {
                   </div>
 
                   {/* Event Title */}
-                  <h3 className="text-lg font-medium text-gray-900 mb-2 leading-tight">
+                  <h3 className="text-lg font-medium text-gray-900 mb-2 ">
                     {event.title}
                   </h3>
 
                   {/* Event Description */}
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  <p className="text-gray-600 text-sm mb-4 ">
                     {event.description}
                   </p>
 
@@ -516,10 +516,10 @@ const PastEventsSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 sm:p-10 lg:p-12">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 leading-tight">
+            <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
               A Track Record of Strategic Impact
             </h2>
-            <p className="text-white/90 text-base sm:text-lg leading-relaxed mb-10">
+            <p className="text-white/90 text-base sm:text-lg  mb-10">
               Our seminars and workshops are built on the same diagnostic rigour that drives our consulting engagements — 
               delivering frameworks, not just theory. Here is the scale of impact we have delivered.
             </p>
@@ -528,7 +528,7 @@ const PastEventsSection = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat, index) => (
                 <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                  <div className="text-4xl font-light text-white mb-1">{stat.value}</div>
+                  <div className="text-4xl  text-white mb-1">{stat.value}</div>
                   <div className="text-white/90 text-sm font-medium">{stat.label}</div>
                   <div className="text-white/60 text-xs mt-1">{stat.sublabel}</div>
                 </div>
@@ -578,7 +578,7 @@ const UpcomingWebinarsSection = () => {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-light text-gray-800 leading-tight">
+            <h2 className="text-3xl sm:text-4xl  text-gray-800 ">
               Quick-Join Webinars
             </h2>
             <p className="text-gray-600 text-base mt-2">
@@ -604,7 +604,7 @@ const UpcomingWebinarsSection = () => {
                   <span className="text-white text-xs font-medium opacity-80">
                     {webinar.date.split(' ')[0]}
                   </span>
-                  <span className="text-white text-2xl font-light">
+                  <span className="text-white text-2xl ">
                     {webinar.date.split(' ')[1].replace(',', '')}
                   </span>
                 </div>
@@ -614,7 +614,7 @@ const UpcomingWebinarsSection = () => {
                   <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">
                     Webinar
                   </span>
-                  <h3 className="text-lg font-medium text-gray-900 mt-2 leading-tight">
+                  <h3 className="text-lg font-medium text-gray-900 mt-2 ">
                     {webinar.title}
                   </h3>
                   <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-500">
@@ -731,7 +731,7 @@ const EventCategoriesSection = () => {
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-light text-white mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-4xl  text-white mb-4 ">
             Browse by Format
           </h2>
           <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto">
@@ -754,7 +754,7 @@ const EventCategoriesSection = () => {
               <h3 className="text-lg font-medium text-white group-hover:text-blue-300 transition-colors">
                 {category.name}
               </h3>
-              <p className="text-gray-400 text-sm mt-1 leading-relaxed">
+              <p className="text-gray-400 text-sm mt-1 ">
                 {category.description}
               </p>
             </div>
@@ -775,10 +775,10 @@ const CTASection = () => {
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-6 ">
             Bring Your Team Along
           </h2>
-          <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-8">
+          <p className="text-gray-600 text-base sm:text-lg  mb-8">
             We offer tailored corporate registrations, dedicated team workshops, and private strategy sessions 
             designed around your organisation's diagnostic priorities. Let's build a learning journey that moves the needle.
           </p>

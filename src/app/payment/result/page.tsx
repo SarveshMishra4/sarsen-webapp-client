@@ -18,7 +18,7 @@ const PaymentSuccess = ({ email, password }: { email: string; password: string }
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-3xl font-light mb-2">Payment Successful!</h1>
+          <h1 className="text-3xl  mb-2">Payment Successful!</h1>
           <p className="text-blue-100">Welcome to Sarsen Strategy Partners</p>
         </div>
 
@@ -89,7 +89,7 @@ const PaymentFailure = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h1 className="text-3xl font-light mb-2">Payment Failed</h1>
+          <h1 className="text-3xl  mb-2">Payment Failed</h1>
           <p className="text-red-100">We couldn't process your payment</p>
         </div>
 

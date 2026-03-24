@@ -33,7 +33,7 @@ export const OverviewTab = ({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{questionnaires.length}</p>
+              <p className="text-2xl  text-gray-800">{questionnaires.length}</p>
               <p className="text-sm text-gray-600">Total Questionnaires</p>
             </div>
           </div>
@@ -47,7 +47,7 @@ export const OverviewTab = ({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{resources.length}</p>
+              <p className="text-2xl  text-gray-800">{resources.length}</p>
               <p className="text-sm text-gray-600">Shared Resources</p>
             </div>
           </div>
@@ -61,7 +61,7 @@ export const OverviewTab = ({
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-light text-gray-800">{messages.length}</p>
+              <p className="text-2xl  text-gray-800">{messages.length}</p>
               <p className="text-sm text-gray-600">Messages Exchanged</p>
             </div>
           </div>

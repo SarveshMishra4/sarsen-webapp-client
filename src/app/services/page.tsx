@@ -237,21 +237,21 @@ const HeroSection: FC = () => (
             }}
           >
             <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium tracking-widest  text-blue-300">
+            <span className="text-xs font-medium st  text-blue-300">
               Sarsen &amp; Company · Services
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight text-white"
+              className="   text-white"
               style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Structured
               <br />
               <span className="text-blue-300">Strategy.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
+            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
               Eight productised consulting packages — each scoped, repeatable, and built around a specific founder inflection point. Every engagement starts with Package 0.
             </p>
           </div>
@@ -347,7 +347,7 @@ const DeliveryRulesBanner: FC = () => (
   >
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
       <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
-        <p className="text-xs font-medium tracking-widest  text-gray-500">
+        <p className="text-xs font-medium st  text-gray-500">
           Global Delivery Rules
         </p>
         {[
@@ -454,7 +454,7 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
         </div>
 
         <div
-          className="absolute right-8 top-1/2 -translate-y-1/2 font-light select-none"
+          className="absolute right-8 top-1/2 -translate-y-1/2  select-none"
           style={{ fontSize: '8rem', color: 'rgba(59,130,246,0.06)', lineHeight: 1 }}
           aria-hidden="true"
         >
@@ -479,16 +479,16 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
       </div>
 
       <div className="px-8 sm:px-10 py-6 sm:py-8">
-        <p className="text-xs tracking-widest  mb-2 text-blue-300/70">
+        <p className="text-xs st  mb-2 text-blue-300/70">
           {service.tagline}
         </p>
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {service.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
           {service.excerpt}
         </p>
 
@@ -570,7 +570,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
         style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
         <div
-          className="absolute right-4 top-1/2 -translate-y-1/2 font-light select-none"
+          className="absolute right-4 top-1/2 -translate-y-1/2  select-none"
           style={{ fontSize: '4.5rem', color: 'rgba(59,130,246,0.07)', lineHeight: 1 }}
           aria-hidden="true"
         >
@@ -597,12 +597,12 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
           {service.tagline}
         </p>
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {service.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-3 text-gray-400">
+        <p className="text-xs  mb-4 line-clamp-3 text-gray-400">
           {service.excerpt}
         </p>
 
@@ -666,10 +666,10 @@ const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest  text-gray-500">
+            <p className="text-xs font-medium st  text-gray-500">
               The Package Journey
             </p>
-            <p className="text-sm font-light text-gray-600">
+            <p className="text-sm  text-gray-600">
               Every engagement starts with Package 0 — then moves to where you need to go.
             </p>
           </div>
@@ -713,7 +713,7 @@ const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
                   {service.tag}
                 </span>
                 <p
-                  className="text-xs leading-snug group-hover:opacity-100 transition-opacity text-gray-500"
+                  className="text-xs  group-hover:opacity-100 transition-opacity text-gray-500"
                   style={{ fontSize: '10px' }}
                 >
                   {service.title.split(':')[0].split('&')[0].trim()}
@@ -835,7 +835,7 @@ export default function ServicesHubPage(): React.JSX.Element {
           {filteredServices.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📦</p>
-              <p className="text-lg font-light mb-1 text-gray-900">
+              <p className="text-lg  mb-1 text-gray-900">
                 No packages in &ldquo;{activeTag}&rdquo;
               </p>
               <p className="text-sm text-gray-500">

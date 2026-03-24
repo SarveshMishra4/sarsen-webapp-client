@@ -127,7 +127,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
                 type="text"
                 value={formData.code}
                 onChange={e => setFormData(f => ({ ...f, code: e.target.value.toUpperCase() }))}
-                className="w-full px-4 py-2 border rounded-md font-mono tracking-wider"
+                className="w-full px-4 py-2 border rounded-md font-mono "
                 placeholder="e.g. SARSEN20"
               />
             </div>
@@ -208,7 +208,7 @@ export function CouponsTab({ coupons, setCoupons, services, token }: CouponsTabP
             <div key={coupon._id} className="bg-white rounded-md p-5 border shadow-sm">
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <span className="text-xl font-bold text-gray-800 font-mono tracking-wider">{coupon.code}</span>
+                  <span className="text-xl font-bold text-gray-800 font-mono ">{coupon.code}</span>
                   <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
                     coupon.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
                   }`}>

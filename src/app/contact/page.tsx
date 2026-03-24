@@ -19,10 +19,10 @@ const ContactHeroSection = () => {
           {/* ==================== LEFT COLUMN ==================== */}
           {/* Headline and Subtext */}
           <div className="space-y-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white font-light leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white  ">
               Bring Clarity to Your Business Decisions
             </h1>
-            <p className="text-lg sm:text-xl text-gray-300 font-light leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300  ">
 We work with founders who need clarity before making high-impact decisions — growth, capital, pricing, or restructuring.            </p>
             <div className="pt-4">
               <p className="text-gray-400 text-sm sm:text-base">
@@ -131,7 +131,7 @@ const ContactFormSection = () => {
               
               {/* Form Header */}
               <div className="mb-8">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-800 mb-3">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-gray-800 mb-3">
                   Tell Us What's Stuck
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base">
@@ -330,7 +330,7 @@ You don't need a polished explanation — clarity comes later."
             
             {/* Contact Information Card */}
             <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 text-white shadow-xl">
-              <h3 className="text-xl sm:text-2xl font-light mb-6">
+              <h3 className="text-xl sm:text-2xl  mb-6">
                 Contact Information
               </h3>
 
@@ -373,7 +373,7 @@ You don't need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+                    <p className="text-white/90 text-base sm:text-lg ">
                       123 Business District<br />
                       Bangalore, Karnataka 560001<br />
                       India
@@ -389,7 +389,7 @@ You don't need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+                    <p className="text-white/90 text-base sm:text-lg ">
                       Mon-Fri: 9:00 AM - 6:00 PM<br />
                     </p>
                   </div>
@@ -521,7 +521,7 @@ const FAQSection = () => {
 
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-4">
             Frequently Asked Questions
           </h2>
           <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto">
@@ -564,7 +564,7 @@ const FAQSection = () => {
                   openIndex === index ? 'max-h-96' : 'max-h-0'
                 }`}
               >
-                <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+                <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-6 text-gray-300 text-sm sm:text-base ">
                   {faq.answer}
                 </div>
               </div>
@@ -610,12 +610,12 @@ const FinalCTASection = () => {
       <div className="max-w-5xl mx-auto text-center relative z-10">
 
         {/* Headline */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
           If the Decision Is Important, Treat It Seriously
         </h2>
 
         {/* Subtext */}
-        <p className="text-gray-300 text-base sm:text-lg lg:text-xl mb-10 sm:mb-12 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-300 text-base sm:text-lg lg:text-xl mb-10 sm:mb-12  max-w-3xl mx-auto">
           Our diagnostic sessions are designed for founders who value clarity over guesswork.
 Start with a paid strategic diagnostic to determine the right path forward.
         </p>

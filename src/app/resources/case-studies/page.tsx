@@ -401,21 +401,21 @@ const HeroSection: FC = () => (
             style={{ backgroundColor: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.18)' }}
           >
             <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            <span className="text-blue-300 text-xs font-medium tracking-widest uppercase">
+            <span className="text-blue-300 text-xs font-medium st uppercase">
               Sarsen &amp; Company · Case Studies
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight text-white"
+              className="   text-white"
               style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Real Work.
               <br />
               <span className="text-blue-300">Real Outcomes.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
+            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
               Documented engagements with Indian founders — the decisions we helped make, the problems we diagnosed, and the results that followed.
             </p>
           </div>
@@ -427,8 +427,8 @@ const HeroSection: FC = () => (
               { value: '₹80Cr+', label: 'Capital influenced' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-light text-white">{stat.value}</p>
-                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
+                <p className="text-2xl  text-white">{stat.value}</p>
+                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -599,12 +599,12 @@ const FeaturedCaseStudyCard: FC<FeaturedCardProps> = ({ study, onOpen }) => {
 
       <div className="px-8 sm:px-10 py-6">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {study.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">{study.excerpt}</p>
+        <p className="text-sm  mb-6 max-w-3xl text-gray-400">{study.excerpt}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="px-2.5 py-1 rounded-md text-xs" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
@@ -687,12 +687,12 @@ const CaseStudyCard: FC<CaseStudyCardProps> = ({ study, onOpen, animIndex }) => 
 
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {study.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-500">{study.excerpt}</p>
+        <p className="text-xs  mb-4 line-clamp-2 text-gray-500">{study.excerpt}</p>
         <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}>
           <div className="flex items-center gap-2">
             <span className="text-xs px-2 py-0.5 rounded-md" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
@@ -730,8 +730,8 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">From the Blog</p>
-            <p className="text-sm font-light text-gray-400">Thinking behind the work</p>
+            <p className="text-xs font-medium sttext-blue-300">From the Blog</p>
+            <p className="text-sm  text-gray-400">Thinking behind the work</p>
           </div>
         </div>
         <a href="/resources/blogs" className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity">
@@ -757,7 +757,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             <span className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2" style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}>
               {blog.tag}
             </span>
-            <p className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+            <p className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
               {blog.title}
             </p>
             <div className="flex items-center gap-2">
@@ -794,8 +794,8 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">Research &amp; Reports</p>
-            <p className="text-sm font-light text-gray-400">Data-backed analysis for founders</p>
+            <p className="text-xs font-medium sttext-blue-300">Research &amp; Reports</p>
+            <p className="text-sm  text-gray-400">Data-backed analysis for founders</p>
           </div>
         </div>
         <a href="/resources/reports" className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity">
@@ -821,7 +821,7 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
             <span className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2" style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}>
               {report.tag}
             </span>
-            <p className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+            <p className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
               {report.title}
             </p>
             <div className="flex items-center gap-2">
@@ -873,7 +873,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <span className="text-sm tracking-wide">Loading more case studies…</span>
+          <span className="text-sm ">Loading more case studies…</span>
         </div>
       )}
       {!loading && !hasMore && (
@@ -997,7 +997,7 @@ export default function CaseStudiesHubPage(): React.JSX.Element {
           {filteredStudies.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🔍</p>
-              <p className="text-lg font-light mb-1 text-gray-900">
+              <p className="text-lg  mb-1 text-gray-900">
                 No case studies in &ldquo;{activeTag}&rdquo; yet
               </p>
               <p className="text-sm text-gray-500">

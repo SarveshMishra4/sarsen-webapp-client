@@ -513,7 +513,7 @@ const QuestionnaireModal = ({ questionnaire, onClose, onSubmit }: {
         <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] px-8 py-6 rounded-t-2xl">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <h2 className="text-2xl font-light text-white mb-2">{questionnaire.title}</h2>
+              <h2 className="text-2xl  text-white mb-2">{questionnaire.title}</h2>
               <p className="text-blue-100 text-sm">{questionnaire.description}</p>
             </div>
             <button
@@ -935,7 +935,7 @@ const MessagesSection = ({ messages, onSendMessage }: {
             
 //             {/* Logo & User Info */}
 //             <div className="flex items-center gap-6">
-//               <h1 className="text-2xl font-light">Sarsen Strategy Partners</h1>
+//               <h1 className="text-2xl ">Sarsen Strategy Partners</h1>
 //               <div className="hidden md:block h-8 w-px bg-white/20"></div>
 //               <div className="hidden md:block">
 //                 <p className="text-sm text-blue-200">Welcome back,</p>
@@ -970,7 +970,7 @@ const MessagesSection = ({ messages, onSendMessage }: {
 //         <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 mb-8 text-white">
 //           <div className="grid md:grid-cols-2 gap-8">
 //             <div>
-//               <h2 className="text-3xl font-light mb-4">Welcome to Your Dashboard</h2>
+//               <h2 className="text-3xl  mb-4">Welcome to Your Dashboard</h2>
 //               <p className="text-blue-100 mb-6">
 //                 Track your progress, complete questionnaires, and access all shared resources in one place.
 //               </p>
@@ -998,23 +998,23 @@ const MessagesSection = ({ messages, onSendMessage }: {
 
 //             <div className="grid grid-cols-2 gap-4">
 //               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-//                 <p className="text-3xl font-light mb-1">
+//                 <p className="text-3xl  mb-1">
 //                   {questionnaires.filter(q => q.status === 'completed').length}
 //                 </p>
 //                 <p className="text-sm text-blue-100">Completed</p>
 //               </div>
 //               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-//                 <p className="text-3xl font-light mb-1">
+//                 <p className="text-3xl  mb-1">
 //                   {questionnaires.filter(q => q.status === 'pending').length}
 //                 </p>
 //                 <p className="text-sm text-blue-100">Pending</p>
 //               </div>
 //               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-//                 <p className="text-3xl font-light mb-1">{resources.length}</p>
+//                 <p className="text-3xl  mb-1">{resources.length}</p>
 //                 <p className="text-sm text-blue-100">Resources</p>
 //               </div>
 //               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-//                 <p className="text-3xl font-light mb-1">
+//                 <p className="text-3xl  mb-1">
 //                   {notifications.filter(n => !n.read).length}
 //                 </p>
 //                 <p className="text-sm text-blue-100">New Updates</p>
@@ -1026,7 +1026,7 @@ const MessagesSection = ({ messages, onSendMessage }: {
 //         {/* Questionnaires Section */}
 //         <section id="questionnaires" className="mb-8">
 //           <div className="flex items-center justify-between mb-6">
-//             <h2 className="text-2xl font-light text-gray-800">Your Questionnaires</h2>
+//             <h2 className="text-2xl  text-gray-800">Your Questionnaires</h2>
 //             <span className="text-sm text-gray-600">
 //               {questionnaires.filter(q => q.status === 'pending').length} pending
 //             </span>
@@ -1118,7 +1118,7 @@ const MessagesSection = ({ messages, onSendMessage }: {
 //         {/* Resources Section */}
 //         <section id="resources">
 //           <div className="flex items-center justify-between mb-6">
-//             <h2 className="text-2xl font-light text-gray-800">Shared Resources</h2>
+//             <h2 className="text-2xl  text-gray-800">Shared Resources</h2>
 //             <span className="text-sm text-gray-600">{resources.length} files</span>
 //           </div>
 
@@ -1233,7 +1233,7 @@ export default function UserDashboard() {
             
             {/* Logo & User Info */}
             <div className="flex items-center gap-6">
-              <h1 className="text-2xl font-light">Sarsen Strategy Partners</h1>
+              <h1 className="text-2xl ">Sarsen Strategy Partners</h1>
               <div className="hidden md:block h-8 w-px bg-white/20"></div>
               <div className="hidden md:block">
                 <p className="text-sm text-blue-200">Welcome back,</p>
@@ -1268,7 +1268,7 @@ export default function UserDashboard() {
         <div className="bg-gradient-to-r from-[#1E5A8E] to-[#2B7AB8] rounded-2xl p-8 mb-8 text-white">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h2 className="text-3xl font-light mb-4">Welcome to Your Dashboard</h2>
+              <h2 className="text-3xl  mb-4">Welcome to Your Dashboard</h2>
               <p className="text-blue-100 mb-6">
                 Track your progress, complete questionnaires, access shared resources, and communicate with your consultant.
               </p>
@@ -1296,23 +1296,23 @@ export default function UserDashboard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <p className="text-3xl font-light mb-1">
+                <p className="text-3xl  mb-1">
                   {questionnaires.filter(q => q.status === 'completed').length}
                 </p>
                 <p className="text-sm text-blue-100">Completed</p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <p className="text-3xl font-light mb-1">
+                <p className="text-3xl  mb-1">
                   {questionnaires.filter(q => q.status === 'pending').length}
                 </p>
                 <p className="text-sm text-blue-100">Pending</p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <p className="text-3xl font-light mb-1">{resources.length}</p>
+                <p className="text-3xl  mb-1">{resources.length}</p>
                 <p className="text-sm text-blue-100">Resources</p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <p className="text-3xl font-light mb-1">{unreadMessages}</p>
+                <p className="text-3xl  mb-1">{unreadMessages}</p>
                 <p className="text-sm text-blue-100">New Messages</p>
               </div>
             </div>
@@ -1389,7 +1389,7 @@ export default function UserDashboard() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-2xl font-light text-gray-800">{questionnaires.length}</p>
+                    <p className="text-2xl  text-gray-800">{questionnaires.length}</p>
                     <p className="text-sm text-gray-600">Total Questionnaires</p>
                   </div>
                 </div>
@@ -1403,7 +1403,7 @@ export default function UserDashboard() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-2xl font-light text-gray-800">{resources.length}</p>
+                    <p className="text-2xl  text-gray-800">{resources.length}</p>
                     <p className="text-sm text-gray-600">Shared Resources</p>
                   </div>
                 </div>
@@ -1417,7 +1417,7 @@ export default function UserDashboard() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-2xl font-light text-gray-800">{messages.length}</p>
+                    <p className="text-2xl  text-gray-800">{messages.length}</p>
                     <p className="text-sm text-gray-600">Messages Exchanged</p>
                   </div>
                 </div>
@@ -1491,7 +1491,7 @@ export default function UserDashboard() {
         {activeTab === 'questionnaires' && (
           <section id="questionnaires">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-light text-gray-800">Your Questionnaires</h2>
+              <h2 className="text-2xl  text-gray-800">Your Questionnaires</h2>
               <span className="text-sm text-gray-600">
                 {questionnaires.filter(q => q.status === 'pending').length} pending
               </span>
@@ -1587,7 +1587,7 @@ export default function UserDashboard() {
         {activeTab === 'resources' && (
           <section id="resources">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-light text-gray-800">Shared Resources</h2>
+              <h2 className="text-2xl  text-gray-800">Shared Resources</h2>
               <span className="text-sm text-gray-600">{resources.length} files</span>
             </div>
 
@@ -1612,7 +1612,7 @@ export default function UserDashboard() {
         {activeTab === 'messages' && (
           <section id="messages">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-light text-gray-800">Messages</h2>
+              <h2 className="text-2xl  text-gray-800">Messages</h2>
               <span className="text-sm text-gray-600">
                 {unreadMessages} unread
               </span>

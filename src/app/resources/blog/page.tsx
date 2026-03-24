@@ -391,14 +391,14 @@ const HeroSection: FC = () => (
             style={{ backgroundColor: 'rgba(147,197,253,0.08)', border: '1px solid rgba(147,197,253,0.18)' }}
           >
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#93C5FD' }} />
-            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: '#93C5FD' }}>
+            <span className="text-xs font-medium st uppercase" style={{ color: '#93C5FD' }}>
               Sarsen &amp; Company · Blogs
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight text-white"
+              className="   text-white"
               style={{
                 fontSize: 'clamp(2.8rem, 6vw, 5rem)',
               }}
@@ -407,7 +407,7 @@ const HeroSection: FC = () => (
               <br />
               <span style={{ color: '#ffffff' }}>Out Loud.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
+            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
               In-depth perspectives on strategy, revenue architecture, capital decisions, and the structural realities of building startups in India.
             </p>
           </div>
@@ -420,8 +420,8 @@ const HeroSection: FC = () => (
               { value: '5 min', label: 'Avg. read'  },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-light text-white">{stat.value}</p>
-                <p className="text-xs tracking-widest uppercase text-gray-300">{stat.label}</p>
+                <p className="text-2xl  text-white">{stat.value}</p>
+                <p className="text-xs sttext-gray-300">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -522,12 +522,12 @@ const FeaturedBlogCard: FC<FeaturedCardProps> = ({ post, onRead }) => {
 
       <div className="px-8 py-6">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-[#93C5FD] transition-colors duration-200 text-white"
+          className="  mb-3 group-hover:text-[#93C5FD] transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}
         >
           {post.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-5 text-gray-400">{post.excerpt}</p>
+        <p className="text-sm  mb-5 text-gray-400">{post.excerpt}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xs text-gray-500">{post.date}</span>
@@ -596,12 +596,12 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
         </div>
 
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-[#1E40AF] transition-colors duration-200 line-clamp-2 text-gray-900"
+          className="font-medium  mb-2 group-hover:text-[#1E40AF] transition-colors duration-200 line-clamp-2 text-gray-900"
           style={{ fontSize: '0.925rem' }}
         >
           {post.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-500">
+        <p className="text-xs  mb-4 line-clamp-2 text-gray-500">
           {post.excerpt}
         </p>
 
@@ -643,10 +643,10 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-white">
+            <p className="text-xs font-medium sttext-white">
               Research &amp; Reports
             </p>
-            <p className="text-sm font-light text-gray-400">
+            <p className="text-sm  text-gray-400">
               Data-backed analysis for founders
             </p>
           </div>
@@ -685,7 +685,7 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
               {report.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {report.title}
             </p>
@@ -728,10 +728,10 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-white">
+            <p className="text-xs font-medium sttext-white">
               Case Studies
             </p>
-            <p className="text-sm font-light text-gray-400">
+            <p className="text-sm  text-gray-400">
               Real decisions. Real outcomes.
             </p>
           </div>
@@ -770,7 +770,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
               {cs.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {cs.title}
             </p>
@@ -822,7 +822,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({ onVisible, loading, hasMo
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <span className="text-sm tracking-wide">Loading more articles…</span>
+          <span className="text-sm ">Loading more articles…</span>
         </div>
       )}
       {!loading && !hasMore && (
@@ -1007,7 +1007,7 @@ export default function BlogsHubPage() {
           {filteredBlogs.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📖</p>
-              <p className="text-lg font-light mb-1 text-gray-900">
+              <p className="text-lg  mb-1 text-gray-900">
                 No articles in &ldquo;{activeTag}&rdquo; yet
               </p>
               <p className="text-sm text-gray-500">

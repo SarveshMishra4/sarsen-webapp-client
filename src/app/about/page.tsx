@@ -14,10 +14,10 @@ const AboutHero = () => {
           
           <div className="space-y-8 lg:space-y-10">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-light leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white  ">
                 About Us
               </h1>
-              <p className="text-xl sm:text-2xl text-blue-300 font-light leading-relaxed">
+              <p className="text-xl sm:text-2xl text-blue-300  ">
                 Strategic diagnostics and execution-ready thinking for founders operating under real constraints.
               </p>
             </div>
@@ -48,10 +48,10 @@ const WhyWeExistSection = () => {
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-6 ">
             Why We Exist
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 ">
             Growth-stage businesses face decisions that are irreversible, capital-intensive, and time-bound. 
             Yet many founders are forced to rely on advice that is generic, surface-level, and detached from 
             the realities of operating under real constraints.
@@ -62,11 +62,11 @@ const WhyWeExistSection = () => {
           <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">The Problem</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               Most advisory firms rely on standardized frameworks and recycled playbooks. The output often 
               looks polished, but fails to account for context, constraints, and execution realities.
             </p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               Founders do not need theoretical advice. They need decision-grade analysis that clarifies trade-offs, 
               highlights risks, and supports actions that can actually be executed.
             </p>
@@ -75,11 +75,11 @@ const WhyWeExistSection = () => {
           <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
             
             <h3 className="text-2xl font-medium text-gray-800 mb-4">Our Solution</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600  mb-4">
               We exist to address this gap through a diagnostic-first approach. Every engagement begins with 
               understanding how the business actually works—financially, operationally, and strategically.
             </p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 ">
               We do not position ourselves as passive advisors. We work alongside founders to structure 
               decisions using data, analysis, and a clear understanding of second-order effects.
             </p>
@@ -88,8 +88,8 @@ const WhyWeExistSection = () => {
 
         <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 lg:p-12 text-white">
           <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl sm:text-3xl font-light mb-4">Our Core Belief</h3>
-            <p className="text-base sm:text-lg lg:text-xl leading-relaxed opacity-95">
+            <h3 className="text-2xl sm:text-3xl  mb-4">Our Core Belief</h3>
+            <p className="text-base sm:text-lg lg:text-xl  opacity-95">
               Strategy is not storytelling. It is the disciplined process of making informed decisions under 
               uncertainty. Every recommendation we deliver is grounded in evidence, quantitative reasoning, 
               and a clear view of what can realistically be executed.
@@ -119,9 +119,9 @@ const MissionVisionSection = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-light text-white">Our Mission</h2>
+              <h2 className="text-3xl sm:text-4xl  text-white">Our Mission</h2>
             </div>
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+            <p className="text-gray-300 text-base sm:text-lg  mb-6">
               To empower growth-stage businesses with strategic clarity through diagnostic rigor, quantitative 
               analysis, and fact-based insights that drive sustainable competitive advantage.
             </p>
@@ -156,9 +156,9 @@ const MissionVisionSection = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-light text-white">Our Vision</h2>
+              <h2 className="text-3xl sm:text-4xl  text-white">Our Vision</h2>
             </div>
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+            <p className="text-gray-300 text-base sm:text-lg  mb-6">
               To become the most trusted strategic partner for India's growth-stage businesses, known for our 
               unwavering commitment to diagnostic excellence and measurable business impact.
             </p>
@@ -264,10 +264,10 @@ const ThesisSection = () => {
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-6 ">
             Our Strategic Thesis
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto ">
             Our work is guided by a clear thesis: strategy should reduce uncertainty, clarify trade-offs, 
             and enable decisive action under real-world constraints.
           </p>
@@ -288,7 +288,7 @@ const ThesisSection = () => {
                 </div>
               </div>
 
-              <p className="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
+              <p className="text-gray-600  mb-6 text-sm sm:text-base">
                 {principle.description}
               </p>
 
@@ -299,7 +299,7 @@ const ThesisSection = () => {
 
         <div className="mt-12 bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 lg:p-12">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-light text-white mb-6 text-center">
+            <h3 className="text-2xl sm:text-3xl  text-white mb-6 text-center">
               What Sets Us Apart
             </h3>
             <div className="grid sm:grid-cols-2 gap-6 text-white">
@@ -390,10 +390,10 @@ const TeamSection = () => {
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
             Our Team
           </h2>
-          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto ">
             A team of strategic thinkers, analysts, and operators committed to delivering excellence 
             in every engagement.
           </p>
@@ -413,7 +413,7 @@ const TeamSection = () => {
                 <h3 className="text-xl font-medium text-white mb-1">{member.name}</h3>
                 <p className="text-blue-300 text-sm mb-2">{member.role}</p>
                 
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-300 text-sm ">
                   {member.bio}
                 </p>
               </div>
@@ -423,10 +423,10 @@ const TeamSection = () => {
 
         <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10">
           <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl sm:text-3xl font-light text-white mb-6">
+            <h3 className="text-2xl sm:text-3xl  text-white mb-6">
               Join Our Team
             </h3>
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
+            <p className="text-gray-300 text-base sm:text-lg  mb-8">
               We're always looking for exceptional strategists, analysts, and consultants who share 
               our commitment to diagnostic rigor and measurable impact. If you're passionate about 
               helping growth-stage businesses succeed, we'd love to hear from you.
@@ -453,7 +453,7 @@ const CTASection = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             <div className="p-6 sm:p-8 lg:p-12">
-              <h2 className="text-3xl sm:text-4xl text-white font-light mb-4 ">
+              <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
                 Start with a Strategic Diagnostic
               </h2>
               <p className="text-white/90 text-base sm:text-lg mb-8">

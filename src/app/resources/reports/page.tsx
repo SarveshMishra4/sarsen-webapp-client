@@ -816,21 +816,21 @@ const HeroSection: FC = () => (
             }}
           >
             <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium tracking-widest uppercase text-blue-300">
+            <span className="text-xs font-medium sttext-blue-300">
               Sarsen &amp; Company · Reports
             </span>
           </div>
 
           <div className="space-y-4">
             <h1
-              className="font-light leading-none tracking-tight text-white"
+              className="   text-white"
               style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
             >
               Original
               <br />
               <span className="text-blue-300">Research.</span>
             </h1>
-            <p className="text-base sm:text-lg leading-relaxed max-w-md font-light text-gray-400">
+            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
               Data-backed analysis on India&apos;s startup ecosystem — annual reports, sector deep-dives, benchmarks, and frameworks built for founders who make decisions with evidence.
             </p>
           </div>
@@ -843,8 +843,8 @@ const HeroSection: FC = () => (
               { value: '5,000+', label: 'Companies studied'},
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-light text-white">{stat.value}</p>
-                <p className="text-xs tracking-widest uppercase mt-0.5 text-gray-500">{stat.label}</p>
+                <p className="text-2xl  text-white">{stat.value}</p>
+                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -1053,12 +1053,12 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="font-light leading-snug mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {report.title}
         </h2>
-        <p className="text-sm leading-relaxed mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
           {report.excerpt}
         </p>
 
@@ -1169,12 +1169,12 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {report.title}
         </h3>
-        <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-gray-400">
+        <p className="text-xs  mb-4 line-clamp-2 text-gray-400">
           {report.excerpt}
         </p>
 
@@ -1224,10 +1224,10 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
+            <p className="text-xs font-medium sttext-blue-300">
               Case Studies
             </p>
-            <p className="text-sm font-light text-gray-400">
+            <p className="text-sm  text-gray-400">
               Real decisions. Real outcomes.
             </p>
           </div>
@@ -1278,7 +1278,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
               </span>
             </div>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {cs.title}
             </p>
@@ -1321,10 +1321,10 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-widest uppercase text-blue-300">
+            <p className="text-xs font-medium sttext-blue-300">
               From the Blog
             </p>
-            <p className="text-sm font-light text-gray-400">
+            <p className="text-sm  text-gray-400">
               Thinking behind the numbers
             </p>
           </div>
@@ -1363,7 +1363,7 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
               {blog.tag}
             </span>
             <p
-              className="text-sm font-medium leading-snug mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
             >
               {blog.title}
             </p>
@@ -1421,7 +1421,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <span className="text-sm tracking-wide">Loading more reports…</span>
+          <span className="text-sm ">Loading more reports…</span>
         </div>
       )}
       {!loading && !hasMore && (
@@ -1583,7 +1583,7 @@ export default function ReportsHubPage(): React.JSX.Element {
           {filteredReports.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📭</p>
-              <p className="text-lg font-light mb-1 text-gray-900">
+              <p className="text-lg  mb-1 text-gray-900">
                 No reports in &ldquo;{activeTag}&rdquo; yet
               </p>
               <p className="text-sm text-gray-500">
