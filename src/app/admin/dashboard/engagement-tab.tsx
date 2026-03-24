@@ -1059,7 +1059,7 @@ export function EngagementWorkspaceTab({ engagements, setEngagements, token, onR
               { id: 'resources',      label: `Resources (${files.length})` },
               { id: 'questionnaires', label: `Questionnaires (${questionnaires.length})` },
               { id: 'messages',       label: `Messages (${messages.length})` },
-              { id: 'brief',          label: 'Client Brief' },
+              { id: 'brief',          label: `Client Brief${purchaseAnswers.length > 0 ? ` (${purchaseAnswers.length})` : ''}` },
               { id: 'users',          label: 'Users' },
             ] as { id: DetailTab; label: string }[]).map(t => (
               <button key={t.id}
