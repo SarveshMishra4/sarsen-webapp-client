@@ -478,7 +478,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ════════════════════════════════════════════════════════════════
-  // RENDER HELPERS (unchanged)
+  // RENDER HELPERS
   // ════════════════════════════════════════════════════════════════
 
   const renderQuestion = (q: ServiceQuestion) => {
@@ -559,10 +559,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: checked
-                        ? `1px solid rgba(${accentRgb},0.40)`
+                        ? `1px solid #0A1E3D`                // <-- changed: use #0A1E3D for border
                         : '1px solid #E2E8F0',
                       background: checked
-                        ? `rgba(${accentRgb},0.06)`
+                        ? `rgba(${accentRgb},0.06)`          // keep existing background
                         : '#F8FAFC',
                       transition: 'all 0.15s',
                     }}
@@ -570,8 +570,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     <span
                       className="flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center"
                       style={{
-                        borderColor: checked ? service.accentColor : '#CBD5E1',
-                        background: checked ? service.accentColor : 'transparent',
+                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',  // <-- changed
+                        background: checked ? '#0A1E3D' : 'transparent', // <-- changed
                         transition: 'all 0.15s',
                       }}
                     >
@@ -613,10 +613,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: checked
-                        ? `1px solid rgba(${accentRgb},0.40)`
+                        ? `1px solid #0A1E3D`                // <-- changed: use #0A1E3D for border
                         : '1px solid #E2E8F0',
                       background: checked
-                        ? `rgba(${accentRgb},0.06)`
+                        ? `rgba(${accentRgb},0.06)`          // keep existing background
                         : '#F8FAFC',
                       opacity: disabled ? 0.4 : 1,
                       transition: 'all 0.15s',
@@ -626,8 +626,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     <span
                       className="flex-shrink-0 w-4 h-4 rounded flex items-center justify-center border-2"
                       style={{
-                        borderColor: checked ? service.accentColor : '#CBD5E1',
-                        background: checked ? service.accentColor : 'transparent',
+                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',  // <-- changed
+                        background: checked ? '#0A1E3D' : 'transparent', // <-- changed
                         transition: 'all 0.15s',
                       }}
                     >
@@ -675,7 +675,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   // ════════════════════════════════════════════════════════════════
-  // STEP RENDERERS (unchanged)
+  // STEP RENDERERS
   // ════════════════════════════════════════════════════════════════
 
   const renderQuestionsStep = () => (
@@ -946,7 +946,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               borderRadius: '10px',
               padding: '16px 18px',
               border: '1px solid #E2E8F0',
-              marginBottom: '4px',
+              marginBottom: '20px', // increased margin to separate from terms
             }}
           >
             <p style={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
@@ -1022,6 +1022,28 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 )}
               </>
             )}
+          </div>
+
+          {/* ── TERMS AND CONDITIONS NOTICE ── */}
+          <div
+            style={{
+              marginTop: '16px',
+              marginBottom: '8px',
+              textAlign: 'center',
+            }}
+          >
+            <p style={{ fontSize: '0.7rem', color: '#64748B' }}>
+              By proceeding ahead in the process you agree to the{' '}
+              <a
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
+              >
+                standard terms and conditions
+              </a>{' '}
+              of Sarsen & Company.
+            </p>
           </div>
         </div>
 
