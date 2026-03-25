@@ -783,8 +783,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           style={{
             padding: '10px 24px',
             borderRadius: '8px',
-            background: `rgba(${accentRgb},1)`,
-            color: '#fff',
+            background: '#0F172A',
+            color: '#FFFFFF',
             fontSize: '0.85rem',
             fontWeight: 600,
             border: 'none',
