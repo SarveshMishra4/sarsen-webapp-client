@@ -264,7 +264,7 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
+                      <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
 
         </div>
 
