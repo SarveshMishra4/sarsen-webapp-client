@@ -1344,11 +1344,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         <div
           style={{
             background: '#FFFFFF',
-            borderRadius: '16px 16px 0 0',
+            borderRadius: '16px',           // <-- changed: now all corners are rounded
             overflow: 'hidden',
             boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
           }}
-          className="sm:rounded-md"
+          // className="sm:rounded-md"      // <-- removed
         >
           {step === 'questions' && renderQuestionsStep()}
           {step === 'summary' && renderSummaryStep()}
