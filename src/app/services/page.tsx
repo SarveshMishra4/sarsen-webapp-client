@@ -206,7 +206,7 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+    {/* <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
@@ -223,7 +223,7 @@ const HeroSection: FC = () => (
         className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
         style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)' }}
       />
-    </div>
+    </div> */}
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -259,76 +259,13 @@ const HeroSection: FC = () => (
           
         </div>
 
-        <div
+                <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            <div className="relative">
-              {[3, 2, 1].map((layer) => (
-                <div
-                  key={layer}
-                  className="absolute rounded-md"
-                  style={{
-                    width: '260px',
-                    height: '300px',
-                    top: layer * 8,
-                    left: layer * 8,
-                    backgroundColor: `rgba(19,43,71,${0.05 * layer})`,
-                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
-                  }}
-                />
-              ))}
-              <div
-                className="relative rounded-md overflow-hidden"
-                style={{
-                  width: '260px',
-                  height: '300px',
-                  backgroundColor: '#132B47',
-                  border: '1px solid rgba(59,130,246,0.20)',
-                }}
-              >
-                <div
-                  className="h-12 px-5 flex items-center justify-between"
-                  style={{ backgroundColor: '#0A1E3D' }}
-                >
-                  <div className="w-16 h-2 rounded-full bg-blue-800/40" />
-                  <div
-                    className="text-sm px-2 py-0.5 rounded-md"
-                    style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#93C5FD' }}
-                  >
-                    8 packages
-                  </div>
-                </div>
-                <div className="px-5 pt-4 space-y-2.5">
-                  {[
-                    { num: '0', label: 'Diagnostic', color: '#3B82F6', w: '100%' },
-                    { num: '1', label: 'Validation',  color: '#60A5FA', w: '80%'  },
-                    { num: '2', label: 'PMF Clarity', color: '#93C5FD', w: '72%'  },
-                    { num: '3', label: 'GTM',         color: '#3B82F6', w: '85%'  },
-                    { num: '4', label: 'Operations',  color: '#60A5FA', w: '68%'  },
-                    { num: '5', label: 'Fundraising', color: '#93C5FD', w: '90%'  },
-                    { num: '6', label: 'Turnaround',  color: '#3B82F6', w: '60%'  },
-                    { num: '7', label: 'Scale',       color: '#60A5FA', w: '78%'  },
-                  ].map((row) => (
-                    <div key={row.num} className="flex items-center gap-2.5">
-                      <div
-                        className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${row.color}18`, border: `1px solid ${row.color}30` }}
-                      >
-                        <span style={{ color: row.color, fontSize: '8px', fontWeight: 700 }}>{row.num}</span>
-                      </div>
-                      <div
-                        className="rounded-full"
-                        style={{ height: '5px', width: row.w, backgroundColor: `${row.color}25`, flex: 'none' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                      <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

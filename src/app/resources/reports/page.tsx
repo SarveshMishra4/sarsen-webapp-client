@@ -784,24 +784,6 @@ const HeroSection: FC = () => (
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background: fine dot grid using blue-300 */}
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#dots)" />
-      </svg>
-      <div
-        className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)' }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)' }}
-      />
-    </div>
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -856,66 +838,8 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Stacked document motif in blue tones */}
-            <div className="relative">
-              {[3, 2, 1].map((layer) => (
-                <div
-                  key={layer}
-                  className="absolute rounded-md"
-                  style={{
-                    width: '240px',
-                    height: '300px',
-                    top: layer * 8,
-                    left: layer * 8,
-                    backgroundColor: `rgba(19,43,71,${0.06 * layer})`,
-                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
-                  }}
-                />
-              ))}
-              <div
-                className="relative rounded-md overflow-hidden"
-                style={{
-                  width: '240px',
-                  height: '300px',
-                  backgroundColor: '#132B47',
-                  border: '1px solid rgba(59,130,246,0.18)',
-                }}
-              >
-                <div
-                  className="h-12 px-5 flex items-center"
-                  style={{ backgroundColor: '#0A1E3D' }}
-                >
-                  <div className="w-16 h-2 rounded-full bg-blue-800/40" />
-                </div>
-                <div className="px-5 py-5 space-y-3">
-                  {[80, 65, 72, 50, 68, 45, 60].map((w, i) => (
-                    <div
-                      key={i}
-                      className="rounded-full"
-                      style={{
-                        height: '6px',
-                        width: `${w}%`,
-                        backgroundColor: `rgba(59,130,246,${0.06 + i * 0.02})`,
-                      }}
-                    />
-                  ))}
-                  <div className="flex items-end gap-2 pt-3">
-                    {[55, 75, 45, 90, 60, 80].map((h, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 rounded-t-sm"
-                        style={{
-                          height: `${h * 0.5}px`,
-                          backgroundColor: `rgba(59,130,246,${0.12 + i * 0.04})`,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                      <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

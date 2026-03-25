@@ -60,7 +60,6 @@ interface ResourceSectionConfig {
   id: string;
   title: string;
   subtitle: string;
-  icon: string;
   items: ResourceItem[];
   cardStyle: CardStyle;
   hubHref: string;
@@ -284,7 +283,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
             ) : (
               /* Success State */
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 bg-green-100 rounded-md flex items-center justify-center mx-auto mb-4">
                   <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -327,28 +326,15 @@ const HeroSection: FC = () => {
   return (
     <section className="relative bg-[#0A1E3D] min-h-[480px] sm:min-h-[560px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
 
-      {/* Background grid mesh — purely decorative */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-5">
-          <svg viewBox="0 0 600 600" className="w-full h-full">
-            {Array.from({ length: 12 }, (_, i) => (
-              <line key={`v${i}`} x1={i * 55} y1="0" x2={i * 55} y2="600" stroke="white" strokeWidth="1" />
-            ))}
-            {Array.from({ length: 12 }, (_, i) => (
-              <line key={`h${i}`} x1="0" y1={i * 55} x2="600" y2={i * 55} stroke="white" strokeWidth="1" />
-            ))}
-          </svg>
-        </div>
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-      </div>
+
 
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* LEFT — Headline + Category Links */}
           <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-md px-4 py-2">
+              <div className="w-1.5 h-1.5 rounded-md bg-blue-400 animate-pulse" />
               <span className="text-blue-300 text-xs font-medium st uppercase">
                 Partner Resources
               </span>
@@ -371,7 +357,7 @@ const HeroSection: FC = () => {
                 <a
                   key={cat}
                   href={`#${cat.toLowerCase().replace(' ', '-')}`}
-                  className="px-4 py-1.5 rounded-full border border-blue-700/40 text-blue-200 text-xs font-medium hover:border-blue-500 hover:text-white transition-all duration-200"
+                  className="px-4 py-1.5 rounded-md border border-blue-700/40 text-blue-200 text-xs font-medium hover:border-blue-500 hover:text-white transition-all duration-200"
                 >
                   {cat}
                 </a>
@@ -380,35 +366,17 @@ const HeroSection: FC = () => {
           </div>
 
           {/* RIGHT — Visual placeholder */}
-          {/*
-            INTEGRATION NOTE:
-            Replace the decorative placeholder below with:
-            <img src="/assets/resources/Hero Visual.svg" alt="" className="max-w-full h-auto" />
-          */}
-          <div
+          
+            {/* INTEGRATION NOTE:
+            Replace the decorative placeholder below with: */}
+            <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
+         
+          {/* <div
             className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end"
             aria-hidden="true"
           >
             <div className="w-full max-w-md h-full flex items-center justify-center relative">
               {/* Decorative concentric rings */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-blue-700/20" />
-                <div className="absolute w-48 h-48 sm:w-60 sm:h-60 rounded-full border border-blue-600/20" />
-                <div className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full border border-blue-500/20" />
-              </div>
-              {/* Icon grid */}
-              <div className="relative z-10 grid grid-cols-3 gap-3">
-                {(['📄', '📊', '🎯', '🔧', '📅', '🎓'] as const).map((icon, i) => (
-                  <div
-                    key={i}
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-md bg-blue-500/10 border border-blue-700/30 flex items-center justify-center text-xl sm:text-2xl backdrop-blur-sm"
-                  >
-                    {icon}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
 
         </div>
       </div>
@@ -458,7 +426,7 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
         {/* Content tag */}
         <div className="relative z-10">
           <span
-            className="inline-block px-3 py-1 text-xs font-semibold rounded-full"
+            className="inline-block px-3 py-1 text-xs font-semibold rounded-md"
             style={{ backgroundColor: cardStyle.tagBg, color: cardStyle.tagText }}
           >
             {item.tag}
@@ -504,7 +472,7 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
             {item.meta}
           </span>
           <div
-            className="w-7 h-7 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
+            className="w-7 h-7 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
             style={{ backgroundColor: cardStyle.actionBg }}
             aria-hidden="true"
           >
@@ -532,7 +500,6 @@ const ResourceSection: FC<ResourceSectionProps> = ({
   id,
   title,
   subtitle,
-  icon,
   items,
   cardStyle,
   hubHref,
@@ -576,13 +543,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <div className="flex items-start gap-4">
-            <div
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-md flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: cardStyle.iconBg }}
-              aria-hidden="true"
-            >
-              <span className="text-2xl">{icon}</span>
-            </div>
+           
             <div>
               <h2
                 id={`${id}-heading`}
@@ -632,7 +593,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
             onClick={() => scroll('left')}
             disabled={scrollPos <= 0}
             aria-label={`Scroll ${title} cards left`}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-full p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
             style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -646,7 +607,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
             aria-label={`Scroll ${title} cards right`}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-full p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
             style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -821,7 +782,7 @@ const caseStudyCardStyle: CardStyle = {
       {[0, 1, 2].map((j) => (
         <div
           key={j}
-          className="absolute rounded-full border border-white/5"
+          className="absolute rounded-md border border-white/5"
           style={{ width: `${60 + j * 30}px`, height: `${60 + j * 30}px`, top: `${10 - j * 10}px`, right: `${10 - j * 10}px` }}
         />
       ))}
@@ -856,7 +817,7 @@ const eventCardStyle: CardStyle = {
     `linear-gradient(135deg, ${['#C84B00','#B84000','#A03800','#D05800','#BF4500','#903200'][i % 6]} 0%, ${['#E07030','#D06020','#B85010','#E07840','#CF6030','#A04018'][i % 6]} 100%)`,
   headerDecor: (_i: number) => (
     <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-white/10" />
+      <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-md bg-white/10" />
       <div className="absolute top-3 right-3 opacity-20">
         <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
           <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
@@ -936,7 +897,7 @@ const cohortCardStyle: CardStyle = {
     `linear-gradient(135deg, ${['#4C1D95','#5B21B6','#6D28D9','#4A1A88','#3B1070','#5C1FA0'][i % 6]} 0%, ${['#7C3AED','#8B5CF6','#6D28D9','#7030D0','#6020C0','#8040E0'][i % 6]} 100%)`,
   headerDecor: (_i: number) => (
     <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute -top-6 -left-6 w-20 h-20 rounded-full bg-white/10" />
+      <div className="absolute -top-6 -left-6 w-20 h-20 rounded-md bg-white/10" />
       <div className="absolute bottom-2 right-2 opacity-20">
         <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2L13.09 8.26L19 6L15.45 11.25L22 12L15.45 12.75L19 18L13.09 15.74L12 22L10.91 15.74L5 18L8.55 12.75L2 12L8.55 11.25L5 6L10.91 8.26L12 2Z" />
@@ -1012,7 +973,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'blogs',
     title: 'Blogs',
     subtitle: 'In-depth thinking on strategy, revenue, operations, and the realities of building startups.',
-    icon: '📝',
     items: blogsData,
     cardStyle: blogCardStyle,
     hubHref: '/resources/blogs',
@@ -1021,7 +981,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'case-studies',
     title: 'Case Studies',
     subtitle: 'Real engagements, real decisions, real outcomes — studied and documented for founders.',
-    icon: '📊',
     items: caseStudiesData,
     cardStyle: caseStudyCardStyle,
     hubHref: '/resources/case-studies',
@@ -1030,7 +989,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'events',
     title: 'Events',
     subtitle: 'Workshops, masterclasses, and retreats designed to move founders forward.',
-    icon: '📅',
     items: eventsData,
     cardStyle: eventCardStyle,
     hubHref: '/resources/events',
@@ -1039,7 +997,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'reports',
     title: 'Reports',
     subtitle: "Original research and data-backed analysis on India's startup ecosystem.",
-    icon: '📋',
     items: reportsData,
     cardStyle: reportCardStyle,
     hubHref: '/resources/reports',
@@ -1048,7 +1005,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'cohorts',
     title: 'Cohorts',
     subtitle: 'Structured programs for founders at critical moments in their growth journey.',
-    icon: '🎓',
     items: cohortsData,
     cardStyle: cohortCardStyle,
     hubHref: '/resources/cohorts',
@@ -1057,7 +1013,6 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     id: 'tools',
     title: 'Tools',
     subtitle: 'Calculators, templates, and frameworks for data-driven founder decisions.',
-    icon: '🔧',
     items: toolsData,
     cardStyle: toolCardStyle,
     hubHref: '/resources/tools',

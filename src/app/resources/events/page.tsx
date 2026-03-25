@@ -390,29 +390,7 @@ const HeroSection: FC = () => (
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background: fine dot grid */}
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#dots)" />
-      </svg>
-      {/* Blue radial glow */}
-      <div
-        className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)',
-        }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)',
-        }}
-      />
-    </div>
+
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -467,83 +445,8 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            <div className="relative">
-              {/* Shadow stacks */}
-              {[3, 2, 1].map((layer) => (
-                <div
-                  key={layer}
-                  className="absolute rounded-md"
-                  style={{
-                    width: '260px',
-                    height: '300px',
-                    top: layer * 8,
-                    left: layer * 8,
-                    backgroundColor: `rgba(19,43,71,${0.05 * layer})`,
-                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
-                  }}
-                />
-              ))}
-              {/* Front — calendar card */}
-              <div
-                className="relative rounded-md overflow-hidden"
-                style={{
-                  width: '260px',
-                  height: '300px',
-                  backgroundColor: '#132B47',
-                  border: '1px solid rgba(59,130,246,0.18)',
-                }}
-              >
-                {/* Calendar header */}
-                <div
-                  className="h-14 px-5 flex items-center justify-between"
-                  style={{ backgroundColor: '#0A1E3D' }}
-                >
-                  <div className="w-20 h-2 rounded-full bg-blue-800/40" />
-                  <div className="flex gap-1">
-                    {[1, 2, 3].map((d) => (
-                      <div
-                        key={d}
-                        className="w-5 h-5 rounded bg-blue-800/30"
-                      />
-                    ))}
-                  </div>
-                </div>
-                {/* Calendar grid */}
-                <div className="px-5 py-4 grid grid-cols-4 gap-2">
-                  {Array.from({ length: 20 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="rounded"
-                      style={{
-                        height: '22px',
-                        backgroundColor: i === 3 || i === 8 || i === 15
-                          ? 'rgba(59,130,246,0.30)'
-                          : `rgba(59,130,246,${0.03 + (i % 3) * 0.02})`,
-                        border: i === 3 || i === 8 || i === 15
-                          ? '1px solid rgba(59,130,246,0.40)'
-                          : 'none',
-                      }}
-                    />
-                  ))}
-                </div>
-                {/* Event pill rows */}
-                <div className="px-5 space-y-2">
-                  {[
-                    { w: '85%', color: 'rgba(59,130,246,0.22)' },
-                    { w: '65%', color: 'rgba(96,165,250,0.18)' },
-                    { w: '75%', color: 'rgba(147,197,253,0.15)' },
-                  ].map((row, i) => (
-                    <div
-                      key={i}
-                      className="rounded-full"
-                      style={{ height: '8px', width: row.w, backgroundColor: row.color }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                      <img src="/assets/resources/Events Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

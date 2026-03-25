@@ -102,81 +102,8 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            <div className="relative">
-              {[3, 2, 1].map((layer) => (
-                <div
-                  key={layer}
-                  className="absolute rounded-md"
-                  style={{
-                    width: '260px', height: '300px',
-                    top: layer * 8, left: layer * 8,
-                    backgroundColor: `rgba(19,43,71,${0.05 * layer})`,
-                    border: `1px solid rgba(59,130,246,${0.04 * layer})`,
-                  }}
-                />
-              ))}
-              <div
-                className="relative rounded-md overflow-hidden"
-                style={{ width: '260px', height: '300px', backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.18)' }}
-              >
-                <div
-                  className="h-14 px-5 flex items-center justify-between"
-                  style={{ backgroundColor: '#0A1E3D' }}
-                >
-                  <div className="w-20 h-2 rounded-full bg-blue-800/40" />
-                  <div
-                    className="px-2.5 py-1 rounded-md text-xs text-blue-300"
-                    style={{ backgroundColor: 'rgba(59,130,246,0.15)' }}
-                  >
-                    Cohort 7
-                  </div>
-                </div>
-                <div className="px-5 pt-5 space-y-4">
-                  {[[1,1,1,1,1],[1,1,1,1,0],[1,1,1,0,0]].map((row, ri) => (
-                    <div key={ri} className="flex items-center gap-2">
-                      {row.map((filled, ci) => (
-                        <div
-                          key={ci}
-                          className="w-8 h-8 rounded-full"
-                          style={{
-                            backgroundColor: filled
-                              ? `rgba(59,130,246,${0.12 + ri * 0.06 + ci * 0.02})`
-                              : 'rgba(59,130,246,0.04)',
-                            border: filled
-                              ? '1px solid rgba(59,130,246,0.22)'
-                              : '1px dashed rgba(59,130,246,0.10)',
-                          }}
-                        />
-                      ))}
-                      <div
-                        className="flex-1 h-1.5 rounded-full ml-1"
-                        style={{ backgroundColor: `rgba(59,130,246,${0.05 + ri * 0.03})` }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="px-5 pt-5 space-y-2.5">
-                  {[
-                    { w: '75%',  label: 'Week 9 of 12'       },
-                    { w: '100%', label: 'Applications open'  },
-                  ].map((bar, i) => (
-                    <div key={i}>
-                      <div className="text-xs mb-1 text-blue-300/40" style={{ fontSize: '9px' }}>
-                        {bar.label}
-                      </div>
-                      <div className="w-full rounded-full" style={{ height: '4px', backgroundColor: 'rgba(59,130,246,0.08)' }}>
-                        <div
-                          className="rounded-full"
-                          style={{ height: '4px', width: bar.w, backgroundColor: `rgba(59,130,246,${0.30 + i * 0.12})` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                      <img src="/assets/resources/Cohorts Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

@@ -373,24 +373,7 @@ const HeroSection: FC = () => (
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background: subtle grid pattern using blue-300 */}
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" patternUnits="userSpaceOnUse" width="40" height="40">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.6" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-      <div
-        className="absolute -top-20 right-0 w-[600px] h-[500px]"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.18) 0%, transparent 65%)' }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[400px] h-[300px]"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.06) 0%, transparent 70%)' }}
-      />
-    </div>
+
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -435,41 +418,13 @@ const HeroSection: FC = () => (
         </div>
 
         {/* RIGHT — placeholder */}
-        <div className="relative hidden lg:flex items-center justify-end" style={{ height: '420px' }} aria-hidden="true">
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            <div className="relative w-80 h-80">
-              <div className="absolute inset-0 rounded-full" style={{ border: '1px solid rgba(59,130,246,0.12)' }} />
-              <div className="absolute rounded-full" style={{ inset: '30px', border: '1px solid rgba(59,130,246,0.08)' }} />
-              <div className="absolute rounded-full" style={{ inset: '80px', background: 'radial-gradient(circle, rgba(30,64,175,0.2) 0%, transparent 70%)', border: '1px solid rgba(59,130,246,0.15)' }} />
-              {[
-                { label: 'Revenue ×6', angle: 0   },
-                { label: 'Churn −52%', angle: 72  },
-                { label: '₹12Cr raised', angle: 144 },
-                { label: 'PMF achieved', angle: 216 },
-                { label: 'EBITDA+',    angle: 288 },
-              ].map(({ label, angle }) => {
-                const rad = (angle * Math.PI) / 180;
-                const r   = 130;
-                const x   = 50 + (r / 160) * 50 * Math.cos(rad);
-                const y   = 50 + (r / 160) * 50 * Math.sin(rad);
-                return (
-                  <div
-                    key={label}
-                    className="absolute transform -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-md text-xs font-medium whitespace-nowrap"
-                    style={{
-                      left: `${x}%`,
-                      top: `${y}%`,
-                      backgroundColor: '#0A1E3D',
-                      border: '1px solid rgba(59,130,246,0.2)',
-                      color: '#93C5FD',
-                    }}
-                  >
-                    {label}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+                <div
+          className="relative hidden lg:flex items-center justify-end"
+          style={{ height: '420px' }}
+          aria-hidden="true"
+        >
+                      <img src="/assets/resources/Case Studies Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
       </div>
     </div>

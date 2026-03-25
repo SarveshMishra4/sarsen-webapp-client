@@ -769,27 +769,7 @@ const HeroSection: FC = () => (
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background crosshatch texture using blue-300 */}
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="cross" patternUnits="userSpaceOnUse" width="20" height="20">
-            <line x1="10" y1="0" x2="10" y2="20" stroke="#93C5FD" strokeWidth="0.6" />
-            <line x1="0" y1="10" x2="20" y2="10" stroke="#93C5FD" strokeWidth="0.6" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#cross)" />
-      </svg>
-      {/* Blue glow — top right */}
-      <div
-        className="absolute -top-20 right-0 w-[650px] h-[500px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.15) 0%, transparent 60%)' }}
-      />
-      {/* Blue glow — bottom left */}
-      <div
-        className="absolute bottom-0 left-0 w-[450px] h-[350px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.08) 0%, transparent 65%)' }}
-      />
-    </div>
+
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -860,37 +840,8 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            <span
-              className="absolute select-none"
-              style={{
-                fontSize: '22rem',
-                color: 'rgba(59,130,246,0.05)',
-                lineHeight: 1,
-                top: '-2rem',
-                right: '-1rem',
-              }}
-            >
-              &ldquo;
-            </span>
-            <div className="relative z-10 space-y-3 w-72">
-              {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
-                <div
-                  key={i}
-                  className="rounded-full"
-                  style={{
-                    height: '3px',
-                    width: `${w}%`,
-                    background: `rgba(59,130,246,${0.06 + i * 0.04})`,
-                  }}
-                />
-              ))}
-              <div
-                className="mt-6 rounded-full"
-                style={{ height: '2px', width: '30%', background: 'rgba(59,130,246,0.35)' }}
-              />
-            </div>
-          </div>
+                      <img src="/assets/resources/Tools Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

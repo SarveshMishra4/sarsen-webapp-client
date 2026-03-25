@@ -365,21 +365,7 @@ const HeroSection: FC = () => (
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
     {/* Background — fine diagonal hatching using blue-300 */}
-    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="hatch" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="12" stroke="#93C5FD" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hatch)" />
-      </svg>
-      {/* Warm glow bottom-left — using blue-300 with opacity */}
-      <div
-        className="absolute bottom-0 left-0 w-[500px] h-[300px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(ellipse, rgba(147,197,253,0.08) 0%, transparent 70%)' }}
-      />
-    </div>
+
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -433,39 +419,8 @@ const HeroSection: FC = () => (
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-          <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-            {/* Large decorative quotation mark — now using blue-300 with low opacity */}
-            <span
-              className="absolute select-none"
-              style={{
-                fontSize: '22rem',
-                color: 'rgba(147,197,253,0.05)',
-                lineHeight: 1,
-                top: '-2rem',
-                right: '-1rem',
-              }}
-            >
-              &ldquo;
-            </span>
-            {/* Stacked lines — using blue-300 with varying opacity */}
-            <div className="relative z-10 space-y-3 w-72">
-              {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
-                <div
-                  key={i}
-                  className="rounded-full"
-                  style={{
-                    height: '3px',
-                    width: `${w}%`,
-                    background: `rgba(147,197,253,${0.06 + i * 0.04})`,
-                  }}
-                />
-              ))}
-              <div
-                className="mt-6 rounded-full"
-                style={{ height: '2px', width: '30%', background: 'rgba(147,197,253,0.35)' }}
-              />
-            </div>
-          </div>
+                      <img src="/assets/resources/Blog Head.svg" alt="" className="max-w-full h-auto" />
+
         </div>
 
       </div>

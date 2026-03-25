@@ -1359,24 +1359,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
       style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
       {/* Dot grid */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <svg className="absolute inset-0 w-full h-full opacity-[0.035]">
-          <defs>
-            <pattern id="sp-dots" patternUnits="userSpaceOnUse" width="24" height="24">
-              <circle cx="2" cy="2" r="1" fill="#93C5FD" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#sp-dots)" />
-        </svg>
-        <div
-          className="absolute -top-32 right-0 w-[700px] h-[600px]"
-          style={{ background: `radial-gradient(ellipse at top right, rgba(${rgb},0.14) 0%, transparent 60%)` }}
-        />
-        <div
-          className="absolute bottom-0 left-0 w-[500px] h-[400px]"
-          style={{ background: `radial-gradient(ellipse at bottom left, rgba(${rgb},0.07) 0%, transparent 65%)` }}
-        />
-      </div>
+      
 
       <div className="max-w-7xl mx-auto relative">
         {/* Breadcrumb */}
@@ -1476,39 +1459,14 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
           </div>
 
           {/* Right column — decorative */}
-          <div className="relative hidden lg:flex items-center justify-end" style={{ height: '420px' }} aria-hidden="true">
-            <div className="relative w-full max-w-lg h-full flex items-center justify-center">
-              <span
-                className="absolute select-none"
-                style={{
-                  fontSize: '22rem',
-                  color: 'rgba(59,130,246,0.05)',
-                  lineHeight: 1,
-                  top: '-2rem',
-                  right: '-1rem',
-                }}
-              >
-                &ldquo;
-              </span>
-              <div className="relative z-10 space-y-3 w-72">
-                {[90, 75, 60, 85, 50, 70, 40].map((w, i) => (
                   <div
-                    key={i}
-                    className="rounded-full"
-                    style={{
-                      height: '3px',
-                      width: `${w}%`,
-                      background: `rgba(59,130,246,${0.06 + i * 0.04})`,
-                    }}
-                  />
-                ))}
-                <div
-                  className="mt-6 rounded-full"
-                  style={{ height: '2px', width: '30%', background: 'rgba(59,130,246,0.35)' }}
-                />
-              </div>
-            </div>
-          </div>
+          className="relative hidden lg:flex items-center justify-end"
+          style={{ height: '420px' }}
+          aria-hidden="true"
+        >
+                      <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
+
+        </div>
         </div>
       </div>
     </section>
