@@ -1035,7 +1035,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             <p style={{ fontSize: '0.7rem', color: '#64748B' }}>
               By proceeding ahead in the process you agree to the{' '}
               <a
-                href="/terms"
+                href="/terms-of-use"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
