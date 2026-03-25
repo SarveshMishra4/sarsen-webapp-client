@@ -307,7 +307,7 @@ const CouponStep: FC<CouponStepProps> = ({
         </p>
         <p
           className="font-medium  text-white"
-          style={{ fontFamily: 'Georgia, serif', fontSize: '0.95rem' }}
+          style={{ fontSize: '0.95rem' }}
         >
           {cohort.title}
         </p>
@@ -463,7 +463,7 @@ const SuccessStep: FC<{ cohort: Cohort; onClose: () => void }> = ({ cohort, onCl
     </div>
     <h3
       className="text-xl  mb-2 text-white"
-      style={{ fontFamily: 'Georgia, serif' }}
+      style={{  }}
     >
       Application Confirmed
     </h3>
@@ -686,7 +686,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
 
             <h2
               className="text-xl  pr-8 text-white"
-              style={{ fontFamily: 'Georgia, serif' }}
+              style={{ }}
             >
               {headerTitle}
             </h2>

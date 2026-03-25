@@ -707,7 +707,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <span className="text-xs text-blue-300 opacity-70">{service.packageNumber}</span>
         </div>
 
-        <h2 style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3, marginBottom: '6px' }}>
+        <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3, marginBottom: '6px' }}>
           {service.title}
         </h2>
         <p style={{ color: '#94A3B8', fontSize: '0.8rem' }}>
@@ -831,7 +831,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <p style={{ color: '#94A3B8', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>
             Order Summary
           </p>
-          <h2 style={{ color: '#EEF2FF', fontFamily: 'Georgia, serif', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
+          <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
             {service.title}
           </h2>
         </div>
@@ -849,7 +849,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
               <div>
                 <p style={{ fontSize: '0.75rem', color: '#94A3B8', marginBottom: '2px' }}>{service.packageNumber}</p>
-                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#0F172A', fontFamily: 'Georgia, serif' }}>
+                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#0F172A' }}>
                   {service.title}
                 </p>
               </div>
@@ -859,7 +859,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     {originalPrice}
                   </p>
                 )}
-                <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0F172A', fontFamily: 'Georgia, serif' }}>
+                <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0F172A' }}>
                   {displayPrice}
                 </p>
                 {isDiscounted && appliedCoupon && (
@@ -1036,7 +1036,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             <div>
               <p style={{ fontSize: '0.72rem', color: '#94A3B8', marginBottom: '2px' }}>Total amount</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0F172A', fontFamily: 'Georgia, serif' }}>
+                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0F172A'}}>
                   {displayPrice}
                 </p>
                 {isDiscounted && (
@@ -1112,7 +1112,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <path className="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
       </div>
-      <p style={{ fontSize: '1rem', fontWeight: 600, color: '#0F172A', marginBottom: '6px', fontFamily: 'Georgia, serif' }}>
+      <p style={{ fontSize: '1rem', fontWeight: 600, color: '#0F172A', marginBottom: '6px' }}>
         {verifyLoading ? 'Setting up your account…' : 'Opening Razorpay…'}
       </p>
       <p style={{ fontSize: '0.82rem', color: '#64748B' }}>
@@ -1153,7 +1153,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </svg>
       </div>
 
-      <h3 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#0F172A', marginBottom: '8px', fontFamily: 'Georgia, serif' }}>
+      <h3 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#0F172A', marginBottom: '8px' }}>
         Payment Confirmed
       </h3>
 
@@ -1258,7 +1258,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#0F172A', marginBottom: '8px', fontFamily: 'Georgia, serif' }}>
+      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#0F172A', marginBottom: '8px' }}>
         Payment Failed
       </h3>
       <p style={{ fontSize: '0.83rem', color: '#475569', maxWidth: '340px', margin: '0 auto 6px' }}>

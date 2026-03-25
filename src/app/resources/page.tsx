@@ -784,7 +784,7 @@ const blogCardStyle: CardStyle = {
     ['#2C1810', '#1A2C10', '#101828', '#281020', '#102820', '#18102C'][i % 6],
   headerDecor: (_i: number) => (
     <div className="absolute inset-0 flex items-center justify-end pr-6 opacity-10" aria-hidden="true">
-      <span style={{ fontSize: '80px', fontFamily: 'Georgia, serif', color: 'white', lineHeight: 1 }}>
+      <span style={{ fontSize: '80px', color: 'white', lineHeight: 1 }}>
         &ldquo;
       </span>
     </div>
