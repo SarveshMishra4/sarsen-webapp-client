@@ -11,9 +11,9 @@ export default function TermsOfUsePage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl  mb-4">Terms of Use</h1>
+          <h1 className="text-4xl md:text-5xl  mb-4">Terms & Conditions</h1>
           <p className="text-xl text-blue-100">
-            Last Updated: February 10, 2025
+            Last Updated: March 26, 2026
           </p>
         </div>
       </div>
@@ -22,383 +22,180 @@ export default function TermsOfUsePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 space-y-8">
           
-          {/* Introduction */}
+          {/* 1. Identification of the Company */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Acceptance of Terms</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
             <p className="text-gray-600  mb-4">
-              Welcome to Sarsen Strategy Partners ("Company," "we," "our," or "us"). These Terms of Use ("Terms") constitute a legally binding agreement between you ("Client," "you," or "your") and Sarsen Strategy Partners governing your access to and use of our website, services, and related offerings.
+              These Terms of Use (“Terms”) are entered into between you (“Client”, “you”, “your”) and Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, or Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity and the rights and obligations set forth herein apply equally irrespective of which trade name is used in any particular communication or engagement.
             </p>
+            <p className="text-gray-600 ">
+              References to “Company” in these Terms include all affiliated entities, employees, consultants, and agents acting on behalf of the Company.
+            </p>
+          </section>
+
+          {/* 2. Acceptance of Terms */}
+          <section>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Acceptance of Terms</h2>
             <p className="text-gray-600  mb-4">
-              By accessing our website at www.sarsenstrategy.com, purchasing our services, or engaging with us in any capacity, you acknowledge that you have read, understood, and agree to be bound by these Terms, as well as our Privacy Policy and Refund & Cancellation Policy.
+              By accessing our website, purchasing our services, or engaging with us in any capacity, you acknowledge that you have read, understood, and agree to be bound by these Terms, as well as our Privacy Policy and Refund & Cancellation Policy.
             </p>
             <p className="text-gray-600 ">
               <strong>If you do not agree to these Terms, you must not access or use our services.</strong>
             </p>
           </section>
 
-          {/* Eligibility */}
-          <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Eligibility</h2>
-            <p className="text-gray-600  mb-4">
-              To use our services, you must:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Be at least 18 years of age or the age of majority in your jurisdiction</li>
-              <li>Have the legal authority to enter into binding contracts</li>
-              <li>Represent a legitimate business or organization (for business services)</li>
-              <li>Provide accurate, complete, and truthful information during registration and throughout the engagement</li>
-              <li>Comply with all applicable laws and regulations in your jurisdiction</li>
-            </ul>
-            <p className="text-gray-600 ">
-              By using our services, you represent and warrant that you meet all eligibility requirements. If you are accepting these Terms on behalf of a company or organization, you represent that you have the authority to bind that entity to these Terms.
-            </p>
-          </section>
-
-          {/* Services Description */}
+          {/* 3. Services Description */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">3. Services Description</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.1 Consulting Services</h3>
             <p className="text-gray-600  mb-4">
-              Sarsen Strategy Partners provides strategic business consulting services to startups and early-stage businesses. Our services include but are not limited to:
+              The Company provides strategic business consulting services, including but not limited to growth strategy, financial planning, operations optimization, market positioning, and diagnostic sessions. The specific scope of each engagement shall be defined in a separate Statement of Work or Service Agreement.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Growth and revenue strategy development</li>
-              <li>Financial planning and capital raising advisory</li>
-              <li>Operations and efficiency optimization</li>
-              <li>Strategic planning and market positioning</li>
-              <li>Product and innovation strategy</li>
-              <li>Marketing and brand development</li>
-              <li>People and culture consulting</li>
-              <li>Business diagnostics and assessments</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 Service Packages</h3>
-            <p className="text-gray-600  mb-4">
-              We offer pre-designed service packages and custom engagements. Each package includes specific deliverables, timelines, and pricing as outlined in the service description and purchase agreement. Service details may be modified by mutual written agreement.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.3 Diagnostic Session</h3>
             <p className="text-gray-600 ">
-              All engagements begin with a diagnostic session—a comprehensive consultation where we assess your business, challenges, and objectives. This session is integral to our service delivery and forms the basis for our strategic recommendations.
+              All services are performed by the Company or its designated personnel. The Company reserves the right to assign any employee, consultant, or subcontractor to perform services under these Terms.
             </p>
           </section>
 
-          {/* User Responsibilities */}
+          {/* 4. Client Responsibilities and Cooperation */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. Client Responsibilities</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 Information Accuracy</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. Client Responsibilities and Cooperation</h2>
             <p className="text-gray-600  mb-4">
-              You agree to:
+              The Client acknowledges that the success of the engagement depends heavily on timely, accurate, and complete cooperation. The Client agrees to:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Provide accurate, complete, and truthful information about your business, financials, operations, and challenges</li>
-              <li>Update us promptly if any provided information changes or becomes inaccurate</li>
-              <li>Respond to information requests and questionnaires in a timely manner</li>
-              <li>Grant necessary access to data, systems, or personnel required for our analysis</li>
+              <li>Provide truthful, accurate, and complete information about its business, operations, financials, and any other data reasonably requested by the Company.</li>
+              <li>Respond to questionnaires, information requests, and meeting invitations within the deadlines specified (typically 3–5 business days).</li>
+              <li>Designate a primary point of contact with decision‑making authority to facilitate communication.</li>
+              <li>Make available all necessary personnel, systems, and documents required for the Company to perform the services.</li>
+              <li>Implement recommendations in good faith, understanding that ultimate responsibility for execution rests with the Client.</li>
             </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Cooperation and Communication</h3>
-            <p className="text-gray-600  mb-4">
-              Successful consulting engagements require active collaboration. You agree to:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Participate actively in scheduled sessions, meetings, and check-ins</li>
-              <li>Respond to communications within reasonable timeframes (typically 3-5 business days)</li>
-              <li>Designate key personnel or decision-makers to work with our consultants</li>
-              <li>Implement recommendations in good faith (while ultimate decisions remain yours)</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.3 Account Security</h3>
             <p className="text-gray-600 ">
-              If you create an account on our platform, you are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized access or security breaches.
+              <strong>Failure to comply with these responsibilities may affect the quality, timeliness, or feasibility of the deliverables.</strong>
             </p>
           </section>
 
-          {/* Payment Terms */}
+          {/* 5. No Guarantee of Outcomes */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. Payment Terms</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Fees and Pricing</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. No Guarantee of Outcomes</h2>
             <p className="text-gray-600  mb-4">
-              All fees are stated in Indian Rupees (INR) unless otherwise specified. Prices are subject to change, but changes will not affect purchases already made. Fees include:
+              The Company provides strategic advice and deliverables based on the information provided and professional judgment. However, <strong>the Company does not guarantee any specific business outcome, financial return, or success of any strategy.</strong> The quality and utility of the deliverables are contingent upon the Client’s full cooperation, timely data provision, and accurate information. If the Client fails to provide complete or accurate data, or fails to meet deadlines for cooperation, the Company may not be able to deliver the expected quality of outcome, and in such circumstances, the Company shall have no liability whatsoever.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Service package fees as displayed at the time of purchase</li>
-              <li>Any applicable taxes, levies, or government charges</li>
-              <li>Payment processing fees (if not absorbed by us)</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.2 Payment Methods</h3>
-            <p className="text-gray-600  mb-4">
-              We accept payment via credit cards, debit cards, net banking, UPI, and bank transfers. For enterprise engagements, we may accept payment via purchase order or invoice with credit terms (subject to approval).
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.3 Payment Schedule</h3>
-            <p className="text-gray-600  mb-4">
-              Payment terms vary by engagement:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>Full Payment:</strong> Due at the time of purchase for packages under ₹2,00,000</li>
-              <li><strong>Milestone Payments:</strong> Typically structured as 30% upfront, 40% at midpoint, 30% at completion</li>
-              <li><strong>Monthly Installments:</strong> Available for long-term engagements (6+ months)</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.4 Late Payments</h3>
-            <p className="text-gray-600  mb-4">
-              If milestone or installment payments are not received by the due date:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>We may suspend services until payment is received</li>
-              <li>Late fees of 1.5% per month (or maximum allowed by law) may be charged on overdue amounts</li>
-              <li>Continued non-payment may result in engagement termination and legal action</li>
-            </ul>
           </section>
 
-          {/* Intellectual Property */}
+          {/* 6. Payment Terms */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Intellectual Property Rights</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.1 Our Intellectual Property</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Payment Terms</h2>
             <p className="text-gray-600  mb-4">
-              All content, materials, frameworks, methodologies, templates, tools, software, logos, branding, and other intellectual property provided by Sarsen Strategy Partners remain our exclusive property. This includes:
+              Fees are quoted in Indian Rupees (INR) and are due as specified in the engagement agreement. Payment methods accepted: credit/debit cards, net banking, UPI, and bank transfers. For custom engagements, milestone payments may be required. All fees are non‑refundable except as expressly provided in the Refund & Cancellation Policy.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Proprietary frameworks and strategic methodologies</li>
-              <li>Templates, worksheets, and analytical tools</li>
-              <li>Website content, design, and functionality</li>
-              <li>Training materials and presentations</li>
-              <li>Software, code, and technology platforms</li>
-            </ul>
-            <p className="text-gray-600  mb-4">
-              You may not copy, reproduce, distribute, modify, reverse engineer, or create derivative works from our intellectual property without explicit written permission.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.2 License to Use Deliverables</h3>
-            <p className="text-gray-600  mb-4">
-              Upon full payment, you receive a non-exclusive, non-transferable license to use the specific deliverables created for your engagement (such as strategic plans, reports, and recommendations) for your internal business purposes. You may not:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Resell, distribute, or commercialize our deliverables</li>
-              <li>Share our methodologies or frameworks with third parties</li>
-              <li>Use our work to provide consulting services to others</li>
-              <li>Remove our branding or attribution from deliverables</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-4">6.3 Your Intellectual Property</h3>
             <p className="text-gray-600 ">
-              You retain all rights to your proprietary business information, data, and intellectual property shared with us. We will not claim ownership of your IP, though you grant us a limited license to use it solely for the purpose of delivering our services.
+              Late payments shall accrue interest at the rate of 1.5% per month (or the maximum permitted by law) until paid in full. The Company reserves the right to suspend services if any payment is overdue.
             </p>
           </section>
 
-          {/* Confidentiality */}
+          {/* 7. Termination by Company (with No Refund) */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Confidentiality</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.1 Mutual Confidentiality</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Termination by Company (with No Refund)</h2>
             <p className="text-gray-600  mb-4">
-              Both parties agree to maintain the confidentiality of all proprietary and confidential information disclosed during the engagement, including:
+              The Company may terminate any engagement immediately, without prior notice, and without any obligation to refund any fees already paid, in the following circumstances:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Business strategies, plans, and financial information</li>
-              <li>Customer data, pricing, and operational details</li>
-              <li>Proprietary methodologies and frameworks</li>
-              <li>Trade secrets and competitive intelligence</li>
-              <li>Any information marked or designated as confidential</li>
+              <li><strong>Misconduct:</strong> If the Client or any of its representatives engages in inappropriate, disrespectful, threatening, harassing, or otherwise unprofessional conduct toward any Company personnel, agents, or contractors.</li>
+              <li><strong>Failure to Meet Deadlines:</strong> If the Client fails to provide requested information, respond to communications, or otherwise meet agreed deadlines on two (2) separate occasions after written notice, and such failure materially impedes the progress of the engagement.</li>
+              <li><strong>Non‑Provision of Data:</strong> If the Client does not provide any of the essential data or information required to perform the services (including but not limited to financial data, operational metrics, or access to key personnel) within the timeframes set by the Company, and such failure continues beyond a written warning of 5 business days.</li>
+              <li><strong>Breach of Terms:</strong> If the Client breaches any material provision of these Terms or any applicable law.</li>
             </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 Exceptions</h3>
-            <p className="text-gray-600  mb-4">
-              Confidentiality obligations do not apply to information that:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Is or becomes publicly available through no breach of this agreement</li>
-              <li>Was already known to the receiving party without obligation of confidentiality</li>
-              <li>Is independently developed without use of confidential information</li>
-              <li>Must be disclosed by law, court order, or regulatory requirement</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.3 Duration</h3>
             <p className="text-gray-600 ">
-              Confidentiality obligations survive the termination of the engagement and remain in effect for five (5) years from the date of disclosure, or indefinitely for trade secrets.
+              In the event of termination under this section, the Client shall not be entitled to any refund, and any outstanding fees shall become immediately due and payable. The Company’s decision to terminate is final and binding.
             </p>
           </section>
 
-          {/* Disclaimers and Warranties */}
+          {/* 8. Termination by Client */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Disclaimers and Warranties</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">8.1 No Guarantees of Results</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Termination by Client</h2>
             <p className="text-gray-600  mb-4">
-              While we are committed to delivering high-quality strategic consulting services, <strong>we do not guarantee specific business outcomes or results.</strong> Business success depends on numerous factors including:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Your implementation of our recommendations</li>
-              <li>Market conditions and competitive dynamics</li>
-              <li>Economic factors beyond our control</li>
-              <li>Your team's capabilities and execution</li>
-              <li>Timing and resource availability</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">8.2 Professional Judgment</h3>
-            <p className="text-gray-600  mb-4">
-              Our recommendations are based on the information you provide and our professional judgment at the time of engagement. We warrant that services will be performed with reasonable care and skill consistent with industry standards.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">8.3 As-Is Basis</h3>
-            <p className="text-gray-600 ">
-              Our website and platform are provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
+              The Client may terminate an engagement at any time by providing written notice. If termination occurs after the refund period specified in the Refund & Cancellation Policy, no refund of fees paid shall be provided. Any outstanding fees for services already rendered or expenses incurred shall remain payable.
             </p>
           </section>
 
-          {/* Limitation of Liability */}
+          {/* 9. Intellectual Property */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Limitation of Liability</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Intellectual Property</h2>
+            <p className="text-gray-600  mb-4">
+              All intellectual property created by the Company, including methodologies, frameworks, templates, reports, and tools, remains the sole and exclusive property of the Company. Upon full payment, the Client receives a non‑exclusive, non‑transferable license to use the deliverables solely for internal business purposes. The Client may not resell, distribute, or commercialize the deliverables or any Company intellectual property.
+            </p>
+          </section>
+
+          {/* 10. Confidentiality */}
+          <section>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Confidentiality</h2>
+            <p className="text-gray-600  mb-4">
+              Both parties agree to protect each other’s confidential information using reasonable care. Confidential information shall not be disclosed to third parties except as required by law or as necessary to perform the engagement. This obligation survives termination of these Terms for a period of five (5) years.
+            </p>
+          </section>
+
+          {/* 11. Limitation of Liability */}
+          <section>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Limitation of Liability</h2>
             <p className="text-gray-600  mb-4">
               To the maximum extent permitted by law:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Our total liability for any claims arising from or related to our services shall not exceed the total fees paid by you for the specific engagement giving rise to the claim</li>
-              <li>We shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including lost profits, lost revenue, lost data, or business interruption</li>
-              <li>We are not liable for damages resulting from your failure to implement recommendations, third-party actions, or circumstances beyond our reasonable control</li>
+              <li>The Company’s total liability for any claim arising from or related to the services shall not exceed the total fees paid by the Client for the specific engagement giving rise to the claim.</li>
+              <li>The Company shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including lost profits, lost revenue, lost data, or business interruption.</li>
+              <li>The Company is not liable for any outcome resulting from the Client’s failure to provide accurate information, meet deadlines, or implement recommendations.</li>
             </ul>
-            <p className="text-gray-600 ">
-              Some jurisdictions do not allow limitation of liability for certain types of damages, so these limitations may not apply to you.
-            </p>
           </section>
 
-          {/* Indemnification */}
+          {/* 12. Indemnification */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Indemnification</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Indemnification</h2>
             <p className="text-gray-600  mb-4">
-              You agree to indemnify, defend, and hold harmless Sarsen Strategy Partners, its officers, directors, employees, consultants, and agents from and against any claims, liabilities, damages, losses, costs, or expenses (including reasonable attorneys' fees) arising from:
+              The Client agrees to indemnify and hold harmless the Company and its officers, directors, employees, and agents from any claims, damages, losses, or expenses (including reasonable attorneys’ fees) arising out of or related to:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Your breach of these Terms or applicable laws</li>
-              <li>Your misuse of our services or intellectual property</li>
-              <li>Inaccurate or misleading information you provide</li>
-              <li>Your implementation (or failure to implement) our recommendations</li>
-              <li>Third-party claims related to your business operations</li>
-              <li>Your violation of any third-party rights</li>
+              <li>The Client’s breach of these Terms or applicable laws;</li>
+              <li>Misconduct by the Client or its representatives;</li>
+              <li>Any inaccuracies in information provided by the Client;</li>
+              <li>The Client’s use of deliverables or implementation (or non‑implementation) of recommendations.</li>
             </ul>
           </section>
 
-          {/* Termination */}
+          {/* 13. Dispute Resolution & Governing Law */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Termination</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">11.1 Termination by Client</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">13. Dispute Resolution & Governing Law</h2>
             <p className="text-gray-600  mb-4">
-              You may terminate your engagement subject to our Refund & Cancellation Policy. Termination after the 24-hour refund window does not entitle you to a refund of fees paid.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">11.2 Termination by Company</h3>
-            <p className="text-gray-600  mb-4">
-              We may terminate or suspend your access to services immediately, without prior notice, if:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>You breach these Terms or our policies</li>
-              <li>You fail to make required payments</li>
-              <li>You engage in fraudulent, illegal, or unethical conduct</li>
-              <li>You are unresponsive or non-cooperative for extended periods</li>
-              <li>Continuing the engagement would violate laws or regulations</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">11.3 Effect of Termination</h3>
-            <p className="text-gray-600 ">
-              Upon termination, you must immediately cease using our services and intellectual property. Provisions regarding confidentiality, intellectual property, payment obligations, and limitation of liability survive termination.
+              These Terms shall be governed by the laws of India. Any dispute arising out of or relating to these Terms or the services shall first be attempted to be resolved through good‑faith negotiations. If the dispute is not resolved within 30 days, it shall be referred to binding arbitration in accordance with the Arbitration and Conciliation Act, 1996, to be conducted in English in Bangalore, India. The arbitrator’s award shall be final and binding.
             </p>
           </section>
 
-          {/* Dispute Resolution */}
+          {/* 14. Amendments */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Dispute Resolution</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">12.1 Informal Resolution</h3>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">14. Amendments</h2>
             <p className="text-gray-600  mb-4">
-              In the event of any dispute, claim, or controversy, both parties agree to first attempt to resolve the matter through good-faith negotiations. Contact our support team at disputes@sarsenstrategy.com to initiate this process.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">12.2 Mediation</h3>
-            <p className="text-gray-600  mb-4">
-              If informal resolution fails within 30 days, the parties agree to attempt mediation before pursuing formal legal action. Mediation shall be conducted by a mutually agreed-upon mediator.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">12.3 Arbitration</h3>
-            <p className="text-gray-600  mb-4">
-              If mediation is unsuccessful, disputes shall be resolved through binding arbitration in accordance with the Arbitration and Conciliation Act, 1996. Arbitration shall be conducted in [Your City], India, and proceedings shall be in English.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">12.4 Governing Law</h3>
-            <p className="text-gray-600 ">
-              These Terms shall be governed by and construed in accordance with the laws of India, without regard to conflict of law principles. Any legal action must be brought in the courts of [Your City], India.
+              The Company reserves the right to modify these Terms at any time. Changes will be effective immediately upon posting to the website, with a new “Last Updated” date. Material changes will be communicated by email to registered users. Continued use of the services after changes constitutes acceptance of the revised Terms.
             </p>
           </section>
 
-          {/* Modifications */}
-          <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">13. Modifications to Terms</h2>
-            <p className="text-gray-600  mb-4">
-              We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting to our website with an updated "Last Updated" date. Material changes will be communicated via email to registered users.
-            </p>
-            <p className="text-gray-600 ">
-              Your continued use of our services after changes are posted constitutes acceptance of the modified Terms. If you do not agree to the changes, you must discontinue use of our services.
-            </p>
-          </section>
-
-          {/* General Provisions */}
-          <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">14. General Provisions</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">14.1 Entire Agreement</h3>
-            <p className="text-gray-600  mb-4">
-              These Terms, together with our Privacy Policy, Refund & Cancellation Policy, and any written service agreements, constitute the entire agreement between you and Sarsen Strategy Partners regarding our services.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">14.2 Severability</h3>
-            <p className="text-gray-600  mb-4">
-              If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in full force and effect.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">14.3 Waiver</h3>
-            <p className="text-gray-600  mb-4">
-              Our failure to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">14.4 Assignment</h3>
-            <p className="text-gray-600  mb-4">
-              You may not assign or transfer your rights or obligations under these Terms without our prior written consent. We may assign our rights and obligations without restriction.
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">14.5 Force Majeure</h3>
-            <p className="text-gray-600 ">
-              Neither party shall be liable for failure to perform obligations due to circumstances beyond reasonable control, including natural disasters, wars, pandemics, government actions, or infrastructure failures.
-            </p>
-          </section>
-
-          {/* Contact Information */}
+          {/* 15. Contact Information */}
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">15. Contact Information</h2>
-            <p className="text-gray-600  mb-4">
-              For questions about these Terms of Use or our services:
-            </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
-              <p className="text-gray-600">Email: legal@sarsenstrategy.com</p>
-              <p className="text-gray-600">Phone: +91 [Your Phone Number]</p>
-              <p className="text-gray-600">Address: [Your Business Address]</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-600">Email: contact@sarsen.com</p>
               <p className="text-gray-600 mt-3 text-sm">
-                <strong>Business Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM IST
+                <strong>Business Hours:</strong> Monday - Friday, 11:00 AM - 8:00 PM Gulf Standard Time
+              </p>
+              <p className="text-gray-500 text-sm mt-2">
+                *For legal notices only. All correspondence should be sent via email.
               </p>
             </div>
           </section>
 
           {/* Acknowledgment */}
           <section className="bg-blue-50 rounded-lg p-6 border border-blue-100">
-            <h2 className="text-xl font-medium text-gray-800 mb-3">Acknowledgment and Acceptance</h2>
+            <h2 className="text-xl font-medium text-gray-800 mb-3">Acknowledgment</h2>
             <p className="text-gray-600 ">
-              BY USING OUR SERVICES, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF USE, UNDERSTAND THEM, AND AGREE TO BE BOUND BY THEM. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT ACCESS OR USE OUR SERVICES.
+              By using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms, including the Company’s right to terminate without refund for misconduct, missed deadlines, or non‑provision of data.
             </p>
           </section>
 
@@ -410,7 +207,7 @@ export default function TermsOfUsePage() {
             href="/"
             className="inline-block text-blue-600 hover:text-blue-700 font-medium"
           >
-            ← Back to Home
+            Back to Home
           </Link>
         </div>
       </div>

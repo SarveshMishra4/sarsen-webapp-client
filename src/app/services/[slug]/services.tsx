@@ -1026,7 +1026,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 href="/legal-and-regulatory/terms-of-use"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
+                style={{ textTransform:'0.75rem', color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
               >
                 standard terms and conditions
               </a>{' '}
