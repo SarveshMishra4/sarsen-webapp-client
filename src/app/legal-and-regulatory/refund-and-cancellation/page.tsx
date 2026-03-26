@@ -100,7 +100,7 @@ export default function RefundCancellationPage() {
             </p>
             <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
               <li className="">
-                <strong>Submit a written request</strong> via email to refunds@sarsen.com
+                <strong>Submit a written request</strong> via email to contact@sarsenpartners.com
               </li>
               <li className="">
                 <strong>Include the following information:</strong>
@@ -274,7 +274,7 @@ export default function RefundCancellationPage() {
             </p>
             <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
               <li className="">
-                <strong>Contact our support team</strong> at support@sarsen.com to discuss your concerns
+                <strong>Contact our support team</strong> at contact@sarsenpartners.com to discuss your concerns
               </li>
               <li className="">
                 <strong>Escalate to senior management</strong> if the issue remains unresolved
@@ -304,8 +304,8 @@ export default function RefundCancellationPage() {
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
-              <p className="text-gray-600">Refund Requests: refunds@sarsen.com</p>
-              <p className="text-gray-600">General Support: support@sarsen.com</p>
+              <p className="text-gray-600">Refund Requests: contact@sarsenpartners.com</p>
+              <p className="text-gray-600">General Support: contact@sarsenpartners.com</p>
               <p className="text-gray-500 text-sm mt-2">
                 *We will respond to refund inquiries within 2–3 business days.
               </p>
