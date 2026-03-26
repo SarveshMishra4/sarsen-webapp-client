@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Block private and app areas
+Disallow: /admin
+Disallow: /admin/
+Disallow: /user/dashboard
+Disallow: /user/dashboard/
+Disallow: /payment
+Disallow: /payment/
+Disallow: /legal-and-regulatory
+Disallow: /legal-and-regulatory/
+
+# Block Next.js internals
+Disallow: /_next/
+Disallow: /api/
+
+Sitemap: https://www.sarsenpartners.com/sitemap.xml
