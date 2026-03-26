@@ -33,23 +33,24 @@ export const metadata: Metadata = {
 
   // ── Title ─────────────────────────────────────────────────────────────────
   // Pages that set title: 'About Us' will render:
-  // "About Us | Sarsen Strategy Partners"
+  // "About Us - Sarsen Strategy Partners"
   title: {
-    default: 'Sarsen Strategy Partners | Strategy & Advisory',
-    template: '%s | Sarsen Strategy Partners',
+    default: 'Sarsen Strategy Partners - Where Strategy Meets Results',
+    template: '%s - Sarsen Strategy Partners',
   },
 
   // ── Description ───────────────────────────────────────────────────────────
   description:
-    'Sarsen Strategy Partners delivers quantitative strategy consulting for early-stage startups and growth businesses. Data-driven insights, clear deliverables, measurable outcomes.',
+    'Sarsen Strategy Partners brings business strategy expertise and data-driven analysis to companies at every stage — building the clarity, direction, and resilience needed to improve, grow, and turn around.',
 
   // ── Keywords ──────────────────────────────────────────────────────────────
   keywords: [
-    'strategy consulting',
-    'startup advisory',
-    'growth strategy',
-    'business consulting India',
-    'quantitative strategy',
+    'business strategy advisory',
+    'business turnaround consulting',
+    'performance improvement consulting',
+    'data driven business strategy',
+    'growth and sustainability advisory',
+    'strategy consulting India',
     'Sarsen Strategy Partners',
   ],
 
@@ -82,15 +83,15 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'Sarsen Strategy Partners',
-    title: 'Sarsen Strategy Partners | Strategy & Advisory',
+    title: 'Sarsen Strategy Partners - Where Strategy Meets Results',
     description:
-      'Quantitative strategy consulting for early-stage startups and growth businesses. Data-driven insights, clear deliverables, measurable outcomes.',
+      'Business strategy expertise and data-driven analysis — building the clarity, direction, and resilience companies need to improve, grow, and turn around.',
     images: [
       {
         url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: 'Sarsen Strategy Partners',
+        alt: 'Sarsen Strategy Partners - Where Strategy Meets Results',
       },
     ],
   },
@@ -98,9 +99,9 @@ export const metadata: Metadata = {
   // ── Twitter / X ───────────────────────────────────────────────────────────
   twitter: {
     card: 'summary_large_image',
-    title: 'Sarsen Strategy Partners | Strategy & Advisory',
+    title: 'Sarsen Strategy Partners - Where Strategy Meets Results',
     description:
-      'Quantitative strategy consulting for early-stage startups and growth businesses.',
+      'Business strategy expertise and data-driven analysis — building the clarity, direction, and resilience companies need to improve, grow, and turn around.',
     images: [DEFAULT_OG_IMAGE],
     // Uncomment when you have a Twitter/X handle:
     // site: '@sarsenpartners',
