@@ -598,7 +598,7 @@ const FinalCTASection = () => {
 
         {/* Headline */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
-          If the Decision Is Important, Treat It Seriously
+          Your Business Decisions are Important, Treat them Seriously
         </h2>
 
         {/* Subtext */}
@@ -611,60 +611,23 @@ Start with a paid strategic diagnostic to determine the right path forward.
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
           
           {/* Primary CTA */}
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
-          >
-            <span>Book a Diagnostic Session</span>
-          </button>
+         <a
+  href="/services/business-diagnostic-direction"
+  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
+>
+  <span>Book a Diagnostic Session</span>
+</a>
 
           {/* Secondary CTA */}
           <a 
-            href="/services"
-            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
+            href="/resources/case-studies"
+            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-gray hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
           >
             <span>Our Case Studies</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </a>
-        </div>
-
-        {/* Trust Indicators */}
-        <div className="mt-12 sm:mt-16 pt-12 ">
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
-            
-            <div>
-              <div className="text-blue-400 mb-2">
-                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <p className="text-white font-medium text-base sm:text-lg mb-1">2-Week Delivery</p>
-              <p className="text-gray-400 text-xs sm:text-sm">Fast turnaround on most projects</p>
-            </div>
-
-            <div>
-              <div className="text-blue-400 mb-2">
-                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <p className="text-white font-medium text-base sm:text-lg mb-1">Tangible Outputs</p>
-              <p className="text-gray-400 text-xs sm:text-sm">Models, frameworks, not vague advice</p>
-            </div>
-
-            <div>
-              <div className="text-blue-400 mb-2">
-                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <p className="text-white font-medium text-base sm:text-lg mb-1">1/10th the Cost</p>
-              <p className="text-gray-400 text-xs sm:text-sm">Compared to Big 4 consulting</p>
-            </div>
-
-          </div>
         </div>
 
       </div>
