@@ -896,7 +896,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '1rem', color: '#64748B', marginBottom: '8px' }}>
+              <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '8px' }}>
                 Additional Services Selected
               </p>
               <div className="space-y-1.5">
@@ -905,7 +905,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                      <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                    <p style={{ fontSize: '1rem', color: '#475569' }}>{f.label}</p>
+                    <p style={{ fontSize: '0.85rem', color: '#475569' }}>{f.label}</p>
                   </div>
                 ))}
               </div>
@@ -913,7 +913,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '1rem', color: '#64748B',  marginBottom: '8px' }}>
+            <p style={{ fontSize: '0.85rem', color: '#64748B',  marginBottom: '8px' }}>
               You will receive
             </p>
             <div className="space-y-1.5">
@@ -922,7 +922,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                   <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <p style={{ fontSize: '1rem', color: '#475569' }}>{d}</p>
+                  <p style={{ fontSize: '0.85rem', color: '#475569' }}>{d}</p>
                 </div>
               ))}
             </div>
@@ -938,7 +938,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               marginBottom: '20px', // increased margin to separate from terms
             }}
           >
-            <p style={{ fontSize: '1rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
+            <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
               Have a Coupon Code ?
             </p>
             {appliedCoupon ? (
