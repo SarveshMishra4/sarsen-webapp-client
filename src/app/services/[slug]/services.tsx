@@ -1318,12 +1318,13 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4"
+    className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4"
       style={{ backgroundColor: 'rgba(2, 8, 22, 0.80)', backdropFilter: 'blur(4px)' }}
       onClick={handleBackdropClick}
     >
       <div
-        className="relative w-full sm:max-w-lg"
+        className="relative w-full sm:max-w-lg sm:my-6"
+
         style={{ animation: 'modalSlideIn 0.32s cubic-bezier(0.22,1,0.36,1) both' }}
         onClick={(e) => e.stopPropagation()}
       >
