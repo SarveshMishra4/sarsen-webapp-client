@@ -874,9 +874,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
               {[
-                { icon: '◷', label: service.duration },
-                { icon: '◈', label: service.deliveryFormat },
-                { icon: '⬛', label: `${service.coreServices.length} core services` },
+                { icon: '•', label: service.duration },
+                { icon: '•', label: service.deliveryFormat },
+                { icon: '•', label: `${service.coreServices.length} core services` },
               ].map((item) => (
                 <span
                   key={item.label}
@@ -905,7 +905,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     key={f.id}
                     style={{
                       display: 'flex',
-                      alignItems: 'flex-start',
                       gap: '8px',
                       padding: '8px 10px',
                       borderRadius: '7px',
@@ -975,7 +974,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     value={couponInput}
                     onChange={(e) => { setCouponInput(e.target.value.toUpperCase()); setCouponError(''); }}
                     onKeyDown={(e) => e.key === 'Enter' && applyCoupon()}
-                    placeholder="e.g. SARSEN20"
+                    placeholder="SARSEN20"
                     style={{
                       flex: 1,
                       padding: '9px 12px',
@@ -985,7 +984,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       color: '#0F172A',
                       background: '#fff',
                       outline: 'none',
-                      fontFamily: 'monospace',
                       letterSpacing: '0.05em',
                     }}
                   />
@@ -997,7 +995,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       borderRadius: '7px',
                       background: couponLoading || !couponInput.trim()
                         ? '#E2E8F0'
-                        : `rgba(${accentRgb},1)`,
+                        : '#0F172A',
                       color: couponLoading || !couponInput.trim() ? '#94A3B8' : '#fff',
                       fontSize: '0.82rem',
                       fontWeight: 600,
@@ -1098,7 +1096,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 flex: 1,
                 padding: '11px 24px',
                 borderRadius: '8px',
-                background: `rgba(${accentRgb},1)`,
+                background: '#0F172A',
                 color: '#fff',
                 fontSize: '0.9rem',
                 fontWeight: 700,
@@ -1108,7 +1106,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                letterSpacing: '0.01em',
               }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1214,7 +1211,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             background: '#DCFCE7',
             borderRadius: '7px',
             padding: '10px 14px',
-            fontFamily: 'monospace',
             fontSize: '1.1rem',
             fontWeight: 700,
             color: '#14532D',
