@@ -828,7 +828,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </svg>
           </button>
 
-          <p style={{ color: '#94A3B8', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>
+          <p style={{ color: '#94A3B8', fontSize: '0.75rem', marginBottom: '6px' }}>
             Order Summary
           </p>
           <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
@@ -881,7 +881,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 <span
                   key={item.label}
                   style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.75rem',
                     color: '#64748B',
                     background: '#EFF6FF',
                     padding: '3px 8px',
@@ -896,16 +896,16 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '1rem', color: '#64748B', marginBottom: '8px' }}>
+              <p style={{ fontSize: '.75rem', color: '#64748B', marginBottom: '8px' }}>
                 Additional Services Selected
               </p>
               <div className="space-y-1.5">
                 {selectedFlexItems.map((f) => (
                   <div key={f.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p style={{ fontSize: '1rem', color: '#475569' }}>{f.label}</p>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                    <p style={{ fontSize: '.75rem', color: '#475569' }}>{f.label}</p>
                   </div>
                 ))}
               </div>
@@ -913,7 +913,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '1rem', color: '#64748B',  marginBottom: '8px' }}>
+            <p style={{ fontSize: '.75rem', color: '#64748B',  marginBottom: '8px' }}>
               You will receive
             </p>
             <div className="space-y-1.5">
@@ -922,7 +922,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                   <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <p style={{ fontSize: '1rem', color: '#475569' }}>{d}</p>
+                  <p style={{ fontSize: '.75rem', color: '#475569' }}>{d}</p>
                 </div>
               ))}
             </div>
