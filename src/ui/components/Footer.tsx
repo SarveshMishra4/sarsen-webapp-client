@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { apiRequest } from "@/services/api";
+import { useToast } from "@/ui/primitives/Toast"; // 👈 added import
 
 // ============================================================================
 // SIMPLE DIVIDER COMPONENT
@@ -49,42 +50,40 @@ const SimpleDivider = () => (
 export default function Footer() {
 
   // ── Newsletter state ───────────────────────────────────────────────────────
-  // Three possible states:
-  //   idle       → default, show input + button
-  //   loading    → request in flight, button disabled
-  //   success    → show confirmation message
-  //   error      → show inline error, allow retry
-  const [email,           setEmail]           = useState('');
-  const [newsletterState, setNewsletterState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [newsletterError, setNewsletterError] = useState('');
+  // Previously used three states: idle, loading, success, error.
+  // Now only a loading flag remains; success/error are handled by toasts.
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { showToast } = useToast(); // 👈 get showToast function
 
   const handleNewsletterSubmit = async () => {
+    // Basic email validation
     if (!email || !email.includes('@')) {
-      setNewsletterError('Please enter a valid email address.');
-      setNewsletterState('error');
+      showToast('Please enter a valid email address.', 'error');
       return;
     }
 
-    setNewsletterState('loading');
-    setNewsletterError('');
+    setIsLoading(true);
 
     try {
       await apiRequest('POST', '/newsletter/subscribe', {
         body: { email },
       });
-      // Success — show confirmation
-      setNewsletterState('success');
+      // Success — show toast and clear input
+      showToast('You are subscribed. Thank you!', 'success');
       setEmail('');
     } catch (err: any) {
-      // 409 means already subscribed — treat it as success, not an error
-      // Any other error shows the backend message
+      // 409 means already subscribed — treat it as success
       if (err.status === 409) {
-        setNewsletterState('success');
+        showToast('You are already subscribed. Thank you!', 'success');
         setEmail('');
       } else {
-        setNewsletterError(err.message ?? 'Something went wrong. Please try again.');
-        setNewsletterState('error');
+        // Show error message from backend or generic fallback
+        showToast(err.message ?? 'Something went wrong. Please try again.', 'error');
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -252,69 +251,42 @@ export default function Footer() {
               Select topics and stay current with our latest insights
             </p>
 
-            {/* ── Success state – replace input with confirmation ── */}
-            {newsletterState === 'success' ? (
-              <p className="text-green-700 font-medium text-sm">
-                ✓ You are subscribed. Thank you!
-              </p>
-            ) : (
-              <>
-                {/* -------------------------------------------------------------
-                    INPUT + BUTTON ROW
-                    Stacked vertically on mobile for full-width usability,
-                    switches to a horizontal row on sm (≥ 640px) and above.
+            {/* ── INPUT + BUTTON ROW – always visible, no inline messages ── */}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <input
+                type="email"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
+                placeholder="Email address"
+                className="flex-1 rounded-md border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 focus:border-[#002855] focus:outline-none"
+                // flex-1                → grows to fill available space in the row
+                // rounded-md            → slightly rounded corners
+                // border-2 border-gray-300 → visible 2px border, light gray
+                // bg-white              → white background distinguishes it from footer
+                // px-4 py-3             → comfortable internal padding
+                // focus:border-[#002855]→ brand navy border on focus
+                // focus:outline-none    → removes browser default blue outline
+                aria-label="Email address for newsletter"
+                onKeyDown={e => { if (e.key === 'Enter') handleNewsletterSubmit(); }}
+              />
 
-                    flex flex-col  → vertical stack on mobile
-                    gap-3          → 12px gap between input and button
-                    sm:flex-row    → horizontal row from 640px upward
-                ------------------------------------------------------------- */}
-                <div className="flex flex-col gap-3 sm:flex-row">
-
-                  {/* Email input field */}
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={e => {
-                      setEmail(e.target.value);
-                      // Clear error as soon as user starts typing again
-                      if (newsletterState === 'error') setNewsletterState('idle');
-                    }}
-                    placeholder="Email address"
-                    className="flex-1 rounded-md border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 focus:border-[#002855] focus:outline-none"
-                    // flex-1                → grows to fill available space in the row
-                    // rounded-md            → slightly rounded corners
-                    // border-2 border-gray-300 → visible 2px border, light gray
-                    // bg-white              → white background distinguishes it from footer
-                    // px-4 py-3             → comfortable internal padding
-                    // focus:border-[#002855]→ brand navy border on focus
-                    // focus:outline-none    → removes browser default blue outline
-                    aria-label="Email address for newsletter"
-                    onKeyDown={e => { if (e.key === 'Enter') handleNewsletterSubmit(); }}
-                  />
-
-                  {/* Submit button */}
-                  <button
-                    onClick={handleNewsletterSubmit}
-                    disabled={newsletterState === 'loading'}
-                    className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#0A1E3D] disabled:opacity-60 disabled:cursor-not-allowed"
-                    // whitespace-nowrap  → prevents "Submit" from wrapping to two lines
-                    // bg-[#002855]       → brand navy background
-                    // px-8               → generous horizontal padding
-                    // hover:bg-[#0A1E3D] → slightly darker navy on hover
-                    aria-label="Subscribe to newsletter"
-                  >
-                    {newsletterState === 'loading' ? 'Submitting...' : 'Submit'}
-                  </button>
-
-                </div>
-                {/* END INPUT + BUTTON ROW */}
-
-                {/* Inline error message — only shown when state is 'error' */}
-                {newsletterState === 'error' && newsletterError && (
-                  <p className="mt-2 text-sm text-red-600">{newsletterError}</p>
-                )}
-              </>
-            )}
+              {/* Submit button */}
+              <button
+                onClick={handleNewsletterSubmit}
+                disabled={isLoading}
+                className="whitespace-nowrap rounded-md bg-[#002855] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#0A1E3D] disabled:opacity-60 disabled:cursor-not-allowed"
+                // whitespace-nowrap  → prevents "Submit" from wrapping to two lines
+                // bg-[#002855]       → brand navy background
+                // px-8               → generous horizontal padding
+                // hover:bg-[#0A1E3D] → slightly darker navy on hover
+                aria-label="Subscribe to newsletter"
+              >
+                {isLoading ? 'Submitting...' : 'Submit'}
+              </button>
+            </div>
+            {/* END INPUT + BUTTON ROW */}
 
           </div>
           {/* END RIGHT COLUMN */}
