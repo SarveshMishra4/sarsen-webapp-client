@@ -197,41 +197,98 @@ const ReportSection = () => {
                   We’ll email you the report and use responses to improve future research.
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <input required placeholder="Full Name" className="w-full border px-4 py-3 rounded-md" />
-                  <input required type="email" placeholder="Work Email" className="w-full border px-4 py-3 rounded-md" />
-                  <input required placeholder="Phone Number" className="w-full border px-4 py-3 rounded-md" />
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Full Name
+                    </label>
+                    <input
+                      required
+                      placeholder="e.g. Ramesh Kumar"
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    />
+                  </div>
 
-                  <select required className="w-full border px-4 py-3 rounded-md">
-                    <option value="">Which best describes you?</option>
-                    <option>Founder / Co-founder</option>
-                    <option>CXO / Leadership</option>
-                    <option>Early Employee</option>
-                    <option>Investor / Advisor</option>
-                    <option>Exploring entrepreneurship</option>
-                  </select>
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Work Email
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      placeholder="ramesh@company.com"
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    />
+                  </div>
 
-                  <select required className="w-full border px-4 py-3 rounded-md">
-                    <option value="">Current business stage</option>
-                    <option>Pre-idea / Exploring</option>
-                    <option>Idea validated, no revenue</option>
-                    <option>Early revenue (₹0–50L)</option>
-                    <option>Scaling (₹50L–₹5Cr)</option>
-                    <option>Preparing to raise capital</option>
-                    <option>Post-fundraise</option>
-                  </select>
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      required
+                      placeholder="+91 9876543210"
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    />
+                  </div>
 
-                  <select required className="w-full border px-4 py-3 rounded-md">
-                    <option value="">Biggest uncertainty right now</option>
-                    <option>Are we scaling too early ?</option>
-                    <option>Are these the right customers ?</option>
-                    <option>Does our pricing actually work ?</option>
-                    <option>Are we fundable ?</option>
-                    <option>Are we missing something critical ?</option>
-                    <option>Unsure or Something Else</option>
-                  </select>
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Which best describes you?
+                    </label>
+                    <select
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    >
+                      <option value="" disabled>Select an option</option>
+                      <option>Founder / Co-founder</option>
+                      <option>CXO / Leadership</option>
+                      <option>Early Employee</option>
+                      <option>Investor / Advisor</option>
+                      <option>Exploring entrepreneurship</option>
+                    </select>
+                  </div>
 
-                  <button type="submit" className="w-full bg-[#0A1E3D] text-white py-3 rounded-md">
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Current business stage
+                    </label>
+                    <select
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    >
+                      <option value="" disabled>Select an option</option>
+                      <option>Pre-idea / Exploring</option>
+                      <option>Idea validated, no revenue</option>
+                      <option>Early revenue (₹0–50L)</option>
+                      <option>Scaling (₹50L–₹5Cr)</option>
+                      <option>Preparing to raise capital</option>
+                      <option>Post-fundraise</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                      Biggest uncertainty right now
+                    </label>
+                    <select
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    >
+                      <option value="" disabled>Select an option</option>
+                      <option>Are we scaling too early ?</option>
+                      <option>Are these the right customers ?</option>
+                      <option>Does our pricing actually work ?</option>
+                      <option>Are we fundable ?</option>
+                      <option>Are we missing something critical ?</option>
+                      <option>Unsure or Something Else</option>
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 rounded-md transition-colors"
+                  >
                     Email me the report
                   </button>
                 </form>
@@ -243,7 +300,7 @@ const ReportSection = () => {
                 </h3>
                 <p className="text-gray-600">
                   Your copy is being sent shortly.
-                  If you’d like help interpreting it for your business, you can request a clarity conversation anytime.
+                  In case you need Help with your Business Apply for our Strategic Diagnostic & Direction Program.
                 </p>
               </div>
             )}
