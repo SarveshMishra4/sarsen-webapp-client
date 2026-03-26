@@ -181,7 +181,7 @@ export default function TermsOfUsePage() {
             <h2 className="text-2xl font-medium text-gray-800 mb-4">15. Contact Information</h2>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
-              <p className="text-gray-600">Email: contact@sarsen.com</p>
+              <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
               <p className="text-gray-600 mt-3 text-sm">
                 <strong>Business Hours:</strong> Monday - Friday, 11:00 AM - 8:00 PM Gulf Standard Time
               </p>

@@ -384,19 +384,10 @@ export default function Footer() {
             {/* ── Row 1 links (appear first in source order) ── */}
 
             {/* Contact page link */}
-            <Link href="/contact#main" className="hover:text-[#002855] transition-colors">
+            <Link href="/contact" className="hover:text-[#002855] transition-colors">
               Contact
             </Link>
 
-            {/* FAQ anchor link */}
-            <Link href="#faq" className="hover:text-[#002855] transition-colors">
-              FAQ
-            </Link>
-
-            {/* Privacy policy anchor */}
-            <Link href="#privacy-policy" className="hover:text-[#002855] transition-colors">
-              Privacy policy
-            </Link>
 
             {/* "Your privacy choices" – rendered as a <button> because it
                 typically triggers a cookie/consent management modal rather
@@ -410,29 +401,29 @@ export default function Footer() {
             </button>
 
             {/* Cookie preferences anchor */}
-            <Link href="#cookie-preferences" className="hover:text-[#002855] transition-colors">
+            <Link href="/legal-and-regulatory/cookie-preferences" className="hover:text-[#002855] transition-colors">
               Cookie preferences
             </Link>
 
             {/* ── Row 2 links (continue in the same flex container, wrapping naturally) ── */}
 
             {/* Terms of use anchor */}
-            <Link href="#terms-of-use" className="hover:text-[#002855] transition-colors">
-              Terms of use
+            <Link href="/legal-and-regulatory/terms-of-use" className="hover:text-[#002855] transition-colors">
+              Terms & Conditions
             </Link>
 
             {/* Refund & Cancellation Policy anchor */}
-            <Link href="#refund-cancellation" className="hover:text-[#002855] transition-colors">
+            <Link href="/legal-and-regulatory/refund-and-cancellation" className="hover:text-[#002855] transition-colors">
               Refund & Cancellation Policy
             </Link>
 
             {/* Disclaimer anchor */}
-            <Link href="#disclaimer" className="hover:text-[#002855] transition-colors">
+            <Link href="/legal-and-regulatory/disclaimer" className="hover:text-[#002855] transition-colors">
               Disclaimer
             </Link>
 
             {/* Accessibility statement anchor */}
-            <Link href="#accessibility" className="hover:text-[#002855] transition-colors">
+            <Link href="/legal-and-regulatory/accessibility-statement" className="hover:text-[#002855] transition-colors">
               Accessibility statement
             </Link>
 

@@ -319,7 +319,7 @@ export default function DisclaimerPage() {
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
-              <p className="text-gray-600">Email: contact@sarsen.com</p>
+              <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
               <p className="text-gray-500 text-sm mt-2">
                 We will respond to inquiries within 3–5 business days.
               </p>
@@ -330,7 +330,7 @@ export default function DisclaimerPage() {
           <section className="bg-red-50 rounded-lg p-6 border-2 border-red-200">
             <h2 className="text-xl font-medium text-gray-800 mb-3">Final Acknowledgment</h2>
             <p className="text-gray-700  mb-3">
-              <strong>BY USING OUR WEBSITE OR SERVICES, YOU ACKNOWLEDGE THAT:</strong>
+              <strong>By using our website or services, you acknowledge that:</strong>
             </p>
             <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
               <li>You have read and understood this disclaimer in its entirety</li>
