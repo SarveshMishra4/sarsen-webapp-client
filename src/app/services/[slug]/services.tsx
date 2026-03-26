@@ -896,7 +896,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
+              <p style={{ fontSize: '0.75rem', color: '#64748B',  marginBottom: '8px' }}>
                 Additional Services Selected
               </p>
               <div className="space-y-2">
@@ -924,7 +924,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
+            <p style={{ fontSize: '0.75rem', color: '#64748B',  marginBottom: '8px' }}>
               You will receive
             </p>
             <div className="space-y-1.5">
@@ -1032,7 +1032,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               textAlign: 'center',
             }}
           >
-            <p style={{ fontSize: '0.7rem', color: '#64748B' }}>
+            <p style={{  color: '#64748B' }}>
               By proceeding ahead in the process you agree to the{' '}
               <a
                 href="/legal-and-regulatory/terms-of-use"
