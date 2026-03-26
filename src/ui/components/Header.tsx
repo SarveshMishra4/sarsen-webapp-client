@@ -74,7 +74,7 @@ export default function Header() {
         {
           label: "How We Are And How We Become",
           href: "/about#evolution",
-          description: "Our journey and transformation"
+          description: "Our partnership and the transformation"
         },
       ],
       highlight: {
@@ -99,18 +99,18 @@ export default function Header() {
         },
         {
           label: "Case Studies",
-          href: "/resources#case-studies",
-          description: "Real-world success stories"
+          href: "/resources/case-studies",
+          description: "Real‑world success stories"
         },
         {
-          label: "Tools (By Request)",
-          href: "/resources#tools",
+          label: "Tools",
+          href: "/resources/tools",
           description: "Specialized analytical tools"
         },
         {
           label: "Research & Reports",
-          href: "/resources#research",
-          description: "In-depth analysis and insights"
+          href: "/resources/reports",
+          description: "In‑depth analysis and insights"
         },
       ],
       highlight: {
@@ -129,7 +129,7 @@ export default function Header() {
       description: "Explore our work across industries and see the impact we've delivered.",
       links: [
         {
-          label: "Work on Engagement (Combo Use)",
+          label: "Work on Engagement",
           href: "/work#engagement",
           description: "Combined engagement approaches"
         },
@@ -165,39 +165,44 @@ export default function Header() {
       description: "Comprehensive solutions tailored to drive your business forward.",
       links: [
         {
-          label: "Clarity Reset",
-          href: "/services#clarity-reset",
-          description: "Strategic clarity and realignment"
+          label: "Know What’s Really Going On",
+          href: "/services/business-diagnostic-direction",
+          description: "Business Diagnostic & Direction"
         },
         {
-          label: "Idea Review",
-          href: "/services#idea-review",
-          description: "Concept validation and refinement"
+          label: "Is Your Idea Worth Pursuing?",
+          href: "/services/idea-to-validation",
+          description: "Idea‑to‑Validation"
         },
         {
-          label: "PMF Check",
-          href: "/services#pmf-check",
-          description: "Product-Market Fit analysis"
+          label: "Make Customers Actually Want Your Product",
+          href: "/services/product-market-fit-clarity",
+          description: "Product‑Market Fit Clarity"
         },
         {
-          label: "Revenue Diagnosis",
-          href: "/services#revenue-diagnosis",
-          description: "Revenue optimization assessment"
+          label: "Stop Random Sales, Start Repeatable Growth",
+          href: "/services/go-to-market-strategy",
+          description: "Go‑To‑Market Strategy"
         },
         {
-          label: "Growth Bottleneck",
-          href: "/services#growth-bottleneck",
-          description: "Identify and remove growth barriers"
+          label: "Stop Being the Bottleneck",
+          href: "/services/operations-scalability",
+          description: "Operations & Scalability"
         },
         {
-          label: "Capital Readiness",
-          href: "/services#capital-readiness",
-          description: "Prepare for funding rounds"
+          label: "Raise Capital with Confidence",
+          href: "/services/fundraising-readiness",
+          description: "Fundraising Readiness"
         },
         {
-          label: "Scale Review",
-          href: "/services#scale-review",
-          description: "Scalability assessment"
+          label: "Survive & Recover Now",
+          href: "/services/turnaround-stabilisation",
+          description: "Turnaround & Stabilisation"
+        },
+        {
+          label: "Scale Without Breaking",
+          href: "/services/scale-expansion-strategy",
+          description: "Scale & Expansion Strategy"
         },
       ],
       highlight: {
