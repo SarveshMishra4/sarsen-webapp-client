@@ -715,7 +715,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </p>
       </div>
 
-      <div ref={scrollRef} style={{ padding: '28px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
+      <div ref={scrollRef} style={{ padding: '28px 32px' }}>
 
         {/* ── NEW HARDCODED EMAIL FIELD ── */}
         <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
@@ -828,7 +828,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </svg>
           </button>
 
-          <p style={{ color: '#94A3B8', fontSize: '0.75rem', marginBottom: '6px' }}>
+          <p style={{ color: '#94A3B8', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>
             Order Summary
           </p>
           <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
@@ -836,7 +836,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </h2>
         </div>
 
-        <div ref={scrollRef} style={{ padding: '28px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
+        <div ref={scrollRef} style={{ padding: '28px 32px' }}>
           <div
             style={{
               background: '#F8FAFC',
@@ -896,16 +896,16 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '8px' }}>
+              <p style={{ fontSize: '1rem', color: '#64748B', marginBottom: '8px' }}>
                 Additional Services Selected
               </p>
               <div className="space-y-1.5">
                 {selectedFlexItems.map((f) => (
                   <div key={f.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                     <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                    <p style={{ fontSize: '0.75rem', color: '#475569' }}>{f.label}</p>
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <p style={{ fontSize: '1rem', color: '#475569' }}>{f.label}</p>
                   </div>
                 ))}
               </div>
@@ -913,7 +913,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '0.75rem', color: '#64748B',  marginBottom: '8px' }}>
+            <p style={{ fontSize: '1rem', color: '#64748B',  marginBottom: '8px' }}>
               You will receive
             </p>
             <div className="space-y-1.5">
@@ -922,7 +922,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                   <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <p style={{ fontSize: '0.75rem', color: '#475569' }}>{d}</p>
+                  <p style={{ fontSize: '1rem', color: '#475569' }}>{d}</p>
                 </div>
               ))}
             </div>
@@ -938,8 +938,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               marginBottom: '20px', // increased margin to separate from terms
             }}
           >
-            <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
-              Have a Coupon Code ?
+            <p style={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
+              Have a coupon code?
             </p>
             {appliedCoupon ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1318,30 +1318,30 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
   return (
     <div
-    className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4"
+      className="fixed inset-0 z-50 overflow-y-auto"
       style={{ backgroundColor: 'rgba(2, 8, 22, 0.80)', backdropFilter: 'blur(4px)' }}
       onClick={handleBackdropClick}
     >
-      <div
-        className="relative w-full sm:max-w-lg sm:my-6"
-
-        style={{ animation: 'modalSlideIn 0.32s cubic-bezier(0.22,1,0.36,1) both' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="flex items-end sm:items-center justify-center min-h-full sm:px-4 sm:py-8">
         <div
-          style={{
-            background: '#FFFFFF',
-            borderRadius: '16px',           // <-- changed: now all corners are rounded
-            overflow: 'hidden',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
-          }}
-          // className="sm:rounded-md"      // <-- removed
+          className="relative w-full sm:max-w-lg"
+          style={{ animation: 'modalSlideIn 0.32s cubic-bezier(0.22,1,0.36,1) both' }}
+          onClick={(e) => e.stopPropagation()}
         >
-          {step === 'questions' && renderQuestionsStep()}
-          {step === 'summary' && renderSummaryStep()}
-          {step === 'processing' && renderProcessingStep()}
-          {step === 'success' && renderSuccessStep()}
-          {step === 'failure' && renderFailureStep()}
+          <div
+            style={{
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
+            }}
+          >
+            {step === 'questions' && renderQuestionsStep()}
+            {step === 'summary' && renderSummaryStep()}
+            {step === 'processing' && renderProcessingStep()}
+            {step === 'success' && renderSuccessStep()}
+            {step === 'failure' && renderFailureStep()}
+          </div>
         </div>
       </div>
     </div>
