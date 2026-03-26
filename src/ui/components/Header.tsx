@@ -170,7 +170,7 @@ export default function Header() {
           description: "Business Diagnostic & Direction"
         },
         {
-          label: "Is Your Idea Worth Pursuing?",
+          label: "Is Your Idea Worth Pursuing ?",
           href: "/services/idea-to-validation",
           description: "Idea‑to‑Validation"
         },
