@@ -828,7 +828,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </svg>
           </button>
 
-          <p style={{ color: '#94A3B8', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>
+          <p style={{ color: '#94A3B8', fontSize: '0.75rem',  marginBottom: '6px' }}>
             Order Summary
           </p>
           <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
@@ -836,7 +836,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </h2>
         </div>
 
-        <div ref={scrollRef} style={{ padding: '24px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
+        {/* Updated padding to match questions step (28px 32px) */}
+        <div ref={scrollRef} style={{ padding: '28px 32px', overflowY: 'auto', maxHeight: '60vh' }}>
           <div
             style={{
               background: '#F8FAFC',
@@ -1185,7 +1186,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       {plainPassword && (
         <div style={{
           background: '#F0FDF4',
-          border: '1.5px solid #86EFAC',
+          border: '1.5px solid #0F172A',
           borderRadius: '10px',
           padding: '16px 20px',
           maxWidth: '340px',
@@ -1195,14 +1196,14 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <p style={{
             fontSize: '0.72rem',
             fontWeight: 600,
-            color: '#16A34A',
+            color: '#0F172A',
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             marginBottom: '6px',
           }}>
             Your Account Password
           </p>
-          <p style={{ fontSize: '0.72rem', color: '#15803D', marginBottom: '10px' }}>
+          <p style={{ fontSize: '0.72rem', color: '#0F172A', marginBottom: '10px' }}>
             Your account has been created with the email below. Save this password — it will <strong>not</strong> be shown again.
           </p>
 
@@ -1213,7 +1214,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             padding: '10px 14px',
             fontSize: '1.1rem',
             fontWeight: 700,
-            color: '#14532D',
+            color: '#0F172A',
             letterSpacing: '0.12em',
             textAlign: 'center',
             border: '1px solid #86EFAC',
@@ -1222,7 +1223,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             {plainPassword}
           </div>
 
-          <p style={{ fontSize: '0.68rem', color: '#16A34A', marginTop: '8px', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.68rem', color: '#0F172A', marginTop: '8px', textAlign: 'center' }}>
             Account email: <strong>{email}</strong>
           </p>
         </div>
@@ -1402,7 +1403,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   }}
                 >
                   <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: service.accentColor }} />
-                  <span className="text-xs font-medium st uppercase" style={{ color: service.accentColor }}>
+                  <span className="text-xs font-medium st " style={{ color: service.accentColor }}>
                     {service.tag}
                   </span>
                 </div>
