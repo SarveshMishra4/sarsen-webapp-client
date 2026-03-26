@@ -392,7 +392,7 @@ export default function Footer() {
             {/* "Your privacy choices" – rendered as a <button> because it
                 typically triggers a cookie/consent management modal rather
                 than navigating to a new URL */}
-            <button className="flex items-center gap-2 hover:text-[#002855] transition-colors">
+            <button className="flex items-center gap-2 transition-colors">
               {/* Small icon (a grid of squares – conventional privacy icon) */}
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M9.5 1.5v3h-3v-3h3zm-4 0v3h-3v-3h3zm8 0v3h-3v-3h3zm0 4v3h-3v-3h3zm0 4v3h-3v-3h3zm-4 0v3h-3v-3h3zm-4 0v3h-3v-3h3zm0-4v3h-3v-3h3zm4 0v3h-3v-3h3z" />
