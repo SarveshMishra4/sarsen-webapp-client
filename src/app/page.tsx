@@ -179,131 +179,142 @@ const ReportSection = () => {
       </section>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
-          <div className="bg-white max-w-lg w-full rounded-md p-6 sm:p-8 relative">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        // ── FIX: outer div is now overflow-y-auto so the form never gets
+        // clipped at the top on short viewports. Backdrop click closes modal.
+        // Inner wrapper uses min-h-full + py-8 to keep consistent spacing.
+        <div
+          className="fixed inset-0 z-50 bg-black/60 overflow-y-auto"
+          onClick={() => setShowModal(false)}
+        >
+          <div className="flex items-end sm:items-center justify-center min-h-full px-4 sm:py-8">
+            <div
+              className="bg-white max-w-lg w-full rounded-md p-6 sm:p-8 relative"
+              onClick={(e) => e.stopPropagation()}
             >
-              ✕
-            </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
 
-            {!submitted ? (
-              <>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                  Request the full report
-                </h3>
-                <p className="text-sm text-gray-600 mb-6">
-                  We’ll email you the report and use responses to improve future research.
-                </p>
+              {!submitted ? (
+                <>
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                    Request the full report
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-6">
+                    We'll email you the report and use responses to improve future research.
+                  </p>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Full Name
-                    </label>
-                    <input
-                      required
-                      placeholder="e.g. Ramesh Kumar"
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
-                    />
-                  </div>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Full Name
+                      </label>
+                      <input
+                        required
+                        placeholder="e.g. Ramesh Kumar"
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Work Email
-                    </label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="ramesh@company.com"
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
-                    />
-                  </div>
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Work Email
+                      </label>
+                      <input
+                        required
+                        type="email"
+                        placeholder="ramesh@company.com"
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      required
-                      placeholder="+91 9876543210"
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
-                    />
-                  </div>
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        required
+                        placeholder="+91 9876543210"
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Which best describes you?
-                    </label>
-                    <select
-                      required
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Which best describes you?
+                      </label>
+                      <select
+                        required
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      >
+                        <option value="" disabled>Select an option</option>
+                        <option>Founder / Co-founder</option>
+                        <option>CXO / Leadership</option>
+                        <option>Early Employee</option>
+                        <option>Investor / Advisor</option>
+                        <option>Exploring entrepreneurship</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Current business stage
+                      </label>
+                      <select
+                        required
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      >
+                        <option value="" disabled>Select an option</option>
+                        <option>Pre-idea / Exploring</option>
+                        <option>Idea validated, no revenue</option>
+                        <option>Early revenue (₹0–50L)</option>
+                        <option>Scaling (₹50L–₹5Cr)</option>
+                        <option>Preparing to raise capital</option>
+                        <option>Post-fundraise</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
+                        Biggest uncertainty right now
+                      </label>
+                      <select
+                        required
+                        className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
+                      >
+                        <option value="" disabled>Select an option</option>
+                        <option>Are we scaling too early ?</option>
+                        <option>Are these the right customers ?</option>
+                        <option>Does our pricing actually work ?</option>
+                        <option>Are we fundable ?</option>
+                        <option>Are we missing something critical ?</option>
+                        <option>Unsure or Something Else</option>
+                      </select>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 rounded-md transition-colors"
                     >
-                      <option value="" disabled>Select an option</option>
-                      <option>Founder / Co-founder</option>
-                      <option>CXO / Leadership</option>
-                      <option>Early Employee</option>
-                      <option>Investor / Advisor</option>
-                      <option>Exploring entrepreneurship</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Current business stage
-                    </label>
-                    <select
-                      required
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
-                    >
-                      <option value="" disabled>Select an option</option>
-                      <option>Pre-idea / Exploring</option>
-                      <option>Idea validated, no revenue</option>
-                      <option>Early revenue (₹0–50L)</option>
-                      <option>Scaling (₹50L–₹5Cr)</option>
-                      <option>Preparing to raise capital</option>
-                      <option>Post-fundraise</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                      Biggest uncertainty right now
-                    </label>
-                    <select
-                      required
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
-                    >
-                      <option value="" disabled>Select an option</option>
-                      <option>Are we scaling too early ?</option>
-                      <option>Are these the right customers ?</option>
-                      <option>Does our pricing actually work ?</option>
-                      <option>Are we fundable ?</option>
-                      <option>Are we missing something critical ?</option>
-                      <option>Unsure or Something Else</option>
-                    </select>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 rounded-md transition-colors"
-                  >
-                    Email me the report
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="text-center py-10">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                  Check your email
-                </h3>
-                <p className="text-gray-600">
-                  Your copy is being sent shortly.
-                  In case you need Help with your Business Apply for our Strategic Diagnostic & Direction Program.
-                </p>
-              </div>
-            )}
+                      Email me the report
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <div className="text-center py-10">
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                    Check your email
+                  </h3>
+                  <p className="text-gray-600">
+                    Your copy is being sent shortly.
+                    In case you need Help with your Business Apply for our Strategic Diagnostic & Direction Program.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -324,12 +335,12 @@ const CompanyHelpsSection = () => {
 
   const expertiseAreas = [
     {
-      title: "When Sales Effort Isn’t Turning Into Predictable Revenue",
+      title: "When Sales Effort Isn't Turning Into Predictable Revenue",
       description: "Founders often assume growth problems are marketing problems. In reality, the issue is usually unclear positioning, fragile pricing, or a sales process that only works when the founder is involved. We redesign how revenue is generated — from who you sell to, how you price, and how deals actually close — so growth stops being dependent on hustle and starts becoming repeatable.",
     },
     {
-      title: "When Cash Feels Tight Despite “Decent” Revenue",
-      description: "Many businesses don’t fail because they aren’t profitable on paper — they fail because cash timing, burn structure, and growth decisions are misaligned. We help founders understand where money is actually leaking, how long the business can realistically operate, and whether raising capital, slowing down, or restructuring is the right move — before the situation becomes urgent.",
+      title: "When Cash Feels Tight Despite Decent Revenue",
+      description: "Many businesses don't fail because they aren't profitable on paper — they fail because cash timing, burn structure, and growth decisions are misaligned. We help founders understand where money is actually leaking, how long the business can realistically operate, and whether raising capital, slowing down, or restructuring is the right move — before the situation becomes urgent.",
     },
     {
       title: "When the Business Runs on You Instead of Systems",
@@ -340,8 +351,8 @@ const CompanyHelpsSection = () => {
       description: "Many teams stay busy without moving meaningfully forward. Initiatives change every quarter, priorities shift, and long-term direction remains vague. We help founders step out of reactive decision-making and build a clear strategic direction — deciding what not to pursue as deliberately as what to focus on.",
     },
     {
-      title: "When You’re Unsure If the Product Is the Real Problem",
-      description: "Founders often sense something is wrong but can’t tell whether it’s the product, the customer, the market, or the messaging. We help isolate whether the issue is product-market fit, positioning, or execution — so teams stop rebuilding blindly and start fixing the right constraint.",
+      title: "When You're Unsure If the Product Is the Real Problem",
+      description: "Founders often sense something is wrong but can't tell whether it's the product, the customer, the market, or the messaging. We help isolate whether the issue is product-market fit, positioning, or execution — so teams stop rebuilding blindly and start fixing the right constraint.",
     }
   ];
 
@@ -857,10 +868,10 @@ const StoryProcessSection = () => {
 
           <div className="max-w-4xl">
             <p className="text-gray-300 text-base sm:text-lg  mb-4">
-              Most founders don’t lack effort or intelligence — they lack clear signal. Too many variables change at once: growth stalls, cash tightens, teams slow down, and every decision feels risky.
+              Most founders don't lack effort or intelligence — they lack clear signal. Too many variables change at once: growth stalls, cash tightens, teams slow down, and every decision feels risky.
             </p>
             <p className="text-gray-400 text-sm sm:text-base ">
-              Our process exists to remove noise before prescribing action. We don’t start with solutions. We start by isolating what actually matters, so every subsequent decision becomes easier, faster, and defensible.
+              Our process exists to remove noise before prescribing action. We don't start with solutions. We start by isolating what actually matters, so every subsequent decision becomes easier, faster, and defensible.
             </p>
           </div>
         </div>
