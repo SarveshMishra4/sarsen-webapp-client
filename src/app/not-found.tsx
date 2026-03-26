@@ -252,7 +252,7 @@ export default function NotFound() {
 
             {/* Reports */}
             <Link
-              href="/reports"
+              href="/resources/reports"
               className="group flex items-start gap-4 px-5 sm:px-7 py-5 hover:bg-blue-900/20 transition-colors duration-300 border-b border-blue-900/20 sm:border-l sm:border-blue-900/20"
             >
               <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5 group-hover:text-blue-300 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
