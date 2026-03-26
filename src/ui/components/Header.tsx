@@ -81,7 +81,8 @@ export default function Header() {
         title: "Our Philosophy",
         description: "Discover our approach",
         thumbnail: "/assets/thumbnail-header/work.webp",
-        buttonText: "Learn More"
+        buttonText: "Learn More",
+        link: "/about"                 // 👈 added
       }
     },
 
@@ -117,7 +118,8 @@ export default function Header() {
         title: "Latest Framework",
         description: "Strategic Planning Guide",
         thumbnail: "/assets/thumbnail-header/report.webp",
-        buttonText: "View Resources"
+        buttonText: "View Resources",
+        link: "/resources"             // 👈 added
       }
     },
 
@@ -153,7 +155,8 @@ export default function Header() {
         title: "Featured Work",
         description: "Recent client success",
         thumbnail: "/assets/thumbnail-header/our team.webp",
-        buttonText: "View Portfolio"
+        buttonText: "View Portfolio",
+        link: "/work"                  // 👈 added
       }
     },
 
@@ -209,7 +212,8 @@ export default function Header() {
         title: "Popular Service",
         description: "Clarity Reset Program",
         thumbnail: "/assets/thumbnail-header/happy cliet.webp",
-        buttonText: "Explore Services"
+        buttonText: "Explore Services",
+        link: "/services"              // 👈 added
       }
     },
   };
@@ -510,9 +514,13 @@ export default function Header() {
                         </div>
                       </div>
 
-                      <button className="mt-auto w-full py-3 bg-[#002855] text-white font-semibold rounded-md hover:bg-[#0a1E3D] transition-colors text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200">
+                      {/* changed from <button> to <a> with the new link */}
+                      <a
+                        href={megaMenuContent[activeMenu].highlight.link}
+                        className="mt-auto w-full py-3 bg-[#002855] text-white font-semibold rounded-md hover:bg-[#0a1E3D] transition-colors text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 text-center"
+                      >
                         {megaMenuContent[activeMenu].highlight.buttonText}
-                      </button>
+                      </a>
 
                       <div className="mt-4 pt-4 border-t border-gray-100">
                         <p className="text-sm text-gray-500 text-center">
@@ -605,9 +613,13 @@ export default function Header() {
                               <p className="text-gray-600 text-xs mt-1">
                                 {megaMenuContent[menu].highlight.description}
                               </p>
-                              <button className="mt-2 px-4 py-2 bg-[#002855] text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-semibold w-full">
+                              {/* changed from <button> to <a> with the new link */}
+                              <a
+                                href={megaMenuContent[menu].highlight.link}
+                                className="mt-2 px-4 py-2 bg-[#002855] text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-semibold w-full text-center block"
+                              >
                                 {megaMenuContent[menu].highlight.buttonText}
-                              </button>
+                              </a>
                             </div>
                           </div>
                         </div>

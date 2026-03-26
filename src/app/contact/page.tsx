@@ -344,25 +344,13 @@ You don't need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <a href="mailto:contact@sarsen.com" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
-                      contact@sarsen.com
+                    <a href="mailto:contact@sarsenpartners.com" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
+                      contact@sarsenpartners.com
                     </a>
                   </div>
                 </div>
 
-                {/* Phone */}
-                <div className="flex items-start space-x-4">
-                  <div className="mt-1 flex-shrink-0">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <a href="tel:+919876543210" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
-                      +91 98765 43210
-                    </a>
-                  </div>
-                </div>
+
 
                 {/* Address */}
                 <div className="flex items-start space-x-4">
@@ -374,9 +362,8 @@ You don't need a polished explanation — clarity comes later."
                   </div>
                   <div>
                     <p className="text-white/90 text-base sm:text-lg ">
-                      123 Business District<br />
-                      Bangalore, Karnataka 560001<br />
-                      India
+                      Abu Dhabi<br />
+                      United Arab Emirates
                     </p>
                   </div>
                 </div>
@@ -411,7 +398,7 @@ You don't need a polished explanation — clarity comes later."
 
     {/* Link 1 */}
     <a
-      href="/services"
+      href="/work"
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>How We Help Founders</span>
@@ -433,7 +420,7 @@ You don't need a polished explanation — clarity comes later."
 
     {/* Link 3 */}
     <a
-      href="/about"
+      href="/resources/blog"
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Read Our Thinking</span>
@@ -444,7 +431,7 @@ You don't need a polished explanation — clarity comes later."
 
     {/* Link 4 */}
     <a
-      href="/blog"
+      href="/resources/case-studies"
       className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
     >
       <span>Our Case Studies</span>
