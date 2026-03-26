@@ -71,7 +71,7 @@ export default function Footer() {
         body: { email },
       });
       // Success — show toast and clear input
-      showToast('You are subscribed. Thank you!', 'success');
+      showToast('Thank You For Subscribing', 'success');
       setEmail('');
     } catch (err: any) {
       // 409 means already subscribed — treat it as success
