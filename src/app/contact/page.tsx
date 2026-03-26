@@ -377,7 +377,7 @@ You don't need a polished explanation — clarity comes later."
                   </div>
                   <div>
                     <p className="text-white/90 text-base sm:text-lg ">
-                      Mon-Fri: 9:00 AM - 6:00 PM<br />
+                      Monday - Friday<br />
                     </p>
                   </div>
                 </div>
