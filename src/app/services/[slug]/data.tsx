@@ -31,7 +31,7 @@ export type QuestionType =
   | 'number';
 
 export interface QuestionOption {
-  value: string;
+  value: string;           // now the human‑readable label (e.g., "Solo founder")
   label: string;
 }
 
@@ -46,7 +46,7 @@ export interface ServiceQuestion {
 }
 
 export interface FlexibleServiceOption {
-  id: string;
+  id: string;        // now the human‑readable label (e.g., "Competitive Landscape Simplification")
   label: string;
   description: string;
 }
@@ -93,8 +93,8 @@ export interface ServiceData {
 export type ServiceTag =
   | 'Foundation'
   | 'Validation'
-  | 'PMF'
-  | 'GTM'
+  | 'Product Market Fit'
+  | 'Go to Market'
   | 'Operations'
   | 'Fundraising'
   | 'Turnaround'
@@ -105,14 +105,14 @@ export type ServiceTag =
 // ================================================================
 
 export const TAG_ACCENTS: Record<ServiceTag, { hex: string; rgb: string; bgClass: string; label: string }> = {
-  Foundation:  { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Foundation' },
-  Validation:  { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Validation' },
-  PMF:         { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'PMF' },
-  GTM:         { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'GTM' },
-  Operations:  { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Operations' },
-  Fundraising: { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Fundraising' },
-  Turnaround:  { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Turnaround' },
-  Scale:       { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Scale' },
+  Foundation:          { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Foundation' },
+  Validation:          { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Validation' },
+  'Product Market Fit': { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Product Market Fit' },
+  'Go to Market':      { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Go to Market' },
+  Operations:          { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Operations' },
+  Fundraising:         { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Fundraising' },
+  Turnaround:          { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Turnaround' },
+  Scale:               { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Scale' },
 };
 
 // ================================================================
@@ -196,10 +196,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'pre_revenue', label: 'Pre-revenue / idea stage' },
-          { value: 'early_revenue', label: 'Early revenue (< ₹25L ARR)' },
-          { value: 'growing', label: 'Growing (₹25L – ₹1Cr ARR)' },
-          { value: 'scaling', label: 'Scaling (₹1Cr+ ARR)' },
+          { value: 'Pre-revenue / idea stage', label: 'Pre-revenue / idea stage' },
+          { value: 'Early revenue (< ₹25L ARR)', label: 'Early revenue (< ₹25L ARR)' },
+          { value: 'Growing (₹25L – ₹1Cr ARR)', label: 'Growing (₹25L – ₹1Cr ARR)' },
+          { value: 'Scaling (₹1Cr+ ARR)', label: 'Scaling (₹1Cr+ ARR)' },
         ],
       },
       {
@@ -216,9 +216,9 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'solo', label: 'Solo founder' },
-          { value: 'two', label: '2 co-founders' },
-          { value: 'three_plus', label: '3 or more co-founders' },
+          { value: 'Solo founder', label: 'Solo founder' },
+          { value: '2 co-founders', label: '2 co-founders' },
+          { value: '3 or more co-founders', label: '3 or more co-founders' },
         ],
       },
       {
@@ -263,11 +263,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       'Early Value Proposition Framing',
     ],
     flexibleServices: [
-      { id: 'competitive_landscape', label: 'Competitive Landscape Simplification', description: 'Map the 3–5 real competitors and what actually differentiates you.' },
-      { id: 'substitute_analysis', label: 'Substitute & Workaround Analysis', description: 'Identify what customers currently do instead of using your product.' },
-      { id: 'early_pricing', label: 'Early Pricing Hypothesis', description: 'Build a first-principles pricing hypothesis to test in discovery.' },
-      { id: 'interview_design', label: 'Customer Interview Question Design', description: 'A structured interview guide for your first 10–15 customer conversations.' },
-      { id: 'validation_roadmap', label: 'Validation Experiment Roadmap', description: 'Design 3 lightweight experiments to confirm or kill the idea in 30 days.' },
+      { id: 'Competitive Landscape Simplification', label: 'Competitive Landscape Simplification', description: 'Map the 3–5 real competitors and what actually differentiates you.' },
+      { id: 'Substitute & Workaround Analysis', label: 'Substitute & Workaround Analysis', description: 'Identify what customers currently do instead of using your product.' },
+      { id: 'Early Pricing Hypothesis', label: 'Early Pricing Hypothesis', description: 'Build a first-principles pricing hypothesis to test in discovery.' },
+      { id: 'Customer Interview Question Design', label: 'Customer Interview Question Design', description: 'A structured interview guide for your first 10–15 customer conversations.' },
+      { id: 'Validation Experiment Roadmap', label: 'Validation Experiment Roadmap', description: 'Design 3 lightweight experiments to confirm or kill the idea in 30 days.' },
     ],
     maxFlexibleSelections: 2,
 
@@ -310,11 +310,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'personal_experience', label: 'I experienced it personally' },
-          { value: 'market_research', label: 'Through market research or reading' },
-          { value: 'customer_interviews', label: 'Through customer conversations' },
-          { value: 'worked_in_industry', label: 'I worked in this industry' },
-          { value: 'other', label: 'Other' },
+          { value: 'I experienced it personally', label: 'I experienced it personally' },
+          { value: 'Through market research or reading', label: 'Through market research or reading' },
+          { value: 'Through customer conversations', label: 'Through customer conversations' },
+          { value: 'I worked in this industry', label: 'I worked in this industry' },
+          { value: 'Other', label: 'Other' },
         ],
       },
       {
@@ -331,11 +331,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'competitive_landscape', label: 'Competitive Landscape Simplification' },
-          { value: 'substitute_analysis', label: 'Substitute & Workaround Analysis' },
-          { value: 'early_pricing', label: 'Early Pricing Hypothesis' },
-          { value: 'interview_design', label: 'Customer Interview Question Design' },
-          { value: 'validation_roadmap', label: 'Validation Experiment Roadmap' },
+          { value: 'Competitive Landscape Simplification', label: 'Competitive Landscape Simplification' },
+          { value: 'Substitute & Workaround Analysis', label: 'Substitute & Workaround Analysis' },
+          { value: 'Early Pricing Hypothesis', label: 'Early Pricing Hypothesis' },
+          { value: 'Customer Interview Question Design', label: 'Customer Interview Question Design' },
+          { value: 'Validation Experiment Roadmap', label: 'Validation Experiment Roadmap' },
         ],
         helpText: 'Select up to 2 flexible services to include in your package.',
       },
@@ -352,7 +352,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     packageNumber: 'Package 2',
     title: 'Product–Market Fit Clarity',
     tagline: 'Certainty on product direction.',
-    tag: 'PMF',
+    tag: 'Product Market Fit',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
     targetedFor: 'Founders with users or early revenue but unclear PMF.',
@@ -373,11 +373,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       'Pivot vs Persist Decision',
     ],
     flexibleServices: [
-      { id: 'wtp_analysis', label: 'Willingness-to-Pay Analysis', description: 'Structured analysis of what your ICP customers are actually willing to pay.' },
-      { id: 'feature_value', label: 'Feature Value Mapping', description: 'Map which features drive retention vs which add noise.' },
-      { id: 'churn_analysis', label: 'Churn Reason Analysis', description: 'Structured investigation of why users churn and what predicts it.' },
-      { id: 'early_adopter', label: 'Early Adopter Pattern Study', description: 'Identify the characteristics of your best early customers.' },
-      { id: 'pmf_narrative', label: 'PMF Narrative for Investors', description: 'Turn your PMF signals into a credible investor-facing narrative.' },
+      { id: 'Willingness-to-Pay Analysis', label: 'Willingness-to-Pay Analysis', description: 'Structured analysis of what your ICP customers are actually willing to pay.' },
+      { id: 'Feature Value Mapping', label: 'Feature Value Mapping', description: 'Map which features drive retention vs which add noise.' },
+      { id: 'Churn Reason Analysis', label: 'Churn Reason Analysis', description: 'Structured investigation of why users churn and what predicts it.' },
+      { id: 'Early Adopter Pattern Study', label: 'Early Adopter Pattern Study', description: 'Identify the characteristics of your best early customers.' },
+      { id: 'PMF Narrative for Investors', label: 'PMF Narrative for Investors', description: 'Turn your PMF signals into a credible investor-facing narrative.' },
     ],
     maxFlexibleSelections: 3,
 
@@ -419,10 +419,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'free_users', label: 'Free users only — no revenue yet' },
-          { value: 'early_revenue', label: 'Early revenue (< ₹10L ARR)' },
-          { value: 'some_revenue', label: 'Some revenue (₹10L – ₹50L ARR)' },
-          { value: 'meaningful_revenue', label: 'Meaningful revenue (₹50L+ ARR)' },
+          { value: 'Free users only — no revenue yet', label: 'Free users only — no revenue yet' },
+          { value: 'Early revenue (< ₹10L ARR)', label: 'Early revenue (< ₹10L ARR)' },
+          { value: 'Some revenue (₹10L – ₹50L ARR)', label: 'Some revenue (₹10L – ₹50L ARR)' },
+          { value: 'Meaningful revenue (₹50L+ ARR)', label: 'Meaningful revenue (₹50L+ ARR)' },
         ],
       },
       {
@@ -439,9 +439,9 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'no', label: 'No — I want to confirm I\'m on the right path' },
-          { value: 'maybe', label: 'Maybe — something feels off but I can\'t name it' },
-          { value: 'yes', label: 'Yes — I\'m actively weighing a direction change' },
+          { value: 'No — I want to confirm I\'m on the right path', label: 'No — I want to confirm I\'m on the right path' },
+          { value: 'Maybe — something feels off but I can\'t name it', label: 'Maybe — something feels off but I can\'t name it' },
+          { value: 'Yes — I\'m actively weighing a direction change', label: 'Yes — I\'m actively weighing a direction change' },
         ],
       },
       {
@@ -450,11 +450,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'wtp_analysis', label: 'Willingness-to-Pay Analysis' },
-          { value: 'feature_value', label: 'Feature Value Mapping' },
-          { value: 'churn_analysis', label: 'Churn Reason Analysis' },
-          { value: 'early_adopter', label: 'Early Adopter Pattern Study' },
-          { value: 'pmf_narrative', label: 'PMF Narrative for Investors' },
+          { value: 'Willingness-to-Pay Analysis', label: 'Willingness-to-Pay Analysis' },
+          { value: 'Feature Value Mapping', label: 'Feature Value Mapping' },
+          { value: 'Churn Reason Analysis', label: 'Churn Reason Analysis' },
+          { value: 'Early Adopter Pattern Study', label: 'Early Adopter Pattern Study' },
+          { value: 'PMF Narrative for Investors', label: 'PMF Narrative for Investors' },
         ],
         helpText: 'Select up to 3 flexible services.',
       },
@@ -471,7 +471,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     packageNumber: 'Package 3',
     title: 'Go-To-Market Strategy',
     tagline: 'Repeatable customer acquisition, not random sales.',
-    tag: 'GTM',
+    tag: 'Go to Market',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
     targetedFor: 'Startups with a product but inconsistent sales.',
@@ -492,11 +492,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       '90-Day GTM Execution Planning',
     ],
     flexibleServices: [
-      { id: 'cac_analysis', label: 'CAC Logic & Payback Analysis', description: 'Build a proper CAC model by channel with payback period estimates.' },
-      { id: 'pilot_experiment', label: 'Pilot Channel Experiment Design', description: 'Design a structured 30-day test for your primary channel hypothesis.' },
-      { id: 'partner_gtm', label: 'Partner GTM Feasibility Assessment', description: 'Assess whether a channel-partner GTM motion is viable for your product.' },
-      { id: 'geo_entry', label: 'Geo-Market Entry Logic', description: 'Evaluate and sequence market entry across Indian cities or international markets.' },
-      { id: 'crm_review', label: 'Sales Process & CRM Logic Review', description: 'Define your sales stages, CRM fields, and pipeline hygiene requirements.' },
+      { id: 'CAC Logic & Payback Analysis', label: 'CAC Logic & Payback Analysis', description: 'Build a proper CAC model by channel with payback period estimates.' },
+      { id: 'Pilot Channel Experiment Design', label: 'Pilot Channel Experiment Design', description: 'Design a structured 30-day test for your primary channel hypothesis.' },
+      { id: 'Partner GTM Feasibility Assessment', label: 'Partner GTM Feasibility Assessment', description: 'Assess whether a channel-partner GTM motion is viable for your product.' },
+      { id: 'Geo-Market Entry Logic', label: 'Geo-Market Entry Logic', description: 'Evaluate and sequence market entry across Indian cities or international markets.' },
+      { id: 'Sales Process & CRM Logic Review', label: 'Sales Process & CRM Logic Review', description: 'Define your sales stages, CRM fields, and pipeline hygiene requirements.' },
     ],
     maxFlexibleSelections: 3,
 
@@ -538,14 +538,14 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: true,
         options: [
-          { value: 'outbound_email', label: 'Outbound email / cold outreach' },
-          { value: 'linkedin', label: 'LinkedIn' },
-          { value: 'referrals', label: 'Referrals / word of mouth' },
-          { value: 'content_seo', label: 'Content / SEO' },
-          { value: 'paid_ads', label: 'Paid ads (Google / Meta)' },
-          { value: 'events', label: 'Events / conferences' },
-          { value: 'partnerships', label: 'Channel partners / resellers' },
-          { value: 'inbound', label: 'Inbound (organic, no specific channel)' },
+          { value: 'Outbound email / cold outreach', label: 'Outbound email / cold outreach' },
+          { value: 'LinkedIn', label: 'LinkedIn' },
+          { value: 'Referrals / word of mouth', label: 'Referrals / word of mouth' },
+          { value: 'Content / SEO', label: 'Content / SEO' },
+          { value: 'Paid ads (Google / Meta)', label: 'Paid ads (Google / Meta)' },
+          { value: 'Events / conferences', label: 'Events / conferences' },
+          { value: 'Channel partners / resellers', label: 'Channel partners / resellers' },
+          { value: 'Inbound (organic, no specific channel)', label: 'Inbound (organic, no specific channel)' },
         ],
         helpText: 'Select all that apply.',
       },
@@ -569,10 +569,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'founder_only', label: 'Founder-led — I close all deals myself' },
-          { value: 'founder_plus_one', label: 'Founder + 1 sales person' },
-          { value: 'small_team', label: 'Small sales team (2–5 people)' },
-          { value: 'structured_team', label: 'Structured sales team (5+ people)' },
+          { value: 'Founder-led — I close all deals myself', label: 'Founder-led — I close all deals myself' },
+          { value: 'Founder + 1 sales person', label: 'Founder + 1 sales person' },
+          { value: 'Small sales team (2–5 people)', label: 'Small sales team (2–5 people)' },
+          { value: 'Structured sales team (5+ people)', label: 'Structured sales team (5+ people)' },
         ],
       },
       {
@@ -581,11 +581,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'cac_analysis', label: 'CAC Logic & Payback Analysis' },
-          { value: 'pilot_experiment', label: 'Pilot Channel Experiment Design' },
-          { value: 'partner_gtm', label: 'Partner GTM Feasibility Assessment' },
-          { value: 'geo_entry', label: 'Geo-Market Entry Logic' },
-          { value: 'crm_review', label: 'Sales Process & CRM Logic Review' },
+          { value: 'CAC Logic & Payback Analysis', label: 'CAC Logic & Payback Analysis' },
+          { value: 'Pilot Channel Experiment Design', label: 'Pilot Channel Experiment Design' },
+          { value: 'Partner GTM Feasibility Assessment', label: 'Partner GTM Feasibility Assessment' },
+          { value: 'Geo-Market Entry Logic', label: 'Geo-Market Entry Logic' },
+          { value: 'Sales Process & CRM Logic Review', label: 'Sales Process & CRM Logic Review' },
         ],
         helpText: 'Select up to 3 flexible services.',
       },
@@ -622,11 +622,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       'Scalability Readiness Assessment',
     ],
     flexibleServices: [
-      { id: 'hiring_plan', label: 'Hiring Plan Logic Review', description: 'Evaluate your next 3–6 hires against operational gaps and budget.' },
-      { id: 'vendor_rationalisation', label: 'Vendor Rationalisation Analysis', description: 'Identify vendor overlap, cost waste, and renegotiation opportunities.' },
-      { id: 'okr_design', label: 'OKR & Internal Metrics Design', description: 'Design a practical OKR system that teams actually use.' },
-      { id: 'reporting_structure', label: 'Internal Reporting Structure Design', description: 'Define what gets reported, by whom, and at what cadence.' },
-      { id: 'founder_time_audit', label: 'Founder Time Allocation Audit', description: 'Analyse where founder time goes and redesign it against strategic priorities.' },
+      { id: 'Hiring Plan Logic Review', label: 'Hiring Plan Logic Review', description: 'Evaluate your next 3–6 hires against operational gaps and budget.' },
+      { id: 'Vendor Rationalisation Analysis', label: 'Vendor Rationalisation Analysis', description: 'Identify vendor overlap, cost waste, and renegotiation opportunities.' },
+      { id: 'OKR & Internal Metrics Design', label: 'OKR & Internal Metrics Design', description: 'Design a practical OKR system that teams actually use.' },
+      { id: 'Internal Reporting Structure Design', label: 'Internal Reporting Structure Design', description: 'Define what gets reported, by whom, and at what cadence.' },
+      { id: 'Founder Time Allocation Audit', label: 'Founder Time Allocation Audit', description: 'Analyse where founder time goes and redesign it against strategic priorities.' },
     ],
     maxFlexibleSelections: 3,
 
@@ -661,10 +661,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: '1_5', label: '1–5' },
-          { value: '6_15', label: '6–15' },
-          { value: '16_40', label: '16–40' },
-          { value: '40_plus', label: '40+' },
+          { value: '1–5', label: '1–5' },
+          { value: '6–15', label: '6–15' },
+          { value: '16–40', label: '16–40' },
+          { value: '40+', label: '40+' },
         ],
       },
       {
@@ -680,10 +680,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'none', label: 'None — everything is in people\'s heads' },
-          { value: 'some', label: 'Some (<30%) — mostly informal' },
-          { value: 'half', label: 'About half (30–60%)' },
-          { value: 'most', label: 'Most (60%+) — reasonably structured' },
+          { value: 'None — everything is in people\'s heads', label: 'None — everything is in people\'s heads' },
+          { value: 'Some (<30%) — mostly informal', label: 'Some (<30%) — mostly informal' },
+          { value: 'About half (30–60%)', label: 'About half (30–60%)' },
+          { value: 'Most (60%+) — reasonably structured', label: 'Most (60%+) — reasonably structured' },
         ],
       },
       {
@@ -692,10 +692,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'under_50l', label: 'Under ₹50L' },
-          { value: '50l_2cr', label: '₹50L – ₹2Cr' },
-          { value: '2cr_10cr', label: '₹2Cr – ₹10Cr' },
-          { value: 'above_10cr', label: 'Above ₹10Cr' },
+          { value: 'Under ₹50L', label: 'Under ₹50L' },
+          { value: '₹50L – ₹2Cr', label: '₹50L – ₹2Cr' },
+          { value: '₹2Cr – ₹10Cr', label: '₹2Cr – ₹10Cr' },
+          { value: 'Above ₹10Cr', label: 'Above ₹10Cr' },
         ],
       },
       {
@@ -704,11 +704,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'hiring_plan', label: 'Hiring Plan Logic Review' },
-          { value: 'vendor_rationalisation', label: 'Vendor Rationalisation Analysis' },
-          { value: 'okr_design', label: 'OKR & Internal Metrics Design' },
-          { value: 'reporting_structure', label: 'Internal Reporting Structure Design' },
-          { value: 'founder_time_audit', label: 'Founder Time Allocation Audit' },
+          { value: 'Hiring Plan Logic Review', label: 'Hiring Plan Logic Review' },
+          { value: 'Vendor Rationalisation Analysis', label: 'Vendor Rationalisation Analysis' },
+          { value: 'OKR & Internal Metrics Design', label: 'OKR & Internal Metrics Design' },
+          { value: 'Internal Reporting Structure Design', label: 'Internal Reporting Structure Design' },
+          { value: 'Founder Time Allocation Audit', label: 'Founder Time Allocation Audit' },
         ],
         helpText: 'Select up to 3 flexible services.',
       },
@@ -744,11 +744,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       'Valuation Reality Check',
     ],
     flexibleServices: [
-      { id: 'pitch_deck', label: 'Pitch Deck Logic Review', description: 'Structural and narrative review of your pitch deck — not design.' },
-      { id: 'data_room', label: 'Data Room Structure Design', description: 'Define exactly what goes in your data room and how to organise it.' },
-      { id: 'term_sheet', label: 'Term Sheet Risk Education', description: 'Understand the 8 terms that founders most commonly get wrong.' },
-      { id: 'investor_qa', label: 'Investor Q&A Preparation', description: 'Prepare answers to the 20 most common and dangerous investor questions.' },
-      { id: 'dilution_modelling', label: 'Dilution Scenario Modelling', description: 'Model your cap table across 3 fundraising scenarios.' },
+      { id: 'Pitch Deck Logic Review', label: 'Pitch Deck Logic Review', description: 'Structural and narrative review of your pitch deck — not design.' },
+      { id: 'Data Room Structure Design', label: 'Data Room Structure Design', description: 'Define exactly what goes in your data room and how to organise it.' },
+      { id: 'Term Sheet Risk Education', label: 'Term Sheet Risk Education', description: 'Understand the 8 terms that founders most commonly get wrong.' },
+      { id: 'Investor Q&A Preparation', label: 'Investor Q&A Preparation', description: 'Prepare answers to the 20 most common and dangerous investor questions.' },
+      { id: 'Dilution Scenario Modelling', label: 'Dilution Scenario Modelling', description: 'Model your cap table across 3 fundraising scenarios.' },
     ],
     maxFlexibleSelections: 3,
 
@@ -789,11 +789,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'pre_seed', label: 'Pre-Seed' },
-          { value: 'seed', label: 'Seed' },
-          { value: 'series_a', label: 'Series A' },
-          { value: 'series_b_plus', label: 'Series B or later' },
-          { value: 'bridge', label: 'Bridge / extension round' },
+          { value: 'Pre-Seed', label: 'Pre-Seed' },
+          { value: 'Seed', label: 'Seed' },
+          { value: 'Series A', label: 'Series A' },
+          { value: 'Series B or later', label: 'Series B or later' },
+          { value: 'Bridge / extension round', label: 'Bridge / extension round' },
         ],
       },
       {
@@ -802,10 +802,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: '1_2_months', label: 'Within 1–2 months' },
-          { value: '3_4_months', label: '3–4 months from now' },
-          { value: '5_6_months', label: '5–6 months from now' },
-          { value: 'flexible', label: 'Flexible — whenever ready' },
+          { value: 'Within 1–2 months', label: 'Within 1–2 months' },
+          { value: '3–4 months from now', label: '3–4 months from now' },
+          { value: '5–6 months from now', label: '5–6 months from now' },
+          { value: 'Flexible — whenever ready', label: 'Flexible — whenever ready' },
         ],
       },
       {
@@ -822,9 +822,9 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'no', label: 'No — this is our first raise' },
-          { value: 'angels', label: 'Yes — from angels / friends & family' },
-          { value: 'institutional', label: 'Yes — from institutional investors' },
+          { value: 'No — this is our first raise', label: 'No — this is our first raise' },
+          { value: 'Yes — from angels / friends & family', label: 'Yes — from angels / friends & family' },
+          { value: 'Yes — from institutional investors', label: 'Yes — from institutional investors' },
         ],
       },
       {
@@ -833,11 +833,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'pitch_deck', label: 'Pitch Deck Logic Review' },
-          { value: 'data_room', label: 'Data Room Structure Design' },
-          { value: 'term_sheet', label: 'Term Sheet Risk Education' },
-          { value: 'investor_qa', label: 'Investor Q&A Preparation' },
-          { value: 'dilution_modelling', label: 'Dilution Scenario Modelling' },
+          { value: 'Pitch Deck Logic Review', label: 'Pitch Deck Logic Review' },
+          { value: 'Data Room Structure Design', label: 'Data Room Structure Design' },
+          { value: 'Term Sheet Risk Education', label: 'Term Sheet Risk Education' },
+          { value: 'Investor Q&A Preparation', label: 'Investor Q&A Preparation' },
+          { value: 'Dilution Scenario Modelling', label: 'Dilution Scenario Modelling' },
         ],
         helpText: 'Select up to 3 flexible services.',
       },
@@ -905,10 +905,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'under_1', label: 'Under 1 month' },
-          { value: '1_3', label: '1–3 months' },
-          { value: '3_6', label: '3–6 months' },
-          { value: 'over_6', label: 'More than 6 months' },
+          { value: 'Under 1 month', label: 'Under 1 month' },
+          { value: '1–3 months', label: '1–3 months' },
+          { value: '3–6 months', label: '3–6 months' },
+          { value: 'More than 6 months', label: 'More than 6 months' },
         ],
       },
       {
@@ -972,11 +972,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
       'Capital Requirement Logic',
     ],
     flexibleServices: [
-      { id: 'new_market', label: 'New Market Entry Evaluation', description: 'Evaluate and rank 2–3 new market opportunities against a structured framework.' },
-      { id: 'product_expansion', label: 'Product Line Expansion Logic', description: 'Assess whether and when to expand the product line — sequencing and risk.' },
-      { id: 'pricing_scale', label: 'Pricing for Scale Analysis', description: 'Evaluate whether current pricing supports the unit economics of aggressive scale.' },
-      { id: 'international', label: 'International Expansion Readiness', description: 'Assess readiness for international markets — operationally and commercially.' },
-      { id: 'governance', label: 'Post-Scale Governance Design', description: 'Design the governance structure required to manage a scaled organisation.' },
+      { id: 'New Market Entry Evaluation', label: 'New Market Entry Evaluation', description: 'Evaluate and rank 2–3 new market opportunities against a structured framework.' },
+      { id: 'Product Line Expansion Logic', label: 'Product Line Expansion Logic', description: 'Assess whether and when to expand the product line — sequencing and risk.' },
+      { id: 'Pricing for Scale Analysis', label: 'Pricing for Scale Analysis', description: 'Evaluate whether current pricing supports the unit economics of aggressive scale.' },
+      { id: 'International Expansion Readiness', label: 'International Expansion Readiness', description: 'Assess readiness for international markets — operationally and commercially.' },
+      { id: 'Post-Scale Governance Design', label: 'Post-Scale Governance Design', description: 'Design the governance structure required to manage a scaled organisation.' },
     ],
     maxFlexibleSelections: 3,
 
@@ -1024,12 +1024,12 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: true,
         options: [
-          { value: 'geo_domestic', label: 'New geographies within India' },
-          { value: 'geo_international', label: 'International markets' },
-          { value: 'new_product', label: 'New product lines' },
-          { value: 'new_segment', label: 'New customer segments' },
-          { value: 'channel_expansion', label: 'New distribution / sales channels' },
-          { value: 'team_scale', label: 'Significant team scaling (2× headcount)' },
+          { value: 'New geographies within India', label: 'New geographies within India' },
+          { value: 'International markets', label: 'International markets' },
+          { value: 'New product lines', label: 'New product lines' },
+          { value: 'New customer segments', label: 'New customer segments' },
+          { value: 'New distribution / sales channels', label: 'New distribution / sales channels' },
+          { value: 'Significant team scaling (2× headcount)', label: 'Significant team scaling (2× headcount)' },
         ],
       },
       {
@@ -1045,10 +1045,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'bootstrapped', label: 'Bootstrapped — scaling from operating cash flow' },
-          { value: 'recently_raised', label: 'Recently raised — capital available' },
-          { value: 'planning_raise', label: 'Planning to raise to fund expansion' },
-          { value: 'undecided', label: 'Undecided — part of what I want to figure out' },
+          { value: 'Bootstrapped — scaling from operating cash flow', label: 'Bootstrapped — scaling from operating cash flow' },
+          { value: 'Recently raised — capital available', label: 'Recently raised — capital available' },
+          { value: 'Planning to raise to fund expansion', label: 'Planning to raise to fund expansion' },
+          { value: 'Undecided — part of what I want to figure out', label: 'Undecided — part of what I want to figure out' },
         ],
       },
       {
@@ -1057,11 +1057,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'multiselect',
         required: false,
         options: [
-          { value: 'new_market', label: 'New Market Entry Evaluation' },
-          { value: 'product_expansion', label: 'Product Line Expansion Logic' },
-          { value: 'pricing_scale', label: 'Pricing for Scale Analysis' },
-          { value: 'international', label: 'International Expansion Readiness' },
-          { value: 'governance', label: 'Post-Scale Governance Design' },
+          { value: 'New Market Entry Evaluation', label: 'New Market Entry Evaluation' },
+          { value: 'Product Line Expansion Logic', label: 'Product Line Expansion Logic' },
+          { value: 'Pricing for Scale Analysis', label: 'Pricing for Scale Analysis' },
+          { value: 'International Expansion Readiness', label: 'International Expansion Readiness' },
+          { value: 'Post-Scale Governance Design', label: 'Post-Scale Governance Design' },
         ],
         helpText: 'Select up to 3 flexible services.',
       },
