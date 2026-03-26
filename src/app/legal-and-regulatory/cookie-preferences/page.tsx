@@ -1,7 +1,7 @@
 // app/cookie-preferences/page.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 interface CookieCategory {
@@ -74,6 +74,25 @@ export default function CookiePreferencesPage() {
   ]);
 
   const [saveMessage, setSaveMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'info'>('success');
+
+  // Load saved preferences on mount (if any)
+  useEffect(() => {
+    const saved = localStorage.getItem('cookiePreferences');
+    if (saved) {
+      try {
+        const prefs = JSON.parse(saved);
+        setCookieCategories(prev =>
+          prev.map(cat => ({
+            ...cat,
+            enabled: cat.required ? true : (prefs[cat.id] ?? cat.enabled)
+          }))
+        );
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
 
   const toggleCategory = (id: string) => {
     setCookieCategories(prev =>
@@ -100,7 +119,7 @@ export default function CookiePreferencesPage() {
   };
 
   const savePreferences = (acceptedAll: boolean = false) => {
-    // In a real implementation, this would save to cookies/localStorage
+    // Save to localStorage
     const preferences = cookieCategories.reduce((acc, cat) => {
       acc[cat.id] = cat.enabled;
       return acc;
@@ -108,6 +127,10 @@ export default function CookiePreferencesPage() {
 
     localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
     
+    // In a production environment, you might also send this to a server endpoint
+    // to set server-side cookies accordingly.
+    
+    setMessageType('success');
     setSaveMessage(acceptedAll ? 'All cookies accepted!' : 'Cookie preferences saved successfully!');
     setTimeout(() => setSaveMessage(''), 3000);
   };
@@ -130,7 +153,7 @@ export default function CookiePreferencesPage() {
         
         {/* Save Message */}
         {saveMessage && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+          <div className={`mb-6 ${messageType === 'success' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'} border rounded-lg p-4 flex items-center gap-3`}>
             <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
             </svg>
@@ -138,17 +161,31 @@ export default function CookiePreferencesPage() {
           </div>
         )}
 
-        {/* Introduction */}
+        {/* Company Identification & Collective Pages */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8">
-          <h2 className="text-2xl font-medium text-gray-800 mb-4">About Cookies</h2>
+          <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
           <p className="text-gray-600  mb-4">
-            Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience by remembering your preferences, understanding how you use our site, and improving our services.
+            This Cookie Preferences page is issued by Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
           </p>
           <p className="text-gray-600  mb-4">
-            You can control which cookies we use by adjusting your preferences below. Please note that disabling certain cookies may affect the functionality of our website.
+            This page is part of a collective set of legal documents governing your use of our website and services, including our <Link href="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>, <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>, and <Link href="/disclaimer" className="text-blue-600 hover:underline">Disclaimer</Link>, all accessible via the footer of our website. These documents should be read together; no single page stands alone.
           </p>
           <p className="text-gray-600 ">
-            For more detailed information about how we use cookies and process your data, please read our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
+            By using our website, you acknowledge that you have read and accept all of our collective legal documents.
+          </p>
+        </div>
+
+        {/* Introduction */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8">
+          <h2 className="text-2xl font-medium text-gray-800 mb-4">2. About Cookies</h2>
+          <p className="text-gray-600  mb-4">
+            Cookies are small text files placed on your device when you visit our website. They help us provide a better experience by remembering preferences, understanding how you use our site, and improving our services.
+          </p>
+          <p className="text-gray-600  mb-4">
+            You can control which cookies we use by adjusting your preferences below. Disabling certain cookies may affect website functionality.
+          </p>
+          <p className="text-gray-600 ">
+            For more detailed information about how we process your data, please read our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
           </p>
         </div>
 
@@ -292,7 +329,7 @@ export default function CookiePreferencesPage() {
                 <p className="font-medium text-gray-800">Google Analytics</p>
                 <p className="text-sm text-gray-600">Used to analyze website traffic and user behavior</p>
                 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
-                  Privacy Policy →
+                  Privacy Policy
                 </a>
               </div>
               <div className="border-l-4 border-blue-500 pl-4">
@@ -304,6 +341,9 @@ export default function CookiePreferencesPage() {
                 <p className="text-sm text-gray-600">Share buttons and embedded content</p>
               </div>
             </div>
+            <p className="text-gray-600  mt-4 text-sm">
+              <strong>Disclaimer:</strong> The Company does not control the cookies set by third parties and is not responsible for their practices. You should review the privacy and cookie policies of those third parties directly.
+            </p>
           </section>
 
           <section>
@@ -319,9 +359,11 @@ export default function CookiePreferencesPage() {
               If you have questions about our use of cookies:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
-              <p className="text-gray-600">Email: privacy@sarsenstrategy.com</p>
-              <p className="text-gray-600">Phone: +91 [Your Phone Number]</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
+              <p className="text-gray-500 text-sm mt-2">
+                *For cookie-related inquiries only. We will respond within 3–5 business days.
+              </p>
             </div>
           </section>
 
@@ -333,7 +375,7 @@ export default function CookiePreferencesPage() {
             href="/"
             className="inline-block text-blue-600 hover:text-blue-700 font-medium"
           >
-            ← Back to Home
+          Back to Home
           </Link>
         </div>
       </div>

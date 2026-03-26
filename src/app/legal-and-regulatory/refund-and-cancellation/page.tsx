@@ -13,7 +13,7 @@ export default function RefundCancellationPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl  mb-4">Refund & Cancellation Policy</h1>
           <p className="text-xl text-blue-100">
-            Last Updated: February 10, 2025
+            Last Updated: March 26, 2026
           </p>
         </div>
       </div>
@@ -22,27 +22,41 @@ export default function RefundCancellationPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 space-y-8">
           
-          {/* Introduction */}
+          {/* Company Identification & Collective Pages */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Introduction</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
             <p className="text-gray-600  mb-4">
-              At Sarsen Strategy Partners, we are committed to delivering exceptional strategic consulting services. We understand that selecting the right consulting partner is a critical decision for your business. This Refund & Cancellation Policy outlines the terms and conditions under which refunds and cancellations are processed.
+              This Refund & Cancellation Policy is issued by Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
+            </p>
+            <p className="text-gray-600  mb-4">
+              This policy is part of a collective set of legal documents governing your use of our website and services, including our <Link href="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>, <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>, and <Link href="/disclaimer" className="text-blue-600 hover:underline">Disclaimer</Link>, all accessible via the footer of our website. These documents should be read together; no single page stands alone.
             </p>
             <p className="text-gray-600 ">
-              Please read this policy carefully before purchasing any of our service packages. By making a purchase, you acknowledge and agree to the terms outlined in this policy.
+              By purchasing any service package, you acknowledge that you have read, understood, and agree to be bound by all of our collective legal documents.
+            </p>
+          </section>
+
+          {/* Introduction */}
+          <section>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Introduction</h2>
+            <p className="text-gray-600  mb-4">
+              We are committed to delivering exceptional strategic consulting services. Selecting the right consulting partner is a critical decision. This Refund & Cancellation Policy outlines the terms and conditions under which refunds and cancellations are processed.
+            </p>
+            <p className="text-gray-600 ">
+              Please read this policy carefully before purchasing any service package. By making a purchase, you acknowledge and agree to the terms outlined herein.
             </p>
           </section>
 
           {/* 24-Hour Refund Window */}
           <section className="bg-orange-50 rounded-lg p-6 border-2 border-orange-200">
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. 24-Hour Refund Window</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">3. 24-Hour Refund Window</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">2.1 Eligibility Period</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">3.1 Eligibility Period</h3>
             <p className="text-gray-600  mb-4">
               We offer a <strong className="text-orange-700">strict 24-hour refund window</strong> that begins immediately after the completion of your diagnostic session. This window provides you with sufficient time to evaluate our methodology, expertise, and the value proposition of our services based on your direct experience during the diagnostic session.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">2.2 Calculation of the 24-Hour Period</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 Calculation of the 24-Hour Period</h3>
             <p className="text-gray-600  mb-4">
               The 24-hour refund window is calculated as follows:
             </p>
@@ -54,15 +68,15 @@ export default function RefundCancellationPage() {
             <div className="bg-white rounded-lg p-4 border border-orange-200 mb-4">
               <p className="text-sm text-gray-700 mb-2"><strong>Example:</strong></p>
               <ul className="text-sm text-gray-600 space-y-1 ml-4">
-                <li>Diagnostic session ends: February 10, 2025, at 2:30 PM</li>
-                <li>Refund window closes: February 11, 2025, at 2:30 PM</li>
-                <li>Request at 2:30:01 PM on February 11: <span className="text-red-600 font-medium">NOT ELIGIBLE</span></li>
+                <li>Diagnostic session ends: March 26, 2026, at 2:30 PM</li>
+                <li>Refund window closes: March 27, 2026, at 2:30 PM</li>
+                <li>Request at 2:30:01 PM on March 27: <span className="text-red-600 font-medium">Not Eligible</span></li>
               </ul>
             </div>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">2.3 Decision Based on Diagnostic Session</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">3.3 Decision Based on Diagnostic Session</h3>
             <p className="text-gray-600  mb-4">
-              <strong className="text-orange-700">IMPORTANT:</strong> Your refund decision must be based solely on your experience during the diagnostic session itself, NOT on the diagnostic report or any subsequent deliverables.
+              <strong className="text-orange-700">Important:</strong> Your refund decision must be based solely on your experience during the diagnostic session itself, NOT on the diagnostic report or any subsequent deliverables.
             </p>
             <p className="text-gray-600  mb-4">
               The diagnostic session is designed to provide you with:
@@ -78,15 +92,15 @@ export default function RefundCancellationPage() {
 
           {/* Refund Request Process */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">3. Refund Request Process</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. Refund Request Process</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.1 How to Request a Refund</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 How to Request a Refund</h3>
             <p className="text-gray-600  mb-4">
               To request a refund within the 24-hour window, you must:
             </p>
             <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
               <li className="">
-                <strong>Submit a written request</strong> via email to refunds@sarsenstrategy.com
+                <strong>Submit a written request</strong> via email to refunds@sarsen.com
               </li>
               <li className="">
                 <strong>Include the following information:</strong>
@@ -102,7 +116,7 @@ export default function RefundCancellationPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 Verification and Processing</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Verification and Processing</h3>
             <p className="text-gray-600  mb-4">
               Upon receiving your refund request:
             </p>
@@ -113,7 +127,7 @@ export default function RefundCancellationPage() {
               <li>Refunds will be issued to the original payment method used for purchase</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.3 Refund Amount</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">4.3 Refund Amount</h3>
             <p className="text-gray-600 ">
               If your refund request is approved, you will receive a <strong>100% refund</strong> of the amount paid for the service package. Payment processing fees (if any) charged by payment gateways are non-refundable and may be deducted from the refund amount.
             </p>
@@ -121,9 +135,9 @@ export default function RefundCancellationPage() {
 
           {/* After 24 Hours - No Refunds */}
           <section className="bg-red-50 rounded-lg p-6 border-2 border-red-200">
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. After 24 Hours: No Refunds Policy</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. After 24 Hours: No Refunds Policy</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 Strict Enforcement</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Strict Enforcement</h3>
             <p className="text-gray-600  mb-4">
               <strong className="text-red-700">Once the 24-hour refund window has closed, all sales are final and non-refundable.</strong> This policy is strictly enforced without exception, regardless of:
             </p>
@@ -136,7 +150,7 @@ export default function RefundCancellationPage() {
               <li>Any other reason or circumstance</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Rationale for This Policy</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">5.2 Rationale for This Policy</h3>
             <p className="text-gray-600  mb-4">
               Our strict no-refund policy after 24 hours exists because:
             </p>
@@ -148,7 +162,7 @@ export default function RefundCancellationPage() {
               <li><strong>Time Investment:</strong> Significant consultant time is invested in preparing for and executing your engagement</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.3 Timing Examples - NOT ELIGIBLE for Refund</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">5.3 Timing Examples - NOT ELIGIBLE for Refund</h3>
             <div className="bg-white rounded-lg p-4 border border-red-200">
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>✗ Request made 24 hours and 1 second after diagnostic session</li>
@@ -162,9 +176,9 @@ export default function RefundCancellationPage() {
 
           {/* Cancellation Policy */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. Cancellation Policy</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Cancellation Policy</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Client-Initiated Cancellation</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">6.1 Client-Initiated Cancellation</h3>
             <p className="text-gray-600  mb-4">
               If you wish to cancel your engagement after the 24-hour refund window:
             </p>
@@ -175,26 +189,29 @@ export default function RefundCancellationPage() {
               <li>You may request to <strong>transfer credit</strong> to a different service package of equal or greater value (subject to approval)</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.2 Company-Initiated Cancellation</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">6.2 Company-Initiated Cancellation (No Refund)</h3>
             <p className="text-gray-600  mb-4">
-              In rare circumstances, we reserve the right to cancel an engagement if:
+              We reserve the right to terminate any engagement immediately, without prior notice, and without any obligation to refund any fees already paid, in the following circumstances:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>There is a fundamental conflict of interest discovered after engagement commencement</li>
-              <li>The client engages in unethical, illegal, or fraudulent activities</li>
-              <li>The client is unresponsive or fails to provide necessary information for 30+ days</li>
-              <li>There is abusive behavior toward our consultants or staff</li>
+              <li><strong>Misconduct:</strong> If the Client or any of its representatives engages in inappropriate, disrespectful, threatening, harassing, or otherwise unprofessional conduct toward any Company personnel, agents, or contractors.</li>
+              <li><strong>Failure to Meet Deadlines:</strong> If the Client fails to provide requested information, respond to communications, or otherwise meet agreed deadlines on two (2) separate occasions after written notice, and such failure materially impedes the progress of the engagement.</li>
+              <li><strong>Non‑Provision of Data:</strong> If the Client does not provide any of the essential data or information required to perform the services within the timeframes set by the Company, and such failure continues beyond a written warning of 5 business days.</li>
+              <li><strong>Breach of Terms:</strong> If the Client breaches any material provision of our Terms of Use or any applicable law.</li>
             </ul>
             <p className="text-gray-600 ">
-              In such cases, we will provide a <strong>prorated refund</strong> based on the work completed and deliverables provided up to the cancellation date.
+              In such cases, no refund shall be provided, and any outstanding fees shall become immediately due and payable.
+            </p>
+            <p className="text-gray-600  mt-2">
+              <strong>Note:</strong> The Company may also terminate an engagement for other reasons (e.g., conflict of interest) and, at its sole discretion, may offer a prorated refund based on work completed. Such situations are rare and decided on a case‑by‑case basis.
             </p>
           </section>
 
           {/* Rescheduling */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Rescheduling and Postponement</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Rescheduling and Postponement</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.1 Diagnostic Session Rescheduling</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">7.1 Diagnostic Session Rescheduling</h3>
             <p className="text-gray-600  mb-4">
               You may reschedule your diagnostic session:
             </p>
@@ -204,7 +221,7 @@ export default function RefundCancellationPage() {
               <li><strong>Less than 24 hours or no-show:</strong> Session considered completed; 24-hour refund window begins</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.2 Engagement Postponement</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 Engagement Postponement</h3>
             <p className="text-gray-600 ">
               After the refund window closes, you may request to pause your engagement for up to 60 days due to business circumstances. This is granted at our discretion based on consultant availability and scheduling. Payments remain non-refundable during postponement.
             </p>
@@ -212,9 +229,9 @@ export default function RefundCancellationPage() {
 
           {/* Exceptions */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Exceptions and Special Circumstances</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Exceptions and Special Circumstances</h2>
             
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.1 Force Majeure</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">8.1 Force Majeure</h3>
             <p className="text-gray-600  mb-4">
               In cases of force majeure events (natural disasters, pandemics, government actions, wars, or other unforeseeable circumstances beyond reasonable control), we will work with you to:
             </p>
@@ -224,7 +241,7 @@ export default function RefundCancellationPage() {
               <li>Restructure deliverables to accommodate changed circumstances</li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-4">7.2 Service Delivery Failures</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-4">8.2 Service Delivery Failures</h3>
             <p className="text-gray-600  mb-4">
               If we fail to deliver services as promised in your service package agreement due to our fault or negligence, we will:
             </p>
@@ -237,7 +254,7 @@ export default function RefundCancellationPage() {
 
           {/* Payment Terms */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Payment Terms and Milestones</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Payment Terms and Milestones</h2>
             <p className="text-gray-600  mb-4">
               For engagements with milestone-based payments:
             </p>
@@ -251,29 +268,29 @@ export default function RefundCancellationPage() {
 
           {/* Dispute Resolution */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Dispute Resolution</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Dispute Resolution</h2>
             <p className="text-gray-600  mb-4">
               If you have concerns about our services or wish to dispute a refund decision:
             </p>
             <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
               <li className="">
-                <strong>Contact our support team</strong> at support@sarsenstrategy.com to discuss your concerns
+                <strong>Contact our support team</strong> at support@sarsen.com to discuss your concerns
               </li>
               <li className="">
                 <strong>Escalate to senior management</strong> if the issue remains unresolved
               </li>
               <li className="">
-                <strong>Formal dispute resolution:</strong> As a last resort, disputes may be resolved through mediation or arbitration as per our Terms of Service
+                <strong>Formal dispute resolution:</strong> As a last resort, disputes may be resolved through mediation or arbitration as per our Terms of Use
               </li>
             </ol>
             <p className="text-gray-600 ">
-              We are committed to addressing concerns fairly and promptly, but refund eligibility remains strictly governed by the 24-hour window policy.
+              We are committed to addressing concerns fairly and promptly, but refund eligibility remains strictly governed by the 24-hour window policy and the termination provisions above.
             </p>
           </section>
 
           {/* Policy Changes */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Changes to This Policy</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Changes to This Policy</h2>
             <p className="text-gray-600 ">
               We reserve the right to modify this Refund & Cancellation Policy at any time. Changes will be effective immediately upon posting to our website with an updated "Last Updated" date. The policy in effect at the time of your purchase governs your transaction. We encourage you to review this policy before making a purchase.
             </p>
@@ -281,17 +298,16 @@ export default function RefundCancellationPage() {
 
           {/* Contact */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Contact Information</h2>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Contact Information</h2>
             <p className="text-gray-600  mb-4">
               For questions about this Refund & Cancellation Policy or to submit a refund request:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
-              <p className="text-gray-600">Refund Requests: refunds@sarsenstrategy.com</p>
-              <p className="text-gray-600">General Support: support@sarsenstrategy.com</p>
-              <p className="text-gray-600">Phone: +91 [Your Phone Number]</p>
-              <p className="text-gray-600 mt-3 text-sm">
-                <strong>Business Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM IST
+              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-600">Refund Requests: refunds@sarsen.com</p>
+              <p className="text-gray-600">General Support: support@sarsen.com</p>
+              <p className="text-gray-500 text-sm mt-2">
+                *We will respond to refund inquiries within 2–3 business days.
               </p>
             </div>
           </section>
@@ -300,13 +316,14 @@ export default function RefundCancellationPage() {
           <section className="bg-blue-50 rounded-lg p-6 border border-blue-100">
             <h2 className="text-xl font-medium text-gray-800 mb-3">Acknowledgment</h2>
             <p className="text-gray-600  mb-3">
-              By purchasing any service package from Sarsen Strategy Partners, you acknowledge that:
+              By purchasing any service package from Sarsen & Company, you acknowledge that:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
               <li>You have read and understood this Refund & Cancellation Policy</li>
               <li>You agree to the strict 24-hour refund window based on the diagnostic session</li>
               <li>You understand that refunds are not available after the 24-hour window closes</li>
-              <li>You accept the terms and conditions outlined in this policy</li>
+              <li>You accept the Company’s right to terminate the engagement without refund for misconduct, missed deadlines, or non‑provision of data</li>
+              <li>You accept the terms and conditions outlined in this policy and the accompanying legal documents</li>
             </ul>
           </section>
 
@@ -318,7 +335,7 @@ export default function RefundCancellationPage() {
             href="/"
             className="inline-block text-blue-600 hover:text-blue-700 font-medium"
           >
-            ← Back to Home
+            Back to Home
           </Link>
         </div>
       </div>
