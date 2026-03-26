@@ -80,7 +80,7 @@ export default function Footer() {
         setEmail('');
       } else {
         // Show error message from backend or generic fallback
-        showToast(err.message ?? 'Something went wrong. Please try again.', 'error');
+        showToast(err.message ?? 'Something Went Wrong.', 'error');
       }
     } finally {
       setIsLoading(false);
