@@ -563,7 +563,7 @@ const WhyChooseUsSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4">
             Why Founders Choose<br/>
-            <span className="text-blue-700">Sarsen & Company</span>
+            <span className="text-blue-700">Sarsen Strategy Partners</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
             Strategic consulting redesigned for the startup world—productized, predictable, and execution-focused.

@@ -139,9 +139,9 @@ const ALL_EVENTS: Event[] = [
   },
   {
     id: 8,
-    title: 'Annual Alumni Retreat — Sarsen & Company Network',
+    title: 'Annual Alumni Retreat — Sarsen Strategy Partners Network',
     excerpt:
-      'An invite-only two-day retreat for founders who have previously engaged with Sarsen & Company programmes. Structured around peer learning, founder-led sessions on recent decisions, and informal relationship-building. No external speakers. No agenda beyond what participants bring. Held at a private location outside Coorg.',
+      'An invite-only two-day retreat for founders who have previously engaged with Sarsen Strategy Partners programmes. Structured around peer learning, founder-led sessions on recent decisions, and informal relationship-building. No external speakers. No agenda beyond what participants bring. Held at a private location outside Coorg.',
     tag: 'Retreat',
     format: 'In-Person · 2 Days',
     date: 'May 23–24, 2026',

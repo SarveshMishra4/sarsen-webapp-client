@@ -90,7 +90,7 @@ export default function NotFound() {
             <div className="w-full flex items-center justify-center px-8 pt-10 pb-8 border-b border-blue-900/40 bg-[#060f1e]">
               <img
                 src="/assets/brand/Sarsen-White.svg"
-                alt="Sarsen & Company"
+                alt="Sarsen Strategy Partners"
                 className="h-16 w-auto"
               />
             </div>
@@ -182,7 +182,7 @@ export default function NotFound() {
             <div className="flex items-center justify-center bg-[#060f1e] sm:w-[260px] md:w-[300px] lg:w-[320px] flex-shrink-0 p-8 md:p-10">
               <img
                 src="/assets/brand/Sarsen-White.svg"
-                alt="Sarsen & Company"
+                alt="Sarsen Strategy Partners"
                 className="w-full max-w-[180px] md:max-w-[210px] h-auto"
               />
             </div>

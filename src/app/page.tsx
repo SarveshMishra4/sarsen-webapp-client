@@ -387,7 +387,7 @@ const CompanyHelpsSection = () => {
 
         <div className="max-w-4xl mb-16 sm:mb-20">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
-            Sarsen & Company Specializes In
+            Sarsen Strategy Partners Specializes In
           </h2>
           <p className="text-gray-300 text-base sm:text-lg ">
             We work with founders at moments where progress slows, decisions feel heavier, and effort no longer translates into results.

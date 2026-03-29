@@ -592,7 +592,7 @@ const CohortApplicationModal: FC<CohortApplicationModalProps> = ({
       key:         'rzp_test_XXXXXXXXXX', // ← replace with your Razorpay key
       amount:      finalPricePaise,
       currency:    cohort.currency,
-      name:        'Sarsen & Company',
+      name:        'Sarsen Strategy Partners',
       description: `${cohort.title} — ${cohort.cohortNumber}`,
       // order_id: '<from your backend>', // add in production
       prefill: {

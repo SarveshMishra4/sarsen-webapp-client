@@ -58,7 +58,7 @@ const caseStudies: CaseStudy[] = [
       'Employee engagement scores rose by 32%'
     ],
     testimonial: {
-      quote: "Sarsen & Company didn't just give us a report—they worked alongside our teams to make change happen. The results speak for themselves, but the capability they built in our people will last for years.",
+      quote: "Sarsen Strategy Partners didn't just give us a report—they worked alongside our teams to make change happen. The results speak for themselves, but the capability they built in our people will last for years.",
       author: 'Hans Müller',
       authorTitle: 'Chief Operating Officer'
     },

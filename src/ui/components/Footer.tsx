@@ -158,7 +158,7 @@ export default function Footer() {
               <div className="relative h-12 w-12">
                 <Image
                   src="/assets/brand/Sarsen-Blue.svg"  // SVG brand mark
-                  alt="Sarsen & Company"               // accessible alt text
+                  alt="Sarsen Strategy Partners"               // accessible alt text
                   width={48}
                   height={48}
                   className="h-full w-full object-contain" // scale to fit box
@@ -171,9 +171,9 @@ export default function Footer() {
                 <div className="text-2xl font-bold  text-gray-900">
                   Sarsen
                 </div>
-                {/* Line 2: "& Company" */}
+                {/* Line 2: "Strategy Partners" */}
                 <div className="text-2xl font-bold  text-gray-900">
-                  & Company
+                  Strategy Partners
                 </div>
               </div>
 
@@ -446,7 +446,7 @@ export default function Footer() {
             text-gray-600 → muted gray, consistent with legal link text
         ================================================================= */}
         <div className="mt-4 pt-6 text-center text-md text-gray-600">
-          <p>2019-2026 : All Rights Reserved Sarsen & Company.</p>
+          <p>2019-2026 : All Rights Reserved Sarsen Strategy Partners.</p>
         </div>
         {/* END COPYRIGHT NOTICE */}
 

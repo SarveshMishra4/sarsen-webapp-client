@@ -388,7 +388,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         key:         orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount:      orderData.amount,
         currency:    orderData.currency ?? 'INR',
-        name:        'Sarsen & Company',
+        name:        'Sarsen Strategy Partners',
         description: service.title,
         order_id:    orderData.orderId,
         theme:       { color: service.accentColor },
@@ -1030,7 +1030,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               >
                 standard terms and conditions
               </a>{' '}
-              of Sarsen & Company.
+              of Sarsen Strategy Partners.
             </p>
           </div>
         </div>

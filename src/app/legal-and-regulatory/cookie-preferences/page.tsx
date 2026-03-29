@@ -165,7 +165,7 @@ export default function CookiePreferencesPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8">
           <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
           <p className="text-gray-600  mb-4">
-            This Cookie Preferences page is issued by Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
+            This Cookie Preferences page is issued by Sarsen Strategy Partners, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
           </p>
           <p className="text-gray-600  mb-4">
             This page is part of a collective set of legal documents governing your use of our website and services, including our <Link href="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>, <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>, and <Link href="/disclaimer" className="text-blue-600 hover:underline">Disclaimer</Link>, all accessible via the footer of our website. These documents should be read together; no single page stands alone.
@@ -359,7 +359,7 @@ export default function CookiePreferencesPage() {
               If you have questions about our use of cookies:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
               <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
               <p className="text-gray-500 text-sm mt-2">
                 *For cookie-related inquiries only. We will respond within 3–5 business days.

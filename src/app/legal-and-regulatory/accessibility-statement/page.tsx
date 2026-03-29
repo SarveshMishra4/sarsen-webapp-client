@@ -26,7 +26,7 @@ export default function AccessibilityStatementPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
             <p className="text-gray-600  mb-4">
-              This Accessibility Statement is issued by Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity and the rights and obligations set forth herein apply equally irrespective of which trade name is used.
+              This Accessibility Statement is issued by Sarsen Strategy Partners, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity and the rights and obligations set forth herein apply equally irrespective of which trade name is used.
             </p>
             <p className="text-gray-600  mb-4">
               This statement is part of a collective set of legal documents governing your relationship with the Company, including our Terms of Use, Privacy Policy, Refund & Cancellation Policy, Disclaimer, and other notices accessible via the footer of our website. These pages are intended to be read together and should not be considered standalone documents.

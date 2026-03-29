@@ -26,7 +26,7 @@ export default function RefundCancellationPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
             <p className="text-gray-600  mb-4">
-              This Refund & Cancellation Policy is issued by Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
+              This Refund & Cancellation Policy is issued by Sarsen Strategy Partners, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
             </p>
             <p className="text-gray-600  mb-4">
               This policy is part of a collective set of legal documents governing your use of our website and services, including our <Link href="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>, <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>, and <Link href="/disclaimer" className="text-blue-600 hover:underline">Disclaimer</Link>, all accessible via the footer of our website. These documents should be read together; no single page stands alone.
@@ -303,7 +303,7 @@ export default function RefundCancellationPage() {
               For questions about this Refund & Cancellation Policy or to submit a refund request:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
               <p className="text-gray-600">Refund Requests: contact@sarsenpartners.com</p>
               <p className="text-gray-600">General Support: contact@sarsenpartners.com</p>
               <p className="text-gray-500 text-sm mt-2">
@@ -316,7 +316,7 @@ export default function RefundCancellationPage() {
           <section className="bg-blue-50 rounded-lg p-6 border border-blue-100">
             <h2 className="text-xl font-medium text-gray-800 mb-3">Acknowledgment</h2>
             <p className="text-gray-600  mb-3">
-              By purchasing any service package from Sarsen & Company, you acknowledge that:
+              By purchasing any service package from Sarsen Strategy Partners, you acknowledge that:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
               <li>You have read and understood this Refund & Cancellation Policy</li>

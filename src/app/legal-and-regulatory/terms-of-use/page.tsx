@@ -26,7 +26,7 @@ export default function TermsOfUsePage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
             <p className="text-gray-600  mb-4">
-              These Terms of Use (“Terms”) are entered into between you (“Client”, “you”, “your”) and Sarsen & Company, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, or Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity and the rights and obligations set forth herein apply equally irrespective of which trade name is used in any particular communication or engagement.
+              These Terms of Use (“Terms”) are entered into between you (“Client”, “you”, “your”) and Sarsen Strategy Partners, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, or Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity and the rights and obligations set forth herein apply equally irrespective of which trade name is used in any particular communication or engagement.
             </p>
             <p className="text-gray-600 ">
               References to “Company” in these Terms include all affiliated entities, employees, consultants, and agents acting on behalf of the Company.
@@ -180,7 +180,7 @@ export default function TermsOfUsePage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">15. Contact Information</h2>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
               <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
               <p className="text-gray-600 mt-3 text-sm">
                 <strong>Business Hours:</strong> Monday - Friday, 11:00 AM - 8:00 PM Gulf Standard Time

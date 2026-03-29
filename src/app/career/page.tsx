@@ -119,7 +119,7 @@ const WhyJoinUsSection = () => {
         
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4 ">
-            Why Join Sarsen & Company ?
+            Why Join Sarsen Strategy Partners ?
           </h2>
           <p className="text-gray-700 text-base sm:text-lg  max-w-3xl mx-auto">
             This is not a place to hide, coast, or collect brand names.  
@@ -299,7 +299,7 @@ const LinkedInCTASection = () => {
               Stay Updated on Career Opportunities
             </h2>
             <p className="text-gray-300 text-sm sm:text-base lg:text-lg  max-w-2xl mx-auto mb-8">
-              Don't see the right role today? Follow us on LinkedIn where we post new career opportunities regularly, share insights about our work, and give you a behind-the-scenes look at life at Sarsen & Company.
+              Don't see the right role today? Follow us on LinkedIn where we post new career opportunities regularly, share insights about our work, and give you a behind-the-scenes look at life at Sarsen Strategy Partners.
             </p>
 
             <a
@@ -397,7 +397,7 @@ const ApplicationProcessSection = () => {
     {
       number: "01",
       title: "Submit Application",
-      description: "Send your resume and a brief cover letter explaining why you're interested in Sarsen & Company and what unique value you bring.",
+      description: "Send your resume and a brief cover letter explaining why you're interested in Sarsen Strategy Partners and what unique value you bring.",
       duration: "5 minutes"
     },
     {

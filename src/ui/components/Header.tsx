@@ -53,7 +53,7 @@ export default function Header() {
     // ABOUT NAVIGATION
     // ----------------------------------------------------------------------------
     about: {
-      title: "About Sarsen & Company",
+      title: "About Sarsen Strategy Partners",
       description: "Learn about our philosophy, approach, and the people driving our mission.",
       links: [
         {
@@ -335,7 +335,7 @@ export default function Header() {
               </div>
               <div className="text-white">
                 <div className="text-lg lg:text-xl font-bold ">Sarsen</div>
-                <div className="text-xs lg:text-sm  ">& Company</div>
+                <div className="text-xs lg:text-sm  ">Strategy Partners</div>
               </div>
             </a>
 

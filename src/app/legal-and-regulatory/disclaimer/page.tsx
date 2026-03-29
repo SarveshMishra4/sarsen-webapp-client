@@ -31,7 +31,7 @@ export default function DisclaimerPage() {
               <div>
                 <h2 className="text-xl font-medium text-gray-800 mb-2">Important Notice</h2>
                 <p className="text-gray-700 ">
-                  Please read this disclaimer carefully before using the services of Sarsen & Company (including its trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners). By accessing our website, engaging our services, or using any materials provided by us, you acknowledge and accept the terms of this disclaimer.
+                  Please read this disclaimer carefully before using the services of Sarsen Strategy Partners (including its trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners). By accessing our website, engaging our services, or using any materials provided by us, you acknowledge and accept the terms of this disclaimer.
                 </p>
               </div>
             </div>
@@ -66,7 +66,7 @@ export default function DisclaimerPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">3. General Disclaimer</h2>
             <p className="text-gray-600  mb-4">
-              The information, advice, recommendations, strategies, and materials provided by Sarsen & Company (collectively "Content") are for general informational and educational purposes only. This Content is not intended to be, and should not be construed as, professional financial, legal, tax, or investment advice.
+              The information, advice, recommendations, strategies, and materials provided by Sarsen Strategy Partners (collectively "Content") are for general informational and educational purposes only. This Content is not intended to be, and should not be construed as, professional financial, legal, tax, or investment advice.
             </p>
             <p className="text-gray-600  mb-4">
               While we strive to provide accurate, current, and reliable information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the Content for any particular purpose.
@@ -82,7 +82,7 @@ export default function DisclaimerPage() {
             
             <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 Performance Disclaimer</h3>
             <p className="text-gray-600  mb-4">
-              Sarsen & Company does not guarantee, warrant, or make any representations regarding the results you may achieve by implementing our recommendations, strategies, or advice. Business outcomes depend on numerous factors including but not limited to:
+              Sarsen Strategy Partners does not guarantee, warrant, or make any representations regarding the results you may achieve by implementing our recommendations, strategies, or advice. Business outcomes depend on numerous factors including but not limited to:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
               <li>Your level of commitment, effort, and execution capability</li>
@@ -110,7 +110,7 @@ export default function DisclaimerPage() {
             
             <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Legal Advice</h3>
             <p className="text-gray-600  mb-4">
-              Sarsen & Company is not a law firm and does not provide legal advice. Any information related to legal matters, contracts, compliance, intellectual property, or regulatory issues is for general informational purposes only and should not be relied upon as legal advice.
+              Sarsen Strategy Partners is not a law firm and does not provide legal advice. Any information related to legal matters, contracts, compliance, intellectual property, or regulatory issues is for general informational purposes only and should not be relied upon as legal advice.
             </p>
             <p className="text-gray-600  mb-4">
               <strong>You should consult with a qualified attorney licensed in your jurisdiction for legal advice specific to your situation.</strong>
@@ -145,7 +145,7 @@ export default function DisclaimerPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Relationship Disclaimer</h2>
             <p className="text-gray-600  mb-4">
-              The general information provided on our website, blog, social media, or in free resources does not create a consultant-client relationship between you and Sarsen & Company. A formal consulting relationship is only established upon:
+              The general information provided on our website, blog, social media, or in free resources does not create a consultant-client relationship between you and Sarsen Strategy Partners. A formal consulting relationship is only established upon:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
               <li>Purchase of a service package</li>
@@ -236,7 +236,7 @@ export default function DisclaimerPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Limitation of Liability</h2>
             <p className="text-gray-600  mb-4">
-              To the fullest extent permitted by applicable law, Sarsen & Company, its officers, directors, employees, consultants, and affiliates shall not be liable for any:
+              To the fullest extent permitted by applicable law, Sarsen Strategy Partners, its officers, directors, employees, consultants, and affiliates shall not be liable for any:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
               <li>Direct, indirect, incidental, special, consequential, or punitive damages</li>
@@ -256,7 +256,7 @@ export default function DisclaimerPage() {
           <section>
             <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Indemnification</h2>
             <p className="text-gray-600 ">
-              You agree to indemnify and hold harmless Sarsen & Company from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of our services, violation of these terms, or implementation of our recommendations. This indemnification survives termination of your engagement with us.
+              You agree to indemnify and hold harmless Sarsen Strategy Partners from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of our services, violation of these terms, or implementation of our recommendations. This indemnification survives termination of your engagement with us.
             </p>
           </section>
 
@@ -318,7 +318,7 @@ export default function DisclaimerPage() {
               If you have questions or concerns about this disclaimer, or if you wish to clarify any reference or association mentioned on our website:
             </p>
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen & Company</p>
+              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
               <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
               <p className="text-gray-500 text-sm mt-2">
                 We will respond to inquiries within 3–5 business days.
