@@ -369,11 +369,11 @@ interface TeamMember {
 const TeamSection = () => {
   const BASE_MEMBERS: TeamMember[] = [
     {
-      name: 'Greg Merlin',
-      role: 'Founding Partner',
+      name: 'Sameer Dhaiya',
+      role: 'Head of Supply Chain',
       tier: 'Leadership',
       bio: '15+ years in strategy consulting with focus on growth-stage technology companies. Previously led strategic initiatives at leading consulting firms.',
-      image: '/assets/about/people/Greg.png'
+      image: '/assets/about/people/Sameer.png'
     },
     {
       name: 'Sarvesh Mishra',
@@ -394,7 +394,7 @@ const TeamSection = () => {
       role: 'Head of Customer Relations',
       tier: 'Leadership',
       bio: 'Specialist in sector-specific analysis and competitive strategy. Published researcher on Indian startup ecosystem trends and dynamics.',
-      image: '/assets/about/people/Georgia.png'
+      image: '/assets/about/people/Aakansha.png'
     },
     {
       name: 'Rishabh Panda',
@@ -408,28 +408,28 @@ const TeamSection = () => {
       role: 'Senior Associate',
       tier: 'Associate',
       bio: 'Former strategy consultant from Tel Aviv with expertise in venture-backed growth models and cross-border market entry across Europe and Asia.',
-      image: '/assets/about/people/associate2.png'
+      image: '/assets/about/people/Eitan.png'
     },
     {
       name: 'Karan Malhotra',
       role: 'Associate',
       tier: 'Associate',
       bio: 'From Bhopal, with strong roots in Tier-2 market dynamics. Specialises in go-to-market strategy and operational scale-up for emerging businesses.',
-      image: '/assets/about/people/associate3.png'
+      image: '/assets/about/people/Karan.png'
     },
     {
       name: 'Meghna Borah',
       role: 'Analyst',
       tier: 'Analyst',
       bio: 'Originally from Assam, Meghna brings a sharp analytical lens to sector research and competitive benchmarking across Northeast and Southeast Asian markets.',
-      image: '/assets/about/people/analyst1.png'
+      image: '/assets/about/people/Meghna.png'
     },
     {
-      name: 'Arjun Nair',
+      name: 'Arun Nair',
       role: 'Analyst',
       tier: 'Analyst',
       bio: 'Chennai-based analyst with expertise in quantitative modelling and startup ecosystem research across South India\'s technology and manufacturing sectors.',
-      image: '/assets/about/people/analyst2.png'
+      image: '/assets/about/people/Arun.png'
     }
   ];
 
