@@ -54,7 +54,19 @@ module.exports = {
     "./src/features/**/*.{js,ts,jsx,tsx}",
     "./src/layouts/**/*.{js,ts,jsx,tsx}",
   ],
+/**
+   * ------------------------------------------------------------
+   * SAFELIST (IMPORTANT FIX)
+   * ------------------------------------------------------------
+   *
+   * Ensures Tailwind ALWAYS generates critical classes
+   * even if detection fails in complex JSX.
+   */
 
+  safelist: [
+    "text-[#0A1E3D]",
+    "hover:text-[#0A1E3D]",
+  ],
   /**
    * ------------------------------------------------------------
    * THEME CONFIGURATION

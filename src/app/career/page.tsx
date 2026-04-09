@@ -252,13 +252,12 @@ const OpenPositionsSection = () => {
                   </div>
 
                   <a
-                    href={`mailto:${applicationEmail}?subject=${encodeURIComponent(
-                      emailSubject
-                    )}&body=${emailBody}`}
-                    className="bg-white text-[#0A1E3D] px-6 py-3 rounded-md hover:bg-gray-100 transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base"
-                  >
-                    Apply Now
-                  </a>
+  href={`mailto:${applicationEmail}?subject=${encodeURIComponent(
+    emailSubject
+  )}&body=${emailBody}`}
+className="bg-transparent border border-white text-black px-6 py-3 rounded-md hover:bg-gray-100 hover:!text-[#0A1E3D] transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base">
+  Send Application
+</a>
                 </div>
 
                 <p className="text-gray-300 text-sm ">
@@ -303,7 +302,7 @@ const LinkedInCTASection = () => {
             </p>
 
             <a
-              href="https://www.linkedin.com/company/sarsen-and-company"
+              href="https://www.linkedin.com/company/sarsen-strategy-partners/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[#0077B5] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#006396] transition-all duration-300 font-medium shadow-lg group text-base sm:text-lg"
