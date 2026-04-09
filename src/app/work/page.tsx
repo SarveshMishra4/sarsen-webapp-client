@@ -38,40 +38,40 @@ type WorkTypeContent = {
 const WorkHero = () => {
   return (
     <section className="relative bg-[#0A1E3D] min-h-[520px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-  <div className="max-w-7xl mx-auto">
-    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-      {/* LEFT: TEXT CONTENT */}
-      <div className="max-w-xl">
+          {/* LEFT: TEXT CONTENT */}
+          <div className="max-w-xl">
 
-        {/* Title */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-6 ">
-          How We Work With Founders
-        </h1>
+            {/* Title */}
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-6 ">
+              How We Work With Founders
+            </h1>
 
-        {/* Subtitle */}
-        <p className="text-md sm:text-xl text-blue-200   mb-12">
-          We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
-        </p>
+            {/* Subtitle */}
+            <p className="text-md sm:text-xl text-blue-200   mb-12">
+              We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
+            </p>
 
-      </div>
+          </div>
 
-      {/* RIGHT: GRAPHIC / SVG */}
-      <div className="relative flex justify-center lg:justify-end">
-        <div className="w-full h-80 sm:h-96 lg:h-[450px] max-w-md p-8">
+          {/* RIGHT: GRAPHIC / SVG */}
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="w-full h-80 sm:h-96 lg:h-[450px] max-w-md p-8">
 
-          <img
-            src="/assets/work/Work Head.svg"
-            alt="How We Work Illustration"
-            className="w-full h-full"
-          />
+              <img
+                src="/assets/work/Work Head.svg"
+                alt="How We Work Illustration"
+                className="w-full h-full"
+              />
+
+            </div>
+          </div>
 
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
+    </section>
   );
 };
 
@@ -83,32 +83,32 @@ const EngagementPhilosophy = () => {
     <section className="bg-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 ">
       <div className='max-w-7xl mx-auto'>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-gray-900  mb-6">
-        Work on Engagement: Combined Use
-      </h2>
+          Work on Engagement: Combined Use
+        </h2>
 
-      <div className=" text-gray-700 text-lg ">
+        <div className=" text-gray-700 text-lg ">
 
-        <p>
-          Most consultants offer either advice or execution. We offer neither in isolation.
-        </p>
+          <p>
+            Most consultants offer either advice or execution. We offer neither in isolation.
+          </p>
 
-        <p>
-          Our engagements are structured to give you{" "}
-          <strong>diagnostic precision</strong>,{" "}
-          <strong>strategic direction</strong>, and{" "}
-          <strong>execution-ready frameworks</strong>
-          —all delivered in a defined timeline with zero scope creep.
-        </p>
+          <p>
+            Our engagements are structured to give you{" "}
+            <strong>diagnostic precision</strong>,{" "}
+            <strong>strategic direction</strong>, and{" "}
+            <strong>execution-ready frameworks</strong>
+            —all delivered in a defined timeline with zero scope creep.
+          </p>
 
-        <p>
-          We combine deep analysis with practical tools. You don't get a hundred-slide deck.
-          You get Google Sheets with scoring logic, decision frameworks, and roadmaps you can
-          immediately implement.
-        </p>
+          <p>
+            We combine deep analysis with practical tools. You don't get a hundred-slide deck.
+            You get Google Sheets with scoring logic, decision frameworks, and roadmaps you can
+            immediately implement.
+          </p>
 
+        </div>
       </div>
-      </div>
-      
+
 
 
 
@@ -603,7 +603,7 @@ const WorkFooterCTA = () => {
 
           {/* Primary CTA */}
           <Link
-            href="/packages/business-diagnostic"
+            href="/services/business-diagnostic-direction"
             className="
       inline-flex
       items-center
@@ -633,36 +633,23 @@ const WorkFooterCTA = () => {
           </Link>
 
           {/* Secondary CTA */}
-          <Link
-            href="/contact#main"
-            className="
-      inline-flex
-      items-center
-      justify-center
+<Link
+  href="/contact"
+  className="
+    inline-flex items-center justify-center
+    px-8 py-4 rounded-md font-semibold text-lg
+    border-2 border-white
 
-      px-8
-      py-4
-      rounded-md
-      font-semibold
-      text-lg
+    text-white
 
-      border-2
-      border-white
+    transition-all duration-300
 
-      bg-transparent
-      text-[#002855]
-
-      transition-all
-      duration-300
-
-      hover:bg-white
-      hover:text-[#002855]
-
-      !text-white
-    "
-          >
-            Talk to Our Team
-          </Link>
+    hover:bg-white
+    hover:!text-[#002855]
+  "
+>
+  Talk to Our Team
+</Link>
 
         </div>
       </div>

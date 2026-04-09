@@ -1,7 +1,9 @@
 // app/about/page.tsx
 'use client';
 
-import React, { useState } from 'react';
+import Link from 'next/dist/client/link';
+import React, { useState, useRef, useEffect } from 'react';
+
 
 // =====================================================
 // HERO SECTION COMPONENT
@@ -304,7 +306,7 @@ const ThesisSection = () => {
             </h3>
             <div className="grid sm:grid-cols-2 gap-6 text-white">
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
+                                <img src="/assets/about/Tick.svg" alt="" className='h-6 w-6 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">No Generic Frameworks</p>
@@ -314,7 +316,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
+                <img src="/assets/about/Tick.svg" alt="" className='h-6 w-6 flex-shrink-0'/>
                 <div>
                   <p className="font-medium mb-1">Context-Aware Strategy</p>
                   <p className="text-sm text-white/90">
@@ -323,7 +325,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
+                                <img src="/assets/about/Tick.svg" alt="" className='h-6 w-6 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">Founder-Aligned Execution</p>
@@ -333,7 +335,7 @@ const ThesisSection = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                                <img src="/assets/about/Layers.svg" alt="" className='h-8 w-8 flex-shrink-0'/>
+                                <img src="/assets/about/Tick.svg" alt="" className='h-6 w-6 flex-shrink-0'/>
 
                 <div>
                   <p className="font-medium mb-1">Decision-Grade Output</p>
@@ -351,93 +353,333 @@ const ThesisSection = () => {
 };
 
 
+
 // =====================================================
 // TEAM SECTION
 // =====================================================
+
+interface TeamMember {
+  name: string;
+  role: string;
+  tier: 'Leadership' | 'Associate' | 'Analyst';
+  bio: string;
+  image: string;
+}
+
 const TeamSection = () => {
-  const teamMembers = [
+  const BASE_MEMBERS: TeamMember[] = [
     {
       name: 'Greg Merlin',
       role: 'Founding Partner',
-      expertise: 'Market Strategy & Growth',
+      tier: 'Leadership',
       bio: '15+ years in strategy consulting with focus on growth-stage technology companies. Previously led strategic initiatives at leading consulting firms.',
       image: '/assets/about/people/Greg.png'
     },
     {
       name: 'Sarvesh Mishra',
-      role: 'Partner, Analytics',
-      expertise: 'Quantitative Analysis & Research',
+      role: 'Head of Strategy',
+      tier: 'Leadership',
       bio: 'Expert in market research and financial modeling. Former investment analyst with deep experience in startup valuation and market sizing.',
       image: '/assets/about/people/Sarvesh.png'
     },
     {
       name: 'Vishal Gupta',
-      role: 'Partner, Operations',
-      expertise: 'Business Operations & Scaling',
+      role: 'Head of Business & Operations',
+      tier: 'Leadership',
       bio: 'Operational strategist with track record of helping 50+ startups scale efficiently. Background in process optimization and organizational design.',
       image: '/assets/about/people/Vishal.png'
     },
     {
       name: 'Aakansha Rao',
-      role: 'Senior Consultant',
-      expertise: 'Sector Research & Competitive Intelligence',
+      role: 'Head of Customer Relations',
+      tier: 'Leadership',
       bio: 'Specialist in sector-specific analysis and competitive strategy. Published researcher on Indian startup ecosystem trends and dynamics.',
       image: '/assets/about/people/Georgia.png'
+    },
+    {
+      name: 'Rishabh Panda',
+      role: 'Strategy & Growth Associate',
+      tier: 'Associate',
+      bio: 'Mumbai-based strategist with deep exposure to financial services and consumer markets. Adept at translating complex data into clear investment narratives.',
+      image: '/assets/about/people/Panda.png'
+    },
+    {
+      name: 'Eitan Shapiro',
+      role: 'Senior Associate',
+      tier: 'Associate',
+      bio: 'Former strategy consultant from Tel Aviv with expertise in venture-backed growth models and cross-border market entry across Europe and Asia.',
+      image: '/assets/about/people/associate2.png'
+    },
+    {
+      name: 'Karan Malhotra',
+      role: 'Associate',
+      tier: 'Associate',
+      bio: 'From Bhopal, with strong roots in Tier-2 market dynamics. Specialises in go-to-market strategy and operational scale-up for emerging businesses.',
+      image: '/assets/about/people/associate3.png'
+    },
+    {
+      name: 'Meghna Borah',
+      role: 'Analyst',
+      tier: 'Analyst',
+      bio: 'Originally from Assam, Meghna brings a sharp analytical lens to sector research and competitive benchmarking across Northeast and Southeast Asian markets.',
+      image: '/assets/about/people/analyst1.png'
+    },
+    {
+      name: 'Arjun Nair',
+      role: 'Analyst',
+      tier: 'Analyst',
+      bio: 'Chennai-based analyst with expertise in quantitative modelling and startup ecosystem research across South India\'s technology and manufacturing sectors.',
+      image: '/assets/about/people/analyst2.png'
     }
   ];
 
+  const CARD_WIDTH = 280;
+  const CARD_GAP = 20;
+  const STEP = CARD_WIDTH + CARD_GAP;
+  const CLONE_COUNT = 3; // clones on each side for seamless loop
+
+  // Build infinite list: [...tail clones, ...real, ...head clones]
+  const total = BASE_MEMBERS.length;
+  const members: TeamMember[] = [
+    ...BASE_MEMBERS.slice(total - CLONE_COUNT),
+    ...BASE_MEMBERS,
+    ...BASE_MEMBERS.slice(0, CLONE_COUNT),
+  ];
+
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0); // index into BASE_MEMBERS
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isJumping = useRef(false);
+
+  // Real position in the extended array
+  const extIndex = (baseIdx: number) => baseIdx + CLONE_COUNT;
+
+  // Scroll without animation (for seamless jump)
+  const jumpTo = (extIdx: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    isJumping.current = true;
+    track.style.scrollBehavior = 'auto';
+    track.scrollLeft = extIdx * STEP;
+    requestAnimationFrame(() => {
+      track.style.scrollBehavior = 'smooth';
+      isJumping.current = false;
+    });
+  };
+
+  // Smooth scroll to an extended index
+  const smoothTo = (extIdx: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollTo({ left: extIdx * STEP, behavior: 'smooth' });
+  };
+
+  // Navigate by base index (wraps correctly)
+  const goTo = (baseIdx: number) => {
+    const wrapped = ((baseIdx % total) + total) % total;
+    setActiveIndex(wrapped);
+    smoothTo(extIndex(wrapped));
+  };
+
+  const next = () => goTo(activeIndex + 1);
+  const prev = () => goTo(activeIndex - 1);
+
+  // Initialise scroll position to first real card
+  useEffect(() => {
+    jumpTo(extIndex(0));
+  }, []);
+
+  // Auto-advance
+  useEffect(() => {
+    if (paused) return;
+    timerRef.current = setInterval(() => {
+      setActiveIndex(prev => {
+        const nextIdx = (prev + 1) % total;
+        smoothTo(extIndex(nextIdx));
+        return nextIdx;
+      });
+    }, 3000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [paused, total]);
+
+  // Handle scroll end — detect when we've entered a clone region and jump back
+  const handleScroll = () => {
+    if (isJumping.current) return;
+    const track = trackRef.current;
+    if (!track) return;
+
+    const scrollIdx = Math.round(track.scrollLeft / STEP);
+    const newBaseIdx = ((scrollIdx - CLONE_COUNT) % total + total) % total;
+    setActiveIndex(newBaseIdx);
+
+    // If scrolled into leading clones
+    if (scrollIdx < CLONE_COUNT) {
+      jumpTo(extIndex(scrollIdx + total));
+    }
+    // If scrolled into trailing clones
+    if (scrollIdx >= CLONE_COUNT + total) {
+      jumpTo(extIndex(scrollIdx - total));
+    }
+  };
+
+  const tierColor: Record<string, string> = {
+    'Leadership Team': 'text-yellow-300',
+    'Associate': 'text-blue-300',
+    'Analyst': 'text-emerald-300',
+  };
+
+  const tierBadge: Record<string, string> = {
+    'Leadership Team': 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/20',
+    'Associate': 'bg-blue-400/10 text-blue-300 border border-blue-400/20',
+    'Analyst': 'bg-emerald-400/10 text-emerald-300 border border-emerald-400/20',
+  };
+
   return (
-    <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+    <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
-            Our Team
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto ">
-            A team of strategic thinkers, analysts, and operators committed to delivering excellence 
-            in every engagement.
+
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-4">Our Team</h2>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+            A growing team of strategic thinkers, analysts, and operators committed to delivering
+            excellence in every engagement.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {teamMembers.map((member, index) => (
-            <div key={index} className="bg-white/5 backdrop-blur-sm rounded-md overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300">
-              <div className="aspect-square overflow-hidden rounded-t-md">
-  <img
-    src={member.image}
-    alt={member.name}
-    className="w-full h-full object-cover"
-  />
-</div>
-              <div className="p-6">
-                <h3 className="text-xl font-medium text-white mb-1">{member.name}</h3>
-                <p className="text-blue-300 text-sm mb-2">{member.role}</p>
-                
-                <p className="text-gray-300 text-sm ">
-                  {member.bio}
-                </p>
-              </div>
-            </div>
+        {/* Carousel */}
+        <div
+          className="relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
+        >
+          {/* Prev */}
+          {/* <button
+            onClick={prev}
+            aria-label="Previous member"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-2 sm:translate-x-0
+                       w-9 h-9 rounded-full bg-white/10 border border-white/20
+                       flex items-center justify-center text-white hover:bg-white/20
+                       transition-all duration-200 backdrop-blur-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button> */}
+
+          {/* Track */}
+          <div
+            ref={trackRef}
+            onScroll={handleScroll}
+            className="flex overflow-x-auto px-10 sm:px-12"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              gap: `${CARD_GAP}px`,
+              scrollSnapType: 'x mandatory',
+            }}
+          >
+            {members.map((member, i) => {
+              const baseIdx = ((i - CLONE_COUNT) % total + total) % total;
+              const isActive = baseIdx === activeIndex && i === extIndex(activeIndex);
+              return (
+                <div
+                  key={i}
+                  onClick={() => { if (!isActive) goTo(baseIdx); }}
+                  style={{
+                    minWidth: `${CARD_WIDTH}px`,
+                    maxWidth: `${CARD_WIDTH}px`,
+                    scrollSnapAlign: 'start',
+                    transition: 'transform 0.4s ease, opacity 0.4s ease',
+                    transform: isActive ? 'scale(1)' : 'scale(0.95)',
+                    opacity: isActive ? 1 : 0.5,
+                    cursor: isActive ? 'default' : 'pointer',
+                    flexShrink: 0,
+                  }}
+                  className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden"
+                >
+                  <div className="w-full aspect-square overflow-hidden">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-3 ${tierBadge[member.tier]}`}>
+                      {member.tier}
+                    </span>
+                    <h3 className="text-lg font-medium text-white mb-0.5">{member.name}</h3>
+                    <p className={`text-sm mb-3 ${tierColor[member.tier]}`}>{member.role}</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Next */}
+          {/* <button
+            onClick={next}
+            aria-label="Next member"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-2 sm:translate-x-0
+                       w-9 h-9 rounded-full bg-white/10 border border-white/20
+                       flex items-center justify-center text-white hover:bg-white/20
+                       transition-all duration-200 backdrop-blur-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button> */}
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {BASE_MEMBERS.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goTo(index)}
+              aria-label={`Go to ${BASE_MEMBERS[index].name}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? 'bg-white w-6'
+                  : 'bg-white/25 w-1.5 hover:bg-white/50'
+              }`}
+            />
           ))}
         </div>
 
-        <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10">
+        {/* Counter */}
+        {/* <p className="text-center text-white/40 text-sm mt-3 tracking-wide">
+          {activeIndex + 1} / {total}&nbsp;·&nbsp;{BASE_MEMBERS[activeIndex].name}
+        </p> */}
+
+        {/* Join Our Team */}
+        <div className="mt-14 bg-white/5 backdrop-blur-sm rounded-xl p-6 sm:p-8 lg:p-12 border border-white/10">
           <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl sm:text-3xl  text-white mb-6">
-              Join Our Team
-            </h3>
-            <p className="text-gray-300 text-base sm:text-lg  mb-8">
-              We're always looking for exceptional strategists, analysts, and consultants who share 
-              our commitment to diagnostic rigor and measurable impact. If you're passionate about 
+            <h3 className="text-2xl sm:text-3xl text-white mb-6">Join Our Team</h3>
+            <p className="text-gray-300 text-base sm:text-lg mb-8">
+              We're always looking for exceptional strategists, analysts, and consultants who share
+              our commitment to diagnostic rigor and measurable impact. If you're passionate about
               helping growth-stage businesses succeed, we'd love to hear from you.
             </p>
-            <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
-              <span>View Open Positions</span>
-              
+            <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2">
+              <Link href="/career" className="inline-flex items-center gap-2">
+                <span>View Open Positions</span>
+              </Link>
             </button>
           </div>
         </div>
+
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar { display: none; }
+      `}</style>
     </section>
   );
 };
@@ -462,16 +704,20 @@ const CTASection = () => {
                 decision-ready next steps.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/services/business-diagnostic-direction" >
                 <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
                   <span>Initiate Diagnostic Engagement</span>
                   
                 </button>
+                </Link>
+                <Link href="/contact" >
                 <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-md hover:bg-white/10 transition-colors font-medium inline-flex items-center justify-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <span>Formal Inquiry</span>
                 </button>
+                </Link>
               </div>
             </div>
 

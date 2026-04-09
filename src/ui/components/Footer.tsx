@@ -190,7 +190,7 @@ export default function Footer() {
               {/* Careers link – scrolls to the #careers section on /contact */}
               <li>
                 <Link
-                  href="/contact#careers"
+                  href="/career"
                   className="text-lg text-gray-700 transition-colors hover:text-[#002855]"
                 >
                   Careers
@@ -200,7 +200,7 @@ export default function Footer() {
               {/* How We Work link – scrolls to #how-we-work on /about */}
               <li>
                 <Link
-                  href="/about#how-we-work"
+                  href="/work"
                   className="text-lg text-gray-700 transition-colors hover:text-[#002855]"
                 >
                   How We Work
@@ -210,7 +210,7 @@ export default function Footer() {
               {/* Our Approach link – scrolls to #approach on /contact */}
               <li>
                 <Link
-                  href="/contact#approach"
+                  href="/contact"
                   className="text-lg text-gray-700 transition-colors hover:text-[#002855]"
                 >
                   Our Approach

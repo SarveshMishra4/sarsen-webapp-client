@@ -1,6 +1,7 @@
 // app/page.tsx
 'use client';
 
+import Link from 'next/dist/client/link';
 import React, { useState, useEffect, useRef } from 'react';
 
 // =====================================================
@@ -214,7 +215,7 @@ const ReportSection = () => {
                       </label>
                       <input
                         required
-                        placeholder="e.g. Ramesh Kumar"
+                        placeholder="John Doe"
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       />
                     </div>
@@ -226,7 +227,7 @@ const ReportSection = () => {
                       <input
                         required
                         type="email"
-                        placeholder="ramesh@company.com"
+                        placeholder="john@company.com"
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       />
                     </div>
@@ -251,11 +252,11 @@ const ReportSection = () => {
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       >
                         <option value="" disabled>Select an option</option>
-                        <option>Founder / Co-founder</option>
-                        <option>CXO / Leadership</option>
+                        <option>Founder or Co-founder</option>
+                        <option>CXO or Leadership</option>
                         <option>Early Employee</option>
-                        <option>Investor / Advisor</option>
-                        <option>Exploring entrepreneurship</option>
+                        <option>Investor or Advisor</option>
+                        <option>Other</option>
                       </select>
                     </div>
 
@@ -269,28 +270,28 @@ const ReportSection = () => {
                       >
                         <option value="" disabled>Select an option</option>
                         <option>Pre-idea / Exploring</option>
-                        <option>Idea validated, no revenue</option>
-                        <option>Early revenue (₹0–50L)</option>
-                        <option>Scaling (₹50L–₹5Cr)</option>
-                        <option>Preparing to raise capital</option>
-                        <option>Post-fundraise</option>
+                        <option>Idea validated, No Revenue</option>
+                        <option>Early revenue </option>
+                        <option>Scaling </option>
+                        <option>Preparing to Raise Capital</option>
+                        <option>Post-Fundraise</option>
                       </select>
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-[#0A1E3D] mb-1">
-                        Biggest uncertainty right now
+                        Biggest Uncertainty Right Now
                       </label>
                       <select
                         required
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       >
                         <option value="" disabled>Select an option</option>
-                        <option>Are we scaling too early ?</option>
-                        <option>Are these the right customers ?</option>
-                        <option>Does our pricing actually work ?</option>
-                        <option>Are we fundable ?</option>
-                        <option>Are we missing something critical ?</option>
+                        <option>Product</option>
+                        <option>Customer Profile</option>
+                        <option>Pricing</option>
+                        <option>Fundraising</option>
+                        <option>Scalability</option>
                         <option>Unsure or Something Else</option>
                       </select>
                     </div>
@@ -309,7 +310,7 @@ const ReportSection = () => {
                     Check your email
                   </h3>
                   <p className="text-gray-600">
-                    Your copy is being sent shortly.
+                    Your copy will be sent shortly.
                     In case you need Help with your Business Apply for our Strategic Diagnostic & Direction Program.
                   </p>
                 </div>
@@ -451,8 +452,9 @@ const CompanyHelpsSection = () => {
 
             <div className="flex-shrink-0">
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-md transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center gap-3 group">
+                <Link href="/work" className="flex items-center gap-2">
                 <span>Read Our Case Studies</span>
-
+                </Link>
               </button>
             </div>
           </div>
