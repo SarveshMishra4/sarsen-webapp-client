@@ -782,7 +782,7 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
     subtitle: 'In-depth thinking on strategy, revenue, operations, and the realities of building startups.',
     items: blogsData,
     cardStyle: blogCardStyle,
-    hubHref: '/resources/blogs',
+    hubHref: '/resources/blog',
   },
   {
     id: 'case-studies',

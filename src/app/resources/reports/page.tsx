@@ -57,460 +57,461 @@ interface PartnerFormData {
 // =====================================================
 
 const ALL_REPORTS: Report[] = [
-  // ── Batch 1 (1–25) ──────────────────────────────────────────────────────
+  // ... (data unchanged – same as original)
+  // Batch 1 (1–25)
   {
     id: 1,
     title: 'Indian Startup Ecosystem Report 2026',
     excerpt: 'Our most comprehensive annual publication. Covers funding trends across all stages, sector-wise growth patterns, tier-2 city emergence, founder demographics, and the structural shifts defining India\'s entrepreneurial decade.',
-    tag: 'Annual Report', pages: '142 pages', date: 'Feb 2026', year: 2026, sector: 'Cross-Sector', featured: true,
+    tag: 'Annual Report', pages: '142 pages', date: 'Year 2026', year: 2026, sector: 'Cross-Sector', featured: true,
   },
   {
     id: 2,
     title: 'State of B2B SaaS in India — 2025 Review',
     excerpt: 'Benchmarks across ARR growth, net revenue retention, CAC payback, and team efficiency ratios for Indian B2B SaaS companies at seed through Series B. Includes 200+ company dataset with cohort comparisons.',
-    tag: 'Sector Report', pages: '68 pages', date: 'Dec 2025', year: 2025, sector: 'B2B SaaS',
+    tag: 'Sector Report', pages: '68 pages', date: 'Year 2025', year: 2025, sector: 'B2B SaaS',
   },
   {
     id: 3,
     title: 'Founder Mental Models: A Survey of 200 Indian Founders',
     excerpt: 'How founders make decisions under uncertainty, which frameworks they rely on, where they get systematically stuck, and what distinguishes the decision quality of founders who navigated difficult transitions successfully.',
-    tag: 'Research', pages: '54 pages', date: 'Nov 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Research', pages: '54 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 4,
     title: 'Seed Funding Landscape: H2 2025 Digest',
     excerpt: 'Deal flow analysis for seed rounds in India during H2 2025. Sector distribution, cheque size evolution, investor activity patterns, and the structural differences between rounds that closed and those that stalled.',
-    tag: 'Digest', pages: '32 pages', date: 'Jan 2026', year: 2026, sector: 'Fundraising',
+    tag: 'Digest', pages: '32 pages', date: 'Year 2026', year: 2026, sector: 'Fundraising',
   },
   {
     id: 5,
     title: 'Unit Economics Benchmarks by Sector 2025',
     excerpt: 'CAC, LTV, payback period, and gross margin norms across 12 startup categories in India. Includes distribution curves, not just averages — so founders can understand where they actually stand relative to peers.',
-    tag: 'Benchmarks', pages: '48 pages', date: 'Oct 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Benchmarks', pages: '48 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 6,
     title: 'The Operational Maturity Index — Indian Startups 2025',
     excerpt: 'A scored framework assessing how founders build systems, delegate, and create accountability as they scale from 10 to 100 people. Identifies the five most common operational failure modes and what distinguishes high-maturity teams.',
-    tag: 'Index', pages: '60 pages', date: 'Sep 2025', year: 2025, sector: 'Operations',
+    tag: 'Index', pages: '60 pages', date: 'Year 2025', year: 2025, sector: 'Operations',
   },
   {
     id: 7,
     title: 'D2C Brand Profitability Report 2025',
     excerpt: 'Margin structures, blended CAC trends, LTV curves, and post-funding realities for direct-to-consumer brands in India. Analyses which D2C models are structurally profitable and which are growth-at-all-costs plays in disguise.',
-    tag: 'Sector Report', pages: '44 pages', date: 'Aug 2025', year: 2025, sector: 'D2C',
+    tag: 'Sector Report', pages: '44 pages', date: 'Year 2025', year: 2025, sector: 'D2C',
   },
   {
     id: 8,
     title: 'Capital Efficiency in Indian Startups — 5 Year Longitudinal Study',
     excerpt: 'How efficiently Indian startups convert external capital into durable, defensible value over a five-year window. Tracks 300 companies from seed through Series B, measuring capital efficiency ratios across sectors and vintages.',
-    tag: 'Longitudinal', pages: '88 pages', date: 'Jul 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Longitudinal', pages: '88 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 9,
     title: 'The Fundability Framework — Investor Expectation Report',
     excerpt: 'What seed and Series A investors in India are actually evaluating — in their own words. Based on 200+ structured investor interviews. Covers business model requirements, team assessment, and the metrics that create fundable narratives.',
-    tag: 'Framework', pages: '52 pages', date: 'Jun 2025', year: 2025, sector: 'Fundraising',
+    tag: 'Framework', pages: '52 pages', date: 'Year 2025', year: 2025, sector: 'Fundraising',
   },
   {
     id: 10,
     title: 'Tier-2 Startup Hubs: Emerging Opportunity Report',
     excerpt: 'Deep dives into five emerging startup cities — Jaipur, Indore, Kochi, Ahmedabad, and Chandigarh. Covers talent availability, infrastructure maturity, investor access, cost structures, and sector-specific opportunity assessment.',
-    tag: 'Emerging Markets', pages: '76 pages', date: 'May 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Emerging Markets', pages: '76 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 11,
     title: 'Pricing Architecture in Indian SaaS — A Deep Dive',
     excerpt: 'How Indian SaaS companies price across segments, channels, and geographies. Identifies pricing pattern clusters, analyses which models correlate with higher NRR, and documents the most common pricing mistakes at each growth stage.',
-    tag: 'Deep Dive', pages: '56 pages', date: 'Apr 2025', year: 2025, sector: 'B2B SaaS',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Year 2025', year: 2025, sector: 'B2B SaaS',
   },
   {
     id: 12,
     title: 'Healthtech in India: Where Value Is Actually Being Created',
     excerpt: 'A sector map of India\'s healthtech landscape — which subsectors are attracting capital, where exits have occurred, what the regulatory environment means for different business models, and which whitespaces remain genuinely open.',
-    tag: 'Sector Report', pages: '62 pages', date: 'Mar 2025', year: 2025, sector: 'Healthtech',
+    tag: 'Sector Report', pages: '62 pages', date: 'Year 2025', year: 2025, sector: 'Healthtech',
   },
   {
     id: 13,
     title: 'Founder Burnout and Performance: What the Data Shows',
     excerpt: 'A sensitive but necessary analysis. Survey data from 400 founders on stress indicators, performance degradation patterns, the decisions that suffer first, and what structural interventions actually improve outcomes.',
-    tag: 'Research', pages: '38 pages', date: 'Feb 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Research', pages: '38 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 14,
     title: 'The Indian Series A: What It Actually Takes in 2025',
     excerpt: 'Structural analysis of 80 Indian Series A rounds closed in 2024. Covers median metrics at the time of closing, how metrics requirements have shifted since 2021, and the investor narrative patterns that appear across successful rounds.',
-    tag: 'Fundraising', pages: '46 pages', date: 'Jan 2025', year: 2025, sector: 'Fundraising',
+    tag: 'Fundraising', pages: '46 pages', date: 'Year 2025', year: 2025, sector: 'Fundraising',
   },
   {
     id: 15,
     title: 'Edtech After the Correction: 2024 State of the Sector',
     excerpt: 'Following the 2022–23 correction, this report analyses which edtech models survived, which are structurally viable at scale, where the remaining whitespace lies, and what the unit economics of durable edtech businesses look like.',
-    tag: 'Sector Report', pages: '50 pages', date: 'Dec 2024', year: 2024, sector: 'Edtech',
+    tag: 'Sector Report', pages: '50 pages', date: 'Year 2024', year: 2024, sector: 'Edtech',
   },
   {
     id: 16,
     title: 'Fintech Regulation and Its Impact on Business Models',
     excerpt: 'How RBI, SEBI, and IRDAI regulatory changes over 2022–2024 reshaped the Indian fintech landscape. Documents which regulations created moats for incumbents, which opened new whitespace, and what compliance now costs early-stage companies.',
-    tag: 'Regulatory', pages: '58 pages', date: 'Nov 2024', year: 2024, sector: 'Fintech',
+    tag: 'Regulatory', pages: '58 pages', date: 'Year 2024', year: 2024, sector: 'Fintech',
   },
   {
     id: 17,
     title: 'HR Tech in India — A Maturity and Opportunity Map',
     excerpt: 'India\'s HR technology landscape mapped by maturity, adoption depth, and whitespace. Identifies the 12 subsectors with the most credible growth trajectories and the unit economics that distinguish scalable models from feature companies.',
-    tag: 'Sector Map', pages: '54 pages', date: 'Oct 2024', year: 2024, sector: 'HRTech',
+    tag: 'Sector Map', pages: '54 pages', date: 'Year 2024', year: 2024, sector: 'HRTech',
   },
   {
     id: 18,
     title: 'Revenue Architecture Patterns Across 150 Indian Startups',
     excerpt: 'A taxonomy of how Indian startups structure revenue — pricing models, contract types, expansion motions, and retention levers. Identifies seven distinct revenue architecture patterns and correlates them with growth and margin outcomes.',
-    tag: 'Research', pages: '72 pages', date: 'Sep 2024', year: 2024, sector: 'Cross-Sector',
+    tag: 'Research', pages: '72 pages', date: 'Year 2024', year: 2024, sector: 'Cross-Sector',
   },
   {
     id: 19,
     title: 'The State of Bootstrapped Businesses in India 2024',
     excerpt: 'First-of-its-kind analysis of Indian companies that have scaled to ₹5Cr+ ARR without external capital. Covers their unit economics, growth patterns, challenges at scale, and whether they face structural ceilings that bootstrapping cannot solve.',
-    tag: 'Research', pages: '42 pages', date: 'Aug 2024', year: 2024, sector: 'Cross-Sector',
+    tag: 'Research', pages: '42 pages', date: 'Year 2024', year: 2024, sector: 'Cross-Sector',
   },
   {
     id: 20,
     title: 'Climate Tech Funding in India — The Emerging Landscape',
     excerpt: 'A current-state analysis of climate technology investment in India. Maps funded companies, investor thesis patterns, regulatory tailwinds, and the segments attracting serious capital versus those with whitespace but no clear monetisation path.',
-    tag: 'Sector Report', pages: '48 pages', date: 'Jul 2024', year: 2024, sector: 'Climate Tech',
+    tag: 'Sector Report', pages: '48 pages', date: 'Year 2024', year: 2024, sector: 'Climate Tech',
   },
   {
     id: 21,
     title: 'Indias Angel Investing Ecosystem — Depth and Distribution',
     excerpt: 'Mapping the angel investing landscape across 12 Indian cities. Analyses cheque size patterns, sector preferences, syndication behaviour, follow-on rates, and the structural differences between angel networks that create value and those that don\'t.',
-    tag: 'Ecosystem', pages: '36 pages', date: 'Jun 2024', year: 2024, sector: 'Fundraising',
+    tag: 'Ecosystem', pages: '36 pages', date: 'Year 2024', year: 2024, sector: 'Fundraising',
   },
   {
     id: 22,
     title: 'Female Founders in India: Access, Capital, and Outcomes',
     excerpt: 'A data-driven analysis of female-founded startup outcomes in India — funding access gaps, sector distribution, performance benchmarks, and the structural conditions that correlate with better outcomes for women-led ventures.',
-    tag: 'Research', pages: '52 pages', date: 'May 2024', year: 2024, sector: 'Cross-Sector',
+    tag: 'Research', pages: '52 pages', date: 'Year 2024', year: 2024, sector: 'Cross-Sector',
   },
   {
     id: 23,
     title: 'Logistics and Supply Chain Tech: A Sector Analysis',
     excerpt: 'India\'s logistics technology sector mapped in full. Covers B2B freight, last-mile delivery, warehousing tech, cold chain, and cross-border commerce — with unit economics benchmarks and investor activity analysis for each subsegment.',
-    tag: 'Sector Report', pages: '64 pages', date: 'Apr 2024', year: 2024, sector: 'Logistics',
+    tag: 'Sector Report', pages: '64 pages', date: 'Year 2024', year: 2024, sector: 'Logistics',
   },
   {
     id: 24,
     title: 'Post-Series A Failure Modes: A Retrospective Analysis',
     excerpt: 'Analyses 40 Indian startups that raised Series A between 2018–2021 and subsequently failed or significantly underperformed. Identifies the six most common structural failure modes — with frequency data and preventability assessments.',
-    tag: 'Research', pages: '58 pages', date: 'Mar 2024', year: 2024, sector: 'Cross-Sector',
+    tag: 'Research', pages: '58 pages', date: 'Year 2024', year: 2024, sector: 'Cross-Sector',
   },
   {
     id: 25,
     title: 'The Indian Consumer: Spending Behaviour Post-Pandemic',
     excerpt: 'Consumer spending pattern shifts across income segments, geographies, and categories — and how they have evolved through 2022–2024. Essential reading for any founder building a consumer-facing business in India.',
-    tag: 'Consumer Research', pages: '66 pages', date: 'Feb 2024', year: 2024, sector: 'Consumer',
+    tag: 'Consumer Research', pages: '66 pages', date: 'Year 2024', year: 2024, sector: 'Consumer',
   },
 
-  // ── Batch 2 (26–50) ──────────────────────────────────────────────────────
+  // Batch 2 (26–50)
   {
     id: 26,
     title: 'Proptech in India: The Second Wave',
     excerpt: 'After the first proptech wave stalled on liquidity issues, a second generation of companies is addressing different parts of the stack. This report maps where they are, what\'s working, and where the structural opportunity remains.',
-    tag: 'Sector Report', pages: '56 pages', date: 'Jan 2024', year: 2024, sector: 'Proptech',
+    tag: 'Sector Report', pages: '56 pages', date: 'Year 2024', year: 2024, sector: 'Proptech',
   },
   {
     id: 27,
     title: 'Indian Startup Ecosystem Report 2025',
     excerpt: 'The 2025 edition of our annual flagship report. Funding trends across all stages, sector-wise growth patterns, tier-2 city emergence, founder demographics, and the structural shifts that defined the year.',
-    tag: 'Annual Report', pages: '138 pages', date: 'Feb 2025', year: 2025, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '138 pages', date: 'Year 2025', year: 2025, sector: 'Cross-Sector',
   },
   {
     id: 28,
     title: 'SaaS Churn in India — The Definitive Analysis',
     excerpt: 'Logo churn, revenue churn, and gross revenue retention benchmarks for Indian SaaS companies. Analyses churn by segment, ACV, product category, and company age — with a diagnostic framework for identifying churn root causes.',
-    tag: 'Deep Dive', pages: '44 pages', date: 'Nov 2023', year: 2023, sector: 'B2B SaaS',
+    tag: 'Deep Dive', pages: '44 pages', date: 'Year 2023', year: 2023, sector: 'B2B SaaS',
   },
   {
     id: 29,
     title: 'The Funding Winter Was Real: What the Data Shows',
     excerpt: 'A rigorous look at what actually happened to Indian startup funding in 2022–2023. Which sectors were hit hardest, which continued to attract capital, what valuations reset looked like across stages, and what structural changes persist.',
-    tag: 'Research', pages: '48 pages', date: 'Oct 2023', year: 2023, sector: 'Fundraising',
+    tag: 'Research', pages: '48 pages', date: 'Year 2023', year: 2023, sector: 'Fundraising',
   },
   {
     id: 30,
     title: 'Agritech in India — Persistent Challenges, Structural Opportunity',
     excerpt: 'An honest assessment of why agritech has been harder than anticipated — and where genuine structural opportunity exists for ventures willing to operate in complexity. Includes unit economics analysis of the most viable business models.',
-    tag: 'Sector Report', pages: '60 pages', date: 'Sep 2023', year: 2023, sector: 'Agritech',
+    tag: 'Sector Report', pages: '60 pages', date: 'Year 2023', year: 2023, sector: 'Agritech',
   },
   {
     id: 31,
     title: 'Talent Economics in Indian Startups',
     excerpt: 'How Indian startups hire, compensate, retain, and lose talent across different stages. Covers salary benchmarks by role and stage, equity distribution norms, attrition rates by function, and the conditions that predict retention.',
-    tag: 'Benchmarks', pages: '54 pages', date: 'Aug 2023', year: 2023, sector: 'Cross-Sector',
+    tag: 'Benchmarks', pages: '54 pages', date: 'Year 2023', year: 2023, sector: 'Cross-Sector',
   },
   {
     id: 32,
     title: 'Revenue-Based Financing: A New Capital Option for Indian Founders',
     excerpt: 'An analysis of revenue-based financing as an alternative to equity dilution — how it works, who it suits, what the real cost of capital looks like, and how Indian founders are currently using it relative to traditional options.',
-    tag: 'Framework', pages: '36 pages', date: 'Jul 2023', year: 2023, sector: 'Fundraising',
+    tag: 'Framework', pages: '36 pages', date: 'Year 2023', year: 2023, sector: 'Fundraising',
   },
   {
     id: 33,
     title: 'The Co-Founder Relationship: Data From 150 Indian Founding Teams',
     excerpt: 'Survey data from 150 multi-founder teams on equity splits, role boundaries, conflict patterns, and relationship breakdowns. Identifies the structural predictors of co-founder conflict and the arrangements correlated with long-term cohesion.',
-    tag: 'Research', pages: '40 pages', date: 'Jun 2023', year: 2023, sector: 'Cross-Sector',
+    tag: 'Research', pages: '40 pages', date: 'Year 2023', year: 2023, sector: 'Cross-Sector',
   },
   {
     id: 34,
     title: 'Gaming and Interactive Entertainment in India',
     excerpt: 'India\'s gaming sector mapped across mobile, PC, cloud, and interactive entertainment. Covers monetisation model performance, player economics, regulatory risk from real-money gaming restrictions, and the structural whitespace remaining.',
-    tag: 'Sector Report', pages: '50 pages', date: 'May 2023', year: 2023, sector: 'Gaming',
+    tag: 'Sector Report', pages: '50 pages', date: 'Year 2023', year: 2023, sector: 'Gaming',
   },
   {
     id: 35,
     title: 'B2B Marketplace Economics in India',
     excerpt: 'The unit economics and structural viability of B2B marketplace models across sectors. Analyses take rate benchmarks, supplier fragmentation requirements, demand aggregation dynamics, and the conditions under which B2B marketplaces create defensible value.',
-    tag: 'Deep Dive', pages: '56 pages', date: 'Apr 2023', year: 2023, sector: 'Marketplace',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Year 2023', year: 2023, sector: 'Marketplace',
   },
   {
     id: 36,
     title: 'Insurtech in India: Between Regulation and Opportunity',
     excerpt: 'A clear-eyed view of India\'s insurtech sector — where capital has gone, what the regulatory constraints actually mean, which models are viable under current rules, and where the structural opportunity lies for a decade-long view.',
-    tag: 'Sector Report', pages: '46 pages', date: 'Mar 2023', year: 2023, sector: 'Insurtech',
+    tag: 'Sector Report', pages: '46 pages', date: 'Year 2023', year: 2023, sector: 'Insurtech',
   },
   {
     id: 37,
     title: 'Enterprise Sales in India — A Founders Guide',
     excerpt: 'How enterprise sales works differently in India — procurement cycles, decision-making structures, champions vs. blockers, relationship versus capability selling, and the tactical differences between Indian corporate and government enterprise sales.',
-    tag: 'Framework', pages: '42 pages', date: 'Feb 2023', year: 2023, sector: 'B2B SaaS',
-  },
+    tag: 'Framework', pages: '42 pages', date: 'Year 2023', year: 2023, sector: 'B2B SaaS',
+  },  
   {
     id: 38,
     title: 'Indian Startup Ecosystem Report 2024',
     excerpt: 'The 2024 edition of our annual flagship report. A year of recalibration — funding data, sector performance, the return of discipline to valuations, and early signals of the next growth cycle.',
-    tag: 'Annual Report', pages: '130 pages', date: 'Feb 2024', year: 2024, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '130 pages', date: 'Year 2024', year: 2024, sector: 'Cross-Sector',
   },
   {
     id: 39,
     title: 'Mental Health and the Founder Economy',
     excerpt: 'A follow-on to our founder burnout research. Analyses the systemic factors in the startup ecosystem that contribute to founder mental health challenges — and the structural changes at company and ecosystem level that would meaningfully help.',
-    tag: 'Research', pages: '34 pages', date: 'Jan 2023', year: 2023, sector: 'Cross-Sector',
+    tag: 'Research', pages: '34 pages', date: 'Year 2023', year: 2023, sector: 'Cross-Sector',
   },
   {
     id: 40,
     title: 'The ₹10Cr ARR Question: What Changes and What Doesn\'t',
     excerpt: 'A research report on the structural shifts required as SaaS companies cross the ₹10Cr ARR threshold. Analyses team composition changes, process requirements, go-to-market evolution, and where founders consistently make the transition harder than it needs to be.',
-    tag: 'Research', pages: '46 pages', date: 'Dec 2022', year: 2022, sector: 'B2B SaaS',
+    tag: 'Research', pages: '46 pages', date: 'Year 2022', year: 2022, sector: 'B2B SaaS',
   },
   {
     id: 41,
     title: 'Spacetech and DeepTech: India\'s Long-Cycle Opportunity',
     excerpt: 'Analysis of India\'s emerging spacetech and deep technology ecosystem — post-ISRO commercialisation, early private sector activity, international capital interest, and the realistic timelines for commercial returns in each subsegment.',
-    tag: 'Sector Report', pages: '58 pages', date: 'Nov 2022', year: 2022, sector: 'Deep Tech',
+    tag: 'Sector Report', pages: '58 pages', date: 'Year 2022', year: 2022, sector: 'Deep Tech',
   },
   {
     id: 42,
     title: 'The Acqui-Hire Market in India',
     excerpt: 'A little-discussed but real exit path — acqui-hires in the Indian startup ecosystem. Data on frequency, deal structures, valuations paid per employee, sectors where it is most active, and what founders need to know when considering it.',
-    tag: 'Research', pages: '32 pages', date: 'Oct 2022', year: 2022, sector: 'Fundraising',
+    tag: 'Research', pages: '32 pages', date: 'Year 2022', year: 2022, sector: 'Fundraising',
   },
   {
     id: 43,
     title: 'Customer Acquisition Cost Benchmarks — India 2022',
     excerpt: 'Channel-level and blended CAC benchmarks across 15 product categories in India. Includes performance marketing, content, events, and outbound. Analyses which channels are most capital-efficient by stage, sector, and deal size.',
-    tag: 'Benchmarks', pages: '40 pages', date: 'Sep 2022', year: 2022, sector: 'Cross-Sector',
+    tag: 'Benchmarks', pages: '40 pages', date: 'Year 2022', year: 2022, sector: 'Cross-Sector',
   },
   {
     id: 44,
     title: 'The ESOP Landscape in Indian Startups',
     excerpt: 'ESOP pool sizes, strike price practices, vesting structures, and liquidity event outcomes across 200 Indian startups. Identifies common structural problems with ESOP design that create long-term retention and trust issues.',
-    tag: 'Framework', pages: '38 pages', date: 'Aug 2022', year: 2022, sector: 'Cross-Sector',
+    tag: 'Framework', pages: '38 pages', date: 'Year 2022', year: 2022, sector: 'Cross-Sector',
   },
   {
     id: 45,
     title: 'Mobility and EV: The Infrastructure Bet',
     excerpt: 'India\'s electric vehicle and mobility technology ecosystem analysed through the lens of infrastructure dependency. Maps which business models require infrastructure that does not yet exist versus those viable today — with capital flow data.',
-    tag: 'Sector Report', pages: '54 pages', date: 'Jul 2022', year: 2022, sector: 'Mobility',
+    tag: 'Sector Report', pages: '54 pages', date: 'Year 2022', year: 2022, sector: 'Mobility',
   },
   {
     id: 46,
     title: 'Startup Governance: Why It Matters Earlier Than You Think',
     excerpt: 'A research report on governance practices in Indian startups from seed through Series B. Covers board composition evolution, information rights, consent matters, and the structural problems that emerge when governance is deferred.',
-    tag: 'Framework', pages: '44 pages', date: 'Jun 2022', year: 2022, sector: 'Cross-Sector',
+    tag: 'Framework', pages: '44 pages', date: 'Year 2022', year: 2022, sector: 'Cross-Sector',
   },
   {
     id: 47,
     title: 'Consumer Subscription Models in India — Viability Analysis',
     excerpt: 'Which consumer subscription models are structurally viable in India, at what price points, in which categories. Analyses retention curves, payment failure rates, downgrade patterns, and the behavioural differences between Indian and Western subscription consumers.',
-    tag: 'Deep Dive', pages: '48 pages', date: 'May 2022', year: 2022, sector: 'Consumer',
+    tag: 'Deep Dive', pages: '48 pages', date: 'Year 2022', year: 2022, sector: 'Consumer',
   },
   {
     id: 48,
     title: 'Impact Investing in India — Returns and Reality',
     excerpt: 'An evidence-based assessment of impact investing outcomes in India — where returns have materialised, which theses underperformed, what the real trade-offs between impact and return are, and where the next generation of impact capital is flowing.',
-    tag: 'Research', pages: '52 pages', date: 'Apr 2022', year: 2022, sector: 'Impact',
+    tag: 'Research', pages: '52 pages', date: 'Year 2022', year: 2022, sector: 'Impact',
   },
   {
     id: 49,
     title: 'The Vernacular Internet and Bharat-First Products',
     excerpt: 'India\'s next 500 million internet users are not English-first. This report maps the vernacular content and product opportunity — user behaviour differences, monetisation challenges, infrastructure constraints, and where significant bets are being placed.',
-    tag: 'Sector Report', pages: '50 pages', date: 'Mar 2022', year: 2022, sector: 'Consumer',
+    tag: 'Sector Report', pages: '50 pages', date: 'Year 2022', year: 2022, sector: 'Consumer',
   },
   {
     id: 50,
     title: 'SaaS for SMBs in India — The Viability Question',
     excerpt: 'Selling software to Indian SMBs has historically been difficult. This report analyses why, what has changed, which models are beginning to work, and what the structural requirements for viable SMB SaaS look like in the current environment.',
-    tag: 'Deep Dive', pages: '46 pages', date: 'Feb 2022', year: 2022, sector: 'B2B SaaS',
+    tag: 'Deep Dive', pages: '46 pages', date: 'Year 2022', year: 2022, sector: 'B2B SaaS',
   },
 
-  // ── Batch 3 (51–75) ──────────────────────────────────────────────────────
+  // Batch 3 (51–75)
   {
     id: 51,
     title: 'Indian Startup Ecosystem Report 2023',
     excerpt: 'The 2023 edition — a year of correction, recalibration, and resilience. Full funding data, sectoral analysis, founder sentiment survey, and the structural forces that will shape the recovery.',
-    tag: 'Annual Report', pages: '126 pages', date: 'Feb 2023', year: 2023, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '126 pages', date: 'Year 2023', year: 2023, sector: 'Cross-Sector',
   },
   {
     id: 52,
     title: 'Biotech and Pharma Innovation in India',
     excerpt: 'India\'s biopharmaceutical and biotech innovation landscape — from generic export dominance to novel drug discovery. Maps emerging capabilities, capital flows, regulatory environment, and the infrastructure gaps that constrain more ambitious bets.',
-    tag: 'Sector Report', pages: '62 pages', date: 'Jan 2022', year: 2022, sector: 'Biotech',
+    tag: 'Sector Report', pages: '62 pages', date: 'Year 2022', year: 2022, sector: 'Biotech',
   },
   {
     id: 53,
     title: 'Cohort Retention Analysis: What the Best SaaS Companies Do Differently',
     excerpt: 'Deep analysis of cohort retention curves across 80 Indian SaaS companies. Identifies the structural practices — onboarding, customer success touchpoints, expansion motions — that separate companies with flat retention curves from those with improving ones.',
-    tag: 'Research', pages: '44 pages', date: 'Dec 2021', year: 2021, sector: 'B2B SaaS',
+    tag: 'Research', pages: '44 pages', date: 'Year 2021', year: 2021, sector: 'B2B SaaS',
   },
   {
     id: 54,
     title: 'Wealthtech in India — A Decade of Evolution',
     excerpt: 'Ten years of wealthtech in India — from early robo-advisors through discount brokers to the current generation of full-stack platforms. Analyses which models created durable value, which competed on margin to exhaustion, and what the next wave looks like.',
-    tag: 'Deep Dive', pages: '56 pages', date: 'Nov 2021', year: 2021, sector: 'Fintech',
+    tag: 'Deep Dive', pages: '56 pages', date: 'Year 2021', year: 2021, sector: 'Fintech',
   },
   {
     id: 55,
     title: 'The Role of Advisors in Indian Startup Success',
     excerpt: 'Survey data from 300 Indian startups on advisor relationships — how they are structured, what value is actually delivered versus claimed, which engagement models produce measurable outcomes, and how founders can get more from advisory relationships.',
-    tag: 'Research', pages: '36 pages', date: 'Oct 2021', year: 2021, sector: 'Cross-Sector',
+    tag: 'Research', pages: '36 pages', date: 'Year 2021', year: 2021, sector: 'Cross-Sector',
   },
   {
     id: 56,
     title: 'Food and Beverage Brands in the Digital Age',
     excerpt: 'How Indian F&B brands are building in a DTC-first world — channel mix, unit economics by category, cold chain dependency, shelf life constraints on margin, and the structural differences between packaged food, beverages, and fresh categories.',
-    tag: 'Sector Report', pages: '48 pages', date: 'Sep 2021', year: 2021, sector: 'Consumer',
+    tag: 'Sector Report', pages: '48 pages', date: 'Year 2021', year: 2021, sector: 'Consumer',
   },
   {
     id: 57,
     title: 'Competitive Moats in Indian SaaS — What Actually Works',
     excerpt: 'A research report on the durability of competitive advantages claimed by Indian SaaS companies. Tests which moats — network effects, switching costs, data advantages, workflow lock-in — have actually held up under competitive pressure.',
-    tag: 'Research', pages: '50 pages', date: 'Aug 2021', year: 2021, sector: 'B2B SaaS',
+    tag: 'Research', pages: '50 pages', date: 'Year 2021', year: 2021, sector: 'B2B SaaS',
   },
   {
     id: 58,
     title: 'Indian Startup Ecosystem Report 2022',
     excerpt: 'The 2022 edition — the peak and the turn. A record year for funding followed by the correction. Full data, sectoral analysis, and an early look at what the recalibration would demand from founders.',
-    tag: 'Annual Report', pages: '118 pages', date: 'Feb 2022', year: 2022, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '118 pages', date: 'Year 2022', year: 2022, sector: 'Cross-Sector',
   },
   {
     id: 59,
     title: 'Marketplace Liquidity — The Hardest Problem in Platform Building',
     excerpt: 'An analysis of how Indian marketplace companies have tackled the chicken-and-egg problem — which strategies worked at what scale, what the data shows about minimum viable liquidity thresholds, and the structural interventions that accelerate it.',
-    tag: 'Deep Dive', pages: '42 pages', date: 'Jul 2021', year: 2021, sector: 'Marketplace',
+    tag: 'Deep Dive', pages: '42 pages', date: 'Year 2021', year: 2021, sector: 'Marketplace',
   },
   {
     id: 60,
     title: 'Cross-Border SaaS from India — The Playbook',
     excerpt: 'How Indian SaaS companies successfully sell internationally — target geography selection, localisation requirements, pricing for global markets, channel strategies, and the operational infrastructure that international expansion demands at each stage.',
-    tag: 'Framework', pages: '52 pages', date: 'Jun 2021', year: 2021, sector: 'B2B SaaS',
+    tag: 'Framework', pages: '52 pages', date: 'Year 2021', year: 2021, sector: 'B2B SaaS',
   },
   {
     id: 61,
     title: 'The ONDC Opportunity — Open Commerce in India',
     excerpt: 'A structural analysis of the Open Network for Digital Commerce — what it means for existing commerce platforms, where new value can be created, which business models it disrupts, and the realistic timeline for material impact on consumer behaviour.',
-    tag: 'Regulatory', pages: '38 pages', date: 'May 2021', year: 2021, sector: 'Commerce',
+    tag: 'Regulatory', pages: '38 pages', date: 'Year 2021', year: 2021, sector: 'Commerce',
   },
   {
     id: 62,
     title: 'How Investors Read Financial Models — A Founder\'s Guide',
     excerpt: 'The order in which investors review financial models, which assumptions they stress-test first, the specific numbers they triangulate, and the model architectures that signal sophistication versus those that signal inexperience.',
-    tag: 'Framework', pages: '34 pages', date: 'Apr 2021', year: 2021, sector: 'Fundraising',
+    tag: 'Framework', pages: '34 pages', date: 'Year 2021', year: 2021, sector: 'Fundraising',
   },
   {
     id: 63,
     title: 'Developer Tools Market in India — A Quiet Giant',
     excerpt: 'India\'s developer tools market analysed from both a domestic and global-from-India perspective. Maps the 40M+ developer base, adoption patterns, willingness to pay, competitive dynamics, and the channels that work for developer acquisition.',
-    tag: 'Sector Report', pages: '46 pages', date: 'Mar 2021', year: 2021, sector: 'Dev Tools',
+    tag: 'Sector Report', pages: '46 pages', date: 'Year 2021', year: 2021, sector: 'Dev Tools',
   },
   {
     id: 64,
     title: 'Customer Success as a Growth Function — Evidence from Indian SaaS',
     excerpt: 'Survey data on how Indian SaaS companies structure, staff, and measure customer success. Identifies the practices correlated with above-average NRR, the CS-to-ARR staffing ratios that hold at different scales, and the expansion playbooks that work.',
-    tag: 'Research', pages: '40 pages', date: 'Feb 2021', year: 2021, sector: 'B2B SaaS',
+    tag: 'Research', pages: '40 pages', date: 'Year 2021', year: 2021, sector: 'B2B SaaS',
   },
   {
     id: 65,
     title: 'Smart Cities and Urban Infrastructure Tech',
     excerpt: 'India\'s smart city initiative and the technology opportunity it creates — from traffic management through water systems to civic engagement platforms. Maps which subsectors are genuinely active, which are stuck in procurement, and where private capital is needed.',
-    tag: 'Sector Report', pages: '54 pages', date: 'Jan 2021', year: 2021, sector: 'Infrastructure',
+    tag: 'Sector Report', pages: '54 pages', date: 'Year 2021', year: 2021, sector: 'Infrastructure',
   },
   {
     id: 66,
     title: 'The Seed Stage in India — What Has Changed',
     excerpt: 'A longitudinal analysis of how India\'s seed investing landscape has evolved from 2016 to 2024. Covers cheque sizes, investor expectations, the rise of pre-seed, syndication dynamics, and the structural differences between seed rounds that go on to raise Series A and those that don\'t.',
-    tag: 'Research', pages: '44 pages', date: 'Dec 2020', year: 2020, sector: 'Fundraising',
+    tag: 'Research', pages: '44 pages', date: 'Year 2020', year: 2020, sector: 'Fundraising',
   },
   {
     id: 67,
     title: 'Indian Startup Ecosystem Report 2021',
     excerpt: 'The 2021 edition — the year of recovery and acceleration. Funding surged, new sectors emerged, and valuations expanded rapidly. Full data, sectoral analysis, and the early signals of the correction that followed.',
-    tag: 'Annual Report', pages: '112 pages', date: 'Feb 2021', year: 2021, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '112 pages', date: 'Year 2021', year: 2021, sector: 'Cross-Sector',
   },
   {
     id: 68,
     title: 'Retention Marketing in Indian Consumer Apps',
     excerpt: 'How Indian consumer apps retain users — push notifications, in-app messaging, email, loyalty mechanics, and re-engagement playbooks. Benchmarks open rates, re-activation rates, and churn patterns by category and user cohort.',
-    tag: 'Deep Dive', pages: '38 pages', date: 'Nov 2020', year: 2020, sector: 'Consumer',
+    tag: 'Deep Dive', pages: '38 pages', date: 'Year 2020', year: 2020, sector: 'Consumer',
   },
   {
     id: 69,
     title: 'The Hiring Market for Senior Talent in Indian Startups',
     excerpt: 'How Indian startups compete for VP and C-suite talent — compensation structures, equity norms, search processes, onboarding failures, and what distinguishes hiring processes that attract exceptional senior candidates from those that consistently fall short.',
-    tag: 'Benchmarks', pages: '42 pages', date: 'Oct 2020', year: 2020, sector: 'Cross-Sector',
+    tag: 'Benchmarks', pages: '42 pages', date: 'Year 2020', year: 2020, sector: 'Cross-Sector',
   },
   {
     id: 70,
     title: 'India Stack and the Infrastructure Advantage',
     excerpt: 'An analytical primer on India\'s digital public infrastructure — UPI, Aadhaar, DigiLocker, ONDC, and the emerging data stack — and the structural advantage it creates for Indian fintech and commerce startups relative to global peers building without equivalent infrastructure.',
-    tag: 'Framework', pages: '48 pages', date: 'Sep 2020', year: 2020, sector: 'Fintech',
+    tag: 'Framework', pages: '48 pages', date: 'Year 2020', year: 2020, sector: 'Fintech',
   },
   {
     id: 71,
     title: 'Building for Rural India — Constraints and Opportunities',
     excerpt: 'A research report on products and services designed primarily for rural Indian users. Maps the connectivity infrastructure, income distribution, digital literacy, and payment behaviour that define the design constraints — and the scale of the opportunity within them.',
-    tag: 'Research', pages: '50 pages', date: 'Aug 2020', year: 2020, sector: 'Consumer',
+    tag: 'Research', pages: '50 pages', date: 'Year 2020', year: 2020, sector: 'Consumer',
   },
   {
     id: 72,
     title: 'Mental Models for Market Sizing',
     excerpt: 'A practical framework report on market sizing — TAM/SAM/SOM methodology, the common mistakes investors identify in market size claims, how to build bottom-up models that survive scrutiny, and what different market size signals mean for fundability.',
-    tag: 'Framework', pages: '30 pages', date: 'Jul 2020', year: 2020, sector: 'Fundraising',
+    tag: 'Framework', pages: '30 pages', date: 'Year 2020', year: 2020, sector: 'Fundraising',
   },
   {
     id: 73,
     title: 'Indian Startup Ecosystem Report 2020',
     excerpt: 'The 2020 edition — a year unlike any other. COVID-19\'s impact on Indian startups, which sectors contracted and which accelerated, the shift to digital across categories, and the structural reshaping of founder and investor behaviour.',
-    tag: 'Annual Report', pages: '108 pages', date: 'Feb 2020', year: 2020, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '108 pages', date: 'Year 2020', year: 2020, sector: 'Cross-Sector',
   },
   {
     id: 74,
     title: 'The Board-Founder Dynamic — Survey and Analysis',
     excerpt: 'Survey data from 120 founder-board relationships on expectations, communication quality, strategic value delivered, and conflict patterns. Identifies what distinguishes board relationships that make founders better from those that create drag.',
-    tag: 'Research', pages: '40 pages', date: 'Jun 2020', year: 2020, sector: 'Cross-Sector',
+    tag: 'Research', pages: '40 pages', date: 'Year 2020', year: 2020, sector: 'Cross-Sector',
   },
   {
     id: 75,
     title: 'Decade in Review: Indian Startup Ecosystem 2010–2020',
     excerpt: 'A ten-year retrospective on India\'s startup decade — capital flows, exit patterns, the companies that defined each era, the structural changes to the ecosystem, and what the next decade is likely to demand from founders and investors alike.',
-    tag: 'Annual Report', pages: '160 pages', date: 'Dec 2020', year: 2020, sector: 'Cross-Sector',
+    tag: 'Annual Report', pages: '160 pages', date: 'Year 2020', year: 2020, sector: 'Cross-Sector',
   },
 ];
 
@@ -783,65 +784,29 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: fine dot grid using blue-300 */}
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        {/* LEFT — Headline */}
-        <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{
-              backgroundColor: 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.16)',
-            }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium sttext-blue-300">
-              Sarsen &amp; Company · Reports
-            </span>
-          </div>
-
+        {/* LEFT */}
+        <div className="space-y-7">
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Original
-              <br />
-              <span className="text-blue-300">Research.</span>
+              <span className="block text-blue-300">Research.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
               Data-backed analysis on India&apos;s startup ecosystem — annual reports, sector deep-dives, benchmarks, and frameworks built for founders who make decisions with evidence.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '75+',    label: 'Publications'     },
-              { value: '6',      label: 'Annual editions'  },
-              { value: '5,000+', label: 'Companies studied'},
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* RIGHT — SVG visual placeholder */}
+        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Reports Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Reports Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
@@ -977,12 +942,12 @@ const FeaturedReportCard: FC<FeaturedReportCardProps> = ({ report, onOpen }) => 
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {report.title}
         </h2>
-        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm mb-6 max-w-3xl text-gray-400">
           {report.excerpt}
         </p>
 
@@ -1093,18 +1058,18 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {report.title}
         </h3>
-        <p className="text-xs  mb-4 line-clamp-2 text-gray-400">
+        <p className="text-xs mb-4 line-clamp-2 text-gray-400">
           {report.excerpt}
         </p>
 
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
+          style={{ }}
         >
           <div className="flex items-center gap-2">
             <span
@@ -1122,7 +1087,7 @@ const ReportCard: FC<ReportCardProps> = ({ report, onOpen, animIndex }) => {
 };
 
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP — updated to blues
+// CASE STUDIES ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface CaseStudiesStripProps {
@@ -1148,12 +1113,8 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-blue-300">
-              Case Studies
-            </p>
-            <p className="text-sm  text-gray-400">
-              Real decisions. Real outcomes.
-            </p>
+            <p className="text-xs font-medium text-blue-300">Case Studies</p>
+            <p className="text-sm text-gray-400">Real decisions. Real outcomes.</p>
           </div>
         </div>
         <a
@@ -1167,59 +1128,83 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
         </a>
       </div>
 
-      {/* Case study teasers */}
+      {/* Grid of case study cards with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_CASE_STUDIES.map((cs) => (
-          <div
-            key={cs.title}
-            onClick={() => onCaseStudyClick(cs.title)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{
-              backgroundColor: '#0A1E3D',
-              border: '1px solid rgba(59,130,246,0.08)',
-            }}
-            aria-label={`View case study: ${cs.title}`}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span
-                className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold"
-                style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
-              >
-                {cs.tag}
-              </span>
-              <span
-                className="inline-block px-2 py-0.5 rounded-md text-xs"
-                style={{
-                  backgroundColor: 'rgba(59,130,246,0.08)',
-                  color: '#93C5FD',
-                  border: '1px solid rgba(59,130,246,0.12)',
-                }}
-              >
-                {cs.outcome}
-              </span>
-            </div>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+        {FEATURED_CASE_STUDIES.map((cs) => {
+          const tagStyle = getTagStyle(cs.tag);
+          return (
+            <div
+              key={cs.title}
+              onClick={() => onCaseStudyClick(cs.title)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
+              className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
+              aria-label={`View case study: ${cs.title}`}
             >
-              {cs.title}
-            </p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs text-gray-400">{cs.sector}</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-500">{cs.year}</span>
+              {/* Top accent line */}
+              <div
+                className="h-0.5 w-full"
+                style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
+              />
+
+              {/* Thumbnail header */}
+              <div
+                className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+                style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
+              >
+                <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                  <div className="w-14 h-14 rounded-full border border-blue-400" />
+                </div>
+                <div className="relative z-10">
+                  <span
+                    className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                    style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+                  >
+                    {cs.tag}
+                  </span>
+                </div>
+                <div
+                  className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                  aria-hidden="true"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="px-5 py-4">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span
+                    className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold"
+                    style={{ backgroundColor: 'rgba(96,165,250,0.15)', color: '#93C5FD' }}
+                  >
+                    {cs.outcome}
+                  </span>
+                </div>
+                <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                  {cs.title}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">{cs.sector}</span>
+                  <span className="text-xs text-gray-600">·</span>
+                  <span className="text-xs text-gray-500">{cs.year}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </div>
 );
 
 // =====================================================
-// BLOGS ADVERTISEMENT STRIP — updated to blues
+// BLOGS ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface BlogsStripProps {
@@ -1245,12 +1230,8 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-blue-300">
-              From the Blog
-            </p>
-            <p className="text-sm  text-gray-400">
-              Thinking behind the numbers
-            </p>
+            <p className="text-xs font-medium text-blue-300">From the Blog</p>
+            <p className="text-sm text-gray-400">Thinking behind the numbers</p>
           </div>
         </div>
         <a
@@ -1264,40 +1245,68 @@ const BlogsAdvertStrip: FC<BlogsStripProps> = ({ onBlogClick }) => (
         </a>
       </div>
 
-      {/* Blog teasers */}
+      {/* Grid of blog cards with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_BLOGS.map((blog) => (
-          <div
-            key={blog.title}
-            onClick={() => onBlogClick(blog.title)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{
-              backgroundColor: '#0a1e3d',
-              border: '1px solid rgba(59,130,246,0.08)',
-            }}
-            aria-label={`Read blog: ${blog.title}`}
-          >
-            <span
-              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
+        {FEATURED_BLOGS.map((blog) => {
+          const tagStyle = getTagStyle(blog.tag);
+          return (
+            <div
+              key={blog.title}
+              onClick={() => onBlogClick(blog.title)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && onBlogClick(blog.title)}
+              className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
+              aria-label={`Read blog: ${blog.title}`}
             >
-              {blog.tag}
-            </span>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
-            >
-              {blog.title}
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-blue-400">{blog.readTime} read</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-500">{blog.date}</span>
+              {/* Top accent line */}
+              <div
+                className="h-0.5 w-full"
+                style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
+              />
+
+              {/* Thumbnail header */}
+              <div
+                className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+                style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
+              >
+                <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                  <div className="w-14 h-14 rounded-full border border-blue-400" />
+                </div>
+                <div className="relative z-10">
+                  <span
+                    className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                    style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+                  >
+                    {blog.tag}
+                  </span>
+                </div>
+                <div
+                  className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                  aria-hidden="true"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="px-5 py-4">
+                <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                  {blog.title}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-blue-400">{blog.readTime} read</span>
+                  <span className="text-xs text-gray-600">·</span>
+                  <span className="text-xs text-gray-500">{blog.date}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </div>
@@ -1345,7 +1354,7 @@ const LoadMoreSentinel: FC<LoadMoreSentinelProps> = ({
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <span className="text-sm ">Loading more reports…</span>
+          <span className="text-sm">Loading more reports…</span>
         </div>
       )}
       {!loading && !hasMore && (
@@ -1507,7 +1516,7 @@ export default function ReportsHubPage(): React.JSX.Element {
           {filteredReports.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📭</p>
-              <p className="text-lg  mb-1 text-gray-900">
+              <p className="text-lg mb-1 text-gray-900">
                 No reports in &ldquo;{activeTag}&rdquo; yet
               </p>
               <p className="text-sm text-gray-500">

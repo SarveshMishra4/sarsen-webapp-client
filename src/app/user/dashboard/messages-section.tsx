@@ -1,3 +1,4 @@
+// messages-section.tsx
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -40,6 +41,16 @@ export const MessagesSection = ({
     }
   };
 
+  // Helper to format time with "Am"/"Pm" (lowercase 'm')
+  const formatMessageTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    }).replace('AM', 'Am').replace('PM', 'Pm');
+  };
+
   return (
     <div className="bg-white rounded-md shadow-sm border border-gray-200 h-[600px] flex flex-col">
       
@@ -58,28 +69,50 @@ export const MessagesSection = ({
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.sentBy === 'client' ? 'justify-end' : 'justify-start'}`}
+                className={`flex flex-col ${message.sentBy === 'client' ? 'items-end' : 'items-start'}`}
               >
+                {/* Message Bubble */}
                 <div
-                  className={`max-w-[70%] rounded-md p-4 ${
+                  className={`max-w-[70%] rounded-md py-2 px-4 ${
                     message.sentBy === 'client'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#0A1E3D] text-white'
                       : 'bg-gray-100 text-gray-800'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
-                  <div className={`flex items-center gap-2 mt-2 text-xs ${
-                    message.sentBy === 'client' ? 'text-blue-100' : 'text-gray-500'
-                  }`}>
-                    <span>{new Date(message.sentAt).toLocaleString()}</span>
-                    {message.sentBy === 'client' && (
-                      <>
-                        <span>•</span>
-                        <span>{message.read ? 'Read' : 'Sent'}</span>
-                      </>
+                </div>
+                
+                {/* Timestamp and ticks OUTSIDE the bubble, aligned to the right */}
+                {message.sentBy === 'client' && (
+                  <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                    <span>{formatMessageTime(message.sentAt)}</span>
+                    {message.read ? (
+                      // Double ticks (read) – dark blue
+                      <span className="inline-flex items-center relative w-5 h-4">
+                        <svg className="absolute left-0 w-4 h-4 text-[#0A1E3D]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg className="absolute left-1 w-4 h-4 text-[#0A1E3D]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                    ) : (
+                      // Single tick (sent) – grey
+                      <span className="inline-flex items-center">
+                        <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
                     )}
                   </div>
-                </div>
+                )}
+                
+                {/* For admin messages, just show timestamp without ticks */}
+                {message.sentBy === 'admin' && (
+                  <div className="mt-1 text-xs text-gray-500">
+                    {formatMessageTime(message.sentAt)}
+                  </div>
+                )}
               </div>
             ))}
             <div ref={messagesEndRef} />
@@ -118,7 +151,7 @@ export const MessagesSection = ({
           <button
             onClick={handleSend}
             disabled={isLocked || !newMessage.trim()} // 6. Disable button when locked
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+            className="bg-[#0A1E3D] hover:bg-[#0C2A4D] text-white px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <span className="hidden sm:inline">Send</span>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

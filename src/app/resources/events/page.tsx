@@ -24,7 +24,7 @@ interface Event {
   date: string;
   location: string;
   sector: string;
-  seats: string;
+  seats: string;      // kept in data but not displayed
   featured?: boolean;
 }
 
@@ -48,7 +48,7 @@ interface PartnerFormData {
 }
 
 // =====================================================
-// EVENTS DATA — 8 upcoming events
+// EVENTS DATA — your modified dates & locations
 // =====================================================
 
 const ALL_EVENTS: Event[] = [
@@ -72,8 +72,8 @@ const ALL_EVENTS: Event[] = [
       'A half-day deep-dive into pricing architecture for Indian SaaS founders. Covers value-based pricing frameworks, how to run a pricing audit, segmenting by willingness to pay, and moving from founder-intuition pricing to a structured model. Led by our research team using data from 200+ Indian SaaS companies.',
     tag: 'Masterclass',
     format: 'In-Person · Half Day',
-    date: 'April 5, 2026',
-    location: 'Sarsen & Co. Office, Bengaluru',
+    date: '05 - 04 - 2026',
+    location: 'Bengaluru',
     sector: 'B2B SaaS',
     seats: '18 seats left',
   },
@@ -84,8 +84,8 @@ const ALL_EVENTS: Event[] = [
       'A small-group working session for founders actively preparing to raise. Participants bring their live materials — pitch decks, financial models, and investor lists — and work through them in structured peer review and direct feedback from our advisory team. Limited to 12 founders per session to ensure depth.',
     tag: 'Workshop',
     format: 'In-Person · Full Day',
-    date: 'April 12, 2026',
-    location: 'Sarsen & Co. Office, Delhi NCR',
+    date: '12 - 04 - 2026',
+    location: 'Gurugram',
     sector: 'Fundraising',
     seats: '4 seats left',
   },
@@ -96,7 +96,7 @@ const ALL_EVENTS: Event[] = [
       'A live 90-minute analysis session with our research team on the current state of Indian startup funding — what is moving, what has stalled, which sectors are seeing genuine investor appetite, and how the macro environment is reshaping the Series A bar. Q&A in the final 30 minutes. Recording available to registered participants only.',
     tag: 'Webinar',
     format: 'Online · 90 Minutes',
-    date: 'April 17, 2026',
+    date: '17 - 06 - 2026',
     location: 'Zoom · Link on Registration',
     sector: 'Fundraising',
     seats: 'Open Registration',
@@ -108,8 +108,8 @@ const ALL_EVENTS: Event[] = [
       'A full-day working session for founders building consumer or direct-to-consumer businesses. Covers contribution margin analysis, channel-level CAC decomposition, LTV modelling under Indian payment behaviour constraints, and how to build unit economics visibility into operational reporting. Bring your own numbers.',
     tag: 'Bootcamp',
     format: 'In-Person · Full Day',
-    date: 'April 24, 2026',
-    location: 'Sarsen & Co. Office, Bengaluru',
+    date: '24 - 08 - 2026',
+    location: 'Abu Dhabi',
     sector: 'D2C',
     seats: '7 seats left',
   },
@@ -120,8 +120,8 @@ const ALL_EVENTS: Event[] = [
       'A closed-door roundtable bringing together 15 early-stage investors and 15 founders building in healthtech and climate technology. Structured around three specific questions: where capital is going, where the gaps are, and what would change investor conviction. Chatham House rules. No recording.',
     tag: 'Roundtable',
     format: 'In-Person · Half Day',
-    date: 'May 8, 2026',
-    location: 'ITC Windsor, Bengaluru',
+    date: '08 - 05 - 2026',
+    location: 'Bengaluru',
     sector: 'Healthtech / Climate',
     seats: '6 seats left',
   },
@@ -132,7 +132,7 @@ const ALL_EVENTS: Event[] = [
       'A practical 60-minute session on building a metrics dashboard that actually drives decisions — not just a reporting exercise. Covers which leading indicators predict revenue outcomes 90 days in advance, how to structure weekly reviews, and the five metrics Indian founders most commonly misdefine. With live Q&A.',
     tag: 'Webinar',
     format: 'Online · 60 Minutes',
-    date: 'May 15, 2026',
+    date: '15 - 10 - 2026',
     location: 'Zoom · Link on Registration',
     sector: 'Operations',
     seats: 'Open Registration',
@@ -144,7 +144,7 @@ const ALL_EVENTS: Event[] = [
       'An invite-only two-day retreat for founders who have previously engaged with Sarsen Strategy Partners programmes. Structured around peer learning, founder-led sessions on recent decisions, and informal relationship-building. No external speakers. No agenda beyond what participants bring. Held at a private location outside Coorg.',
     tag: 'Retreat',
     format: 'In-Person · 2 Days',
-    date: 'May 23–24, 2026',
+    date: '20 & 21 - 09 - 2026',
     location: 'Private Estate, Coorg',
     sector: 'Cross-Sector',
     seats: 'Invite Only',
@@ -165,23 +165,6 @@ const FEATURED_COHORT: CohortTeaser = {
 };
 
 // =====================================================
-// TAG COLOR MAP — blues from homepage palette
-// =====================================================
-
-const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Summit:     { bg: '#DBEAFE', text: '#1E40AF' },
-  Masterclass:{ bg: '#E0F2FE', text: '#0369A1' },
-  Workshop:   { bg: '#E0E7FF', text: '#3730A3' },
-  Webinar:    { bg: '#E6F0FF', text: '#1E3A8A' },
-  Bootcamp:   { bg: '#DBEAFE', text: '#1E40AF' },
-  Roundtable: { bg: '#E0F2FE', text: '#0369A1' },
-  Retreat:    { bg: '#E0E7FF', text: '#3730A3' },
-};
-
-const getTagStyle = (tag: string): { bg: string; text: string } =>
-  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
-
-// =====================================================
 // ALL FILTER TAGS
 // =====================================================
 
@@ -191,7 +174,7 @@ const ALL_TAGS: string[] = [
 ];
 
 // =====================================================
-// PARTNER AUTH MODAL — matches homepage modal
+// PARTNER AUTH MODAL — unchanged
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -381,7 +364,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 };
 
 // =====================================================
-// HERO SECTION — updated to homepage palette
+// HERO SECTION — your original version (with badge and stats)
 // =====================================================
 
 const HeroSection: FC = () => (
@@ -389,73 +372,36 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: fine dot grid */}
-
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        {/* LEFT — Headline */}
-        <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{
-              backgroundColor: 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.16)',
-            }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium sttext-blue-300">
-              Sarsen &amp; Company · Events
-            </span>
-          </div>
-
+        {/* LEFT */}
+        <div className="space-y-7">
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Rooms Worth
-              <br />
-              <span className="text-blue-300">Being In.</span>
+              <span className="block text-blue-300">Being In.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
               Summits, masterclasses, workshops, and closed-door roundtables — designed for founders who move faster when surrounded by the right people.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '8',    label: 'Upcoming events'   },
-              { value: '400+', label: 'Founders per year' },
-              { value: '6',    label: 'Event formats'     },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* RIGHT — Calendar/event visual motif (blue tones) */}
+        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Events Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Events Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
 );
 
 // =====================================================
-// TAG FILTER BAR — fixed clipping, updated to rounded-md
+// TAG FILTER BAR — consistent blue palette (like Cohorts page)
 // =====================================================
 
 interface TagFilterBarProps {
@@ -472,10 +418,6 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   >
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
-      const style    = tag === 'All'
-        ? { bg: '#DBEAFE', text: '#1E40AF' }
-        : getTagStyle(tag);
-
       return (
         <button
           key={tag}
@@ -485,13 +427,13 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
           style={
             isActive
               ? {
-                  backgroundColor: '#132B47',
-                  color: '#93C5FD',
+                  backgroundColor: '#132B47',   // dark blue
+                  color: '#93C5FD',            // light blue
                   border: '1px solid rgba(59,130,246,0.40)',
                 }
               : {
-                  backgroundColor: style.bg,
-                  color: style.text,
+                  backgroundColor: '#DBEAFE',   // light blue
+                  color: '#1E40AF',            // dark blue
                   border: '1px solid transparent',
                   opacity: 0.65,
                 }
@@ -506,7 +448,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 );
 
 // =====================================================
-// FEATURED EVENT CARD — full width, first event
+// FEATURED EVENT CARD — matches FeaturedCohortCard (no seats, no "Featured")
 // =====================================================
 
 interface FeaturedEventCardProps {
@@ -515,8 +457,8 @@ interface FeaturedEventCardProps {
 }
 
 const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
-  const tagStyle = getTagStyle(event.tag);
-  const seatsUrgent = event.seats.includes('left') && parseInt(event.seats) <= 10;
+  // Tag style now uses a fixed blue palette (light blue bg, dark blue text)
+  const tagStyle = { bg: '#DBEAFE', text: '#1E40AF' };
 
   return (
     <article
@@ -528,12 +470,11 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.10)' }}
       aria-label={`Register for event: ${event.title}`}
     >
-      {/* Header */}
+      {/* Header gradient (same as featured cohort card) */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
-        {/* Decorative calendar motif */}
         <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
           {[3, 2, 1].map((l) => (
             <div
@@ -551,7 +492,6 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
             />
           ))}
         </div>
-
         <div className="relative z-10 flex items-center gap-3 flex-wrap">
           <span
             className="px-3 py-1 rounded-md text-xs font-semibold"
@@ -561,23 +501,9 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
           </span>
           <span
             className="px-3 py-1 rounded-md text-xs font-medium"
-            style={{
-              backgroundColor: 'rgba(59,130,246,0.08)',
-              color: '#93C5FD',
-              border: '1px solid rgba(59,130,246,0.14)',
-            }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.14)' }}
           >
-            Featured
-          </span>
-          <span
-            className="px-3 py-1 rounded-md text-xs font-medium"
-            style={{
-              backgroundColor: seatsUrgent ? 'rgba(59,130,246,0.15)' : 'rgba(59,130,246,0.06)',
-              color: seatsUrgent ? '#93C5FD' : '#93C5FD',
-              border: `1px solid rgba(59,130,246,${seatsUrgent ? 0.30 : 0.12})`,
-            }}
-          >
-            {event.seats}
+            {event.format}
           </span>
         </div>
       </div>
@@ -585,18 +511,15 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {event.title}
         </h2>
-        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
-          {event.excerpt}
-        </p>
+        <p className="text-sm mb-6 max-w-3xl text-gray-400">{event.excerpt}</p>
 
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4 flex-wrap">
-            {/* Date */}
             <div className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -604,7 +527,6 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
               </svg>
               <span className="text-xs text-blue-400">{event.date}</span>
             </div>
-            {/* Location */}
             <div className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -614,17 +536,11 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
               </svg>
               <span className="text-xs text-gray-500">{event.location}</span>
             </div>
-            {/* Format pill */}
-            <span
-              className="px-2.5 py-1 rounded-md text-xs"
-              style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
-            >
+            <span className="px-2.5 py-1 rounded-md text-xs bg-[#132B47] text-blue-300">
               {event.format}
             </span>
           </div>
-          <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
-          >
+          <div className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300">
             Register now
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -637,7 +553,7 @@ const FeaturedEventCard: FC<FeaturedEventCardProps> = ({ event, onOpen }) => {
 };
 
 // =====================================================
-// STANDARD EVENT CARD — 3-column grid
+// STANDARD EVENT CARD — matches CohortCard (no seats, footer restored)
 // =====================================================
 
 interface EventCardProps {
@@ -647,10 +563,7 @@ interface EventCardProps {
 }
 
 const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
-  const tagStyle    = getTagStyle(event.tag);
-  const seatsUrgent = event.seats.includes('left') && parseInt(event.seats) <= 6;
-  const seatsOpen   = event.seats === 'Open Registration';
-  const seatsInvite = event.seats === 'Invite Only';
+  const tagStyle = { bg: '#DBEAFE', text: '#1E40AF' };
 
   return (
     <article
@@ -677,12 +590,10 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
         style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
-        {/* Corner calendar decoration */}
         <div className="absolute top-3 right-3 opacity-10" aria-hidden="true">
-          <div className="w-10 h-12 rounded border border-blue-400" />
-          <div className="w-10 h-12 rounded border border-blue-400 absolute top-1.5 left-1.5" />
+          <div className="w-10 h-12 rounded-md border border-blue-400" />
+          <div className="w-10 h-12 rounded-md border border-blue-400 absolute top-1.5 left-1.5" />
         </div>
-
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
           <span
             className="px-2.5 py-1 rounded-md text-xs font-semibold"
@@ -690,47 +601,26 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
           >
             {event.tag}
           </span>
-          {/* Seats pill */}
-          <span
-            className="px-2 py-0.5 rounded-md text-xs"
-            style={{
-              backgroundColor: seatsUrgent
-                ? 'rgba(59,130,246,0.18)'
-                : seatsInvite
-                ? 'rgba(147,197,253,0.10)'
-                : 'rgba(59,130,246,0.06)',
-              color: seatsUrgent ? '#93C5FD' : seatsInvite ? '#93C5FD' : '#93C5FD',
-              border: `1px solid rgba(59,130,246,${seatsUrgent ? 0.28 : 0.12})`,
-            }}
-          >
-            {event.seats}
-          </span>
         </div>
-
-        {/* Register arrow icon */}
         <div
           className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
           aria-hidden="true"
         >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
+          
         </div>
       </div>
 
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium mb-1.5 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {event.title}
         </h3>
-        <p className="text-xs  mb-4 line-clamp-2 text-gray-400">
+        <p className="text-xs mb-4 line-clamp-2 text-gray-400">
           {event.excerpt}
         </p>
-
-        {/* Date + location */}
         <div className="space-y-1.5 mb-4">
           <div className="flex items-center gap-1.5">
             <svg className="w-3 h-3 flex-shrink-0 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -749,27 +639,23 @@ const EventCard: FC<EventCardProps> = ({ event, onOpen, animIndex }) => {
             <span className="text-xs line-clamp-1 text-gray-500">{event.location}</span>
           </div>
         </div>
-
-        {/* Footer */}
-        <div
+        {/* Footer — now showing format and sector (like cohort card) */}
+        {/* <div
           className="flex items-center justify-between pt-3"
           style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
         >
-          <span
-            className="text-xs px-2 py-0.5 rounded-md"
-            style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
-          >
+          <span className="text-xs px-2 py-0.5 rounded-md bg-[#132B47] text-blue-300">
             {event.format}
           </span>
           <span className="text-xs text-gray-500">{event.sector}</span>
-        </div>
+        </div> */}
       </div>
     </article>
   );
 };
 
 // =====================================================
-// COHORT ADVERTISEMENT STRIP — updated to blues
+// COHORT ADVERTISEMENT STRIP — your original version
 // =====================================================
 
 interface CohortStripProps {
@@ -795,12 +681,8 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-blue-300">
-              Cohort Programme
-            </p>
-            <p className="text-sm  text-gray-400">
-              Learn alongside the best founders in India
-            </p>
+            <p className="text-xs font-medium text-blue-300">Cohort Programme</p>
+            <p className="text-sm text-gray-400">Learn alongside the best founders in India</p>
           </div>
         </div>
         <a
@@ -828,8 +710,6 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
         aria-label={`View cohort: ${FEATURED_COHORT.title}`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-6">
-
-          {/* Left — cohort info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span
@@ -849,17 +729,10 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
                 {FEATURED_COHORT.startDate}
               </span>
             </div>
-
-            <p
-              className="text-base font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 text-white"
-            >
+            <p className="text-base font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 text-white">
               {FEATURED_COHORT.title}
             </p>
-
-            <p className="text-sm font-medium mb-4 text-blue-300">
-              ✦ {FEATURED_COHORT.outcome}
-            </p>
-
+            <p className="text-sm font-medium mb-4 text-blue-300">✦ {FEATURED_COHORT.outcome}</p>
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-1.5">
                 <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -877,8 +750,6 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
               </div>
             </div>
           </div>
-
-          {/* Right — CTA */}
           <div className="flex-shrink-0">
             <div
               className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-medium transition-all duration-200 group-hover:gap-3"
@@ -894,16 +765,14 @@ const CohortAdvertStrip: FC<CohortStripProps> = ({ onCohortClick }) => (
               </svg>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
 );
 
 // =====================================================
-// PAGE ROOT COMPONENT
+// PAGE ROOT
 // =====================================================
 
 export default function EventsHubPage(): React.JSX.Element {
@@ -921,7 +790,6 @@ export default function EventsHubPage(): React.JSX.Element {
   const openModal  = (title: string): void => setModalState({ open: true, title });
   const closeModal = (): void => setModalState({ open: false, title: '' });
 
-  // Split rest into before/after cohort strip — strip appears between card 3 and card 4
   const beforeStrip: Event[] = restEvents.slice(0, 3);
   const afterStrip:  Event[] = restEvents.slice(3);
 
@@ -954,11 +822,8 @@ export default function EventsHubPage(): React.JSX.Element {
       `}</style>
 
       <main className="min-h-screen bg-white">
-
-        {/* Hero */}
         <HeroSection />
 
-        {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           {/* Filter bar + count */}
@@ -968,10 +833,7 @@ export default function EventsHubPage(): React.JSX.Element {
               {filteredEvents.length}{' '}
               {filteredEvents.length !== 1 ? 'events' : 'event'}
               {activeTag !== 'All' && (
-                <span className="text-blue-600">
-                  {' '}in{' '}
-                  {activeTag}
-                </span>
+                <span className="text-blue-600"> in {activeTag}</span>
               )}
             </p>
           </div>
@@ -1001,7 +863,7 @@ export default function EventsHubPage(): React.JSX.Element {
           {afterStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {afterStrip.map((event, i) => (
-                <EventCard key={event.id} event={event} onOpen={openModal} animIndex={i} />
+                <EventCard key={event.id} event={event} onOpen={openModal} animIndex={i + beforeStrip.length} />
               ))}
             </div>
           )}
@@ -1010,7 +872,7 @@ export default function EventsHubPage(): React.JSX.Element {
           {filteredEvents.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🗓</p>
-              <p className="text-lg  mb-1 text-gray-900">
+              <p className="text-lg mb-1 text-gray-900">
                 No events in &ldquo;{activeTag}&rdquo; right now
               </p>
               <p className="text-sm text-gray-500">
@@ -1039,7 +901,6 @@ export default function EventsHubPage(): React.JSX.Element {
         </div>
       </main>
 
-      {/* Partner Auth Modal */}
       <PartnerAuthModal
         isOpen={modalState.open}
         onClose={closeModal}

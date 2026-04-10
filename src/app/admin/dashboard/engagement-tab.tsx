@@ -757,6 +757,16 @@ function MessagesManagement({
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); }
   };
 
+  // Helper to format time with "Am"/"Pm"
+  const formatMessageTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    }).replace('AM', 'Am').replace('PM', 'Pm');
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-gray-50 rounded-md border border-gray-200 h-[500px] flex flex-col">
@@ -769,9 +779,10 @@ function MessagesManagement({
           {messages.length > 0 ? (
             <>
               {messages.map(message => (
-                <div key={message._id} className={`flex ${message.senderRole === 'admin' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[70%] rounded-md p-4 ${
-                    message.senderRole === 'admin' ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-800'
+                <div key={message._id} className={`flex flex-col ${message.senderRole === 'admin' ? 'items-end' : 'items-start'}`}>
+                  {/* Message Bubble */}
+                  <div className={`max-w-[70%] rounded-md py-2 px-4 ${
+                    message.senderRole === 'admin' ? 'bg-[#0A1E3D] text-white' : 'bg-white border border-gray-200 text-gray-800'
                   }`}>
                     {/* Delete button on admin messages — matches original */}
                     <div className="flex items-start justify-between gap-3">
@@ -782,11 +793,27 @@ function MessagesManagement({
                         </button>
                       )}
                     </div>
-                    <div className={`flex items-center gap-2 mt-2 text-xs ${message.senderRole === 'admin' ? 'text-white/70' : 'text-gray-500'}`}>
-                      <span>{new Date(message.createdAt).toLocaleString()}</span>
-                      {message.senderRole === 'admin' && <><span>•</span><span>Sent</span></>}
-                    </div>
                   </div>
+
+                  {/* Timestamp and ticks OUTSIDE the bubble, aligned to the right */}
+                  {message.senderRole === 'admin' && (
+                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                      <span>{formatMessageTime(message.createdAt)}</span>
+                      {/* Single grey tick for admin messages (always sent/delivered state) */}
+                      <span className="inline-flex items-center">
+                        <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                  )}
+
+                  {/* For client messages, just show timestamp without ticks */}
+                  {message.senderRole === 'user' && (
+                    <div className="mt-1 text-xs text-gray-500">
+                      {formatMessageTime(message.createdAt)}
+                    </div>
+                  )}
                 </div>
               ))}
               <div ref={messagesEndRef} />
@@ -814,7 +841,7 @@ function MessagesManagement({
                   rows={2} className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)" />
                 <button onClick={handleSendMessage} disabled={!newMessage.trim() || sending}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:w-auto w-full">
+                  className="bg-[#0A1E3D] hover:bg-[#0C2A4D] text-white px-6 py-3 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:w-auto w-full">
                   <span className="hidden sm:inline">{sending ? 'Sending…' : 'Send'}</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                 </button>

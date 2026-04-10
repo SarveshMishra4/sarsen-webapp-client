@@ -4,11 +4,8 @@
 // src/app/cohorts/page.tsx
 //
 // Cohorts hub — lists all cohorts.
-// Imports all data + components from [slug]/ so everything
-// lives in one place and the hub just consumes it.
-//
-// Updated to design language: blue palette, white background.
-// All corners now use rounded-md (Tailwind medium).
+// On click, shows an interest modal instead of payment.
+// All seat indicators removed.
 // =============================================================
 
 import React, { useState, FC } from 'react';
@@ -20,10 +17,90 @@ import {
   type Cohort,
   type EventTeaser,
 } from './[slug]/data';
-import CohortApplicationModal from './[slug]/cohort';
 
 // ─────────────────────────────────────────────────────────────
-// HERO SECTION — updated to blue palette
+// COHORT INTEREST MODAL (replaces application modal)
+// ─────────────────────────────────────────────────────────────
+
+interface CohortInterestModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  cohortTitle: string;
+}
+
+const CohortInterestModal: FC<CohortInterestModalProps> = ({ isOpen, onClose, cohortTitle }) => {
+  if (!isOpen) return null;
+
+  const handleRequestInvite = () => {
+    const subject = `Cohort Interest: ${cohortTitle}`;
+    const body = `I am interested in the "${cohortTitle}" cohort. Please send me more details.`;
+    window.location.href = `mailto:contact@sarsenpartners.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-md animate-fadeIn"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
+          {/* Modal Header */}
+          <div className="bg-[#002855] px-8 py-6 relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
+              aria-label="Close modal"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-8 h-8  flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <span className="text-blue-200 text-sm font-medium ">Join a Cohort</span>
+            </div>
+            <h2 className="text-xl text-white">{cohortTitle}</h2>
+          </div>
+
+          {/* Modal Body */}
+          <div className="px-8 py-8">
+            <p className="text-gray-700 mb-6">
+              If you want to participate in this cohort, please email us with the specification details at{' '}
+              <a href="mailto:contact@sarsenpartners.com" className="text-blue-600 underline">
+                contact@sarsenpartners.com
+              </a>.
+            </p>
+            <button
+              onClick={handleRequestInvite}
+              className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm shadow-lg hover:shadow-xl"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Request Invite
+            </button>
+            <p className="text-center text-xs text-gray-400 mt-4">
+              We’ll respond within 5 business days.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────
+// HERO SECTION (unchanged except removed unused elements)
 // ─────────────────────────────────────────────────────────────
 
 const HeroSection: FC = () => (
@@ -52,67 +129,36 @@ const HeroSection: FC = () => (
 
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
         {/* LEFT */}
         <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{ backgroundColor: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.16)' }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium sttext-blue-300">
-              Sarsen &amp; Company · Cohorts
-            </span>
-          </div>
-
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
-              Build with a<br />
-              <span className="text-blue-300">Cohort.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
+              Build with a
+              <span className="block text-blue-300">Cohort.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
-              Structured programmes for founders at specific inflection points — fundraising,
-              scaling, sector-specific challenges. Peer accountability, expert input, and real
-              work done in real time.
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
+              Structured programmes for founders at specific inflection points like Fundraising,
+              Scaling, Sector-Specific Challenges. Peer Accountability, Expert Input, and Real
+              Work Done in Real Time.
             </p>
-          </div>
-
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '8',    label: 'Active programmes'  },
-              { value: '340+', label: 'Founders graduated' },
-              { value: '87%',  label: 'Raise within 9 mo.' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs stmt-0.5 text-gray-500">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* RIGHT — cohort card visual motif (blue tones) */}
+        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Cohorts Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Cohorts Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
 );
 
 // ─────────────────────────────────────────────────────────────
-// TAG FILTER BAR — updated to blue palette, fixed clipping
+// TAG FILTER BAR — consistent blue palette, no per‑tag colours
 // ─────────────────────────────────────────────────────────────
 
 const TagFilterBar: FC<{ activeTag: string; onTagChange: (t: string) => void }> = ({
@@ -126,9 +172,6 @@ const TagFilterBar: FC<{ activeTag: string; onTagChange: (t: string) => void }> 
   >
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
-      const s = tag === 'All'
-        ? { bg: '#DBEAFE', text: '#1E40AF' }
-        : getTagStyle(tag);
       return (
         <button
           key={tag}
@@ -137,8 +180,17 @@ const TagFilterBar: FC<{ activeTag: string; onTagChange: (t: string) => void }> 
           className="flex-shrink-0 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={
             isActive
-              ? { backgroundColor: '#132B47', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.40)' }
-              : { backgroundColor: s.bg, color: s.text, border: '1px solid transparent', opacity: 0.65 }
+              ? {
+                  backgroundColor: '#132B47',   // dark blue
+                  color: '#93C5FD',            // light blue
+                  border: '1px solid rgba(59,130,246,0.40)',
+                }
+              : {
+                  backgroundColor: '#DBEAFE',   // light blue
+                  color: '#1E40AF',            // dark blue
+                  border: '1px solid transparent',
+                  opacity: 0.65,
+                }
           }
           aria-pressed={isActive}
         >
@@ -150,35 +202,13 @@ const TagFilterBar: FC<{ activeTag: string; onTagChange: (t: string) => void }> 
 );
 
 // ─────────────────────────────────────────────────────────────
-// SEAT URGENCY PILL — updated to blue palette
-// ─────────────────────────────────────────────────────────────
-
-const SeatsUrgencyPill: FC<{ seats: string }> = ({ seats }) => {
-  const num     = parseInt(seats);
-  const urgent  = !isNaN(num) && num <= 8;
-  return (
-    <span
-      className="px-3 py-1 rounded-md text-xs font-medium"
-      style={{
-        backgroundColor: urgent ? '#DBEAFE' : 'rgba(59,130,246,0.06)',
-        color: urgent ? '#1E40AF' : '#93C5FD',
-        border: `1px solid ${urgent ? '#93C5FD' : 'rgba(59,130,246,0.12)'}`,
-      }}
-    >
-      {urgent && '🔥 '}{seats}
-    </span>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────
-// FEATURED COHORT CARD — updated to blue palette
+// FEATURED COHORT CARD (no seat indicators)
 // ─────────────────────────────────────────────────────────────
 
 const FeaturedCohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void }> = ({
   cohort, onOpen,
 }) => {
-  const ts          = getTagStyle(cohort.tag);
-  const seatsUrgent = cohort.seats.includes('left') && parseInt(cohort.seats) <= 8;
+  const ts = getTagStyle(cohort.tag);
 
   return (
     <article
@@ -220,20 +250,19 @@ const FeaturedCohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void }> = 
           >
             {cohort.cohortNumber}
           </span>
-          <SeatsUrgencyPill seats={cohort.seats} />
         </div>
       </div>
 
       {/* Body */}
       <div className="px-8 sm:px-10 py-6 sm:py-8">
         <h2
-          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem,2.5vw,1.6rem)' }}
         >
           {cohort.title}
         </h2>
         <p className="text-sm font-medium mb-4 text-blue-300">✦ {cohort.outcome}</p>
-        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm mb-6 max-w-3xl text-gray-400">
           {cohort.excerpt}
         </p>
         <div className="flex items-center justify-between flex-wrap gap-4">
@@ -256,10 +285,8 @@ const FeaturedCohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void }> = 
               {cohort.format}
             </span>
           </div>
-          <div
-            className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300"
-          >
-            Apply now
+          <div className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200 text-blue-300">
+            Request Invite
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
@@ -271,14 +298,13 @@ const FeaturedCohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void }> = 
 };
 
 // ─────────────────────────────────────────────────────────────
-// COHORT CARD — grid item, updated to blue palette
+// STANDARD COHORT CARD (no seat indicators)
 // ─────────────────────────────────────────────────────────────
 
 const CohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void; animIndex: number }> = ({
   cohort, onOpen, animIndex,
 }) => {
-  const ts          = getTagStyle(cohort.tag);
-  const seatsUrgent = cohort.seats.includes('left') && parseInt(cohort.seats) <= 6;
+  const ts = getTagStyle(cohort.tag);
 
   return (
     <article
@@ -309,25 +335,22 @@ const CohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void; animIndex: n
           <span className="px-2.5 py-1 rounded-md text-xs font-semibold" style={{ backgroundColor: ts.bg, color: ts.text }}>
             {cohort.tag}
           </span>
-          <SeatsUrgencyPill seats={cohort.seats} />
         </div>
         <div className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity" aria-hidden="true">
-          <svg className="w-3.5 h-3.5" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
+          
         </div>
       </div>
 
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="font-medium  mb-1.5 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium mb-1.5 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {cohort.title}
         </h3>
         <p className="text-xs font-medium mb-2 text-blue-300">✦ {cohort.outcome}</p>
-        <p className="text-xs  mb-4 line-clamp-2 text-gray-400">
+        <p className="text-xs mb-4 line-clamp-2 text-gray-400">
           {cohort.excerpt}
         </p>
         <div className="space-y-1.5 mb-4">
@@ -346,34 +369,23 @@ const CohortCard: FC<{ cohort: Cohort; onOpen: (c: Cohort) => void; animIndex: n
             <span className="text-xs text-gray-500">{cohort.duration} · {cohort.format}</span>
           </div>
         </div>
-        <div
-          className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
-        >
-          <span className="text-xs px-2 py-0.5 rounded-md bg-[#132B47] text-blue-300">
-            {cohort.sector}
-          </span>
-          <span className="text-xs text-gray-500">{cohort.cohortNumber}</span>
-        </div>
+        
       </div>
     </article>
   );
 };
 
 // ─────────────────────────────────────────────────────────────
-// EVENT ADVERTISEMENT STRIP — updated to blue palette
+// EVENT ADVERTISEMENT STRIP — increased height to match cohort cards
 // ─────────────────────────────────────────────────────────────
 
 const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEventClick }) => {
-  const seatsUrgent =
-    FEATURED_EVENT.seats.includes('left') && parseInt(FEATURED_EVENT.seats) <= 15;
-
   return (
     <div
       className="my-12 rounded-md overflow-hidden"
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
     >
-      <div className="px-6 sm:px-8 py-6 sm:py-8">
+      <div className="px-6 sm:px-8 py-8 sm:py-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -387,14 +399,12 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
               </svg>
             </div>
             <div>
-              <p className="text-xs font-medium sttext-blue-300">
-                Upcoming Event
-              </p>
-              <p className="text-sm  text-gray-400">A room worth being in</p>
+              <p className="text-xs font-medium text-blue-300">Upcoming Event</p>
+              <p className="text-sm text-gray-400">A room worth being in</p>
             </div>
           </div>
           <a
-            href="/events"
+            href="/resources/events"
             className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
           >
             All Events
@@ -404,7 +414,7 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
           </a>
         </div>
 
-        {/* Event card */}
+        {/* Event card — now with more padding */}
         <div
           onClick={() => onEventClick(FEATURED_EVENT.title)}
           role="button"
@@ -414,26 +424,18 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
           style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.10)' }}
           aria-label={`View event: ${FEATURED_EVENT.title}`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-8 p-8 sm:p-10">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <div className="flex items-center gap-2 mb-4 flex-wrap">
                 <span
                   className="inline-block px-2.5 py-0.5 rounded-md text-xs font-semibold"
                   style={{ backgroundColor: 'rgba(59,130,246,0.12)', color: '#93C5FD' }}
                 >
                   {FEATURED_EVENT.tag}
                 </span>
-                {seatsUrgent && (
-                  <span
-                    className="inline-block px-2.5 py-0.5 rounded-md text-xs"
-                    style={{ backgroundColor: 'rgba(59,130,246,0.14)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.25)' }}
-                  >
-                    {FEATURED_EVENT.seats}
-                  </span>
-                )}
               </div>
               <p
-                className="text-base font-medium  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+                className="text-base font-medium mb-4 group-hover:text-blue-300 transition-colors duration-200 text-white"
               >
                 {FEATURED_EVENT.title}
               </p>
@@ -460,7 +462,7 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
             </div>
             <div className="flex-shrink-0">
               <div
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-medium transition-all duration-200 group-hover:gap-3"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 group-hover:gap-3"
                 style={{ backgroundColor: 'rgba(59,130,246,0.10)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.20)' }}
               >
                 Register Now
@@ -481,7 +483,7 @@ const EventAdvertStrip: FC<{ onEventClick: (title: string) => void }> = ({ onEve
 // ─────────────────────────────────────────────────────────────
 
 export default function CohortsHubPage(): React.JSX.Element {
-  const [activeTag, setActiveTag]           = useState<string>('All');
+  const [activeTag, setActiveTag] = useState<string>('All');
   const [selectedCohort, setSelectedCohort] = useState<Cohort | null>(null);
 
   const filteredCohorts =
@@ -494,8 +496,8 @@ export default function CohortsHubPage(): React.JSX.Element {
   const beforeStrip = rest.slice(0, 3);
   const afterStrip  = rest.slice(3);
 
-  const openModal  = (cohort: Cohort) => setSelectedCohort(cohort);
-  const closeModal = ()               => setSelectedCohort(null);
+  const openInterestModal = (cohort: Cohort) => setSelectedCohort(cohort);
+  const closeInterestModal = () => setSelectedCohort(null);
 
   return (
     <>
@@ -504,10 +506,11 @@ export default function CohortsHubPage(): React.JSX.Element {
           from { opacity: 0; transform: translateY(20px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes modalIn {
+        @keyframes fadeIn {
           from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+        .animate-fadeIn { animation: fadeIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
         *::-webkit-scrollbar { display: none; }
         * { -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
@@ -539,7 +542,7 @@ export default function CohortsHubPage(): React.JSX.Element {
           {/* Featured cohort */}
           {featured && (
             <div className="mb-8">
-              <FeaturedCohortCard cohort={featured} onOpen={openModal} />
+              <FeaturedCohortCard cohort={featured} onOpen={openInterestModal} />
             </div>
           )}
 
@@ -547,7 +550,7 @@ export default function CohortsHubPage(): React.JSX.Element {
           {beforeStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {beforeStrip.map((cohort, i) => (
-                <CohortCard key={cohort.id} cohort={cohort} onOpen={openModal} animIndex={i} />
+                <CohortCard key={cohort.id} cohort={cohort} onOpen={openInterestModal} animIndex={i} />
               ))}
             </div>
           )}
@@ -563,7 +566,7 @@ export default function CohortsHubPage(): React.JSX.Element {
           {afterStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
               {afterStrip.map((cohort, i) => (
-                <CohortCard key={cohort.id} cohort={cohort} onOpen={openModal} animIndex={i} />
+                <CohortCard key={cohort.id} cohort={cohort} onOpen={openInterestModal} animIndex={i + beforeStrip.length} />
               ))}
             </div>
           )}
@@ -572,7 +575,7 @@ export default function CohortsHubPage(): React.JSX.Element {
           {filteredCohorts.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">🎓</p>
-              <p className="text-lg  mb-1 text-gray-900">
+              <p className="text-lg mb-1 text-gray-900">
                 No cohorts in &ldquo;{activeTag}&rdquo; right now
               </p>
               <p className="text-sm text-gray-500">
@@ -599,12 +602,12 @@ export default function CohortsHubPage(): React.JSX.Element {
         </div>
       </main>
 
-      {/* Application modal — passes full cohort object for per-cohort questions */}
+      {/* Interest Modal */}
       {selectedCohort && (
-        <CohortApplicationModal
+        <CohortInterestModal
           isOpen={true}
-          onClose={closeModal}
-          cohort={selectedCohort}
+          onClose={closeInterestModal}
+          cohortTitle={selectedCohort.title}
         />
       )}
     </>

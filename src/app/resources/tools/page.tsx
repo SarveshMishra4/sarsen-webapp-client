@@ -768,82 +768,29 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background crosshatch texture using blue-300 */}
-
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        {/* LEFT — Headline */}
-        <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{
-              backgroundColor: 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.16)',
-            }}
-          >
-            <div
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: '#93C5FD' }}
-            />
-            <span className="text-xs font-medium sttext-blue-300">
-              Sarsen &amp; Company · Tools
-            </span>
-          </div>
-
+        {/* LEFT */}
+        <div className="space-y-7">
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Built to
-              <br />
-              <span className="text-blue-300">Decide.</span>
+              <span className="block text-blue-300">Decide.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
               Calculators, templates, and frameworks for founders who make decisions with evidence. Every tool is built around a real decision, not a generic concept.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '75+', label: 'Tools available'   },
-              { value: '8',   label: 'Categories'        },
-              { value: '3',   label: 'Complexity levels' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Complexity legend */}
-          <div className="flex flex-wrap gap-4 pt-1">
-            {(['Beginner', 'Intermediate', 'Advanced'] as Tool['complexity'][]).map((level) => {
-              const cs = getComplexityStyle(level);
-              return (
-                <div key={level} className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cs.dot }} />
-                  <span className="text-xs" style={{ color: cs.text }}>{level}</span>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
-        {/* RIGHT — SVG placeholder (decorative) */}
+        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Tools Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Tools Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
@@ -1088,7 +1035,7 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
         {/* Footer */}
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}
+          style={{ }}
         >
           <span
             className="text-xs px-2 py-0.5 rounded-md"
@@ -1112,7 +1059,7 @@ const ToolCard: FC<ToolCardProps> = ({ tool, onOpen, animIndex }) => {
 };
 
 // =====================================================
-// REPORTS ADVERTISEMENT STRIP — after batch 1 (blues)
+// REPORTS ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface ReportsStripProps {
@@ -1125,6 +1072,7 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
     style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
@@ -1136,12 +1084,8 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-blue-300">
-              Research &amp; Reports
-            </p>
-            <p className="text-sm  text-gray-400">
-              Data behind the decisions
-            </p>
+            <p className="text-xs font-medium text-blue-300">Research &amp; Reports</p>
+            <p className="text-sm text-gray-400">Data behind the decisions</p>
           </div>
         </div>
         <a
@@ -1155,33 +1099,63 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
         </a>
       </div>
 
+      {/* Grid of report cards — now with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_REPORTS.map((r) => (
+        {FEATURED_REPORTS.map((report, idx) => (
           <div
-            key={r.title}
-            onClick={() => onReportClick(r.title)}
+            key={report.title}
+            onClick={() => onReportClick(report.title)}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onReportClick(r.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
+            className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
-            aria-label={`Access report: ${r.title}`}
+            aria-label={`Access report: ${report.title}`}
           >
-            <span
-              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
+            {/* Top accent line */}
+            <div
+              className="h-0.5 w-full"
+              style={{ background: `linear-gradient(90deg, #1E40AF40, transparent)` }}
+            />
+
+            {/* Thumbnail header */}
+            <div
+              className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+              style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
             >
-              {r.tag}
-            </span>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
-            >
-              {r.title}
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-blue-400">{r.pages}</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-500">{r.date}</span>
+              <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                <div className="w-14 h-14 rounded-full border border-blue-400" />
+              </div>
+              <div className="relative z-10">
+                <span
+                  className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                  style={{ backgroundColor: 'rgba(96,165,250,0.15)', color: '#93C5FD' }}
+                >
+                  {report.tag}
+                </span>
+              </div>
+              {/* Lock icon */}
+              <div
+                className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                aria-hidden="true"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="px-5 py-4">
+              <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                {report.title}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-blue-400">{report.pages}</span>
+                <span className="text-xs text-gray-600">·</span>
+                <span className="text-xs text-gray-500">{report.date}</span>
+              </div>
             </div>
           </div>
         ))}
@@ -1190,8 +1164,9 @@ const ReportsAdvertStrip: FC<ReportsStripProps> = ({ onReportClick }) => (
   </div>
 );
 
+
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP — after batch 2 (blues)
+// CASE STUDIES ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface CaseStudiesStripProps {
@@ -1204,6 +1179,7 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
     style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
@@ -1216,12 +1192,8 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-blue-300">
-              Case Studies
-            </p>
-            <p className="text-sm  text-gray-400">
-              See the tools in action
-            </p>
+            <p className="text-xs font-medium text-blue-300">Case Studies</p>
+            <p className="text-sm text-gray-400">See the tools in action</p>
           </div>
         </div>
         <a
@@ -1235,41 +1207,71 @@ const CaseStudiesAdvertStrip: FC<CaseStudiesStripProps> = ({ onCaseStudyClick })
         </a>
       </div>
 
+      {/* Grid of case study cards — now with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_CASE_STUDIES.map((cs) => (
+        {FEATURED_CASE_STUDIES.map((cs, idx) => (
           <div
             key={cs.title}
             onClick={() => onCaseStudyClick(cs.title)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
             aria-label={`View case study: ${cs.title}`}
           >
-            <div className="flex items-center gap-2 mb-2">
-              <span
-                className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold"
-                style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#93C5FD' }}
-              >
-                {cs.tag}
-              </span>
-              <span
-                className="inline-block px-2 py-0.5 rounded-md text-xs"
-                style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.12)' }}
-              >
-                {cs.outcome}
-              </span>
-            </div>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+            {/* Top accent line */}
+            <div
+              className="h-0.5 w-full"
+              style={{ background: `linear-gradient(90deg, #1E40AF40, transparent)` }}
+            />
+
+            {/* Thumbnail header */}
+            <div
+              className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+              style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
             >
-              {cs.title}
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400">{cs.sector}</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-500">{cs.year}</span>
+              <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                <div className="w-14 h-14 rounded-full border border-blue-400" />
+              </div>
+              <div className="relative z-10">
+                <span
+                  className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                  style={{ backgroundColor: 'rgba(96,165,250,0.15)', color: '#93C5FD' }}
+                >
+                  {cs.tag}
+                </span>
+              </div>
+              {/* Lock icon */}
+              <div
+                className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                aria-hidden="true"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="px-5 py-4">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span
+                  className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold"
+                  style={{ backgroundColor: 'rgba(96,165,250,0.15)', color: '#93C5FD' }}
+                >
+                  {cs.outcome}
+                </span>
+              </div>
+              <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                {cs.title}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">{cs.sector}</span>
+                <span className="text-xs text-gray-600">·</span>
+                <span className="text-xs text-gray-500">{cs.year}</span>
+              </div>
             </div>
           </div>
         ))}

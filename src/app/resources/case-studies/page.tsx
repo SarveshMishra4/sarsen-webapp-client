@@ -621,7 +621,7 @@ const CaseStudyCard: FC<CaseStudyCardProps> = ({ study, onOpen, animIndex }) => 
           {study.title}
         </h3>
         <p className="text-xs  mb-4 line-clamp-2 text-gray-500">{study.excerpt}</p>
-        <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(59,130,246,0.07)' }}>
+        <div className="flex items-center justify-between pt-3" style={{  }}>
           <div className="flex items-center gap-2">
             <span className="text-xs px-2 py-0.5 rounded-md" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
               {study.sector}

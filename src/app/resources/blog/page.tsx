@@ -55,83 +55,81 @@ interface ModalState {
 
 const ALL_BLOGS: BlogPost[] = [
   // Batch 1 — 1–25
-  { id: 1,  title: "Why Most Startups Scale Before They're Ready",         excerpt: "The hidden cost of premature scaling and how to identify the real inflection point before committing resources.",                             tag: "Strategy",    readTime: "8 min",  date: "Feb 18, 2026", featured: true  },
-  { id: 2,  title: "Pricing Is a Strategy, Not a Number",                   excerpt: "How founders consistently undervalue their product — and the structural reasons pricing decisions go wrong.",                                   tag: "Revenue",     readTime: "6 min",  date: "Feb 14, 2026" },
-  { id: 3,  title: "The Difference Between Traction and Progress",          excerpt: "Vanity metrics vs. signal. Why your dashboard can look healthy while the business quietly deteriorates.",                                       tag: "Metrics",     readTime: "5 min",  date: "Feb 10, 2026" },
-  { id: 4,  title: "Cash Flow vs Profit: What Early Founders Get Wrong",    excerpt: "A practical breakdown of why profitable businesses still run out of money — and how to read your own cash position clearly.",                  tag: "Finance",     readTime: "7 min",  date: "Feb 6, 2026"  },
-  { id: 5,  title: "How to Know When You've Found Product-Market Fit",      excerpt: "The indicators that actually matter, beyond user counts, NPS scores, and download numbers that investors love to cite.",                       tag: "PMF",         readTime: "9 min",  date: "Jan 30, 2026" },
-  { id: 6,  title: "The Founder's Trap: Why You're the Bottleneck",         excerpt: "Structural reasons founders become the ceiling of their own companies — and what building beyond yourself actually requires.",                 tag: "Operations",  readTime: "6 min",  date: "Jan 25, 2026" },
-  { id: 7,  title: "Second-Order Thinking in Business Decisions",           excerpt: "How to anticipate downstream consequences before committing to major pivots, hiring decisions, and pricing moves.",                            tag: "Thinking",    readTime: "10 min", date: "Jan 20, 2026" },
-  { id: 8,  title: "When to Raise, When to Bootstrap, When to Do Neither", excerpt: "A framework for capital decisions based on your actual business model — not your stage, sector, or what peers are doing.",                     tag: "Fundraising", readTime: "8 min",  date: "Jan 15, 2026" },
-  { id: 9,  title: "Why Customer Discovery Never Ends",                     excerpt: "The ongoing discipline of staying close to customers as you scale — and what founders lose when they stop doing it themselves.",              tag: "Customers",   readTime: "5 min",  date: "Jan 10, 2026" },
-  { id: 10, title: "The Anatomy of a Good Advisory Relationship",           excerpt: "What to expect from advisors, how to structure the relationship, and the signs that one has stopped being productive.",                        tag: "Advisory",    readTime: "6 min",  date: "Jan 5, 2026"  },
-  { id: 11, title: "How to Build a Revenue Model That Survives Stress",     excerpt: "Most revenue models look good in calm conditions. This is about designing for the conditions that actually kill companies.",                  tag: "Revenue",     readTime: "7 min",  date: "Dec 28, 2025" },
-  { id: 12, title: "The Real Meaning of Capital Efficiency",                excerpt: "Capital efficiency isn't about spending less. It's about the rate at which capital converts into durable, defensible value.",                  tag: "Finance",     readTime: "6 min",  date: "Dec 22, 2025" },
-  { id: 13, title: "Why Positioning Fails When Everything Is True",         excerpt: "When every claim in your positioning is accurate — but still doesn't land. The structural problem behind unclear messaging.",                 tag: "Strategy",    readTime: "8 min",  date: "Dec 16, 2025" },
-  { id: 14, title: "Delegation Is a Skill, Not a Personality Trait",        excerpt: "Why founders who struggle to delegate aren't 'control freaks' — they're operating without the right infrastructure to trust.",              tag: "Operations",  readTime: "5 min",  date: "Dec 10, 2025" },
-  { id: 15, title: "What Burn Rate Actually Tells You",                     excerpt: "Beyond the surface number: how to read burn rate as a signal about your operational assumptions, not just your spending.",                    tag: "Finance",     readTime: "6 min",  date: "Dec 4, 2025"  },
-  { id: 16, title: "The Problem With 'Minimum Viable Product'",             excerpt: "How MVP thinking, taken too literally, produces products that validate the wrong things and delay real learning.",                            tag: "Product",     readTime: "9 min",  date: "Nov 28, 2025" },
-  { id: 17, title: "Churn Is a Symptom, Not the Disease",                   excerpt: "High churn tells you something is wrong. Diagnosing what — without the usual surface-level explanations — is the actual work.",             tag: "Revenue",     readTime: "7 min",  date: "Nov 22, 2025" },
-  { id: 18, title: "How Founders Misread Their Own Sales Process",          excerpt: "The gap between what founders believe about their sales funnel and what the data shows is often wide — and expensive.",                       tag: "Revenue",     readTime: "8 min",  date: "Nov 16, 2025" },
-  { id: 19, title: "Building in Public: Signal or Noise?",                  excerpt: "When transparency builds community and when it distracts from the actual work of building. A framework for the right kind of openness.",     tag: "Strategy",    readTime: "5 min",  date: "Nov 10, 2025" },
-  { id: 20, title: "The Hidden Costs of Fast Hiring",                       excerpt: "Speed-hiring feels like scaling. Often it's debt accumulation — cultural, operational, and financial — that compounds quietly.",             tag: "Operations",  readTime: "7 min",  date: "Nov 4, 2025"  },
-  { id: 21, title: "Why Your Pitch Deck Isn't the Problem",                 excerpt: "Founders spend weeks refining slides when the underlying business model hasn't earned the right to be funded yet.",                          tag: "Fundraising", readTime: "6 min",  date: "Oct 29, 2025" },
-  { id: 22, title: "What 'Product-Led Growth' Actually Requires",           excerpt: "PLG isn't a marketing strategy. It's an architectural decision that demands specific product characteristics most teams don't have.",         tag: "Product",     readTime: "9 min",  date: "Oct 23, 2025" },
-  { id: 23, title: "How to Think About Category Creation",                  excerpt: "Creating a category sounds like the ambitious move. It usually isn't. When it makes sense — and the cost of being wrong.",                   tag: "Strategy",    readTime: "8 min",  date: "Oct 17, 2025" },
-  { id: 24, title: "The Trouble With Market Size Calculations",             excerpt: "TAM slides look convincing in pitch decks. The assumptions underneath them rarely survive contact with actual market behavior.",              tag: "Metrics",     readTime: "6 min",  date: "Oct 11, 2025" },
-  { id: 25, title: "Why Founders Confuse Momentum With Direction",          excerpt: "Activity, meetings, launches, and growth can all be happening while the fundamental direction of the business becomes less clear.",          tag: "Strategy",    readTime: "7 min",  date: "Oct 5, 2025"  },
+  { id: 1,  title: "Why Most Startups Scale Before They're Ready",         excerpt: "The hidden cost of premature scaling and how to identify the real inflection point before committing resources.",                             tag: "Strategy",    readTime: "8 min",  date: "Feb 18 - 2026", featured: true  },
+  { id: 2,  title: "Pricing Is a Strategy, Not a Number",                   excerpt: "How founders consistently undervalue their product — and the structural reasons pricing decisions go wrong.",                                   tag: "Revenue",     readTime: "6 min",  date: "Feb 14 - 2026" },
+  { id: 3,  title: "The Difference Between Traction and Progress",          excerpt: "Vanity metrics vs. signal. Why your dashboard can look healthy while the business quietly deteriorates.",                                       tag: "Metrics",     readTime: "5 min",  date: "Feb 10 - 2026" },
+  { id: 4,  title: "Cash Flow vs Profit: What Early Founders Get Wrong",    excerpt: "A practical breakdown of why profitable businesses still run out of money — and how to read your own cash position clearly.",                  tag: "Finance",     readTime: "7 min",  date: "Feb 6 - 2026"  },
+  { id: 5,  title: "How to Know When You've Found Product-Market Fit",      excerpt: "The indicators that actually matter, beyond user counts, NPS scores, and download numbers that investors love to cite.",                       tag: "PMF",         readTime: "9 min",  date: "Jan 30 - 2026" },
+  { id: 6,  title: "The Founder's Trap: Why You're the Bottleneck",         excerpt: "Structural reasons founders become the ceiling of their own companies — and what building beyond yourself actually requires.",                 tag: "Operations",  readTime: "6 min",  date: "Jan 25 - 2026" },
+  { id: 7,  title: "Second-Order Thinking in Business Decisions",           excerpt: "How to anticipate downstream consequences before committing to major pivots, hiring decisions, and pricing moves.",                            tag: "Thinking",    readTime: "10 min", date: "Jan 20 - 2026" },
+  { id: 8,  title: "When to Raise, When to Bootstrap, When to Do Neither", excerpt: "A framework for capital decisions based on your actual business model — not your stage, sector, or what peers are doing.",                     tag: "Fundraising", readTime: "8 min",  date: "Jan 15 - 2026" },
+  { id: 9,  title: "Why Customer Discovery Never Ends",                     excerpt: "The ongoing discipline of staying close to customers as you scale — and what founders lose when they stop doing it themselves.",              tag: "Customers",   readTime: "5 min",  date: "Jan 10 - 2026" },
+  { id: 10, title: "The Anatomy of a Good Advisory Relationship",           excerpt: "What to expect from advisors, how to structure the relationship, and the signs that one has stopped being productive.",                        tag: "Advisory",    readTime: "6 min",  date: "Jan 5 - 2026"  },
+  { id: 11, title: "How to Build a Revenue Model That Survives Stress",     excerpt: "Most revenue models look good in calm conditions. This is about designing for the conditions that actually kill companies.",                  tag: "Revenue",     readTime: "7 min",  date: "Dec 28 - 2025" },
+  { id: 12, title: "The Real Meaning of Capital Efficiency",                excerpt: "Capital efficiency isn't about spending less. It's about the rate at which capital converts into durable, defensible value.",                  tag: "Finance",     readTime: "6 min",  date: "Dec 22 - 2025" },
+  { id: 13, title: "Why Positioning Fails When Everything Is True",         excerpt: "When every claim in your positioning is accurate — but still doesn't land. The structural problem behind unclear messaging.",                 tag: "Strategy",    readTime: "8 min",  date: "Dec 16 - 2025" },
+
+  { id: 17, title: "Churn Is a Symptom, Not the Disease",                   excerpt: "High churn tells you something is wrong. Diagnosing what — without the usual surface-level explanations — is the actual work.",             tag: "Revenue",     readTime: "7 min",  date: "Nov 22 - 2025" },
+  { id: 18, title: "How Founders Misread Their Own Sales Process",          excerpt: "The gap between what founders believe about their sales funnel and what the data shows is often wide — and expensive.",                       tag: "Revenue",     readTime: "8 min",  date: "Nov 16 - 2025" },
+  { id: 19, title: "Building in Public: Signal or Noise?",                  excerpt: "When transparency builds community and when it distracts from the actual work of building. A framework for the right kind of openness.",     tag: "Strategy",    readTime: "5 min",  date: "Nov 10 - 2025" },
+  { id: 20, title: "The Hidden Costs of Fast Hiring",                       excerpt: "Speed-hiring feels like scaling. Often it's debt accumulation — cultural, operational, and financial — that compounds quietly.",             tag: "Operations",  readTime: "7 min",  date: "Nov 4 - 2025"  },
+  { id: 21, title: "Why Your Pitch Deck Isn't the Problem",                 excerpt: "Founders spend weeks refining slides when the underlying business model hasn't earned the right to be funded yet.",                          tag: "Fundraising", readTime: "6 min",  date: "Oct 29 - 2025" },
+  { id: 22, title: "What 'Product-Led Growth' Actually Requires",           excerpt: "PLG isn't a marketing strategy. It's an architectural decision that demands specific product characteristics most teams don't have.",         tag: "Product",     readTime: "9 min",  date: "Oct 23 - 2025" },
+  { id: 23, title: "How to Think About Category Creation",                  excerpt: "Creating a category sounds like the ambitious move. It usually isn't. When it makes sense — and the cost of being wrong.",                   tag: "Strategy",    readTime: "8 min",  date: "Oct 17 - 2025" },
+  { id: 24, title: "The Trouble With Market Size Calculations",             excerpt: "TAM slides look convincing in pitch decks. The assumptions underneath them rarely survive contact with actual market behavior.",              tag: "Metrics",     readTime: "6 min",  date: "Oct 11 - 2025" },
+  { id: 25, title: "Why Founders Confuse Momentum With Direction",          excerpt: "Activity, meetings, launches, and growth can all be happening while the fundamental direction of the business becomes less clear.",          tag: "Strategy",    readTime: "7 min",  date: "Oct 5 - 2025"  },
   // Batch 2 — 26–50
-  { id: 26, title: "The Org Chart Is a Hypothesis",                         excerpt: "Your org structure encodes assumptions about how work flows, where decisions get made, and what the company believes about accountability.",   tag: "Operations",  readTime: "7 min",  date: "Sep 29, 2025" },
-  { id: 27, title: "How to Price a B2B Product",                            excerpt: "Value-based, cost-plus, competitor-anchored — each model has a logic. Understanding which one fits your situation changes everything.",       tag: "Revenue",     readTime: "8 min",  date: "Sep 23, 2025" },
-  { id: 28, title: "What Investor Due Diligence Actually Looks Like",       excerpt: "Beyond the financial audit: how serious investors assess founder psychology, market assumptions, and the structural risks they won't fund.",  tag: "Fundraising", readTime: "9 min",  date: "Sep 17, 2025" },
-  { id: 29, title: "The Right Time to Hire a CFO",                          excerpt: "Most early-stage founders hire financial leadership too late — and for the wrong reasons. A practical framework for the decision.",          tag: "Finance",     readTime: "6 min",  date: "Sep 11, 2025" },
-  { id: 30, title: "Network Effects Don't Work the Way You Think",          excerpt: "The term is widely used and rarely understood. Most startups claiming network effects don't have them — and that matters.",                   tag: "Strategy",    readTime: "8 min",  date: "Sep 5, 2025"  },
-  { id: 31, title: "How to Run a Board Meeting That Actually Helps",        excerpt: "Most board meetings are reporting sessions. Founders who run them well turn them into something that genuinely improves decisions.",          tag: "Operations",  readTime: "5 min",  date: "Aug 30, 2025" },
-  { id: 32, title: "Why Go-to-Market Fails Quietly",                        excerpt: "The GTM strategy looked right on paper. The failure happens in the translation — where assumptions stop being assumptions and become costs.", tag: "Revenue",     readTime: "7 min",  date: "Aug 24, 2025" },
-  { id: 33, title: "Understanding Investor Signaling Risk",                 excerpt: "Who invested in your last round, what they paid, and what they said about it — these send signals to your next investor before you speak.",  tag: "Fundraising", readTime: "6 min",  date: "Aug 18, 2025" },
-  { id: 34, title: "When a Pivot Is Avoidance in Disguise",                 excerpt: "Not every pivot is strategic repositioning. Sometimes it's a response to discomfort that leaves the real problem unsolved.",               tag: "Strategy",    readTime: "8 min",  date: "Aug 12, 2025" },
-  { id: 35, title: "The Economics of Customer Success",                     excerpt: "CS isn't a cost center. When built correctly, it's a revenue protection and expansion engine — with measurable return on investment.",      tag: "Revenue",     readTime: "7 min",  date: "Aug 6, 2025"  },
-  { id: 36, title: "Founder-Market Fit Is Underrated",                      excerpt: "We talk about product-market fit but not about whether the founder is the right person to build this specific product in this market.",       tag: "Thinking",    readTime: "6 min",  date: "Jul 31, 2025" },
-  { id: 37, title: "What 'We Need More Leads' Usually Means",               excerpt: "Founders diagnose revenue problems as top-of-funnel problems. Often they're conversion, retention, or positioning problems instead.",        tag: "Revenue",     readTime: "5 min",  date: "Jul 25, 2025" },
-  { id: 38, title: "How to Evaluate a Term Sheet",                          excerpt: "Valuation gets the attention. The terms that actually change your outcome — liquidation preference, anti-dilution, pro-rata — often don't.", tag: "Fundraising", readTime: "10 min", date: "Jul 19, 2025" },
-  { id: 39, title: "The Problem With Consensus Culture",                    excerpt: "Teams that make decisions by consensus often make them slowly, make them safely, and avoid the ones that actually matter.",                  tag: "Operations",  readTime: "6 min",  date: "Jul 13, 2025" },
-  { id: 40, title: "Why Your Dashboard Might Be Lying",                     excerpt: "Data tells you what happened. It doesn't tell you why, and it doesn't tell you what to do. The gap between data and insight is real.",      tag: "Metrics",     readTime: "7 min",  date: "Jul 7, 2025"  },
-  { id: 41, title: "Structured Thinking for Unstructured Problems",         excerpt: "Most founder decisions happen in conditions where the problem is unclear. Frameworks for navigating ambiguity without paralysis.",           tag: "Thinking",    readTime: "9 min",  date: "Jul 1, 2025"  },
-  { id: 42, title: "The Two Types of Startup Debt",                         excerpt: "Technical debt gets discussed. Cultural debt — accumulated norms, workarounds, and deferred conversations — is often more expensive.",       tag: "Operations",  readTime: "6 min",  date: "Jun 25, 2025" },
-  { id: 43, title: "How to Retain Your Best Employees",                     excerpt: "Compensation is rarely the first reason people leave. The conditions that actually drive attrition — and how to address them structurally.",  tag: "Operations",  readTime: "7 min",  date: "Jun 19, 2025" },
-  { id: 44, title: "The Compounding Cost of Unclear Roles",                 excerpt: "When ownership is ambiguous, teams move slowly, conflict increases, and the best people quietly disengage before they formally quit.",        tag: "Operations",  readTime: "5 min",  date: "Jun 13, 2025" },
-  { id: 45, title: "Why Strategic Planning Fails in Startups",              excerpt: "Annual planning processes built for stable businesses create the illusion of control in environments where conditions change quarterly.",      tag: "Strategy",    readTime: "8 min",  date: "Jun 7, 2025"  },
-  { id: 46, title: "The Case for Fewer Metrics",                            excerpt: "More dashboards don't create more clarity. The discipline of choosing three metrics that actually matter — and watching only those.",        tag: "Metrics",     readTime: "5 min",  date: "Jun 1, 2025"  },
-  { id: 47, title: "What 'Default Alive' Actually Demands",                 excerpt: "Paul Graham's concept is widely quoted and rarely operationalized. What it concretely requires from your unit economics and burn rate.",      tag: "Finance",     readTime: "7 min",  date: "May 26, 2025" },
-  { id: 48, title: "Why Founders Underestimate Operational Complexity",     excerpt: "Building the product is the understandable part. The operational infrastructure required to deliver it reliably — that's where growth stalls.", tag: "Operations",  readTime: "6 min",  date: "May 20, 2025" },
-  { id: 49, title: "The Right Way to Think About Competitive Moats",        excerpt: "Moats aren't features. They're structural advantages that compound over time and make it progressively harder for competitors to close the gap.", tag: "Strategy",  readTime: "9 min",  date: "May 14, 2025" },
-  { id: 50, title: "How to Give Feedback That Changes Behavior",            excerpt: "Most feedback conversations happen too late, are too vague, and don't create the accountability structure needed for actual change.",         tag: "Operations",  readTime: "6 min",  date: "May 8, 2025"  },
+  { id: 26, title: "The Org Chart Is a Hypothesis",                         excerpt: "Your org structure encodes assumptions about how work flows, where decisions get made, and what the company believes about accountability.",   tag: "Operations",  readTime: "7 min",  date: "Sep 29 - 2025" },
+  { id: 27, title: "How to Price a B2B Product",                            excerpt: "Value-based, cost-plus, competitor-anchored — each model has a logic. Understanding which one fits your situation changes everything.",       tag: "Revenue",     readTime: "8 min",  date: "Sep 23 - 2025" },
+  { id: 28, title: "What Investor Due Diligence Actually Looks Like",       excerpt: "Beyond the financial audit: how serious investors assess founder psychology, market assumptions, and the structural risks they won't fund.",  tag: "Fundraising", readTime: "9 min",  date: "Sep 17 - 2025" },
+  { id: 29, title: "The Right Time to Hire a CFO",                          excerpt: "Most early-stage founders hire financial leadership too late — and for the wrong reasons. A practical framework for the decision.",          tag: "Finance",     readTime: "6 min",  date: "Sep 11 - 2025" },
+  { id: 30, title: "Network Effects Don't Work the Way You Think",          excerpt: "The term is widely used and rarely understood. Most startups claiming network effects don't have them — and that matters.",                   tag: "Strategy",    readTime: "8 min",  date: "Sep 5 - 2025"  },
+  { id: 31, title: "How to Run a Board Meeting That Actually Helps",        excerpt: "Most board meetings are reporting sessions. Founders who run them well turn them into something that genuinely improves decisions.",          tag: "Operations",  readTime: "5 min",  date: "Aug 30 - 2025" },
+  { id: 32, title: "Why Go-to-Market Fails Quietly",                        excerpt: "The GTM strategy looked right on paper. The failure happens in the translation — where assumptions stop being assumptions and become costs.", tag: "Revenue",     readTime: "7 min",  date: "Aug 24 - 2025" },
+  { id: 33, title: "Understanding Investor Signaling Risk",                 excerpt: "Who invested in your last round, what they paid, and what they said about it — these send signals to your next investor before you speak.",  tag: "Fundraising", readTime: "6 min",  date: "Aug 18 - 2025" },
+  { id: 34, title: "When a Pivot Is Avoidance in Disguise",                 excerpt: "Not every pivot is strategic repositioning. Sometimes it's a response to discomfort that leaves the real problem unsolved.",               tag: "Strategy",    readTime: "8 min",  date: "Aug 12 - 2025" },
+  { id: 35, title: "The Economics of Customer Success",                     excerpt: "CS isn't a cost center. When built correctly, it's a revenue protection and expansion engine — with measurable return on investment.",      tag: "Revenue",     readTime: "7 min",  date: "Aug 6 - 2025"  },
+  { id: 36, title: "Founder-Market Fit Is Underrated",                      excerpt: "We talk about product-market fit but not about whether the founder is the right person to build this specific product in this market.",       tag: "Thinking",    readTime: "6 min",  date: "Jul 31 - 2025" },
+  { id: 37, title: "What 'We Need More Leads' Usually Means",               excerpt: "Founders diagnose revenue problems as top-of-funnel problems. Often they're conversion, retention, or positioning problems instead.",        tag: "Revenue",     readTime: "5 min",  date: "Jul 25 - 2025" },
+  { id: 38, title: "How to Evaluate a Term Sheet",                          excerpt: "Valuation gets the attention. The terms that actually change your outcome — liquidation preference, anti-dilution, pro-rata — often don't.", tag: "Fundraising", readTime: "10 min", date: "Jul 19 - 2025" },
+  { id: 39, title: "The Problem With Consensus Culture",                    excerpt: "Teams that make decisions by consensus often make them slowly, make them safely, and avoid the ones that actually matter.",                  tag: "Operations",  readTime: "6 min",  date: "Jul 13 - 2025" },
+  { id: 40, title: "Why Your Dashboard Might Be Lying",                     excerpt: "Data tells you what happened. It doesn't tell you why, and it doesn't tell you what to do. The gap between data and insight is real.",      tag: "Metrics",     readTime: "7 min",  date: "Jul 7 - 2025"  },
+  { id: 41, title: "Structured Thinking for Unstructured Problems",         excerpt: "Most founder decisions happen in conditions where the problem is unclear. Frameworks for navigating ambiguity without paralysis.",           tag: "Thinking",    readTime: "9 min",  date: "Jul 1 - 2025"  },
+  { id: 42, title: "The Two Types of Startup Debt",                         excerpt: "Technical debt gets discussed. Cultural debt — accumulated norms, workarounds, and deferred conversations — is often more expensive.",       tag: "Operations",  readTime: "6 min",  date: "Jun 25 - 2025" },
+  { id: 43, title: "How to Retain Your Best Employees",                     excerpt: "Compensation is rarely the first reason people leave. The conditions that actually drive attrition — and how to address them structurally.",  tag: "Operations",  readTime: "7 min",  date: "Jun 19 - 2025" },
+  { id: 44, title: "The Compounding Cost of Unclear Roles",                 excerpt: "When ownership is ambiguous, teams move slowly, conflict increases, and the best people quietly disengage before they formally quit.",        tag: "Operations",  readTime: "5 min",  date: "Jun 13 - 2025" },
+  { id: 45, title: "Why Strategic Planning Fails in Startups",              excerpt: "Annual planning processes built for stable businesses create the illusion of control in environments where conditions change quarterly.",      tag: "Strategy",    readTime: "8 min",  date: "Jun 7 - 2025"  },
+  { id: 46, title: "The Case for Fewer Metrics",                            excerpt: "More dashboards don't create more clarity. The discipline of choosing three metrics that actually matter — and watching only those.",        tag: "Metrics",     readTime: "5 min",  date: "Jun 1 - 2025"  },
+  { id: 47, title: "What 'Default Alive' Actually Demands",                 excerpt: "Paul Graham's concept is widely quoted and rarely operationalized. What it concretely requires from your unit economics and burn rate.",      tag: "Finance",     readTime: "7 min",  date: "May 26 - 2025" },
+  { id: 48, title: "Why Founders Underestimate Operational Complexity",     excerpt: "Building the product is the understandable part. The operational infrastructure required to deliver it reliably — that's where growth stalls.", tag: "Operations",  readTime: "6 min",  date: "May 20 - 2025" },
+  { id: 49, title: "The Right Way to Think About Competitive Moats",        excerpt: "Moats aren't features. They're structural advantages that compound over time and make it progressively harder for competitors to close the gap.", tag: "Strategy",  readTime: "9 min",  date: "May 14 - 2025" },
+  { id: 50, title: "How to Give Feedback That Changes Behavior",            excerpt: "Most feedback conversations happen too late, are too vague, and don't create the accountability structure needed for actual change.",         tag: "Operations",  readTime: "6 min",  date: "May 8 - 2025"  },
   // Batch 3 — 51–75
-  { id: 51, title: "The Quiet Signals of Culture Drift",                    excerpt: "Cultures don't collapse suddenly. They drift — through small decisions, missed conversations, and what gets tolerated without comment.",      tag: "Operations",  readTime: "7 min",  date: "May 2, 2025"  },
-  { id: 52, title: "Revenue Concentration Risk: When One Client Is Too Big",excerpt: "When one customer represents more than 30% of revenue, the business's risk profile changes fundamentally — and most founders underweight it.", tag: "Finance",   readTime: "6 min",  date: "Apr 26, 2025" },
-  { id: 53, title: "Why Customer Interviews Are Usually Wrong",             excerpt: "What customers say they want and what they'll pay for are different things. The discipline of asking better questions.",                       tag: "Customers",   readTime: "8 min",  date: "Apr 20, 2025" },
-  { id: 54, title: "The Discipline of Strategic Refusal",                   excerpt: "Saying no is a strategy. The opportunities founders decline define the company as much as the ones they pursue.",                             tag: "Strategy",    readTime: "5 min",  date: "Apr 14, 2025" },
-  { id: 55, title: "How to Build Trust With Investors Before You Raise",    excerpt: "The relationship that closes a round rarely starts when the deck is sent. Building investor trust is a slow, deliberate process.",           tag: "Fundraising", readTime: "7 min",  date: "Apr 8, 2025"  },
-  { id: 56, title: "The Unit Economics of Services Businesses",             excerpt: "SaaS metrics don't map cleanly onto services. The distinct economics of time-sold businesses — and how to evaluate their health.",            tag: "Finance",     readTime: "8 min",  date: "Apr 2, 2025"  },
-  { id: 57, title: "What 'Moving Fast' Actually Breaks",                    excerpt: "Speed has real value. It also has real costs — most of which don't appear immediately and aren't measured by velocity metrics.",             tag: "Operations",  readTime: "6 min",  date: "Mar 27, 2025" },
-  { id: 58, title: "How to Diagnose a Stalled Sales Funnel",                excerpt: "When deals stop converting, there are six likely failure points. Identifying which one is causing the stall changes the response entirely.",   tag: "Revenue",     readTime: "9 min",  date: "Mar 21, 2025" },
-  { id: 59, title: "The Myth of the Visionary Founder",                     excerpt: "Vision is necessary. It's not sufficient, and over-indexing on it produces a specific kind of organizational blindness that kills companies.", tag: "Thinking",    readTime: "7 min",  date: "Mar 15, 2025" },
-  { id: 60, title: "Why Some Fundraises Take Three Months and Others Take Nine", excerpt: "The variables that determine fundraise duration aren't always obvious — and many of them are controllable before the process starts.",  tag: "Fundraising", readTime: "8 min",  date: "Mar 9, 2025"  },
-  { id: 61, title: "The Case Against Premature Internationalization",       excerpt: "Going global feels like growth. Often it's a way of adding complexity to a model that hasn't been fully validated domestically.",           tag: "Strategy",    readTime: "6 min",  date: "Mar 3, 2025"  },
-  { id: 62, title: "How to Rebuild a Sales Process After a Bad Quarter",    excerpt: "One bad quarter exposes structural issues. The right response is diagnostic, not motivational — and it starts with the data.",             tag: "Revenue",     readTime: "7 min",  date: "Feb 25, 2025" },
-  { id: 63, title: "What Makes a Co-Founder Relationship Work",             excerpt: "Equity splits get discussed. The harder questions — decision authority, conflict resolution, and exit alignment — rarely do.",              tag: "Operations",  readTime: "8 min",  date: "Feb 19, 2025" },
-  { id: 64, title: "The Economics of a Freemium Model",                     excerpt: "Freemium can be a brilliant acquisition channel or an expensive hobby. The math that determines which one you actually have.",              tag: "Revenue",     readTime: "7 min",  date: "Feb 13, 2025" },
-  { id: 65, title: "Why D2C Brands Plateau After Early Growth",             excerpt: "The CAC-LTV dynamics that make early D2C growth look sustainable — and why the curve bends when you exhaust the easy audience.",           tag: "Revenue",     readTime: "9 min",  date: "Feb 7, 2025"  },
-  { id: 66, title: "How Investors Read Management Accounts",                excerpt: "The numbers investors look at, in the order they look at them, and what each one signals about the quality of the business underneath.",     tag: "Finance",     readTime: "8 min",  date: "Feb 1, 2025"  },
-  { id: 67, title: "The Problem With Feature Roadmaps",                     excerpt: "Roadmaps communicate priorities. They also create false certainty about a future that responds to learning, not planning.",                  tag: "Product",     readTime: "6 min",  date: "Jan 26, 2025" },
-  { id: 68, title: "Building for Enterprise: What Actually Changes",        excerpt: "Moving upmarket isn't just about bigger contracts. The sales cycle, security requirements, and organizational dynamics are genuinely different.", tag: "Revenue",   readTime: "9 min",  date: "Jan 20, 2025" },
-  { id: 69, title: "Why Some Teams Execute and Others Don't",               excerpt: "Execution quality is often attributed to talent. The structural conditions that produce consistent execution are less visible and more important.", tag: "Operations", readTime: "7 min", date: "Jan 14, 2025" },
-  { id: 70, title: "The Fundraising Market Has Changed: What It Means",     excerpt: "The conditions that made 2021 easy are gone. What the current environment demands from founders before, during, and after a raise.",       tag: "Fundraising", readTime: "8 min",  date: "Jan 8, 2025"  },
-  { id: 71, title: "How to Structure a Strategic Partnership",              excerpt: "Most partnerships underdeliver because the incentive structures are misaligned. A framework for deals that actually produce outcomes.",       tag: "Strategy",    readTime: "6 min",  date: "Jan 2, 2025"  },
-  { id: 72, title: "The Conversation You're Avoiding With Your Team",       excerpt: "Unspoken misalignments in founding teams accumulate silently. The structural reasons founders defer important conversations — and the cost.", tag: "Operations",  readTime: "5 min",  date: "Dec 27, 2024" },
-  { id: 73, title: "Why Retention Is a Better Growth Lever Than Acquisition",excerpt: "The math of retention vs. acquisition is widely known. Why founders still over-index on acquisition — and how to shift the balance.",      tag: "Revenue",     readTime: "7 min",  date: "Dec 21, 2024" },
-  { id: 74, title: "How to Think About Your First Institutional Round",     excerpt: "The seed-to-Series A transition changes the game. What to prepare, what to expect, and what the process will demand from you personally.",   tag: "Fundraising", readTime: "9 min",  date: "Dec 15, 2024" },
-  { id: 75, title: "The Long Game: Building a Business That Compounds",     excerpt: "Most founders optimize for the next milestone. The decisions that compound over 10 years are different — and they start on day one.",       tag: "Strategy",    readTime: "10 min", date: "Dec 9, 2024"  },
+  { id: 51, title: "The Quiet Signals of Culture Drift",                    excerpt: "Cultures don't collapse suddenly. They drift — through small decisions, missed conversations, and what gets tolerated without comment.",      tag: "Operations",  readTime: "7 min",  date: "May 2 - 2025"  },
+  { id: 52, title: "Revenue Concentration Risk: When One Client Is Too Big",excerpt: "When one customer represents more than 30% of revenue, the business's risk profile changes fundamentally — and most founders underweight it.", tag: "Finance",   readTime: "6 min",  date: "Apr 26 - 2025" },
+  { id: 53, title: "Why Customer Interviews Are Usually Wrong",             excerpt: "What customers say they want and what they'll pay for are different things. The discipline of asking better questions.",                       tag: "Customers",   readTime: "8 min",  date: "Apr 20 - 2025" },
+  { id: 54, title: "The Discipline of Strategic Refusal",                   excerpt: "Saying no is a strategy. The opportunities founders decline define the company as much as the ones they pursue.",                             tag: "Strategy",    readTime: "5 min",  date: "Apr 14 - 2025" },
+  { id: 55, title: "How to Build Trust With Investors Before You Raise",    excerpt: "The relationship that closes a round rarely starts when the deck is sent. Building investor trust is a slow, deliberate process.",           tag: "Fundraising", readTime: "7 min",  date: "Apr 8 - 2025"  },
+  { id: 56, title: "The Unit Economics of Services Businesses",             excerpt: "SaaS metrics don't map cleanly onto services. The distinct economics of time-sold businesses — and how to evaluate their health.",            tag: "Finance",     readTime: "8 min",  date: "Apr 2 - 2025"  },
+  { id: 57, title: "What 'Moving Fast' Actually Breaks",                    excerpt: "Speed has real value. It also has real costs — most of which don't appear immediately and aren't measured by velocity metrics.",             tag: "Operations",  readTime: "6 min",  date: "Mar 27 - 2025" },
+  { id: 58, title: "How to Diagnose a Stalled Sales Funnel",                excerpt: "When deals stop converting, there are six likely failure points. Identifying which one is causing the stall changes the response entirely.",   tag: "Revenue",     readTime: "9 min",  date: "Mar 21 - 2025" },
+  { id: 59, title: "The Myth of the Visionary Founder",                     excerpt: "Vision is necessary. It's not sufficient, and over-indexing on it produces a specific kind of organizational blindness that kills companies.", tag: "Thinking",    readTime: "7 min",  date: "Mar 15 - 2025" },
+  { id: 60, title: "Why Some Fundraises Take Three Months and Others Take Nine", excerpt: "The variables that determine fundraise duration aren't always obvious — and many of them are controllable before the process starts.",  tag: "Fundraising", readTime: "8 min",  date: "Mar 9 - 2025"  },
+  { id: 61, title: "The Case Against Premature Internationalization",       excerpt: "Going global feels like growth. Often it's a way of adding complexity to a model that hasn't been fully validated domestically.",           tag: "Strategy",    readTime: "6 min",  date: "Mar 3 - 2025"  },
+  { id: 62, title: "How to Rebuild a Sales Process After a Bad Quarter",    excerpt: "One bad quarter exposes structural issues. The right response is diagnostic, not motivational — and it starts with the data.",             tag: "Revenue",     readTime: "7 min",  date: "Feb 25 - 2025" },
+  { id: 63, title: "What Makes a Co-Founder Relationship Work",             excerpt: "Equity splits get discussed. The harder questions — decision authority, conflict resolution, and exit alignment — rarely do.",              tag: "Operations",  readTime: "8 min",  date: "Feb 19 - 2025" },
+  { id: 64, title: "The Economics of a Freemium Model",                     excerpt: "Freemium can be a brilliant acquisition channel or an expensive hobby. The math that determines which one you actually have.",              tag: "Revenue",     readTime: "7 min",  date: "Feb 13 - 2025" },
+  { id: 65, title: "Why D2C Brands Plateau After Early Growth",             excerpt: "The CAC-LTV dynamics that make early D2C growth look sustainable — and why the curve bends when you exhaust the easy audience.",           tag: "Revenue",     readTime: "9 min",  date: "Feb 7 - 2025"  },
+  { id: 66, title: "How Investors Read Management Accounts",                excerpt: "The numbers investors look at, in the order they look at them, and what each one signals about the quality of the business underneath.",     tag: "Finance",     readTime: "8 min",  date: "Feb 1 - 2025"  },
+  { id: 67, title: "The Problem With Feature Roadmaps",                     excerpt: "Roadmaps communicate priorities. They also create false certainty about a future that responds to learning, not planning.",                  tag: "Product",     readTime: "6 min",  date: "Jan 26 - 2025" },
+  { id: 68, title: "Building for Enterprise: What Actually Changes",        excerpt: "Moving upmarket isn't just about bigger contracts. The sales cycle, security requirements, and organizational dynamics are genuinely different.", tag: "Revenue",   readTime: "9 min",  date: "Jan 20 - 2025" },
+  { id: 69, title: "Why Some Teams Execute and Others Don't",               excerpt: "Execution quality is often attributed to talent. The structural conditions that produce consistent execution are less visible and more important.", tag: "Operations", readTime: "7 min", date: "Jan 14 - 2025" },
+  { id: 70, title: "The Fundraising Market Has Changed: What It Means",     excerpt: "The conditions that made 2021 easy are gone. What the current environment demands from founders before, during, and after a raise.",       tag: "Fundraising", readTime: "8 min",  date: "Jan 8 - 2025"  },
+  { id: 71, title: "How to Structure a Strategic Partnership",              excerpt: "Most partnerships underdeliver because the incentive structures are misaligned. A framework for deals that actually produce outcomes.",       tag: "Strategy",    readTime: "6 min",  date: "Jan 2 - 2025"  },
+  { id: 72, title: "The Conversation You're Avoiding With Your Team",       excerpt: "Unspoken misalignments in founding teams accumulate silently. The structural reasons founders defer important conversations — and the cost.", tag: "Operations",  readTime: "5 min",  date: "Dec 27 - 2024" },
+  { id: 73, title: "Why Retention Is a Better Growth Lever Than Acquisition",excerpt: "The math of retention vs. acquisition is widely known. Why founders still over-index on acquisition — and how to shift the balance.",      tag: "Revenue",     readTime: "7 min",  date: "Dec 21 - 2024" },
+  { id: 74, title: "How to Think About Your First Institutional Round",     excerpt: "The seed-to-Series A transition changes the game. What to prepare, what to expect, and what the process will demand from you personally.",   tag: "Fundraising", readTime: "9 min",  date: "Dec 15 - 2024" },
+  { id: 75, title: "The Long Game: Building a Business That Compounds",     excerpt: "Most founders optimize for the next milestone. The decisions that compound over 10 years are different — and they start on day one.",       tag: "Strategy",    readTime: "10 min", date: "Dec 9 - 2024"  },
 ];
 
 // =====================================================
@@ -364,65 +362,29 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background — fine diagonal hatching using blue-300 */}
-
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
         {/* LEFT */}
         <div className="space-y-7">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{ backgroundColor: 'rgba(147,197,253,0.08)', border: '1px solid rgba(147,197,253,0.18)' }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#93C5FD' }} />
-            <span className="text-xs font-medium st uppercase" style={{ color: '#93C5FD' }}>
-              Sarsen &amp; Company · Blogs
-            </span>
-          </div>
-
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{
-                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-              }}
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Thinking
-              <br />
-              <span style={{ color: '#ffffff' }}>Out Loud.</span>
+              <span className="block text-blue-300">Out Loud.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
               In-depth perspectives on strategy, revenue architecture, capital decisions, and the structural realities of building startups in India.
             </p>
           </div>
-
-          {/* Stats row */}
-          <div className="flex flex-wrap gap-6 pt-2">
-            {[
-              { value: '75+',  label: 'Articles'   },
-              { value: '11',   label: 'Categories'  },
-              { value: '5 min', label: 'Avg. read'  },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs sttext-gray-300">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* RIGHT — SVG visual placeholder (unchanged layout, only colors adjusted) */}
+        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Blog Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Blog Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
@@ -562,7 +524,7 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
 
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: '1px solid #E5E7EB' }}
+          style={{  }}
         >
           <span className="text-xs text-gray-500">{post.readTime} read</span>
           <span className="text-xs text-gray-500">{post.date}</span>
@@ -573,7 +535,7 @@ const BlogCard: FC<BlogCardProps> = ({ post, onRead, animIndex }) => {
 };
 
 // =====================================================
-// REPORTS ADVERTISEMENT STRIP — colors updated
+// REPORTS ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface ReportStripProps {
@@ -583,7 +545,7 @@ interface ReportStripProps {
 const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
   <div
     className="my-12 rounded-md overflow-hidden"
-    style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -593,22 +555,18 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
             className="w-8 h-8 rounded-md flex items-center justify-center"
             style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-white">
-              Research &amp; Reports
-            </p>
-            <p className="text-sm  text-gray-400">
-              Data-backed analysis for founders
-            </p>
+            <p className="text-xs font-medium text-blue-300">Research &amp; Reports</p>
+            <p className="text-sm text-gray-400">Data-backed analysis for founders</p>
           </div>
         </div>
         <a
           href="/resources/reports"
-          className="text-xs font-medium flex items-center gap-1 text-white hover:opacity-80 transition-colors"
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Reports
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -617,47 +575,76 @@ const ReportsAdvertStrip: FC<ReportStripProps> = ({ onReportClick }) => (
         </a>
       </div>
 
-      {/* Report teasers */}
+      {/* Grid of report cards with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_REPORTS.map((report) => (
-          <div
-            key={report.title}
-            onClick={() => onReportClick(report.title)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{
-              backgroundColor: '#132B47',
-              border: '1px solid rgba(59,130,246,0.1)',
-            }}
-            aria-label={`Access report: ${report.title}`}
-          >
-            <span
-              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#ffffff' }}
+        {FEATURED_REPORTS.map((report) => {
+          const tagStyle = getTagStyle(report.tag);
+          return (
+            <div
+              key={report.title}
+              onClick={() => onReportClick(report.title)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && onReportClick(report.title)}
+              className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
+              aria-label={`Access report: ${report.title}`}
             >
-              {report.tag}
-            </span>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
-            >
-              {report.title}
-            </p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs text-blue-400">{report.pages}</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-400">{report.date}</span>
+              {/* Top accent line */}
+              <div
+                className="h-0.5 w-full"
+                style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
+              />
+
+              {/* Thumbnail header */}
+              <div
+                className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+                style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
+              >
+                <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                  <div className="w-14 h-14 rounded-full border border-blue-400" />
+                </div>
+                <div className="relative z-10">
+                  <span
+                    className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                    style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+                  >
+                    {report.tag}
+                  </span>
+                </div>
+                {/* Lock icon */}
+                <div
+                  className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                  aria-hidden="true"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="px-5 py-4">
+                <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                  {report.title}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-blue-400">{report.pages}</span>
+                  <span className="text-xs text-gray-600">·</span>
+                  <span className="text-xs text-gray-500">{report.date}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </div>
 );
 
 // =====================================================
-// CASE STUDIES ADVERTISEMENT STRIP — colors updated
+// CASE STUDIES ADVERTISEMENT STRIP — with thumbnails (h-28)
 // =====================================================
 
 interface CaseStudyStripProps {
@@ -667,7 +654,7 @@ interface CaseStudyStripProps {
 const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) => (
   <div
     className="my-12 rounded-md overflow-hidden"
-    style={{ backgroundColor: '#0A1E3D' }}
+    style={{ backgroundColor: '#132B47', border: '1px solid rgba(59,130,246,0.12)' }}
   >
     <div className="px-6 sm:px-8 py-6 sm:py-8">
       {/* Header */}
@@ -675,25 +662,21 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-md flex items-center justify-center"
-            style={{ backgroundColor: '#132B47' }}
+            style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}
           >
-            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-medium sttext-white">
-              Case Studies
-            </p>
-            <p className="text-sm  text-gray-400">
-              Real decisions. Real outcomes.
-            </p>
+            <p className="text-xs font-medium text-blue-300">Case Studies</p>
+            <p className="text-sm text-gray-400">Real decisions. Real outcomes.</p>
           </div>
         </div>
         <a
           href="/resources/case-studies"
-          className="text-xs font-medium flex items-center gap-1 text-blue-400 hover:opacity-80 transition-colors"
+          className="text-xs font-medium flex items-center gap-1 text-blue-300 hover:opacity-80 transition-opacity"
         >
           All Cases
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -702,40 +685,69 @@ const CaseStudiesAdvertStrip: FC<CaseStudyStripProps> = ({ onCaseStudyClick }) =
         </a>
       </div>
 
-      {/* Case study teasers */}
+      {/* Grid of case study cards with thumbnails */}
       <div className="grid sm:grid-cols-3 gap-4">
-        {FEATURED_CASE_STUDIES.map((cs) => (
-          <div
-            key={cs.title}
-            onClick={() => onCaseStudyClick(cs.title)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
-            className="group cursor-pointer rounded-md p-4 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{
-              backgroundColor: '#132B47',
-              border: '1px solid rgba(59,130,246,0.1)',
-            }}
-            aria-label={`Access case study: ${cs.title}`}
-          >
-            <span
-              className="inline-block px-2 py-0.5 rounded-md text-xs font-semibold mb-2"
-              style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#ffffff' }}
+        {FEATURED_CASE_STUDIES.map((cs) => {
+          const tagStyle = getTagStyle(cs.tag);
+          return (
+            <div
+              key={cs.title}
+              onClick={() => onCaseStudyClick(cs.title)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && onCaseStudyClick(cs.title)}
+              className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+              style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' }}
+              aria-label={`View case study: ${cs.title}`}
             >
-              {cs.tag}
-            </span>
-            <p
-              className="text-sm font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
-            >
-              {cs.title}
-            </p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs text-gray-300">{cs.sector}</span>
-              <span className="text-xs text-gray-600">·</span>
-              <span className="text-xs text-gray-400">{cs.year}</span>
+              {/* Top accent line */}
+              <div
+                className="h-0.5 w-full"
+                style={{ background: `linear-gradient(90deg, ${tagStyle.text}40, transparent)` }}
+              />
+
+              {/* Thumbnail header */}
+              <div
+                className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+                style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
+              >
+                <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+                  <div className="w-14 h-14 rounded-full border border-blue-400" />
+                </div>
+                <div className="relative z-10">
+                  <span
+                    className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold"
+                    style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+                  >
+                    {cs.tag}
+                  </span>
+                </div>
+                {/* Lock icon */}
+                <div
+                  className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+                  aria-hidden="true"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="px-5 py-4">
+                <p className="text-sm font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white">
+                  {cs.title}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">{cs.sector}</span>
+                  <span className="text-xs text-gray-600">·</span>
+                  <span className="text-xs text-gray-500">{cs.year}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </div>
