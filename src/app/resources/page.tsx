@@ -273,14 +273,13 @@ const CATEGORY_LABELS: string[] = [
 
 const HeroSection: FC = () => {
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[480px] sm:min-h-[560px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section
+      className="relative bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      style={{ minHeight: '520px' }}
+    >
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-md px-4 py-2">
-              <div className="w-1.5 h-1.5 rounded-md bg-blue-400 animate-pulse" />
-              <span className="text-blue-300 text-xs font-medium uppercase">Partner Resources</span>
-            </div>
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
                 The Resource
@@ -291,17 +290,6 @@ const HeroSection: FC = () => {
                 events, reports, cohorts, and strategic tools — all in one place.
               </p>
             </div>
-            <nav className="flex flex-wrap gap-3 pt-2" aria-label="Resource categories">
-              {CATEGORY_LABELS.map((cat) => (
-                <a
-                  key={cat}
-                  href={`#${cat.toLowerCase().replace(' ', '-')}`}
-                  className="px-4 py-1.5 rounded-md border border-blue-700/40 text-blue-200 text-xs font-medium hover:border-blue-500 hover:text-white transition-all duration-200"
-                >
-                  {cat}
-                </a>
-              ))}
-            </nav>
           </div>
           <div>
             <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
@@ -313,7 +301,7 @@ const HeroSection: FC = () => {
 };
 
 // =====================================================
-// RESOURCE CARD — exact same as final version from case study
+// RESOURCE CARD — fixed height (300px), bottom row aligned
 // =====================================================
 
 interface ResourceCardProps {
@@ -332,10 +320,11 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onCardClick()}
-      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col"
       style={{
         width: '280px',
         minWidth: '280px',
+        height: '300px', // fixed height for all cards
         backgroundColor: cardStyle.cardBg,
         border: `1px solid ${cardStyle.cardBorder}`,
       }}
@@ -343,13 +332,13 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
     >
       {/* Top accent line */}
       <div
-        className="h-0.5 w-full"
+        className="h-0.5 w-full flex-shrink-0"
         style={{ background: `linear-gradient(90deg, ${accentColor}40, transparent)` }}
       />
 
-      {/* Thumbnail header */}
+      {/* Thumbnail header - fixed height */}
       <div
-        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden flex-shrink-0"
         style={{ background: 'linear-gradient(160deg, #132B47 0%, #0A1E3D 100%)' }}
       >
         <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
@@ -374,20 +363,23 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
         </div>
       </div>
 
-      {/* Card body */}
-      <div className="px-5 py-4" style={{ background: cardStyle.bodyBg }}>
-        <h3
-          className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
-          style={{ fontSize: '0.9rem', color: cardStyle.cardTitle }}
-        >
-          {item.title}
-        </h3>
-        <p className="text-xs mb-4 line-clamp-2" style={{ color: cardStyle.cardDesc }}>
-          {item.description}
-        </p>
-        <div className="flex items-center justify-between pt-3" style={{ borderTop: `1px solid ${cardStyle.divider}` }}>
+      {/* Card body - takes remaining space, bottom row pushed to bottom */}
+      <div className="px-5 py-4 flex flex-col flex-1" style={{ background: cardStyle.bodyBg }}>
+        <div>
+          <h3
+            className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
+            style={{ fontSize: '0.9rem', color: cardStyle.cardTitle }}
+          >
+            {item.title}
+          </h3>
+          <p className="text-xs mb-4 line-clamp-2" style={{ color: cardStyle.cardDesc }}>
+            {item.description}
+          </p>
+        </div>
+        {/* Bottom row - pushed to bottom by mt-auto */}
+        <div className="flex items-center justify-between pt-3 mt-auto">
           <div className="flex items-center gap-2">
-            <span className="text-xs px-2 py-0.5 rounded-md" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
+            <span className="text-xs px-2 py-0.5 rounded-md" style={{ color: '#0A1E3D' }}>
               {item.meta}
             </span>
           </div>
@@ -592,16 +584,16 @@ const reportsData: ResourceItem[] = [
 ];
 
 const cohortsData: ResourceItem[] = [
-  { title: 'Revenue Architecture Cohort — Batch 7', description: '12-week structured program redesigning how founders build predictable revenue.', tag: 'Revenue', meta: 'Starts Apr 2026 · 15 seats' },
-  { title: 'Capital Readiness Program — Pre-Series A', description: 'Intensive preparation for founders 6–9 months before a fundraise.', tag: 'Fundraising', meta: 'Starts May 2026 · 12 seats' },
-  { title: 'Operations & Systems Cohort — Batch 4', description: 'For founders building their first management layer and accountability infrastructure.', tag: 'Operations', meta: 'Starts May 2026 · 10 seats' },
-  { title: 'Strategic Clarity Cohort — Early Stage', description: 'For founders at ₹0–50L revenue clarifying direction, positioning, and priorities.', tag: 'Strategy', meta: 'Starts Jun 2026 · 20 seats' },
-  { title: 'Financial Foundations Program — Bootcamp', description: 'A 4-week intensive on startup finance, modeling, and cash management.', tag: 'Finance', meta: 'Starts Apr 2026 · 25 seats' },
-  { title: 'Product-Market Fit Lab — Cohort 3', description: 'Diagnostic and design program for founders still searching for the right fit.', tag: 'PMF', meta: 'Starts Jun 2026 · 15 seats' },
-  { title: 'Founder-CEO Transition Program', description: 'For founders growing into the CEO role as their company scales beyond 20 people.', tag: 'Leadership', meta: 'Starts Jul 2026 · 8 seats' },
-  { title: 'D2C Growth Cohort — Profitable Scaling', description: 'Tailored for direct-to-consumer founders navigating CAC and margin pressures.', tag: 'D2C', meta: 'Starts May 2026 · 12 seats' },
-  { title: 'B2B Sales Systems Cohort', description: 'Building enterprise pipeline, sales process, and team structure for B2B founders.', tag: 'B2B', meta: 'Starts Jun 2026 · 15 seats' },
-  { title: 'Sarsen Fellows Program — Annual Cohort', description: 'Our most selective program for high-potential founders with exceptional upside.', tag: 'Fellowship', meta: 'Starts Aug 2026 · 6 seats' },
+  { title: 'Revenue Architecture Cohort — Batch 7', description: '12-week structured program redesigning how founders build predictable revenue.', tag: 'Revenue', meta: 'Apr 2026 · Bangalore' },
+  { title: 'Capital Readiness Program — Pre-Series A', description: 'Intensive preparation for founders 6–9 months before a fundraise.', tag: 'Fundraising', meta: 'May 2026 · Bangalore' },
+  { title: 'Operations & Systems Cohort — Batch 4', description: 'For founders building their first management layer and accountability infrastructure.', tag: 'Operations', meta: 'May 2026 · Bangalore' },
+  { title: 'Strategic Clarity Cohort — Early Stage', description: 'For founders at ₹0–50L revenue clarifying direction, positioning, and priorities.', tag: 'Strategy', meta: 'Jun 2026 · Bangalore' },
+  { title: 'Financial Foundations Program — Bootcamp', description: 'A 4-week intensive on startup finance, modeling, and cash management.', tag: 'Finance', meta: 'Apr 2026 · Goa' },
+  { title: 'Product-Market Fit Lab — Cohort 3', description: 'Diagnostic and design program for founders still searching for the right fit.', tag: 'PMF', meta: 'Jun 2026 · Bangalore' },
+  { title: 'Founder-CEO Transition Program', description: 'For founders growing into the CEO role as their company scales beyond 20 people.', tag: 'Leadership', meta: 'Jul 2026 · Goa' },
+  { title: 'D2C Growth Cohort — Profitable Scaling', description: 'Tailored for direct-to-consumer founders navigating CAC and margin pressures.', tag: 'D2C', meta: 'May 2026 · Bangalore' },
+  { title: 'B2B Sales Systems Cohort', description: 'Building enterprise pipeline, sales process, and team structure for B2B founders.', tag: 'B2B', meta: 'Jun 2026 · Bangalore' },
+  { title: 'Sarsen Fellows Program — Annual Cohort', description: 'Our most selective program for high-potential founders with exceptional upside.', tag: 'Fellowship', meta: 'Aug 2026 · Bangalore' },
 ];
 
 const toolsData: ResourceItem[] = [

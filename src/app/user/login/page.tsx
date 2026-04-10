@@ -183,7 +183,7 @@ function UserLoginForm() {
                 <button
                   type="button"
                   className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                  onClick={() => setError('To reset your password, please contact us via the contact page.')}
+                  onClick={() => setError('To reset your password, please contact us via the contact page or email us at contact@sarsenpartners.com.')}
                 >
                   Forgot Password?
                 </button>

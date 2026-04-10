@@ -372,59 +372,32 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* Background: subtle grid pattern using blue-300 */}
-
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         {/* LEFT */}
-        <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{ backgroundColor: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.18)' }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            <span className="text-blue-300 text-xs font-medium st uppercase">
-              Sarsen &amp; Company · Case Studies
-            </span>
-          </div>
+        <div className="space-y-7">   {/* changed from space-y-8 to space-y-7 */}
+          
 
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
-              Real Work.
-              <br />
-              <span className="text-blue-300">Real Outcomes.</span>
-            </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
-              Documented engagements with Indian founders — the decisions we helped make, the problems we diagnosed, and the results that followed.
-            </p>
-          </div>
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
+    Real Work.
+    <span className="block text-blue-300">Real Outcomes.</span>
+  </h1>
+  <p className="text-base sm:text-lg max-w-md text-gray-400">
+    Documented engagements with Indian founders — the decisions we helped make, the problems we diagnosed, and the results that followed.
+  </p>
+</div>
 
-          <div className="flex flex-wrap gap-8 pt-2">
-            {[
-              { value: '75+', label: 'Engagements'  },
-              { value: '18',  label: 'Sectors'       },
-              { value: '₹80Cr+', label: 'Capital influenced' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl  text-white">{stat.value}</p>
-                <p className="text-xs stmt-0.5 text-gray-500">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+          
         </div>
 
         {/* RIGHT — placeholder */}
-                <div
+        <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Case Studies Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Case Studies Head.svg" alt="" className="max-w-full h-auto" />
         </div>
       </div>
     </div>
