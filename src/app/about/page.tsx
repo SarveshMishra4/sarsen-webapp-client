@@ -367,71 +367,71 @@ interface TeamMember {
 }
 
 const TeamSection = () => {
-  const BASE_MEMBERS: TeamMember[] = [
-    {
-      name: 'Sameer Dhaiya',
-      role: 'Head of Supply Chain',
-      tier: 'Leadership',
-      bio: '15+ years in strategy consulting with focus on growth-stage technology companies. Previously led strategic initiatives at leading consulting firms.',
-      image: '/assets/about/people/Sameer.png'
-    },
-    {
-      name: 'Sarvesh Mishra',
-      role: 'Head of Strategy',
-      tier: 'Leadership',
-      bio: 'Expert in market research and financial modeling. Former investment analyst with deep experience in startup valuation and market sizing.',
-      image: '/assets/about/people/Sarvesh.png'
-    },
-    {
-      name: 'Vishal Gupta',
-      role: 'Head of Business & Operations',
-      tier: 'Leadership',
-      bio: 'Operational strategist with track record of helping 50+ startups scale efficiently. Background in process optimization and organizational design.',
-      image: '/assets/about/people/Vishal.png'
-    },
-    {
-      name: 'Aakansha Rao',
-      role: 'Head of Customer Relations',
-      tier: 'Leadership',
-      bio: 'Specialist in sector-specific analysis and competitive strategy. Published researcher on Indian startup ecosystem trends and dynamics.',
-      image: '/assets/about/people/Aakansha.png'
-    },
-    {
-      name: 'Rishabh Panda',
-      role: 'Strategy & Growth Associate',
-      tier: 'Associate',
-      bio: 'Mumbai-based strategist with deep exposure to financial services and consumer markets. Adept at translating complex data into clear investment narratives.',
-      image: '/assets/about/people/Panda.png'
-    },
-    {
-      name: 'Eitan Shapiro',
-      role: 'Senior Associate',
-      tier: 'Associate',
-      bio: 'Former strategy consultant from Tel Aviv with expertise in venture-backed growth models and cross-border market entry across Europe and Asia.',
-      image: '/assets/about/people/Eitan.png'
-    },
-    {
-      name: 'Karan Malhotra',
-      role: 'Associate',
-      tier: 'Associate',
-      bio: 'From Bhopal, with strong roots in Tier-2 market dynamics. Specialises in go-to-market strategy and operational scale-up for emerging businesses.',
-      image: '/assets/about/people/Karan.png'
-    },
-    {
-      name: 'Meghna Borah',
-      role: 'Analyst',
-      tier: 'Analyst',
-      bio: 'Originally from Assam, Meghna brings a sharp analytical lens to sector research and competitive benchmarking across Northeast and Southeast Asian markets.',
-      image: '/assets/about/people/Meghna.png'
-    },
-    {
-      name: 'Arun Nair',
-      role: 'Analyst',
-      tier: 'Analyst',
-      bio: 'Chennai-based analyst with expertise in quantitative modelling and startup ecosystem research across South India\'s technology and manufacturing sectors.',
-      image: '/assets/about/people/Arun.png'
-    }
-  ];
+const BASE_MEMBERS: TeamMember[] = [
+  {
+    name: 'Sameer Dhaiya',
+    role: 'Head of Supply Chain',
+    tier: 'Leadership',
+    bio: 'Over a decade of experience managing end-to-end supply chain operations across manufacturing and consumer businesses. Has led procurement restructuring, vendor consolidation, and logistics optimisation for businesses at various stages of scale.',
+    image: '/assets/about/people/Sameer.png'
+  },
+  {
+    name: 'Sarvesh Mishra',
+    role: 'Head of Strategy',
+    tier: 'Leadership',
+    bio: 'A former entrepreneur who built and scaled a services business before moving into strategy advisory. Has worked extensively in private equity deal evaluation and portfolio strategy, bringing a founder\'s pragmatism to every engagement.',
+    image: '/assets/about/people/Sarvesh.png'
+  },
+  {
+    name: 'Vishal Gupta',
+    role: 'Head of Business & Operations',
+    tier: 'Leadership',
+    bio: 'Brings deep operational experience across distribution, team structuring, and business growth. Has worked directly with founders to build systems that sustain performance under real growth conditions — not just on paper.',
+    image: '/assets/about/people/Vishal.png'
+  },
+  {
+    name: 'Aakansha Rao',
+    role: 'Head of Customer Relations',
+    tier: 'Leadership',
+    bio: 'Leads client relationships with a focus on long-term engagement quality. Background in consulting and account management across professional services, with a track record of translating client needs into structured, actionable briefs.',
+    image: '/assets/about/people/Aakansha.png'
+  },
+  {
+    name: 'Rishabh Panda',
+    role: 'Strategy & Growth Associate',
+    tier: 'Associate',
+    bio: 'Previously at Ernst & Young\'s transaction advisory practice, supporting financial due diligence and market analysis across mid-market engagements. Brings structured thinking and a strong grasp of numbers to growth strategy work.',
+    image: '/assets/about/people/Panda.png'
+  },
+  {
+    name: 'Eitan Shapiro',
+    role: 'Senior Associate',
+    tier: 'Associate',
+    bio: 'Formerly with Bank Leumi\'s private equity and structured finance division, where he worked on investment screening and portfolio analysis across technology and industrial sectors. Rigorous, numbers-first, and comfortable with ambiguity.',
+    image: '/assets/about/people/Eitan.png'
+  },
+  {
+    name: 'Karan Malhotra',
+    role: 'Associate',
+    tier: 'Associate',
+    bio: 'Has worked with businesses across manufacturing, distribution, and emerging consumer segments. Understands how companies operate under resource constraints and brings practical grounding to go-to-market and operational strategy work.',
+    image: '/assets/about/people/Karan.png'
+  },
+  {
+    name: 'Meghna Borah',
+    role: 'Analyst',
+    tier: 'Analyst',
+    bio: 'Experienced in primary research, stakeholder mapping, and sector analysis. Previously worked with a policy research organisation focused on economic development, where she developed strong instincts for structuring qualitative findings into clear outputs.',
+    image: '/assets/about/people/Meghna.png'
+  },
+  {
+    name: 'Arun Nair',
+    role: 'Analyst',
+    tier: 'Analyst',
+    bio: 'Background in financial analysis and transaction support from a stint at a Big Four advisory practice. Methodical and detail-oriented, with hands-on experience in due diligence, financial modelling, and competitive research.',
+    image: '/assets/about/people/Arun.png'
+  }
+];
 
   const CARD_WIDTH = 280;
   const CARD_GAP = 20;
@@ -524,16 +524,12 @@ const TeamSection = () => {
   };
 
   const tierColor: Record<string, string> = {
-    'Leadership Team': 'text-yellow-300',
+    'Leadership': 'text-blue-300',
     'Associate': 'text-blue-300',
-    'Analyst': 'text-emerald-300',
+    'Analyst': 'text-blue-300',
   };
 
-  const tierBadge: Record<string, string> = {
-    'Leadership Team': 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/20',
-    'Associate': 'bg-blue-400/10 text-blue-300 border border-blue-400/20',
-    'Analyst': 'bg-emerald-400/10 text-emerald-300 border border-emerald-400/20',
-  };
+
 
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -610,9 +606,7 @@ const TeamSection = () => {
                     />
                   </div>
                   <div className="p-5">
-                    <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-3 ${tierBadge[member.tier]}`}>
-                      {member.tier}
-                    </span>
+                    
                     <h3 className="text-lg font-medium text-white mb-0.5">{member.name}</h3>
                     <p className={`text-sm mb-3 ${tierColor[member.tier]}`}>{member.role}</p>
                     <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>

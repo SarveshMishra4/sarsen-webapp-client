@@ -461,39 +461,39 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: "What types of businesses do you work with?",
-      answer: "We work with businesses from pre-revenue startups to ₹10Cr revenue companies across all industries. Our expertise has been honed in resource-constrained startup environments, which means we bring exceptional value-per-rupee thinking to every client—whether you're bootstrapped or well-funded, B2B or B2C, tech or traditional."
+      question: "What types of businesses do you work with ?",
+      answer: "We work across the full spectrum of emerging businesses and established corporations, with a specialisation in startups. Regardless of where you are on that journey, our approach is grounded in strategic rigour. Clients turn to us as strategy experts because we cut through complexity and deliver clarity—without the fluff or unnecessary overhead."
     },
     {
-      question: "Do you offer free consultations or calls?",
+      question: "Do you offer free consultations or calls ?",
       answer: "No. We don't believe in unpaid advisory conversations. Every interaction starts with a paid diagnostic session where we analyze your situation and provide structured guidance. This ensures focus, seriousness, and real value for both sides."
     },
     {
-      question: "How long does a typical engagement last?",
+      question: "How long does a typical engagement last ?",
       answer: "Most of our projects are designed for 2-week delivery cycles. We believe in fast turnaround without compromising quality. Some services like retainer advisory are ongoing (3-month minimum), while workshops are single-day intensives. Unlike traditional consulting that drags on for months, we deliver actionable outputs quickly so you can start implementing immediately."
     },
     {
-      question: "What exactly will I receive at the end of the engagement?",
+      question: "What exactly will I receive at the end of the engagement ?",
       answer: "You'll receive tangible, execution-ready deliverables—not vague PowerPoint advice. This includes Excel financial models (unlocked, with formulas), strategic roadmaps, process documents, frameworks, templates, and tools. Everything is designed for your team to implement without ongoing consulting dependency. You own all deliverables completely."
     },
     {
-      question: "How is your pricing structured?",
-      answer: "Our services range from ₹15,000 to ₹75,000 depending on scope and complexity. This is approximately 1/10th the cost of traditional Big 4 consulting. We offer fixed-price project-based engagements (no hourly billing surprises), monthly retainers for ongoing support, and group workshops at ₹7,000 per participant. Payment is typically 100% upfront for projects under ₹40,000, or 50% upfront + 50% at midpoint for larger engagements."
+      question: "How is your pricing structured ?",
+      answer: "Our services range from ₹15,000 to ₹1,75,000 depending on scope and complexity. This is approximately One-Tenth the cost of traditional Big 4 consulting. We offer fixed-price project-based engagements, monthly retainers for ongoing support. Payment is typically upfront for projects unless it is a customised engagement."
     },
     {
-      question: "Do you offer services remotely or only in-person?",
-      answer: "We work both remotely and in-person, depending on your preference and project needs. Most of our engagements are conducted via video calls, which allows us to serve clients across India efficiently. For certain workshops or intensive sessions, in-person meetings can be arranged in major metros. Our remote delivery model is battle-tested and highly effective—we've worked with 100+ clients successfully via video."
+      question: "Do you offer services remotely or only in-person ?",
+      answer: "We work both remotely and in-person, depending on your preference and engagement needs. Most of our engagements are conducted via video calls, which allows us to serve clients across Globe efficiently. For certain workshops or intensive sessions, in-person meetings can be arranged in major cities across the globe. Our remote delivery model is battle-tested and highly effective."
     },
     {
-      question: "What makes you different from other consulting firms?",
-      answer: "Three key differences: (1) Startup-honed discipline—we learned strategy where every rupee matters, so we eliminate fluff; (2) Execution-ready outputs—you get working models and frameworks, not just presentations; (3) Accessible pricing—we're 1/10th the cost of Big 4 because we don't have marble lobbies and bloated overhead. Plus, we've been entrepreneurs ourselves—we understand your challenges from lived experience, not just textbooks."
+      question: "What makes you different from other consulting firms ?",
+      answer: "Three key differences: Startup-honed discipline—we learned strategy where every rupee matters, so we eliminate fluff. Secondly, Execution-ready outputs—you get working models and frameworks, not just presentations. Thirdly, Accessible pricing—we're One-Tenth the cost of Big 4. Plus, we've been entrepreneurs ourselves—we understand your challenges from lived experience."
     },
     {
-      question: "Can you help with implementation, or just strategy?",
+      question: "Can you help with implementation, or just strategy ?",
       answer: "Our core offering is strategic consulting—we provide the plan, frameworks, and roadmap. However, we design everything to be immediately executable by your team. For ongoing implementation support, we offer retainer-based advisory where you can check in with us as you execute. We intentionally don't create consulting dependency—our goal is to empower you to run your business independently after our engagement."
     },
     {
-      question: "What if I'm not sure which service I need?",
+      question: "What if I'm not sure which service I need ?",
       answer: "That's exactly what our Strategic Diagnostic & Direction engagement is designed for. Most founders don't come to us with clearly defined problems — they come with symptoms. The diagnostic helps us identify what actually needs attention and what doesn't. If you're at an early stage, it brings clarity on direction, priorities, and what to focus on next. If you're already generating revenue, it helps identify the constraints limiting growth. If you're scaling, it surfaces operational, financial, or structural inefficiencies that need correction. The diagnostic is a paid, structured engagement and serves as the entry point to all our work. It ensures that any subsequent strategy or execution is based on facts, not assumptions."
     }
   ];
@@ -512,8 +512,8 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto">
-            Common questions about our services, process, and pricing. 
-            Don't see your question? Send us a message above.
+            Common questions about our Services, Process, and Pricing. 
+            Don't see your question ? Send us a message above.
           </p>
         </div>
 

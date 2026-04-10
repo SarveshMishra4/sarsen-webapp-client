@@ -14,10 +14,8 @@ import React, {
 
 // =====================================================
 // TYPE DEFINITIONS
-// Central source of truth for all data shapes
 // =====================================================
 
-/** A single resource item displayed on a card */
 interface ResourceItem {
   title: string;
   description: string;
@@ -25,7 +23,6 @@ interface ResourceItem {
   meta: string;
 }
 
-/** Visual identity configuration for each resource category's cards */
 interface CardStyle {
   sectionBg: string;
   iconBg: string;
@@ -39,10 +36,7 @@ interface CardStyle {
   borderRadius: string;
   cardBg: string;
   cardBorder: string;
-  /** Returns a CSS gradient string based on the card index */
   headerBg: (index: number) => string;
-  /** Returns a decorative JSX element unique to the category */
-  headerDecor: (index: number) => ReactNode;
   tagBg: string;
   tagText: string;
   lockColor: string;
@@ -55,7 +49,6 @@ interface CardStyle {
   actionIcon: string;
 }
 
-/** Configuration for a full resource section (one per category) */
 interface ResourceSectionConfig {
   id: string;
   title: string;
@@ -65,23 +58,19 @@ interface ResourceSectionConfig {
   hubHref: string;
 }
 
-/** State for the partner auth modal */
 interface ModalState {
   open: boolean;
   title: string;
   type: string;
 }
 
-/** Form data for the partner auth modal */
 interface PartnerFormData {
   partnerId: string;
   password: string;
 }
 
 // =====================================================
-// PARTNER AUTH MODAL
-// Appears when any resource card is clicked.
-// Modeled after admin login — same design language.
+// PARTNER AUTH MODAL (unchanged)
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -105,7 +94,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
 
-  // Reset form state whenever modal is closed
   useEffect(() => {
     if (!isOpen) {
       setFormData({ partnerId: '', password: '' });
@@ -136,14 +124,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
     if (e.target === e.currentTarget) onClose();
   };
 
-  const handlePartnerIdChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFormData((prev) => ({ ...prev, partnerId: e.target.value }));
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFormData((prev) => ({ ...prev, password: e.target.value }));
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
@@ -151,10 +131,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
       onClick={handleBackdropClick}
     >
       <div className="relative w-full max-w-md animate-fadeIn">
-        {/* Card */}
         <div className="bg-white rounded-md shadow-2xl overflow-hidden">
-
-          {/* Modal Header */}
           <div className="bg-[#002855] px-8 py-6 relative">
             <button
               onClick={onClose}
@@ -165,7 +142,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
             <div className="flex items-center gap-3 mb-1">
               <div className="w-8 h-8 rounded-md bg-blue-500/20 flex items-center justify-center">
                 <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,23 +149,16 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <span className="text-blue-200 text-sm font-medium  uppercase">
-                Partner Access
-              </span>
+              <span className="text-blue-200 text-sm font-medium uppercase">Partner Access</span>
             </div>
-
-            <h2 className="text-2xl  text-white">Sign In to Continue</h2>
+            <h2 className="text-2xl text-white">Sign In to Continue</h2>
             <p className="text-blue-200 text-sm mt-1 truncate">
               Accessing: <span className="text-white font-medium">{resourceTitle}</span>
             </p>
           </div>
-
-          {/* Modal Body */}
           <div className="px-8 py-8">
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
-
-                {/* Error Banner */}
                 {error && (
                   <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
                     <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -198,33 +167,25 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     <p className="text-sm text-red-700">{error}</p>
                   </div>
                 )}
-
-                {/* Partner ID Field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Partner ID
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
                   <input
                     type="text"
                     value={formData.partnerId}
-                    onChange={handlePartnerIdChange}
+                    onChange={(e) => setFormData((p) => ({ ...p, partnerId: e.target.value }))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                     placeholder="e.g. SSP-2024-XXXX"
                     required
                     autoComplete="username"
                   />
                 </div>
-
-                {/* Password Field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Password
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={formData.password}
-                      onChange={handlePasswordChange}
+                      onChange={(e) => setFormData((p) => ({ ...p, password: e.target.value }))}
                       className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
                       placeholder="Enter your password"
                       required
@@ -233,8 +194,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowPassword((v) => !v)}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600"
                     >
                       {showPassword ? (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,8 +211,6 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     </button>
                   </div>
                 </div>
-
-                {/* Submit */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -272,16 +230,12 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                     'Access Resource'
                   )}
                 </button>
-
                 <p className="text-center text-xs text-gray-400 pt-1">
                   Don&apos;t have a Partner ID?{' '}
-                  <a href="#" className="text-blue-600 hover:underline">
-                    Request Access
-                  </a>
+                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
                 </p>
               </form>
             ) : (
-              /* Success State */
               <div className="text-center py-8">
                 <div className="w-14 h-14 bg-green-100 rounded-md flex items-center justify-center mx-auto mb-4">
                   <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,14 +244,12 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
                 <p className="text-gray-500 text-sm">
-                  Redirecting you to{' '}
-                  <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Redirecting you to <span className="font-medium text-gray-700">{resourceTitle}</span>…
                 </p>
               </div>
             )}
           </div>
         </div>
-
         <p className="text-center text-blue-200/60 text-xs mt-4">
           Partner access is monitored and logged for security purposes.
         </p>
@@ -307,10 +259,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 };
 
 // =====================================================
-// HERO SECTION
-// Left: headline + category anchor links
-// Right: SVG visual placeholder — replace with asset
-// Fully responsive: mobile → tablet → desktop
+// HERO SECTION (unchanged)
 // =====================================================
 
 const CATEGORY_LABELS: string[] = [
@@ -325,33 +274,23 @@ const CATEGORY_LABELS: string[] = [
 const HeroSection: FC = () => {
   return (
     <section className="relative bg-[#0A1E3D] min-h-[480px] sm:min-h-[560px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-
-
-
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* LEFT — Headline + Category Links */}
           <div className="space-y-7">
             <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-md px-4 py-2">
               <div className="w-1.5 h-1.5 rounded-md bg-blue-400 animate-pulse" />
-              <span className="text-blue-300 text-xs font-medium st uppercase">
-                Partner Resources
-              </span>
+              <span className="text-blue-300 text-xs font-medium uppercase">Partner Resources</span>
             </div>
-
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl  text-white  ">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
                 The Resource
                 <span className="block text-blue-300">Hub</span>
               </h1>
-              <p className="text-gray-300 text-base sm:text-lg  max-w-lg ">
+              <p className="text-gray-300 text-base sm:text-lg max-w-lg">
                 Curated knowledge for founders navigating complexity. Access blogs, case studies,
                 events, reports, cohorts, and strategic tools — all in one place.
               </p>
             </div>
-
-            {/* Category anchor nav pills */}
             <nav className="flex flex-wrap gap-3 pt-2" aria-label="Resource categories">
               {CATEGORY_LABELS.map((cat) => (
                 <a
@@ -364,20 +303,9 @@ const HeroSection: FC = () => {
               ))}
             </nav>
           </div>
-
-          {/* RIGHT — Visual placeholder */}
-          
-            {/* INTEGRATION NOTE:
-            Replace the decorative placeholder below with: */}
+          <div>
             <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
-         
-          {/* <div
-            className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end"
-            aria-hidden="true"
-          >
-            <div className="w-full max-w-md h-full flex items-center justify-center relative">
-              {/* Decorative concentric rings */}
-
+          </div>
         </div>
       </div>
     </section>
@@ -385,9 +313,7 @@ const HeroSection: FC = () => {
 };
 
 // =====================================================
-// RESOURCE CARD
-// Renders a single gated resource card.
-// Visual identity is entirely driven by cardStyle prop.
+// RESOURCE CARD — exact same as final version from case study
 // =====================================================
 
 interface ResourceCardProps {
@@ -398,85 +324,76 @@ interface ResourceCardProps {
 }
 
 const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick }) => {
+  const accentColor = cardStyle.tagText;
+
   return (
     <article
       onClick={onCardClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onCardClick()}
-      aria-label={`Open ${item.title}`}
-      className="flex-shrink-0 cursor-pointer group transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       style={{
         width: '280px',
         minWidth: '280px',
-        borderRadius: cardStyle.borderRadius,
-        overflow: 'hidden',
-        background: cardStyle.cardBg,
+        backgroundColor: cardStyle.cardBg,
         border: `1px solid ${cardStyle.cardBorder}`,
       }}
+      aria-label={`Open ${item.title}`}
     >
-      {/* Card Visual Header */}
+      {/* Top accent line */}
       <div
-        className="relative overflow-hidden flex items-end px-5 pt-5 pb-4"
-        style={{ height: '130px', background: cardStyle.headerBg(idx) }}
-      >
-        {/* Category-specific decorative layer */}
-        <div className="absolute inset-0">{cardStyle.headerDecor(idx)}</div>
+        className="h-0.5 w-full"
+        style={{ background: `linear-gradient(90deg, ${accentColor}40, transparent)` }}
+      />
 
-        {/* Content tag */}
-        <div className="relative z-10">
+      {/* Thumbnail header */}
+      <div
+        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #132B47 0%, #0A1E3D 100%)' }}
+      >
+        <div className="absolute top-2 right-3 opacity-10" aria-hidden="true">
+          <div className="w-14 h-14 rounded-full border border-blue-400" />
+        </div>
+        <div className="relative z-10 flex items-center gap-2 flex-wrap">
           <span
-            className="inline-block px-3 py-1 text-xs font-semibold rounded-md"
+            className="px-2.5 py-1 rounded-md text-xs font-semibold"
             style={{ backgroundColor: cardStyle.tagBg, color: cardStyle.tagText }}
           >
             {item.tag}
           </span>
         </div>
-
-        {/* Lock icon — indicates gated access */}
         <div
-          className="absolute top-4 right-4 z-10 opacity-60 group-hover:opacity-100 transition-opacity"
+          className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
           aria-hidden="true"
         >
-          <svg className="w-4 h-4" fill="none" stroke={cardStyle.lockColor} viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5" fill="none" stroke={cardStyle.lockColor} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
       </div>
 
-      {/* Card Body */}
-      <div
-        className="px-5 py-4 flex flex-col gap-2"
-        style={{ background: cardStyle.bodyBg }}
-      >
+      {/* Card body */}
+      <div className="px-5 py-4" style={{ background: cardStyle.bodyBg }}>
         <h3
-          className="text-sm font-semibold  line-clamp-2"
-          style={{ color: cardStyle.cardTitle }}
+          className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2"
+          style={{ fontSize: '0.9rem', color: cardStyle.cardTitle }}
         >
           {item.title}
         </h3>
-        <p
-          className="text-xs  line-clamp-2"
-          style={{ color: cardStyle.cardDesc }}
-        >
+        <p className="text-xs mb-4 line-clamp-2" style={{ color: cardStyle.cardDesc }}>
           {item.description}
         </p>
-
-        {/* Meta row */}
-        <div
-          className="flex items-center justify-between mt-2 pt-2"
-          style={{ borderTop: `1px solid ${cardStyle.divider}` }}
-        >
-          <span className="text-xs" style={{ color: cardStyle.metaColor }}>
-            {item.meta}
-          </span>
-          <div
-            className="w-7 h-7 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
-            style={{ backgroundColor: cardStyle.actionBg }}
-            aria-hidden="true"
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke={cardStyle.actionIcon} viewBox="0 0 24 24">
+        <div className="flex items-center justify-between pt-3" style={{ borderTop: `1px solid ${cardStyle.divider}` }}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs px-2 py-0.5 rounded-md" style={{ backgroundColor: '#132B47', color: '#93C5FD' }}>
+              {item.meta}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-medium group-hover:gap-3 transition-all duration-200" style={{ color: '#60A5FA' }}>
+            Access Resource
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </div>
@@ -487,9 +404,7 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
 };
 
 // =====================================================
-// RESOURCE SECTION
-// Reusable section component for each category.
-// Manages its own horizontal scroll state.
+// RESOURCE SECTION — MOVED SCROLL BUTTONS TO HEADER
 // =====================================================
 
 interface ResourceSectionProps extends ResourceSectionConfig {
@@ -509,7 +424,6 @@ const ResourceSection: FC<ResourceSectionProps> = ({
   const [scrollPos, setScrollPos] = useState<number>(0);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
 
-  // Check if right-scroll is still available
   const updateScrollState = (pos: number): void => {
     setScrollPos(pos);
     if (scrollRef.current) {
@@ -523,7 +437,6 @@ const ResourceSection: FC<ResourceSectionProps> = ({
     const amount = 340;
     const newPos = dir === 'left' ? scrollPos - amount : scrollPos + amount;
     scrollRef.current.scrollTo({ left: newPos, behavior: 'smooth' });
-    // optimistic update; corrected by onScroll
     updateScrollState(newPos);
   };
 
@@ -539,109 +452,91 @@ const ResourceSection: FC<ResourceSectionProps> = ({
       aria-labelledby={`${id}-heading`}
     >
       <div className="max-w-7xl mx-auto">
-
-        {/* Section Header */}
+        {/* Header row with title, subtitle, browse button, and scroll buttons */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <div className="flex items-start gap-4">
-           
             <div>
-              <h2
-                id={`${id}-heading`}
-                className="text-3xl sm:text-4xl lg:text-5xl  "
-                style={{ color: cardStyle.titleColor }}
-              >
+              <h2 id={`${id}-heading`} className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: cardStyle.titleColor }}>
                 {title}
               </h2>
-              <p
-                className="text-sm sm:text-base mt-1 max-w-lg"
-                style={{ color: cardStyle.subtitleColor }}
-              >
+              <p className="text-sm sm:text-base mt-1 max-w-lg" style={{ color: cardStyle.subtitleColor }}>
                 {subtitle}
               </p>
             </div>
           </div>
-
-          {/* Hub Page CTA — navigates to individual category hub */}
-          <a
-            href={hubHref}
-            className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-md font-medium text-sm transition-all duration-300 hover:shadow-lg group"
-            style={{
-              backgroundColor: cardStyle.ctaBg,
-              color: cardStyle.ctaText,
-              border: `1px solid ${cardStyle.ctaBorder}`,
-            }}
-          >
-            <span>Browse All {title}</span>
-            <svg
-              className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
+          
+          {/* Right side: Browse All button + scroll buttons */}
+          <div className="flex items-center gap-3">
+            <a
+              href={hubHref}
+              className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-md font-medium text-sm transition-all duration-300 hover:shadow-lg group"
+              style={{
+                backgroundColor: cardStyle.ctaBg,
+                color: cardStyle.ctaText,
+                border: `1px solid ${cardStyle.ctaBorder}`,
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-
-        {/* Scrollable Cards Strip */}
-        <div className="relative">
-
-          {/* Left Scroll Arrow */}
-          <button
-            type="button"
-            onClick={() => scroll('left')}
-            disabled={scrollPos <= 0}
-            aria-label={`Scroll ${title} cards left`}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
-            style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          {/* Right Scroll Arrow */}
-          <button
-            type="button"
-            onClick={() => scroll('right')}
-            disabled={!canScrollRight}
-            aria-label={`Scroll ${title} cards right`}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
-            style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          {/* Cards Container */}
-          <div
-            ref={scrollRef}
-            role="list"
-            className="flex gap-4 sm:gap-5 overflow-x-auto px-6 sm:px-10 py-3"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
-            onScroll={handleScroll}
-          >
-            {items.map((item, idx) => (
-              <ResourceCard
-                key={`${id}-${idx}`}
-                item={item}
-                cardStyle={cardStyle}
-                idx={idx}
-                onCardClick={() => onCardClick(item.title, title)}
-              />
-            ))}
+              <span>Browse All {title}</span>
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+            
+            {/* Scroll buttons moved here */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                disabled={scrollPos <= 0}
+                aria-label={`Scroll ${title} cards left`}
+                className="rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
+                style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                aria-label={`Scroll ${title} cards right`}
+                className="rounded-md p-2.5 shadow-lg transition-all duration-200 disabled:opacity-20"
+                style={{ backgroundColor: cardStyle.arrowBg, color: cardStyle.arrowColor }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
+        {/* Cards container — no floating buttons anymore */}
+        <div
+          ref={scrollRef}
+          role="list"
+          className="flex gap-4 sm:gap-5 overflow-x-auto px-6 sm:px-10 py-3"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+          onScroll={handleScroll}
+        >
+          {items.map((item, idx) => (
+            <ResourceCard
+              key={`${id}-${idx}`}
+              item={item}
+              cardStyle={cardStyle}
+              idx={idx}
+              onCardClick={() => onCardClick(item.title, title)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
 // =====================================================
-// DATA — ALL 6 CATEGORIES, 10 ITEMS EACH
+// DATA (unchanged)
 // =====================================================
 
 const blogsData: ResourceItem[] = [
@@ -723,10 +618,10 @@ const toolsData: ResourceItem[] = [
 ];
 
 // =====================================================
-// CARD STYLES — UNIQUE VISUAL IDENTITY PER CATEGORY
-// Each CardStyle object fully satisfies the CardStyle interface.
-// All borderRadius values changed to '0.375rem' (rounded-md)
+// CARD STYLES (unchanged)
 // =====================================================
+
+const fixedBlueGradient = () => 'linear-gradient(160deg, #132B47 0%, #0A1E3D 100%)';
 
 const blogCardStyle: CardStyle = {
   sectionBg: '#F7F4EF',
@@ -741,18 +636,10 @@ const blogCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#E5DDD0',
-  headerBg: (i: number) =>
-    ['#2C1810', '#1A2C10', '#101828', '#281020', '#102820', '#18102C'][i % 6],
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0 flex items-center justify-end pr-6 opacity-10" aria-hidden="true">
-      <span style={{ fontSize: '80px', color: 'white', lineHeight: 1 }}>
-        &ldquo;
-      </span>
-    </div>
-  ),
-  tagBg: 'rgba(255,255,255,0.15)',
-  tagText: '#FFFFFF',
-  lockColor: '#FFFFFF',
+  headerBg: fixedBlueGradient,
+  tagBg: 'rgba(96,165,250,0.15)',
+  tagText: '#93C5FD',
+  lockColor: '#60A5FA',
   bodyBg: '#FFFFFF',
   cardTitle: '#1A1008',
   cardDesc: '#6B5E4A',
@@ -775,19 +662,7 @@ const caseStudyCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#0F2744',
   cardBorder: '#1E4070',
-  headerBg: (i: number) =>
-    `linear-gradient(135deg, ${['#0D3B6E','#0D4E3B','#3B1D0D','#2D0D3B','#0D2A3B','#3B3B0D'][i % 6]} 0%, #0A1E3D 100%)`,
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0" aria-hidden="true">
-      {[0, 1, 2].map((j) => (
-        <div
-          key={j}
-          className="absolute rounded-md border border-white/5"
-          style={{ width: `${60 + j * 30}px`, height: `${60 + j * 30}px`, top: `${10 - j * 10}px`, right: `${10 - j * 10}px` }}
-        />
-      ))}
-    </div>
-  ),
+  headerBg: fixedBlueGradient,
   tagBg: 'rgba(96,165,250,0.15)',
   tagText: '#93C5FD',
   lockColor: '#60A5FA',
@@ -813,21 +688,10 @@ const eventCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#FFD5B5',
-  headerBg: (i: number) =>
-    `linear-gradient(135deg, ${['#C84B00','#B84000','#A03800','#D05800','#BF4500','#903200'][i % 6]} 0%, ${['#E07030','#D06020','#B85010','#E07840','#CF6030','#A04018'][i % 6]} 100%)`,
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-md bg-white/10" />
-      <div className="absolute top-3 right-3 opacity-20">
-        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
-        </svg>
-      </div>
-    </div>
-  ),
-  tagBg: 'rgba(255,255,255,0.2)',
-  tagText: '#FFFFFF',
-  lockColor: '#FFFFFF',
+  headerBg: fixedBlueGradient,
+  tagBg: 'rgba(96,165,250,0.15)',
+  tagText: '#93C5FD',
+  lockColor: '#60A5FA',
   bodyBg: '#FFFFFF',
   cardTitle: '#1A0A00',
   cardDesc: '#7A5A3A',
@@ -850,27 +714,10 @@ const reportCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#162435',
   cardBorder: '#1E3A4A',
-  headerBg: (i: number) =>
-    `linear-gradient(160deg, ${['#064E3B','#065F46','#047857','#065030','#053D2E','#074530'][i % 6]} 0%, #0A2A20 100%)`,
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      {[0, 1, 2, 3].map((j) => (
-        <div
-          key={j}
-          className="absolute border-l border-t border-white/5"
-          style={{ width: `${40 + j * 15}px`, height: `${40 + j * 15}px`, bottom: `${j * 8}px`, right: `${j * 8}px`, transform: 'rotate(15deg)' }}
-        />
-      ))}
-      <div className="absolute top-4 right-4 opacity-20">
-        <svg className="w-8 h-8 text-emerald-300" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-        </svg>
-      </div>
-    </div>
-  ),
-  tagBg: 'rgba(52,211,153,0.12)',
-  tagText: '#6EE7B7',
-  lockColor: '#34D399',
+  headerBg: fixedBlueGradient,
+  tagBg: 'rgba(96,165,250,0.15)',
+  tagText: '#93C5FD',
+  lockColor: '#60A5FA',
   bodyBg: '#162435',
   cardTitle: '#D1FAE5',
   cardDesc: '#6EE7B7',
@@ -893,21 +740,10 @@ const cohortCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#FFFFFF',
   cardBorder: '#DDD0F5',
-  headerBg: (i: number) =>
-    `linear-gradient(135deg, ${['#4C1D95','#5B21B6','#6D28D9','#4A1A88','#3B1070','#5C1FA0'][i % 6]} 0%, ${['#7C3AED','#8B5CF6','#6D28D9','#7030D0','#6020C0','#8040E0'][i % 6]} 100%)`,
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute -top-6 -left-6 w-20 h-20 rounded-md bg-white/10" />
-      <div className="absolute bottom-2 right-2 opacity-20">
-        <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2L13.09 8.26L19 6L15.45 11.25L22 12L15.45 12.75L19 18L13.09 15.74L12 22L10.91 15.74L5 18L8.55 12.75L2 12L8.55 11.25L5 6L10.91 8.26L12 2Z" />
-        </svg>
-      </div>
-    </div>
-  ),
-  tagBg: 'rgba(255,255,255,0.18)',
-  tagText: '#FFFFFF',
-  lockColor: '#FFFFFF',
+  headerBg: fixedBlueGradient,
+  tagBg: 'rgba(96,165,250,0.15)',
+  tagText: '#93C5FD',
+  lockColor: '#60A5FA',
   bodyBg: '#FFFFFF',
   cardTitle: '#1A0030',
   cardDesc: '#7B4FB0',
@@ -930,29 +766,10 @@ const toolCardStyle: CardStyle = {
   borderRadius: '0.375rem',
   cardBg: '#16161E',
   cardBorder: '#2A2A38',
-  headerBg: (_i: number) => 'linear-gradient(135deg, #1A1A24 0%, #0F0F18 100%)',
-  headerDecor: (_i: number) => (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 130">
-        {Array.from({ length: 5 }, (_, j) => (
-          <line key={`h${j}`} x1="0" y1={j * 30} x2="200" y2={j * 30} stroke="#FACC15" strokeWidth="0.5" />
-        ))}
-        {Array.from({ length: 8 }, (_, j) => (
-          <line key={`v${j}`} x1={j * 30} y1="0" x2={j * 30} y2="130" stroke="#FACC15" strokeWidth="0.5" />
-        ))}
-      </svg>
-      <div className="absolute top-4 right-4 opacity-40">
-        <svg className="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </div>
-    </div>
-  ),
-  tagBg: 'rgba(250,204,21,0.1)',
-  tagText: '#FACC15',
-  lockColor: '#FACC15',
+  headerBg: fixedBlueGradient,
+  tagBg: 'rgba(96,165,250,0.15)',
+  tagText: '#93C5FD',
+  lockColor: '#60A5FA',
   bodyBg: '#16161E',
   cardTitle: '#F0F0FA',
   cardDesc: '#707080',
@@ -963,9 +780,7 @@ const toolCardStyle: CardStyle = {
 };
 
 // =====================================================
-// SECTION CONFIGURATIONS
-// Declared outside the component to avoid
-// recreation on every render (stable reference).
+// SECTION CONFIGURATIONS (unchanged)
 // =====================================================
 
 const SECTION_CONFIGS: ResourceSectionConfig[] = [
@@ -1020,9 +835,7 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
 ];
 
 // =====================================================
-// PAGE ROOT COMPONENT
-// Assembles hero + all 6 resource sections.
-// Owns the modal state and passes callbacks down.
+// PAGE ROOT (unchanged)
 // =====================================================
 
 export default function ResourcesHubPage(): React.JSX.Element {
@@ -1051,17 +864,18 @@ export default function ResourcesHubPage(): React.JSX.Element {
         *::-webkit-scrollbar { display: none; }
         * { -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
       `}</style>
 
       <main className="min-h-screen">
         <HeroSection />
-
         {SECTION_CONFIGS.map((section) => (
-          <ResourceSection
-            key={section.id}
-            {...section}
-            onCardClick={openModal}
-          />
+          <ResourceSection key={section.id} {...section} onCardClick={openModal} />
         ))}
       </main>
 
