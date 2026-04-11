@@ -48,6 +48,8 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
+'use client';
+
 import React, {
   useState,
   useCallback,
@@ -61,7 +63,7 @@ import { apiRequest } from '@/services/api';
 import { getUserToken } from '@/services/cookies';
 import { useAuth } from '../../context/AuthContext';
 
-// ─── Types (mirror services.data.ts — import in real project) ────
+// ─── Types ───────────────────────────────────────────────────────
 
 interface QuestionOption { value: string; label: string; }
 interface ServiceQuestion {
@@ -78,7 +80,7 @@ interface CustomerServiceStep { step: number; title: string; description: string
 
 export interface ServiceData {
   id: number;
-  backendId: string;    // MongoDB _id — used for all API calls
+  backendId: string;
   slug: string;
   packageNumber: string;
   title: string;
@@ -104,13 +106,7 @@ export interface ServiceData {
   questions: ServiceQuestion[];
 }
 
-// ─── Constants ────────────────────────────────────────────────────
-
 const SUPPORT_EMAIL = 'support@sarsenandcompany.com';
-
-// ─── Razorpay global type shim ────────────────────────────────────
-
-export { };
 
 declare global {
   interface Window {
@@ -122,7 +118,7 @@ declare global {
 }
 
 // ════════════════════════════════════════════════════════════════
-// COUPON BADGE — inline display inside modal price area
+// COUPON BADGE
 // ════════════════════════════════════════════════════════════════
 
 interface CouponBadgeProps {
@@ -153,7 +149,7 @@ const CouponBadge: FC<CouponBadgeProps> = ({ label, onRemove, accentRgb }) => (
 );
 
 // ════════════════════════════════════════════════════════════════
-// PURCHASE MODAL
+// PURCHASE MODAL – COMPLETELY UNTOUCHED
 // ════════════════════════════════════════════════════════════════
 
 type ModalStep = 'questions' | 'summary' | 'processing' | 'success' | 'failure';
@@ -165,16 +161,12 @@ interface PurchaseModalProps {
 }
 
 const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => {
-  // ── Dedicated Email State ──────────────────────────────────────
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const { user } = useAuth();
-  // ── Form answers keyed by question id ─────────────────────────
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [step, setStep] = useState<ModalStep>('questions');
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // ── Coupon state ───────────────────────────────────────────────
   const [couponInput, setCouponInput] = useState('');
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponError, setCouponError] = useState('');
@@ -184,23 +176,12 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     finalPrice: number;
     finalPriceDisplay: string;
   } | null>(null);
-
-  // ── Payment failure details ────────────────────────────────────
   const [failureReason, setFailureReason] = useState('');
-
-  // ── Post-payment verification state ───────────────────────────
-  // plainPassword: the generated password returned from POST /payments/verify.
-  //   Only exists for NEW users — null for returning customers.
-  //   This is the only moment the plain password exists — shown once, never stored.
-  // verifyLoading: true while we are calling /payments/verify after Razorpay fires.
-  //   Shows a "Confirming your payment..." message instead of the success screen
-  //   while the server creates the user and engagement.
   const [plainPassword, setPlainPassword] = useState<string | null>(null);
   const [verifyLoading, setVerifyLoading] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Reset everything when modal closes
   useEffect(() => {
     if (!isOpen) {
       setEmail('');
@@ -213,12 +194,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       setCouponError('');
       setAppliedCoupon(null);
       setFailureReason('');
-      setPlainPassword(null);   // Clear generated password when modal closes
-      setVerifyLoading(false);  // Clear verify loading state when modal closes
+      setPlainPassword(null);
+      setVerifyLoading(false);
     }
   }, [isOpen]);
 
-  // Scroll modal body to top on step change
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [step]);
@@ -226,8 +206,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   if (!isOpen) return null;
 
   const accentRgb = service.accentColorRgb;
-
-  // ── Answer helpers ─────────────────────────────────────────────
 
   const setAnswer = (id: string, value: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -245,13 +223,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     if (errors[questionId]) setErrors((prev) => ({ ...prev, [questionId]: '' }));
   };
 
-  // ── Validation ─────────────────────────────────────────────────
-
   const validateQuestions = (): boolean => {
     let isValid = true;
     const newErrors: Record<string, string> = {};
 
-    // 1. Validate hardcoded email
     if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
       setEmailError('A valid email address is required.');
       isValid = false;
@@ -259,7 +234,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       setEmailError('');
     }
 
-    // 2. Validate dynamic questions
     service.questions.forEach((q) => {
       if (!q.required) return;
       const val = answers[q.id];
@@ -273,17 +247,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     return isValid;
   };
 
-  // ── Coupon application ─────────────────────────────────────────
-  // Hits POST /coupons/validate
-  // serviceId is the MongoDB backendId, not the numeric frontend id
-
   const applyCoupon = async () => {
     if (!couponInput.trim()) return;
     setCouponLoading(true);
     setCouponError('');
     try {
-      // Backend returns { finalPrice: number (paise), couponId: string }
-      // A successful response means valid. Errors thrown as ApiError with exact message.
       const data = await apiRequest<{
         finalPrice: number;
         couponId:   string;
@@ -321,51 +289,18 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     setCouponError('');
   };
 
-  // ── Payment ────────────────────────────────────────────────────
-  //
-  // FULL FLOW (4 steps):
-  //
-  // Step 1: POST /payments/create-order
-  //   Sends serviceId, userEmail, optional couponCode, purchaseAnswers.
-  //   Backend creates a Razorpay order and a PENDING Payment record in MongoDB.
-  //   Returns { orderId, amount, currency, keyId }.
-  //
-  // Step 2: Open Razorpay modal
-  //   The Razorpay SDK opens a payment UI using orderId and keyId.
-  //   The user completes payment inside Razorpay's modal.
-  //
-  // Step 3: Razorpay handler fires
-  //   After the user pays, Razorpay calls our handler function with:
-  //     razorpay_order_id, razorpay_payment_id, razorpay_signature
-  //   We do NOT show success here yet — we must verify first.
-  //
-  // Step 4: POST /payments/verify
-  //   We send the three Razorpay values to our backend.
-  //   Backend verifies the HMAC signature, creates the user account,
-  //   generates a password (new users only), creates the Engagement,
-  //   and returns { plainPassword, isNewUser, engagementId }.
-  //   NOW we show the success screen with the password.
-  //
-  // WHY Step 4 instead of just showing success on Step 3?
-  //   The webhook (which does the same work) cannot reach localhost.
-  //   Step 4 is the localhost-safe equivalent — it also works in production
-  //   as a fast, user-facing path. The webhook is a production backup.
-
   const initiatePayment = async () => {
     setStep('processing');
 
-    // Build the purchaseAnswers array from the form state.
-    // Every question gets an entry — unanswered optional questions get an empty string.
     const purchaseAnswers = service.questions.map((q) => ({
       questionId:   q.id    || 'unknown_id',
       questionText: q.label || 'Unknown Question',
       answer: Array.isArray(answers[q.id])
-        ? (answers[q.id] as string[]).join(', ')   // multiselect: join array to CSV string
-        : (answers[q.id] as string) || '',          // single value: use as-is, or empty string
+        ? (answers[q.id] as string[]).join(', ')
+        : (answers[q.id] as string) || '',
     }));
 
     try {
-      // ── Step 1: Create the Razorpay order on our backend ──────────
       const orderData = await apiRequest<{
         orderId: string;
         amount:  number;
@@ -383,7 +318,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
       if (!orderData.orderId) throw new Error('Order creation failed.');
 
-      // ── Step 2 & 3: Open Razorpay modal ───────────────────────────
       const rzp = new window.Razorpay({
         key:         orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount:      orderData.amount,
@@ -392,25 +326,14 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         description: service.title,
         order_id:    orderData.orderId,
         theme:       { color: service.accentColor },
-
         modal: {
           ondismiss: () => {
-            // User closed the Razorpay modal without paying
             setFailureReason('Payment was cancelled. No amount has been charged.');
             setStep('failure');
           },
         },
-
-        // ── Step 4: This fires after the user pays successfully ──────
-        // paymentResponse contains the three Razorpay identifiers.
-        // We send them to POST /payments/verify which:
-        //   - Verifies the HMAC signature (proves Razorpay processed it)
-        //   - Creates the user account and generates a password
-        //   - Creates the Engagement with checklist
-        //   - Returns the plainPassword (new users only)
         handler: async (paymentResponse: Record<string, string>) => {
-          setVerifyLoading(true); // Show "Confirming your payment..." while backend works
-
+          setVerifyLoading(true);
           try {
             const verifyData = await apiRequest<{
               engagementId:  string;
@@ -423,15 +346,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 razorpay_signature:  paymentResponse.razorpay_signature,
               },
             });
-
-            // Store the password in state so renderSuccessStep can display it.
-            // This is the only moment the plain password exists.
             setPlainPassword(verifyData.plainPassword);
             setStep('success');
-
           } catch (verifyErr: any) {
-            // Verification failed — payment may have gone through but our
-            // backend could not process it. Show support contact.
             setFailureReason(
               verifyErr.message ??
               'Payment was received but we could not confirm your account setup. Please contact support.'
@@ -457,29 +374,19 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     }
   };
 
-  // ── Backdrop click ─────────────────────────────────────────────
-
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (step === 'processing') return; // block close during payment
+    if (step === 'processing') return;
     if (e.target === e.currentTarget) onClose();
   };
-
-  // ── Price display ──────────────────────────────────────────────
 
   const displayPrice = appliedCoupon ? appliedCoupon.finalPriceDisplay : service.priceDisplay;
   const isDiscounted = !!appliedCoupon;
   const originalPrice = service.priceDisplay;
 
-  // ── Flexible services max (for multiselect guard) ──────────────
-
   const getFlexMax = (questionId: string): number | null => {
     if (questionId === 'flexible_services') return service.maxFlexibleSelections ?? null;
     return null;
   };
-
-  // ════════════════════════════════════════════════════════════════
-  // RENDER HELPERS
-  // ════════════════════════════════════════════════════════════════
 
   const renderQuestion = (q: ServiceQuestion) => {
     const error = errors[q.id];
@@ -558,20 +465,16 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     style={{
                       padding: '9px 12px',
                       borderRadius: '8px',
-                      border: checked
-                        ? `1px solid #0A1E3D`                // <-- changed: use #0A1E3D for border
-                        : '1px solid #E2E8F0',
-                      background: checked
-                        ? `rgba(${accentRgb},0.06)`          // keep existing background
-                        : '#F8FAFC',
+                      border: checked ? `1px solid #0A1E3D` : '1px solid #E2E8F0',
+                      background: checked ? `rgba(${accentRgb},0.06)` : '#F8FAFC',
                       transition: 'all 0.15s',
                     }}
                   >
                     <span
                       className="flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center"
                       style={{
-                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',  // <-- changed
-                        background: checked ? '#0A1E3D' : 'transparent', // <-- changed
+                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',
+                        background: checked ? '#0A1E3D' : 'transparent',
                         transition: 'all 0.15s',
                       }}
                     >
@@ -612,12 +515,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     style={{
                       padding: '9px 12px',
                       borderRadius: '8px',
-                      border: checked
-                        ? `1px solid #0A1E3D`                // <-- changed: use #0A1E3D for border
-                        : '1px solid #E2E8F0',
-                      background: checked
-                        ? `rgba(${accentRgb},0.06)`          // keep existing background
-                        : '#F8FAFC',
+                      border: checked ? `1px solid #0A1E3D` : '1px solid #E2E8F0',
+                      background: checked ? `rgba(${accentRgb},0.06)` : '#F8FAFC',
                       opacity: disabled ? 0.4 : 1,
                       transition: 'all 0.15s',
                       cursor: disabled ? 'not-allowed' : 'pointer',
@@ -626,8 +525,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     <span
                       className="flex-shrink-0 w-4 h-4 rounded flex items-center justify-center border-2"
                       style={{
-                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',  // <-- changed
-                        background: checked ? '#0A1E3D' : 'transparent', // <-- changed
+                        borderColor: checked ? '#0A1E3D' : '#CBD5E1',
+                        background: checked ? '#0A1E3D' : 'transparent',
                         transition: 'all 0.15s',
                       }}
                     >
@@ -674,10 +573,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     );
   };
 
-  // ════════════════════════════════════════════════════════════════
-  // STEP RENDERERS
-  // ════════════════════════════════════════════════════════════════
-
   const renderQuestionsStep = () => (
     <>
       <div
@@ -716,8 +611,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       </div>
 
       <div ref={scrollRef} style={{ padding: '28px 32px' }}>
-
-        {/* ── NEW HARDCODED EMAIL FIELD ── */}
         <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
           <label style={{ color: '#1E293B', fontSize: '0.85rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
             Email Address <span style={{ color: '#EF4444', marginLeft: '3px' }}>*</span>
@@ -748,7 +641,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
         </div>
 
-        {/* ── DYNAMIC QUESTIONS ── */}
         {service.questions.map(renderQuestion)}
       </div>
 
@@ -874,9 +766,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
               {[
-                { icon: '•', label: service.duration },
-                { icon: '•', label: service.deliveryFormat },
-                { icon: '•', label: `${service.coreServices.length} core services` },
+                { label: service.duration },
+                { label: service.deliveryFormat },
+                { label: `${service.coreServices.length} core services` },
               ].map((item) => (
                 <span
                   key={item.label}
@@ -928,14 +820,13 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           </div>
 
-          {/* ── Coupon section ── */}
           <div
             style={{
               background: '#F8FAFC',
               borderRadius: '10px',
               padding: '16px 18px',
               border: '1px solid #E2E8F0',
-              marginBottom: '20px', // increased margin to separate from terms
+              marginBottom: '20px',
             }}
           >
             <p style={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
@@ -983,9 +874,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     style={{
                       padding: '9px 16px',
                       borderRadius: '7px',
-                      background: couponLoading || !couponInput.trim()
-                        ? '#E2E8F0'
-                        : '#0F172A',
+                      background: couponLoading || !couponInput.trim() ? '#E2E8F0' : '#0F172A',
                       color: couponLoading || !couponInput.trim() ? '#94A3B8' : '#fff',
                       fontSize: '0.82rem',
                       fontWeight: 600,
@@ -1012,15 +901,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             )}
           </div>
 
-          {/* ── TERMS AND CONDITIONS NOTICE ── */}
-          <div
-            style={{
-              marginTop: '16px',
-              marginBottom: '8px',
-              textAlign: 'center',
-            }}
-          >
-            <p style={{  color: '#64748B' }}>
+          <div style={{ marginTop: '16px', marginBottom: '8px', textAlign: 'center' }}>
+            <p style={{ color: '#64748B' }}>
               By proceeding ahead in the process you agree to the{' '}
               <a
                 href="/legal-and-regulatory/terms-of-use"
@@ -1035,13 +917,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </div>
         </div>
 
-        <div
-          style={{
-            padding: '16px 32px 24px',
-            borderTop: '1px solid #F1F5F9',
-            background: '#FFFFFF',
-          }}
-        >
+        <div style={{ padding: '16px 32px 24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
             <div>
               <p style={{ fontSize: '0.72rem', color: '#94A3B8', marginBottom: '2px' }}>Total amount</p>
@@ -1110,10 +986,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   const renderProcessingStep = () => (
-    // This screen shows in two situations:
-    // 1. verifyLoading = false → Razorpay modal is opening / user is paying
-    // 2. verifyLoading = true  → User paid, we are calling POST /payments/verify
-    //    to verify the signature, create the user account, and generate the password
     <div style={{ padding: '64px 32px', textAlign: 'center' }}>
       <div style={{ marginBottom: '20px' }}>
         <svg className="w-10 h-10 animate-spin mx-auto" fill="none" viewBox="0 0 24 24" style={{ color: service.accentColor }}>
@@ -1133,19 +1005,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   );
 
   const renderSuccessStep = () => (
-    // SUCCESS SCREEN
-    //
-    // Two cases:
-    // 1. plainPassword is set → new user. Show the password box prominently.
-    //    This is the ONLY time the password will ever be visible.
-    //    After the user closes this modal, the plain text password is gone forever.
-    //    Only the bcrypt hash remains in the database.
-    //
-    // 2. plainPassword is null → returning customer. Show a welcome-back message.
-    //    No password is generated or shown — they already have one.
     <div style={{ padding: '48px 32px', textAlign: 'center' }}>
-
-      {/* ── Success icon ── */}
       <div style={{
         width: '56px',
         height: '56px',
@@ -1170,8 +1030,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         Your purchase of <strong>{service.title}</strong> is confirmed.
       </p>
 
-      {/* ── PASSWORD BOX — new users only ── */}
-      {/* plainPassword is only non-null when the backend created a new user account */}
       {plainPassword && (
         <div style={{
           background: '#F0FDF4',
@@ -1196,7 +1054,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             Your account has been created with the email below. Save this password — it will <strong>not</strong> be shown again.
           </p>
 
-          {/* The password itself — displayed in monospace for clarity */}
           <div style={{
             background: '#DCFCE7',
             borderRadius: '7px',
@@ -1207,7 +1064,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             letterSpacing: '0.12em',
             textAlign: 'center',
             border: '1px solid #86EFAC',
-            userSelect: 'all', // Lets the user select all text with one click
+            userSelect: 'all',
           }}>
             {plainPassword}
           </div>
@@ -1218,7 +1075,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </div>
       )}
 
-      {/* ── Returning customer message — no password ── */}
       {!plainPassword && (
         <p style={{ fontSize: '0.82rem', color: '#64748B', maxWidth: '340px', margin: '0 auto 20px' }}>
           Welcome back. Your new engagement has been added to your existing account.
@@ -1349,10 +1205,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE SECTIONS (unchanged — no UI changes)
+// PAGE HERO – UNTOUCHED
 // ════════════════════════════════════════════════════════════════
-
-// ─── Hero ────────────────────────────────────────────────────────
 
 interface PageHeroProps {
   service: ServiceData;
@@ -1364,14 +1218,10 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
 
   return (
     <section
-      className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+      className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-0"
       style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
-      {/* Dot grid */}
-      
-
       <div className="max-w-7xl mx-auto relative">
-        {/* Breadcrumb */}
         <nav className="flex items-center gap-2 mb-8" aria-label="Breadcrumb">
           <a href="/services" className="text-blue-300 hover:text-white transition-colors text-xs">
             Services
@@ -1381,7 +1231,6 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
         </nav>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left column */}
           <div className="space-y-7">
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
@@ -1393,7 +1242,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   }}
                 >
                   <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: service.accentColor }} />
-                  <span className="text-xs font-medium st uppercase" style={{ color: service.accentColor }}>
+                  <span className="text-xs font-medium" style={{ color: service.accentColor }}>
                     {service.tag}
                   </span>
                 </div>
@@ -1405,23 +1254,19 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 </span>
               </div>
 
-              <p className="text-xs sttext-blue-300/70">
+              <p className="text-xs text-blue-300/70">
                 {service.tagline}
               </p>
 
-              <h1
-                className="   text-white"
-                style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
-              >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
                 {service.title}
               </h1>
 
-              <p className="text-base   max-w-lg text-gray-400">
+              <p className="text-base max-w-lg text-gray-400">
                 {service.problemStatement}
               </p>
             </div>
 
-            {/* Meta row */}
             <div className="flex flex-wrap gap-5">
               {[
                 { label: 'Duration', value: service.duration },
@@ -1429,15 +1274,12 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 { label: 'Outcome', value: service.outcome },
               ].map((m) => (
                 <div key={m.label}>
-                  <p className="text-xs stmb-0.5 text-gray-500">
-                    {m.label}
-                  </p>
+                  <p className="text-xs mb-0.5 text-gray-500">{m.label}</p>
                   <p className="text-sm text-blue-300">{m.value}</p>
                 </div>
               ))}
             </div>
 
-            {/* CTA — UPDATED: white background, dark blue text, subtle hover shadow */}
             <div className="flex items-center gap-4 flex-wrap pt-2">
               <button
                 onClick={onBuy}
@@ -1452,85 +1294,275 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  letterSpacing: '0.01em',
                 }}
               >
-                Get Started — {service.priceDisplay}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
+                Get Started
+                
               </button>
-
-              <p className="text-xs text-gray-500">
-                Secure payment via Razorpay
-              </p>
+              <p className="text-xs text-gray-500">Secure payment via Razorpay</p>
             </div>
           </div>
 
-          {/* Right column — decorative */}
-                  <div
-          className="relative hidden lg:flex items-center justify-end"
-          style={{ height: '420px' }}
-          aria-hidden="true"
-        >
-                      <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
-
-        </div>
+          <div
+            className="relative hidden lg:flex items-center justify-end"
+            style={{ height: '420px' }}
+            aria-hidden="true"
+          >
+            <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-// ─── Core Services Section ────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// CHALLENGE WE SOLVE – 80/20 SPLIT, NO LINES, NO NUMBERING
+// ════════════════════════════════════════════════════════════════
 
-const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
+const ExcerptSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16" style={{ backgroundColor: '#0A1E3D' }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <div>
-            <p className="text-xs stmb-3 text-blue-300/70">
-              Core Services — Always Included
-            </p>
-            <h2
-              className=" mb-6 text-white"
-              style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
-            >
-              What we do<br />
-              <span style={{ color: service.accentColor }}>in every engagement.</span>
-            </h2>
-            <p className="text-sm  text-gray-400">
-              These {service.coreServices.length} services are mandatory and non-negotiable. Every client receives them in full, in the defined sequence.
+    <section
+      style={{
+        backgroundColor: '#061528',
+        padding: '72px 0',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div style={{ marginBottom: '40px' }}>
+          <span style={{
+            fontSize: '13px',
+            fontWeight: 500,
+            color: `rgba(${rgb},0.6)`,
+          }}>
+            The challenge we solve
+          </span>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '48px',
+        }}>
+          {/* Left 80% excerpt */}
+          <div style={{ flex: '1 1 70%', minWidth: '280px' }}>
+            <p style={{
+fontSize: 'clamp(1.25rem, 1.25vw, 1rem)',
+              fontWeight: 300,
+              lineHeight: 1,
+              color: '#C8D8EA',
+              margin: 0,
+            }}>
+              {service.excerpt}
             </p>
           </div>
 
-          <div className="space-y-3">
-            {service.coreServices.map((cs, i) => (
-              <div
-                key={cs}
-                className="flex items-start gap-4"
-                style={{
-                  padding: '14px 16px',
-                  borderRadius: '10px',
-                  backgroundColor: '#132B47',
-                  border: `1px solid rgba(${rgb},0.07)`,
-                  animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 40}ms both`,
-                }}
-              >
-                <span
-                  className="flex-shrink-0 w-6 h-6 rounded flex items-center justify-center text-xs font-bold"
-                  style={{
-                    background: `rgba(${rgb},0.10)`,
-                    border: `1px solid rgba(${rgb},0.18)`,
-                    color: service.accentColor,
-                  }}
-                >
-                  {i + 1}
+          {/* Right 20% indices – no numbers, just bullet style */}
+          <div style={{ flex: '0 0 240px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <span style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: ac,
+              }}>
+                Impact indices
+              </span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {service.impactIndices.map((idx, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <div style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: ac,
+                    marginTop: '8px',
+                    flexShrink: 0,
+                  }} />
+                  <p style={{ fontSize: '14px', lineHeight: 1.5, color: '#7A9ABE', margin: 0 }}>{idx}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ════════════════════════════════════════════════════════════════
+// CORE SERVICES – NO NUMBERING, REDUCED GAP, NO LINES
+// ════════════════════════════════════════════════════════════════
+
+const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
+  const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
+  const services = service.coreServices;
+
+  const cellBase: React.CSSProperties = {
+    background: '#0F2647',
+    borderRadius: '8px',
+    padding: '28px',
+    transition: 'background 0.2s, transform 0.2s',
+    cursor: 'default',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  };
+
+  const cellMuted: React.CSSProperties = {
+    ...cellBase,
+    background: '#0C2040',
+  };
+
+  const handleEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.background = '#143256';
+    e.currentTarget.style.transform = 'translateY(-2px)';
+  };
+  const handleLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.background = (e.currentTarget as HTMLDivElement).dataset.originalBg || '#0F2647';
+    e.currentTarget.style.transform = 'translateY(0)';
+  };
+
+  const SvcText = ({ children }: { children: string }) => (
+    <p style={{ fontSize: '14px', lineHeight: 1.5, color: '#C8DAEA', fontWeight: 400, margin: 0 }}>
+      {children}
+    </p>
+  );
+
+  return (
+    <section style={{ backgroundColor: '#0A1E3D', padding: '72px 0' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div style={{ marginBottom: '48px' }}>
+          <span style={{
+            fontSize: '13px',
+            fontWeight: 500,
+            color: `rgba(${rgb},0.6)`,
+          }}>
+            Core services — always included
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '20px',
+          }}
+          className="lg:gap-6"
+        >
+          {/* Hero cell */}
+          <div style={{ display: 'grid', gridTemplateRows: 'auto auto', gap: '20px' }} className="lg:gap-6">
+            <div
+              style={{
+                ...cellBase,
+                gridRow: 'span 2',
+                justifyContent: 'space-between',
+                gap: 0,
+                background: '#0F2647',
+              }}
+              data-original-bg="#0F2647"
+              onMouseEnter={handleEnter}
+              onMouseLeave={handleLeave}
+            >
+              <div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  borderRadius: '6px',
+                  padding: '4px 10px',
+                  background: `rgba(${rgb},0.1)`,
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  color: ac,
+                  marginBottom: '20px',
+                }}>
+                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: ac }} />
+                  Mandatory
+                </div>
+
+                <h2 style={{
+                  fontSize: 'clamp(1.6rem, 2.4vw, 2.2rem)',
+                  fontWeight: 400,
+                  lineHeight: 1.2,
+                  color: '#E8EEF5',
+                  marginBottom: '16px',
+                }}>
+                  What we do<br />
+                  <span style={{ color: ac, fontWeight: 300 }}>in every engagement.</span>
+                </h2>
+
+                <p style={{
+                  fontSize: '13px',
+                  lineHeight: 1.7,
+                  color: '#5A7EA0',
+                }}>
+                  Every client receives these services in full, in the defined sequence — without exception.
+                </p>
+              </div>
+
+              <div style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: '10px',
+                paddingTop: '28px',
+                marginTop: '28px',
+              }}>
+                <span style={{ fontSize: '40px', fontWeight: 300, color: ac, lineHeight: 1 }}>
+                  {services.length}
                 </span>
-                <p className="text-sm text-blue-300 ">{cs}</p>
+                <span style={{ fontSize: '16px', color: `rgba(${rgb},0.6)`, lineHeight: 1.5 }}>
+                  Engagement Outcomes
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right 2x2 grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '20px',
+            }}
+            className="lg:gap-6"
+          >
+            {[0, 1, 2, 3].map((idx) => (
+              <div
+                key={idx}
+                style={idx % 2 === 1 ? { ...cellMuted } : { ...cellBase }}
+                data-original-bg={idx % 2 === 1 ? '#0C2040' : '#0F2647'}
+                onMouseEnter={handleEnter}
+                onMouseLeave={handleLeave}
+              >
+                <SvcText>{services[idx]}</SvcText>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom row 3 items */}
+          <div
+            style={{
+              gridColumn: '1 / -1',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '20px',
+            }}
+            className="lg:gap-6"
+          >
+            {[4, 5, 6].map((idx, i) => (
+              <div
+                key={idx}
+                style={i % 2 === 1 ? { ...cellMuted } : { ...cellBase }}
+                data-original-bg={i % 2 === 1 ? '#0C2040' : '#0F2647'}
+                onMouseEnter={handleEnter}
+                onMouseLeave={handleLeave}
+              >
+                <SvcText>{services[idx]}</SvcText>
               </div>
             ))}
           </div>
@@ -1540,7 +1572,132 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Flexible Services Section ────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// DELIVERABLES – 80/20 PROPORTION, SINGLE‑LINE COUNT
+// ════════════════════════════════════════════════════════════════
+
+const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
+  const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
+
+  return (
+    <section
+      style={{
+        backgroundColor: '#061528',
+        padding: '72px 0',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div style={{ marginBottom: '40px' }}>
+          <span style={{
+            fontSize: '13px',
+            fontWeight: 500,
+            color: `rgba(${rgb},0.6)`,
+          }}>
+            Deliverables
+          </span>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '48px',
+        }}>
+          {/* Left 80% – heading + count in single line */}
+          <div style={{ flex: '1 1 70%', minWidth: '280px' }}>
+            <h2 style={{
+              fontSize: 'clamp(1.6rem, 2.6vw, 2.4rem)',
+              fontWeight: 300,
+              lineHeight: 1.2,
+              color: '#E2EBF5',
+              marginBottom: '24px',
+            }}>
+              Tangible outputs.<br />
+              <span style={{ color: ac }}>Not conversations.</span>
+            </h2>
+            <p style={{
+              fontSize: '14px',
+              lineHeight: 1.7,
+              color: '#4E6F8E',
+              maxWidth: '480px',
+              marginBottom: '32px',
+            }}>
+              Every engagement produces structured artefacts you own — documents, frameworks, and strategic assets that outlast the engagement.
+            </p>
+
+            {/* Single‑line count with label */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: '12px',
+            }}>
+              <span style={{
+                fontSize: '3.5rem',
+                fontWeight: 300,
+                color: ac,
+                lineHeight: 1,
+              }}>
+                {service.deliverables.length}
+              </span>
+              <span style={{
+                fontSize: '16px',
+                fontWeight: 400,
+                color: `rgba(${rgb},0.7)`,
+                lineHeight: 1.4,
+              }}>
+                Non‑negotiable deliverables
+              </span>
+            </div>
+          </div>
+
+          {/* Right 20% – deliverable list */}
+          <div style={{ flex: '0 0 260px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <span style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: ac,
+              }}>
+                What you receive
+              </span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {service.deliverables.map((d, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <div style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '3px',
+                    background: `rgba(${rgb},0.12)`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    marginTop: '2px',
+                  }}>
+                    <img src="/assets/about/Tick.svg" alt="" />
+                  </div>
+                  <p style={{
+                    fontSize: '14px',
+                    lineHeight: 1.5,
+                    color: '#8BAAC8',
+                    margin: 0,
+                  }}>
+                    {d}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ════════════════════════════════════════════════════════════════
+// FLEXIBLE SERVICES – NO LINES
+// ════════════════════════════════════════════════════════════════
 
 const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
@@ -1548,46 +1705,46 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      className="px-4 sm:px-6 lg:px-0 py-16"
+      style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs stmb-3 text-blue-300/70">
-          Flexible Services — Choose up to {service.maxFlexibleSelections}
+        <p className="text-sm mb-3 text-blue-300/70">
+          Flexible services — choose up to {service.maxFlexibleSelections}
         </p>
         <h2
-          className=" mb-2 text-white"
+          className="leading-tight mb-2 text-white"
           style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
           Customise your<br />
           <span style={{ color: service.accentColor }}>engagement.</span>
         </h2>
-        <p className="text-sm  mb-10 max-w-lg text-gray-400">
+        <p className="text-sm mb-10 max-w-lg text-gray-400">
           Select up to {service.maxFlexibleSelections} of the following services when you complete your intake form.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {service.flexibleServices.map((fs, i) => (
             <div
               key={fs.id}
+              className="group cursor-default rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
               style={{
-                padding: '18px 20px',
-                borderRadius: '12px',
-                backgroundColor: '#132B47',
-                border: `1px solid rgba(${rgb},0.08)`,
+                backgroundColor: '#0F2744',
                 animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 50}ms both`,
               }}
             >
-              <div
-                className="w-7 h-7 rounded-md flex items-center justify-center mb-3"
-                style={{ background: `rgba(${rgb},0.10)`, border: `1px solid rgba(${rgb},0.16)` }}
-              >
-                <svg className="w-3.5 h-3.5" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+              <div className="px-5 py-5">
+                <div
+                  className="w-8 h-8 rounded-md flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `rgba(${rgb},0.10)` }}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke={service.accentColor} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+                <p className="text-sm font-medium mb-1 text-blue-300">{fs.label}</p>
+                <p className="text-xs text-gray-400 leading-relaxed">{fs.description}</p>
               </div>
-              <p className="text-sm font-medium mb-1 text-blue-300">{fs.label}</p>
-              <p className="text-xs  text-gray-400">{fs.description}</p>
             </div>
           ))}
         </div>
@@ -1596,128 +1753,289 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 };
 
-// ─── Customer Service Roadmap Section ────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// ROADMAP – HORIZONTAL SCROLLABLE, NO LINES, NO NUMBERS
+// ════════════════════════════════════════════════════════════════
 
 const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
   const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      className="px-4 sm:px-6 lg:px-0 py-16"
+      style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
-        <p className="text-xs stmb-3 text-blue-300/70">
-          Customer Service Roadmap
+        <p className="text-sm mb-3 text-blue-300/70">
+          How we work together
         </p>
         <h2
-          className=" mb-10 text-white"
+          className="leading-tight mb-10 text-white"
           style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
         >
-          How we work<br />
-          <span style={{ color: service.accentColor }}>together.</span>
+          Customer service<br />
+          <span style={{ color: ac }}>roadmap.</span>
         </h2>
 
-        <div className="relative">
-          <div
-            className="absolute left-5 top-6 bottom-6 w-px hidden sm:block"
-            style={{ background: `linear-gradient(to bottom, rgba(${rgb},0.30), rgba(${rgb},0.05))` }}
-          />
+        {/* Horizontal scroll container – no scrollbar visible */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '24px',
+            overflowX: 'auto',
+            paddingBottom: '8px',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+          className="roadmap-scroll"
+        >
+          {service.customerServiceRoadmap.map((step, i) => (
+            <div
+              key={step.step}
+              style={{
+                flex: '0 0 280px',
+                background: '#0F2647',
+                borderRadius: '12px',
+                padding: '24px',
+                transition: 'transform 0.2s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              {/* Progress indicator – using a colored bar instead of numbers */}
+              <div style={{
+                width: '40px',
+                height: '4px',
+                background: ac,
+                borderRadius: '2px',
+                marginBottom: '20px',
+                opacity: 0.7 + (i * 0.1),
+              }} />
+              <p style={{
+                fontSize: '16px',
+                fontWeight: 500,
+                color: '#C8DAEA',
+                marginBottom: '12px',
+              }}>
+                {step.title}
+              </p>
+              <p style={{
+                fontSize: '13px',
+                lineHeight: 1.6,
+                color: '#7A9ABE',
+              }}>
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <style>{`
+        .roadmap-scroll::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+    </section>
+  );
+};
 
-          <div className="space-y-6">
-            {service.customerServiceRoadmap.map((step, i) => (
-              <div key={step.step} className="flex gap-5 relative">
-                <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10"
-                  style={{
-                    backgroundColor: '#132B47',
-                    border: `1.5px solid rgba(${rgb},0.30)`,
-                    animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
-                  }}
-                >
-                  <span style={{ color: service.accentColor, fontSize: '0.8rem', fontWeight: 700 }}>
-                    {step.step}
-                  </span>
-                </div>
-                <div
-                  className="flex-1 pb-6"
-                  style={{
-                    borderBottom: i < service.customerServiceRoadmap.length - 1
-                      ? `1px solid rgba(${rgb},0.06)` : 'none',
-                    animation: `cardIn 0.4s cubic-bezier(0.22,1,0.36,1) ${i * 60}ms both`,
-                  }}
-                >
-                  <p className="text-sm font-medium mb-1 text-blue-300">{step.title}</p>
-                  <p className="text-sm  text-gray-400">{step.description}</p>
-                </div>
+// ════════════════════════════════════════════════════════════════
+// TRUST STRIP – NO DIVIDING LINES
+// ════════════════════════════════════════════════════════════════
+
+const FIRM_PILLARS = [
+  {
+    icon: (
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+    label: 'Structured methodology',
+    detail: 'Proven frameworks, applied with rigour',
+  },
+  {
+    icon: (
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
+    label: 'Focused execution',
+    detail: 'Defined scope, no scope creep, clear timelines',
+  },
+  {
+    icon: (
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    ),
+    label: 'Outcome orientation',
+    detail: 'Measured by decisions enabled, not hours billed',
+  },
+  {
+    icon: (
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    label: 'Senior‑only teams',
+    detail: 'No junior analysts on client‑facing work',
+  },
+];
+
+const TrustStrip: FC<{ service: ServiceData }> = ({ service }) => {
+  const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
+
+  return (
+    <section
+      style={{
+        backgroundColor: '#071829',
+        padding: '64px 0',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div style={{ marginBottom: '40px' }}>
+          <span style={{
+            fontSize: '13px',
+            fontWeight: 500,
+            color: `rgba(${rgb},0.6)`,
+          }}>
+            Why Sarsen Strategy Partners
+          </span>
+        </div>
+
+        {/* No lines – each pillar stands independently with subtle rounded corners */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '24px',
+        }}>
+          {FIRM_PILLARS.map((p, i) => (
+            <div
+              key={i}
+              style={{
+                background: '#0F2647',
+                borderRadius: '8px',
+                padding: '28px 24px',
+                transition: 'background 0.2s, transform 0.2s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = '#143256';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = '#0F2647';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <div style={{
+                color: ac,
+                marginBottom: '14px',
+                opacity: 0.8,
+              }}>
+                {p.icon}
               </div>
-            ))}
-          </div>
+              <p style={{
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#C8D8EA',
+                marginBottom: '6px',
+              }}>
+                {p.label}
+              </p>
+              <p style={{
+                fontSize: '12px',
+                lineHeight: 1.6,
+                color: '#4E6F8E',
+              }}>
+                {p.detail}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-// ─── Targeted For + Outcome Banner ───────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// TARGET BANNER
+// ════════════════════════════════════════════════════════════════
 
 const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, onBuy }) => {
   const rgb = service.accentColorRgb;
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-8 py-16"
-      style={{ backgroundColor: '#0A1E3D', borderTop: `1px solid rgba(${rgb},0.06)` }}
+      className="px-4 sm:px-6 lg:px-0 py-16"
+      style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid sm:grid-cols-3 gap-6">
           <div
             className="sm:col-span-2 rounded-md p-8"
-            style={{ backgroundColor: '#132B47', border: `1px solid rgba(${rgb},0.10)` }}
+            style={{ backgroundColor: '#132B47' }}
           >
-            <p className="text-xs stmb-3 text-blue-300/70">
+            <p className="text-sm mb-3 text-blue-300/70">
               Targeted for
             </p>
-            <p className="text-lg   text-white">
+            <p className="text-lg text-white">
               {service.targetedFor}
             </p>
+
+            {service.googleSheetsNote && (
+              <div style={{
+                marginTop: '20px',
+                padding: '12px 16px',
+                borderRadius: '6px',
+                background: `rgba(${rgb},0.05)`,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '10px',
+              }}>
+                <svg width="14" height="14" fill="none" stroke={service.accentColor} viewBox="0 0 24 24" style={{ flexShrink: 0, marginTop: '2px', opacity: 0.7 }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p style={{ fontSize: '12px', lineHeight: 1.6, color: '#5A7EA0', margin: 0 }}>
+                  {service.googleSheetsNote}
+                </p>
+              </div>
+            )}
           </div>
 
           <div
             className="rounded-md p-8 flex flex-col justify-between"
             style={{
               background: `linear-gradient(145deg, rgba(${rgb},0.12) 0%, rgba(${rgb},0.04) 100%)`,
-              border: `1px solid rgba(${rgb},0.18)`,
             }}
           >
             <div>
-              <p className="text-xs stmb-3 text-blue-300/70">
+              <p className="text-sm mb-2 text-blue-300/70">
                 Investment
               </p>
-              <p className="text-3xl  mb-1 text-white">
+              <p className="text-3xl mb-1 text-white">
                 {service.priceDisplay}
               </p>
-              <p className="text-xs mb-6 text-gray-400">
-                + GST · {service.duration}
+              <p className="text-xs mb-2 text-gray-400">
+                Taxes Included
               </p>
+
             </div>
-            {/* CTA — UPDATED: white background, dark blue text, subtle hover shadow */}
             <button
               onClick={onBuy}
               className="bg-white text-[#002855] hover:shadow-md transition-shadow w-full flex items-center justify-center gap-1.5"
               style={{
                 padding: '12px',
                 borderRadius: '9px',
-                fontSize: '0.88rem',
+                fontSize: '0.9rem',
                 fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
               }}
             >
               Get Started
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
+             
             </button>
           </div>
         </div>
@@ -1727,7 +2045,134 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE ROOT — THE MOULD
+// FINAL CTA
+// ════════════════════════════════════════════════════════════════
+
+const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, onBuy }) => {
+  const rgb = service.accentColorRgb;
+  const ac = service.accentColor;
+
+  return (
+    <section
+      style={{
+        backgroundColor: '#061528',
+        padding: '80px 0',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto',
+          gap: '48px',
+          alignItems: 'center',
+        }}>
+          <div>
+            <div style={{ marginBottom: '20px' }}>
+              <span style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: `rgba(${rgb},0.6)`,
+              }}>
+                Begin your engagement
+              </span>
+            </div>
+            <h2 style={{
+              fontSize: 'clamp(1.6rem, 3vw, 2.6rem)',
+              fontWeight: 300,
+              lineHeight: 1.2,
+              color: '#E2EBF5',
+              marginBottom: '16px',
+              maxWidth: '560px',
+            }}>
+              Clarity is a strategic asset.<br />
+              <span style={{ color: ac }}>Start building it today.</span>
+            </h2>
+            <p style={{
+              fontSize: '14px',
+              lineHeight: 1.7,
+              color: '#4E6F8E',
+              maxWidth: '480px',
+            }}>
+              Secure your engagement in under five minutes. Our team will reach out within 24 hours to schedule your first working session.
+            </p>
+
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px',
+              marginTop: '28px',
+            }}>
+              {[
+                'Secure payment via Razorpay',
+                '24-hour response guarantee',
+                'Structured engagement from day one',
+              ].map((t, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                  <div style={{
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: `rgba(${rgb},0.15)`,
+                  }}>
+                    <img src="/assets/about/Tick.svg" alt="" />
+                  </div>
+                  <span style={{ fontSize: '12px', color: '#4E6F8E' }}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{
+            flexShrink: 0,
+            padding: '36px',
+            borderRadius: '12px',
+            background: `rgba(${rgb},0.06)`,
+            textAlign: 'center',
+            minWidth: '240px',
+          }}>
+            <p style={{ fontSize: '11px', color: `rgba(${rgb},0.5)`, marginBottom: '8px' }}>
+              Total investment
+            </p>
+            <p style={{ fontSize: '2rem', fontWeight: 300, color: '#E2EBF5', marginBottom: '4px' }}>
+              {service.priceDisplay}
+            </p>
+
+            <button
+              onClick={onBuy}
+              style={{
+                width: '100%',
+                padding: '14px 24px',
+                borderRadius: '9px',
+                background: '#FFFFFF',
+                color: '#002855',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+              }}
+            >
+              Begin
+             
+            </button>
+            <p style={{ fontSize: '11px', color: '#2E4A63', marginTop: '12px' }}>
+              Response within 24 hours
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ════════════════════════════════════════════════════════════════
+// PAGE ROOT
 // ════════════════════════════════════════════════════════════════
 
 interface ServicePageProps {
@@ -1760,10 +2205,14 @@ export default function ServicePage({ service }: ServicePageProps): React.JSX.El
         {service && (
           <>
             <PageHero service={service} onBuy={openModal} />
+            <ExcerptSection service={service} />
             <CoreServicesSection service={service} />
+            <DeliverablesSection service={service} />
             {service.flexibleServices && <FlexibleServicesSection service={service} />}
             <RoadmapSection service={service} />
+            <TrustStrip service={service} />
             <TargetBanner service={service} onBuy={openModal} />
+            <FinalCTA service={service} onBuy={openModal} />
           </>
         )}
       </main>

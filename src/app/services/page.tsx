@@ -206,68 +206,29 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
-    {/* <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="dots" patternUnits="userSpaceOnUse" width="24" height="24">
-            <circle cx="2" cy="2" r="1" fill="#93C5FD" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#dots)" />
-      </svg>
-      <div
-        className="absolute -top-32 right-0 w-[700px] h-[600px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.22) 0%, transparent 60%)' }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[500px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(96,165,250,0.10) 0%, transparent 65%)' }}
-      />
-    </div> */}
-
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        <div className="space-y-8">
-          <div
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2"
-            style={{
-              backgroundColor: 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.16)',
-            }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-xs font-medium st  text-blue-300">
-              Sarsen &amp; Company · Services
-            </span>
-          </div>
-
+        {/* LEFT */}
+        <div className="space-y-7">
           <div className="space-y-4">
-            <h1
-              className="   text-white"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Structured
-              <br />
-              <span className="text-blue-300">Strategy.</span>
+              <span className="block text-blue-300">Strategy.</span>
             </h1>
-            <p className="text-base sm:text-lg  max-w-md  text-gray-400">
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
               Eight productised consulting packages — each scoped, repeatable, and built around a specific founder inflection point. Every engagement starts with Package 0.
             </p>
           </div>
-
-          
         </div>
 
-                <div
+        {/* RIGHT — visual */}
+        <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
           aria-hidden="true"
         >
-                      <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
-
+          <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
   </section>
