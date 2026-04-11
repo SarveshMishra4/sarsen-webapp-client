@@ -116,62 +116,59 @@ export const TAG_ACCENTS: Record<ServiceTag, { hex: string; rgb: string; bgClass
 };
 
 // ================================================================
-// ALL SERVICES
+// ALL SERVICES (Updated based on Sarsen Products Final.pdf)
 // ================================================================
 
 export const ALL_SERVICES_DATA: ServiceData[] = [
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 0 — Business Diagnostic & Direction
+  // BUSINESS DIAGNOSTIC (Any Stage)
   // ──────────────────────────────────────────────────────────────
   {
     id: 0,
-    backendId: '69b3c3d64ad479822f297e25',
+    backendId: '69b3c3d64ad479822f297e25',   // unchanged
     slug: 'business-diagnostic-direction',
     packageNumber: 'Package 0',
     title: 'Business Diagnostic & Direction',
-    tagline: 'Compulsory Entry Package',
+    tagline: 'You know something is wrong. You don’t know what. We find it.',
     tag: 'Foundation',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Founders who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
-    problemStatement: 'Most founders are running their business on instinct and incomplete information. They know something is wrong but cannot name it precisely. They have priorities but cannot rank them. They have goals but no clear path. This package ends that ambiguity.',
-    excerpt: 'The mandatory starting point. A 314-question diagnostic system that maps your business model, value chain, control levers, and bottlenecks — then translates that into a strategic direction for the next 12 months and a 3–5 year trajectory.',
-    price: 4900000,
-    priceDisplay: '₹49,000',
-    duration: '2 weeks',
-    deliveryFormat: '2 sessions + async diagnostic',
+    targetedFor: 'Any stage business – from idea to scale.',
+    problemStatement: 'Most founders run on instinct and incomplete information. They feel something is broken but cannot name it precisely. This package ends that ambiguity with a structured diagnostic.',
+    excerpt: 'The mandatory starting point. A diagnostic system that maps your business model, control levers, and bottlenecks – then translates that into a clear strategic direction.',
+    price: 520000,            // ₹5,200
+    priceDisplay: '₹5,200',
+    duration: '7 days',
+    deliveryFormat: '2–3 sessions + async diagnostic',
 
     coreServices: [
-      'Full Business Diagnostic (314-question system)',
+      'Full Business Diagnostic',
       'Business Model & Value Chain Mapping',
       'Control Lever Identification',
       'Bottleneck & Constraint Ranking',
-      'Founder–Business Fit Assessment',
-      'Metric Hygiene & KPI Baseline Setup',
-      'Strategic Direction Selection (next 12 months)',
-      'Long-Term Trajectory Framing (3–5 years)',
-      'Departmentalisation Logic',
-      'High-Level Org Structure Design',
+      'Metric Hygiene & KPI Baseline',
+      'Strategic Direction Selection',
+      '90‑Day Action Plan',
     ],
     flexibleServices: null,
     maxFlexibleSelections: null,
 
     deliverables: [
-      'Business Nature & Control Handbook',
+      'Business Health & Control Handbook',
       'Direction & Growth Stages Document',
-      '90-Day Action One-Pager',
+      '90‑Day Action One‑Pager',
     ],
     outcome: 'The founder achieves clarity, control, and confidence.',
     impactIndices: ['Founder Clarity Index'],
 
     customerServiceRoadmap: [
-      { step: 1, title: 'Introduction & Context Call', description: '30-minute call to understand your context before diagnostic begins.' },
-      { step: 2, title: 'Diagnostic Data Collection', description: 'Week 1 — structured 314-question system sent and completed.' },
+      { step: 1, title: 'Introduction & Context Call', description: '30‑minute call to understand your situation before the diagnostic begins.' },
+      { step: 2, title: 'Diagnostic Data Collection', description: 'Structured diagnostic sent and completed.' },
       { step: 3, title: 'Diagnostic Analysis & Scoring', description: 'Internal analysis of responses, bottleneck ranking, and direction scoring.' },
-      { step: 4, title: 'Direction & Control Session', description: '90-minute session in Week 2 to walk through findings and decisions.' },
+      { step: 4, title: 'Direction & Control Session', description: '90‑minute session to walk through findings and decisions.' },
       { step: 5, title: 'Delivery of All Documents', description: 'All three deliverables sent and explained.' },
-      { step: 6, title: '90-Day Post-Delivery Review', description: 'Progress vs plan review at the 90-day mark.' },
+      { step: 6, title: '90‑Day Post‑Delivery Review', description: 'Progress vs plan review at the 90‑day mark.' },
     ],
     googleSheetsNote: 'Protected diagnostic workbook with scoring logic, bottleneck ranking, and decision outputs.',
 
@@ -196,7 +193,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'Pre-revenue / idea stage', label: 'Pre-revenue / idea stage' },
+          { value: 'Pre‑revenue / idea stage', label: 'Pre‑revenue / idea stage' },
           { value: 'Early revenue (< ₹25L ARR)', label: 'Early revenue (< ₹25L ARR)' },
           { value: 'Growing (₹25L – ₹1Cr ARR)', label: 'Growing (₹25L – ₹1Cr ARR)' },
           { value: 'Scaling (₹1Cr+ ARR)', label: 'Scaling (₹1Cr+ ARR)' },
@@ -206,19 +203,19 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'primary_problem',
         label: 'In one or two sentences, what feels most unclear or broken in your business right now?',
         type: 'textarea',
-        placeholder: 'Be as direct as possible — this shapes how we approach your diagnostic.',
+        placeholder: 'Be as direct as possible – this shapes how we approach your diagnostic.',
         required: true,
         helpText: 'There is no wrong answer. Honest context makes the diagnostic more precise.',
       },
       {
         id: 'founder_role',
-        label: 'How many co-founders does the business have?',
+        label: 'How many co‑founders does the business have?',
         type: 'radio',
         required: true,
         options: [
           { value: 'Solo founder', label: 'Solo founder' },
-          { value: '2 co-founders', label: '2 co-founders' },
-          { value: '3 or more co-founders', label: '3 or more co-founders' },
+          { value: '2 co‑founders', label: '2 co‑founders' },
+          { value: '3 or more co‑founders', label: '3 or more co‑founders' },
         ],
       },
       {
@@ -227,66 +224,61 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'textarea',
         placeholder: 'e.g. Approaching a fundraise, team is growing fast, revenue has plateaued…',
         required: false,
-        helpText: 'Optional — helps us calibrate session pace and priority.',
+        helpText: 'Optional – helps us calibrate session pace and priority.',
       },
     ],
   },
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 1 — Idea-to-Validation
+  // IDEA TO PRODUCT (Pre‑Launch)
   // ──────────────────────────────────────────────────────────────
   {
     id: 1,
-    backendId: '69b3c3e94ad479822f297e27',
-    slug: 'idea-to-validation',
+    backendId: '69b3c3e94ad479822f297e27',   // unchanged (was Idea‑to‑Validation)
+    slug: 'idea-to-product',
     packageNumber: 'Package 1',
-    title: 'Idea-to-Validation',
-    tagline: 'Kill weak ideas early. Commit to the right one.',
+    title: 'Idea To Product',
+    tagline: 'From concept to launch‑ready blueprint.',
     tag: 'Validation',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Idea-stage or pre-revenue founders.',
-    problemStatement: 'Most founders chase ideas they are excited about, not ideas that are actually worth building. The result is months of work spent validating the founder\'s conviction rather than the market\'s need. This package separates the two.',
-    excerpt: 'Structured validation logic for founders at the idea stage. Maps the problem universe, scores criticality and frequency, reality-checks market size, and runs a kill-or-commit decision framework.',
-    price: 2900000,
-    priceDisplay: '₹29,000',
-    duration: '1 week',
-    deliveryFormat: '2 sessions + async work',
+    targetedFor: 'Pre‑launch founders with an idea but no product yet.',
+    problemStatement: 'You have an idea but don’t know if it will work. You’re about to quit your job for this. Friends love it, but will strangers pay? This package turns your idea into a structured product plan.',
+    excerpt: 'Market research, business model definition, product features, pricing, marketing channels, financial expectations, and organisation structure – all in 7 days.',
+    price: 1040000,           // ₹10,400
+    priceDisplay: '₹10,400',
+    duration: '7 days',
+    deliveryFormat: '3–5 sessions + async work',
 
     coreServices: [
-      'Founder–Market Fit Assessment',
-      'Problem Universe Mapping',
-      'Problem Criticality & Frequency Scoring',
-      'Market Size Reality Check',
-      'Idea Kill-or-Commit Decision Logic',
-      'Ideal Customer Profile (ICP) Definition',
-      'Early Value Proposition Framing',
+      'Market Research & Validation',
+      'Business Model Definition',
+      'Product Features & Scope',
+      'Pricing Architecture',
+      'Marketing Channel Identification',
+      'Financial Expectation Mapping',
+      'Organisation Structure for Launch',
+      'Tools & Arsenal Setup',
     ],
-    flexibleServices: [
-      { id: 'Competitive Landscape Simplification', label: 'Competitive Landscape Simplification', description: 'Map the 3–5 real competitors and what actually differentiates you.' },
-      { id: 'Substitute & Workaround Analysis', label: 'Substitute & Workaround Analysis', description: 'Identify what customers currently do instead of using your product.' },
-      { id: 'Early Pricing Hypothesis', label: 'Early Pricing Hypothesis', description: 'Build a first-principles pricing hypothesis to test in discovery.' },
-      { id: 'Customer Interview Question Design', label: 'Customer Interview Question Design', description: 'A structured interview guide for your first 10–15 customer conversations.' },
-      { id: 'Validation Experiment Roadmap', label: 'Validation Experiment Roadmap', description: 'Design 3 lightweight experiments to confirm or kill the idea in 30 days.' },
-    ],
-    maxFlexibleSelections: 2,
+    flexibleServices: null,
+    maxFlexibleSelections: null,
 
     deliverables: [
-      'Idea Validation Decision Matrix',
-      'ICP & Problem Definition Sheet',
-      '90-Day Validation Plan',
+      'Product & Launch Blueprint',
+      'Financial Expectation Map',
+      'Organisation Structure for Launch',
     ],
-    outcome: 'The founder commits to one validated idea or exits weak ideas early.',
-    impactIndices: ['Idea Confidence Score', 'Problem Clarity Index'],
+    outcome: 'A clear, actionable plan to build and launch your product.',
+    impactIndices: ['Idea Confidence Score', 'Launch Readiness Index'],
 
     customerServiceRoadmap: [
-      { step: 1, title: 'Kickoff & Founder Context Session', description: 'Understand the idea, the founder\'s background, and their assumptions.' },
-      { step: 2, title: 'Idea & Market Diagnostic', description: 'Week 1 — problem scoring, market sizing, and ICP definition work.' },
-      { step: 3, title: 'Validation Logic & Scoring', description: 'Internal analysis applying kill-or-commit framework.' },
-      { step: 4, title: 'Decision & Direction Session', description: 'Walk through the matrix. Commit or exit. No hedging.' },
-      { step: 5, title: 'Delivery of Validation Documents', description: 'All three deliverables sent with implementation notes.' },
+      { step: 1, title: 'Idea Interrogation Session', description: '45–60 min – deeply understand your idea, assumptions, and goals.' },
+      { step: 2, title: 'Market & Model Analysis', description: 'Market research, business model design, feature definition.' },
+      { step: 3, title: 'Financial & Channel Planning', description: 'Pricing, financial expectations, marketing channels.' },
+      { step: 4, title: 'Organisation & Tools', description: 'Define structure and toolset for launch.' },
+      { step: 5, title: 'Blueprint Handoff', description: 'Final session to walk through the complete launch plan.' },
     ],
-    googleSheetsNote: 'Idea scoring, market sizing, and decision thresholds executed in Sheets.',
+    googleSheetsNote: 'Market research templates, financial models, and channel scoring.',
 
     questions: [
       {
@@ -302,7 +294,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'textarea',
         placeholder: 'What are you building, for whom, and what problem does it solve?',
         required: true,
-        helpText: 'Be specific. Vague descriptions produce vague diagnostics.',
+        helpText: 'Be specific. Vague descriptions produce vague plans.',
       },
       {
         id: 'problem_source',
@@ -321,201 +313,72 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'validation_done',
         label: 'What validation, if any, have you done so far?',
         type: 'textarea',
-        placeholder: 'e.g. 5 customer interviews, a landing page with 80 sign-ups, a manual pilot…',
+        placeholder: 'e.g. 5 customer interviews, a landing page with 80 sign‑ups, a manual pilot…',
         required: false,
-        helpText: 'None is fine — that\'s what this package is for.',
+        helpText: 'None is fine – that’s what this package is for.',
       },
       {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 2)',
-        type: 'multiselect',
-        required: false,
+        id: 'launch_timeline',
+        label: 'When do you aim to launch?',
+        type: 'radio',
+        required: true,
         options: [
-          { value: 'Competitive Landscape Simplification', label: 'Competitive Landscape Simplification' },
-          { value: 'Substitute & Workaround Analysis', label: 'Substitute & Workaround Analysis' },
-          { value: 'Early Pricing Hypothesis', label: 'Early Pricing Hypothesis' },
-          { value: 'Customer Interview Question Design', label: 'Customer Interview Question Design' },
-          { value: 'Validation Experiment Roadmap', label: 'Validation Experiment Roadmap' },
+          { value: 'Within 1 month', label: 'Within 1 month' },
+          { value: '1–3 months', label: '1–3 months' },
+          { value: '3–6 months', label: '3–6 months' },
+          { value: '6+ months / flexible', label: '6+ months / flexible' },
         ],
-        helpText: 'Select up to 2 flexible services to include in your package.',
       },
     ],
   },
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 2 — Product–Market Fit Clarity
+  // GO TO MARKET (0→1)
   // ──────────────────────────────────────────────────────────────
   {
     id: 2,
-    backendId: '69b3c3fa4ad479822f297e29',
-    slug: 'product-market-fit-clarity',
+    backendId: '69b3c4074ad479822f297e2b',   // unchanged (was Go‑To‑Market Strategy)
+    slug: 'go-to-market',
     packageNumber: 'Package 2',
-    title: 'Product–Market Fit Clarity',
-    tagline: 'Certainty on product direction.',
-    tag: 'Product Market Fit',
-    accentColor: '#ffffff',
-    accentColorRgb: '255,255,255',
-    targetedFor: 'Founders with users or early revenue but unclear PMF.',
-    problemStatement: 'You have users. Some stay, some leave. Some features get used, others don\'t. Revenue is there but inconsistent. You cannot tell if you are close to PMF or far from it — and you are making product decisions without that clarity. This package resolves that.',
-    excerpt: 'For founders with users or early revenue who cannot determine whether they have PMF. Locks the ICP, eliminates non-ICP noise, and produces a PMF scorecard and a pivot-or-persist decision.',
-    price: 3900000,
-    priceDisplay: '₹39,000',
-    duration: '10 days',
-    deliveryFormat: '2 sessions + data analysis',
-
-    coreServices: [
-      'ICP Lock & Non-ICP Elimination',
-      'Problem–Solution Fit Assessment',
-      'Retention Signal Analysis',
-      'Usage Pattern Interpretation',
-      'Value Proposition–Outcome Mapping',
-      'PMF Signal Scoring Framework',
-      'Pivot vs Persist Decision',
-    ],
-    flexibleServices: [
-      { id: 'Willingness-to-Pay Analysis', label: 'Willingness-to-Pay Analysis', description: 'Structured analysis of what your ICP customers are actually willing to pay.' },
-      { id: 'Feature Value Mapping', label: 'Feature Value Mapping', description: 'Map which features drive retention vs which add noise.' },
-      { id: 'Churn Reason Analysis', label: 'Churn Reason Analysis', description: 'Structured investigation of why users churn and what predicts it.' },
-      { id: 'Early Adopter Pattern Study', label: 'Early Adopter Pattern Study', description: 'Identify the characteristics of your best early customers.' },
-      { id: 'PMF Narrative for Investors', label: 'PMF Narrative for Investors', description: 'Turn your PMF signals into a credible investor-facing narrative.' },
-    ],
-    maxFlexibleSelections: 3,
-
-    deliverables: [
-      'PMF Scorecard',
-      'ICP Lock Document',
-      'Pivot/Persist Decision Memo',
-    ],
-    outcome: 'The founder gains certainty on product direction.',
-    impactIndices: ['PMF Readiness Score', 'Retention Signal Strength'],
-
-    customerServiceRoadmap: [
-      { step: 1, title: 'PMF Context & Data Readiness Call', description: 'Assess what data you have and what we need before starting.' },
-      { step: 2, title: 'PMF Diagnostic & Data Review', description: 'Week 1 — retention data, usage patterns, ICP analysis.' },
-      { step: 3, title: 'Signal Analysis & Scoring', description: 'Internal scoring against PMF framework.' },
-      { step: 4, title: 'Decision & Direction Session', description: 'Pivot or persist — with clear rationale and next steps.' },
-      { step: 5, title: 'Delivery of PMF Documents', description: 'Scorecard, ICP lock, and decision memo delivered.' },
-    ],
-    googleSheetsNote: 'Cohort-style retention logic and PMF scoring models.',
-
-    questions: [
-      {
-        id: 'founder_name',
-        label: 'Your full name',
-        type: 'text',
-        placeholder: 'e.g. Kavya Reddy',
-        required: true,
-      },
-      {
-        id: 'product_description',
-        label: 'Describe your product and who uses it',
-        type: 'textarea',
-        placeholder: 'What does it do, who are your current users, and how long have they been using it?',
-        required: true,
-      },
-      {
-        id: 'revenue_status',
-        label: 'Current revenue status',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'Free users only — no revenue yet', label: 'Free users only — no revenue yet' },
-          { value: 'Early revenue (< ₹10L ARR)', label: 'Early revenue (< ₹10L ARR)' },
-          { value: 'Some revenue (₹10L – ₹50L ARR)', label: 'Some revenue (₹10L – ₹50L ARR)' },
-          { value: 'Meaningful revenue (₹50L+ ARR)', label: 'Meaningful revenue (₹50L+ ARR)' },
-        ],
-      },
-      {
-        id: 'retention_concern',
-        label: 'What does your retention data tell you right now?',
-        type: 'textarea',
-        placeholder: 'e.g. Month 1 retention is 60% but drops to 20% by month 3. No idea why.',
-        required: true,
-        helpText: 'Share whatever data you have — even rough numbers help.',
-      },
-      {
-        id: 'pivot_concern',
-        label: 'Are you currently considering a pivot?',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'No — I want to confirm I\'m on the right path', label: 'No — I want to confirm I\'m on the right path' },
-          { value: 'Maybe — something feels off but I can\'t name it', label: 'Maybe — something feels off but I can\'t name it' },
-          { value: 'Yes — I\'m actively weighing a direction change', label: 'Yes — I\'m actively weighing a direction change' },
-        ],
-      },
-      {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 3)',
-        type: 'multiselect',
-        required: false,
-        options: [
-          { value: 'Willingness-to-Pay Analysis', label: 'Willingness-to-Pay Analysis' },
-          { value: 'Feature Value Mapping', label: 'Feature Value Mapping' },
-          { value: 'Churn Reason Analysis', label: 'Churn Reason Analysis' },
-          { value: 'Early Adopter Pattern Study', label: 'Early Adopter Pattern Study' },
-          { value: 'PMF Narrative for Investors', label: 'PMF Narrative for Investors' },
-        ],
-        helpText: 'Select up to 3 flexible services.',
-      },
-    ],
-  },
-
-  // ──────────────────────────────────────────────────────────────
-  // PACKAGE 3 — Go-To-Market Strategy
-  // ──────────────────────────────────────────────────────────────
-  {
-    id: 3,
-    backendId: '69b3c4074ad479822f297e2b',
-    slug: 'go-to-market-strategy',
-    packageNumber: 'Package 3',
-    title: 'Go-To-Market Strategy',
-    tagline: 'Repeatable customer acquisition, not random sales.',
+    title: 'Go To Market',
+    tagline: 'You have a product. Now you need your first real customers.',
     tag: 'Go to Market',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Startups with a product but inconsistent sales.',
-    problemStatement: 'You close some deals but cannot predict the next one. Your channels are not clear. Your messaging changes depending on who you\'re talking to. Your funnel leaks and you don\'t know where. This package builds the system that replaces luck with repeatability.',
-    excerpt: 'For startups with a product but inconsistent sales. Maps every viable GTM channel, prioritises ruthlessly, defines the right sales motion, and produces a 90-day execution plan.',
-    price: 4500000,
-    priceDisplay: '₹45,000',
-    duration: '2 weeks',
-    deliveryFormat: '2 sessions + async strategy work',
+    targetedFor: 'Product‑ready, pre‑revenue or < ₹5L ARR startups.',
+    problemStatement: 'Product is ready but sales are not coming. You don’t know which marketing channel to try. Most founders spend ₹30–80K on ads before understanding why their first 100 customers bought. This service gives you that understanding first.',
+    excerpt: 'Precise customer profile, unit economics clarity, pricing architecture, sales & marketing playbook, feedback mechanism design, and supply chain basics.',
+    price: 1520000,           // ₹15,200
+    priceDisplay: '₹15,200',
+    duration: '7 days',
+    deliveryFormat: '3–5 sessions + analysis',
 
     coreServices: [
-      'GTM Channel Universe Mapping',
-      'Channel Prioritisation & Focus Logic',
-      'Sales Motion Definition (Founder-led vs Team-led)',
-      'Funnel Structure & Leakage Diagnosis',
-      'Core Messaging & Positioning Logic',
-      'Pricing & Packaging Sanity Check',
-      '90-Day GTM Execution Planning',
+      'Precise Customer Profile (ICP)',
+      'Unit Economics Clarity',
+      'Pricing Architecture',
+      'Sales & Marketing Playbook',
+      'Feedback Mechanism Design',
+      'Supply Chain Basics',
     ],
-    flexibleServices: [
-      { id: 'CAC Logic & Payback Analysis', label: 'CAC Logic & Payback Analysis', description: 'Build a proper CAC model by channel with payback period estimates.' },
-      { id: 'Pilot Channel Experiment Design', label: 'Pilot Channel Experiment Design', description: 'Design a structured 30-day test for your primary channel hypothesis.' },
-      { id: 'Partner GTM Feasibility Assessment', label: 'Partner GTM Feasibility Assessment', description: 'Assess whether a channel-partner GTM motion is viable for your product.' },
-      { id: 'Geo-Market Entry Logic', label: 'Geo-Market Entry Logic', description: 'Evaluate and sequence market entry across Indian cities or international markets.' },
-      { id: 'Sales Process & CRM Logic Review', label: 'Sales Process & CRM Logic Review', description: 'Define your sales stages, CRM fields, and pipeline hygiene requirements.' },
-    ],
-    maxFlexibleSelections: 3,
+    flexibleServices: null,
+    maxFlexibleSelections: null,
 
     deliverables: [
-      'GTM Strategy Document',
-      'Funnel & Channel Sheets',
-      '90-Day GTM Plan',
+      'Revenue Architecture Document',
+      'Playbook & First 30 Days Plan',
+      'Customer Profile & Feedback Dashboard',
     ],
-    outcome: 'Repeatable and focused customer acquisition system.',
-    impactIndices: ['CAC Clarity Index', 'Funnel Efficiency Score'],
+    outcome: 'A repeatable GTM system that gets your first paying customers.',
+    impactIndices: ['GTM Readiness Score', 'CAC Clarity Index'],
 
     customerServiceRoadmap: [
-      { step: 1, title: 'GTM Context & Objective Session', description: 'Understand current sales motion, win/loss patterns, and growth goals.' },
-      { step: 2, title: 'Funnel & Channel Diagnostic', description: 'Week 1 — map current channels, funnel stages, and leakage points.' },
-      { step: 3, title: 'Strategy Design & Prioritisation', description: 'Internal — channel scoring, messaging framework, motion definition.' },
-      { step: 4, title: 'GTM Strategy Delivery Session', description: 'Walk through the full strategy with rationale for every prioritisation decision.' },
-      { step: 5, title: 'Execution Plan Handover', description: '90-day plan with owners, milestones, and success metrics.' },
+      { step: 1, title: 'Product & Customer Interrogation', description: '45–60 min – deep dive into your product, target customer, and current sales attempts.' },
+      { step: 2, title: '7‑Day Analysis', description: 'We analyse your product, market, and potential channels.' },
+      { step: 3, title: 'Revenue Architecture Session', description: '60–90 min – pricing, unit economics, and channel prioritisation.' },
+      { step: 4, title: 'Playbook Handoff & First 30 Days', description: '60–90 min – walk through the GTM playbook and 30‑day execution plan.' },
     ],
-    googleSheetsNote: 'Channel scoring matrices, funnel analysis, execution trackers.',
+    googleSheetsNote: 'Channel scoring, unit economics model, and 30‑day tracker.',
 
     questions: [
       {
@@ -526,15 +389,15 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         required: true,
       },
       {
-        id: 'product_and_customer',
-        label: 'What do you sell and who is your target customer?',
+        id: 'product_description',
+        label: 'What is your product and who is it for?',
         type: 'textarea',
-        placeholder: 'e.g. A procurement SaaS for mid-market manufacturing companies, 100–500 employees.',
+        placeholder: 'e.g. A procurement SaaS for mid‑market manufacturing companies.',
         required: true,
       },
       {
         id: 'current_channels',
-        label: 'Which channels are you currently using to acquire customers?',
+        label: 'Which channels have you tried so far?',
         type: 'multiselect',
         required: true,
         options: [
@@ -544,91 +407,155 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
           { value: 'Content / SEO', label: 'Content / SEO' },
           { value: 'Paid ads (Google / Meta)', label: 'Paid ads (Google / Meta)' },
           { value: 'Events / conferences', label: 'Events / conferences' },
-          { value: 'Channel partners / resellers', label: 'Channel partners / resellers' },
-          { value: 'Inbound (organic, no specific channel)', label: 'Inbound (organic, no specific channel)' },
+          { value: 'None yet', label: 'None yet' },
         ],
         helpText: 'Select all that apply.',
       },
       {
-        id: 'biggest_sales_problem',
-        label: 'What is the single biggest problem in your sales motion right now?',
-        type: 'textarea',
-        placeholder: 'e.g. Leads come in but close rate is under 5%. We don\'t know why deals stall.',
-        required: true,
-      },
-      {
-        id: 'avg_deal_size',
-        label: 'What is your average deal size / ACV?',
+        id: 'revenue_status',
+        label: 'Current monthly revenue (if any)',
         type: 'text',
-        placeholder: 'e.g. ₹1.2L per year / ₹40,000 one-time',
+        placeholder: 'e.g. ₹0 / ₹25,000 / ₹1L',
         required: true,
       },
       {
-        id: 'sales_team_size',
-        label: 'Is sales currently founder-led or do you have a sales team?',
-        type: 'radio',
+        id: 'biggest_gap',
+        label: 'What do you believe is the biggest gap between your product and your first sale?',
+        type: 'textarea',
+        placeholder: 'e.g. No one knows about us. Pricing feels wrong. Customers don’t trust us yet.',
         required: true,
-        options: [
-          { value: 'Founder-led — I close all deals myself', label: 'Founder-led — I close all deals myself' },
-          { value: 'Founder + 1 sales person', label: 'Founder + 1 sales person' },
-          { value: 'Small sales team (2–5 people)', label: 'Small sales team (2–5 people)' },
-          { value: 'Structured sales team (5+ people)', label: 'Structured sales team (5+ people)' },
-        ],
-      },
-      {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 3)',
-        type: 'multiselect',
-        required: false,
-        options: [
-          { value: 'CAC Logic & Payback Analysis', label: 'CAC Logic & Payback Analysis' },
-          { value: 'Pilot Channel Experiment Design', label: 'Pilot Channel Experiment Design' },
-          { value: 'Partner GTM Feasibility Assessment', label: 'Partner GTM Feasibility Assessment' },
-          { value: 'Geo-Market Entry Logic', label: 'Geo-Market Entry Logic' },
-          { value: 'Sales Process & CRM Logic Review', label: 'Sales Process & CRM Logic Review' },
-        ],
-        helpText: 'Select up to 3 flexible services.',
       },
     ],
   },
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 4 — Operations & Scalability
+  // FUNDING READINESS (Pre‑Series A)
+  // ──────────────────────────────────────────────────────────────
+  {
+    id: 3,
+    backendId: '69b3c42a4ad479822f297e2f',   // unchanged (was Fundraising Readiness)
+    slug: 'funding-readiness',
+    packageNumber: 'Package 3',
+    title: 'Funding Readiness',
+    tagline: 'Business model surgery to make you fundable.',
+    tag: 'Fundraising',
+    accentColor: '#ffffff',
+    accentColorRgb: '255,255,255',
+    targetedFor: 'Founders seeking external capital (angel/seed) who are getting rejections.',
+    problemStatement: 'Getting meetings but no term sheets. Investors say “come back with more traction”. We are not a pitch deck agency. We fix the weaknesses investors will find anyway – better to address them in our room.',
+    excerpt: 'Investor targeting, ask & valuation framework, business model patch‑up, pitch strategy, Q&A prep, and due diligence data room.',
+    price: 2080000,           // ₹20,800
+    priceDisplay: '₹20,800',
+    duration: '10 days',
+    deliveryFormat: '3–5 sessions + metrics work',
+
+    coreServices: [
+      'Investor Targeting Strategy',
+      'Ask & Valuation Framework',
+      'Business Model Patch‑Up',
+      'Pitch Strategy (story structure)',
+      'Investor Q&A Preparation',
+      'Due Diligence Data Room Setup',
+    ],
+    flexibleServices: null,
+    maxFlexibleSelections: null,
+
+    deliverables: [
+      'Fundraising Readiness Report',
+      'Investor Metrics Dashboard',
+      'Data Room Structure',
+    ],
+    outcome: 'Prepared, confident, and realistic fundraising posture.',
+    impactIndices: ['Investor Readiness Score', 'Narrative Clarity Index'],
+
+    customerServiceRoadmap: [
+      { step: 1, title: 'Fundraising Goal & Timing Session', description: 'Understand raise target, stage, timeline, and investor target list.' },
+      { step: 2, title: 'Metrics & Narrative Diagnostic', description: 'Audit current metrics, narrative, and investor positioning.' },
+      { step: 3, title: 'Readiness & Valuation Analysis', description: 'Readiness scoring, valuation benchmarking, narrative structuring.' },
+      { step: 4, title: 'Fundraising Readiness Delivery Session', description: 'Walk through report, gaps, and the narrative that will work for your stage.' },
+      { step: 5, title: 'Final Q&A & Handover', description: 'Open questions, investor outreach plan, and next steps.' },
+    ],
+    googleSheetsNote: 'Metric dashboards, valuation and dilution models.',
+
+    questions: [
+      {
+        id: 'founder_name',
+        label: 'Your full name',
+        type: 'text',
+        placeholder: 'e.g. Ananya Singh',
+        required: true,
+      },
+      {
+        id: 'raise_target',
+        label: 'How much are you planning to raise?',
+        type: 'text',
+        placeholder: 'e.g. ₹3 Cr at ₹20 Cr post‑money valuation',
+        required: true,
+      },
+      {
+        id: 'raise_stage',
+        label: 'What stage is this raise?',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Pre‑Seed', label: 'Pre‑Seed' },
+          { value: 'Seed', label: 'Seed' },
+          { value: 'Series A', label: 'Series A' },
+          { value: 'Bridge / extension', label: 'Bridge / extension' },
+        ],
+      },
+      {
+        id: 'current_metrics',
+        label: 'What are your current key metrics? (ARR, MoM growth, retention, burn)',
+        type: 'textarea',
+        placeholder: 'e.g. ARR ₹1.2Cr, 8% MoM growth, D30 retention 55%, burn ₹18L/month',
+        required: true,
+        helpText: 'Rough numbers are fine. Honesty here saves time later.',
+      },
+      {
+        id: 'previous_raise',
+        label: 'Have you raised external capital before?',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'No – first raise', label: 'No – first raise' },
+          { value: 'Yes – from angels / friends & family', label: 'Yes – from angels / friends & family' },
+          { value: 'Yes – from institutional investors', label: 'Yes – from institutional investors' },
+        ],
+      },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // OPTIMIZATION & SCALABILITY (1→10)
   // ──────────────────────────────────────────────────────────────
   {
     id: 4,
-    backendId: '69b3c41e4ad479822f297e2d',
-    slug: 'operations-scalability',
+    backendId: '69b3c41e4ad479822f297e2d',   // unchanged (was Operations & Scalability)
+    slug: 'optimization-scalability',
     packageNumber: 'Package 4',
-    title: 'Operations & Scalability',
-    tagline: 'Stop being the bottleneck in your own business.',
+    title: 'Optimization & Scalability',
+    tagline: 'You’re growing but you’re breaking. Every new customer costs you more to serve.',
     tag: 'Operations',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Revenue-stage startups facing operational chaos.',
-    problemStatement: 'Revenue is there. The team exists. But nothing runs without you. Decisions queue up. Priorities conflict. Costs leak in places you cannot see. The business is growing but the founder is breaking. This package fixes the structural conditions that create this.',
-    excerpt: 'End-to-end process mapping, cost leak identification, founder bottleneck analysis, and a scalability readiness assessment for revenue-stage startups facing operational chaos.',
-    price: 5500000,
-    priceDisplay: '₹55,000',
+    targetedFor: 'Revenue ₹25L–2Cr, team 5–30. Business with product‑market fit, chaotic growth, founder bottleneck, margins shrinking as volume grows.',
+    problemStatement: 'Revenue is there. The team exists. But nothing runs without you. Decisions queue up. Priorities conflict. Costs leak. This package fixes the structural conditions that create this.',
+    excerpt: 'Standard process design, growth strategy for next stage, operational efficiency map, roles & responsibilities clarity, and organisational structure design.',
+    price: 3120000,           // ₹31,200
+    priceDisplay: '₹31,200',
     duration: '2 weeks',
-    deliveryFormat: '2 sessions + process mapping work',
+    deliveryFormat: '3–5 sessions + process mapping',
 
     coreServices: [
-      'End-to-End Process Mapping',
-      'Cost Leak & Waste Identification',
-      'Founder Bottleneck Mapping',
-      'Role & Responsibility Clarity',
-      'Decision Ownership Framework',
-      'Scalability Readiness Assessment',
+      'Standard Process Design',
+      'Growth Strategy for Next Stage',
+      'Operational Efficiency Map',
+      'Roles & Responsibilities Clarity',
+      'Organisational Structure Design',
     ],
-    flexibleServices: [
-      { id: 'Hiring Plan Logic Review', label: 'Hiring Plan Logic Review', description: 'Evaluate your next 3–6 hires against operational gaps and budget.' },
-      { id: 'Vendor Rationalisation Analysis', label: 'Vendor Rationalisation Analysis', description: 'Identify vendor overlap, cost waste, and renegotiation opportunities.' },
-      { id: 'OKR & Internal Metrics Design', label: 'OKR & Internal Metrics Design', description: 'Design a practical OKR system that teams actually use.' },
-      { id: 'Internal Reporting Structure Design', label: 'Internal Reporting Structure Design', description: 'Define what gets reported, by whom, and at what cadence.' },
-      { id: 'Founder Time Allocation Audit', label: 'Founder Time Allocation Audit', description: 'Analyse where founder time goes and redesign it against strategic priorities.' },
-    ],
-    maxFlexibleSelections: 3,
+    flexibleServices: null,
+    maxFlexibleSelections: null,
 
     deliverables: [
       'Operations Diagnostic Report',
@@ -639,10 +566,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     impactIndices: ['Founder Dependency Ratio', 'Operational Efficiency Score'],
 
     customerServiceRoadmap: [
-      { step: 1, title: 'Operations Context & Pain Mapping Session', description: 'Understand current team structure, pain points, and founder time allocation.' },
-      { step: 2, title: 'Process & Cost Diagnostic', description: 'Week 1 — process mapping, cost audit, bottleneck identification.' },
-      { step: 3, title: 'Structure & Bottleneck Analysis', description: 'Internal — role clarity, decision ownership, scalability scoring.' },
-      { step: 4, title: 'Operations Strategy Delivery Session', description: 'Walk through findings, prioritised interventions, and structural changes.' },
+      { step: 1, title: 'Operations Context & Pain Mapping', description: 'Understand current team structure, pain points, and founder time allocation.' },
+      { step: 2, title: 'Process & Cost Diagnostic', description: 'Process mapping, cost audit, bottleneck identification.' },
+      { step: 3, title: 'Structure & Bottleneck Analysis', description: 'Role clarity, decision ownership, scalability scoring.' },
+      { step: 4, title: 'Operations Strategy Delivery', description: 'Walk through findings, prioritised interventions, and structural changes.' },
       { step: 5, title: 'Implementation Readiness Handover', description: 'Phased implementation plan with role assignments and success metrics.' },
     ],
     googleSheetsNote: 'Process maps, cost dashboards, scalability scoring models.',
@@ -675,18 +602,6 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         required: true,
       },
       {
-        id: 'processes_documented',
-        label: 'What percentage of your core processes are documented?',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'None — everything is in people\'s heads', label: 'None — everything is in people\'s heads' },
-          { value: 'Some (<30%) — mostly informal', label: 'Some (<30%) — mostly informal' },
-          { value: 'About half (30–60%)', label: 'About half (30–60%)' },
-          { value: 'Most (60%+) — reasonably structured', label: 'Most (60%+) — reasonably structured' },
-        ],
-      },
-      {
         id: 'revenue_range',
         label: 'Current annual revenue (ARR)',
         type: 'radio',
@@ -698,196 +613,54 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
           { value: 'Above ₹10Cr', label: 'Above ₹10Cr' },
         ],
       },
-      {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 3)',
-        type: 'multiselect',
-        required: false,
-        options: [
-          { value: 'Hiring Plan Logic Review', label: 'Hiring Plan Logic Review' },
-          { value: 'Vendor Rationalisation Analysis', label: 'Vendor Rationalisation Analysis' },
-          { value: 'OKR & Internal Metrics Design', label: 'OKR & Internal Metrics Design' },
-          { value: 'Internal Reporting Structure Design', label: 'Internal Reporting Structure Design' },
-          { value: 'Founder Time Allocation Audit', label: 'Founder Time Allocation Audit' },
-        ],
-        helpText: 'Select up to 3 flexible services.',
-      },
     ],
   },
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 5 — Fundraising Readiness
+  // TURNAROUND & STABILIZATION (Crisis)
   // ──────────────────────────────────────────────────────────────
   {
     id: 5,
-    backendId: '69b3c42a4ad479822f297e2f',
-    slug: 'fundraising-readiness',
-    packageNumber: 'Package 5',
-    title: 'Fundraising Readiness',
-    tagline: 'Raise from a position of preparation, not hope.',
-    tag: 'Fundraising',
-    accentColor: '#ffffff',
-    accentColorRgb: '255,255,255',
-    targetedFor: 'Founders planning to raise capital in 3–6 months.',
-    problemStatement: 'Most founders enter fundraising underprepared. Their metrics are not investor-ready. Their narrative is unclear. Their valuation expectations are unrealistic. Investors sense all of this in the first ten minutes. This package closes those gaps before you start the process.',
-    excerpt: 'For founders planning to raise capital in the next 3–6 months. Fundraising readiness diagnostic, investor metrics cleanup, equity story structuring, and valuation reality check.',
-    price: 5900000,
-    priceDisplay: '₹59,000',
-    duration: '10 days',
-    deliveryFormat: '2 sessions + metrics work',
-
-    coreServices: [
-      'Fundraising Readiness Diagnostic',
-      'Investor Metric Hygiene Check',
-      'Equity Story & Narrative Structuring',
-      'Fundraise Timing & Stage Fit Logic',
-      'Valuation Reality Check',
-    ],
-    flexibleServices: [
-      { id: 'Pitch Deck Logic Review', label: 'Pitch Deck Logic Review', description: 'Structural and narrative review of your pitch deck — not design.' },
-      { id: 'Data Room Structure Design', label: 'Data Room Structure Design', description: 'Define exactly what goes in your data room and how to organise it.' },
-      { id: 'Term Sheet Risk Education', label: 'Term Sheet Risk Education', description: 'Understand the 8 terms that founders most commonly get wrong.' },
-      { id: 'Investor Q&A Preparation', label: 'Investor Q&A Preparation', description: 'Prepare answers to the 20 most common and dangerous investor questions.' },
-      { id: 'Dilution Scenario Modelling', label: 'Dilution Scenario Modelling', description: 'Model your cap table across 3 fundraising scenarios.' },
-    ],
-    maxFlexibleSelections: 3,
-
-    deliverables: [
-      'Fundraising Readiness Report',
-      'Investor Metrics Dashboard',
-    ],
-    outcome: 'Prepared, confident, and realistic fundraising posture.',
-    impactIndices: ['Investor Readiness Score', 'Narrative Clarity Index'],
-
-    customerServiceRoadmap: [
-      { step: 1, title: 'Fundraising Goal & Timing Session', description: 'Understand raise target, stage, timeline, and investor target list.' },
-      { step: 2, title: 'Metrics & Narrative Diagnostic', description: 'Week 1 — audit current metrics, narrative, and investor positioning.' },
-      { step: 3, title: 'Readiness & Valuation Analysis', description: 'Internal — readiness scoring, valuation benchmarking, narrative structuring.' },
-      { step: 4, title: 'Fundraising Readiness Delivery Session', description: 'Walk through report, gaps, and the narrative that will work for your stage.' },
-      { step: 5, title: 'Final Q&A & Handover', description: 'Final session — open questions, investor outreach plan, and next steps.' },
-    ],
-    googleSheetsNote: 'Metric dashboards, valuation and dilution models.',
-
-    questions: [
-      {
-        id: 'founder_name',
-        label: 'Your full name',
-        type: 'text',
-        placeholder: 'e.g. Ananya Singh',
-        required: true,
-      },
-      {
-        id: 'raise_target',
-        label: 'How much are you planning to raise?',
-        type: 'text',
-        placeholder: 'e.g. ₹3 Cr at ₹20 Cr post-money valuation',
-        required: true,
-      },
-      {
-        id: 'raise_stage',
-        label: 'What stage is this raise?',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'Pre-Seed', label: 'Pre-Seed' },
-          { value: 'Seed', label: 'Seed' },
-          { value: 'Series A', label: 'Series A' },
-          { value: 'Series B or later', label: 'Series B or later' },
-          { value: 'Bridge / extension round', label: 'Bridge / extension round' },
-        ],
-      },
-      {
-        id: 'timeline',
-        label: 'When do you want to close the round?',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'Within 1–2 months', label: 'Within 1–2 months' },
-          { value: '3–4 months from now', label: '3–4 months from now' },
-          { value: '5–6 months from now', label: '5–6 months from now' },
-          { value: 'Flexible — whenever ready', label: 'Flexible — whenever ready' },
-        ],
-      },
-      {
-        id: 'current_metrics',
-        label: 'What are your current key metrics? (ARR, MoM growth, retention, burn)',
-        type: 'textarea',
-        placeholder: 'e.g. ARR ₹1.2Cr, 8% MoM growth, D30 retention 55%, burn ₹18L/month',
-        required: true,
-        helpText: 'Rough numbers are fine. Honesty here saves time later.',
-      },
-      {
-        id: 'previous_raise',
-        label: 'Have you raised external capital before?',
-        type: 'radio',
-        required: true,
-        options: [
-          { value: 'No — this is our first raise', label: 'No — this is our first raise' },
-          { value: 'Yes — from angels / friends & family', label: 'Yes — from angels / friends & family' },
-          { value: 'Yes — from institutional investors', label: 'Yes — from institutional investors' },
-        ],
-      },
-      {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 3)',
-        type: 'multiselect',
-        required: false,
-        options: [
-          { value: 'Pitch Deck Logic Review', label: 'Pitch Deck Logic Review' },
-          { value: 'Data Room Structure Design', label: 'Data Room Structure Design' },
-          { value: 'Term Sheet Risk Education', label: 'Term Sheet Risk Education' },
-          { value: 'Investor Q&A Preparation', label: 'Investor Q&A Preparation' },
-          { value: 'Dilution Scenario Modelling', label: 'Dilution Scenario Modelling' },
-        ],
-        helpText: 'Select up to 3 flexible services.',
-      },
-    ],
-  },
-
-  // ──────────────────────────────────────────────────────────────
-  // PACKAGE 6 — Turnaround & Stabilisation
-  // ──────────────────────────────────────────────────────────────
-  {
-    id: 6,
-    backendId: '69b3c43a4ad479822f297e31',
+    backendId: '69b3c43a4ad479822f297e31',   // unchanged (was Turnaround & Stabilisation)
     slug: 'turnaround-stabilisation',
-    packageNumber: 'Package 6',
-    title: 'Turnaround & Stabilisation',
-    tagline: 'Immediate control when the runway is short.',
+    packageNumber: 'Package 5',
+    title: 'Turnaround & Stabilization',
+    tagline: 'The business is in freefall. Revenue dropping. Cash burning.',
     tag: 'Turnaround',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Startups facing survival risk.',
-    problemStatement: 'Runway is short. Revenue is not where it needs to be. Costs are wrong. The team knows something is wrong but nobody has said it out loud. This is not the time for strategy frameworks — it is the time for triage, compression, and a 90-day survival plan.',
-    excerpt: 'The emergency package. Survival viability assessment, cash runway stress testing, cost compression strategy, and a 30–90 day turnaround plan. Fixed scope. No flex services. Built for speed.',
-    price: 6900000,
-    priceDisplay: '₹69,000',
-    duration: '1 week intensive',
-    deliveryFormat: '3 sessions in rapid succession',
+    targetedFor: 'Business in decline – runway <6 months.',
+    problemStatement: 'We have 4 months of runway left. Revenue has dropped 3 months in a row. Every week of indecision costs real money. Engagement completed in 21 days from first meeting to final document. Speed is part of the service.',
+    excerpt: 'Failure analysis, pivot or persevere decision, new customer & product profile, revised business model, cash preservation strategy, and 60‑day survival roadmap.',
+    price: 4680000,           // ₹46,800
+    priceDisplay: '₹46,800',
+    duration: '21 days intensive',
+    deliveryFormat: '3–5 rapid sessions',
 
     coreServices: [
-      'Survival Viability Assessment',
-      'Cash Runway Stress Testing',
-      'Cost Compression Strategy',
-      'Focus & Activity Pruning',
-      'Emergency Priority Reset',
+      'Failure Analysis',
+      'Pivot or Persevere Decision',
+      'New Customer & Product Profile',
+      'Revised Business Model',
+      'Cash Preservation Strategy',
+      '60‑Day Survival Roadmap',
     ],
     flexibleServices: null,
     maxFlexibleSelections: null,
 
     deliverables: [
       'Survival Decision Memo',
-      '30–90 Day Turnaround Plan',
+      '60‑Day Turnaround Plan',
     ],
     outcome: 'Immediate control over cash and priorities.',
     impactIndices: ['Runway Extension Metric', 'Focus Compression Score'],
 
     customerServiceRoadmap: [
-      { step: 1, title: 'Emergency Intake & Context Call', description: 'Immediate — understand the situation, runway, and critical decisions pending.' },
+      { step: 1, title: 'Emergency Intake & Context Call', description: 'Immediate – understand the situation, runway, and critical decisions pending.' },
       { step: 2, title: 'Survival Diagnostic', description: 'Rapid cash flow analysis, cost mapping, and viability assessment.' },
-      { step: 3, title: 'Turnaround Strategy Design', description: 'Internal — compression strategy, priority reset, scenario modelling.' },
+      { step: 3, title: 'Turnaround Strategy Design', description: 'Compression strategy, priority reset, scenario modelling.' },
       { step: 4, title: 'Survival Plan Delivery Session', description: 'Walk through the plan. Decisions made together in real time.' },
-      { step: 5, title: '30-Day Stability Review', description: 'Check-in at 30 days — is the plan holding, what needs to change.' },
+      { step: 5, title: '30‑Day Stability Review', description: 'Check‑in at 30 days – is the plan holding, what needs to change.' },
     ],
     googleSheetsNote: 'Cash flow stress models and survival scenarios.',
 
@@ -933,52 +706,40 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         placeholder: 'e.g. Whether to let go of 4 team members, whether to accept a down round bridge.',
         required: true,
       },
-      {
-        id: 'revenue_current',
-        label: 'Current monthly revenue',
-        type: 'text',
-        placeholder: 'e.g. ₹6 lakhs per month',
-        required: true,
-      },
     ],
   },
 
   // ──────────────────────────────────────────────────────────────
-  // PACKAGE 7 — Scale & Expansion Strategy
+  // SCALE & EXPANSION (10→100)
   // ──────────────────────────────────────────────────────────────
   {
-    id: 7,
-    backendId: '69b3c4464ad479822f297e33',
-    slug: 'scale-expansion-strategy',
-    packageNumber: 'Package 7',
-    title: 'Scale & Expansion Strategy',
-    tagline: 'Scale without breaking what you built.',
+    id: 6,
+    backendId: '69b3c4464ad479822f297e33',   // unchanged (was Scale & Expansion Strategy)
+    slug: 'scale-expansion',
+    packageNumber: 'Package 6',
+    title: 'Scale & Expansion',
+    tagline: 'You’ve won your first market. How do you grow without breaking what’s working?',
     tag: 'Scale',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Founders preparing for aggressive growth.',
-    problemStatement: 'You have proven the model. Now you need to grow it aggressively — new markets, new products, new geographies, more capital. But aggressive growth without structural readiness breaks things. This package ensures you scale with your systems intact.',
-    excerpt: 'For founders preparing for aggressive growth. Scale readiness diagnostic, capacity constraint mapping, expansion risk identification, org planning, and capital requirement logic.',
-    price: 6500000,
-    priceDisplay: '₹65,000',
+    targetedFor: 'MSME or growth‑stage startup with profitable core business, ready to expand (new cities, categories, segments).',
+    problemStatement: 'The non‑negotiable Sarsen principle: we will tell you if you’re not ready to expand. A business expanding from weakness destroys both the expansion and the core.',
+    excerpt: 'Core business health audit, new product & customer profiling, organisation & structure for scale, expansion option ranking, financial model for expansion, and fund allocation strategy.',
+    price: 5200000,           // ₹52,000
+    priceDisplay: '₹52,000',
     duration: '2 weeks',
-    deliveryFormat: '2 sessions + expansion scenario work',
+    deliveryFormat: '3–5 sessions + scenario work',
 
     coreServices: [
-      'Scale Readiness Diagnostic',
-      'Capacity & Constraint Mapping',
-      'Expansion Risk Identification',
-      'Org & Capability Planning',
-      'Capital Requirement Logic',
+      'Core Business Health Audit',
+      'New Product & Customer Profiling',
+      'Organization & Structure for Scale',
+      'Expansion Option Ranking',
+      'Financial Model for Expansion',
+      'Fund Allocation Strategy',
     ],
-    flexibleServices: [
-      { id: 'New Market Entry Evaluation', label: 'New Market Entry Evaluation', description: 'Evaluate and rank 2–3 new market opportunities against a structured framework.' },
-      { id: 'Product Line Expansion Logic', label: 'Product Line Expansion Logic', description: 'Assess whether and when to expand the product line — sequencing and risk.' },
-      { id: 'Pricing for Scale Analysis', label: 'Pricing for Scale Analysis', description: 'Evaluate whether current pricing supports the unit economics of aggressive scale.' },
-      { id: 'International Expansion Readiness', label: 'International Expansion Readiness', description: 'Assess readiness for international markets — operationally and commercially.' },
-      { id: 'Post-Scale Governance Design', label: 'Post-Scale Governance Design', description: 'Design the governance structure required to manage a scaled organisation.' },
-    ],
-    maxFlexibleSelections: 3,
+    flexibleServices: null,
+    maxFlexibleSelections: null,
 
     deliverables: [
       'Scale Readiness Scorecard',
@@ -989,10 +750,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
 
     customerServiceRoadmap: [
       { step: 1, title: 'Scale Objective & Constraint Session', description: 'Understand growth ambitions, current constraints, and capital context.' },
-      { step: 2, title: 'Scale Diagnostic & Data Review', description: 'Week 1 — capacity analysis, org readiness, expansion scenario mapping.' },
-      { step: 3, title: 'Expansion Scenario Analysis', description: 'Internal — scenario modelling, risk scoring, capital modelling.' },
+      { step: 2, title: 'Scale Diagnostic & Data Review', description: 'Capacity analysis, org readiness, expansion scenario mapping.' },
+      { step: 3, title: 'Expansion Scenario Analysis', description: 'Scenario modelling, risk scoring, capital modelling.' },
       { step: 4, title: 'Scale Strategy Delivery Session', description: 'Walk through scorecard, expansion memo, and prioritised growth path.' },
-      { step: 5, title: 'Readiness & Next-Step Handover', description: 'Phased expansion roadmap with capital triggers and risk mitigation steps.' },
+      { step: 5, title: 'Readiness & Next‑Step Handover', description: 'Phased expansion roadmap with capital triggers and risk mitigation steps.' },
     ],
     googleSheetsNote: 'Expansion scenarios, capacity models, readiness scoring.',
 
@@ -1028,7 +789,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
           { value: 'International markets', label: 'International markets' },
           { value: 'New product lines', label: 'New product lines' },
           { value: 'New customer segments', label: 'New customer segments' },
-          { value: 'New distribution / sales channels', label: 'New distribution / sales channels' },
+          { value: 'New distribution channels', label: 'New distribution channels' },
           { value: 'Significant team scaling (2× headcount)', label: 'Significant team scaling (2× headcount)' },
         ],
       },
@@ -1039,31 +800,93 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         placeholder: 'e.g. Culture dilution as we hire fast. Operations not ready for 3× volume.',
         required: true,
       },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // STRATEGY RETAINER (Ongoing)
+  // ──────────────────────────────────────────────────────────────
+  {
+    id: 7,
+    backendId: '69b3c5004ad479822f297e35',   // new MongoDB _id (placeholder)
+    slug: 'strategy-retainer',
+    packageNumber: 'Package 7',
+    title: 'Strategy Retainer',
+    tagline: 'Strategic counsel on tap – a thinking partner relationship.',
+    tag: 'Foundation',
+    accentColor: '#ffffff',
+    accentColorRgb: '255,255,255',
+    targetedFor: 'Founders who completed a Sarsen engagement, solo founders, businesses in transition.',
+    problemStatement: 'You need ongoing strategic guidance without a full‑time executive or a traditional retainer that locks you into scope creep. Two structured meetings per month give you a thinking partner who knows your business.',
+    excerpt: '2 structured meetings per month (60–90 min each), dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
+    price: 780000,            // ₹7,800 per month (price in paise)
+    priceDisplay: '₹7,800 / month',
+    duration: 'monthly recurring',
+    deliveryFormat: '2 meetings per month + async support',
+
+    coreServices: [
+      'Two structured meetings per month (60–90 min each)',
+      'Dedicated strategic counsel',
+      'Guidance on execution of prior insights',
+      'Async support between meetings',
+      'No scope creep – pure advisory',
+    ],
+    flexibleServices: null,
+    maxFlexibleSelections: null,
+
+    deliverables: [
+      'Monthly Priority Decision Memo',
+      'Execution Progress Review',
+    ],
+    outcome: 'Continuous strategic clarity and accountability.',
+    impactIndices: ['Strategic Alignment Score'],
+
+    customerServiceRoadmap: [
+      { step: 1, title: 'Kickoff & Context Alignment', description: 'First meeting to align on your current priorities and past insights.' },
+      { step: 2, title: 'Meeting 1 (Month) – Priority Decision', description: '60–90 min – focus on the single most important decision.' },
+      { step: 3, title: 'Async Support (15 days later)', description: 'Quick reviews, document feedback, or a 15‑min call.' },
+      { step: 4, title: 'Meeting 2 (Month) – Review & Next Steps', description: '60–90 min – assess progress, adjust, set next priorities.' },
+    ],
+    googleSheetsNote: 'Retainer dashboard with decision log and progress tracker.',
+
+    questions: [
       {
-        id: 'capital_status',
-        label: 'What is your capital situation for this scale?',
+        id: 'founder_name',
+        label: 'Your full name',
+        type: 'text',
+        placeholder: 'e.g. Neha Gupta',
+        required: true,
+      },
+      {
+        id: 'business_name',
+        label: 'Business name',
+        type: 'text',
+        placeholder: 'e.g. Stellar AI',
+        required: true,
+      },
+      {
+        id: 'previous_engagement',
+        label: 'Have you completed a Sarsen package before?',
         type: 'radio',
         required: true,
         options: [
-          { value: 'Bootstrapped — scaling from operating cash flow', label: 'Bootstrapped — scaling from operating cash flow' },
-          { value: 'Recently raised — capital available', label: 'Recently raised — capital available' },
-          { value: 'Planning to raise to fund expansion', label: 'Planning to raise to fund expansion' },
-          { value: 'Undecided — part of what I want to figure out', label: 'Undecided — part of what I want to figure out' },
+          { value: 'Yes – which one?', label: 'Yes – which one?' },
+          { value: 'No – this is my first Sarsen engagement', label: 'No – this is my first Sarsen engagement' },
         ],
       },
       {
-        id: 'flexible_services',
-        label: 'Which additional services would you like to include? (Choose up to 3)',
-        type: 'multiselect',
-        required: false,
-        options: [
-          { value: 'New Market Entry Evaluation', label: 'New Market Entry Evaluation' },
-          { value: 'Product Line Expansion Logic', label: 'Product Line Expansion Logic' },
-          { value: 'Pricing for Scale Analysis', label: 'Pricing for Scale Analysis' },
-          { value: 'International Expansion Readiness', label: 'International Expansion Readiness' },
-          { value: 'Post-Scale Governance Design', label: 'Post-Scale Governance Design' },
-        ],
-        helpText: 'Select up to 3 flexible services.',
+        id: 'current_priority',
+        label: 'What is the most important decision or problem you need strategic help with right now?',
+        type: 'textarea',
+        placeholder: 'e.g. Whether to raise a bridge round, how to restructure the team, which market to enter next.',
+        required: true,
+      },
+      {
+        id: 'desired_outcome',
+        label: 'What would make this retainer successful for you 3 months from now?',
+        type: 'textarea',
+        placeholder: 'e.g. Clear roadmap for Series A, better delegation so I can step back from daily ops.',
+        required: true,
       },
     ],
   },

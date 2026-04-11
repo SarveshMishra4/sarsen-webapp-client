@@ -106,7 +106,7 @@ export interface ServiceData {
   questions: ServiceQuestion[];
 }
 
-const SUPPORT_EMAIL = 'support@sarsenandcompany.com';
+const SUPPORT_EMAIL = 'contact@sarsenandcompany.com';
 
 declare global {
   interface Window {
@@ -732,7 +732,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <div
             style={{
               background: '#F8FAFC',
-              borderRadius: '10px',
+              borderRadius: '6px',
               padding: '16px 18px',
               marginBottom: '20px',
               border: '1px solid #E2E8F0',
@@ -823,7 +823,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           <div
             style={{
               background: '#F8FAFC',
-              borderRadius: '10px',
+              borderRadius: '6px',
               padding: '16px 18px',
               border: '1px solid #E2E8F0',
               marginBottom: '20px',
@@ -1034,7 +1034,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         <div style={{
           background: '#F0FDF4',
           border: '1.5px solid #86EFAC',
-          borderRadius: '10px',
+          borderRadius: '6px',
           padding: '16px 20px',
           maxWidth: '340px',
           margin: '0 auto 20px',
@@ -1222,36 +1222,14 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
       style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
       <div className="max-w-7xl mx-auto relative">
-        <nav className="flex items-center gap-2 mb-8" aria-label="Breadcrumb">
-          <a href="/services" className="text-blue-300 hover:text-white transition-colors text-xs">
-            Services
-          </a>
-          <span className="text-blue-800">/</span>
-          <span className="text-blue-300 text-xs">{service.packageNumber}</span>
-        </nav>
+        
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="space-y-7">
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
-                <div
-                  className="inline-flex items-center gap-2 rounded-md px-4 py-1.5"
-                  style={{
-                    backgroundColor: `rgba(${rgb},0.08)`,
-                    border: `1px solid rgba(${rgb},0.18)`,
-                  }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: service.accentColor }} />
-                  <span className="text-xs font-medium" style={{ color: service.accentColor }}>
-                    {service.tag}
-                  </span>
-                </div>
-                <span
-                  className="text-xs px-2.5 py-1 rounded-md"
-                  style={{ backgroundColor: `rgba(${rgb},0.08)`, color: service.accentColor, border: `1px solid rgba(${rgb},0.14)` }}
-                >
-                  {service.packageNumber}
-                </span>
+                
+               
               </div>
 
               <p className="text-xs text-blue-300/70">
@@ -1286,7 +1264,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 className="group bg-white text-[#002855] hover:shadow-md transition-shadow"
                 style={{
                   padding: '14px 32px',
-                  borderRadius: '10px',
+                  borderRadius: '6px',
                   fontSize: '0.95rem',
                   fontWeight: 700,
                   border: 'none',
@@ -1299,7 +1277,6 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 Get Started
                 
               </button>
-              <p className="text-xs text-gray-500">Secure payment via Razorpay</p>
             </div>
           </div>
 
@@ -1796,7 +1773,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
               style={{
                 flex: '0 0 280px',
                 background: '#0F2647',
-                borderRadius: '12px',
+                borderRadius: '6px',
                 padding: '24px',
                 transition: 'transform 0.2s',
               }}
@@ -2027,7 +2004,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
               className="bg-white text-[#002855] hover:shadow-md transition-shadow w-full flex items-center justify-center gap-1.5"
               style={{
                 padding: '12px',
-                borderRadius: '9px',
+                borderRadius: '6px',
                 fontSize: '0.9rem',
                 fontWeight: 700,
                 border: 'none',
@@ -2128,7 +2105,7 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
           <div style={{
             flexShrink: 0,
             padding: '36px',
-            borderRadius: '12px',
+            borderRadius: '6px',
             background: `rgba(${rgb},0.06)`,
             textAlign: 'center',
             minWidth: '240px',
@@ -2145,7 +2122,7 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
               style={{
                 width: '100%',
                 padding: '14px 24px',
-                borderRadius: '9px',
+                borderRadius: '6px',
                 background: '#FFFFFF',
                 color: '#002855',
                 fontSize: '0.9rem',

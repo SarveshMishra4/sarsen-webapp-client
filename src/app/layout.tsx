@@ -135,6 +135,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${ropaSans.variable} font-sans`}>
+      <head>
+        {/*
+          ── Mega-menu image preloads ──────────────────────────────────────────
+          Instructs the browser to fetch all four header thumbnail images at the
+          very start of page load — before any JavaScript executes — so they are
+          already in the browser cache the moment a user hovers a nav item.
+          This eliminates the visible image-load delay on first hover.
+
+          IMPORTANT: These filenames must match what is on disk exactly.
+          Renamed from the originals to remove spaces and fix the typo:
+            "our team.webp"    →  "our-team.webp"
+            "happy cliet.webp" →  "happy-client.webp"
+        */}
+        <link rel="preload" as="image" href="/assets/thumbnail-header/work.webp" />
+        <link rel="preload" as="image" href="/assets/thumbnail-header/report.webp" />
+        <link rel="preload" as="image" href="/assets/thumbnail-header/our-team.webp" />
+        <link rel="preload" as="image" href="/assets/thumbnail-header/happy-client.webp" />
+      </head>
       <body className="antialiased">
 
         {/* ── Razorpay ───────────────────────────────────────────────────── */}
