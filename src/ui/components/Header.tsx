@@ -11,8 +11,8 @@ import { useState, useEffect } from "react";
 const HIGHLIGHT_IMAGES = [
   "/assets/thumbnail-header/work.webp",
   "/assets/thumbnail-header/report.webp",
-  "/assets/thumbnail-header/our-team.webp",   // renamed: spaces → hyphens
-  "/assets/thumbnail-header/happy-client.webp", // renamed: fixed typo + spaces
+  "/assets/thumbnail-header/our-team.webp",
+  "/assets/thumbnail-header/happy-client.webp",
 ];
 
 if (typeof window !== "undefined") {
@@ -82,29 +82,64 @@ export default function Header() {
       highlight: {
         title: "Featured Work",
         description: "Recent client success",
-        thumbnail: "/assets/thumbnail-header/our-team.webp",  // renamed
+        thumbnail: "/assets/thumbnail-header/our-team.webp",
         buttonText: "View Portfolio",
         link: "/work",
       },
     },
 
+    // =========================================================================
+    // UPDATED SERVICES LINKS – matches new slugs from services.data.ts
+    // =========================================================================
     services: {
       title: "Our Service Offerings",
       description: "Comprehensive solutions tailored to drive your business forward.",
       links: [
-        { label: "Know What's Really Going On", href: "/services/business-diagnostic-direction", description: "Business Diagnostic & Direction" },
-        { label: "Is Your Idea Worth Pursuing ?", href: "/services/idea-to-validation", description: "Idea‑to‑Validation" },
-        { label: "Make Customers Actually Want Your Product", href: "/services/product-market-fit-clarity", description: "Product‑Market Fit Clarity" },
-        { label: "Stop Random Sales, Start Repeatable Growth", href: "/services/go-to-market-strategy", description: "Go‑To‑Market Strategy" },
-        { label: "Stop Being the Bottleneck", href: "/services/operations-scalability", description: "Operations & Scalability" },
-        { label: "Raise Capital with Confidence", href: "/services/fundraising-readiness", description: "Fundraising Readiness" },
-        { label: "Survive & Recover Now", href: "/services/turnaround-stabilisation", description: "Turnaround & Stabilisation" },
-        { label: "Scale Without Breaking", href: "/services/scale-expansion-strategy", description: "Scale & Expansion Strategy" },
+        {
+          label: "Know What's Really Going On",
+          href: "/services/business-diagnostic-direction",
+          description: "Business Diagnostic & Direction",
+        },
+        {
+          label: "Turn Your Idea Into a Product Blueprint",
+          href: "/services/idea-to-product",
+          description: "Idea To Product",
+        },
+        {
+          label: "Get Your First Real Customers",
+          href: "/services/go-to-market",
+          description: "Go To Market",
+        },
+        {
+          label: "Become Fundable – Not Just Pitchable",
+          href: "/services/funding-readiness",
+          description: "Funding Readiness",
+        },
+        {
+          label: "Stop Being the Bottleneck",
+          href: "/services/optimization-scalability",
+          description: "Optimization & Scalability",
+        },
+        {
+          label: "Survive & Recover Now",
+          href: "/services/turnaround-stabilisation",
+          description: "Turnaround & Stabilization",
+        },
+        {
+          label: "Scale Without Breaking What Works",
+          href: "/services/scale-expansion",
+          description: "Scale & Expansion",
+        },
+        {
+          label: "Ongoing Strategic Counsel",
+          href: "/services/strategy-retainer",
+          description: "Strategy Retainer",
+        },
       ],
       highlight: {
         title: "Popular Service",
         description: "Clarity Reset Program",
-        thumbnail: "/assets/thumbnail-header/happy-client.webp", // renamed
+        thumbnail: "/assets/thumbnail-header/happy-client.webp",
         buttonText: "Explore Services",
         link: "/services",
       },
@@ -272,11 +307,6 @@ export default function Header() {
           {/* ====================================================================== */}
           {/* DESKTOP MEGA MENU DROPDOWN                                             */}
           {/* ====================================================================== */}
-          {/*
-            Key change: replaced "animate-fadeIn" (unknown/possibly jank custom class)
-            with "mega-menu-dropdown" which uses the GPU-composited keyframe above.
-            Everything else — layout, sizing, content — is identical.
-          */}
           {activeMenu && megaMenuContent[activeMenu] && (
             <div
               className="hidden lg:block absolute left-8 right-8 z-10 mega-menu-dropdown"
@@ -324,12 +354,6 @@ export default function Header() {
                     <div className="h-full flex flex-col">
                       <div className="mb-4 overflow-hidden rounded-md border border-gray-200">
                         <div className="aspect-video relative overflow-hidden bg-gray-100">
-                          {/*
-                            fetchpriority="high" tells the browser to treat this as
-                            a high-priority resource the moment the dropdown mounts.
-                            Combined with the JS preload above, the image is already
-                            in cache before the user even hovers.
-                          */}
                           <img
                             key={activeMenu}
                             src={megaMenuContent[activeMenu].highlight.thumbnail}
