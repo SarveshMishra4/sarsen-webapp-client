@@ -838,7 +838,7 @@ function MessagesManagement({
             <>
               <div className="flex flex-col sm:flex-row gap-3">
                 <textarea value={newMessage} onChange={e => setNewMessage(e.target.value)} onKeyPress={handleKeyPress}
-                  rows={2} className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  rows={2} className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-[#0A1E3D] bg-white placeholder-gray-400"
                   placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)" />
                 <button onClick={handleSendMessage} disabled={!newMessage.trim() || sending}
                   className="bg-[#0A1E3D] hover:bg-[#0C2A4D] text-white px-6 py-3 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:w-auto w-full">
