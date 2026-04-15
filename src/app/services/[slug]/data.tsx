@@ -137,8 +137,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Any stage business – from idea to scale.',
     problemStatement: 'Most founders run on instinct and incomplete information. They feel something is broken but cannot name it precisely. This package ends that ambiguity with a structured diagnostic.',
     excerpt: 'The mandatory starting point. A diagnostic system that maps your business model, control levers, and bottlenecks – then translates that into a clear strategic direction.',
-    price: 520000,            // ₹5,200
-    priceDisplay: '₹5,200',
+    price: 780000,            // ₹7,800 (1.5× original)
+    priceDisplay: '₹7,800',
     duration: '7 days',
     deliveryFormat: '2–3 sessions + async diagnostic',
 
@@ -245,8 +245,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Pre‑launch founders with an idea but no product yet.',
     problemStatement: 'You have an idea but don’t know if it will work. You’re about to quit your job for this. Friends love it, but will strangers pay? This package turns your idea into a structured product plan.',
     excerpt: 'Market research, business model definition, product features, pricing, marketing channels, financial expectations, and organisation structure – all in 7 days.',
-    price: 1040000,           // ₹10,400
-    priceDisplay: '₹10,400',
+    price: 2080000,           // ₹20,800 (2× original)
+    priceDisplay: '₹20,800',
     duration: '7 days',
     deliveryFormat: '3–5 sessions + async work',
 
@@ -348,8 +348,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Product‑ready, pre‑revenue or < ₹5L ARR startups.',
     problemStatement: 'Product is ready but sales are not coming. You don’t know which marketing channel to try. Most founders spend ₹30–80K on ads before understanding why their first 100 customers bought. This service gives you that understanding first.',
     excerpt: 'Precise customer profile, unit economics clarity, pricing architecture, sales & marketing playbook, feedback mechanism design, and supply chain basics.',
-    price: 1520000,           // ₹15,200
-    priceDisplay: '₹15,200',
+    price: 3040000,           // ₹30,400 (2× original)
+    priceDisplay: '₹30,400',
     duration: '7 days',
     deliveryFormat: '3–5 sessions + analysis',
 
@@ -444,8 +444,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Founders seeking external capital (angel/seed) who are getting rejections.',
     problemStatement: 'Getting meetings but no term sheets. Investors say “come back with more traction”. We are not a pitch deck agency. We fix the weaknesses investors will find anyway – better to address them in our room.',
     excerpt: 'Investor targeting, ask & valuation framework, business model patch‑up, pitch strategy, Q&A prep, and due diligence data room.',
-    price: 2080000,           // ₹20,800
-    priceDisplay: '₹20,800',
+    price: 4160000,           // ₹41,600 (2× original)
+    priceDisplay: '₹41,600',
     duration: '10 days',
     deliveryFormat: '3–5 sessions + metrics work',
 
@@ -542,8 +542,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Revenue ₹25L–2Cr, team 5–30. Business with product‑market fit, chaotic growth, founder bottleneck, margins shrinking as volume grows.',
     problemStatement: 'Revenue is there. The team exists. But nothing runs without you. Decisions queue up. Priorities conflict. Costs leak. This package fixes the structural conditions that create this.',
     excerpt: 'Standard process design, growth strategy for next stage, operational efficiency map, roles & responsibilities clarity, and organisational structure design.',
-    price: 3120000,           // ₹31,200
-    priceDisplay: '₹31,200',
+    price: 6240000,           // ₹62,400 (2× original)
+    priceDisplay: '₹62,400',
     duration: '2 weeks',
     deliveryFormat: '3–5 sessions + process mapping',
 
@@ -632,8 +632,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Business in decline – runway <6 months.',
     problemStatement: 'We have 4 months of runway left. Revenue has dropped 3 months in a row. Every week of indecision costs real money. Engagement completed in 21 days from first meeting to final document. Speed is part of the service.',
     excerpt: 'Failure analysis, pivot or persevere decision, new customer & product profile, revised business model, cash preservation strategy, and 60‑day survival roadmap.',
-    price: 4680000,           // ₹46,800
-    priceDisplay: '₹46,800',
+    price: 9360000,           // ₹93,600 (2× original)
+    priceDisplay: '₹93,600',
     duration: '21 days intensive',
     deliveryFormat: '3–5 rapid sessions',
 
@@ -725,8 +725,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'MSME or growth‑stage startup with profitable core business, ready to expand (new cities, categories, segments).',
     problemStatement: 'The non‑negotiable Sarsen principle: we will tell you if you’re not ready to expand. A business expanding from weakness destroys both the expansion and the core.',
     excerpt: 'Core business health audit, new product & customer profiling, organisation & structure for scale, expansion option ranking, financial model for expansion, and fund allocation strategy.',
-    price: 5200000,           // ₹52,000
-    priceDisplay: '₹52,000',
+    price: 10400000,          // ₹1,04,000 (2× original)
+    priceDisplay: '₹1,04,000',
     duration: '2 weeks',
     deliveryFormat: '3–5 sessions + scenario work',
 
@@ -819,8 +819,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Founders who completed a Sarsen engagement, solo founders, businesses in transition.',
     problemStatement: 'You need ongoing strategic guidance without a full‑time executive or a traditional retainer that locks you into scope creep. Two structured meetings per month give you a thinking partner who knows your business.',
     excerpt: '2 structured meetings per month (60–90 min each), dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
-    price: 780000,            // ₹7,800 per month (price in paise)
-    priceDisplay: '₹7,800 / month',
+    price: 1560000,           // ₹15,600 per month (2× original)
+    priceDisplay: '₹15,600 / month',
     duration: 'monthly recurring',
     deliveryFormat: '2 meetings per month + async support',
 
