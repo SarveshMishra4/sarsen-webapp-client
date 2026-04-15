@@ -148,10 +148,10 @@ export default function RootLayout({
             "our team.webp"    →  "our-team.webp"
             "happy cliet.webp" →  "happy-client.webp"
         */}
-        <link rel="preload" as="image" href="/assets/thumbnail-header/work.webp" />
+        {/* <link rel="preload" as="image" href="/assets/thumbnail-header/work.webp" />
         <link rel="preload" as="image" href="/assets/thumbnail-header/report.webp" />
         <link rel="preload" as="image" href="/assets/thumbnail-header/our-team.webp" />
-        <link rel="preload" as="image" href="/assets/thumbnail-header/happy-client.webp" />
+        <link rel="preload" as="image" href="/assets/thumbnail-header/happy-client.webp" /> */}
       </head>
       <body className="antialiased">
 
