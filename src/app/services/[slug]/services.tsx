@@ -2102,7 +2102,7 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
             </div>
           </div>
 
-          <div style={{
+          {/* <div style={{
             flexShrink: 0,
             padding: '36px',
             borderRadius: '6px',
@@ -2141,7 +2141,7 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
             <p style={{ fontSize: '11px', color: '#2E4A63', marginTop: '12px' }}>
               Response within 24 hours
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

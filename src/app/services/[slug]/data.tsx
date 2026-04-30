@@ -71,7 +71,7 @@ export interface ServiceData {
   problemStatement: string; // longer narrative for the page hero
   excerpt: string;          // shorter card description (used in hub)
   price: number;            // base price in paise (× 100 for Razorpay)
-  priceDisplay: string;     // human-readable e.g. "₹49,000"
+  priceDisplay: string;     // human-readable e.g. "Rs. 49,000"
   duration: string;         // e.g. "2 weeks"
   deliveryFormat: string;   // e.g. "2 sessions + async work"
 
@@ -137,8 +137,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Any stage business – from idea to scale.',
     problemStatement: 'Most founders run on instinct and incomplete information. They feel something is broken but cannot name it precisely. This package ends that ambiguity with a structured diagnostic.',
     excerpt: 'The mandatory starting point. A diagnostic system that maps your business model, control levers, and bottlenecks – then translates that into a clear strategic direction.',
-    price: 780000,            // ₹7,800 (1.5× original)
-    priceDisplay: '₹7,800',
+    price: 780000,            // Rs. 7,800 (1.5× original)
+    priceDisplay: 'Rs. 7800',
     duration: '7 days',
     deliveryFormat: '2–3 sessions + async diagnostic',
 
@@ -194,9 +194,9 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         required: true,
         options: [
           { value: 'Pre‑revenue / idea stage', label: 'Pre‑revenue / idea stage' },
-          { value: 'Early revenue (< ₹25L ARR)', label: 'Early revenue (< ₹25L ARR)' },
-          { value: 'Growing (₹25L – ₹1Cr ARR)', label: 'Growing (₹25L – ₹1Cr ARR)' },
-          { value: 'Scaling (₹1Cr+ ARR)', label: 'Scaling (₹1Cr+ ARR)' },
+          { value: 'Early revenue (< Rs. 25L ARR)', label: 'Early revenue (< Rs. 25L ARR)' },
+          { value: 'Growing (Rs. 25L – Rs. 1Cr ARR)', label: 'Growing (Rs. 25L – Rs. 1Cr ARR)' },
+          { value: 'Scaling (Rs. 1Cr+ ARR)', label: 'Scaling (Rs. 1Cr+ ARR)' },
         ],
       },
       {
@@ -245,8 +245,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Pre‑launch founders with an idea but no product yet.',
     problemStatement: 'You have an idea but don’t know if it will work. You’re about to quit your job for this. Friends love it, but will strangers pay? This package turns your idea into a structured product plan.',
     excerpt: 'Market research, business model definition, product features, pricing, marketing channels, financial expectations, and organisation structure – all in 7 days.',
-    price: 2080000,           // ₹20,800 (2× original)
-    priceDisplay: '₹20,800',
+    price: 2080000,           // Rs. 20,800 (2× original)
+    priceDisplay: 'Rs. 20800',
     duration: '7 days',
     deliveryFormat: '3–5 sessions + async work',
 
@@ -345,11 +345,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     tag: 'Go to Market',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Product‑ready, pre‑revenue or < ₹5L ARR startups.',
-    problemStatement: 'Product is ready but sales are not coming. You don’t know which marketing channel to try. Most founders spend ₹30–80K on ads before understanding why their first 100 customers bought. This service gives you that understanding first.',
+    targetedFor: 'Product‑ready, pre‑revenue or < Rs. 5L ARR startups.',
+    problemStatement: 'Product is ready but sales are not coming. You don’t know which marketing channel to try. Most founders spend Rs. 30–80K on ads before understanding why their first 100 customers bought. This service gives you that understanding first.',
     excerpt: 'Precise customer profile, unit economics clarity, pricing architecture, sales & marketing playbook, feedback mechanism design, and supply chain basics.',
-    price: 3040000,           // ₹30,400 (2× original)
-    priceDisplay: '₹30,400',
+    price: 3040000,           // Rs. 30,400 (2× original)
+    priceDisplay: 'Rs. 30400',
     duration: '7 days',
     deliveryFormat: '3–5 sessions + analysis',
 
@@ -415,7 +415,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'revenue_status',
         label: 'Current monthly revenue (if any)',
         type: 'text',
-        placeholder: 'e.g. ₹0 / ₹25,000 / ₹1L',
+        placeholder: 'e.g. Rs. 0 / Rs. 25,000 / Rs. 1L',
         required: true,
       },
       {
@@ -444,8 +444,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Founders seeking external capital (angel/seed) who are getting rejections.',
     problemStatement: 'Getting meetings but no term sheets. Investors say “come back with more traction”. We are not a pitch deck agency. We fix the weaknesses investors will find anyway – better to address them in our room.',
     excerpt: 'Investor targeting, ask & valuation framework, business model patch‑up, pitch strategy, Q&A prep, and due diligence data room.',
-    price: 4160000,           // ₹41,600 (2× original)
-    priceDisplay: '₹41,600',
+    price: 4160000,           // Rs. 41,600 (2× original)
+    priceDisplay: 'Rs. 41600',
     duration: '10 days',
     deliveryFormat: '3–5 sessions + metrics work',
 
@@ -489,7 +489,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'raise_target',
         label: 'How much are you planning to raise?',
         type: 'text',
-        placeholder: 'e.g. ₹3 Cr at ₹20 Cr post‑money valuation',
+        placeholder: 'e.g. Rs. 3 Cr at Rs. 20 Cr post‑money valuation',
         required: true,
       },
       {
@@ -508,7 +508,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'current_metrics',
         label: 'What are your current key metrics? (ARR, MoM growth, retention, burn)',
         type: 'textarea',
-        placeholder: 'e.g. ARR ₹1.2Cr, 8% MoM growth, D30 retention 55%, burn ₹18L/month',
+        placeholder: 'e.g. ARR Rs. 1.2Cr, 8% MoM growth, D30 retention 55%, burn Rs. 18L/month',
         required: true,
         helpText: 'Rough numbers are fine. Honesty here saves time later.',
       },
@@ -539,11 +539,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     tag: 'Operations',
     accentColor: '#ffffff',
     accentColorRgb: '255,255,255',
-    targetedFor: 'Revenue ₹25L–2Cr, team 5–30. Business with product‑market fit, chaotic growth, founder bottleneck, margins shrinking as volume grows.',
+    targetedFor: 'Revenue Rs. 25L–2Cr, team 5–30. Business with product‑market fit, chaotic growth, founder bottleneck, margins shrinking as volume grows.',
     problemStatement: 'Revenue is there. The team exists. But nothing runs without you. Decisions queue up. Priorities conflict. Costs leak. This package fixes the structural conditions that create this.',
     excerpt: 'Standard process design, growth strategy for next stage, operational efficiency map, roles & responsibilities clarity, and organisational structure design.',
-    price: 6240000,           // ₹62,400 (2× original)
-    priceDisplay: '₹62,400',
+    price: 6240000,           // Rs. 62,400 (2× original)
+    priceDisplay: 'Rs. 62400',
     duration: '2 weeks',
     deliveryFormat: '3–5 sessions + process mapping',
 
@@ -607,10 +607,10 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         type: 'radio',
         required: true,
         options: [
-          { value: 'Under ₹50L', label: 'Under ₹50L' },
-          { value: '₹50L – ₹2Cr', label: '₹50L – ₹2Cr' },
-          { value: '₹2Cr – ₹10Cr', label: '₹2Cr – ₹10Cr' },
-          { value: 'Above ₹10Cr', label: 'Above ₹10Cr' },
+          { value: 'Under Rs. 50L', label: 'Under Rs. 50L' },
+          { value: 'Rs. 50L – Rs. 2Cr', label: 'Rs. 50L – Rs. 2Cr' },
+          { value: 'Rs. 2Cr – Rs. 10Cr', label: 'Rs. 2Cr – Rs. 10Cr' },
+          { value: 'Above Rs. 10Cr', label: 'Above Rs. 10Cr' },
         ],
       },
     ],
@@ -632,8 +632,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Business in decline – runway <6 months.',
     problemStatement: 'We have 4 months of runway left. Revenue has dropped 3 months in a row. Every week of indecision costs real money. Engagement completed in 21 days from first meeting to final document. Speed is part of the service.',
     excerpt: 'Failure analysis, pivot or persevere decision, new customer & product profile, revised business model, cash preservation strategy, and 60‑day survival roadmap.',
-    price: 9360000,           // ₹93,600 (2× original)
-    priceDisplay: '₹93,600',
+    price: 9360000,           // Rs. 93,600 (2× original)
+    priceDisplay: 'Rs. 93600',
     duration: '21 days intensive',
     deliveryFormat: '3–5 rapid sessions',
 
@@ -688,7 +688,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'monthly_burn',
         label: 'What is your current monthly burn rate?',
         type: 'text',
-        placeholder: 'e.g. ₹18 lakhs per month',
+        placeholder: 'e.g. Rs. 18 lakhs per month',
         required: true,
       },
       {
@@ -725,8 +725,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'MSME or growth‑stage startup with profitable core business, ready to expand (new cities, categories, segments).',
     problemStatement: 'The non‑negotiable Sarsen principle: we will tell you if you’re not ready to expand. A business expanding from weakness destroys both the expansion and the core.',
     excerpt: 'Core business health audit, new product & customer profiling, organisation & structure for scale, expansion option ranking, financial model for expansion, and fund allocation strategy.',
-    price: 10400000,          // ₹1,04,000 (2× original)
-    priceDisplay: '₹1,04,000',
+    price: 10400000,          // Rs. 1,04,000 (2× original)
+    priceDisplay: 'Rs. 104000',
     duration: '2 weeks',
     deliveryFormat: '3–5 sessions + scenario work',
 
@@ -769,14 +769,14 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
         id: 'current_revenue',
         label: 'Current annual revenue (ARR)',
         type: 'text',
-        placeholder: 'e.g. ₹8 Cr ARR',
+        placeholder: 'e.g. Rs. 8 Cr ARR',
         required: true,
       },
       {
         id: 'growth_target',
         label: 'What is your growth target for the next 12 months?',
         type: 'textarea',
-        placeholder: 'e.g. 3× ARR to ₹24 Cr. Expand to 3 new cities. Launch second product line.',
+        placeholder: 'e.g. 3× ARR to Rs. 24 Cr. Expand to 3 new cities. Launch second product line.',
         required: true,
       },
       {
@@ -819,8 +819,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     targetedFor: 'Founders who completed a Sarsen engagement, solo founders, businesses in transition.',
     problemStatement: 'You need ongoing strategic guidance without a full‑time executive or a traditional retainer that locks you into scope creep. Two structured meetings per month give you a thinking partner who knows your business.',
     excerpt: '2 structured meetings per month (60–90 min each), dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
-    price: 1560000,           // ₹15,600 per month (2× original)
-    priceDisplay: '₹15,600 / month',
+    price: 1560000,           // Rs. 15,600 per month (2× original)
+    priceDisplay: 'Rs. 15600 / month',
     duration: 'monthly recurring',
     deliveryFormat: '2 meetings per month + async support',
 
