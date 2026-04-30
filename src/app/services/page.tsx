@@ -38,7 +38,7 @@ const ALL_SERVICES: Service[] = [
     title: 'Business Diagnostic & Direction',
     tagline: 'Compulsory Entry Package',
     excerpt:
-      'Most businesses fail not because of bad ideas, but because the people running them are operating on assumptions rather than evidence. The Business Diagnostic & Direction package runs a rigorous, data-driven diagnostic across your entire business — mapping your model, value chain, control levers, and bottlenecks with mathematical precision. Every insight is calculated, not felt. Every recommendation is derived from structured analysis, not instinct. What emerges is an objective picture of exactly where your business stands today, and a strategically rational direction for the next 12 months and 3–5 year trajectory — one that can be trusted precisely because it is built on data, not optimism.',
+      'The Package runs a rigorous, data-driven diagnostic across your entire Business : Mapping Your Model, Value Chain, Control Levers, and Bottlenecks with Mathematical Precision. Every Insight is Calculated. Every Recommendation is Derived from Structured Analysis.',
     tag: 'Foundation',
     targetedFor: 'Founders and operators who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
     coreServicesCount: 10,
