@@ -38,13 +38,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Business Diagnostic & Direction',
     tagline: 'Compulsory Entry Package',
     excerpt:
-      'The mandatory starting point. A 314-question diagnostic system that maps your business model, value chain, control levers, and bottlenecks in full — then translates that into a strategic direction for the next 12 months and a 3–5 year trajectory. For founders who are overwhelmed, unclear, or lack a structured understanding of their own priorities.',
+      'Most businesses fail not because of bad ideas, but because the people running them are operating on assumptions rather than evidence. The Business Diagnostic & Direction package runs a rigorous, data-driven diagnostic across your entire business — mapping your model, value chain, control levers, and bottlenecks with mathematical precision. Every insight is calculated, not felt. Every recommendation is derived from structured analysis, not instinct. What emerges is an objective picture of exactly where your business stands today, and a strategically rational direction for the next 12 months and 3–5 year trajectory — one that can be trusted precisely because it is built on data, not optimism.',
     tag: 'Foundation',
-    targetedFor: 'Founders who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
+    targetedFor: 'Founders and operators who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
     coreServicesCount: 10,
     flexibleServicesCount: null,
     deliverables: ['Business Nature & Control Handbook', 'Direction & Growth Stages Document', '90-Day Action One-Pager'],
-    outcome: 'The founder achieves clarity, control, and confidence.',
+    outcome: 'The founder achieves clarity, control, and confidence — grounded in objective analysis rather than gut feel.',
     impactIndices: ['Founder Clarity Index'],
     featured: true,
   },
@@ -55,13 +55,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Idea-to-Validation',
     tagline: 'Kill weak ideas early. Commit to the right one.',
     excerpt:
-      'Structured validation logic for founders at the idea stage. Maps the problem universe, scores criticality and frequency, reality-checks market size, and runs a kill-or-commit decision framework. Produces an ICP definition, value proposition framing, and a 90-day validation plan.',
+      'The graveyard of failed ventures is filled with ideas that felt right. Feeling is not a validation framework. This package applies structured analytical logic to map the full problem universe your idea operates in — scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea itself is put through a rigorous kill-or-commit decision framework designed to surface fatal flaws before you spend time, money, or focus on them. What survives is not the idea you fell in love with — it is the idea that the evidence supports. You leave with a locked ICP definition, a sharpened value proposition, and a 90-day validation plan built to generate proof, not hope.',
     tag: 'Validation',
-    targetedFor: 'Idea-stage or pre-revenue founders.',
+    targetedFor: 'Idea-stage or pre-revenue founders and operators evaluating new business directions.',
     coreServicesCount: 7,
     flexibleServicesCount: 2,
     deliverables: ['Idea Validation Decision Matrix', 'ICP & Problem Definition Sheet', '90-Day Validation Plan'],
-    outcome: 'The founder commits to one validated idea or exits weak ideas early.',
+    outcome: 'Commitment to one validated idea — or a decisive, evidence-backed exit from the wrong one.',
     impactIndices: ['Idea Confidence Score', 'Problem Clarity Index'],
   },
   {
@@ -71,13 +71,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Product–Market Fit Clarity',
     tagline: 'Certainty on product direction.',
     excerpt:
-      'For founders with users or early revenue who cannot determine whether they have PMF. Locks the ICP, eliminates non-ICP noise, analyses retention signals and usage patterns, and produces a PMF scorecard and a clear pivot-or-persist decision. Structured specifically around Indian startup data and user behaviour.',
+      'Product–market fit is not a feeling. It is a measurable state — and most businesses that think they have it, do not. This package is built on the principle that every iteration cycle has a cost: in capital, in time, and in organisational focus. We study your product deeply, calculate who your true ICP is with precision, and develop a strategy that pre-calculates your next multiple iteration cycles before you execute even one. The result is a PMF roadmap so sharp that what takes others five to seven cycles to learn, you compress into a fraction of that — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence. We lock the ICP, eliminate non-ICP noise polluting your signal, and produce a data-backed pivot-or-persist decision that removes ambiguity from the most consequential choice in your product journey.',
     tag: 'PMF',
-    targetedFor: 'Founders with users or early revenue but unclear PMF.',
+    targetedFor: 'Businesses with users or early revenue that cannot definitively determine whether they have achieved product–market fit.',
     coreServicesCount: 7,
     flexibleServicesCount: 3,
     deliverables: ['PMF Scorecard', 'ICP Lock Document', 'Pivot/Persist Decision Memo'],
-    outcome: 'The founder gains certainty on product direction.',
+    outcome: 'Certainty on product direction — achieved in a fraction of the time and capital others spend to get there.',
     impactIndices: ['PMF Readiness Score', 'Retention Signal Strength'],
   },
   {
@@ -87,13 +87,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Go-To-Market Strategy',
     tagline: 'Repeatable customer acquisition, not random sales.',
     excerpt:
-      'For startups with a product but inconsistent sales. Maps every viable GTM channel, prioritises ruthlessly, defines the right sales motion, diagnoses funnel leakage, structures messaging and positioning, and produces a 90-day execution plan. The difference between founders who close deals and founders who chase them.',
+      'A product without a system to sell it is just inventory. This package begins where most GTM engagements refuse to go — with a deep study of both the product and the market in parallel, not in sequence. We identify the most probable ideal customer profiles through structured analysis, map every viable acquisition channel, and then apply ruthless prioritisation logic to determine where your effort compounds fastest. We define the right sales motion for your specific context, diagnose funnel leakage with precision, and structure your messaging and positioning around what your ICP actually responds to. As execution progresses, we reinforce the financial model underneath your GTM engine — progressively calibrated to extract maximum revenue efficiency from every channel you operate in. You leave with a 90-day execution plan, not a strategy deck that collects dust.',
     tag: 'GTM',
-    targetedFor: 'Startups with a product but inconsistent sales.',
+    targetedFor: 'Businesses with a validated product but inconsistent, unpredictable, or founder-dependent sales.',
     coreServicesCount: 7,
     flexibleServicesCount: 3,
     deliverables: ['GTM Strategy Document', 'Funnel & Channel Sheets', '90-Day GTM Plan'],
-    outcome: 'Repeatable and focused customer acquisition system.',
+    outcome: 'A repeatable, focused customer acquisition system — replacing randomness with compounding precision.',
     impactIndices: ['CAC Clarity Index', 'Funnel Efficiency Score'],
   },
   {
@@ -103,13 +103,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Operations & Scalability',
     tagline: 'Stop being the bottleneck in your own business.',
     excerpt:
-      'End-to-end process mapping, cost leak identification, founder bottleneck analysis, and a scalability readiness assessment. For revenue-stage startups facing operational chaos — where the founder is simultaneously the CEO, the decision-maker, and the single point of failure.',
+      'Revenue growth without operational infrastructure does not produce scale — it produces chaos with a larger number attached to it. This package runs an end-to-end diagnostic of your operations: mapping every process, identifying every cost leak, and specifically locating the points where the business depends on a single person to function. Founder dependency is measured, not assumed. Scalability is assessed across systems, roles, and decision-making architecture — producing a clear picture of exactly what breaks first if you grow at the rate you are targeting. What follows is a structural redesign: org architecture, role design, and an operational blueprint built not just for where you are, but for the next stage of complexity you are about to enter.',
     tag: 'Operations',
-    targetedFor: 'Revenue-stage startups facing operational chaos.',
+    targetedFor: 'Revenue-stage businesses facing operational chaos, unsustainable founder dependency, or growth that is outpacing internal systems.',
     coreServicesCount: 6,
     flexibleServicesCount: 3,
     deliverables: ['Operations Diagnostic Report', 'Org & Role Design Sheet', 'Scalability Scorecard'],
-    outcome: 'Reduced founder dependency and operational clarity.',
+    outcome: 'Reduced founder dependency, operational clarity, and a business that can grow without breaking.',
     impactIndices: ['Founder Dependency Ratio', 'Operational Efficiency Score'],
   },
   {
@@ -119,13 +119,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Fundraising Readiness',
     tagline: 'Raise from a position of preparation, not hope.',
     excerpt:
-      'For founders planning to raise capital in the next 3–6 months. Runs a fundraising readiness diagnostic, cleans up investor metrics, structures the equity story and narrative, reality-checks valuation, and ensures the founder enters the fundraising process with the posture investors actually respond to.',
+      'Investors do not fund potential — they fund evidence. This package begins with a rigorous analysis of your business as it currently stands: metrics cleaned, narratives stress-tested, and valuation anchored in defensible logic rather than aspiration. We study the funding landscape to identify the most probable categories of investors for your stage, sector, and traction profile — and then research alternative investment pathways most businesses never consider. We help you build and organise your data room with the precision investors actually expect. We prepare you for every likely line of questioning. By the time you enter a room with an investor, you are not pitching — you are presenting a structured case built on data, and responding to scrutiny with confidence because you have already done the work they are about to test you on.',
     tag: 'Fundraising',
-    targetedFor: 'Founders planning to raise capital in 3–6 months.',
+    targetedFor: 'Founders and leadership teams planning to raise capital and wanting to enter the process fully prepared.',
     coreServicesCount: 5,
     flexibleServicesCount: 3,
-    deliverables: ['Fundraising Readiness Report', 'Investor Metrics Dashboard'],
-    outcome: 'Prepared, confident, and realistic fundraising posture.',
+    deliverables: ['Fundraising Readiness Report', 'Investor Metrics Dashboard', 'Data Room Structure'],
+    outcome: 'A prepared, confident, and data-sharp fundraising posture — built to hold up under serious investor scrutiny.',
     impactIndices: ['Investor Readiness Score', 'Narrative Clarity Index'],
   },
   {
@@ -135,13 +135,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Turnaround & Stabilisation',
     tagline: 'Immediate control when the runway is short.',
     excerpt:
-      'The emergency package. Survival viability assessment, cash runway stress testing, cost compression strategy, and a 30–90 day turnaround plan. For startups facing survival risk — where the priority is not growth, but control. No flexible services. No scope creep. Fixed by design because the situation demands it.',
+      'When the business is under existential pressure, the priority is not strategy — it is survival. This package is engineered for exactly that moment. We run a survival viability assessment to determine what is worth saving and what is consuming resources it cannot justify. Cash runway is stress-tested against multiple scenarios. A cost compression strategy is built around what can actually be cut without destroying core function. A 30–90 day turnaround plan is constructed with a single objective: regaining control. There are no flexible services in this package by design. Scope creep is a luxury of stability — and this package is for situations where stability has not yet been restored. Every decision is prioritised by impact on survival, and every action is sequenced to buy time while structural recovery becomes possible.',
     tag: 'Turnaround',
-    targetedFor: 'Startups facing survival risk.',
+    targetedFor: 'Businesses facing acute survival risk, runway compression, or a critical loss of operational and financial control.',
     coreServicesCount: 5,
     flexibleServicesCount: null,
     deliverables: ['Survival Decision Memo', '30–90 Day Turnaround Plan'],
-    outcome: 'Immediate control over cash and priorities.',
+    outcome: 'Immediate control over cash, priorities, and the decisions that determine whether the business survives.',
     impactIndices: ['Runway Extension Metric', 'Focus Compression Score'],
   },
   {
@@ -151,13 +151,13 @@ const ALL_SERVICES: Service[] = [
     title: 'Scale & Expansion Strategy',
     tagline: 'Scale without breaking what you built.',
     excerpt:
-      'For founders preparing for aggressive growth. Diagnoses scale readiness, maps capacity constraints, identifies expansion risks, designs org and capability requirements, and models capital needs. Ensures that growth ambitions are matched by structural preparedness — so the company scales without the systems failing underneath it.',
+      'Aggressive growth is not an achievement if the systems underneath it fail to keep pace. Most businesses discover their structural limits only after they have already committed to growth — and by then, the cost of fixing them mid-scale is enormous. This package is designed to prevent that. We run a comprehensive scale readiness diagnostic that maps every capacity constraint, identifies expansion risks before they become execution failures, and models the capital requirements your growth trajectory actually demands. Organisational architecture and capability gaps are designed for the stage you are moving into, not the stage you are leaving. What you receive is not optimism about growth — it is a structurally honest assessment of what you can scale, at what pace, and what needs to be built before you push the accelerator.',
     tag: 'Scale',
-    targetedFor: 'Founders preparing for aggressive growth.',
+    targetedFor: 'Businesses preparing for aggressive growth, geographic expansion, or a significant step-up in operational complexity.',
     coreServicesCount: 5,
     flexibleServicesCount: 3,
-    deliverables: ['Scale Readiness Scorecard', 'Expansion Decision Memo'],
-    outcome: 'The founder scales without breaking systems.',
+    deliverables: ['Scale Readiness Scorecard', 'Expansion Decision Memo', 'Capability & Org Design Blueprint'],
+    outcome: 'A business that scales with structural integrity — growing fast without the systems failing underneath it.',
     impactIndices: ['Scale Readiness Index', 'Expansion Risk Score'],
   },
 ];
@@ -215,8 +215,7 @@ const HeroSection: FC = () => (
               Structured
               <span className="block text-blue-300">Strategy.</span>
             </h1>
-            <p className="text-base sm:text-lg max-w-md text-gray-400">
-              Eight productised consulting packages — each scoped, repeatable, and built around a specific founder inflection point. Every engagement starts with Package 0.
+            <p className="text-base sm:text-lg max-w-md text-gray-400">The founders who move faster are not the ones who seek more advice. They are the ones who find the right system. Every engagement at Sarsen begins with understanding the full truth of where you are.
             </p>
           </div>
         </div>
