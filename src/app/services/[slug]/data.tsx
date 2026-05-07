@@ -818,11 +818,11 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     accentColorRgb: '255,255,255',
     targetedFor: 'Founders who completed a Sarsen engagement, solo founders, businesses in transition.',
     problemStatement: 'You need ongoing strategic guidance without a full‑time executive or a traditional retainer that locks you into scope creep. Two structured meetings per month give you a thinking partner who knows your business.',
-    excerpt: '2 structured meetings per month (60–90 min each), dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
+    excerpt: '2 Structured Meetings per Month, dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
     price: 1560000,           // Rs. 15,600 per month (2× original)
-    priceDisplay: 'Rs. 15600 / month',
-    duration: 'monthly recurring',
-    deliveryFormat: '2 meetings per month + async support',
+    priceDisplay: 'Rs. 15600 / Month',
+    duration: '4 Weeks',
+    deliveryFormat: 'Virtual or On-Site',
 
     coreServices: [
       'Two structured meetings per month (60–90 min each)',

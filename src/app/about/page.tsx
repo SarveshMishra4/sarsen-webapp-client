@@ -382,13 +382,13 @@ const BASE_MEMBERS: TeamMember[] = [
     bio: 'A former entrepreneur who built and scaled a services business before moving into strategy advisory. Has worked extensively in private equity deal evaluation and portfolio strategy, bringing a founder\'s pragmatism to every engagement.',
     image: '/assets/about/people/Sarvesh.png'
   },
-  // {
-  //   name: 'Vishal Gupta',
-  //   role: 'Head of Business & Operations',
-  //   tier: 'Leadership',
-  //   bio: 'Brings deep operational experience across distribution, team structuring, and business growth. Has worked directly with founders to build systems that sustain performance under real growth conditions — not just on paper.',
-  //   image: '/assets/about/people/Vishal.png'
-  // },
+  {
+    name: 'Vishal Gupta',
+    role: 'Head of Business & Operations',
+    tier: 'Leadership',
+    bio: 'Brings deep operational experience across distribution, team structuring, and business growth. Has worked directly with founders to build systems that sustain performance under real growth conditions — not just on paper.',
+    image: '/assets/about/people/Vishal.png'
+  },
   {
     name: 'Aakansha Rao',
     role: 'Head of Customer Relations',
