@@ -50,7 +50,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 1,
-    slug: 'idea-to-validation',
+    slug: 'idea-to-product',
     packageNumber: 'Package 1',
     title: 'Idea-to-Validation',
     tagline: 'Kill weak ideas early. Commit to the right one.',
@@ -66,7 +66,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 2,
-    slug: 'product-market-fit-clarity',
+    slug: 'idea-to-product',
     packageNumber: 'Package 2',
     title: 'Product–Market Fit Clarity',
     tagline: 'Certainty on product direction.',
@@ -82,7 +82,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 3,
-    slug: 'go-to-market-strategy',
+    slug: 'go-to-market',
     packageNumber: 'Package 3',
     title: 'Go-To-Market Strategy',
     tagline: 'Repeatable customer acquisition, not random sales.',
@@ -98,7 +98,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 4,
-    slug: 'operations-scalability',
+    slug: 'optimization-scalability',
     packageNumber: 'Package 4',
     title: 'Operations & Scalability',
     tagline: 'Stop being the bottleneck in your own business.',
@@ -114,7 +114,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 5,
-    slug: 'fundraising-readiness',
+    slug: 'funding-readiness',
     packageNumber: 'Package 5',
     title: 'Fundraising Readiness',
     tagline: 'Raise from a position of preparation, not hope.',
@@ -146,7 +146,7 @@ const ALL_SERVICES: Service[] = [
   },
   {
     id: 7,
-    slug: 'scale-expansion-strategy',
+    slug: 'scale-expansion',
     packageNumber: 'Package 7',
     title: 'Scale & Expansion Strategy',
     tagline: 'Scale without breaking what you built.',
