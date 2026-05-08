@@ -49,35 +49,35 @@ const ALL_SERVICES: Service[] = [
     featured: true,
   },
   {
-  id: 1,
-  slug: 'idea-to-product',
-  packageNumber: 'Package 1',
-  title: 'Product–Market Fit',
-  tagline: 'From raw idea to validated market position — without the expensive detours.',
-  excerpt:
-    'Most ventures fail not from lack of effort, but from committing to the wrong idea or misreading fit. This package covers the full journey — from idea to validated market position. We begin by applying structured analytical logic to map the full problem universe your idea operates in, scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea is put through a rigorous kill-or-commit decision framework to surface fatal flaws before you spend time, money, or focus. What survives is not the idea you fell in love with — it is the idea the evidence supports. From there, we go deeper: studying your product, locking your true ICP with precision, and developing a strategy that pre-calculates your next multiple iteration cycles before you execute even one. What takes others five to seven cycles to learn, you compress into a fraction — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence.',
-  tag: 'Validation & PMF',
-  targetedFor:
-    'Idea-stage founders validating a new direction, and early-revenue businesses that cannot yet definitively determine whether they have achieved product–market fit.',
-  coreServicesCount: 14,
-  flexibleServicesCount: 5,
-  deliverables: [
-    'Idea Validation Decision Matrix',
-    'ICP & Problem Definition Sheet',
-    '90-Day Validation Plan',
-    'PMF Scorecard',
-    'ICP Lock Document',
-    'Pivot/Persist Decision Memo',
-  ],
-  outcome:
-    'Commitment to one validated idea and certainty on product direction — achieved in a fraction of the time and capital others spend to get there.',
-  impactIndices: [
-    'Idea Confidence Score',
-    'Problem Clarity Index',
-    'PMF Readiness Score',
-    'Retention Signal Strength',
-  ],
-},
+    id: 1,
+    slug: 'idea-to-product',
+    packageNumber: 'Package 1',
+    title: 'Product–Market Fit',
+    tagline: 'From raw idea to validated market position — without the expensive detours.',
+    excerpt:
+      'Most ventures fail not from lack of effort, but from committing to the wrong idea or misreading fit. This package covers the full journey — from idea to validated market position. We begin by applying structured analytical logic to map the full problem universe your idea operates in, scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea is put through a rigorous kill-or-commit decision framework to surface fatal flaws before you spend time, money, or focus. What survives is not the idea you fell in love with — it is the idea the evidence supports. From there, we go deeper: studying your product, locking your true ICP with precision, and developing a strategy that pre-calculates your next multiple iteration cycles before you execute even one. What takes others five to seven cycles to learn, you compress into a fraction — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence.',
+    tag: 'Validation & PMF',
+    targetedFor:
+      'Idea-stage founders validating a new direction, and early-revenue businesses that cannot yet definitively determine whether they have achieved product–market fit.',
+    coreServicesCount: 14,
+    flexibleServicesCount: 5,
+    deliverables: [
+      'Idea Validation Decision Matrix',
+      'ICP & Problem Definition Sheet',
+      '90-Day Validation Plan',
+      'PMF Scorecard',
+      'ICP Lock Document',
+      'Pivot/Persist Decision Memo',
+    ],
+    outcome:
+      'Commitment to one validated idea and certainty on product direction — achieved in a fraction of the time and capital others spend to get there.',
+    impactIndices: [
+      'Idea Confidence Score',
+      'Problem Clarity Index',
+      'PMF Readiness Score',
+      'Retention Signal Strength',
+    ],
+  },
   {
     id: 2,
     slug: 'go-to-market',
@@ -165,14 +165,14 @@ const ALL_SERVICES: Service[] = [
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Foundation:  { bg: '#DBEAFE', text: '#1E40AF' },
-  Validation:  { bg: '#E0F2FE', text: '#0369A1' },
-  PMF:         { bg: '#E0E7FF', text: '#3730A3' },
-  GTM:         { bg: '#DBEAFE', text: '#1E40AF' },
-  Operations:  { bg: '#E6F0FF', text: '#1E3A8A' },
+  Foundation: { bg: '#DBEAFE', text: '#1E40AF' },
+  Validation: { bg: '#E0F2FE', text: '#0369A1' },
+  PMF: { bg: '#E0E7FF', text: '#3730A3' },
+  GTM: { bg: '#DBEAFE', text: '#1E40AF' },
+  Operations: { bg: '#E6F0FF', text: '#1E3A8A' },
   Fundraising: { bg: '#E0F2FE', text: '#0369A1' },
-  Turnaround:  { bg: '#E0E7FF', text: '#3730A3' },
-  Scale:       { bg: '#DBEAFE', text: '#1E40AF' },
+  Turnaround: { bg: '#E0E7FF', text: '#3730A3' },
+  Scale: { bg: '#DBEAFE', text: '#1E40AF' },
 };
 
 const getTagStyle = (tag: string) =>
@@ -279,7 +279,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
   >
     {ALL_TAGS.map((tag) => {
       const isActive = tag === activeTag;
-      const style    = tag === 'All'
+      const style = tag === 'All'
         ? { bg: '#DBEAFE', text: '#1E40AF' }
         : getTagStyle(tag);
 
@@ -363,7 +363,7 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
           >
             {service.tag}
           </span>
-          
+
           <span
             className="px-3 py-1 rounded-md text-xs font-medium"
             style={{ backgroundColor: 'rgba(59,130,246,0.08)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.14)' }}
@@ -479,11 +479,11 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
           >
             {service.tag}
           </span>
-          
+
         </div>
 
         <div className="absolute top-4 right-4 z-10 opacity-20 group-hover:opacity-60 transition-opacity" aria-hidden="true">
-          
+
         </div>
       </div>
 
@@ -524,7 +524,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
             <span className="text-xs text-gray-400">
               {service.coreServicesCount} Modules
             </span>
-            
+
           </div>
           <span className="text-xs text-gray-500">
             {service.targetedFor.length > 30
@@ -642,12 +642,12 @@ export default function ServicesHubPage(): React.JSX.Element {
       : ALL_SERVICES.filter((s) => s.tag === activeTag);
 
   const featured: Service | undefined = ALL_SERVICES[0];
-  const gridServices: Service[]       = filteredServices.filter((s) => s.id !== 0);
+  const gridServices: Service[] = filteredServices.filter((s) => s.id !== 0);
 
   const showJourneyStrip = activeTag === 'All';
 
   const beforeStrip: Service[] = gridServices.slice(0, 3);
-  const afterStrip:  Service[] = gridServices.slice(3);
+  const afterStrip: Service[] = gridServices.slice(3);
 
   return (
     <>
