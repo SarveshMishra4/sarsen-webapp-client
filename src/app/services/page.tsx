@@ -56,7 +56,7 @@ const ALL_SERVICES: Service[] = [
     tagline: 'From raw idea to validated market position — without the expensive detours.',
     excerpt:
       'Most ventures fail not from lack of effort, but from committing to the wrong idea or misreading fit. This package covers the full journey — from idea to validated market position. We begin by applying structured analytical logic to map the full problem universe your idea operates in, scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea is put through a rigorous kill-or-commit decision framework to surface fatal flaws before you spend time, money, or focus. What survives is not the idea you fell in love with — it is the idea the evidence supports. From there, we go deeper: studying your product, locking your true ICP with precision, and developing a strategy that pre-calculates your next multiple iteration cycles before you execute even one. What takes others five to seven cycles to learn, you compress into a fraction — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence.',
-    tag: 'Validation & PMF',
+    tag: 'Product & Market',
     targetedFor:
       'Idea-stage founders validating a new direction, and early-revenue businesses that cannot yet definitively determine whether they have achieved product–market fit.',
     coreServicesCount: 14,
@@ -86,7 +86,7 @@ const ALL_SERVICES: Service[] = [
     tagline: 'Repeatable customer acquisition, not random sales.',
     excerpt:
       'A product without a system to sell it is just inventory. This package begins where most GTM engagements refuse to go — with a deep study of both the product and the market in parallel, not in sequence. We identify the most probable ideal customer profiles through structured analysis, map every viable acquisition channel, and then apply ruthless prioritisation logic to determine where your effort compounds fastest. We define the right sales motion for your specific context, diagnose funnel leakage with precision, and structure your messaging and positioning around what your ICP actually responds to. As execution progresses, we reinforce the financial model underneath your GTM engine — progressively calibrated to extract maximum revenue efficiency from every channel you operate in. You leave with a 90-day execution plan, not a strategy deck that collects dust.',
-    tag: 'GTM',
+    tag: 'Go To Market',
     targetedFor: 'Businesses with a validated product but inconsistent, unpredictable, or founder-dependent sales.',
     coreServicesCount: 7,
     flexibleServicesCount: 3,
