@@ -82,7 +82,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 2,
     slug: 'go-to-market',
-    packageNumber: 'Package 3',
+    packageNumber: 'Package 2',
     title: 'Go-To-Market Strategy',
     tagline: 'Repeatable customer acquisition, not random sales.',
     excerpt:
@@ -99,7 +99,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 3,
     slug: 'optimization-scalability',
-    packageNumber: 'Package 4',
+    packageNumber: 'Package 3',
     title: 'Operations & Scalability',
     tagline: 'Stop being the bottleneck in your own business.',
     excerpt:
@@ -116,7 +116,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 4,
     slug: 'funding-readiness',
-    packageNumber: 'Package 5',
+    packageNumber: 'Package 4',
     title: 'Fundraising Readiness',
     tagline: 'Raise from a position of preparation, not hope.',
     excerpt:
@@ -133,7 +133,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 5,
     slug: 'turnaround-stabilisation',
-    packageNumber: 'Package 6',
+    packageNumber: 'Package 5',
     title: 'Turnaround & Stabilisation',
     tagline: 'Immediate control when the runway is short.',
     excerpt:
@@ -150,7 +150,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 6,
     slug: 'scale-expansion',
-    packageNumber: 'Package 7',
+    packageNumber: 'Package 6',
     title: 'Scale & Expansion Strategy',
     tagline: 'Scale without breaking what you built.',
     excerpt:
