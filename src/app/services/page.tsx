@@ -541,93 +541,93 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
 // PACKAGE JOURNEY STRIP — white background (already light)
 // =====================================================
 
-interface PackageJourneyStripProps {
-  services: Service[];
-}
+// interface PackageJourneyStripProps {
+//   services: Service[];
+// }
 
-const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
-  <div
-    className="my-12 rounded-md overflow-hidden bg-white border border-gray-200"
-  >
-    <div className="px-6 sm:px-8 py-6 sm:py-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-md flex items-center justify-center bg-blue-50"
-          >
-            <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-xs font-medium st  text-gray-500">
-              The Package Journey
-            </p>
-            <p className="text-sm  text-gray-600">
-              Every engagement starts with Package 0 — then moves to where you need to go.
-            </p>
-          </div>
-        </div>
-      </div>
+// const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
+//   <div
+//     className="my-12 rounded-md overflow-hidden bg-white border border-gray-200"
+//   >
+//     <div className="px-6 sm:px-8 py-6 sm:py-8">
+//       <div className="flex items-center justify-between mb-6">
+//         <div className="flex items-center gap-3">
+//           <div
+//             className="w-8 h-8 rounded-md flex items-center justify-center bg-blue-50"
+//           >
+//             <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+//                 d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+//             </svg>
+//           </div>
+//           <div>
+//             <p className="text-xs font-medium st  text-gray-500">
+//               The Package Journey
+//             </p>
+//             <p className="text-sm  text-gray-600">
+//               Every engagement starts with Package 0 — then moves to where you need to go.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
 
-      <div
-        className="flex items-start gap-0 overflow-x-auto pb-2"
-        style={{ scrollbarWidth: 'none' } as React.CSSProperties}
-      >
-        {services.map((service, i) => {
-          const tagStyle = getTagStyle(service.tag);
-          return (
-            <React.Fragment key={service.id}>
-              <div
-                onClick={() => navigateToService(service.slug)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-                className="group cursor-pointer flex-shrink-0 flex flex-col items-center text-center w-28 focus:outline-none"
-                aria-label={`Go to ${service.title}`}
-              >
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-200 group-hover:scale-110"
-                  style={{
-                    backgroundColor: `${tagStyle.text}18`,
-                    border: `1.5px solid ${tagStyle.text}35`,
-                  }}
-                >
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: tagStyle.text }}
-                  >
-                    {service.id}
-                  </span>
-                </div>
-                <span
-                  className="px-2 py-0.5 rounded-md text-xs font-semibold mb-1"
-                  style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
-                >
-                  {service.tag}
-                </span>
-                <p
-                  className="text-xs  group-hover:opacity-100 transition-opacity text-gray-500"
-                  style={{ fontSize: '10px' }}
-                >
-                  {service.title.split(':')[0].split('&')[0].trim()}
-                </p>
-              </div>
-              {i < services.length - 1 && (
-                <div className="flex-shrink-0 flex items-start pt-4 px-1">
-                  <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
-    </div>
-  </div>
-);
+//       <div
+//         className="flex items-start gap-0 overflow-x-auto pb-2"
+//         style={{ scrollbarWidth: 'none' } as React.CSSProperties}
+//       >
+//         {services.map((service, i) => {
+//           const tagStyle = getTagStyle(service.tag);
+//           return (
+//             <React.Fragment key={service.id}>
+//               <div
+//                 onClick={() => navigateToService(service.slug)}
+//                 role="button"
+//                 tabIndex={0}
+//                 onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
+//                 className="group cursor-pointer flex-shrink-0 flex flex-col items-center text-center w-28 focus:outline-none"
+//                 aria-label={`Go to ${service.title}`}
+//               >
+//                 <div
+//                   className="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-200 group-hover:scale-110"
+//                   style={{
+//                     backgroundColor: `${tagStyle.text}18`,
+//                     border: `1.5px solid ${tagStyle.text}35`,
+//                   }}
+//                 >
+//                   <span
+//                     className="text-sm font-semibold"
+//                     style={{ color: tagStyle.text }}
+//                   >
+//                     {service.id}
+//                   </span>
+//                 </div>
+//                 <span
+//                   className="px-2 py-0.5 rounded-md text-xs font-semibold mb-1"
+//                   style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+//                 >
+//                   {service.tag}
+//                 </span>
+//                 <p
+//                   className="text-xs  group-hover:opacity-100 transition-opacity text-gray-500"
+//                   style={{ fontSize: '10px' }}
+//                 >
+//                   {service.title.split(':')[0].split('&')[0].trim()}
+//                 </p>
+//               </div>
+//               {i < services.length - 1 && (
+//                 <div className="flex-shrink-0 flex items-start pt-4 px-1">
+//                   <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+//                   </svg>
+//                 </div>
+//               )}
+//             </React.Fragment>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   </div>
+// );
 
 // =====================================================
 // PAGE ROOT COMPONENT
@@ -713,9 +713,9 @@ export default function ServicesHubPage(): React.JSX.Element {
           )}
 
           {/* Package Journey Strip */}
-          {showJourneyStrip && (
+          {/* {showJourneyStrip && (
             <PackageJourneyStrip services={ALL_SERVICES} />
-          )}
+          )} */}
 
           {/* Remaining grid cards */}
           {afterStrip.length > 0 && (
