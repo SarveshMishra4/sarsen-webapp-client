@@ -749,8 +749,7 @@ export default function ServicesHubPage(): React.JSX.Element {
           {filteredServices.length > 0 && (
             <div className="flex justify-center py-12">
               <p className="text-sm text-center max-w-md text-gray-500">
-                All packages are scoped, repeatable, and delivered with a defined customer service roadmap.
-                Every engagement begins with Package 0.
+                All packages are scoped and delivered with a defined engagement roadmap. For a custom engagement, begin with our Diagnostic & Direction — your assigned consultant will guide you through the right path forward from there.
               </p>
             </div>
           )}
