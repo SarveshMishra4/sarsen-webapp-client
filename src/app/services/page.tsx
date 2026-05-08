@@ -17,6 +17,7 @@ interface Service {
   tagline: string;
   excerpt: string;
   tag: string;
+  tags?: string[];
   targetedFor: string;
   coreServicesCount: number;
   flexibleServicesCount: number | null;
@@ -40,6 +41,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'The Package runs a rigorous, data-driven diagnostic across your entire Business : Mapping Your Model, Value Chain, Control Levers, and Bottlenecks with Mathematical Precision. Every Insight is Calculated. Every Recommendation is Derived from Structured Analysis.',
     tag: 'Foundation',
+    tags: ['Foundation'],
     targetedFor: 'Founders and operators who are overwhelmed, unclear about how their business actually works, or lack a structured understanding of priorities and control levers.',
     coreServicesCount: 10,
     flexibleServicesCount: null,
@@ -48,36 +50,35 @@ const ALL_SERVICES: Service[] = [
     impactIndices: ['Founder Clarity Index'],
     featured: true,
   },
-  {
-    id: 1,
-    slug: 'idea-to-product',
-    packageNumber: 'Package 1',
-    title: 'Product–Market Fit',
-    tagline: 'From raw idea to validated market position — without the expensive detours.',
-    excerpt:
-      'Most ventures fail not from lack of effort, but from committing to the wrong idea or misreading fit. This package covers the full journey — from idea to validated market position. We begin by applying structured analytical logic to map the full problem universe your idea operates in, scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea is put through a rigorous kill-or-commit decision framework to surface fatal flaws before you spend time, money, or focus. What survives is not the idea you fell in love with — it is the idea the evidence supports. From there, we go deeper: studying your product, locking your true ICP with precision, and developing a strategy that pre-calculates your next multiple iteration cycles before you execute even one. What takes others five to seven cycles to learn, you compress into a fraction — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence.',
-    tag: 'Product & Market',
-    targetedFor:
-      'Idea-stage founders validating a new direction, and early-revenue businesses that cannot yet definitively determine whether they have achieved product–market fit.',
-    coreServicesCount: 14,
-    flexibleServicesCount: 5,
-    deliverables: [
-      'Idea Validation Decision Matrix',
-      'ICP & Problem Definition Sheet',
-      '90-Day Validation Plan',
-      'PMF Scorecard',
-      'ICP Lock Document',
-      'Pivot/Persist Decision Memo',
-    ],
-    outcome:
-      'Commitment to one validated idea and certainty on product direction — achieved in a fraction of the time and capital others spend to get there.',
-    impactIndices: [
-      'Idea Confidence Score',
-      'Problem Clarity Index',
-      'PMF Readiness Score',
-      'Retention Signal Strength',
-    ],
-  },
+ {
+  id: 1,
+  slug: 'idea-to-product',
+  packageNumber: 'Package 1',
+  title: 'Product–Market Fit',
+  tagline: 'From raw idea to validated market position — without the expensive detours.',
+  excerpt:
+    'Most ventures fail not from lack of effort, but from committing to the wrong idea or misreading fit. This package covers the full journey — from idea to validated market position. We begin by applying structured analytical logic to map the full problem universe your idea operates in, scoring each problem by criticality, frequency, and addressability. Market size is reality-checked against defensible data. The idea is put through a rigorous kill-or-commit decision framework to surface fatal flaws before you spend time, money, or focus. What survives is not the idea you fell in love with — it is the idea the evidence supports. From there, we go deeper: studying your product, locking your true ICP with precision, and developing a strategy that pre-calculates your next multiple iteration cycles before you execute even one. What takes others five to seven cycles to learn, you compress into a fraction — achieving fit faster, spending less, and arriving at a scalable product position with structural confidence.',
+  tag: 'Validation',
+  tags: ['Validation', 'Product'],
+  targetedFor:
+    'Idea-stage founders validating a new direction, and early-revenue businesses that cannot yet definitively determine whether they have achieved product–market fit.',
+  coreServicesCount: 14,
+  flexibleServicesCount: 5,
+  deliverables: [
+    
+    'Market Potential Analysis',
+    'Feature & Product Design',
+    'Pivot/Persist Decision Memo',
+  ],
+  outcome:
+    'Commitment to one validated idea and certainty on product direction — achieved in a fraction of the time and capital others spend to get there.',
+  impactIndices: [
+    'Idea Confidence Score',
+    'Problem Clarity Index',
+    'PMF Readiness Score',
+    'Retention Signal Strength',
+  ],
+},
   {
     id: 2,
     slug: 'go-to-market',
@@ -87,6 +88,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'A product without a system to sell it is just inventory. This package begins where most GTM engagements refuse to go — with a deep study of both the product and the market in parallel, not in sequence. We identify the most probable ideal customer profiles through structured analysis, map every viable acquisition channel, and then apply ruthless prioritisation logic to determine where your effort compounds fastest. We define the right sales motion for your specific context, diagnose funnel leakage with precision, and structure your messaging and positioning around what your ICP actually responds to. As execution progresses, we reinforce the financial model underneath your GTM engine — progressively calibrated to extract maximum revenue efficiency from every channel you operate in. You leave with a 90-day execution plan, not a strategy deck that collects dust.',
     tag: 'Go To Market',
+    tags: ['Go To Market'],
     targetedFor: 'Businesses with a validated product but inconsistent, unpredictable, or founder-dependent sales.',
     coreServicesCount: 7,
     flexibleServicesCount: 3,
@@ -103,6 +105,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'Revenue growth without operational infrastructure does not produce scale — it produces chaos with a larger number attached to it. This package runs an end-to-end diagnostic of your operations: mapping every process, identifying every cost leak, and specifically locating the points where the business depends on a single person to function. Founder dependency is measured, not assumed. Scalability is assessed across systems, roles, and decision-making architecture — producing a clear picture of exactly what breaks first if you grow at the rate you are targeting. What follows is a structural redesign: org architecture, role design, and an operational blueprint built not just for where you are, but for the next stage of complexity you are about to enter.',
     tag: 'Operations',
+    tags: ['Operations'],
     targetedFor: 'Revenue-stage businesses facing operational chaos, unsustainable founder dependency, or growth that is outpacing internal systems.',
     coreServicesCount: 6,
     flexibleServicesCount: 3,
@@ -119,6 +122,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'Investors do not fund potential — they fund evidence. This package begins with a rigorous analysis of your business as it currently stands: metrics cleaned, narratives stress-tested, and valuation anchored in defensible logic rather than aspiration. We study the funding landscape to identify the most probable categories of investors for your stage, sector, and traction profile — and then research alternative investment pathways most businesses never consider. We help you build and organise your data room with the precision investors actually expect. We prepare you for every likely line of questioning. By the time you enter a room with an investor, you are not pitching — you are presenting a structured case built on data, and responding to scrutiny with confidence because you have already done the work they are about to test you on.',
     tag: 'Fundraising',
+    tags: ['Fundraising'],
     targetedFor: 'Founders and leadership teams planning to raise capital and wanting to enter the process fully prepared.',
     coreServicesCount: 5,
     flexibleServicesCount: 3,
@@ -135,6 +139,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'When the business is under existential pressure, the priority is not strategy — it is survival. This package is engineered for exactly that moment. We run a survival viability assessment to determine what is worth saving and what is consuming resources it cannot justify. Cash runway is stress-tested against multiple scenarios. A cost compression strategy is built around what can actually be cut without destroying core function. A 30–90 day turnaround plan is constructed with a single objective: regaining control. There are no flexible services in this package by design. Scope creep is a luxury of stability — and this package is for situations where stability has not yet been restored. Every decision is prioritised by impact on survival, and every action is sequenced to buy time while structural recovery becomes possible.',
     tag: 'Turnaround',
+    tags: ['Turnaround'],
     targetedFor: 'Businesses facing acute survival risk, runway compression, or a critical loss of operational and financial control.',
     coreServicesCount: 5,
     flexibleServicesCount: null,
@@ -151,6 +156,7 @@ const ALL_SERVICES: Service[] = [
     excerpt:
       'Aggressive growth is not an achievement if the systems underneath it fail to keep pace. Most businesses discover their structural limits only after they have already committed to growth — and by then, the cost of fixing them mid-scale is enormous. This package is designed to prevent that. We run a comprehensive scale readiness diagnostic that maps every capacity constraint, identifies expansion risks before they become execution failures, and models the capital requirements your growth trajectory actually demands. Organisational architecture and capability gaps are designed for the stage you are moving into, not the stage you are leaving. What you receive is not optimism about growth — it is a structurally honest assessment of what you can scale, at what pace, and what needs to be built before you push the accelerator.',
     tag: 'Scale',
+    tags: ['Scale'],
     targetedFor: 'Businesses preparing for aggressive growth, geographic expansion, or a significant step-up in operational complexity.',
     coreServicesCount: 5,
     flexibleServicesCount: 3,
@@ -161,29 +167,29 @@ const ALL_SERVICES: Service[] = [
 ];
 
 // =====================================================
-// TAG COLOR MAP — blues from homepage palette
+// TAG COLOR MAP
 // =====================================================
 
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Foundation: { bg: '#DBEAFE', text: '#1E40AF' },
-  Validation: { bg: '#E0F2FE', text: '#0369A1' },
-  PMF: { bg: '#E0E7FF', text: '#3730A3' },
-  GTM: { bg: '#DBEAFE', text: '#1E40AF' },
-  Operations: { bg: '#E6F0FF', text: '#1E3A8A' },
-  Fundraising: { bg: '#E0F2FE', text: '#0369A1' },
-  Turnaround: { bg: '#E0E7FF', text: '#3730A3' },
-  Scale: { bg: '#DBEAFE', text: '#1E40AF' },
+  Foundation:    { bg: '#DBEAFE', text: '#0369A1' },
+  Validation:    { bg: '#E0F2FE', text: '#0369A1' },
+  Product:       { bg: '#E0E7FF', text: '#0369A1' },
+  'Go To Market':{ bg: '#DBEAFE', text: '#0369A1' },
+  Operations:    { bg: '#E6F0FF', text: '#0369A1' },
+  Fundraising:   { bg: '#E0F2FE', text: '#0369A1' },
+  Turnaround:    { bg: '#E0E7FF', text: '#0369A1' },
+  Scale:         { bg: '#DBEAFE', text: '#0369A1' },
 };
 
 const getTagStyle = (tag: string) =>
-  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
+  TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#0369A1' };
 
 // =====================================================
 // ALL FILTER TAGS
 // =====================================================
 
 const ALL_TAGS: string[] = [
-  'All', 'Foundation', 'Validation', 'PMF', 'GTM',
+  'All', 'Foundation', 'Validation', 'Product', 'Go To Market',
   'Operations', 'Fundraising', 'Turnaround', 'Scale',
 ];
 
@@ -196,7 +202,17 @@ const navigateToService = (slug: string): void => {
 };
 
 // =====================================================
-// HERO SECTION — dark blue background
+// FILTER HELPER — matches against tags array
+// =====================================================
+
+const serviceMatchesTag = (service: Service, activeTag: string): boolean => {
+  if (activeTag === 'All') return true;
+  if (service.tags) return service.tags.includes(activeTag);
+  return service.tag === activeTag;
+};
+
+// =====================================================
+// HERO SECTION
 // =====================================================
 
 const HeroSection: FC = () => (
@@ -206,19 +222,18 @@ const HeroSection: FC = () => (
   >
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* LEFT */}
         <div className="space-y-7">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
               Structured
               <span className="block text-blue-300">Strategy.</span>
             </h1>
-            <p className="text-base sm:text-lg max-w-md text-gray-400">The founders who move faster are not the ones who seek more advice. They are the ones who find the right system. Every engagement at Sarsen begins with understanding the full truth of where you are.
+            <p className="text-base sm:text-lg max-w-md text-gray-400">
+              The founders who move faster are not the ones who seek more advice. They are the ones who find the right system. Every engagement at Sarsen begins with understanding the full truth of where you are.
             </p>
           </div>
         </div>
 
-        {/* RIGHT — visual */}
         <div
           className="relative hidden lg:flex items-center justify-end"
           style={{ height: '420px' }}
@@ -232,37 +247,7 @@ const HeroSection: FC = () => (
 );
 
 // =====================================================
-// GLOBAL DELIVERY RULES BANNER — kept as is (border only)
-// =====================================================
-
-const DeliveryRulesBanner: FC = () => (
-  <div
-    className="border-y bg-white"
-    style={{ borderColor: '#E5E7EB' }}
-  >
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-      <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
-        <p className="text-xs font-medium st  text-gray-500">
-          Global Delivery Rules
-        </p>
-        {[
-          { icon: '⬛', label: 'Core Services are mandatory and non-negotiable' },
-          { icon: '◻', label: 'Flexible Services: max 2–3 per package' },
-          { icon: '◈', label: 'No services outside the defined scope' },
-          { icon: '→', label: 'Every package follows a chronological customer service roadmap' },
-        ].map((rule) => (
-          <div key={rule.label} className="flex items-center gap-2">
-            <span className="text-gray-400 text-xs">{rule.icon}</span>
-            <span className="text-xs text-gray-600">{rule.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-// =====================================================
-// TAG FILTER BAR — fixed clipping, rounded-md
+// TAG FILTER BAR
 // =====================================================
 
 interface TagFilterBarProps {
@@ -304,8 +289,7 @@ const TagFilterBar: FC<TagFilterBarProps> = ({ activeTag, onTagChange }) => (
 );
 
 // =====================================================
-// FEATURED SERVICE CARD — full width, Package 0
-// Dark blue background with light text
+// FEATURED SERVICE CARD — Package 0, no decorative rectangles
 // =====================================================
 
 interface FeaturedServiceCardProps {
@@ -325,37 +309,21 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
       style={{ backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.12)' }}
       aria-label={`View package: ${service.title}`}
     >
-      {/* Header */}
+      {/* Header — no rectangles, only ghost number */}
       <div
         className="relative h-44 sm:h-52 px-8 sm:px-10 flex items-end pb-7 overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #132B47 0%, #0A1E3D 65%)' }}
       >
-        <div className="absolute inset-0 flex items-center justify-end pr-10" aria-hidden="true">
-          {[3, 2, 1].map((l) => (
-            <div
-              key={l}
-              className="absolute rounded-md"
-              style={{
-                width: `${80 + l * 20}px`,
-                height: `${100 + l * 25}px`,
-                right: `${20 + (3 - l) * 12}px`,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                border: `1px solid rgba(59,130,246,${0.05 * l})`,
-                backgroundColor: `rgba(19,43,71,${0.04 * l})`,
-              }}
-            />
-          ))}
-        </div>
-
+        {/* Ghost package number */}
         <div
-          className="absolute right-8 top-1/2 -translate-y-1/2  select-none"
+          className="absolute right-8 top-1/2 -translate-y-1/2 select-none"
           style={{ fontSize: '8rem', color: 'rgba(59,130,246,0.06)', lineHeight: 1 }}
           aria-hidden="true"
         >
           {service.packageNumber.split(' ')[1]}
         </div>
 
+        {/* Tags row */}
         <div className="relative z-10 flex items-center gap-3 flex-wrap">
           <span
             className="px-3 py-1 rounded-md text-xs font-semibold"
@@ -374,16 +342,16 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
       </div>
 
       <div className="px-8 sm:px-10 py-6 sm:py-8">
-        <p className="text-xs st  mb-2 text-blue-300/70">
+        <p className="text-xs mb-2 text-blue-300/70">
           {service.tagline}
         </p>
         <h2
-          className="  mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
+          className="mb-3 group-hover:text-blue-300 transition-colors duration-200 text-white"
           style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)' }}
         >
           {service.title}
         </h2>
-        <p className="text-sm  mb-6 max-w-3xl text-gray-400">
+        <p className="text-sm mb-6 max-w-3xl text-gray-400">
           {service.excerpt}
         </p>
 
@@ -430,7 +398,6 @@ const FeaturedServiceCard: FC<FeaturedServiceCardProps> = ({ service }) => {
 
 // =====================================================
 // STANDARD SERVICE CARD — 3-column grid
-// Dark blue background with light text
 // =====================================================
 
 interface ServiceCardProps {
@@ -464,40 +431,40 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
         className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
         style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
       >
+        {/* Ghost package number */}
         <div
-          className="absolute right-4 top-1/2 -translate-y-1/2  select-none"
+          className="absolute right-4 top-1/2 -translate-y-1/2 select-none"
           style={{ fontSize: '4.5rem', color: 'rgba(59,130,246,0.07)', lineHeight: 1 }}
           aria-hidden="true"
         >
           {service.packageNumber.split(' ')[1]}
         </div>
 
+        {/* Tags — show all tags for multi-tag services */}
         <div className="relative z-10 flex items-center gap-2 flex-wrap">
-          <span
-            className="px-2.5 py-1 rounded-md text-xs font-semibold"
-            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
-          >
-            {service.tag}
-          </span>
-
-        </div>
-
-        <div className="absolute top-4 right-4 z-10 opacity-20 group-hover:opacity-60 transition-opacity" aria-hidden="true">
-
+          {(service.tags ?? [service.tag]).map((t) => (
+            <span
+              key={t}
+              className="px-2.5 py-1 rounded-md text-xs font-semibold"
+              style={{ backgroundColor: getTagStyle(t).bg, color: getTagStyle(t).text }}
+            >
+              {t}
+            </span>
+          ))}
         </div>
       </div>
 
       <div className="px-5 py-4 flex flex-col flex-1">
-        <p className="text-sm   mb-1.5 text-blue-300/70">
+        <p className="text-sm mb-1.5 text-blue-300/70">
           {service.tagline}
         </p>
         <h3
-          className="font-medium  mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
           style={{ fontSize: '0.9rem' }}
         >
           {service.title}
         </h3>
-        <p className="text-xs  mb-4 line-clamp-3 text-gray-400">
+        <p className="text-xs mb-4 line-clamp-3 text-gray-400">
           {service.excerpt}
         </p>
 
@@ -513,18 +480,15 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
           ))}
         </div>
 
-        <p className="text-xs  mb-4 flex-1 text-gray-500">
+        <p className="text-xs mb-4 flex-1 text-gray-500">
           ✦ {service.outcome}
         </p>
 
-        <div
-          className="flex items-center justify-between pt-3 mt-auto"
-        >
+        <div className="flex items-center justify-between pt-3 mt-auto">
           <div className="flex items-center gap-3">
             <span className="text-xs text-gray-400">
               {service.coreServicesCount} Modules
             </span>
-
           </div>
           <span className="text-xs text-gray-500">
             {service.targetedFor.length > 30
@@ -538,113 +502,18 @@ const ServiceCard: FC<ServiceCardProps> = ({ service, animIndex }) => {
 };
 
 // =====================================================
-// PACKAGE JOURNEY STRIP — white background (already light)
-// =====================================================
-
-// interface PackageJourneyStripProps {
-//   services: Service[];
-// }
-
-// const PackageJourneyStrip: FC<PackageJourneyStripProps> = ({ services }) => (
-//   <div
-//     className="my-12 rounded-md overflow-hidden bg-white border border-gray-200"
-//   >
-//     <div className="px-6 sm:px-8 py-6 sm:py-8">
-//       <div className="flex items-center justify-between mb-6">
-//         <div className="flex items-center gap-3">
-//           <div
-//             className="w-8 h-8 rounded-md flex items-center justify-center bg-blue-50"
-//           >
-//             <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-//                 d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-//             </svg>
-//           </div>
-//           <div>
-//             <p className="text-xs font-medium st  text-gray-500">
-//               The Package Journey
-//             </p>
-//             <p className="text-sm  text-gray-600">
-//               Every engagement starts with Package 0 — then moves to where you need to go.
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div
-//         className="flex items-start gap-0 overflow-x-auto pb-2"
-//         style={{ scrollbarWidth: 'none' } as React.CSSProperties}
-//       >
-//         {services.map((service, i) => {
-//           const tagStyle = getTagStyle(service.tag);
-//           return (
-//             <React.Fragment key={service.id}>
-//               <div
-//                 onClick={() => navigateToService(service.slug)}
-//                 role="button"
-//                 tabIndex={0}
-//                 onKeyDown={(e) => e.key === 'Enter' && navigateToService(service.slug)}
-//                 className="group cursor-pointer flex-shrink-0 flex flex-col items-center text-center w-28 focus:outline-none"
-//                 aria-label={`Go to ${service.title}`}
-//               >
-//                 <div
-//                   className="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-200 group-hover:scale-110"
-//                   style={{
-//                     backgroundColor: `${tagStyle.text}18`,
-//                     border: `1.5px solid ${tagStyle.text}35`,
-//                   }}
-//                 >
-//                   <span
-//                     className="text-sm font-semibold"
-//                     style={{ color: tagStyle.text }}
-//                   >
-//                     {service.id}
-//                   </span>
-//                 </div>
-//                 <span
-//                   className="px-2 py-0.5 rounded-md text-xs font-semibold mb-1"
-//                   style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
-//                 >
-//                   {service.tag}
-//                 </span>
-//                 <p
-//                   className="text-xs  group-hover:opacity-100 transition-opacity text-gray-500"
-//                   style={{ fontSize: '10px' }}
-//                 >
-//                   {service.title.split(':')[0].split('&')[0].trim()}
-//                 </p>
-//               </div>
-//               {i < services.length - 1 && (
-//                 <div className="flex-shrink-0 flex items-start pt-4 px-1">
-//                   <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-//                   </svg>
-//                 </div>
-//               )}
-//             </React.Fragment>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// =====================================================
 // PAGE ROOT COMPONENT
 // =====================================================
 
 export default function ServicesHubPage(): React.JSX.Element {
   const [activeTag, setActiveTag] = useState<string>('All');
 
-  const filteredServices: Service[] =
-    activeTag === 'All'
-      ? ALL_SERVICES
-      : ALL_SERVICES.filter((s) => s.tag === activeTag);
+  const filteredServices: Service[] = ALL_SERVICES.filter((s) =>
+    serviceMatchesTag(s, activeTag)
+  );
 
   const featured: Service | undefined = ALL_SERVICES[0];
   const gridServices: Service[] = filteredServices.filter((s) => s.id !== 0);
-
-  const showJourneyStrip = activeTag === 'All';
 
   const beforeStrip: Service[] = gridServices.slice(0, 3);
   const afterStrip: Service[] = gridServices.slice(3);
@@ -678,9 +547,6 @@ export default function ServicesHubPage(): React.JSX.Element {
         {/* Hero */}
         <HeroSection />
 
-        {/* Global Delivery Rules Banner */}
-        {/* <DeliveryRulesBanner /> */}
-
         {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
@@ -696,7 +562,7 @@ export default function ServicesHubPage(): React.JSX.Element {
             </p>
           </div>
 
-          {/* Package 0 featured */}
+          {/* Package 0 featured — shown when All or Foundation active */}
           {(activeTag === 'All' || activeTag === 'Foundation') && featured && (
             <div className="mb-8">
               <FeaturedServiceCard service={featured} />
@@ -712,11 +578,6 @@ export default function ServicesHubPage(): React.JSX.Element {
             </div>
           )}
 
-          {/* Package Journey Strip */}
-          {/* {showJourneyStrip && (
-            <PackageJourneyStrip services={ALL_SERVICES} />
-          )} */}
-
           {/* Remaining grid cards */}
           {afterStrip.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
@@ -730,7 +591,7 @@ export default function ServicesHubPage(): React.JSX.Element {
           {filteredServices.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-4xl mb-4">📦</p>
-              <p className="text-lg  mb-1 text-gray-900">
+              <p className="text-lg mb-1 text-gray-900">
                 No packages in &ldquo;{activeTag}&rdquo;
               </p>
               <p className="text-sm text-gray-500">
