@@ -1,6 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, FormEvent } from 'react';
+
+// =====================================================
+// CONFIG
+// =====================================================
+// Set NEXT_PUBLIC_API_URL in your frontend's .env (e.g. http://localhost:4000
+// in dev, your production API domain in prod).
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 // =====================================================
 // QUESTION BANK — 22 questions across 9 canvas areas
@@ -383,6 +390,11 @@ function scoreToColor(score: number | null): {
   return             { bg: 'bg-emerald-50', border: 'border-emerald-200',text: 'text-emerald-800',badge: 'bg-emerald-100 text-emerald-700', label: 'Strong' };
 }
 
+function isValidEmail(value: string): boolean {
+  // Simple, permissive check — the backend does the authoritative validation.
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
 // =====================================================
 // CANVAS HEATMAP
 // =====================================================
@@ -562,9 +574,16 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
 export default function StrategyDiagnostic() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentQ, setCurrentQ] = useState(0);
-  const [phase, setPhase] = useState<'intro' | 'questions' | 'results'>('intro');
+  // NEW: 'email' phase inserted between the last question and results.
+  const [phase, setPhase] = useState<'intro' | 'questions' | 'email' | 'results'>('intro');
   const [companyName, setCompanyName] = useState('');
   const topRef = useRef<HTMLDivElement>(null);
+
+  // NEW: email capture + submission state
+  const [email, setEmail] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const totalQ = QUESTIONS.length;
   const answeredCount = Object.keys(answers).length;
@@ -581,7 +600,9 @@ export default function StrategyDiagnostic() {
       setCurrentQ(currentQ + 1);
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      setPhase('results');
+      // CHANGED: last question now leads to the email gate, not straight to results.
+      setPhase('email');
+      topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
@@ -590,6 +611,54 @@ export default function StrategyDiagnostic() {
       setCurrentQ(currentQ - 1);
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  // NEW: submits email + answers to the backend, then reveals results on success.
+  async function handleEmailSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setEmailTouched(true);
+
+    if (!isValidEmail(email)) {
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const res = await fetch(`${API_URL}/leadmagnets/business-heat-map`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          companyName: companyName.trim() || undefined,
+          answers,
+        }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || 'Something went wrong. Please try again.');
+      }
+
+      setPhase('results');
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function resetAll() {
+    setAnswers({});
+    setCurrentQ(0);
+    setEmail('');
+    setEmailTouched(false);
+    setSubmitError(null);
+    setPhase('intro');
   }
 
   // ── INTRO ───────────────────────────────────────
@@ -665,7 +734,7 @@ export default function StrategyDiagnostic() {
                   {[
                     ['22 questions', 'structured across 10 strategy modules'],
                     ['~15 minutes', 'to complete the full assessment'],
-                    ['Immediate results', 'no email required, no waitlist'],
+                    ['Instant results', 'right after you enter your email'],
                   ].map(([label, desc]) => (
                     <div key={label} className="flex items-center gap-3">
                       <span className="text-[#0A1E3D] font-semibold text-sm min-w-[120px]">{label}</span>
@@ -695,6 +764,86 @@ export default function StrategyDiagnostic() {
     );
   }
 
+  // ── EMAIL GATE (NEW) ─────────────────────────────
+  if (phase === 'email') {
+    const emailError = emailTouched && !isValidEmail(email) ? 'Enter a valid email address' : null;
+
+    return (
+      <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
+        <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-blue-400 text-sm font-medium tracking-wide uppercase mb-4">
+              {companyName ? `${companyName} · ` : ''}Diagnostic complete
+            </p>
+            <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">
+              One last step before your results
+            </h1>
+            <p className="text-gray-300 text-base leading-relaxed">
+              Enter your email so we can save your results and you can revisit them later.
+              No account, no password — just this.
+            </p>
+          </div>
+        </section>
+
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md mx-auto">
+            <form
+              onSubmit={handleEmailSubmit}
+              className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm"
+            >
+              <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">
+                Email address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => setEmailTouched(true)}
+                placeholder="you@company.com"
+                autoFocus
+                className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm mb-1 ${
+                  emailError
+                    ? 'border-red-300 focus:ring-red-400'
+                    : 'border-gray-300 focus:ring-[#0A1E3D]'
+                }`}
+              />
+              {emailError && (
+                <p className="text-xs text-red-600 mb-3">{emailError}</p>
+              )}
+              {!emailError && <div className="mb-3" />}
+
+              {submitError && (
+                <div className="bg-red-50 border border-red-200 rounded-md px-4 py-3 mb-4">
+                  <p className="text-sm text-red-700">{submitError}</p>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className={`w-full py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${
+                  submitting
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
+                }`}
+              >
+                {submitting ? 'Saving your results…' : 'See my results'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPhase('questions')}
+                className="w-full text-center text-xs text-gray-400 hover:text-gray-600 mt-4 transition-colors duration-200"
+              >
+                ← Back to questions
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   // ── RESULTS ─────────────────────────────────────
   if (phase === 'results') {
     return (
@@ -706,13 +855,7 @@ export default function StrategyDiagnostic() {
             </p>
             <h1 className="text-3xl sm:text-4xl text-white mb-3">Your Business Model Health Map</h1>
             <p className="text-gray-400 text-sm">
-              {answeredCount} of {totalQ} questions answered ·{' '}
-              <button
-                onClick={() => { setPhase('questions'); setCurrentQ(0); }}
-                className="text-blue-400 underline hover:text-blue-300 transition-colors duration-200"
-              >
-                revisit answers
-              </button>
+              {answeredCount} of {totalQ} questions answered
             </p>
           </div>
         </section>
@@ -732,7 +875,7 @@ export default function StrategyDiagnostic() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
-                  onClick={() => { setAnswers({}); setCurrentQ(0); setPhase('intro'); }}
+                  onClick={resetAll}
                   className="flex-1 border border-blue-800 text-gray-300 hover:text-white hover:border-blue-600 py-3 px-6 rounded-md transition-all duration-300 font-medium text-sm"
                 >
                   Start new assessment
@@ -770,12 +913,6 @@ export default function StrategyDiagnostic() {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xs text-gray-400">{answeredCount} answered</span>
-              <button
-                onClick={() => setPhase('results')}
-                className="text-xs text-blue-600 hover:text-blue-800 border border-blue-200 hover:border-blue-400 px-3 py-1.5 rounded-md transition-all duration-200"
-              >
-                View canvas →
-              </button>
             </div>
           </div>
           {/* Progress bar */}
@@ -883,7 +1020,7 @@ export default function StrategyDiagnostic() {
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
-            <span>{currentQ === totalQ - 1 ? 'See results' : 'Next question'}</span>
+            <span>{currentQ === totalQ - 1 ? 'Continue' : 'Next question'}</span>
             {currentAnswer && (
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
