@@ -5,12 +5,10 @@ import { useState, useRef, FormEvent } from 'react';
 // =====================================================
 // CONFIG
 // =====================================================
-// Set NEXT_PUBLIC_API_URL in your frontend's .env (e.g. http://localhost:4000
-// in dev, your production API domain in prod).
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 // =====================================================
-// QUESTION BANK — 22 questions across 9 canvas areas
+// QUESTION BANK
 // =====================================================
 const QUESTIONS = [
   {
@@ -53,20 +51,6 @@ const QUESTIONS = [
       5: 'TAM is segmented and regionally adjusted with a penetration rate, but not fully triangulated',
       7: 'TAM triangulated from multiple sources with comparable company benchmarks validating the share assumption',
       10: 'Fully defensible — bottom-up, top-down, and competitor revenue cross-check all converge within 20–30%',
-    },
-  },
-  {
-    id: 'q4',
-    module: 'Market Opportunity',
-    canvasArea: 'value_proposition',
-    text: 'How structural — versus temporary — is the market growth driving demand for your solution?',
-    helpText: 'Structural = demographic, technological, or behavioural shifts. Temporary = one-off events or trends.',
-    scores: {
-      1: 'Growth appears entirely temporary — a one-time regulatory change or short-lived trend is driving it',
-      3: 'Growth drivers are mixed — partly structural, partly cyclical or temporary',
-      5: 'Mostly structural but one or two key assumptions need to hold for growth to continue',
-      7: 'Clearly structural — demographic, technological, or behavioural shifts are the primary driver',
-      10: 'Multi-factor structural growth — multiple independent forces all pointing in the same direction simultaneously',
     },
   },
   {
@@ -140,20 +124,6 @@ const QUESTIONS = [
     },
   },
   {
-    id: 'q10',
-    module: 'Business Model',
-    canvasArea: 'revenue_streams',
-    text: 'How recurring, predictable, and growing are your revenue streams?',
-    helpText: 'Recurring revenue from subscriptions or repeat purchases compounds. Transactional revenue requires constant reselling.',
-    scores: {
-      1: 'Entirely transactional — unpredictable, deal-by-deal, with no recurring base whatsoever',
-      3: 'Mostly transactional with early signs of recurring revenue but no meaningful base established',
-      5: 'Roughly equal transactional and recurring — moderate predictability but still concentrated',
-      7: 'Predominantly recurring — majority from subscriptions or repeat purchases with reasonable forecast visibility',
-      10: 'Highly recurring and expanding — contracted base, low churn, and growing from both new and existing customers',
-    },
-  },
-  {
     id: 'q11',
     module: 'Financial Health',
     canvasArea: 'cost_structure',
@@ -182,20 +152,6 @@ const QUESTIONS = [
     },
   },
   {
-    id: 'q13',
-    module: 'Financial Health',
-    canvasArea: 'revenue_streams',
-    text: 'How much runway do you have, based on a realistic forward-looking burn projection?',
-    helpText: 'Below 6 months = existential crisis. 6–9 = dangerous. 9–12 = uncomfortable. 12–18 = adequate. Above 18 = strong.',
-    scores: {
-      1: 'Below 6 months — the business is in immediate financial distress with no strategic options',
-      3: '6–9 months — dangerously short, cannot execute any initiative without simultaneously solving capital',
-      5: '9–12 months — uncomfortable, fundraising must begin immediately to avoid distraction',
-      7: '12–18 months — adequate runway to execute and fundraise from a position of reasonable strength',
-      10: 'Above 18 months with a stress-tested runway calculation and clear milestone plan — operating from leverage',
-    },
-  },
-  {
     id: 'q14',
     module: 'Product & PMF',
     canvasArea: 'key_activities',
@@ -210,34 +166,6 @@ const QUESTIONS = [
     },
   },
   {
-    id: 'q15',
-    module: 'Product & PMF',
-    canvasArea: 'key_activities',
-    text: 'What percentage of new customers arrive organically — through word of mouth, unprompted referral, or organic discovery?',
-    helpText: 'Organic growth is the market telling you the product has genuine pull. Paid growth can look like traction. Organic growth is the real signal.',
-    scores: {
-      1: '0–5% organic — entirely dependent on paid channels, growth stops immediately if spend is removed',
-      3: '5–15% organic — some signal exists but the business is overwhelmingly dependent on paid channels',
-      5: '15–30% organic — meaningful contribution but paid channels still dominate acquisition',
-      7: '30–50% organic — a major growth driver alongside paid, indicating genuine market pull is developing',
-      10: 'Above 50% organic — the majority of customers arrive without paid incentive, clear evidence of real pull',
-    },
-  },
-  {
-    id: 'q16',
-    module: 'Product & PMF',
-    canvasArea: 'key_resources',
-    text: 'Does growth compound — does each new customer make the product more valuable or lower the cost of acquiring the next?',
-    helpText: 'A flywheel is a compounding growth mechanism. Without one, growth is linear and permanently capital-intensive.',
-    scores: {
-      1: 'No flywheel — growth is purely linear, every customer costs as much to acquire as the last',
-      3: 'A flywheel is described but no evidence it is operating — entirely theoretical at this stage',
-      5: 'Early evidence of compounding — the mechanism is visible in data but small enough to be explained by other factors',
-      7: 'Clear flywheel evidence — CAC declining, organic acquisition increasing, or quality improving as a function of scale',
-      10: 'Demonstrably spinning and accelerating — compounding is the primary driver of growth efficiency',
-    },
-  },
-  {
     id: 'q17',
     module: 'Team',
     canvasArea: 'key_partners',
@@ -249,20 +177,6 @@ const QUESTIONS = [
       5: 'Meaningful exposure through work or research but not enough time inside the industry for differentiated insight',
       7: 'Directly experienced the problem as a practitioner or customer over a meaningful period, with genuine insider intuition',
       10: 'Years inside this exact problem — tried existing solutions, found them insufficient, has insights impossible for outsiders to replicate',
-    },
-  },
-  {
-    id: 'q18',
-    module: 'Team',
-    canvasArea: 'key_resources',
-    text: 'How strong is the founder\'s track record of execution — shipping, selling, building teams, and iterating quickly under pressure?',
-    helpText: 'Track record is the only objective evidence of future execution capability. Everything else is potential.',
-    scores: {
-      1: 'First attempt — no prior proof of taking anything from concept to paying customers or building any team',
-      3: 'Weak track record — has started something before but did not reach meaningful validation or revenue',
-      5: 'Moderate — has taken a product to paying customers but at small scale or in a very different domain',
-      7: 'Strong — successfully taken one or more products from concept to meaningful revenue in a relevant context',
-      10: 'Exceptional — has done this multiple times across different conditions, built strong teams, iterated decisively under pressure',
     },
   },
   {
@@ -294,20 +208,6 @@ const QUESTIONS = [
     },
   },
   {
-    id: 'q21',
-    module: 'Monetisation',
-    canvasArea: 'revenue_streams',
-    text: 'Is your pricing model structured to capture value at the moment and in the manner customers actually experience it?',
-    helpText: 'Pricing aligned to value delivery minimises resistance. Mis-timed or mis-metered pricing leaves revenue on the table or kills conversion.',
-    scores: {
-      1: 'Severe disconnect — charging significantly before or after value is experienced, creating strong customer resistance',
-      3: 'Moderate disconnect — pricing timing is imperfect, creating friction at purchase or renewal for a significant portion',
-      5: 'Approximately aligned — broadly correct but specific segments or use cases experience meaningful pricing friction',
-      7: 'Good alignment — majority of customers pay at or close to their value experience moment with minimal resistance',
-      10: 'Exceptional — pricing precisely calibrated to moment, mechanism, and magnitude of value for each segment',
-    },
-  },
-  {
     id: 'q22',
     module: 'Monetisation',
     canvasArea: 'revenue_streams',
@@ -324,45 +224,35 @@ const QUESTIONS = [
 ];
 
 // =====================================================
+// 5-POINT ANSWER SCALE
+// =====================================================
+const SCALE: {
+  value: 1 | 3 | 5 | 7 | 10;
+  label: string;
+  active: string;
+  idle: string;
+  dot: string;
+}[] = [
+  { value: 1, label: 'Critical', active: 'bg-red-600 text-white border-red-600', idle: 'border-red-200 text-red-700 hover:bg-red-50', dot: 'bg-red-500' },
+  { value: 3, label: 'Weak', active: 'bg-amber-500 text-white border-amber-500', idle: 'border-amber-200 text-amber-700 hover:bg-amber-50', dot: 'bg-amber-500' },
+  { value: 5, label: 'Developing', active: 'bg-yellow-400 text-yellow-900 border-yellow-400', idle: 'border-yellow-200 text-yellow-700 hover:bg-yellow-50', dot: 'bg-yellow-400' },
+  { value: 7, label: 'Healthy', active: 'bg-green-600 text-white border-green-600', idle: 'border-green-200 text-green-700 hover:bg-green-50', dot: 'bg-green-500' },
+  { value: 10, label: 'Strong', active: 'bg-emerald-600 text-white border-emerald-600', idle: 'border-emerald-200 text-emerald-700 hover:bg-emerald-50', dot: 'bg-emerald-500' },
+];
+
+// =====================================================
 // CANVAS AREA DEFINITIONS
 // =====================================================
 const CANVAS_AREAS: Record<string, { label: string; description: string }> = {
-  value_proposition: {
-    label: 'Value Proposition',
-    description: 'The core problem you solve and why customers choose you',
-  },
-  customer_segments: {
-    label: 'Customer Segments',
-    description: 'Who you serve and how well you understand them',
-  },
-  channels: {
-    label: 'Channels',
-    description: 'How customers discover and choose you',
-  },
-  customer_relationships: {
-    label: 'Customer Relationships',
-    description: 'How you retain, grow, and delight customers',
-  },
-  revenue_streams: {
-    label: 'Revenue Streams',
-    description: 'How you monetise the value you deliver',
-  },
-  key_resources: {
-    label: 'Key Resources',
-    description: 'The assets that make your model work',
-  },
-  key_activities: {
-    label: 'Key Activities',
-    description: 'What you must do best to deliver value',
-  },
-  key_partners: {
-    label: 'Key Partners',
-    description: 'Who you depend on and how that relationship works',
-  },
-  cost_structure: {
-    label: 'Cost Structure',
-    description: 'What you spend and how efficiently',
-  },
+  value_proposition: { label: 'Value Proposition', description: 'The core problem you solve and why customers choose you' },
+  customer_segments: { label: 'Customer Segments', description: 'Who you serve and how well you understand them' },
+  channels: { label: 'Channels', description: 'How customers discover and choose you' },
+  customer_relationships: { label: 'Customer Relationships', description: 'How you retain, grow, and delight customers' },
+  revenue_streams: { label: 'Revenue Streams', description: 'How you monetise the value you deliver' },
+  key_resources: { label: 'Key Resources', description: 'The assets that make your model work' },
+  key_activities: { label: 'Key Activities', description: 'What you must do best to deliver value' },
+  key_partners: { label: 'Key Partners', description: 'Who you depend on and how that relationship works' },
+  cost_structure: { label: 'Cost Structure', description: 'What you spend and how efficiently' },
 };
 
 // =====================================================
@@ -375,19 +265,13 @@ function getAreaScore(areaKey: string, answers: Record<string, number>): number 
   return Math.round((scored.reduce((sum, q) => sum + answers[q.id], 0) / scored.length) * 10) / 10;
 }
 
-function scoreToColor(score: number | null): {
-  bg: string;
-  border: string;
-  text: string;
-  badge: string;
-  label: string;
-} {
-  if (score === null) return { bg: 'bg-gray-100', border: 'border-gray-200', text: 'text-gray-400', badge: 'bg-gray-200 text-gray-500', label: '—' };
-  if (score <= 3)  return { bg: 'bg-red-50',    border: 'border-red-200',   text: 'text-red-800',   badge: 'bg-red-100 text-red-700',   label: 'Critical' };
-  if (score <= 5)  return { bg: 'bg-amber-50',  border: 'border-amber-200', text: 'text-amber-800', badge: 'bg-amber-100 text-amber-700', label: 'Weak' };
-  if (score <= 7)  return { bg: 'bg-yellow-50', border: 'border-yellow-200',text: 'text-yellow-800',badge: 'bg-yellow-100 text-yellow-700', label: 'Developing' };
-  if (score <= 9)  return { bg: 'bg-green-50',  border: 'border-green-200', text: 'text-green-800', badge: 'bg-green-100 text-green-700', label: 'Healthy' };
-  return             { bg: 'bg-emerald-50', border: 'border-emerald-200',text: 'text-emerald-800',badge: 'bg-emerald-100 text-emerald-700', label: 'Strong' };
+function scoreToColor(score: number | null): { bg: string; border: string; text: string; badge: string; label: string } {
+  if (score === null) return { bg: 'bg-gray-100', border: 'border-gray-200', text: 'text-gray-500', badge: 'bg-gray-200 text-gray-600', label: 'Not scored' };
+  if (score <= 3) return { bg: 'bg-red-100', border: 'border-red-200', text: 'text-red-800', badge: 'bg-red-200 text-red-800', label: 'Critical' };
+  if (score <= 5) return { bg: 'bg-amber-100', border: 'border-amber-200', text: 'text-amber-800', badge: 'bg-amber-200 text-amber-800', label: 'Weak' };
+  if (score <= 7) return { bg: 'bg-yellow-100', border: 'border-yellow-200', text: 'text-yellow-800', badge: 'bg-yellow-200 text-yellow-800', label: 'Developing' };
+  if (score <= 9) return { bg: 'bg-green-100', border: 'border-green-200', text: 'text-green-800', badge: 'bg-green-200 text-green-800', label: 'Healthy' };
+  return { bg: 'bg-emerald-100', border: 'border-emerald-200', text: 'text-emerald-800', badge: 'bg-emerald-200 text-emerald-800', label: 'Strong' };
 }
 
 function isValidEmail(value: string): boolean {
@@ -396,7 +280,7 @@ function isValidEmail(value: string): boolean {
 }
 
 // =====================================================
-// CANVAS HEATMAP
+// CANVAS HEATMAP / REPORT
 // =====================================================
 function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
   const areaScores: Record<string, number | null> = {};
@@ -409,50 +293,43 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
     ? Math.round((allScored.reduce((a, b) => a + b, 0) / allScored.length) * 10) / 10
     : null;
 
-  const overallColors = scoreToColor(overallAvg);
+  const circleColor = overallAvg === null ? '#9CA3AF'
+    : overallAvg <= 3 ? '#dc2626'
+    : overallAvg <= 5 ? '#d97706'
+    : overallAvg <= 7 ? '#ca8a04'
+    : overallAvg <= 9 ? '#16a34a'
+    : '#059669';
 
   const modules = [
-    { label: 'Market',               ids: ['q1','q2','q3','q4'] },
-    { label: 'Competitive Advantage', ids: ['q5','q6'] },
-    { label: 'Business Model',        ids: ['q7','q8','q9','q10'] },
-    { label: 'Financial Health',      ids: ['q11','q12','q13'] },
-    { label: 'Product & PMF',         ids: ['q14','q15','q16'] },
-    { label: 'Team',                  ids: ['q17','q18'] },
-    { label: 'Risk',                  ids: ['q19'] },
-    { label: 'Operations',            ids: ['q20'] },
-    { label: 'Monetisation',          ids: ['q21','q22'] },
+    { label: 'Market', ids: ['q1', 'q3'] },
+    { label: 'Competitive Advantage', ids: ['q5', 'q6'] },
+    { label: 'Business Model', ids: ['q7', 'q8', 'q9'] },
+    { label: 'Financial Health', ids: ['q11', 'q12'] },
+    { label: 'Product & PMF', ids: ['q14'] },
+    { label: 'Team', ids: ['q17'] },
+    { label: 'Risk', ids: ['q19'] },
+    { label: 'Operations', ids: ['q20'] },
+    { label: 'Monetisation', ids: ['q22'] },
   ];
 
-  // Top 3 weakest answered areas
   const priorities = Object.entries(areaScores)
-    .filter(([, s]) => s !== null)
+    .filter(([, score]) => score !== null)
     .sort(([, a], [, b]) => (a as number) - (b as number))
     .slice(0, 3) as [string, number][];
 
-  function CanvasCell({
-    areaKey,
-    className = '',
-  }: {
-    areaKey: string;
-    className?: string;
-  }) {
+  function CanvasCell({ areaKey, className = '' }: { areaKey: string; className?: string }) {
     const score = areaScores[areaKey];
     const c = scoreToColor(score);
+
     return (
-      <div className={`${c.bg} border ${c.border} rounded-md p-3 flex flex-col justify-between transition-all duration-300 ${className}`}>
+      <div className={`${c.bg} border ${c.border} rounded-md p-4 flex flex-col justify-between transition-all duration-300 ${className}`}>
         <div>
-          <p className={`text-[10px] font-semibold uppercase tracking-wider ${c.text} mb-1`}>
-            {CANVAS_AREAS[areaKey].label}
-          </p>
-          <p className={`text-[10px] ${c.text} opacity-70 leading-tight hidden sm:block`}>
-            {CANVAS_AREAS[areaKey].description}
-          </p>
+          <p className="text-sm font-semibold text-[#0A1E3D] mb-1">{CANVAS_AREAS[areaKey].label}</p>
+          <p className="text-xs text-[#0A1E3D] leading-relaxed hidden sm:block">{CANVAS_AREAS[areaKey].description}</p>
         </div>
-        <div className="flex items-end justify-between mt-2">
-          <span className={`text-xl font-semibold ${c.text}`}>{score ?? '—'}</span>
-          {score !== null && (
-            <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full ${c.badge}`}>{c.label}</span>
-          )}
+        <div className="flex items-center justify-between mt-4">
+          <span className={`inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold ${c.badge}`}>{score ?? '—'}</span>
+          {score !== null && <span className={`text-sm font-semibold ${c.text}`}>{c.label}</span>}
         </div>
       </div>
     );
@@ -460,16 +337,14 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
 
   return (
     <div className="space-y-8">
-      {/* Overall score banner */}
-      {overallAvg && (
-        <div className={`${overallColors.bg} border ${overallColors.border} rounded-md px-6 py-4 flex items-center gap-4`}>
-          <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-semibold flex-shrink-0`}
-            style={{ background: overallAvg <= 3 ? '#dc2626' : overallAvg <= 5 ? '#d97706' : overallAvg <= 7 ? '#ca8a04' : overallAvg <= 9 ? '#16a34a' : '#059669' }}>
+      {overallAvg !== null && (
+        <div className="bg-white border border-gray-200 rounded-md px-6 py-5 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-semibold flex-shrink-0" style={{ background: circleColor }}>
             {overallAvg}
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Overall strategic health</p>
-            <p className={`text-sm font-medium ${overallColors.text}`}>
+            <p className="text-2xl text-[#0A1E3D] mb-1">Overall strategic health</p>
+            <p className="text-lg font-medium text-[#0A1E3D]">
               {overallAvg <= 3 ? 'Critical — fundamental rethinking required before any growth decision'
                 : overallAvg <= 5 ? 'Weak — significant structural gaps that limit scalability'
                 : overallAvg <= 7 ? 'Developing — workable foundation, but moat-building is urgent'
@@ -480,87 +355,74 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
         </div>
       )}
 
-      {/* The canvas grid */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Business Model Canvas — Health Map</p>
-
-        {/* Row 1: key_partners | key_activities | value_proposition | customer_relationships | customer_segments */}
-        <div className="grid grid-cols-5 gap-1.5 mb-1.5">
+        <p className="text-lg font-semibold text-[#0A1E3D] mb-3">Business Health Map</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-1.5">
           <CanvasCell areaKey="key_partners" />
           <CanvasCell areaKey="key_activities" />
           <CanvasCell areaKey="value_proposition" />
           <CanvasCell areaKey="customer_relationships" />
           <CanvasCell areaKey="customer_segments" />
-        </div>
-
-        {/* Row 2: cost_structure spans 2 | spacer | revenue_streams spans 2 */}
-        <div className="grid grid-cols-5 gap-1.5">
-          <div className="col-span-2">
-            <CanvasCell areaKey="cost_structure" className="h-full" />
-          </div>
-          {/* Channels fills the middle */}
-          <div>
-            <CanvasCell areaKey="channels" className="h-full" />
-          </div>
-          <div className="col-span-2">
-            <CanvasCell areaKey="revenue_streams" className="h-full" />
-          </div>
+          <div className="lg:col-span-2"><CanvasCell areaKey="cost_structure" className="h-full" /></div>
+          <div><CanvasCell areaKey="channels" className="h-full" /></div>
+          <div className="lg:col-span-2"><CanvasCell areaKey="revenue_streams" className="h-full" /></div>
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-wrap gap-3">
-        {[
-          { label: 'Critical (1–3)',    bg: 'bg-red-100',    text: 'text-red-700' },
-          { label: 'Weak (4–5)',        bg: 'bg-amber-100',  text: 'text-amber-700' },
-          { label: 'Developing (6–7)', bg: 'bg-yellow-100', text: 'text-yellow-700' },
-          { label: 'Healthy (8–9)',     bg: 'bg-green-100',  text: 'text-green-700' },
-          { label: 'Strong (10)',       bg: 'bg-emerald-100',text: 'text-emerald-700' },
-        ].map((item) => (
-          <span key={item.label} className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full ${item.bg} ${item.text} font-medium`}>
-            <span className={`w-2 h-2 rounded-full ${item.bg.replace('100','400')}`} />
+      <div className="flex flex-wrap gap-4 pt-1">
+        {SCALE.map((item) => (
+          <span key={item.label} className="inline-flex items-center gap-1.5 text-xs text-[#0A1E3D]">
+            <span className={`w-2 h-2 rounded-full ${item.dot}`} />
             {item.label}
           </span>
         ))}
       </div>
 
-      {/* Module breakdown */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Module breakdown</p>
-        <div className="grid grid-cols-3 gap-2">
-          {modules.map((mod) => {
+        <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Business breakdown</p>
+        <p className="text-sm text-[#0A1E3D] leading-relaxed mb-4">
+          A view of the core business dimensions that determine the strength, scalability, and resilience of your venture.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          {modules.map((mod, index) => {
             const scored = mod.ids.filter((id) => answers[id] !== undefined);
             const avg = scored.length > 0
               ? Math.round((scored.reduce((sum, id) => sum + answers[id], 0) / scored.length) * 10) / 10
               : null;
             const c = scoreToColor(avg);
+            const isLast = index === modules.length - 1;
+            const bentoClass = index === 0 || index === 1 || isLast ? 'sm:col-span-1 lg:col-span-2' : '';
+
             return (
-              <div key={mod.label} className={`${c.bg} border ${c.border} rounded-md px-3 py-2.5 flex items-center justify-between`}>
-                <span className={`text-xs font-medium ${c.text}`}>{mod.label}</span>
-                <span className={`text-sm font-semibold ${c.text}`}>{avg ?? '—'}</span>
+              <div key={mod.label} className={`${bentoClass} ${c.bg} border ${c.border} rounded-md px-4 py-3.5 flex items-center justify-between min-h-[64px]`}>
+                <div className="min-w-0 pr-3">
+                  <span className="text-sm font-semibold text-[#0A1E3D]">{mod.label}</span>
+                </div>
+                <span className={`inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold flex-shrink-0 ${c.badge}`}>
+                  {avg ?? '—'}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Strategic priorities */}
       {priorities.length > 0 && (
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Immediate priorities</p>
-          <div className="space-y-2">
-            {priorities.map(([key, score]) => {
-              const c = scoreToColor(score);
-              return (
-                <div key={key} className={`flex items-center gap-3 p-3 rounded-md border ${c.border} ${c.bg}`}>
-                  <span className={`text-lg font-semibold ${c.text} min-w-[2rem]`}>{score}</span>
-                  <div>
-                    <p className={`text-sm font-medium ${c.text}`}>{CANVAS_AREAS[key].label}</p>
-                    <p className="text-xs text-gray-500">{CANVAS_AREAS[key].description}</p>
-                  </div>
+          <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Immediate Priorities</p>
+          <p className="text-sm text-[#0A1E3D] leading-relaxed mb-4">
+            The areas that require the most immediate attention based on the gaps identified in your diagnostic.
+          </p>
+          <div className="flex flex-col gap-5">
+            {priorities.map(([key]) => (
+              <div key={key} className="flex items-start gap-1">
+                <div className="min-w-0">
+                  <p className="text-base font-semibold text-[#0A1E3D] mb-1">{CANVAS_AREAS[key].label}</p>
+                  <p className="text-sm text-[#0A1E3D] leading-relaxed">{CANVAS_AREAS[key].description}</p>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -574,12 +436,16 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
 export default function StrategyDiagnostic() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentQ, setCurrentQ] = useState(0);
-  // NEW: 'email' phase inserted between the last question and results.
+
   const [phase, setPhase] = useState<'intro' | 'questions' | 'email' | 'results'>('intro');
+
   const [companyName, setCompanyName] = useState('');
+  const [founderName, setFounderName] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [introTouched, setIntroTouched] = useState(false);
+
   const topRef = useRef<HTMLDivElement>(null);
 
-  // NEW: email capture + submission state
   const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -588,32 +454,36 @@ export default function StrategyDiagnostic() {
   const totalQ = QUESTIONS.length;
   const answeredCount = Object.keys(answers).length;
   const progress = Math.round((answeredCount / totalQ) * 100);
+
   const q = QUESTIONS[currentQ];
   const currentAnswer = answers[q?.id];
 
   function handleAnswer(qId: string, value: number) {
     setAnswers((prev) => ({ ...prev, [qId]: value }));
-  }
 
-  function goNext() {
     if (currentQ < totalQ - 1) {
       setCurrentQ(currentQ + 1);
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      // CHANGED: last question now leads to the email gate, not straight to results.
       setPhase('email');
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
-  function goPrev() {
-    if (currentQ > 0) {
-      setCurrentQ(currentQ - 1);
-      topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function handleStart(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIntroTouched(true);
+
+    if (!companyName.trim() || !founderName.trim() || !industry.trim()) {
+      return;
     }
+
+    setPhase('questions');
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // NEW: submits email + answers to the backend, then reveals results on success.
+  // Reconnected to the backend: sends founder/company/industry/email plus
+  // the raw per-question answers, and only advances to results on success.
   async function handleEmailSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setEmailTouched(true);
@@ -631,7 +501,9 @@ export default function StrategyDiagnostic() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
-          companyName: companyName.trim() || undefined,
+          founderName: founderName.trim(),
+          companyName: companyName.trim(),
+          industry: industry.trim(),
           answers,
         }),
       });
@@ -644,9 +516,7 @@ export default function StrategyDiagnostic() {
 
       setPhase('results');
     } catch (err) {
-      setSubmitError(
-        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
-      );
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -661,101 +531,108 @@ export default function StrategyDiagnostic() {
     setPhase('intro');
   }
 
-  // ── INTRO ───────────────────────────────────────
+  // =====================================================
+  // INTRO
+  // =====================================================
   if (phase === 'intro') {
+    const showErrors = introTouched;
+
     return (
       <main className="min-h-screen bg-[#F0F4F8]">
-        {/* Hero — matches site's navy hero pattern */}
         <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <p className="text-blue-400 text-sm font-medium tracking-wide uppercase mb-4">Strategy Consulting · Sarsen</p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6 leading-tight">
-              Strategic Diagnostic
-            </h1>
-            <p className="text-gray-300 text-base sm:text-lg max-w-2xl leading-relaxed">
-              22 questions drawn from a structured 10-module framework. Each score carries a specific
-              meaning — not a feeling, but a defined business reality. In under 15 minutes, see exactly
-              where your business is structurally sound and where it is bleeding.
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">Diagnose Your Venture</h1>
+            <p className="text-gray-300 text-base sm:text-lg max-w-4xl">
+              Answer a few Questions to Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.
             </p>
           </div>
         </section>
 
-        {/* Card body */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-5xl mx-auto">
+            <form onSubmit={handleStart} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-10">
+              <h3 className="text-xl text-gray-800 font-semibold mb-6">Begin your diagnostic</h3>
 
-              {/* What you get */}
-              <div className="space-y-6">
-                <h2 className="text-2xl sm:text-3xl text-gray-800">What you will receive</h2>
-                <div className="space-y-4">
-                  {[
-                    {
-                      title: 'Business Model Canvas — colour-coded',
-                      body: 'Every block of your canvas rated green to red, so you see structural health at a glance rather than reading a report.',
-                    },
-                    {
-                      title: 'Module-by-module scores',
-                      body: 'Across market structure, competitive advantage, business model, financial health, product-market fit, team, risk, operations, and monetisation.',
-                    },
-                    {
-                      title: 'Your three highest-priority areas',
-                      body: 'Ranked by severity — so the first decision you make after this is the right one, not the most visible one.',
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="bg-white border border-gray-200 rounded-md p-5 hover:shadow-sm transition-shadow duration-300">
-                      <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">{item.title}</h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">{item.body}</p>
-                    </div>
-                  ))}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                <div>
+                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Founder Name</label>
+                  <input
+                    type="text"
+                    value={founderName}
+                    onChange={(e) => setFounderName(e.target.value)}
+                    placeholder="e.g. Priya Menon"
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
+                      showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    }`}
+                  />
+                  {showErrors && !founderName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Name</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Business Name</label>
+                  <input
+                    type="text"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    placeholder="e.g. SpaceX or Freshworks"
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
+                      showErrors && !companyName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    }`}
+                  />
+                  {showErrors && !companyName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Business Name</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Sector or Domain</label>
+                  <input
+                    type="text"
+                    value={industry}
+                    onChange={(e) => setIndustry(e.target.value)}
+                    placeholder="e.g. Healthcare or Fintech"
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
+                      showErrors && !industry.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    }`}
+                  />
+                  {showErrors && !industry.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Sector or Domain</p>}
                 </div>
               </div>
 
-              {/* Start form */}
-              <div className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm">
-                <h3 className="text-xl text-gray-800 font-semibold mb-6">Begin your diagnostic</h3>
-
-                <div className="space-y-5 mb-6">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pt-5 border-t border-gray-100">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
                   <div>
-                    <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">
-                      Company name <span className="text-gray-400 font-normal">(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="e.g. Nex"
-                      className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] text-sm"
-                    />
+                    <span className="text-[#0A1E3D] font-semibold">A few Focused Questions</span>
+                    <span className="text-gray-500 ml-1">Across the Areas that Decide whether a Business Scales or Collapses</span>
+                  </div>
+                  <div>
+                    <span className="text-[#0A1E3D] font-semibold">Under 5 Minutes</span>
+                    <span className="text-gray-500 ml-1">to Complete</span>
                   </div>
                 </div>
 
-                <div className="space-y-3 mb-6 pb-6 border-b border-gray-100">
-                  {[
-                    ['22 questions', 'structured across 10 strategy modules'],
-                    ['~15 minutes', 'to complete the full assessment'],
-                    ['Instant results', 'right after you enter your email'],
-                  ].map(([label, desc]) => (
-                    <div key={label} className="flex items-center gap-3">
-                      <span className="text-[#0A1E3D] font-semibold text-sm min-w-[120px]">{label}</span>
-                      <span className="text-gray-500 text-sm">{desc}</span>
-                    </div>
-                  ))}
-                </div>
-
                 <button
-                  onClick={() => setPhase('questions')}
-                  className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 group"
+                  type="submit"
+                  className="bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-7 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 group whitespace-nowrap"
                 >
                   <span>Start diagnostic</span>
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
+              </div>
+            </form>
 
-                <p className="text-center text-xs text-gray-400 mt-4">
-                  Every engagement is governed by strict professional confidentiality.
-                </p>
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { title: 'Business Heatmap', body: 'Every Aspect of Your Business Rated, So You can See Structural Health at a Glance.' },
+                  { title: 'Multi-Dimensional Coverage', body: 'Across Business Fundamentals, Strategic Directions and Operational Challenges.' },
+                  { title: 'Your Highest-Priority Areas', body: 'Ranked as per Severity so the Decisions Made are the Right One, Not the Most Visible One.' },
+                ].map((item, i) => (
+                  <div key={i} className="bg-white border border-gray-200 rounded-md p-5 hover:shadow-sm transition-shadow duration-300">
+                    <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">{item.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{item.body}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -764,7 +641,9 @@ export default function StrategyDiagnostic() {
     );
   }
 
-  // ── EMAIL GATE (NEW) ─────────────────────────────
+  // =====================================================
+  // EMAIL GATE
+  // =====================================================
   if (phase === 'email') {
     const emailError = emailTouched && !isValidEmail(email) ? 'Enter a valid email address' : null;
 
@@ -772,28 +651,16 @@ export default function StrategyDiagnostic() {
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
         <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-blue-400 text-sm font-medium tracking-wide uppercase mb-4">
-              {companyName ? `${companyName} · ` : ''}Diagnostic complete
-            </p>
-            <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">
-              One last step before your results
-            </h1>
-            <p className="text-gray-300 text-base leading-relaxed">
-              Enter your email so we can save your results and you can revisit them later.
-              No account, no password — just this.
-            </p>
+            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName} · Diagnostic complete</p>
+            <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">One last step, {founderName.split(' ')[0] || 'there'}</h1>
+            <p className="text-gray-300 text-base leading-relaxed">Enter Your Email so we can Save the Results for You to Revisit them Later.</p>
           </div>
         </section>
 
         <section className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md mx-auto">
-            <form
-              onSubmit={handleEmailSubmit}
-              className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm"
-            >
-              <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">
-                Email address
-              </label>
+            <form onSubmit={handleEmailSubmit} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm">
+              <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Email address</label>
               <input
                 type="email"
                 value={email}
@@ -802,14 +669,11 @@ export default function StrategyDiagnostic() {
                 placeholder="you@company.com"
                 autoFocus
                 className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm mb-1 ${
-                  emailError
-                    ? 'border-red-300 focus:ring-red-400'
-                    : 'border-gray-300 focus:ring-[#0A1E3D]'
+                  emailError ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
                 }`}
               />
-              {emailError && (
-                <p className="text-xs text-red-600 mb-3">{emailError}</p>
-              )}
+
+              {emailError && <p className="text-xs text-red-600 mb-3">{emailError}</p>}
               {!emailError && <div className="mb-3" />}
 
               {submitError && (
@@ -822,20 +686,10 @@ export default function StrategyDiagnostic() {
                 type="submit"
                 disabled={submitting}
                 className={`w-full py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${
-                  submitting
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
+                  submitting ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
                 }`}
               >
                 {submitting ? 'Saving your results…' : 'See my results'}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setPhase('questions')}
-                className="w-full text-center text-xs text-gray-400 hover:text-gray-600 mt-4 transition-colors duration-200"
-              >
-                ← Back to questions
               </button>
             </form>
           </div>
@@ -844,19 +698,18 @@ export default function StrategyDiagnostic() {
     );
   }
 
-  // ── RESULTS ─────────────────────────────────────
+  // =====================================================
+  // RESULTS
+  // =====================================================
   if (phase === 'results') {
     return (
       <main className="min-h-screen bg-[#F0F4F8]">
         <section className="bg-[#0A1E3D] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-blue-400 text-sm font-medium tracking-wide uppercase mb-4">
-              {companyName ? `${companyName} · ` : ''}Diagnostic Results
-            </p>
-            <h1 className="text-3xl sm:text-4xl text-white mb-3">Your Business Model Health Map</h1>
-            <p className="text-gray-400 text-sm">
-              {answeredCount} of {totalQ} questions answered
-            </p>
+          <div className="max-w-5xl mx-auto flex items-start justify-between gap-4">
+            <div>
+              <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName} · Diagnostic Results</p>
+              <h1 className="text-3xl sm:text-4xl text-white mb-3">Your Business Health Map</h1>
+            </div>
           </div>
         </section>
 
@@ -866,26 +719,26 @@ export default function StrategyDiagnostic() {
               <CanvasHeatmap answers={answers} />
             </div>
 
-            <div className="bg-[#0A1E3D] rounded-md p-6 sm:p-8">
-              <h3 className="text-white text-lg font-medium mb-2">What happens next?</h3>
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                This diagnostic identifies structural constraints — the things that are actually
-                limiting growth, not just the things that look broken on the surface. The areas
-                scored below 5 are where strategic work should begin.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={resetAll}
-                  className="flex-1 border border-blue-800 text-gray-300 hover:text-white hover:border-blue-600 py-3 px-6 rounded-md transition-all duration-300 font-medium text-sm"
-                >
-                  Start new assessment
-                </button>
-                <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md transition-all duration-300 font-medium text-sm flex items-center justify-center gap-2">
-                  Apply for a strategy engagement
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+            <div className="bg-[#0A1E3D] rounded-md p-8 sm:p-10">
+              <div className="grid md:grid-cols-3 gap-8 items-center">
+                <div className="md:col-span-2">
+                  <h3 className="text-white text-xl sm:text-2xl font-medium mb-3 leading-snug">
+                    {founderName.split(' ')[0] || 'Founder'}! You have merely scratched the surface.
+                  </h3>
+                  <p className="text-gray-300 text-xs sm:text-base">
+                    We&apos;ve diagnosed {companyName}. A preliminary diagnostic reveals key areas where strategic shifts could materially change {companyName}&apos;s direction.
+                    But this is only the beginning — 94% of founders who participated in our Business Diagnostic &amp; Direction have reported substantial, visible changes in their business in as little as 45 days.
+                  </p>
+                </div>
+
+                <div className="flex md:justify-end">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-8 rounded-md transition-all duration-300 font-medium text-sm sm:text-base flex items-center justify-center gap-2 whitespace-nowrap w-full md:w-auto">
+                    Book Your Session
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -894,155 +747,69 @@ export default function StrategyDiagnostic() {
     );
   }
 
-  // ── QUESTIONS ────────────────────────────────────
+  // =====================================================
+  // QUESTIONS
+  // =====================================================
   return (
     <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
-      {/* Sticky progress bar */}
-      <div className="sticky top-0 z-20 bg-white border-b border-gray-200">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
-              {companyName && (
-                <span className="text-xs text-gray-400 font-medium">{companyName}</span>
-              )}
-              <span className="text-xs text-gray-500">
-                Question {currentQ + 1} of {totalQ}
-              </span>
-              <span className="hidden sm:inline text-xs text-gray-400">·</span>
-              <span className="hidden sm:inline text-xs font-medium text-[#0A1E3D]">{q.module}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-400">{answeredCount} answered</span>
-            </div>
-          </div>
-          {/* Progress bar */}
-          <div className="h-1 bg-gray-100 rounded-full">
-            <div
-              className="h-full bg-[#0A1E3D] rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+      <style>{`
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(28px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        .slide-in-right { animation: slideInRight 0.28s ease-out; }
+      `}</style>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-8 pb-16">
+        <div className="w-full flex items-center justify-between mb-5 px-1">
+          <span className="text-sm text-gray-500 font-medium">Business diagnostic</span>
+          <span className="text-sm text-gray-600 font-semibold">{progress}% completed</span>
         </div>
-      </div>
 
-      {/* Question body */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 pb-16">
-        {/* Module label */}
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{q.module}</p>
+        <div key={q.id} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+          <p className="text-sm text-gray-500 mb-3">{q.module}</p>
+          <h2 className="text-2xl sm:text-3xl text-gray-800 mb-3 leading-snug">{q.text}</h2>
+          <p className="text-base text-gray-500 leading-relaxed mb-8">{q.helpText}</p>
 
-        {/* Question text */}
-        <h2 className="text-2xl sm:text-3xl text-gray-800 mb-3 leading-snug">{q.text}</h2>
-        <p className="text-gray-500 text-sm leading-relaxed mb-8">{q.helpText}</p>
-
-        {/* Score selector */}
-        <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 mb-4 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs text-gray-400">Critical / broken</span>
-            <span className="text-xs text-gray-400">Strong / exceptional</span>
-          </div>
-          <div className="grid grid-cols-10 gap-1.5 sm:gap-2">
-            {[1,2,3,4,5,6,7,8,9,10].map((v) => {
-              const isSelected = currentAnswer === v;
-              const colorClass =
-                v <= 3 ? (isSelected ? 'bg-red-600 text-white border-red-600' : 'border-red-200 text-red-700 hover:bg-red-50')
-                : v <= 5 ? (isSelected ? 'bg-amber-500 text-white border-amber-500' : 'border-amber-200 text-amber-700 hover:bg-amber-50')
-                : v <= 7 ? (isSelected ? 'bg-yellow-400 text-yellow-900 border-yellow-400' : 'border-yellow-200 text-yellow-700 hover:bg-yellow-50')
-                : v <= 9 ? (isSelected ? 'bg-green-600 text-white border-green-600' : 'border-green-200 text-green-700 hover:bg-green-50')
-                : (isSelected ? 'bg-emerald-600 text-white border-emerald-600' : 'border-emerald-200 text-emerald-700 hover:bg-emerald-50');
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5">
+            {SCALE.map((item) => {
+              const isSelected = currentAnswer === item.value;
               return (
                 <button
-                  key={v}
-                  onClick={() => handleAnswer(q.id, v)}
-                  className={`aspect-square rounded-md border text-sm font-semibold transition-all duration-150 ${colorClass} ${isSelected ? 'shadow-sm scale-105' : ''}`}
+                  key={item.value}
+                  onClick={() => handleAnswer(q.id, item.value)}
+                  className={`flex flex-col items-center justify-center gap-1 py-4 px-2 rounded-md border text-center transition-all duration-150 ${
+                    isSelected ? `${item.active} shadow-sm scale-[1.02]` : `bg-white ${item.idle}`
+                  }`}
                 >
-                  {v}
+                  <span className="text-base font-semibold">{item.label}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Live descriptor */}
-          {currentAnswer && (() => {
-            const scoreKeys = Object.keys(q.scores).map(Number).sort((a, b) => a - b);
-            let closest = scoreKeys[0];
-            for (const k of scoreKeys) { if (currentAnswer >= k) closest = k; }
-            const c = scoreToColor(currentAnswer);
-            return (
-              <div className={`mt-4 pt-4 border-t border-gray-100`}>
-                <p className="text-xs text-gray-400 mb-1">Score {currentAnswer} — {c.label}</p>
-                <p className={`text-sm ${c.text}`}>{q.scores[closest as keyof typeof q.scores]}</p>
-              </div>
-            );
-          })()}
+          {currentAnswer !== undefined && (
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <p className="text-sm text-gray-600 leading-relaxed">{q.scores[currentAnswer as keyof typeof q.scores]}</p>
+            </div>
+          )}
         </div>
 
-        {/* Reference guide */}
-        <div className="bg-white border border-gray-200 rounded-md overflow-hidden shadow-sm mb-8">
-          <div className="px-5 py-3 bg-gray-50 border-b border-gray-200">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Score reference guide</p>
-          </div>
-          {Object.entries(q.scores).sort(([a],[b]) => Number(a) - Number(b)).map(([score, desc]) => {
-            const sv = Number(score);
-            const isActive = currentAnswer !== undefined && Math.abs(currentAnswer - sv) <= 1;
-            const c = scoreToColor(sv);
+        <div className="flex items-center justify-center gap-2.5 mt-7" aria-label="Question progress">
+          {QUESTIONS.map((question, index) => {
+            const answered = answers[question.id] !== undefined;
+            const isCurrent = index === currentQ;
+
             return (
-              <button
-                key={score}
-                onClick={() => handleAnswer(q.id, sv)}
-                className={`w-full text-left flex gap-3 px-5 py-3 border-b border-gray-100 last:border-b-0 transition-colors duration-150 ${isActive ? c.bg : 'hover:bg-gray-50'}`}
-              >
-                <span className={`text-sm font-semibold min-w-[1.5rem] ${isActive ? c.text : 'text-gray-300'}`}>{score}</span>
-                <span className={`text-sm leading-relaxed ${isActive ? c.text : 'text-gray-500'}`}>{desc}</span>
-              </button>
+              <span
+                key={question.id}
+                aria-label={`Question ${index + 1}${answered ? ', answered' : ''}`}
+                className={`rounded-full transition-all duration-300 ${
+                  isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
+                }`}
+              />
             );
           })}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex gap-3">
-          <button
-            onClick={goPrev}
-            disabled={currentQ === 0}
-            className={`px-5 py-3 rounded-md border text-sm font-medium transition-all duration-200 ${
-              currentQ === 0
-                ? 'border-gray-100 text-gray-300 cursor-not-allowed'
-                : 'border-gray-300 text-gray-600 hover:border-gray-400 hover:text-gray-800'
-            }`}
-          >
-            ← Back
-          </button>
-          <button
-            onClick={goNext}
-            disabled={!currentAnswer}
-            className={`flex-1 py-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 group ${
-              currentAnswer
-                ? 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            <span>{currentQ === totalQ - 1 ? 'Continue' : 'Next question'}</span>
-            {currentAnswer && (
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            )}
-          </button>
-        </div>
-
-        {/* Progress dots */}
-        <div className="flex gap-1 mt-6 flex-wrap">
-          {QUESTIONS.map((question, i) => (
-            <button
-              key={question.id}
-              onClick={() => setCurrentQ(i)}
-              title={`Q${i + 1}: ${question.module}`}
-              className={`h-1.5 rounded-full transition-all duration-200 ${
-                i === currentQ ? 'bg-[#0A1E3D] w-6'
-                : answers[question.id] ? 'bg-[#0A1E3D]/40 w-3'
-                : 'bg-gray-300 w-3'
-              }`}
-            />
-          ))}
         </div>
       </div>
     </main>
