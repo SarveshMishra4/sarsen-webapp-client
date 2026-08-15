@@ -726,7 +726,6 @@ export default function StrategyDiagnostic() {
                   </p>
                 </div>
 
-                // ... existing code ...
 
                 <div className="flex md:justify-end">
                   <button
@@ -742,7 +741,6 @@ export default function StrategyDiagnostic() {
                   </button>
                 </div>
 
-// ... existing code ...
               </div>
             </div>
           </div>
