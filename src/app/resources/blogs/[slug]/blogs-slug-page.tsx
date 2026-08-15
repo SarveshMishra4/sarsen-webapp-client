@@ -7,7 +7,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBlogBySlug } from '@/services/blog.service';
-import BlogDetail from 'blogs-slug-blog.tsx';
+import BlogDetail from './blogs-slug-page';
 
 // Re-check this post's data every 5 minutes. Tune as needed — lower for
 // faster propagation of edits, higher to reduce backend load.
