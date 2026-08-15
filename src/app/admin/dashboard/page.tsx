@@ -82,6 +82,38 @@ export interface ApiFeedback {
   createdAt: string;
 }
 
+// ── NEW: Blog type — replaces the old local-state-only mock BlogPost ──────
+export interface ApiBlog {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  tag: string;
+  keywords: string[];
+  coverImageUrl: string;
+  authorName: string;
+  authorTitle?: string;
+  authorImageUrl?: string;
+  status: 'draft' | 'published';
+  publishedAt?: string;
+  readTimeMinutes: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoOgImage?: string;
+  canonicalUrl?: string;
+  images: { url: string; altText?: string; order: number }[];
+  report?: {
+    mockupImageUrl: string;
+    name: string;
+    description: string;
+    authors: string[];
+    releaseDate: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function AdminDashboard() {
@@ -103,6 +135,8 @@ export default function AdminDashboard() {
   const [notifications, setNotifications] = useState<ApiNotification[]>([]);
   const [feedback, setFeedback] = useState<ApiFeedback[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  // NEW: blogs state, same pattern as every other module above
+  const [blogs, setBlogs] = useState<ApiBlog[]>([]);
 
   // ── Loading / error state ─────────────────────────────────────────────────
   const [loading, setLoading] = useState(true);
@@ -119,7 +153,7 @@ export default function AdminDashboard() {
     setLoading(true);
     setError('');
     try {
-      const [engData, contactData, subData, couponData, serviceData, feedbackData] =
+      const [engData, contactData, subData, couponData, serviceData, feedbackData, blogData] =
         await Promise.all([
           apiRequest<{ engagements: ApiEngagement[] }>('GET', '/engagements/admin', { token }),
           apiRequest<{ submissions: ApiContact[] }>('GET', '/contact/admin', { token }),
@@ -127,6 +161,8 @@ export default function AdminDashboard() {
           apiRequest<{ coupons: ApiCoupon[] }>('GET', '/coupons/admin', { token }),
           apiRequest<{ services: ApiService[] }>('GET', '/services', { token }),
           apiRequest<{ feedback: ApiFeedback[] }>('GET', '/feedback/admin', { token }),
+          // NEW: fetch blogs alongside everything else
+          apiRequest<{ blogs: ApiBlog[] }>('GET', '/blogs/admin', { token }),
         ]);
       setEngagements(engData.engagements ?? []);
       setContacts(contactData.submissions ?? []);
@@ -134,6 +170,8 @@ export default function AdminDashboard() {
       setCoupons(couponData.coupons ?? []);
       setServices(serviceData.services ?? []);
       setFeedback(feedbackData.feedback ?? []);
+      // NEW
+      setBlogs(blogData.blogs ?? []);
     } catch (err: any) {
       setError(err.message ?? 'Failed to load dashboard data.');
     } finally {
@@ -428,7 +466,10 @@ export default function AdminDashboard() {
                   token={token ?? ''}
                 />
               )}
-              {activeTab === 'blogs' && <BlogsTab />}
+              {/* CHANGED: BlogsTab now receives real props instead of rendering with none */}
+              {activeTab === 'blogs' && (
+                <BlogsTab blogs={blogs} setBlogs={setBlogs} token={token ?? ''} />
+              )}
               {activeTab === 'cohorts' && <CohortsTab />}
             </>
           )}

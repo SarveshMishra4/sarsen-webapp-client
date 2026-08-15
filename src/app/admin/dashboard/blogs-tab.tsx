@@ -1,90 +1,217 @@
 'use client';
 
 // blogs-tab.tsx
-// This tab is static — blog management is not wired to the backend.
-// The original UI is preserved exactly. Local state only.
+// Wired to the real backend (was: local state only, mock data).
+// Follows the exact same props/API-call pattern as coupons-tab.tsx.
 
 import React, { useState } from 'react';
+import type { ApiBlog } from './page';
+import { createBlog, updateBlog, publishBlog, unpublishBlog, deleteBlog, type BlogPayload } from '@/services/blog.service';
+import { RichTextEditor } from '@/features/blog-admin/RichTextEditor';
+import { ImageUploadField } from '@/features/blog-admin/ImageUploadField';
 
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  category: string;
-  tags: string[];
-  featuredImage?: string;
-  publishedAt?: string;
-  status: 'draft' | 'published' | 'scheduled';
-  views: number;
+const BLOG_TAGS = [
+  'Strategy', 'Revenue', 'Finance', 'Metrics', 'PMF', 'Operations',
+  'Thinking', 'Fundraising', 'Customers', 'Advisory', 'Product',
+] as const;
+
+interface BlogsTabProps {
+  blogs: ApiBlog[];
+  setBlogs: React.Dispatch<React.SetStateAction<ApiBlog[]>>;
+  token: string;
 }
 
-export function BlogsTab() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [isCreating,    setIsCreating]    = useState(false);
-  const [editingPost,   setEditingPost]   = useState<BlogPost | null>(null);
-  const [formData,      setFormData]      = useState<Partial<BlogPost>>({
-    title: '', slug: '', content: '', excerpt: '',
-    author: 'Admin', category: '', tags: [], status: 'draft',
-  });
+type FormState = {
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  tag: string;
+  keywords: string; // comma-separated in the UI, split on save
+  coverImageUrl: string;
+  authorName: string;
+  authorTitle: string;
+  authorImageUrl: string;
+  images: { url: string; altText?: string; order: number }[];
+  seoTitle: string;
+  seoDescription: string;
+  seoOgImage: string;
+  canonicalUrl: string;
+  hasReport: boolean;
+  reportMockupImageUrl: string;
+  reportName: string;
+  reportDescription: string;
+  reportAuthors: string; // comma-separated, 1-3 after split
+  reportReleaseDate: string;
+};
+
+const EMPTY_FORM: FormState = {
+  title: '', slug: '', excerpt: '', content: '', tag: BLOG_TAGS[0], keywords: '',
+  coverImageUrl: '', authorName: '', authorTitle: '', authorImageUrl: '', images: [],
+  seoTitle: '', seoDescription: '', seoOgImage: '', canonicalUrl: '',
+  hasReport: false, reportMockupImageUrl: '', reportName: '', reportDescription: '',
+  reportAuthors: '', reportReleaseDate: '',
+};
+
+function blogToForm(post: ApiBlog): FormState {
+  return {
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    content: post.content,
+    tag: post.tag,
+    keywords: (post.keywords || []).join(', '),
+    coverImageUrl: post.coverImageUrl,
+    authorName: post.authorName,
+    authorTitle: post.authorTitle || '',
+    authorImageUrl: post.authorImageUrl || '',
+    images: post.images || [],
+    seoTitle: post.seoTitle || '',
+    seoDescription: post.seoDescription || '',
+    seoOgImage: post.seoOgImage || '',
+    canonicalUrl: post.canonicalUrl || '',
+    hasReport: !!post.report,
+    reportMockupImageUrl: post.report?.mockupImageUrl || '',
+    reportName: post.report?.name || '',
+    reportDescription: post.report?.description || '',
+    reportAuthors: (post.report?.authors || []).join(', '),
+    reportReleaseDate: post.report?.releaseDate ? post.report.releaseDate.slice(0, 10) : '',
+  };
+}
+
+function formToPayload(form: FormState): BlogPayload {
+  return {
+    title: form.title,
+    slug: form.slug || undefined,
+    excerpt: form.excerpt,
+    content: form.content,
+    tag: form.tag,
+    keywords: form.keywords.split(',').map(k => k.trim()).filter(Boolean),
+    coverImageUrl: form.coverImageUrl,
+    authorName: form.authorName,
+    authorTitle: form.authorTitle || undefined,
+    authorImageUrl: form.authorImageUrl || undefined,
+    images: form.images,
+    seoTitle: form.seoTitle || undefined,
+    seoDescription: form.seoDescription || undefined,
+    seoOgImage: form.seoOgImage || undefined,
+    canonicalUrl: form.canonicalUrl || undefined,
+    report: form.hasReport
+      ? {
+          mockupImageUrl: form.reportMockupImageUrl,
+          name: form.reportName,
+          description: form.reportDescription,
+          authors: form.reportAuthors.split(',').map(a => a.trim()).filter(Boolean),
+          releaseDate: form.reportReleaseDate,
+        }
+      : undefined,
+  };
+}
+
+export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
+  const [isCreating, setIsCreating] = useState(false);
+  const [editingPost, setEditingPost] = useState<ApiBlog | null>(null);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [showSeo, setShowSeo] = useState(false);
 
   const handleCreateNew = () => {
     setIsCreating(true);
     setEditingPost(null);
-    setFormData({ title: '', slug: '', content: '', excerpt: '', author: 'Admin', category: '', tags: [], status: 'draft' });
+    setForm(EMPTY_FORM);
+    setError('');
   };
 
-  const handleEdit = (post: BlogPost) => {
+  const handleEdit = (post: ApiBlog) => {
     setIsCreating(true);
     setEditingPost(post);
-    setFormData(post);
+    setForm(blogToForm(post));
+    setError('');
   };
 
-  const handleSave = () => {
-    if (!formData.title || !formData.content) {
-      alert('Please fill in required fields');
+  const validate = (): string | null => {
+    if (!form.title.trim()) return 'Title is required.';
+    if (!form.excerpt.trim()) return 'Excerpt is required.';
+    if (!form.content.trim()) return 'Content is required.';
+    if (!form.coverImageUrl) return 'Cover image is required.';
+    if (!form.authorName.trim()) return 'Author name is required.';
+    if (form.hasReport) {
+      if (!form.reportMockupImageUrl) return 'Report mockup image is required.';
+      if (!form.reportName.trim()) return 'Report name is required.';
+      if (!form.reportDescription.trim()) return 'Report description is required.';
+      const authorCount = form.reportAuthors.split(',').map(a => a.trim()).filter(Boolean).length;
+      if (authorCount < 1 || authorCount > 3) return 'Report must have between 1 and 3 authors.';
+      if (!form.reportReleaseDate) return 'Report release date is required.';
+    }
+    return null;
+  };
+
+  const handleSave = async () => {
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       return;
     }
-    if (editingPost) {
-      setBlogPosts(prev => prev.map(p => p.id === editingPost.id ? { ...p, ...formData } as BlogPost : p));
-    } else {
-      const newPost: BlogPost = {
-        id:       Date.now().toString(),
-        title:    formData.title!,
-        slug:     formData.slug || formData.title!.toLowerCase().replace(/\s+/g, '-'),
-        content:  formData.content!,
-        excerpt:  formData.excerpt || formData.content!.substring(0, 150) + '...',
-        author:   formData.author!,
-        category: formData.category!,
-        tags:     formData.tags!,
-        status:   formData.status!,
-        views:    0,
-      };
-      setBlogPosts(prev => [...prev, newPost]);
-    }
-    setIsCreating(false);
-    setEditingPost(null);
-  };
 
-  const handlePublish = (id: string) => {
-    setBlogPosts(prev => prev.map(p =>
-      p.id === id ? { ...p, status: 'published' as const, publishedAt: new Date().toISOString() } : p
-    ));
-  };
-
-  const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this post?')) {
-      setBlogPosts(prev => prev.filter(p => p.id !== id));
+    setSaving(true);
+    setError('');
+    try {
+      const payload = formToPayload(form);
+      if (editingPost) {
+        const result = await updateBlog(editingPost._id, payload, token);
+        setBlogs(prev => prev.map(p => (p._id === editingPost._id ? result.blog : p)));
+      } else {
+        const result = await createBlog(payload, token);
+        setBlogs(prev => [result.blog, ...prev]);
+      }
+      setIsCreating(false);
+      setEditingPost(null);
+    } catch (err: any) {
+      setError(err.message || 'Failed to save blog post.');
+    } finally {
+      setSaving(false);
     }
   };
+
+  const handlePublish = async (id: string) => {
+    try {
+      const result = await publishBlog(id, token);
+      setBlogs(prev => prev.map(p => (p._id === id ? result.blog : p)));
+    } catch (err: any) {
+      setError(err.message || 'Failed to publish.');
+    }
+  };
+
+  const handleUnpublish = async (id: string) => {
+    try {
+      const result = await unpublishBlog(id, token);
+      setBlogs(prev => prev.map(p => (p._id === id ? result.blog : p)));
+    } catch (err: any) {
+      setError(err.message || 'Failed to unpublish.');
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+    try {
+      await deleteBlog(id, token);
+      setBlogs(prev => prev.filter(p => p._id !== id));
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete.');
+    }
+  };
+
+  const filteredBlogs = blogs.filter(p => (filterStatus === 'all' ? true : p.status === filterStatus));
 
   if (isCreating) {
     return (
       <div className="bg-white rounded-md p-8 shadow-sm border border-gray-200">
         <div className="flex items-center justify-between mb-8">
-          <h3 className="text-2xl font-medium text-gray-800">{editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}</h3>
+          <h3 className="text-2xl font-medium text-gray-800">
+            {editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}
+          </h3>
           <button onClick={() => setIsCreating(false)} className="text-gray-600 hover:text-gray-800">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -92,68 +219,279 @@ export function BlogsTab() {
           </button>
         </div>
 
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-md px-4 py-3 mb-6">
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
+        {editingPost?.status === 'published' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-md px-4 py-3 mb-6">
+            <p className="text-sm text-blue-700">
+              This post is published — the URL slug is locked and cannot be changed.
+            </p>
+          </div>
+        )}
+
         <div className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
-              <input type="text" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
+              <input
+                type="text"
+                value={form.title}
+                onChange={e => setForm({ ...form, title: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter post title" />
+                placeholder="Enter post title"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Slug</label>
-              <input type="text" value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="url-friendly-slug" />
+              <input
+                type="text"
+                value={form.slug}
+                onChange={e => setForm({ ...form, slug: e.target.value })}
+                disabled={editingPost?.status === 'published'}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+                placeholder="Leave blank to auto-generate from title"
+              />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
-            <textarea value={formData.excerpt} onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
-              rows={3} className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Brief description of the post" />
+            <label className="block text-sm font-medium text-gray-700 mb-2">Excerpt *</label>
+            <textarea
+              value={form.excerpt}
+              onChange={e => setForm({ ...form, excerpt: e.target.value })}
+              rows={3}
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Brief description of the post"
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Content *</label>
-            <textarea value={formData.content} onChange={e => setFormData({ ...formData, content: e.target.value })}
-              rows={15} className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-              placeholder="Write your blog post content here... (Markdown supported)" />
+            <RichTextEditor value={form.content} onChange={html => setForm({ ...form, content: html })} />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <input type="text" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tag *</label>
+              <select
+                value={form.tag}
+                onChange={e => setForm({ ...form, tag: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., Strategy" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tags (comma-separated)</label>
-              <input type="text" value={formData.tags?.join(', ')}
-                onChange={e => setFormData({ ...formData, tags: e.target.value.split(',').map(t => t.trim()) })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="startup, growth, funding" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-              <select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value as BlogPost['status'] })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="scheduled">Scheduled</option>
+              >
+                {BLOG_TAGS.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
               </select>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Keywords (comma-separated)</label>
+              <input
+                type="text"
+                value={form.keywords}
+                onChange={e => setForm({ ...form, keywords: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. seed funding, valuation, term sheet"
+              />
+              <p className="text-xs text-gray-400 mt-1">Shown as visible chips on the published post.</p>
+            </div>
+          </div>
+
+          <ImageUploadField
+            mode="single"
+            label="Cover Image *"
+            folder="blog-covers"
+            token={token}
+            value={form.coverImageUrl}
+            onChange={url => setForm({ ...form, coverImageUrl: url })}
+          />
+
+          <ImageUploadField
+            mode="multi"
+            label="Gallery Images"
+            folder="blog-gallery"
+            token={token}
+            value={form.images}
+            onChange={images => setForm({ ...form, images })}
+          />
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Author Name *</label>
+              <input
+                type="text"
+                value={form.authorName}
+                onChange={e => setForm({ ...form, authorName: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Dr. Ananya Sharma"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Author Title</label>
+              <input
+                type="text"
+                value={form.authorTitle}
+                onChange={e => setForm({ ...form, authorTitle: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Partner, Strategy Practice"
+              />
+            </div>
+          </div>
+
+          <ImageUploadField
+            mode="single"
+            label="Author Image"
+            folder="blog-authors"
+            token={token}
+            value={form.authorImageUrl}
+            onChange={url => setForm({ ...form, authorImageUrl: url })}
+          />
+
+          {/* SEO section */}
+          <div className="border-t border-gray-200 pt-6">
+            <button
+              type="button"
+              onClick={() => setShowSeo(v => !v)}
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+            >
+              {showSeo ? 'Hide' : 'Show'} Advanced SEO Overrides
+              <svg
+                className={`w-4 h-4 transition-transform ${showSeo ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showSeo && (
+              <div className="grid md:grid-cols-2 gap-6 mt-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">SEO Title</label>
+                  <input
+                    type="text"
+                    value={form.seoTitle}
+                    onChange={e => setForm({ ...form, seoTitle: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={form.title || 'Defaults to Title'}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">SEO Description</label>
+                  <input
+                    type="text"
+                    value={form.seoDescription}
+                    onChange={e => setForm({ ...form, seoDescription: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={form.excerpt || 'Defaults to Excerpt'}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">OG Image URL</label>
+                  <input
+                    type="text"
+                    value={form.seoOgImage}
+                    onChange={e => setForm({ ...form, seoOgImage: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Defaults to Cover Image"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Canonical URL</label>
+                  <input
+                    type="text"
+                    value={form.canonicalUrl}
+                    onChange={e => setForm({ ...form, canonicalUrl: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Defaults to /blog/${form.slug || '...'}`}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Report section */}
+          <div className="border-t border-gray-200 pt-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={form.hasReport}
+                onChange={e => setForm({ ...form, hasReport: e.target.checked })}
+                className="w-4 h-4 rounded"
+              />
+              <span className="text-sm font-medium text-gray-700">This post has an associated report</span>
+            </label>
+
+            {form.hasReport && (
+              <div className="mt-4 space-y-6 bg-gray-50 rounded-md p-6 border border-gray-200">
+                <ImageUploadField
+                  mode="single"
+                  label="Report Mockup Image *"
+                  folder="blog-reports"
+                  token={token}
+                  value={form.reportMockupImageUrl}
+                  onChange={url => setForm({ ...form, reportMockupImageUrl: url })}
+                />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Report Name *</label>
+                  <input
+                    type="text"
+                    value={form.reportName}
+                    onChange={e => setForm({ ...form, reportName: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Report Description *</label>
+                  <textarea
+                    value={form.reportDescription}
+                    onChange={e => setForm({ ...form, reportDescription: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Authors (1–3, comma-separated) *
+                    </label>
+                    <input
+                      type="text"
+                      value={form.reportAuthors}
+                      onChange={e => setForm({ ...form, reportAuthors: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="e.g. Rahul Mehta, Priya Krishnan"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Release Date *</label>
+                    <input
+                      type="date"
+                      value={form.reportReleaseDate}
+                      onChange={e => setForm({ ...form, reportReleaseDate: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
-            <button onClick={handleSave}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
-              {editingPost ? 'Update Post' : 'Save Post'}
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors disabled:opacity-50"
+            >
+              {saving ? 'Saving…' : editingPost ? 'Update Post' : 'Save Draft'}
             </button>
-            <button onClick={() => setIsCreating(false)}
-              className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium transition-colors">
+            <button
+              onClick={() => setIsCreating(false)}
+              className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium transition-colors"
+            >
               Cancel
             </button>
           </div>
@@ -166,16 +504,35 @@ export function BlogsTab() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
-          <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded-md text-sm font-medium">All ({blogPosts.length})</button>
-          <button className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md text-sm font-medium">
-            Published ({blogPosts.filter(p => p.status === 'published').length})
+          <button
+            onClick={() => setFilterStatus('all')}
+            className={`px-4 py-2 rounded-md text-sm font-medium ${
+              filterStatus === 'all' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            All ({blogs.length})
           </button>
-          <button className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md text-sm font-medium">
-            Drafts ({blogPosts.filter(p => p.status === 'draft').length})
+          <button
+            onClick={() => setFilterStatus('published')}
+            className={`px-4 py-2 rounded-md text-sm font-medium ${
+              filterStatus === 'published' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            Published ({blogs.filter(p => p.status === 'published').length})
+          </button>
+          <button
+            onClick={() => setFilterStatus('draft')}
+            className={`px-4 py-2 rounded-md text-sm font-medium ${
+              filterStatus === 'draft' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            Drafts ({blogs.filter(p => p.status === 'draft').length})
           </button>
         </div>
-        <button onClick={handleCreateNew}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors flex items-center gap-2 self-start">
+        <button
+          onClick={handleCreateNew}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors flex items-center gap-2 self-start"
+        >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
@@ -183,54 +540,103 @@ export function BlogsTab() {
         </button>
       </div>
 
-      {blogPosts.length === 0 ? (
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-md px-4 py-3">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
+
+      {filteredBlogs.length === 0 ? (
         <div className="bg-white rounded-md border border-gray-200 p-12 text-center">
-          <p className="text-gray-400">No blog posts yet. Click "Create New Post" to get started.</p>
+          <p className="text-gray-400">No blog posts yet. Click &quot;Create New Post&quot; to get started.</p>
         </div>
       ) : (
         <div className="space-y-4">
-          {blogPosts.map(post => (
-            <div key={post.id} className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
+          {filteredBlogs.map(post => (
+            <div key={post._id} className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
                     <h3 className="text-xl font-medium text-gray-800">{post.title}</h3>
-                    <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                      post.status === 'published' ? 'bg-green-100 text-green-700' :
-                      post.status === 'draft'     ? 'bg-gray-100 text-gray-700' :
-                                                    'bg-blue-100 text-blue-700'
-                    }`}>
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full font-medium ${
+                        post.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
                       {post.status}
                     </span>
+                    {post.report && (
+                      <span className="text-xs px-3 py-1 rounded-full font-medium bg-purple-100 text-purple-700">
+                        Has Report
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{post.excerpt}</p>
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                    <span>By {post.author}</span>
+                    <span>By {post.authorName}</span>
                     <span>•</span>
-                    <span>{post.category}</span>
+                    <span>{post.tag}</span>
                     <span>•</span>
-                    <span>{post.views} views</span>
+                    <span>{post.readTimeMinutes} min read</span>
                     {post.publishedAt && (
-                      <><span>•</span><span>{new Date(post.publishedAt).toLocaleDateString()}</span></>
+                      <>
+                        <span>•</span>
+                        <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                      </>
                     )}
                   </div>
                 </div>
                 <div className="flex gap-2 self-end sm:self-start">
-                  <button onClick={() => handleEdit(post)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
+                  <button
+                    onClick={() => handleEdit(post)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                  >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
                     </svg>
                   </button>
-                  {post.status !== 'published' && (
-                    <button onClick={() => handlePublish(post.id)} className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors">
+                  {post.status === 'published' ? (
+                    <button
+                      onClick={() => handleUnpublish(post._id)}
+                      className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-md transition-colors"
+                      title="Move to draft"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handlePublish(post._id)}
+                      className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                      title="Publish"
+                    >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </button>
                   )}
-                  <button onClick={() => handleDelete(post.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors">
+                  <button
+                    onClick={() => handleDelete(post._id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                  >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
                     </svg>
                   </button>
                 </div>
