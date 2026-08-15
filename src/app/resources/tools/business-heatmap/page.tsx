@@ -733,7 +733,7 @@ export default function StrategyDiagnostic() {
                     onClick={() => {
                       window.location.href = '/services/business-diagnostic-direction';
                     }}
-                    className="bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-8 rounded-md transition-all duration-300 font-medium text-sm sm:text-base flex items-center justify-center gap-2 whitespace-nowrap w-full md:w-auto"
+                    className="bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 text-white py-3.5 px-8 rounded-md transition-all duration-300 font-medium text-sm sm:text-base flex items-center justify-center gap-2 whitespace-nowrap w-full md:w-auto"
                   >
                     Book Your Session
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
