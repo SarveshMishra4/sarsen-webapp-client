@@ -233,12 +233,12 @@ const SCALE: {
   idle: string;
   dot: string;
 }[] = [
-  { value: 1, label: 'Critical', active: 'bg-red-600 text-white border-red-600', idle: 'border-red-200 text-red-700 hover:bg-red-50', dot: 'bg-red-500' },
-  { value: 3, label: 'Weak', active: 'bg-amber-500 text-white border-amber-500', idle: 'border-amber-200 text-amber-700 hover:bg-amber-50', dot: 'bg-amber-500' },
-  { value: 5, label: 'Developing', active: 'bg-yellow-400 text-yellow-900 border-yellow-400', idle: 'border-yellow-200 text-yellow-700 hover:bg-yellow-50', dot: 'bg-yellow-400' },
-  { value: 7, label: 'Healthy', active: 'bg-green-600 text-white border-green-600', idle: 'border-green-200 text-green-700 hover:bg-green-50', dot: 'bg-green-500' },
-  { value: 10, label: 'Strong', active: 'bg-emerald-600 text-white border-emerald-600', idle: 'border-emerald-200 text-emerald-700 hover:bg-emerald-50', dot: 'bg-emerald-500' },
-];
+    { value: 1, label: 'Critical', active: 'bg-red-600 text-white border-red-600', idle: 'border-red-200 text-red-700 hover:bg-red-50', dot: 'bg-red-500' },
+    { value: 3, label: 'Weak', active: 'bg-amber-500 text-white border-amber-500', idle: 'border-amber-200 text-amber-700 hover:bg-amber-50', dot: 'bg-amber-500' },
+    { value: 5, label: 'Developing', active: 'bg-yellow-400 text-yellow-900 border-yellow-400', idle: 'border-yellow-200 text-yellow-700 hover:bg-yellow-50', dot: 'bg-yellow-400' },
+    { value: 7, label: 'Healthy', active: 'bg-green-600 text-white border-green-600', idle: 'border-green-200 text-green-700 hover:bg-green-50', dot: 'bg-green-500' },
+    { value: 10, label: 'Strong', active: 'bg-emerald-600 text-white border-emerald-600', idle: 'border-emerald-200 text-emerald-700 hover:bg-emerald-50', dot: 'bg-emerald-500' },
+  ];
 
 // =====================================================
 // CANVAS AREA DEFINITIONS
@@ -295,10 +295,10 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
 
   const circleColor = overallAvg === null ? '#9CA3AF'
     : overallAvg <= 3 ? '#dc2626'
-    : overallAvg <= 5 ? '#d97706'
-    : overallAvg <= 7 ? '#ca8a04'
-    : overallAvg <= 9 ? '#16a34a'
-    : '#059669';
+      : overallAvg <= 5 ? '#d97706'
+        : overallAvg <= 7 ? '#ca8a04'
+          : overallAvg <= 9 ? '#16a34a'
+            : '#059669';
 
   const modules = [
     { label: 'Market', ids: ['q1', 'q3'] },
@@ -347,9 +347,9 @@ function CanvasHeatmap({ answers }: { answers: Record<string, number> }) {
             <p className="text-lg font-medium text-[#0A1E3D]">
               {overallAvg <= 3 ? 'Critical — fundamental rethinking required before any growth decision'
                 : overallAvg <= 5 ? 'Weak — significant structural gaps that limit scalability'
-                : overallAvg <= 7 ? 'Developing — workable foundation, but moat-building is urgent'
-                : overallAvg <= 9 ? 'Healthy — solid base, continue building with discipline'
-                : 'Strong — scale with confidence'}
+                  : overallAvg <= 7 ? 'Developing — workable foundation, but moat-building is urgent'
+                    : overallAvg <= 9 ? 'Healthy — solid base, continue building with discipline'
+                      : 'Strong — scale with confidence'}
             </p>
           </div>
         </div>
@@ -561,9 +561,8 @@ export default function StrategyDiagnostic() {
                     value={founderName}
                     onChange={(e) => setFounderName(e.target.value)}
                     placeholder="e.g. Priya Menon"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
-                      showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
-                    }`}
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                      }`}
                   />
                   {showErrors && !founderName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Name</p>}
                 </div>
@@ -575,9 +574,8 @@ export default function StrategyDiagnostic() {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. SpaceX or Freshworks"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
-                      showErrors && !companyName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
-                    }`}
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !companyName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                      }`}
                   />
                   {showErrors && !companyName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Business Name</p>}
                 </div>
@@ -589,9 +587,8 @@ export default function StrategyDiagnostic() {
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
                     placeholder="e.g. Healthcare or Fintech"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${
-                      showErrors && !industry.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
-                    }`}
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !industry.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                      }`}
                   />
                   {showErrors && !industry.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Sector or Domain</p>}
                 </div>
@@ -668,9 +665,8 @@ export default function StrategyDiagnostic() {
                 onBlur={() => setEmailTouched(true)}
                 placeholder="you@company.com"
                 autoFocus
-                className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm mb-1 ${
-                  emailError ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
-                }`}
+                className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm mb-1 ${emailError ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                  }`}
               />
 
               {emailError && <p className="text-xs text-red-600 mb-3">{emailError}</p>}
@@ -685,9 +681,8 @@ export default function StrategyDiagnostic() {
               <button
                 type="submit"
                 disabled={submitting}
-                className={`w-full py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${
-                  submitting ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
-                }`}
+                className={`w-full py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${submitting ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
+                  }`}
               >
                 {submitting ? 'Saving your results…' : 'See my results'}
               </button>
@@ -731,14 +726,23 @@ export default function StrategyDiagnostic() {
                   </p>
                 </div>
 
+                // ... existing code ...
+
                 <div className="flex md:justify-end">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-8 rounded-md transition-all duration-300 font-medium text-sm sm:text-base flex items-center justify-center gap-2 whitespace-nowrap w-full md:w-auto">
+                  <button
+                    onClick={() => {
+                      window.location.href = '/services/business-diagnostic-direction';
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-8 rounded-md transition-all duration-300 font-medium text-sm sm:text-base flex items-center justify-center gap-2 whitespace-nowrap w-full md:w-auto"
+                  >
                     Book Your Session
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
+
+// ... existing code ...
               </div>
             </div>
           </div>
@@ -778,9 +782,8 @@ export default function StrategyDiagnostic() {
                 <button
                   key={item.value}
                   onClick={() => handleAnswer(q.id, item.value)}
-                  className={`flex flex-col items-center justify-center gap-1 py-4 px-2 rounded-md border text-center transition-all duration-150 ${
-                    isSelected ? `${item.active} shadow-sm scale-[1.02]` : `bg-white ${item.idle}`
-                  }`}
+                  className={`flex flex-col items-center justify-center gap-1 py-4 px-2 rounded-md border text-center transition-all duration-150 ${isSelected ? `${item.active} shadow-sm scale-[1.02]` : `bg-white ${item.idle}`
+                    }`}
                 >
                   <span className="text-base font-semibold">{item.label}</span>
                 </button>
@@ -804,9 +807,8 @@ export default function StrategyDiagnostic() {
               <span
                 key={question.id}
                 aria-label={`Question ${index + 1}${answered ? ', answered' : ''}`}
-                className={`rounded-full transition-all duration-300 ${
-                  isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
-                }`}
+                className={`rounded-full transition-all duration-300 ${isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
+                  }`}
               />
             );
           })}
