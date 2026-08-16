@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/dist/client/link';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 
 // =====================================================
@@ -13,7 +13,7 @@ const AboutHero = () => {
     <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
+
           <div className="space-y-8 lg:space-y-10">
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white  ">
@@ -24,7 +24,7 @@ const AboutHero = () => {
               </p>
             </div>
 
-            
+
           </div>
 
           <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
@@ -54,36 +54,36 @@ const WhyWeExistSection = () => {
             Why We Exist
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 ">
-            Growth-stage businesses face decisions that are irreversible, capital-intensive, and time-bound. 
-            Yet many founders are forced to rely on advice that is generic, surface-level, and detached from 
-            the realities of operating under real constraints.
+            For a long time, strategy has been treated as a planning exercise. It isn't. Strategy is about
+            obtaining compounding results in a specific direction — for startups building from zero and
+            corporations scaling what already works.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
-            
-            <h3 className="text-2xl font-medium text-gray-800 mb-4">The Problem</h3>
+
+            <h3 className="text-2xl font-medium text-gray-800 mb-4">Execution Is the Surface</h3>
             <p className="text-gray-600  mb-4">
-              Most advisory firms rely on standardized frameworks and recycled playbooks. The output often 
-              looks polished, but fails to account for context, constraints, and execution realities.
+              Execution directly affects the outcome, and the quality of execution matters. The connection
+              between the two is visible at the surface itself — you can see effort, activity, and output.
             </p>
             <p className="text-gray-600 ">
-              Founders do not need theoretical advice. They need decision-grade analysis that clarifies trade-offs, 
-              highlights risks, and supports actions that can actually be executed.
+              But execution in its raw form does not give compounding results. Effort alone doesn't build
+              on itself unless it's placed in the right order, for the right reasons, at the right time.
             </p>
           </div>
 
           <div className="bg-white rounded-md shadow-lg p-6 sm:p-8 lg:p-10 hover:shadow-xl transition-all duration-300">
-            
-            <h3 className="text-2xl font-medium text-gray-800 mb-4">Our Solution</h3>
+
+            <h3 className="text-2xl font-medium text-gray-800 mb-4">Strategy Is the Direction</h3>
             <p className="text-gray-600  mb-4">
-              We exist to address this gap through a diagnostic-first approach. Every engagement begins with 
-              understanding how the business actually works—financially, operationally, and strategically.
+              Strategy is what gives execution a direction. It tells it what to build, when to build it, and
+              how — so that the same effort produces a faster, better, stronger, more stable result.
             </p>
             <p className="text-gray-600 ">
-              We do not position ourselves as passive advisors. We work alongside founders to structure 
-              decisions using data, analysis, and a clear understanding of second-order effects.
+              To achieve compounding results, execution has to be placed in the right sequence — so each
+              step builds on the last, and the outcome compounds instead of resetting.
             </p>
           </div>
         </div>
@@ -92,9 +92,9 @@ const WhyWeExistSection = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-2xl sm:text-3xl  mb-4">Our Core Belief</h3>
             <p className="text-base sm:text-lg lg:text-xl  opacity-95">
-              Strategy is not storytelling. It is the disciplined process of making informed decisions under 
-              uncertainty. Every recommendation we deliver is grounded in evidence, quantitative reasoning, 
-              and a clear view of what can realistically be executed.
+              Strategy, in its essence, is the plan for generating compounding effects out of the same
+              execution. We don't exist to protect what you have — we exist to help you grow it,
+              deliberately and in the right sequence.
             </p>
           </div>
         </div>
@@ -112,7 +112,7 @@ const MissionVisionSection = () => {
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-          
+
           {/* Mission */}
           <div className="bg-white/5 backdrop-blur-sm rounded-md p-6 sm:p-8 lg:p-12 border border-white/10 hover:bg-white/10 transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
@@ -124,7 +124,7 @@ const MissionVisionSection = () => {
               <h2 className="text-3xl sm:text-4xl  text-white">Our Mission</h2>
             </div>
             <p className="text-gray-300 text-base sm:text-lg  mb-6">
-              To empower growth-stage businesses with strategic clarity through diagnostic rigor, quantitative 
+              To empower growth-stage businesses with strategic clarity through diagnostic rigor, quantitative
               analysis, and fact-based insights that drive sustainable competitive advantage.
             </p>
             <div className="space-y-3">
@@ -161,7 +161,7 @@ const MissionVisionSection = () => {
               <h2 className="text-3xl sm:text-4xl  text-white">Our Vision</h2>
             </div>
             <p className="text-gray-300 text-base sm:text-lg  mb-6">
-              To become the most trusted strategic partner for India's growth-stage businesses, known for our 
+              To become the most trusted strategic partner for India's growth-stage businesses, known for our
               unwavering commitment to diagnostic excellence and measurable business impact.
             </p>
             <div className="space-y-3">
@@ -270,7 +270,7 @@ const ThesisSection = () => {
             Our Strategic Thesis
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto ">
-            Our work is guided by a clear thesis: strategy should reduce uncertainty, clarify trade-offs, 
+            Our work is guided by a clear thesis: strategy should reduce uncertainty, clarify trade-offs,
             and enable decisive action under real-world constraints.
           </p>
         </div>
@@ -282,7 +282,7 @@ const ThesisSection = () => {
               className="bg-white rounded-md shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-6">
-                
+
                 <div>
                   <h3 className="text-2xl font-medium text-gray-800 mb-2">
                     {principle.title}
@@ -294,7 +294,7 @@ const ThesisSection = () => {
                 {principle.description}
               </p>
 
-              
+
             </div>
           ))}
         </div>
@@ -361,175 +361,181 @@ const ThesisSection = () => {
 interface TeamMember {
   name: string;
   role: string;
+  location: string;
   tier: 'Leadership' | 'Associate' | 'Analyst';
   bio: string;
   image: string;
 }
 
 const TeamSection = () => {
-const BASE_MEMBERS: TeamMember[] = [
-  {
-    name: 'Sameer Dhaiya',
-    role: 'Head of Supply Chain',
-    tier: 'Leadership',
-    bio: 'Over a decade of experience managing end-to-end supply chain operations across manufacturing and consumer businesses. Has led procurement restructuring, vendor consolidation, and logistics optimisation for businesses at various stages of scale.',
-    image: '/assets/about/people/Sameer.png'
-  },
-  {
-    name: 'Sarvesh Mishra',
-    role: 'Head of Strategy',
-    tier: 'Leadership',
-    bio: 'A former entrepreneur who built and scaled a services business before moving into strategy advisory. Has worked extensively in private equity deal evaluation and portfolio strategy, bringing a founder\'s pragmatism to every engagement.',
-    image: '/assets/about/people/Sarvesh.png'
-  },
-  {
-    name: 'Vishal Gupta',
-    role: 'Head of Business & Operations',
-    tier: 'Leadership',
-    bio: 'Brings deep operational experience across distribution, team structuring, and business growth. Has worked directly with founders to build systems that sustain performance under real growth conditions — not just on paper.',
-    image: '/assets/about/people/Vishal.png'
-  },
-  {
-    name: 'Aakansha Rao',
-    role: 'Head of Customer Relations',
-    tier: 'Leadership',
-    bio: 'Leads client relationships with a focus on long-term engagement quality. Background in consulting and account management across professional services, with a track record of translating client needs into structured, actionable briefs.',
-    image: '/assets/about/people/Aakansha.png'
-  },
-  {
-    name: 'Rishabh Panda',
-    role: 'Strategy & Growth Associate',
-    tier: 'Associate',
-    bio: 'Previously at Ernst & Young\'s transaction advisory practice, supporting financial due diligence and market analysis across mid-market engagements. Brings structured thinking and a strong grasp of numbers to growth strategy work.',
-    image: '/assets/about/people/Panda.png'
-  },
-  {
-    name: 'Eitan Shapiro',
-    role: 'Senior Associate',
-    tier: 'Associate',
-    bio: 'Formerly with Bank Leumi\'s private equity and structured finance division, where he worked on investment screening and portfolio analysis across technology and industrial sectors. Rigorous, numbers-first, and comfortable with ambiguity.',
-    image: '/assets/about/people/Eitan.png'
-  },
-  {
-    name: 'Karan Malhotra',
-    role: 'Associate',
-    tier: 'Associate',
-    bio: 'Has worked with businesses across manufacturing, distribution, and emerging consumer segments. Understands how companies operate under resource constraints and brings practical grounding to go-to-market and operational strategy work.',
-    image: '/assets/about/people/Karan.png'
-  },
-  {
-    name: 'Meghna Borah',
-    role: 'Analyst',
-    tier: 'Analyst',
-    bio: 'Experienced in primary research, stakeholder mapping, and sector analysis. Previously worked with a policy research organisation focused on economic development, where she developed strong instincts for structuring qualitative findings into clear outputs.',
-    image: '/assets/about/people/Meghna.png'
-  },
-  {
-    name: 'Arun Nair',
-    role: 'Analyst',
-    tier: 'Analyst',
-    bio: 'Background in financial analysis and transaction support from a stint at a Big Four advisory practice. Methodical and detail-oriented, with hands-on experience in due diligence, financial modelling, and competitive research.',
-    image: '/assets/about/people/Arun.png'
-  }
-];
-
-  const CARD_WIDTH = 280;
-  const CARD_GAP = 20;
-  const STEP = CARD_WIDTH + CARD_GAP;
-  const CLONE_COUNT = 3; // clones on each side for seamless loop
-
-  // Build infinite list: [...tail clones, ...real, ...head clones]
-  const total = BASE_MEMBERS.length;
-  const members: TeamMember[] = [
-    ...BASE_MEMBERS.slice(total - CLONE_COUNT),
-    ...BASE_MEMBERS,
-    ...BASE_MEMBERS.slice(0, CLONE_COUNT),
+  const MEMBERS: TeamMember[] = [
+    {
+      name: 'Sameer Dhaiya',
+      role: 'Head of Supply Chain',
+      location: 'Hyderabad - India',
+      tier: 'Leadership',
+      bio: 'Spent over a decade managing end-to-end supply chain operations across manufacturing and consumer businesses. Led a procurement restructuring programme for a multi-plant manufacturer, ran vendor consolidation initiatives that cut supplier redundancy, and re-engineered logistics networks for businesses moving from regional to national distribution. Expertise: procurement strategy, vendor negotiation, and logistics network design.',
+      image: '/assets/about/people/Sameer.png'
+    },
+    {
+      name: 'Sarvesh Mishra',
+      role: 'Head of Strategy',
+      location: 'Goa - India',
+      tier: 'Leadership',
+      bio: 'Built and scaled a services business from the ground up before moving into strategy advisory. Worked extensively in private equity, evaluating investment opportunities and structuring portfolio-level strategy for growth-stage companies. Expertise: strategic diagnostics, PE deal evaluation, and founder-aligned execution planning.',
+      image: '/assets/about/people/Sarvesh.png'
+    },
+    {
+      name: 'Vishal Gupta',
+      role: 'Head of Business & Operations',
+      location: 'New Delhi - India',
+      tier: 'Leadership',
+      bio: 'Built and restructured distribution networks and organisational systems for businesses scaling from single-city to multi-region operations. Worked directly with founders to design team structures and operating systems built to hold up under real growth pressure. Expertise: distribution strategy, organisational design, and operational scaling.',
+      image: '/assets/about/people/Vishal.png'
+    },
+    {
+      name: 'Aakansha Rao ',
+      role: 'Head of Customer Relations',
+      location: 'Bengaluru - India',
+      tier: 'Leadership',
+      bio: 'Managed key client relationships across professional services and consulting firms, with a track record of turning client needs into structured, actionable engagement briefs. Background in account management, where she was responsible for long-term retention and engagement quality on high-value accounts. Expertise: client relationship management, stakeholder communication, and account strategy.',
+      image: '/assets/about/people/Aakansha.png'
+    },
+    {
+      name: 'Rishabh Panda',
+      role: 'Strategy & Growth Associate',
+      location: 'Bengaluru - India',
+      tier: 'Associate',
+      bio: 'Worked at Ernst & Young\'s transaction advisory practice, where he supported financial due diligence and market analysis on mid-market transactions. Handled deal-support workstreams involving market sizing, competitive benchmarking, and financial modelling. Expertise: financial due diligence, market analysis, and growth strategy.',
+      image: '/assets/about/people/Panda.png'
+    },
+    {
+      name: 'Eitan Shapiro',
+      role: 'Senior Associate',
+      location: 'Boston - United States',
+      tier: 'Associate',
+      bio: 'Worked with Bank Leumi\'s private equity and structured finance division, where he screened investment opportunities and conducted portfolio analysis across technology and industrial sectors. Handled deal evaluation and risk assessment for structured finance transactions. Expertise: investment screening, structured finance, and portfolio analysis.',
+      image: '/assets/about/people/Eitan.png'
+    },
+    {
+      name: 'Karan Malhotra',
+      role: 'Associate',
+      location: 'Pune - India',
+      tier: 'Associate',
+      bio: 'Worked with businesses across manufacturing, distribution, and emerging consumer segments, handling go-to-market and operational strategy engagements for companies operating under tight resource constraints. Expertise: go-to-market strategy, resource-constrained operations, and execution planning.',
+      image: '/assets/about/people/Karan.png'
+    },
+    {
+      name: 'Meghna Borah',
+      role: 'Analyst',
+      location: 'New Delhi - India',
+      tier: 'Analyst',
+      bio: 'Worked with a policy research organisation focused on economic development, where she conducted primary research, stakeholder mapping, and sector analysis. Handled the structuring of qualitative findings from field research into clear, decision-ready outputs. Expertise: primary research, stakeholder mapping, and sector analysis.',
+      image: '/assets/about/people/Meghna.png'
+    },
+    {
+      name: 'Arun Nair',
+      role: 'Analyst',
+      location: 'Bengaluru - India',
+      tier: 'Analyst',
+      bio: 'Worked at a Big Four advisory practice on financial analysis and transaction support, handling due diligence workstreams and financial modelling for client transactions. Expertise: financial modelling, due diligence, and competitive research.',
+      image: '/assets/about/people/Arun.png'
+    }
   ];
 
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0); // index into BASE_MEMBERS
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const isJumping = useRef(false);
+  const [selected, setSelected] = useState<TeamMember | null>(null);
 
-  // Real position in the extended array
-  const extIndex = (baseIdx: number) => baseIdx + CLONE_COUNT;
-
-  // Scroll without animation (for seamless jump)
-  const jumpTo = (extIdx: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    isJumping.current = true;
-    track.style.scrollBehavior = 'auto';
-    track.scrollLeft = extIdx * STEP;
-    requestAnimationFrame(() => {
-      track.style.scrollBehavior = 'smooth';
-      isJumping.current = false;
-    });
-  };
-
-  // Smooth scroll to an extended index
-  const smoothTo = (extIdx: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    track.scrollTo({ left: extIdx * STEP, behavior: 'smooth' });
-  };
-
-  // Navigate by base index (wraps correctly)
-  const goTo = (baseIdx: number) => {
-    const wrapped = ((baseIdx % total) + total) % total;
-    setActiveIndex(wrapped);
-    smoothTo(extIndex(wrapped));
-  };
-
-  const next = () => goTo(activeIndex + 1);
-  const prev = () => goTo(activeIndex - 1);
-
-  // Initialise scroll position to first real card
+  // Lock background scroll while modal is open
   useEffect(() => {
-    jumpTo(extIndex(0));
+    if (selected) {
+      const original = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = original; };
+    }
+  }, [selected]);
+
+  // Close on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelected(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Auto-advance
+  // =====================================================
+  // Auto-scrolling infinite carousel (replaces the static grid)
+  // Card markup/sizing is unchanged — only the layout wrapper differs.
+  // =====================================================
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const unitRef = useRef(0);        // width of one card + gap, in px (measured live)
+  const posRef = useRef(0);         // current scroll offset, in px
+  const activeIndexRef = useRef(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hoverPaused, setHoverPaused] = useState(false);
+
+  const SPEED = 40; // px per second
+
+  // Two back-to-back copies of the members create the seamless infinite loop.
+  const loopMembers = [...MEMBERS, ...MEMBERS];
+
+  // Measure real card width + gap (works across every breakpoint automatically)
   useEffect(() => {
-    if (paused) return;
-    timerRef.current = setInterval(() => {
-      setActiveIndex(prev => {
-        const nextIdx = (prev + 1) % total;
-        smoothTo(extIndex(nextIdx));
-        return nextIdx;
-      });
-    }, 3000);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [paused, total]);
+    const measure = () => {
+      const a = cardRefs.current[0];
+      const b = cardRefs.current[1];
+      if (a && b) {
+        unitRef.current = b.getBoundingClientRect().left - a.getBoundingClientRect().left;
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
-  // Handle scroll end — detect when we've entered a clone region and jump back
-  const handleScroll = () => {
-    if (isJumping.current) return;
-    const track = trackRef.current;
-    if (!track) return;
+  // Continuous auto-scroll loop, pauses on hover and while the modal is open
+  useEffect(() => {
+    let raf: number;
+    let last = performance.now();
 
-    const scrollIdx = Math.round(track.scrollLeft / STEP);
-    const newBaseIdx = ((scrollIdx - CLONE_COUNT) % total + total) % total;
-    setActiveIndex(newBaseIdx);
+    const step = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      const isPaused = hoverPaused || !!selected;
+      const unit = unitRef.current;
 
-    // If scrolled into leading clones
-    if (scrollIdx < CLONE_COUNT) {
-      jumpTo(extIndex(scrollIdx + total));
+      if (!isPaused && unit > 0) {
+        posRef.current += SPEED * dt;
+        const setWidth = unit * MEMBERS.length;
+        if (posRef.current >= setWidth) posRef.current -= setWidth;
+
+        const idx = Math.round(posRef.current / unit) % MEMBERS.length;
+        if (idx !== activeIndexRef.current) {
+          activeIndexRef.current = idx;
+          setActiveIndex(idx);
+        }
+      }
+
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translateX(-${posRef.current}px)`;
+      }
+      raf = requestAnimationFrame(step);
+    };
+
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [hoverPaused, selected, MEMBERS.length]);
+
+  // Clicking a dot jumps the strip to that member; the loop then continues from there
+  const goToIndex = (index: number) => {
+    const unit = unitRef.current;
+    if (unit > 0) {
+      posRef.current = unit * index;
     }
-    // If scrolled into trailing clones
-    if (scrollIdx >= CLONE_COUNT + total) {
-      jumpTo(extIndex(scrollIdx - total));
-    }
+    activeIndexRef.current = index;
+    setActiveIndex(index);
   };
-
-  const tierColor: Record<string, string> = {
-    'Leadership': 'text-blue-300',
-    'Associate': 'text-blue-300',
-    'Analyst': 'text-blue-300',
-  };
-
-
 
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -544,113 +550,110 @@ const BASE_MEMBERS: TeamMember[] = [
           </p>
         </div>
 
-        {/* Carousel */}
+        {/*
+          Auto-scrolling horizontal strip — infinite loop (two copies of MEMBERS placed
+          back to back; once the first copy fully scrolls past, the offset wraps by exactly
+          one set-width so it never visibly resets). Card size/markup is identical to before.
+        */}
         <div
-          className="relative"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
+          className="overflow-hidden"
+          onMouseEnter={() => setHoverPaused(true)}
+          onMouseLeave={() => setHoverPaused(false)}
         >
-          {/* Prev */}
-          {/* <button
-            onClick={prev}
-            aria-label="Previous member"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-2 sm:translate-x-0
-                       w-9 h-9 rounded-full bg-white/10 border border-white/20
-                       flex items-center justify-center text-white hover:bg-white/20
-                       transition-all duration-200 backdrop-blur-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button> */}
-
-          {/* Track */}
-          <div
-            ref={trackRef}
-            onScroll={handleScroll}
-            className="flex overflow-x-auto px-10 sm:px-12"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              gap: `${CARD_GAP}px`,
-              scrollSnapType: 'x mandatory',
-            }}
-          >
-            {members.map((member, i) => {
-              const baseIdx = ((i - CLONE_COUNT) % total + total) % total;
-              const isActive = baseIdx === activeIndex && i === extIndex(activeIndex);
-              return (
-                <div
-                  key={i}
-                  onClick={() => { if (!isActive) goTo(baseIdx); }}
-                  style={{
-                    minWidth: `${CARD_WIDTH}px`,
-                    maxWidth: `${CARD_WIDTH}px`,
-                    scrollSnapAlign: 'start',
-                    transition: 'transform 0.4s ease, opacity 0.4s ease',
-                    transform: isActive ? 'scale(1)' : 'scale(0.95)',
-                    opacity: isActive ? 1 : 0.5,
-                    cursor: isActive ? 'default' : 'pointer',
-                    flexShrink: 0,
-                  }}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden"
-                >
-                  <div className="w-full aspect-square overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-5">
-                    
-                    <h3 className="text-lg font-medium text-white mb-0.5">{member.name}</h3>
-                    <p className={`text-sm mb-3 ${tierColor[member.tier]}`}>{member.role}</p>
-                    <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
-                  </div>
+          <div ref={trackRef} className="flex gap-3 sm:gap-4 will-change-transform">
+            {loopMembers.map((member, i) => (
+              <button
+                key={`${member.name}-${i}`}
+                ref={(el) => { cardRefs.current[i] = el; }}
+                onClick={() => setSelected(member)}
+                className="flex-shrink-0 w-36 sm:w-44 md:w-52 lg:w-56 text-left bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
+              >
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {/*
+                    Location badge — pinned to the top-right corner on every screen size.
+                    - text scales down (9px/11px/xs) instead of a fixed text-sm that overflowed tiny cards
+                    - inner text span truncates instead of wrapping onto multiple lines
+                    - badge width is capped so it never spills past the right edge of the card
+                    - icon has flex-shrink-0 so it never gets squeezed by long location names
+                  */}
+                  <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex items-center gap-0.5 sm:gap-1 bg-black/60 backdrop-blur-sm text-white text-[9px] sm:text-[10px] md:text-xs px-1 py-0.5 sm:px-1.5 rounded-sm font-medium max-w-[70%] sm:max-w-[75%]">
+                    <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="truncate">{member.location}</span>
+                  </span>
                 </div>
-              );
-            })}
+                <div className="p-2 sm:p-2.5 md:p-3">
+                  <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-medium text-white truncate">{member.name}</h3>
+                  <p className="text-xs sm:text-xs md:text-sm lg:text-md text-blue-300 truncate">{member.role}</p>
+                </div>
+              </button>
+            ))}
           </div>
-
-          {/* Next */}
-          {/* <button
-            onClick={next}
-            aria-label="Next member"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-2 sm:translate-x-0
-                       w-9 h-9 rounded-full bg-white/10 border border-white/20
-                       flex items-center justify-center text-white hover:bg-white/20
-                       transition-all duration-200 backdrop-blur-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button> */}
         </div>
 
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-6">
-          {BASE_MEMBERS.map((_, index) => (
+        {/* Dots — one per unique member; clicking jumps the strip back to that person */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {MEMBERS.map((member, i) => (
             <button
-              key={index}
-              onClick={() => goTo(index)}
-              aria-label={`Go to ${BASE_MEMBERS[index].name}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === activeIndex
-                  ? 'bg-white w-6'
-                  : 'bg-white/25 w-1.5 hover:bg-white/50'
+              key={member.name}
+              onClick={() => goToIndex(i)}
+              aria-label={`Go to ${member.name}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeIndex === i ? 'w-6 bg-white' : 'w-2 bg-white/30 hover:bg-white/50'
               }`}
             />
           ))}
         </div>
 
-        {/* Counter */}
-        {/* <p className="text-center text-white/40 text-sm mt-3 tracking-wide">
-          {activeIndex + 1} / {total}&nbsp;·&nbsp;{BASE_MEMBERS[activeIndex].name}
-        </p> */}
+        {/* Details Modal */}
+        {selected && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setSelected(null)}
+          >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-[#0A1E3D] border border-white/10 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
+              <button
+                onClick={() => setSelected(null)}
+                aria-label="Close"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              <div className="grid sm:grid-cols-[220px_1fr] md:grid-cols-[300px_1fr]">
+                <div className="w-full aspect-square sm:aspect-auto sm:h-full">
+                  <img
+                    src={selected.image}
+                    alt={selected.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="p-5 sm:p-8 md:p-10">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl text-white mb-1">{selected.name}</h3>
+                  <p className="text-blue-300 text-sm sm:text-base mb-4 sm:mb-6">{selected.role}</p>
+                  <p className="text-gray-300 text-sm sm:text-base text-justify leading-relaxed">{selected.bio}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Join Our Team */}
         <div className="mt-14 bg-white/5 backdrop-blur-sm rounded-xl p-6 sm:p-8 lg:p-12 border border-white/10">
@@ -661,19 +664,17 @@ const BASE_MEMBERS: TeamMember[] = [
               our commitment to diagnostic rigor and measurable impact. If you're passionate about
               helping growth-stage businesses succeed, we'd love to hear from you.
             </p>
-            <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2">
-              <Link href="/career" className="inline-flex items-center gap-2">
-                <span>View Open Positions</span>
-              </Link>
-            </button>
+            <Link
+              href="/career"
+              className="bg-white !text-[#0A1E3D] hover:!text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2"
+              style={{ color: '#0A1E3D' }}
+            >
+              <span>View Open Positions</span>
+            </Link>
           </div>
         </div>
 
       </div>
-
-      <style jsx>{`
-        div::-webkit-scrollbar { display: none; }
-      `}</style>
     </section>
   );
 };
@@ -687,7 +688,7 @@ const CTASection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            
+
             <div className="p-6 sm:p-8 lg:p-12">
               <h2 className="text-3xl sm:text-4xl text-white  mb-4 ">
                 Start with a Strategic Diagnostic
@@ -701,7 +702,7 @@ const CTASection = () => {
                 <Link href="/services/business-diagnostic-direction" >
                 <button className="bg-white text-[#0A1E3D] px-8 py-4 rounded-md hover:bg-gray-100 transition-colors font-medium shadow-lg inline-flex items-center justify-center gap-2 group">
                   <span>Initiate Diagnostic Engagement</span>
-                  
+
                 </button>
                 </Link>
                 <Link href="/contact" >
