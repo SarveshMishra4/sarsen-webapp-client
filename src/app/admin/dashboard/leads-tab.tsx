@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiRequest } from '@/services/api';
+import { QUESTIONS, scaleLabel, CanvasHeatmap } from '@/app/resources/tools/business-heatmap/businessHeatMapConfig';
 import type { ApiLead, ApiLeadSubmission } from './page';
 
 interface LeadsTabProps {
@@ -45,9 +46,9 @@ function leadMagnetLabel(value: string): string {
   return LEAD_MAGNET_TYPE_OPTIONS.find((o) => o.value === value)?.label ?? value;
 }
 
-// Generic key/value renderer for a submission's `answers` and `result`
-// objects. Deliberately generic (not hand-built per lead magnet) since the
-// shape varies by type and new lead magnets will add new shapes.
+// Generic key/value renderer, used as the fallback for any lead magnet
+// type that doesn't have a dedicated "readable" view (see
+// BusinessHeatMapAnswers below for the one that does).
 function renderValue(value: unknown): React.ReactNode {
   if (value === null || value === undefined) return <span className="text-gray-400">—</span>;
   if (Array.isArray(value)) {
@@ -72,6 +73,36 @@ function renderValue(value: unknown): React.ReactNode {
     );
   }
   return <span>{String(value)}</span>;
+}
+
+// Business Heat Map specific view: plain 1, 2, 3... numbering (not q1/q2),
+// the actual question text, and the word label for the answer (e.g.
+// "Strong") instead of the raw stored number. Pulls QUESTIONS and
+// scaleLabel from the shared config file so this can never drift out of
+// sync with what the founder actually saw on the public tool.
+function BusinessHeatMapAnswers({ answers }: { answers: Record<string, number> }) {
+  return (
+    <div className="space-y-4">
+      {QUESTIONS.map((question, index) => {
+        const answerValue = answers[question.id];
+        return (
+          <div key={question.id} className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+            <p className="text-sm text-gray-800">
+              <span className="text-gray-400 mr-1">{index + 1}.</span>
+              {question.text}
+            </p>
+            <p className="text-sm mt-1">
+              {answerValue === undefined ? (
+                <span className="text-gray-400">Not answered</span>
+              ) : (
+                <span className="font-medium text-[#0A1E3D]">{scaleLabel(answerValue)}</span>
+              )}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
@@ -335,10 +366,10 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
           onClick={() => setSelectedSubmission(null)}
         >
           <div
-            className="bg-white rounded-md shadow-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto"
+            className="bg-white rounded-md shadow-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b border-gray-100 flex justify-between items-start sticky top-0 bg-white">
+            <div className="p-6 border-b border-gray-100 flex justify-between items-start sticky top-0 bg-white z-10">
               <div>
                 <h3 className="text-lg font-medium text-gray-900">
                   {leadMagnetLabel(selectedSubmission.leadMagnet)}
@@ -353,7 +384,7 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
               </button>
             </div>
 
-            <div className="p-6 space-y-5 text-sm text-gray-800">
+            <div className="p-6 space-y-6 text-sm text-gray-800">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-500">Founder</p>
@@ -373,15 +404,33 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
                 </div>
               </div>
 
-              <div>
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Result</p>
-                {renderValue(selectedSubmission.result)}
-              </div>
+              {selectedSubmission.leadMagnet === 'business_heat_map' ? (
+                <>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
+                    <BusinessHeatMapAnswers answers={selectedSubmission.answers} />
+                  </div>
 
-              <div>
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
-                {renderValue(selectedSubmission.answers)}
-              </div>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Business Health Map</p>
+                    <CanvasHeatmap answers={selectedSubmission.answers} />
+                  </div>
+                </>
+              ) : (
+                // Fallback for any future lead magnet type that doesn't yet
+                // have a dedicated readable view — see the header comment
+                // near LEAD_MAGNET_TYPE_OPTIONS above.
+                <>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Result</p>
+                    {renderValue(selectedSubmission.result)}
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
+                    {renderValue(selectedSubmission.answers)}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
