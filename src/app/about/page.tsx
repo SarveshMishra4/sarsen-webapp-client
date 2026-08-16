@@ -51,7 +51,7 @@ const WhyWeExistSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-6 ">
-            Why We Exist
+            Our Purpose
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 ">
             For a long time, strategy has been treated as a planning exercise. It isn't. Strategy is about
@@ -581,7 +581,7 @@ const TeamSection = () => {
                     - badge width is capped so it never spills past the right edge of the card
                     - icon has flex-shrink-0 so it never gets squeezed by long location names
                   */}
-                  <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex items-center gap-0.5 sm:gap-1 bg-black/60 backdrop-blur-sm text-white text-[9px] sm:text-[10px] md:text-xs px-1 py-0.5 sm:px-1.5 rounded-sm font-medium max-w-[70%] sm:max-w-[75%]">
+                  <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex items-center gap-0.5 sm:gap-1 bg-[#0A1E3D] backdrop-blur-sm text-white text-[9px] sm:text-[10px] md:text-xs px-1 py-0.5 sm:px-1.5 rounded-md font-medium max-w-[70%] sm:max-w-[75%]">
                     <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
