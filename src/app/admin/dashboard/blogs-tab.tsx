@@ -1,12 +1,19 @@
 'use client';
 
 // blogs-tab.tsx
-// Wired to the real backend (was: local state only, mock data).
-// Follows the exact same props/API-call pattern as coupons-tab.tsx.
+// Wired to the real backend. Follows the same props/API-call pattern as
+// coupons-tab.tsx.
+//
+// UPDATED: adds an Author Bio field (2-3 sentence bio shown at the bottom
+// of the public post) and a "Recommended Reading" search-and-pick widget
+// (admin searches existing posts by title, selects up to 5 to recommend).
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { ApiBlog } from './page';
-import { createBlog, updateBlog, publishBlog, unpublishBlog, deleteBlog, type BlogPayload } from '@/services/blog.service';
+import {
+  createBlog, updateBlog, publishBlog, unpublishBlog, deleteBlog,
+  searchBlogsForRelated, type BlogPayload,
+} from '@/services/blog.service';
 import { RichTextEditor } from '@/features/blog-admin/RichTextEditor';
 import { ImageUploadField } from '@/features/blog-admin/ImageUploadField';
 
@@ -21,6 +28,12 @@ interface BlogsTabProps {
   token: string;
 }
 
+interface RelatedPostOption {
+  _id: string;
+  title: string;
+  slug: string;
+}
+
 type FormState = {
   title: string;
   slug: string;
@@ -32,6 +45,7 @@ type FormState = {
   authorName: string;
   authorTitle: string;
   authorImageUrl: string;
+  authorBio: string;
   images: { url: string; altText?: string; order: number }[];
   seoTitle: string;
   seoDescription: string;
@@ -43,14 +57,15 @@ type FormState = {
   reportDescription: string;
   reportAuthors: string; // comma-separated, 1-3 after split
   reportReleaseDate: string;
+  relatedPosts: RelatedPostOption[]; // selected, up to 5
 };
 
 const EMPTY_FORM: FormState = {
   title: '', slug: '', excerpt: '', content: '', tag: BLOG_TAGS[0], keywords: '',
-  coverImageUrl: '', authorName: '', authorTitle: '', authorImageUrl: '', images: [],
+  coverImageUrl: '', authorName: '', authorTitle: '', authorImageUrl: '', authorBio: '', images: [],
   seoTitle: '', seoDescription: '', seoOgImage: '', canonicalUrl: '',
   hasReport: false, reportMockupImageUrl: '', reportName: '', reportDescription: '',
-  reportAuthors: '', reportReleaseDate: '',
+  reportAuthors: '', reportReleaseDate: '', relatedPosts: [],
 };
 
 function blogToForm(post: ApiBlog): FormState {
@@ -65,6 +80,7 @@ function blogToForm(post: ApiBlog): FormState {
     authorName: post.authorName,
     authorTitle: post.authorTitle || '',
     authorImageUrl: post.authorImageUrl || '',
+    authorBio: (post as any).authorBio || '',
     images: post.images || [],
     seoTitle: post.seoTitle || '',
     seoDescription: post.seoDescription || '',
@@ -76,6 +92,12 @@ function blogToForm(post: ApiBlog): FormState {
     reportDescription: post.report?.description || '',
     reportAuthors: (post.report?.authors || []).join(', '),
     reportReleaseDate: post.report?.releaseDate ? post.report.releaseDate.slice(0, 10) : '',
+    // Existing related posts come back from the API already populated
+    // with title/slug (see backend getAdminList / getAdminById), so this
+    // works directly for editing a post that already has recommendations.
+    relatedPosts: ((post as any).relatedPosts || []).map((rp: any) =>
+      typeof rp === 'string' ? { _id: rp, title: rp, slug: '' } : { _id: rp._id, title: rp.title, slug: rp.slug }
+    ),
   };
 }
 
@@ -91,11 +113,13 @@ function formToPayload(form: FormState): BlogPayload {
     authorName: form.authorName,
     authorTitle: form.authorTitle || undefined,
     authorImageUrl: form.authorImageUrl || undefined,
+    authorBio: form.authorBio || undefined,
     images: form.images,
     seoTitle: form.seoTitle || undefined,
     seoDescription: form.seoDescription || undefined,
     seoOgImage: form.seoOgImage || undefined,
     canonicalUrl: form.canonicalUrl || undefined,
+    relatedPosts: form.relatedPosts.map(rp => rp._id),
     report: form.hasReport
       ? {
           mockupImageUrl: form.reportMockupImageUrl,
@@ -116,6 +140,44 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [showSeo, setShowSeo] = useState(false);
+
+  // ── Related posts search state ──────────────────────────────────────
+  const [relatedQuery, setRelatedQuery] = useState('');
+  const [relatedResults, setRelatedResults] = useState<RelatedPostOption[]>([]);
+  const [relatedSearching, setRelatedSearching] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!relatedQuery.trim()) {
+      setRelatedResults([]);
+      return;
+    }
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      setRelatedSearching(true);
+      try {
+        const result = await searchBlogsForRelated(relatedQuery, editingPost?._id, token);
+        setRelatedResults(result.posts || []);
+      } catch {
+        setRelatedResults([]);
+      } finally {
+        setRelatedSearching(false);
+      }
+    }, 300);
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+  }, [relatedQuery, editingPost, token]);
+
+  const addRelatedPost = (post: RelatedPostOption) => {
+    if (form.relatedPosts.length >= 5) return;
+    if (form.relatedPosts.some(rp => rp._id === post._id)) return;
+    setForm({ ...form, relatedPosts: [...form.relatedPosts, post] });
+    setRelatedQuery('');
+    setRelatedResults([]);
+  };
+
+  const removeRelatedPost = (id: string) => {
+    setForm({ ...form, relatedPosts: form.relatedPosts.filter(rp => rp._id !== id) });
+  };
 
   const handleCreateNew = () => {
     setIsCreating(true);
@@ -270,8 +332,10 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Content *</label>
-            <RichTextEditor value={form.content} onChange={html => setForm({ ...form, content: html })} />
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Content * <span className="text-xs font-normal text-gray-400">(Bold, headings H2–H4, links, tables, and images can be inserted between paragraphs)</span>
+            </label>
+            <RichTextEditor value={form.content} onChange={html => setForm({ ...form, content: html })} token={token} />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -349,6 +413,21 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
             value={form.authorImageUrl}
             onChange={url => setForm({ ...form, authorImageUrl: url })}
           />
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Author Bio <span className="text-xs font-normal text-gray-400">(2–3 sentences, shown at the bottom of the post)</span>
+            </label>
+            <textarea
+              value={form.authorBio}
+              onChange={e => setForm({ ...form, authorBio: e.target.value.slice(0, 300) })}
+              rows={2}
+              maxLength={300}
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="A short bio shown under the post..."
+            />
+            <p className="text-xs text-gray-400 mt-1">{form.authorBio.length}/300</p>
+          </div>
 
           {/* SEO section */}
           <div className="border-t border-gray-200 pt-6">
@@ -477,6 +556,69 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Recommended Reading section */}
+          <div className="border-t border-gray-200 pt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Recommended Reading <span className="text-xs font-normal text-gray-400">(search and pick up to 5 already-published posts)</span>
+            </label>
+
+            {form.relatedPosts.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {form.relatedPosts.map(rp => (
+                  <span
+                    key={rp._id}
+                    className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs px-3 py-1.5 rounded-full"
+                  >
+                    {rp.title}
+                    <button
+                      type="button"
+                      onClick={() => removeRelatedPost(rp._id)}
+                      className="text-blue-400 hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {form.relatedPosts.length < 5 ? (
+              <div className="relative">
+                <input
+                  type="text"
+                  value={relatedQuery}
+                  onChange={e => setRelatedQuery(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Search posts by title..."
+                />
+                {relatedQuery.trim() && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto">
+                    {relatedSearching ? (
+                      <p className="px-4 py-3 text-sm text-gray-400">Searching…</p>
+                    ) : relatedResults.length === 0 ? (
+                      <p className="px-4 py-3 text-sm text-gray-400">No matching posts found.</p>
+                    ) : (
+                      relatedResults
+                        .filter(r => !form.relatedPosts.some(rp => rp._id === r._id))
+                        .map(r => (
+                          <button
+                            key={r._id}
+                            type="button"
+                            onClick={() => addRelatedPost(r)}
+                            className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50"
+                          >
+                            {r.title}
+                          </button>
+                        ))
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-xs text-gray-400">Maximum of 5 reached — remove one above to add another.</p>
             )}
           </div>
 

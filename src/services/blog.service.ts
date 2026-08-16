@@ -34,6 +34,8 @@ export interface BlogPayload {
   canonicalUrl?: string;
   images?: BlogImagePayload[];
   report?: BlogReportPayload;
+  authorBio?: string;
+  relatedPosts?: string[]; // up to 5 Blog _id values, admin-curated
 }
 
 // ─── Admin ──────────────────────────────────────────────────────────────
@@ -55,6 +57,15 @@ export const unpublishBlog = (id: string, token: string) =>
 
 export const deleteBlog = (id: string, token: string) =>
   apiRequest<{}>('DELETE', `/blogs/admin/${id}`, { token });
+
+/**
+ * Powers the "Recommended Reading" search-and-pick widget in blogs-tab.tsx.
+ * excludeId keeps a post from being able to recommend itself while editing.
+ */
+export const searchBlogsForRelated = (query: string, excludeId: string | undefined, token: string) => {
+  const qs = new URLSearchParams({ q: query, ...(excludeId ? { excludeId } : {}) });
+  return apiRequest<{ posts: any[] }>('GET', `/blogs/admin/search?${qs.toString()}`, { token });
+};
 
 /**
  * Image upload is multipart/form-data, which doesn't fit apiRequest's

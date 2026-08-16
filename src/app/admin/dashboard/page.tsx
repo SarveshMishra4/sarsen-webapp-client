@@ -95,6 +95,8 @@ export interface ApiBlog {
   authorName: string;
   authorTitle?: string;
   authorImageUrl?: string;
+  authorBio?: string;
+  relatedPosts?: { _id: string; title: string; slug: string }[];
   status: 'draft' | 'published';
   publishedAt?: string;
   readTimeMinutes: number;
