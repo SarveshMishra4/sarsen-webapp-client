@@ -122,6 +122,32 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
   const [submissionsLoadingId, setSubmissionsLoadingId] = useState<string | null>(null);
   const [selectedSubmission, setSelectedSubmission] = useState<ApiLeadSubmission | null>(null);
 
+  // Drives the "this modal scrolls" dot indicator below the card. Only
+  // true when the body's content is actually taller than its visible
+  // area — recalculated whenever a different submission is opened, since
+  // Business Heat Map reports are tall but a future lead magnet's might
+  // not be.
+  const modalBodyRef = React.useRef<HTMLDivElement>(null);
+  const [modalScrollable, setModalScrollable] = useState(false);
+
+  useEffect(() => {
+    if (!selectedSubmission) {
+      setModalScrollable(false);
+      return;
+    }
+    // Runs after the modal's content has painted, so scrollHeight is accurate.
+    const check = () => {
+      const el = modalBodyRef.current;
+      if (el) setModalScrollable(el.scrollHeight > el.clientHeight + 1);
+    };
+    const raf = requestAnimationFrame(check);
+    window.addEventListener('resize', check);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', check);
+    };
+  }, [selectedSubmission]);
+
   // Debounce the search box — avoids firing a request on every keystroke.
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(searchInput.trim()), 400);
@@ -362,14 +388,26 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
       {/* Submission detail modal */}
       {selectedSubmission && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-50 p-4 gap-3"
           onClick={() => setSelectedSubmission(null)}
         >
+          {/* Hides the native scrollbar on the modal body. Kept as a plain
+              <style> tag (not styled-jsx) so it works regardless of
+              whether this app router has the styled-jsx babel plugin
+              enabled — harmless to inject repeatedly on open/close. */}
+          <style>{`
+            .lead-modal-body::-webkit-scrollbar { display: none; }
+            .lead-modal-body { -ms-overflow-style: none; scrollbar-width: none; }
+          `}</style>
+
           <div
-            className="bg-white rounded-md shadow-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto"
+            className="bg-white rounded-2xl shadow-xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b border-gray-100 flex justify-between items-start sticky top-0 bg-white z-10">
+            {/* Fixed header — not part of the scrolling area, so it never
+                clips against the rounded corners no matter how tall the
+                body content gets. */}
+            <div className="p-6 border-b border-gray-100 flex justify-between items-start flex-shrink-0">
               <div>
                 <h3 className="text-lg font-medium text-gray-900">
                   {leadMagnetLabel(selectedSubmission.leadMagnet)}
@@ -384,7 +422,10 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
               </button>
             </div>
 
-            <div className="p-6 space-y-6 text-sm text-gray-800">
+            {/* Scrolling body. The outer card's overflow-hidden clips this
+                completely, so its scrollbar (even before we hide it below)
+                can never visually break the rounded corners. */}
+            <div ref={modalBodyRef} className="lead-modal-body overflow-y-auto p-6 space-y-6 text-sm text-gray-800">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-500">Founder</p>
@@ -433,6 +474,23 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
               )}
             </div>
           </div>
+
+          {/* Scroll indicator — lives OUTSIDE the modal card, only shown
+              when the body content actually overflows. Click-through to
+              the overlay's close handler is intentional (no
+              stopPropagation), so clicking the dots also closes the modal
+              like clicking anywhere else outside the card. */}
+          {modalScrollable && (
+            <div className="flex gap-1.5" aria-hidden="true">
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-white/80 animate-bounce"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
