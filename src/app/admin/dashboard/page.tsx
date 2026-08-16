@@ -12,6 +12,7 @@ import { BlogsTab } from './blogs-tab';
 import { SubscribersTab } from './subscribers-tab';
 import { CohortsTab } from './cohorts-tab';
 import { CouponsTab } from './coupons-tab';
+import { LeadsTab } from './leads-tab';
 import { AdminNotificationBell } from './AdminNotificationBell';
 
 // ─── API Shape Types ──────────────────────────────────────────────────────────
@@ -116,6 +117,38 @@ export interface ApiBlog {
   updatedAt: string;
 }
 
+// ── NEW: Lead types — mirror leadmagnet.service.ts's AdminLeadListItem
+// and the ILeadMagnetSubmission shape from leadmagnet.model.ts ────────────
+export interface ApiLead {
+  clientId: string;
+  email: string;
+  isViewed: boolean;
+  viewedAt?: string;
+  lastActivityAt: string;
+  submissionCount: number;
+  leadMagnetTypes: string[];
+  latestSubmission: {
+    leadMagnet: string;
+    founderName: string;
+    companyName: string;
+    createdAt: string;
+  } | null;
+}
+
+export interface ApiLeadSubmission {
+  _id: string;
+  clientId: string;
+  leadMagnet: string;
+  founderName: string;
+  companyName: string;
+  industry: string;
+  answers: Record<string, number>;
+  result: unknown;
+  clientStatusAtSubmission: 'new' | 'existing';
+  createdAt: string;
+  updatedAt: string;
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function AdminDashboard() {
@@ -124,7 +157,7 @@ export default function AdminDashboard() {
   const token = getAdminToken();
 
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'contacts' | 'engagements' | 'blogs' | 'subscribers' | 'cohorts' | 'coupons'
+    'overview' | 'contacts' | 'engagements' | 'blogs' | 'subscribers' | 'cohorts' | 'coupons' | 'leads'
   >('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -139,6 +172,10 @@ export default function AdminDashboard() {
   const [unreadCount, setUnreadCount] = useState(0);
   // NEW: blogs state, same pattern as every other module above
   const [blogs, setBlogs] = useState<ApiBlog[]>([]);
+  // NEW: leads badge count only — LeadsTab manages its own full dataset
+  // (see leads-tab.tsx) since it needs live server-side search/pagination,
+  // unlike the other tabs which get their full list from fetchAll below.
+  const [newLeadsCount, setNewLeadsCount] = useState(0);
 
   // ── Loading / error state ─────────────────────────────────────────────────
   const [loading, setLoading] = useState(true);
@@ -182,6 +219,26 @@ export default function AdminDashboard() {
   }, [token]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  // ── NEW: Leads badge count ────────────────────────────────────────────────
+  // Lightweight, separate from fetchAll — only fetches `total` for
+  // status=new (limit=1 so the payload is tiny), just to drive the sidebar
+  // badge. LeadsTab fetches the real list itself when the tab is opened.
+  const fetchNewLeadsCount = useCallback(async () => {
+    if (!token) return;
+    try {
+      const data = await apiRequest<{ total: number }>(
+        'GET', '/leadmagnets/admin?status=new&limit=1', { token }
+      );
+      setNewLeadsCount(data.total ?? 0);
+    } catch { }
+  }, [token]);
+
+  useEffect(() => {
+    fetchNewLeadsCount();
+    const interval = setInterval(fetchNewLeadsCount, 60000);
+    return () => clearInterval(interval);
+  }, [fetchNewLeadsCount]);
 
   // ── Notifications ─────────────────────────────────────────────────────────
   const fetchNotifications = useCallback(async () => {
@@ -274,18 +331,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Notification bell row */}
-        {/* {sidebarOpen && (
-          <div className="px-6 pb-3 -mt-1 flex items-center gap-2">
-            <AdminNotificationBell
-              notifications={notifications}
-              unreadCount={unreadCount}
-              onMarkAsRead={handleMarkNotificationRead}
-            />
-            <span className="text-xs text-blue-300">{unreadCount > 0 ? `${unreadCount} unread` : 'No new notifications'}</span>
-          </div>
-        )} */}
-
         <nav className="flex-1 overflow-y-auto px-3 space-y-1">
           {[
             {
@@ -294,6 +339,13 @@ export default function AdminDashboard() {
               badge: null,
               badgeColor: '',
               icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />,
+            },
+            {
+              id: 'leads' as const,
+              label: 'Leads',
+              badge: newLeadsCount || null,
+              badgeColor: 'bg-green-500',
+              icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M9 20H4v-2a3 3 0 015.356-1.857M9 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M13 7a4 4 0 11-8 0 4 4 0 018 0z" />,
             },
             {
               id: 'contacts' as const,
@@ -412,6 +464,7 @@ export default function AdminDashboard() {
               <div className="mb-8">
                 <h2 className="text-3xl  text-gray-800 mb-2">
                   {activeTab === 'overview' && 'Dashboard Overview'}
+                  {activeTab === 'leads' && 'Leads'}
                   {activeTab === 'contacts' && 'Contact Messages'}
                   {activeTab === 'engagements' && 'Engagement Workspace'}
                   {activeTab === 'blogs' && 'Blog Management'}
@@ -421,6 +474,7 @@ export default function AdminDashboard() {
                 </h2>
                 <p className="text-gray-600">
                   {activeTab === 'overview' && "Welcome back. Here's what's happening today."}
+                  {activeTab === 'leads' && 'Browse and triage leads captured across all lead magnets.'}
                   {activeTab === 'contacts' && 'Manage all contact form submissions.'}
                   {activeTab === 'engagements' && 'Manage client engagements, checklist, files, questionnaires, and messages.'}
                   {activeTab === 'blogs' && 'Create, edit, and publish blog posts.'}
@@ -436,6 +490,12 @@ export default function AdminDashboard() {
                   contacts={contacts}
                   feedback={feedback}
                   subscribers={subscribers}
+                />
+              )}
+              {activeTab === 'leads' && (
+                <LeadsTab
+                  token={token ?? ''}
+                  onLeadMarkedViewed={() => setNewLeadsCount((c) => Math.max(0, c - 1))}
                 />
               )}
               {activeTab === 'contacts' && (
