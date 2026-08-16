@@ -1,3 +1,4 @@
+
 'use client';
 
 // blogs-tab.tsx
@@ -96,7 +97,9 @@ function blogToForm(post: ApiBlog): FormState {
     // with title/slug (see backend getAdminList / getAdminById), so this
     // works directly for editing a post that already has recommendations.
     relatedPosts: ((post as any).relatedPosts || []).map((rp: any) =>
-      typeof rp === 'string' ? { _id: rp, title: rp, slug: '' } : { _id: rp._id, title: rp.title, slug: rp.slug }
+      typeof rp === 'string'
+        ? { _id: rp, title: rp, slug: '' }
+        : { _id: rp._id, title: rp.title, slug: rp.slug }
     ),
   };
 }
@@ -152,9 +155,12 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
       setRelatedResults([]);
       return;
     }
+
     if (debounceRef.current) clearTimeout(debounceRef.current);
+
     debounceRef.current = setTimeout(async () => {
       setRelatedSearching(true);
+
       try {
         const result = await searchBlogsForRelated(relatedQuery, editingPost?._id, token);
         setRelatedResults(result.posts || []);
@@ -164,19 +170,26 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
         setRelatedSearching(false);
       }
     }, 300);
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
   }, [relatedQuery, editingPost, token]);
 
   const addRelatedPost = (post: RelatedPostOption) => {
     if (form.relatedPosts.length >= 5) return;
     if (form.relatedPosts.some(rp => rp._id === post._id)) return;
+
     setForm({ ...form, relatedPosts: [...form.relatedPosts, post] });
     setRelatedQuery('');
     setRelatedResults([]);
   };
 
   const removeRelatedPost = (id: string) => {
-    setForm({ ...form, relatedPosts: form.relatedPosts.filter(rp => rp._id !== id) });
+    setForm({
+      ...form,
+      relatedPosts: form.relatedPosts.filter(rp => rp._id !== id),
+    });
   };
 
   const handleCreateNew = () => {
@@ -199,19 +212,31 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
     if (!form.content.trim()) return 'Content is required.';
     if (!form.coverImageUrl) return 'Cover image is required.';
     if (!form.authorName.trim()) return 'Author name is required.';
+
     if (form.hasReport) {
       if (!form.reportMockupImageUrl) return 'Report mockup image is required.';
       if (!form.reportName.trim()) return 'Report name is required.';
       if (!form.reportDescription.trim()) return 'Report description is required.';
-      const authorCount = form.reportAuthors.split(',').map(a => a.trim()).filter(Boolean).length;
-      if (authorCount < 1 || authorCount > 3) return 'Report must have between 1 and 3 authors.';
+
+      const authorCount = form.reportAuthors
+        .split(',')
+        .map(a => a.trim())
+        .filter(Boolean)
+        .length;
+
+      if (authorCount < 1 || authorCount > 3) {
+        return 'Report must have between 1 and 3 authors.';
+      }
+
       if (!form.reportReleaseDate) return 'Report release date is required.';
     }
+
     return null;
   };
 
   const handleSave = async () => {
     const validationError = validate();
+
     if (validationError) {
       setError(validationError);
       return;
@@ -219,15 +244,20 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
 
     setSaving(true);
     setError('');
+
     try {
       const payload = formToPayload(form);
+
       if (editingPost) {
         const result = await updateBlog(editingPost._id, payload, token);
-        setBlogs(prev => prev.map(p => (p._id === editingPost._id ? result.blog : p)));
+        setBlogs(prev =>
+          prev.map(p => (p._id === editingPost._id ? result.blog : p))
+        );
       } else {
         const result = await createBlog(payload, token);
         setBlogs(prev => [result.blog, ...prev]);
       }
+
       setIsCreating(false);
       setEditingPost(null);
     } catch (err: any) {
@@ -257,6 +287,7 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
+
     try {
       await deleteBlog(id, token);
       setBlogs(prev => prev.filter(p => p._id !== id));
@@ -265,7 +296,9 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
     }
   };
 
-  const filteredBlogs = blogs.filter(p => (filterStatus === 'all' ? true : p.status === filterStatus));
+  const filteredBlogs = blogs.filter(p =>
+    filterStatus === 'all' ? true : p.status === filterStatus
+  );
 
   if (isCreating) {
     return (
@@ -274,9 +307,23 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
           <h3 className="text-2xl font-medium text-gray-800">
             {editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}
           </h3>
-          <button onClick={() => setIsCreating(false)} className="text-gray-600 hover:text-gray-800">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+
+          <button
+            onClick={() => setIsCreating(false)}
+            className="text-gray-600 hover:text-gray-800"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -298,69 +345,93 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
         <div className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Title *
+              </label>
               <input
                 type="text"
                 value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter post title"
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Slug</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Slug
+              </label>
               <input
                 type="text"
                 value={form.slug}
                 onChange={e => setForm({ ...form, slug: e.target.value })}
                 disabled={editingPost?.status === 'published'}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
                 placeholder="Leave blank to auto-generate from title"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Excerpt *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Excerpt *
+            </label>
             <textarea
               value={form.excerpt}
               onChange={e => setForm({ ...form, excerpt: e.target.value })}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Brief description of the post"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Content * <span className="text-xs font-normal text-gray-400">(Bold, headings H2–H4, links, tables, and images can be inserted between paragraphs)</span>
+              Content *{' '}
+              <span className="text-xs font-normal text-gray-400">
+                (Bold, headings H2–H4, links, tables, and images can be inserted between paragraphs)
+              </span>
             </label>
-            <RichTextEditor value={form.content} onChange={html => setForm({ ...form, content: html })} token={token} />
+
+            <RichTextEditor
+              value={form.content}
+              onChange={html => setForm({ ...form, content: html })}
+              token={token}
+            />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tag *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tag *
+              </label>
               <select
                 value={form.tag}
                 onChange={e => setForm({ ...form, tag: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {BLOG_TAGS.map(t => (
-                  <option key={t} value={t}>{t}</option>
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
                 ))}
               </select>
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Keywords (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Keywords (comma-separated)
+              </label>
               <input
                 type="text"
                 value={form.keywords}
                 onChange={e => setForm({ ...form, keywords: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. seed funding, valuation, term sheet"
               />
-              <p className="text-xs text-gray-400 mt-1">Shown as visible chips on the published post.</p>
+              <p className="text-xs text-gray-400 mt-1">
+                Shown as visible chips on the published post.
+              </p>
             </div>
           </div>
 
@@ -384,22 +455,27 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Author Name *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Author Name *
+              </label>
               <input
                 type="text"
                 value={form.authorName}
                 onChange={e => setForm({ ...form, authorName: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. Dr. Ananya Sharma"
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Author Title</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Author Title
+              </label>
               <input
                 type="text"
                 value={form.authorTitle}
                 onChange={e => setForm({ ...form, authorTitle: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. Partner, Strategy Practice"
               />
             </div>
@@ -416,17 +492,29 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Author Bio <span className="text-xs font-normal text-gray-400">(2–3 sentences, shown at the bottom of the post)</span>
+              Author Bio{' '}
+              <span className="text-xs font-normal text-gray-400">
+                (2–3 sentences, shown at the bottom of the post)
+              </span>
             </label>
+
             <textarea
               value={form.authorBio}
-              onChange={e => setForm({ ...form, authorBio: e.target.value.slice(0, 300) })}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  authorBio: e.target.value.slice(0, 300),
+                })
+              }
               rows={2}
               maxLength={300}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="A short bio shown under the post..."
             />
-            <p className="text-xs text-gray-400 mt-1">{form.authorBio.length}/300</p>
+
+            <p className="text-xs text-gray-400 mt-1">
+              {form.authorBio.length}/300
+            </p>
           </div>
 
           {/* SEO section */}
@@ -437,54 +525,88 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
               className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
             >
               {showSeo ? 'Hide' : 'Show'} Advanced SEO Overrides
+
               <svg
-                className={`w-4 h-4 transition-transform ${showSeo ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${
+                  showSeo ? 'rotate-180' : ''
+                }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
+
             {showSeo && (
               <div className="grid md:grid-cols-2 gap-6 mt-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">SEO Title</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    SEO Title
+                  </label>
                   <input
                     type="text"
                     value={form.seoTitle}
-                    onChange={e => setForm({ ...form, seoTitle: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onChange={e =>
+                      setForm({ ...form, seoTitle: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={form.title || 'Defaults to Title'}
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">SEO Description</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    SEO Description
+                  </label>
                   <input
                     type="text"
                     value={form.seoDescription}
-                    onChange={e => setForm({ ...form, seoDescription: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onChange={e =>
+                      setForm({
+                        ...form,
+                        seoDescription: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={form.excerpt || 'Defaults to Excerpt'}
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">OG Image URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    OG Image URL
+                  </label>
                   <input
                     type="text"
                     value={form.seoOgImage}
-                    onChange={e => setForm({ ...form, seoOgImage: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onChange={e =>
+                      setForm({ ...form, seoOgImage: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Defaults to Cover Image"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Canonical URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Canonical URL
+                  </label>
                   <input
                     type="text"
                     value={form.canonicalUrl}
-                    onChange={e => setForm({ ...form, canonicalUrl: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onChange={e =>
+                      setForm({
+                        ...form,
+                        canonicalUrl: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={`Defaults to /blog/${form.slug || '...'}`}
                   />
                 </div>
@@ -498,10 +620,18 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
               <input
                 type="checkbox"
                 checked={form.hasReport}
-                onChange={e => setForm({ ...form, hasReport: e.target.checked })}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    hasReport: e.target.checked,
+                  })
+                }
                 className="w-4 h-4 rounded"
               />
-              <span className="text-sm font-medium text-gray-700">This post has an associated report</span>
+
+              <span className="text-sm font-medium text-gray-700">
+                This post has an associated report
+              </span>
             </label>
 
             {form.hasReport && (
@@ -512,46 +642,85 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                   folder="blog-reports"
                   token={token}
                   value={form.reportMockupImageUrl}
-                  onChange={url => setForm({ ...form, reportMockupImageUrl: url })}
+                  onChange={url =>
+                    setForm({
+                      ...form,
+                      reportMockupImageUrl: url,
+                    })
+                  }
                 />
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Report Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Report Name *
+                  </label>
+
                   <input
                     type="text"
                     value={form.reportName}
-                    onChange={e => setForm({ ...form, reportName: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onChange={e =>
+                      setForm({
+                        ...form,
+                        reportName: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Report Description *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Report Description *
+                  </label>
+
                   <textarea
                     value={form.reportDescription}
-                    onChange={e => setForm({ ...form, reportDescription: e.target.value })}
+                    onChange={e =>
+                      setForm({
+                        ...form,
+                        reportDescription: e.target.value,
+                      })
+                    }
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Authors (1–3, comma-separated) *
                     </label>
+
                     <input
                       type="text"
                       value={form.reportAuthors}
-                      onChange={e => setForm({ ...form, reportAuthors: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onChange={e =>
+                        setForm({
+                          ...form,
+                          reportAuthors: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="e.g. Rahul Mehta, Priya Krishnan"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Release Date *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Release Date *
+                    </label>
+
                     <input
                       type="date"
                       value={form.reportReleaseDate}
-                      onChange={e => setForm({ ...form, reportReleaseDate: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onChange={e =>
+                        setForm({
+                          ...form,
+                          reportReleaseDate: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -562,7 +731,10 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
           {/* Recommended Reading section */}
           <div className="border-t border-gray-200 pt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Recommended Reading <span className="text-xs font-normal text-gray-400">(search and pick up to 5 already-published posts)</span>
+              Recommended Reading{' '}
+              <span className="text-xs font-normal text-gray-400">
+                (search and pick up to 5 already-published posts)
+              </span>
             </label>
 
             {form.relatedPosts.length > 0 && (
@@ -573,6 +745,7 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                     className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs px-3 py-1.5 rounded-full"
                   >
                     {rp.title}
+
                     <button
                       type="button"
                       onClick={() => removeRelatedPost(rp._id)}
@@ -591,18 +764,28 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                   type="text"
                   value={relatedQuery}
                   onChange={e => setRelatedQuery(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-[#0B1F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Search posts by title..."
                 />
+
                 {relatedQuery.trim() && (
                   <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto">
                     {relatedSearching ? (
-                      <p className="px-4 py-3 text-sm text-gray-400">Searching…</p>
+                      <p className="px-4 py-3 text-sm text-gray-400">
+                        Searching…
+                      </p>
                     ) : relatedResults.length === 0 ? (
-                      <p className="px-4 py-3 text-sm text-gray-400">No matching posts found.</p>
+                      <p className="px-4 py-3 text-sm text-gray-400">
+                        No matching posts found.
+                      </p>
                     ) : (
                       relatedResults
-                        .filter(r => !form.relatedPosts.some(rp => rp._id === r._id))
+                        .filter(
+                          r =>
+                            !form.relatedPosts.some(
+                              rp => rp._id === r._id
+                            )
+                        )
                         .map(r => (
                           <button
                             key={r._id}
@@ -618,7 +801,9 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                 )}
               </div>
             ) : (
-              <p className="text-xs text-gray-400">Maximum of 5 reached — remove one above to add another.</p>
+              <p className="text-xs text-gray-400">
+                Maximum of 5 reached — remove one above to add another.
+              </p>
             )}
           </div>
 
@@ -628,8 +813,13 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
               disabled={saving}
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors disabled:opacity-50"
             >
-              {saving ? 'Saving…' : editingPost ? 'Update Post' : 'Save Draft'}
+              {saving
+                ? 'Saving…'
+                : editingPost
+                  ? 'Update Post'
+                  : 'Save Draft'}
             </button>
+
             <button
               onClick={() => setIsCreating(false)}
               className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium transition-colors"
@@ -649,35 +839,55 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
           <button
             onClick={() => setFilterStatus('all')}
             className={`px-4 py-2 rounded-md text-sm font-medium ${
-              filterStatus === 'all' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+              filterStatus === 'all'
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             All ({blogs.length})
           </button>
+
           <button
             onClick={() => setFilterStatus('published')}
             className={`px-4 py-2 rounded-md text-sm font-medium ${
-              filterStatus === 'published' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+              filterStatus === 'published'
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             Published ({blogs.filter(p => p.status === 'published').length})
           </button>
+
           <button
             onClick={() => setFilterStatus('draft')}
             className={`px-4 py-2 rounded-md text-sm font-medium ${
-              filterStatus === 'draft' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+              filterStatus === 'draft'
+                ? 'bg-blue-100 text-blue-700'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             Drafts ({blogs.filter(p => p.status === 'draft').length})
           </button>
         </div>
+
         <button
           onClick={handleCreateNew}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors flex items-center gap-2 self-start"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
           </svg>
+
           Create New Post
         </button>
       </div>
@@ -690,50 +900,74 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
 
       {filteredBlogs.length === 0 ? (
         <div className="bg-white rounded-md border border-gray-200 p-12 text-center">
-          <p className="text-gray-400">No blog posts yet. Click &quot;Create New Post&quot; to get started.</p>
+          <p className="text-gray-400">
+            No blog posts yet. Click &quot;Create New Post&quot; to get started.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
           {filteredBlogs.map(post => (
-            <div key={post._id} className="bg-white rounded-md p-6 shadow-sm border border-gray-200">
+            <div
+              key={post._id}
+              className="bg-white rounded-md p-6 shadow-sm border border-gray-200"
+            >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <h3 className="text-xl font-medium text-gray-800">{post.title}</h3>
+                    <h3 className="text-xl font-medium text-gray-800">
+                      {post.title}
+                    </h3>
+
                     <span
                       className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        post.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                        post.status === 'published'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-gray-100 text-gray-700'
                       }`}
                     >
                       {post.status}
                     </span>
+
                     {post.report && (
                       <span className="text-xs px-3 py-1 rounded-full font-medium bg-purple-100 text-purple-700">
                         Has Report
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{post.excerpt}</p>
+
+                  <p className="text-gray-600 text-sm mb-3">
+                    {post.excerpt}
+                  </p>
+
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                     <span>By {post.authorName}</span>
                     <span>•</span>
                     <span>{post.tag}</span>
                     <span>•</span>
                     <span>{post.readTimeMinutes} min read</span>
+
                     {post.publishedAt && (
                       <>
                         <span>•</span>
-                        <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(post.publishedAt).toLocaleDateString()}
+                        </span>
                       </>
                     )}
                   </div>
                 </div>
+
                 <div className="flex gap-2 self-end sm:self-start">
                   <button
                     onClick={() => handleEdit(post)}
                     className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -742,18 +976,24 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                       />
                     </svg>
                   </button>
+
                   {post.status === 'published' ? (
                     <button
                       onClick={() => handleUnpublish(post._id)}
                       className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-md transition-colors"
                       title="Move to draft"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                          d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636"
                         />
                       </svg>
                     </button>
@@ -763,16 +1003,32 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                       className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors"
                       title="Publish"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                     </button>
                   )}
+
                   <button
                     onClick={() => handleDelete(post._id)}
                     className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -790,3 +1046,4 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
     </div>
   );
 }
+
