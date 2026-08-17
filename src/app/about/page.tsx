@@ -388,7 +388,7 @@ const TeamSection = () => {
     {
       name: 'Vishal Gupta',
       role: 'Senior Partner',
-      location: 'New Delhi - India',
+      location: 'Bengaluru - India',
       tier: 'Leadership',
       bio: 'Built and restructured distribution networks and organisational systems for businesses scaling from single-city to multi-region operations. Worked directly with founders to design team structures and operating systems built to hold up under real growth pressure. Expertise: distribution strategy, organisational design, and operational scaling.',
       image: '/assets/about/people/Vishal.png'
@@ -436,7 +436,7 @@ const TeamSection = () => {
     {
       name: 'Arun Nair',
       role: 'Business Analyst',
-      location: 'Bengaluru - India',
+      location: 'New Delhi - India',
       tier: 'Analyst',
       bio: 'Worked at a Big Four advisory practice on financial analysis and transaction support, handling due diligence workstreams and financial modelling for client transactions. Expertise: financial modelling, due diligence, and competitive research.',
       image: '/assets/about/people/Arun.png'
