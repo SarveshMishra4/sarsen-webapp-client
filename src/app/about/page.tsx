@@ -371,7 +371,7 @@ const TeamSection = () => {
   const MEMBERS: TeamMember[] = [
     {
       name: 'Sameer Dhaiya',
-      role: 'Head of Supply Chain',
+      role: 'Senior Partner',
       location: 'Hyderabad - India',
       tier: 'Leadership',
       bio: 'Spent over a decade managing end-to-end supply chain operations across manufacturing and consumer businesses. Led a procurement restructuring programme for a multi-plant manufacturer, ran vendor consolidation initiatives that cut supplier redundancy, and re-engineered logistics networks for businesses moving from regional to national distribution. Expertise: procurement strategy, vendor negotiation, and logistics network design.',
@@ -379,7 +379,7 @@ const TeamSection = () => {
     },
     {
       name: 'Sarvesh Mishra',
-      role: 'Head of Strategy',
+      role: 'Senior Partner',
       location: 'Goa - India',
       tier: 'Leadership',
       bio: 'Built and scaled a services business from the ground up before moving into strategy advisory. Worked extensively in private equity, evaluating investment opportunities and structuring portfolio-level strategy for growth-stage companies. Expertise: strategic diagnostics, PE deal evaluation, and founder-aligned execution planning.',
@@ -387,7 +387,7 @@ const TeamSection = () => {
     },
     {
       name: 'Vishal Gupta',
-      role: 'Head of Business & Operations',
+      role: 'Senior Partner',
       location: 'New Delhi - India',
       tier: 'Leadership',
       bio: 'Built and restructured distribution networks and organisational systems for businesses scaling from single-city to multi-region operations. Worked directly with founders to design team structures and operating systems built to hold up under real growth pressure. Expertise: distribution strategy, organisational design, and operational scaling.',
@@ -395,7 +395,7 @@ const TeamSection = () => {
     },
     {
       name: 'Aakansha Rao ',
-      role: 'Head of Customer Relations',
+      role: 'Associate',
       location: 'Bengaluru - India',
       tier: 'Leadership',
       bio: 'Managed key client relationships across professional services and consulting firms, with a track record of turning client needs into structured, actionable engagement briefs. Background in account management, where she was responsible for long-term retention and engagement quality on high-value accounts. Expertise: client relationship management, stakeholder communication, and account strategy.',
@@ -403,7 +403,7 @@ const TeamSection = () => {
     },
     {
       name: 'Rishabh Panda',
-      role: 'Strategy & Growth Associate',
+      role: 'Associate',
       location: 'Bengaluru - India',
       tier: 'Associate',
       bio: 'Worked at Ernst & Young\'s transaction advisory practice, where he supported financial due diligence and market analysis on mid-market transactions. Handled deal-support workstreams involving market sizing, competitive benchmarking, and financial modelling. Expertise: financial due diligence, market analysis, and growth strategy.',
@@ -411,7 +411,7 @@ const TeamSection = () => {
     },
     {
       name: 'Eitan Shapiro',
-      role: 'Senior Associate',
+      role: 'Partner',
       location: 'Boston - United States',
       tier: 'Associate',
       bio: 'Worked with Bank Leumi\'s private equity and structured finance division, where he screened investment opportunities and conducted portfolio analysis across technology and industrial sectors. Handled deal evaluation and risk assessment for structured finance transactions. Expertise: investment screening, structured finance, and portfolio analysis.',
@@ -427,7 +427,7 @@ const TeamSection = () => {
     },
     {
       name: 'Meghna Borah',
-      role: 'Analyst',
+      role: 'Business Analyst',
       location: 'New Delhi - India',
       tier: 'Analyst',
       bio: 'Worked with a policy research organisation focused on economic development, where she conducted primary research, stakeholder mapping, and sector analysis. Handled the structuring of qualitative findings from field research into clear, decision-ready outputs. Expertise: primary research, stakeholder mapping, and sector analysis.',
@@ -435,7 +435,7 @@ const TeamSection = () => {
     },
     {
       name: 'Arun Nair',
-      role: 'Analyst',
+      role: 'Business Analyst',
       location: 'Bengaluru - India',
       tier: 'Analyst',
       bio: 'Worked at a Big Four advisory practice on financial analysis and transaction support, handling due diligence workstreams and financial modelling for client transactions. Expertise: financial modelling, due diligence, and competitive research.',
