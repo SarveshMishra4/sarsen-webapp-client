@@ -574,20 +574,16 @@ const TeamSection = () => {
                     alt={member.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  {/*
-                    Location badge — pinned to the top-right corner on every screen size.
-                    - text scales down (9px/11px/xs) instead of a fixed text-sm that overflowed tiny cards
-                    - inner text span truncates instead of wrapping onto multiple lines
-                    - badge width is capped so it never spills past the right edge of the card
-                    - icon has flex-shrink-0 so it never gets squeezed by long location names
-                  */}
-                  <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex items-center gap-0.5 sm:gap-1 bg-[#0A1E3D] backdrop-blur-sm text-white text-[9px] sm:text-[10px] md:text-xs px-1 py-0.5 sm:px-1.5 rounded-md font-medium max-w-[70%] sm:max-w-[75%]">
-                    <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="truncate">{member.location}</span>
-                  </span>
+                  {/* Variant 2 — Full-width gradient bar along the bottom of the image */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-4 sm:pt-6 pb-1.5 sm:pb-2 px-1.5 sm:px-2">
+                    <span className="flex items-center gap-1 text-white text-[9px] sm:text-[10px] md:text-xs font-medium">
+                      <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span className="truncate">{member.location}</span>
+                    </span>
+                  </div>
                 </div>
                 <div className="p-2 sm:p-2.5 md:p-3">
                   <h3 className="text-sm sm:text-sm md:text-base lg:text-xl font-medium text-white truncate">{member.name}</h3>
