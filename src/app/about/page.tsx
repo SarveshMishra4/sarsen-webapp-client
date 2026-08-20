@@ -375,7 +375,7 @@ const TeamSection = () => {
       location: 'Hyderabad - India',
       tier: 'Leadership',
       bio: 'Spent over a decade managing end-to-end supply chain operations across manufacturing and consumer businesses. Led a procurement restructuring programme for a multi-plant manufacturer, ran vendor consolidation initiatives that cut supplier redundancy, and re-engineered logistics networks for businesses moving from regional to national distribution. Expertise: procurement strategy, vendor negotiation, and logistics network design.',
-      image: '/assets/about/people/Sameer.png'
+      image: '/assets/about/people/Sameer.webp'
     },
     {
       name: 'Sarvesh Mishra',
@@ -383,7 +383,7 @@ const TeamSection = () => {
       location: 'Goa - India',
       tier: 'Leadership',
       bio: 'Built and scaled a services business from the ground up before moving into strategy advisory. Worked extensively in private equity, evaluating investment opportunities and structuring portfolio-level strategy for growth-stage companies. Expertise: strategic diagnostics, PE deal evaluation, and founder-aligned execution planning.',
-      image: '/assets/about/people/Sarvesh.png'
+      image: '/assets/about/people/Sarvesh.webp'
     },
     {
       name: 'Vishal Gupta',
@@ -391,7 +391,7 @@ const TeamSection = () => {
       location: 'Bengaluru - India',
       tier: 'Leadership',
       bio: 'Built and restructured distribution networks and organisational systems for businesses scaling from single-city to multi-region operations. Worked directly with founders to design team structures and operating systems built to hold up under real growth pressure. Expertise: distribution strategy, organisational design, and operational scaling.',
-      image: '/assets/about/people/Vishal.png'
+      image: '/assets/about/people/Vishal.webp'
     },
     {
       name: 'Aakansha Rao ',
@@ -399,7 +399,7 @@ const TeamSection = () => {
       location: 'Bengaluru - India',
       tier: 'Leadership',
       bio: 'Managed key client relationships across professional services and consulting firms, with a track record of turning client needs into structured, actionable engagement briefs. Background in account management, where she was responsible for long-term retention and engagement quality on high-value accounts. Expertise: client relationship management, stakeholder communication, and account strategy.',
-      image: '/assets/about/people/Aakansha.png'
+      image: '/assets/about/people/Aakansha.webp'
     },
     {
       name: 'Rishabh Panda',
@@ -407,7 +407,7 @@ const TeamSection = () => {
       location: 'Bengaluru - India',
       tier: 'Associate',
       bio: 'Worked at Ernst & Young\'s transaction advisory practice, where he supported financial due diligence and market analysis on mid-market transactions. Handled deal-support workstreams involving market sizing, competitive benchmarking, and financial modelling. Expertise: financial due diligence, market analysis, and growth strategy.',
-      image: '/assets/about/people/Panda.png'
+      image: '/assets/about/people/Panda.webp'
     },
     {
       name: 'Eitan Shapiro',
@@ -415,7 +415,7 @@ const TeamSection = () => {
       location: 'Boston - United States',
       tier: 'Associate',
       bio: 'Worked with Bank Leumi\'s private equity and structured finance division, where he screened investment opportunities and conducted portfolio analysis across technology and industrial sectors. Handled deal evaluation and risk assessment for structured finance transactions. Expertise: investment screening, structured finance, and portfolio analysis.',
-      image: '/assets/about/people/Eitan.png'
+      image: '/assets/about/people/Eitan.webp'
     },
     {
       name: 'Karan Malhotra',
@@ -423,7 +423,7 @@ const TeamSection = () => {
       location: 'Pune - India',
       tier: 'Associate',
       bio: 'Worked with businesses across manufacturing, distribution, and emerging consumer segments, handling go-to-market and operational strategy engagements for companies operating under tight resource constraints. Expertise: go-to-market strategy, resource-constrained operations, and execution planning.',
-      image: '/assets/about/people/Karan.png'
+      image: '/assets/about/people/Karan.webp'
     },
     {
       name: 'Meghna Borah',
@@ -431,14 +431,15 @@ const TeamSection = () => {
       location: 'New Delhi - India',
       tier: 'Analyst',
       bio: 'Worked with a policy research organisation focused on economic development, where she conducted primary research, stakeholder mapping, and sector analysis. Handled the structuring of qualitative findings from field research into clear, decision-ready outputs. Expertise: primary research, stakeholder mapping, and sector analysis.',
-      image: '/assets/about/people/Meghna.png'
+      image: '/assets/about/people/Meghna.webp'
     },
     {
   name: 'Ralph Peter Price',
   role: 'Associate Partner',
   location: 'London - United Kingdom',
   tier: 'Associate',
-bio: 'ESG and sustainability advisor with over 25 years of experience across the maritime and resource-intensive industries, including Oil & Gas, mineral shipping and dredging, LNG, and the superyacht sector. He brings deep cross-sector expertise in sustainability strategy, ESG integration, decarbonisation, environmental management, and responsible business practices, helping organisations navigate the transition toward more resilient and sustainable operating models. Based in London, he brings an international perspective to ESG strategy, combining extensive industry experience with strategic advisory, board-level, consulting, and venture-building experience.',  image: '/assets/about/people/Ralph.png'
+bio: 'ESG and sustainability advisor with over 25 years of experience across the maritime and resource-intensive industries, including Oil & Gas, mineral shipping and dredging, LNG, and the superyacht sector. He brings deep cross-sector expertise in sustainability strategy, ESG integration, decarbonisation, environmental management, and responsible business practices, helping organisations navigate the transition toward more resilient and sustainable operating models. Based in London, he brings an international perspective to ESG strategy, combining extensive industry experience with strategic advisory, board-level, consulting, and venture-building experience.',  
+image: '/assets/about/people/Ralph.webp'
 },
     {
       name: 'Arun Nair',
@@ -446,7 +447,7 @@ bio: 'ESG and sustainability advisor with over 25 years of experience across the
       location: 'New Delhi - India',
       tier: 'Analyst',
       bio: 'Worked at a Big Four advisory practice on financial analysis and transaction support, handling due diligence workstreams and financial modelling for client transactions. Expertise: financial modelling, due diligence, and competitive research.',
-      image: '/assets/about/people/Arun.png'
+      image: '/assets/about/people/Arun.webp'
     }
   ];
 
