@@ -1,28 +1,61 @@
 'use client';
 
 import { useState, useRef, FormEvent } from 'react';
-import { QUESTIONS, CanvasHeatmap } from './businessHeatMapConfig';
+import { QUESTIONS, DONT_KNOW_VALUE, CanvasHeatmap } from './businessHeatMapConfig';
 
 // =====================================================
 // CONFIG
 // =====================================================
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
+// QUESTIONS, CANVAS_AREAS, getAreaScore, scoreToColor, and CanvasHeatmap
+// now live in ./businessHeatMapConfig.tsx — extracted so the admin panel
+// can render the exact same question text, option labels, and heatmap
+// visual when reviewing a submission. See that file's header comment for
+// details.
+//
+// UPDATE (this revision): the old shared SCALE (Critical/Weak/Developing/
+// Healthy/Strong buttons, same across every question) is gone. Each
+// question now supplies its own `options` array — heading + explanation
+// per option — rendered as a stacked list below instead of a row of small
+// buttons, so a founder can read every option before picking one.
+
 // =====================================================
 // HELPERS
 // =====================================================
 function isValidEmail(value: string): boolean {
+  // Simple, permissive check — the backend does the authoritative validation.
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 }
 
-// Colour mapping for the new answer values (0,1,4,7,10)
-const ANSWER_STYLES: Record<number, { active: string; idle: string }> = {
-  0: { active: 'bg-gray-600 text-white border-gray-600', idle: 'border-gray-200 text-gray-700 hover:bg-gray-50' },
-  1: { active: 'bg-red-600 text-white border-red-600', idle: 'border-red-200 text-red-700 hover:bg-red-50' },
-  4: { active: 'bg-amber-500 text-white border-amber-500', idle: 'border-amber-200 text-amber-700 hover:bg-amber-50' },
-  7: { active: 'bg-green-600 text-white border-green-600', idle: 'border-green-200 text-green-700 hover:bg-green-50' },
-  10: { active: 'bg-emerald-600 text-white border-emerald-600', idle: 'border-emerald-200 text-emerald-700 hover:bg-emerald-50' },
+// -----------------------------------------------------
+// Presentation-only answer-option styling.
+// Purely visual — does not touch AnswerValue, scoring, or any field coming
+// from businessHeatMapConfig.
+//
+// One consistent brand colour is used everywhere in the option card: the
+// signal tower's filled bars, the selected border, the selected tint, the
+// selected title text, and the tick. Only the number of filled bars
+// changes per option — that's what carries the "how far along" meaning,
+// not colour. "I don't know" reuses the exact same tower with zero bars
+// filled — no separate icon, no extra mark — so an unaware answer is
+// unmistakably "no signal" at a glance.
+// -----------------------------------------------------
+const BRAND_COLOR = '#0A1E3D'; // used for tower fill, selected state, and the tick — everywhere, consistently
+const SELECTED_TINT = '#EEF2F9'; // one consistent light wash behind a selected option
+
+const BAR_COUNT: Record<number, number> = {
+  1: 1,
+  4: 2,
+  7: 3,
+  10: 4,
+  [DONT_KNOW_VALUE]: 0, // don't know — no bars filled, no signal
 };
+
+// How long the tick stays visible, alone, before we auto-advance to the
+// next question. Gives the founder a clear beat to register their choice
+// instead of the screen jumping the instant they tap.
+const ADVANCE_DELAY_MS = 650;
 
 // =====================================================
 // MAIN COMPONENT
@@ -30,8 +63,9 @@ const ANSWER_STYLES: Record<number, { active: string; idle: string }> = {
 export default function StrategyDiagnostic() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentQ, setCurrentQ] = useState(0);
+  const [advancing, setAdvancing] = useState(false);
 
-  const [phase, setPhase] = useState<'intro' | 'questions' | 'email' | 'results'>('intro');
+  const [phase, setPhase] = useState<'intro' | 'disclaimer' | 'questions' | 'email' | 'results'>('intro');
 
   const [companyName, setCompanyName] = useState('');
   const [founderName, setFounderName] = useState('');
@@ -53,15 +87,20 @@ export default function StrategyDiagnostic() {
   const currentAnswer = answers[q?.id];
 
   function handleAnswer(qId: string, value: number) {
-    setAnswers((prev) => ({ ...prev, [qId]: value }));
+    if (advancing) return; // a tick is already showing — ignore taps until it advances
 
-    if (currentQ < totalQ - 1) {
-      setCurrentQ(currentQ + 1);
+    setAnswers((prev) => ({ ...prev, [qId]: value }));
+    setAdvancing(true);
+
+    window.setTimeout(() => {
+      if (currentQ < totalQ - 1) {
+        setCurrentQ((prev) => prev + 1);
+      } else {
+        setPhase('email');
+      }
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      setPhase('email');
-      topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+      setAdvancing(false);
+    }, ADVANCE_DELAY_MS);
   }
 
   function handleStart(e: FormEvent<HTMLFormElement>) {
@@ -72,11 +111,15 @@ export default function StrategyDiagnostic() {
       return;
     }
 
-    setPhase('questions');
+    setPhase('disclaimer');
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Backend connection – unchanged from previous version.
+  // =====================================================
+  // BACKEND SUBMISSION — enabled
+  // =====================================================
+  // Sends founder/company/industry/email plus the raw per‑question answers
+  // to the backend, and only advances to results on success.
   async function handleEmailSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setEmailTouched(true);
@@ -118,6 +161,7 @@ export default function StrategyDiagnostic() {
   function resetAll() {
     setAnswers({});
     setCurrentQ(0);
+    setAdvancing(false);
     setEmail('');
     setEmailTouched(false);
     setSubmitError(null);
@@ -232,6 +276,69 @@ export default function StrategyDiagnostic() {
   }
 
   // =====================================================
+  // DISCLAIMER — shown once, right after the intro form,
+  // before the first question
+  // =====================================================
+  if (phase === 'disclaimer') {
+    return (
+      <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
+        <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName || 'Your business'} · Before you begin</p>
+            <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">
+              Two things first, {founderName.split(' ')[0] || 'founder'}
+            </h1>
+            <p className="text-gray-300 text-base leading-relaxed">
+              This diagnostic is only as useful as the honesty you bring to it.
+            </p>
+          </div>
+        </section>
+
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-8">
+              <div className="flex gap-4 sm:gap-5 pb-6 mb-6 border-b border-gray-100">
+                <span className="flex-shrink-0 w-8 h-8  text-[#0A1E3D]  text-sm font-semibold flex items-center justify-center">
+                  ●
+                </span>
+                <div>
+                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Read every option before you choose</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Each question has five distinct answers, not a slider. Picking the first one that sounds close, without reading the rest, is how you end up with a score that doesn&apos;t actually reflect where you stand.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 sm:gap-5">
+                <span className="flex-shrink-0 w-8 h-8 text-[#0A1E3D]  text-sm font-semibold flex items-center justify-center">
+                  ●
+                </span>
+                <div>
+                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Be 100% honest with yourself</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    There&apos;s no one to perform a good score for here. The only version of this that&apos;s worth anything is the one built on where {companyName || 'your business'} actually stands today, not where you wish it stood.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setPhase('questions');
+                topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-7 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 group"
+            >
+              <span>I understand, let&apos;s begin</span>
+              
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  // =====================================================
   // EMAIL GATE
   // =====================================================
   if (phase === 'email') {
@@ -313,11 +420,12 @@ export default function StrategyDiagnostic() {
                   <h3 className="text-white text-xl sm:text-2xl font-medium mb-3 leading-snug">
                     {founderName.split(' ')[0] || 'Founder'}! You have merely scratched the surface.
                   </h3>
-                  <p className="text-gray-300 text-xs sm:text-base">
-                    We&apos;ve diagnosed {companyName}. A preliminary diagnostic reveals key areas where strategic shifts could materially change {companyName}&apos;s direction.
-                    But this is only the beginning — 94% of founders who participated in our Business Diagnostic &amp; Direction have reported substantial, visible changes in their business in as little as 45 days.
-                  </p>
+                  <p className="text-gray-300 text-sm ">
+  We&apos;ve diagnosed {companyName}. A preliminary diagnostic reveals key areas where strategic shifts could materially change {companyName}&apos;s direction.
+  But this is only the beginning — 9 of 10 founders who participated in our Business Diagnostic &amp; Direction have reported substantial, visible changes in their business in as little as 45 days.
+</p>
                 </div>
+
 
                 <div className="flex md:justify-end">
                   <button
@@ -332,6 +440,7 @@ export default function StrategyDiagnostic() {
                     </svg>
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
@@ -361,32 +470,83 @@ export default function StrategyDiagnostic() {
 
         <div key={q.id} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
           <p className="text-sm text-gray-500 mb-3">{q.module}</p>
-          <h2 className="text-2xl sm:text-3xl text-gray-800 mb-3 leading-snug">{q.text}</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">{q.text}</h2>
           <p className="text-base text-gray-500 leading-relaxed mb-8">{q.helpText}</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5">
-            {q.options.map((option) => {
-              const isSelected = currentAnswer === option.value;
-              const style = ANSWER_STYLES[option.value] || ANSWER_STYLES[0];
+          <div className="flex flex-col gap-3 sm:gap-3.5">
+            {[...q.options]
+              .sort((a, b) => {
+                if (a.value === DONT_KNOW_VALUE) return -1;
+                if (b.value === DONT_KNOW_VALUE) return 1;
+                return a.value - b.value;
+              })
+              .map((opt) => {
+              const isSelected = currentAnswer === opt.value;
+              const bars = BAR_COUNT[opt.value];
+              const locked = advancing && !isSelected;
+
               return (
                 <button
-                  key={option.value}
-                  onClick={() => handleAnswer(q.id, option.value)}
-                  className={`flex flex-col items-center justify-center gap-1 py-4 px-2 rounded-md border text-center transition-all duration-150 ${isSelected ? `${style.active} shadow-sm scale-[1.02]` : `bg-white ${style.idle}`}`}
+                  key={opt.value}
+                  type="button"
+                  onClick={() => handleAnswer(q.id, opt.value)}
+                  disabled={advancing}
+                  aria-pressed={isSelected}
+                  className={`group flex items-start gap-3.5 sm:gap-4 text-left w-full rounded-lg border-2 px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-150 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isSelected ? 'shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                    } ${locked ? 'opacity-40' : ''}`}
+                  style={
+                    (isSelected
+                      ? { borderColor: BRAND_COLOR, backgroundColor: SELECTED_TINT, boxShadow: `0 0 0 1px ${BRAND_COLOR}22` }
+                      : { '--tw-ring-color': BRAND_COLOR }) as any
+                  }
                 >
-                  <span className="text-base font-semibold">{option.title}</span>
+                  {/* Signal-strength tower: same navy fill for every option, only
+                      the bar count changes. "Don't know" reuses the exact same
+                      tower with zero bars filled — a plain "no signal" reading,
+                      no separate icon. */}
+                  <div className="flex-shrink-0 flex items-end pt-1.5" aria-hidden="true">
+                    <div className="flex items-end gap-[3px] h-5">
+                      {[0, 1, 2, 3].map((i) => (
+                        <span
+                          key={i}
+                          className="w-[3px] rounded-full transition-colors duration-150"
+                          style={{
+                            height: `${7 + i * 4}px`,
+                            backgroundColor: i < bars ? BRAND_COLOR : '#E2E8F0',
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-base font-semibold mb-1 transition-colors duration-150"
+                      style={{ color: isSelected ? BRAND_COLOR : '#1F2937' }}
+                    >
+                      {opt.title}
+                    </p>
+                    <p className="text-sm text-gray-500 leading-relaxed">{opt.description}</p>
+                  </div>
+
+                  {/* Selection tick — same consistent colour for every option,
+                      a smoothed-corner square rather than a circle */}
+                  <span
+                    className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-md border-2 mt-0.5 transition-all duration-150 ${isSelected ? '' : 'border-gray-300 bg-white group-hover:border-gray-400'
+                      }`}
+                    style={isSelected ? { backgroundColor: BRAND_COLOR, borderColor: BRAND_COLOR } : undefined}
+                    aria-hidden="true"
+                  >
+                    {isSelected && (
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </span>
                 </button>
               );
             })}
           </div>
-
-          {currentAnswer !== undefined && (
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {q.options.find((o) => o.value === currentAnswer)?.description}
-              </p>
-            </div>
-          )}
         </div>
 
         <div className="flex items-center justify-center gap-2.5 mt-7" aria-label="Question progress">
@@ -398,7 +558,8 @@ export default function StrategyDiagnostic() {
               <span
                 key={question.id}
                 aria-label={`Question ${index + 1}${answered ? ', answered' : ''}`}
-                className={`rounded-full transition-all duration-300 ${isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'}`}
+                className={`rounded-full transition-all duration-300 ${isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
+                  }`}
               />
             );
           })}
