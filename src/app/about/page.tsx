@@ -434,7 +434,7 @@ const TeamSection = () => {
       image: '/assets/about/people/Meghna.png'
     },
     {
-  name: 'Ralph Peter',
+  name: 'Ralph Peter Price',
   role: 'Associate Partner',
   location: 'London - United Kingdom',
   tier: 'Associate',
