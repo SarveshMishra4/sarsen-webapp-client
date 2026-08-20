@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiRequest } from '@/services/api';
-import { QUESTIONS, scaleLabel, CanvasHeatmap } from '@/app/resources/tools/business-heatmap/businessHeatMapConfig';
+import { QUESTIONS, optionLabel, CanvasHeatmap } from '@/app/resources/tools/business-heatmap/businessHeatMapConfig';
 import type { ApiLead, ApiLeadSubmission } from './page';
 
 interface LeadsTabProps {
@@ -78,7 +78,7 @@ function renderValue(value: unknown): React.ReactNode {
 // Business Heat Map specific view: plain 1, 2, 3... numbering (not q1/q2),
 // the actual question text, and the word label for the answer (e.g.
 // "Strong") instead of the raw stored number. Pulls QUESTIONS and
-// scaleLabel from the shared config file so this can never drift out of
+// optionLabel from the shared config file so this can never drift out of
 // sync with what the founder actually saw on the public tool.
 function BusinessHeatMapAnswers({ answers }: { answers: Record<string, number> }) {
   return (
@@ -95,7 +95,7 @@ function BusinessHeatMapAnswers({ answers }: { answers: Record<string, number> }
               {answerValue === undefined ? (
                 <span className="text-gray-400">Not answered</span>
               ) : (
-                <span className="font-medium text-[#0A1E3D]">{scaleLabel(answerValue)}</span>
+                <span className="font-medium text-[#0A1E3D]">{optionLabel(question.id, answerValue)}</span>
               )}
             </p>
           </div>
