@@ -434,6 +434,13 @@ const TeamSection = () => {
       image: '/assets/about/people/Meghna.png'
     },
     {
+  name: 'Ralph Peter',
+  role: 'Associate Partner',
+  location: 'London - United Kingdom',
+  tier: 'Associate',
+bio: 'ESG and sustainability advisor with over 25 years of experience across the maritime and resource-intensive industries, including Oil & Gas, mineral shipping and dredging, LNG, and the superyacht sector. He brings deep cross-sector expertise in sustainability strategy, ESG integration, decarbonisation, environmental management, and responsible business practices, helping organisations navigate the transition toward more resilient and sustainable operating models. Based in London, he brings an international perspective to ESG strategy, combining extensive industry experience with strategic advisory, board-level, consulting, and venture-building experience.',  image: '/assets/about/people/Ralph.png'
+},
+    {
       name: 'Arun Nair',
       role: 'Business Analyst',
       location: 'New Delhi - India',
