@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiRequest } from '@/services/api';
-import { QUESTIONS, optionLabel, CanvasHeatmap } from '@/app/resources/tools/business-heatmap/businessHeatMapConfig';
+import { QUESTIONS, optionLabel, CanvasHeatmap } from '@/app/resources/tools/business-strength-diagnostic-tool/businessHeatMapConfig';
 import type { ApiLead, ApiLeadSubmission } from './page';
 
 interface LeadsTabProps {
