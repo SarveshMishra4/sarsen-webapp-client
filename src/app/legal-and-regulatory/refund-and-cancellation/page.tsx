@@ -1,4 +1,3 @@
-// app/refund-cancellation-policy/page.tsx
 'use client';
 
 import React from 'react';
@@ -7,13 +6,16 @@ import Link from 'next/link';
 export default function RefundCancellationPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      
+
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl  mb-4">Refund & Cancellation Policy</h1>
+          <h1 className="text-4xl md:text-5xl mb-4">
+            Refund & Cancellation Policy
+          </h1>
+
           <p className="text-xl text-blue-100">
-            Last Updated: March 26, 2026
+            Last Updated: September 3, 2026
           </p>
         </div>
       </div>
@@ -21,309 +23,609 @@ export default function RefundCancellationPage() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 space-y-8">
-          
-          {/* Company Identification & Collective Pages */}
+
+          {/* Company Identification */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Company Identification</h2>
-            <p className="text-gray-600  mb-4">
-              This Refund & Cancellation Policy is issued by Sarsen Strategy Partners, which may also operate under the trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners (collectively “Company”, “we”, “us”, “our”). All such names refer to the same legal entity.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              1. Company Identification
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              This Refund & Cancellation Policy is issued by Sarsen Strategy
+              Partners. References to “Sarsen”, “we”, “us”, or “our” in this
+              policy refer to Sarsen Strategy Partners.
             </p>
-            <p className="text-gray-600  mb-4">
-              This policy is part of a collective set of legal documents governing your use of our website and services, including our <Link href="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>, <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>, and <Link href="/disclaimer" className="text-blue-600 hover:underline">Disclaimer</Link>, all accessible via the footer of our website. These documents should be read together; no single page stands alone.
+
+            <p className="text-gray-600 mb-4">
+              This policy forms part of the legal framework governing your use
+              of our website and services, including our{' '}
+              <Link
+                href="/terms-of-use"
+                className="text-blue-600 hover:underline"
+              >
+                Terms of Use
+              </Link>
+              ,{' '}
+              <Link
+                href="/privacy-policy"
+                className="text-blue-600 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              , and{' '}
+              <Link
+                href="/disclaimer"
+                className="text-blue-600 hover:underline"
+              >
+                Disclaimer
+              </Link>
+              . These documents should be read together where applicable.
             </p>
-            <p className="text-gray-600 ">
-              By purchasing any service package, you acknowledge that you have read, understood, and agree to be bound by all of our collective legal documents.
+
+            <p className="text-gray-600">
+              By purchasing a service package, you acknowledge that you have
+              reviewed and agreed to the terms applicable to your purchase,
+              including this Refund & Cancellation Policy.
             </p>
           </section>
 
           {/* Introduction */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Introduction</h2>
-            <p className="text-gray-600  mb-4">
-              We are committed to delivering exceptional strategic consulting services. Selecting the right consulting partner is a critical decision. This Refund & Cancellation Policy outlines the terms and conditions under which refunds and cancellations are processed.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              2. Introduction
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              This Refund & Cancellation Policy explains the circumstances in
+              which payments for Sarsen Strategy Partners services may be
+              refunded, cancelled, postponed, or otherwise adjusted.
             </p>
-            <p className="text-gray-600 ">
-              Please read this policy carefully before purchasing any service package. By making a purchase, you acknowledge and agree to the terms outlined herein.
+
+            <p className="text-gray-600">
+              Please review this policy before purchasing a service. The
+              applicable terms may also depend on the specific scope,
+              milestones, deliverables, and payment arrangements agreed for
+              your engagement.
             </p>
           </section>
 
           {/* 24-Hour Refund Window */}
           <section className="bg-orange-50 rounded-lg p-6 border-2 border-orange-200">
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">3. 24-Hour Refund Window</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.1 Eligibility Period</h3>
-            <p className="text-gray-600  mb-4">
-              We offer a <strong className="text-orange-700">strict 24-hour refund window</strong> that begins immediately after the completion of your diagnostic session. This window provides you with sufficient time to evaluate our methodology, expertise, and the value proposition of our services based on your direct experience during the diagnostic session.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              3. 24-Hour Refund Window
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.1 Eligibility Period
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              We provide a{' '}
+              <strong className="text-orange-700">
+                24-hour refund window
+              </strong>{' '}
+              beginning immediately after payment, provided that the engagement
+              has not commenced.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 Calculation of the 24-Hour Period</h3>
-            <p className="text-gray-600  mb-4">
-              The 24-hour refund window is calculated as follows:
+            <p className="text-gray-600 mb-4">
+              A refund request must be received within this 24-hour period in
+              order to be considered under the refund window.
             </p>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.2 Calculation of the 24-Hour Period
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              The refund period is calculated from the recorded time of
+              payment:
+            </p>
+
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>Start Time:</strong> The exact moment your diagnostic session concludes</li>
-              <li><strong>End Time:</strong> Exactly 24 hours (1,440 minutes) from the start time</li>
-              <li><strong>Precision:</strong> The window closes at 24 hours, 0 minutes, and 0 seconds</li>
+              <li>
+                <strong>Start Time:</strong> The time at which payment is
+                successfully completed
+              </li>
+              <li>
+                <strong>End Time:</strong> Exactly 24 hours after payment
+              </li>
+              <li>
+                <strong>Condition:</strong> The engagement must not have
+                commenced
+              </li>
             </ul>
+
             <div className="bg-white rounded-lg p-4 border border-orange-200 mb-4">
-              <p className="text-sm text-gray-700 mb-2"><strong>Example:</strong></p>
+              <p className="text-sm text-gray-700 mb-2">
+                <strong>Example:</strong>
+              </p>
+
               <ul className="text-sm text-gray-600 space-y-1 ml-4">
-                <li>Diagnostic session ends: March 26, 2026, at 2:30 PM</li>
-                <li>Refund window closes: March 27, 2026, at 2:30 PM</li>
-                <li>Request at 2:30:01 PM on March 27: <span className="text-red-600 font-medium">Not Eligible</span></li>
+                <li>
+                  Payment completed: March 26, 2026, at 2:30 PM
+                </li>
+                <li>
+                  Refund window closes: March 27, 2026, at 2:30 PM
+                </li>
+                <li>
+                  Request received after the 24-hour period:
+                  <span className="text-red-600 font-medium">
+                    {' '}
+                    Not eligible under the 24-hour refund window
+                  </span>
+                </li>
               </ul>
             </div>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">3.3 Decision Based on Diagnostic Session</h3>
-            <p className="text-gray-600  mb-4">
-              <strong className="text-orange-700">Important:</strong> Your refund decision must be based solely on your experience during the diagnostic session itself, NOT on the diagnostic report or any subsequent deliverables.
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.3 Commencement of the Engagement
+            </h3>
+
+            <p className="text-gray-600">
+              The 24-hour refund window does not apply once the engagement has
+              commenced. Commencement may include the initiation of agreed
+              consulting work, preparation, meetings, analysis, research,
+              development of customized materials, or other substantive work
+              performed for the engagement.
             </p>
-            <p className="text-gray-600  mb-4">
-              The diagnostic session is designed to provide you with:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Direct insight into our consulting approach and methodology</li>
-              <li>Assessment of our expertise and understanding of your business</li>
-              <li>Clarity on how we will address your specific challenges</li>
-              <li>Evaluation of our communication style and compatibility</li>
-              <li>Understanding of the value we will deliver throughout the engagement</li>
-            </ul>
           </section>
 
           {/* Refund Request Process */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. Refund Request Process</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 How to Request a Refund</h3>
-            <p className="text-gray-600  mb-4">
-              To request a refund within the 24-hour window, you must:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              4. Refund Request Process
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              4.1 How to Request a Refund
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              To request a refund under the applicable refund window, you must
+              submit a written request by email to:
             </p>
-            <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
-              <li className="">
-                <strong>Submit a written request</strong> via email to contact@sarsenpartners.com
+
+            <p className="mb-6">
+              <a
+                href="mailto:contact@sarsenpartners.com"
+                className="text-blue-600 hover:underline font-medium"
+              >
+                contact@sarsenpartners.com
+              </a>
+            </p>
+
+            <p className="text-gray-600 mb-4">
+              To help us verify the request, please include:
+            </p>
+
+            <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-6">
+              <li>
+                <strong>Your full name</strong> and relevant contact
+                information
               </li>
-              <li className="">
-                <strong>Include the following information:</strong>
-                <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
-                  <li>Your full name and contact information</li>
-                  <li>Service package purchased and order/invoice number</li>
-                  <li>Date and time your diagnostic session concluded</li>
-                  <li>Brief explanation for your refund request (optional but appreciated)</li>
-                </ul>
+
+              <li>
+                <strong>The service package</strong> purchased and, where
+                available, the relevant order or invoice number
               </li>
-              <li className="">
-                <strong>Ensure your request is received</strong> before the 24-hour window expires
+
+              <li>
+                <strong>The date and time of payment</strong>
+              </li>
+
+              <li>
+                <strong>The reason for the request</strong>, if you wish to
+                provide one
               </li>
             </ol>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Verification and Processing</h3>
-            <p className="text-gray-600  mb-4">
-              Upon receiving your refund request:
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              4.2 Verification and Processing
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Upon receiving a refund request, we may verify the payment
+              details, timing of the request, commencement status of the
+              engagement, and other information necessary to determine
+              eligibility.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>We will verify the timestamp of your request against the 24-hour window</li>
-              <li>We will confirm your purchase details and payment information</li>
-              <li>If eligible, we will process your refund within 5-7 business days</li>
-              <li>Refunds will be issued to the original payment method used for purchase</li>
+
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-6">
+              <li>
+                Eligible refunds will be processed to the original payment
+                method where reasonably practicable.
+              </li>
+              <li>
+                Approved refunds are generally processed within{' '}
+                <strong>7–14 business days</strong>.
+              </li>
+              <li>
+                The time taken by the relevant payment provider or financial
+                institution to credit the refunded amount may vary.
+              </li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.3 Refund Amount</h3>
-            <p className="text-gray-600 ">
-              If your refund request is approved, you will receive a <strong>100% refund</strong> of the amount paid for the service package. Payment processing fees (if any) charged by payment gateways are non-refundable and may be deducted from the refund amount.
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              4.3 Refund Amount
+            </h3>
+
+            <p className="text-gray-600">
+              Where a refund is approved under the applicable refund
+              provisions, the refund will generally cover the amount paid for
+              the applicable service. Any payment-processing charges that are
+              non-refundable or retained by a third-party payment provider may
+              be excluded where applicable.
             </p>
           </section>
 
-          {/* After 24 Hours - No Refunds */}
+          {/* After 24 Hours */}
           <section className="bg-red-50 rounded-lg p-6 border-2 border-red-200">
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. After 24 Hours: No Refunds Policy</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Strict Enforcement</h3>
-            <p className="text-gray-600  mb-4">
-              <strong className="text-red-700">Once the 24-hour refund window has closed, all sales are final and non-refundable.</strong> This policy is strictly enforced without exception, regardless of:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              5. After 24 Hours or Commencement: Non-Refundable
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              5.1 General Rule
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Subject to any rights or remedies that cannot lawfully be
+              excluded, payments become non-refundable after the earlier of:
             </p>
+
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>The stage of the engagement or deliverables received</li>
-              <li>Change in business circumstances or priorities</li>
-              <li>Dissatisfaction with diagnostic report or subsequent work</li>
-              <li>Financial constraints or budget changes</li>
-              <li>Third-party recommendations or opinions</li>
-              <li>Any other reason or circumstance</li>
+              <li>
+                the expiry of the applicable 24-hour refund window; or
+              </li>
+              <li>
+                commencement of the engagement.
+              </li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.2 Rationale for This Policy</h3>
-            <p className="text-gray-600  mb-4">
-              Our strict no-refund policy after 24 hours exists because:
+            <p className="text-gray-600 mb-4">
+              This applies regardless of subsequent changes in business
+              circumstances, priorities, budgets, or preferences.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>Resource Allocation:</strong> We immediately allocate senior consultants and resources to your engagement</li>
-              <li><strong>Customized Strategy:</strong> We begin developing tailored strategies and frameworks specific to your business</li>
-              <li><strong>Opportunity Cost:</strong> Accepting your engagement means declining other potential clients</li>
-              <li><strong>Intellectual Property:</strong> Strategic insights and methodologies are shared from day one</li>
-              <li><strong>Time Investment:</strong> Significant consultant time is invested in preparing for and executing your engagement</li>
-            </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.3 Timing Examples - NOT ELIGIBLE for Refund</h3>
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              5.2 Examples
+            </h3>
+
             <div className="bg-white rounded-lg p-4 border border-red-200">
               <ul className="text-sm text-gray-600 space-y-2">
-                <li>✗ Request made 24 hours and 1 second after diagnostic session</li>
-                <li>✗ Request made after receiving the diagnostic report</li>
-                <li>✗ Request made during or after the engagement has commenced</li>
-                <li>✗ Request made due to change in business priorities</li>
-                <li>✗ Request made after receiving any deliverables or strategic work</li>
+                <li>
+                  • Request made after the 24-hour refund window has expired
+                </li>
+                <li>
+                  • Request made after substantive work has commenced
+                </li>
+                <li>
+                  • Request made after customized analysis or preparation has
+                  begun
+                </li>
+                <li>
+                  • Request arising from a change in business priorities
+                </li>
+                <li>
+                  • Request arising from a change in budget or business
+                  circumstances
+                </li>
+                <li>
+                  • Request made after agreed deliverables or work have
+                  commenced
+                </li>
               </ul>
             </div>
           </section>
 
           {/* Cancellation Policy */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Cancellation Policy</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.1 Client-Initiated Cancellation</h3>
-            <p className="text-gray-600  mb-4">
-              If you wish to cancel your engagement after the 24-hour refund window:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              6. Cancellation Policy
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              6.1 Client-Initiated Cancellation
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              If you wish to cancel an engagement after the applicable refund
+              window has closed or after the engagement has commenced, amounts
+              already paid are generally non-refundable.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>No refund will be provided</strong> for any amount already paid</li>
-              <li>You may request to <strong>pause the engagement</strong> for up to 60 days (subject to consultant availability)</li>
-              <li>You may request to <strong>restructure deliverables</strong> or modify the scope within the same package value</li>
-              <li>You may request to <strong>transfer credit</strong> to a different service package of equal or greater value (subject to approval)</li>
+
+            <p className="text-gray-600 mb-4">
+              Depending on the engagement and circumstances, you may contact us
+              to request one of the following:
+            </p>
+
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-6">
+              <li>
+                A pause or postponement of the engagement, subject to
+                availability
+              </li>
+              <li>
+                A restructuring or adjustment of deliverables within the
+                agreed scope and value
+              </li>
+              <li>
+                A transfer or credit toward another service, subject to
+                approval and applicable commercial terms
+              </li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">6.2 Company-Initiated Cancellation (No Refund)</h3>
-            <p className="text-gray-600  mb-4">
-              We reserve the right to terminate any engagement immediately, without prior notice, and without any obligation to refund any fees already paid, in the following circumstances:
+            <p className="text-gray-600">
+              Any such accommodation is discretionary and does not constitute
+              an automatic entitlement to a refund or credit.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>Misconduct:</strong> If the Client or any of its representatives engages in inappropriate, disrespectful, threatening, harassing, or otherwise unprofessional conduct toward any Company personnel, agents, or contractors.</li>
-              <li><strong>Failure to Meet Deadlines:</strong> If the Client fails to provide requested information, respond to communications, or otherwise meet agreed deadlines on two (2) separate occasions after written notice, and such failure materially impedes the progress of the engagement.</li>
-              <li><strong>Non‑Provision of Data:</strong> If the Client does not provide any of the essential data or information required to perform the services within the timeframes set by the Company, and such failure continues beyond a written warning of 5 business days.</li>
-              <li><strong>Breach of Terms:</strong> If the Client breaches any material provision of our Terms of Use or any applicable law.</li>
-            </ul>
-            <p className="text-gray-600 ">
-              In such cases, no refund shall be provided, and any outstanding fees shall become immediately due and payable.
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-6">
+              6.2 Sarsen-Initiated Cancellation
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen may suspend or terminate an engagement where permitted
+              under the applicable Terms of Use or engagement agreement,
+              including circumstances involving material breach, unlawful
+              conduct, serious misconduct, non-payment, or failure to provide
+              information reasonably required to perform the engagement.
             </p>
-            <p className="text-gray-600  mt-2">
-              <strong>Note:</strong> The Company may also terminate an engagement for other reasons (e.g., conflict of interest) and, at its sole discretion, may offer a prorated refund based on work completed. Such situations are rare and decided on a case‑by‑case basis.
+
+            <p className="text-gray-600 mb-4">
+              Where termination results from circumstances attributable to the
+              client, amounts already paid may remain non-refundable and
+              outstanding amounts may become due in accordance with the
+              applicable agreement.
+            </p>
+
+            <p className="text-gray-600">
+              Where Sarsen terminates an engagement for reasons unrelated to a
+              client breach, Sarsen may, where appropriate, determine a
+              prorated refund or credit for services that have not been
+              delivered.
             </p>
           </section>
 
           {/* Rescheduling */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Rescheduling and Postponement</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.1 Diagnostic Session Rescheduling</h3>
-            <p className="text-gray-600  mb-4">
-              You may reschedule your diagnostic session:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li><strong>Up to 48 hours before</strong> the scheduled session: Free rescheduling</li>
-              <li><strong>24-48 hours before:</strong> One-time free rescheduling; subsequent changes may incur fees</li>
-              <li><strong>Less than 24 hours or no-show:</strong> Session considered completed; 24-hour refund window begins</li>
-            </ul>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              7. Rescheduling and Postponement
+            </h2>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 Engagement Postponement</h3>
-            <p className="text-gray-600 ">
-              After the refund window closes, you may request to pause your engagement for up to 60 days due to business circumstances. This is granted at our discretion based on consultant availability and scheduling. Payments remain non-refundable during postponement.
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              7.1 Diagnostic Session Rescheduling
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              If your engagement includes a scheduled diagnostic session, you
+              may contact us to request rescheduling. Rescheduling is subject
+              to consultant availability and the circumstances of the
+              engagement.
+            </p>
+
+            <p className="text-gray-600 mb-4">
+              A rescheduled session does not, by itself, create a new refund
+              entitlement or restart an applicable refund period.
+            </p>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              7.2 Engagement Postponement
+            </h3>
+
+            <p className="text-gray-600">
+              You may request to postpone or pause an engagement where
+              circumstances require it. Any postponement is subject to
+              Sarsen's availability, the terms of the engagement, and any
+              applicable deadlines. Postponement does not automatically create
+              a refund entitlement.
             </p>
           </section>
 
           {/* Exceptions */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Exceptions and Special Circumstances</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">8.1 Force Majeure</h3>
-            <p className="text-gray-600  mb-4">
-              In cases of force majeure events (natural disasters, pandemics, government actions, wars, or other unforeseeable circumstances beyond reasonable control), we will work with you to:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              8. Exceptions and Special Circumstances
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              8.1 Force Majeure
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Where circumstances beyond reasonable control materially affect
+              service delivery, including natural disasters, government
+              actions, war, widespread disruptions, or other force majeure
+              events, we may work with the client to:
             </p>
+
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Postpone the engagement until circumstances normalize</li>
-              <li>Deliver services remotely if feasible</li>
-              <li>Restructure deliverables to accommodate changed circumstances</li>
+              <li>
+                Postpone or reschedule the affected portion of the engagement
+              </li>
+              <li>
+                Deliver services remotely where reasonably feasible
+              </li>
+              <li>
+                Restructure affected deliverables where appropriate
+              </li>
             </ul>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-4">8.2 Service Delivery Failures</h3>
-            <p className="text-gray-600  mb-4">
-              If we fail to deliver services as promised in your service package agreement due to our fault or negligence, we will:
+            <h3 className="text-xl font-medium text-gray-800 mb-3 mt-6">
+              8.2 Service Delivery Issues
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              If Sarsen is unable to deliver an agreed service due to a
+              material failure attributable to Sarsen, we will make reasonable
+              efforts to remedy the issue.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Make reasonable efforts to remedy the situation and deliver as agreed</li>
-              <li>Provide additional consulting time or resources at no extra cost</li>
-              <li>In cases of material breach, consider a prorated refund or credit for undelivered portions</li>
-            </ul>
+
+            <p className="text-gray-600">
+              Depending on the circumstances and the nature of the engagement,
+              this may include additional work, revised delivery arrangements,
+              credit, or a prorated refund for an undelivered portion of the
+              engagement where appropriate.
+            </p>
           </section>
 
           {/* Payment Terms */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Payment Terms and Milestones</h2>
-            <p className="text-gray-600  mb-4">
-              For engagements with milestone-based payments:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              9. Payment Terms and Milestones
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              For engagements involving milestone-based or staged payments:
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>The 24-hour refund window applies to the initial payment only</li>
-              <li>Subsequent milestone payments are due as per the agreed schedule</li>
-              <li>Failure to pay milestone payments may result in engagement suspension</li>
-              <li>No refunds are provided for milestone payments after work for that milestone has commenced</li>
+
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+              <li>
+                The applicable refund provisions apply to each payment as
+                determined by the agreed engagement structure.
+              </li>
+              <li>
+                Subsequent milestone payments are due according to the agreed
+                payment schedule.
+              </li>
+              <li>
+                Failure to make a required payment may result in suspension or
+                termination of the engagement.
+              </li>
+              <li>
+                Payments relating to work that has commenced are generally
+                non-refundable, subject to applicable law and the engagement
+                agreement.
+              </li>
             </ul>
           </section>
 
-          {/* Dispute Resolution */}
+          {/* Concerns and Disputes */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. Dispute Resolution</h2>
-            <p className="text-gray-600  mb-4">
-              If you have concerns about our services or wish to dispute a refund decision:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              10. Concerns and Dispute Resolution
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              If you have a concern about a service, cancellation, or refund
+              decision, we encourage you to contact Sarsen first and provide us
+              with an opportunity to understand and address the matter where
+              permitted by applicable law.
             </p>
-            <ol className="list-decimal list-inside text-gray-600 space-y-3 ml-4 mb-4">
-              <li className="">
-                <strong>Contact our support team</strong> at contact@sarsenpartners.com to discuss your concerns
-              </li>
-              <li className="">
-                <strong>Escalate to senior management</strong> if the issue remains unresolved
-              </li>
-              <li className="">
-                <strong>Formal dispute resolution:</strong> As a last resort, disputes may be resolved through mediation or arbitration as per our Terms of Use
-              </li>
-            </ol>
-            <p className="text-gray-600 ">
-              We are committed to addressing concerns fairly and promptly, but refund eligibility remains strictly governed by the 24-hour window policy and the termination provisions above.
+
+            <p className="text-gray-600 mb-4">
+              Please send your concern to:
+            </p>
+
+            <p className="mb-6">
+              <a
+                href="mailto:contact@sarsenpartners.com"
+                className="text-blue-600 hover:underline font-medium"
+              >
+                contact@sarsenpartners.com
+              </a>
+            </p>
+
+            <p className="text-gray-600 mb-4">
+              We will review concerns based on their nature and circumstances.
+              Depending on the seriousness, complexity, and volume of the
+              matter, a response may take up to 45 days.
+            </p>
+
+            <p className="text-gray-600">
+              Nothing in this policy prevents you from exercising any
+              non-waivable rights or pursuing any remedy available to you
+              under applicable law.
             </p>
           </section>
 
           {/* Policy Changes */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Changes to This Policy</h2>
-            <p className="text-gray-600 ">
-              We reserve the right to modify this Refund & Cancellation Policy at any time. Changes will be effective immediately upon posting to our website with an updated "Last Updated" date. The policy in effect at the time of your purchase governs your transaction. We encourage you to review this policy before making a purchase.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              11. Changes to This Policy
+            </h2>
+
+            <p className="text-gray-600">
+              We may update this Refund & Cancellation Policy from time to
+              time. The updated version will be published on this page with a
+              revised “Last Updated” date. Unless otherwise required by
+              applicable law, the policy applicable to a purchase will be the
+              version in effect at the time of that purchase.
             </p>
           </section>
 
           {/* Contact */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Contact Information</h2>
-            <p className="text-gray-600  mb-4">
-              For questions about this Refund & Cancellation Policy or to submit a refund request:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              12. Contact Information
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              For questions regarding this policy, cancellations, or refund
+              requests, please contact the Sarsen team by email:
             </p>
+
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
-              <p className="text-gray-600">Refund Requests: contact@sarsenpartners.com</p>
-              <p className="text-gray-600">General Support: contact@sarsenpartners.com</p>
-              <p className="text-gray-500 text-sm mt-2">
-                *We will respond to refund inquiries within 2–3 business days.
+              <p className="text-gray-800 font-medium mb-2">
+                Sarsen Strategy Partners
+              </p>
+
+              <p className="text-gray-600">
+                Email:{' '}
+                <a
+                  href="mailto:contact@sarsenpartners.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  contact@sarsenpartners.com
+                </a>
+              </p>
+
+              <p className="text-gray-500 text-sm mt-4">
+                Refund and cancellation matters are reviewed based on their
+                nature and circumstances. Depending on the seriousness,
+                complexity, and volume of the matter, a response may take up to
+                45 days.
               </p>
             </div>
           </section>
 
           {/* Acknowledgment */}
           <section className="bg-blue-50 rounded-lg p-6 border border-blue-100">
-            <h2 className="text-xl font-medium text-gray-800 mb-3">Acknowledgment</h2>
-            <p className="text-gray-600  mb-3">
-              By purchasing any service package from Sarsen Strategy Partners, you acknowledge that:
+            <h2 className="text-xl font-medium text-gray-800 mb-3">
+              Acknowledgment
+            </h2>
+
+            <p className="text-gray-600 mb-3">
+              By purchasing a service package from Sarsen Strategy Partners,
+              you acknowledge that:
             </p>
+
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>You have read and understood this Refund & Cancellation Policy</li>
-              <li>You agree to the strict 24-hour refund window based on the diagnostic session</li>
-              <li>You understand that refunds are not available after the 24-hour window closes</li>
-              <li>You accept the Company’s right to terminate the engagement without refund for misconduct, missed deadlines, or non‑provision of data</li>
-              <li>You accept the terms and conditions outlined in this policy and the accompanying legal documents</li>
+              <li>
+                You have read and understood this Refund & Cancellation Policy.
+              </li>
+
+              <li>
+                You understand that the applicable refund window is limited
+                and subject to the conditions described in this policy.
+              </li>
+
+              <li>
+                You understand that payments generally become non-refundable
+                after the applicable refund window expires or once the
+                engagement has commenced, whichever occurs earlier.
+              </li>
+
+              <li>
+                You understand that any postponement, restructuring, credit, or
+                other accommodation is subject to the applicable engagement
+                terms and Sarsen's approval.
+              </li>
+
+              <li>
+                You understand that this policy should be read together with
+                the other applicable legal documents governing your engagement.
+              </li>
             </ul>
           </section>
 
@@ -338,6 +640,7 @@ export default function RefundCancellationPage() {
             Back to Home
           </Link>
         </div>
+
       </div>
     </div>
   );

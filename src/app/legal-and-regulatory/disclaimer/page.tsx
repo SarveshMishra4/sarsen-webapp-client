@@ -7,13 +7,13 @@ import Link from 'next/link';
 export default function DisclaimerPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      
+
       {/* Header */}
       <div className="bg-gradient-to-r from-[#0A1E3D] to-[#1E5A8E] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl  mb-4">Disclaimer</h1>
+          <h1 className="text-4xl md:text-5xl mb-4">Disclaimer</h1>
           <p className="text-xl text-blue-100">
-            Last Updated: March 26, 2026
+            Last Updated: September 3, 2026
           </p>
         </div>
       </div>
@@ -21,325 +21,613 @@ export default function DisclaimerPage() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 space-y-8">
-          
+
           {/* Important Notice */}
           <section className="bg-yellow-50 rounded-lg p-6 border-2 border-yellow-200">
             <div className="flex items-start gap-3">
-              <svg className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16v2h2v-2h-2zm0-6v4h2v-4h-2z"/>
+              <svg
+                className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16v2h2v-2h-2zm0-6v4h2v-4h-2z" />
               </svg>
+
               <div>
-                <h2 className="text-xl font-medium text-gray-800 mb-2">Important Notice</h2>
-                <p className="text-gray-700 ">
-                  Please read this disclaimer carefully before using the services of Sarsen Strategy Partners (including its trade names Sarsen Strategy Partners, Sarsen Partners, and Sarsen Strategic Partners). By accessing our website, engaging our services, or using any materials provided by us, you acknowledge and accept the terms of this disclaimer.
+                <h2 className="text-xl font-medium text-gray-800 mb-2">
+                  Important Notice
+                </h2>
+                <p className="text-gray-700">
+                  Please read this Disclaimer carefully before using the
+                  website or engaging the services of Sarsen Strategy
+                  Partners. This Disclaimer explains the nature and limitations
+                  of the information, recommendations, strategies, case
+                  studies, frameworks, and other materials made available by
+                  Sarsen Strategy Partners.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* NEW: Association Disclaimer */}
+          {/* 1. General Disclaimer */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">1. Association Disclaimer</h2>
-            <p className="text-gray-600  mb-4">
-              Any reference on this website, in our materials, or in any communication to any organization, company, brand, individual, or entity is either (a) used for illustrative, marketing, or educational purposes only, or (b) purely coincidental. The mention of any third party does not imply endorsement, sponsorship, partnership, or affiliation unless explicitly stated. We do not claim any association with third parties unless we have a formal, written agreement.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              1. General Disclaimer
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              The information, recommendations, strategies, analyses,
+              frameworks, materials, and other content provided by Sarsen
+              Strategy Partners (collectively, &quot;Content&quot;) are
+              provided for informational, strategic, and educational purposes.
             </p>
-            <p className="text-gray-600  mb-4">
-              Should any party misinterpret a reference as suggesting an association that does not exist, we disclaim any liability for such misinterpretation. We invite any individual or organization with questions about our references or perceived associations to contact us directly at the email address provided below. We are happy to clarify and correct any misunderstandings.
+
+            <p className="text-gray-600 mb-4">
+              The Content is not intended to constitute, and should not be
+              construed as, legal, financial, tax, accounting, investment, or
+              other regulated professional advice.
+            </p>
+
+            <p className="text-gray-600 mb-4">
+              While we make reasonable efforts to provide useful and accurate
+              information, we do not represent or warrant that the Content is
+              complete, accurate, current, suitable, or reliable for every
+              particular purpose or circumstance.
+            </p>
+
+            <p className="text-gray-600">
+              <strong>
+                Your use of the website, Content, and our services, and your
+                reliance on any recommendations or information provided by us,
+                is undertaken at your own discretion and risk.
+              </strong>
             </p>
           </section>
 
-          {/* NEW: Collective Legal Pages */}
+          {/* 2. No Guarantee of Results */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">2. Collective Legal Pages</h2>
-            <p className="text-gray-600  mb-4">
-              This Disclaimer is part of a collective set of legal documents that govern your relationship with the Company, including but not limited to our Terms of Use, Privacy Policy, Refund & Cancellation Policy, and any other legal notices accessible via the footer of our website.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              2. No Guarantee of Business Results
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              2.1 No Guaranteed Outcome
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners does not guarantee any particular
+              business, financial, operational, strategic, fundraising,
+              revenue, growth, market-share, cost-saving, or other outcome
+              from the use or implementation of our recommendations,
+              strategies, analyses, or other services.
             </p>
-            <p className="text-gray-600  mb-4">
-              These pages are intended to be read together and should not be considered standalone documents. The Company has verified the consistency and accuracy of these collective legal pages, and by using our services you agree that you have reviewed and accepted all of them in conjunction.
+
+            <p className="text-gray-600 mb-4">
+              Business outcomes depend on circumstances and factors that may
+              be outside our control, including the Client&apos;s decisions,
+              implementation, resources, timing, market conditions,
+              competition, economic conditions, industry developments,
+              regulatory changes, and other external circumstances.
             </p>
-            <p className="text-gray-600 ">
-              If any conflict arises between the provisions of different legal pages, the interpretation most favorable to the Company and protective of its rights shall prevail.
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              2.2 Projected Outcomes
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Any projections, estimates, scenarios, targets, forecasts, or
+              potential outcomes discussed during an engagement are based on
+              information and assumptions available at the relevant time.
+              They are not promises, warranties, or guarantees of future
+              performance.
+            </p>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              2.3 Past Results
+            </h3>
+
+            <p className="text-gray-600">
+              Past performance, previous engagements, examples, case studies,
+              or other historical outcomes should not be interpreted as an
+              indication or guarantee of future results for any Client.
             </p>
           </section>
 
-          {/* General Disclaimer (renumbered) */}
+          {/* 3. Not Professional Advice */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">3. General Disclaimer</h2>
-            <p className="text-gray-600  mb-4">
-              The information, advice, recommendations, strategies, and materials provided by Sarsen Strategy Partners (collectively "Content") are for general informational and educational purposes only. This Content is not intended to be, and should not be construed as, professional financial, legal, tax, or investment advice.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              3. Not Professional Advice
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.1 Legal Matters
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners provides strategy consulting services
+              and does not provide legal advice. Information relating to
+              contracts, intellectual property, regulatory matters, legal
+              structures, compliance, or other legal subjects is provided only
+              as general business or strategic information.
             </p>
-            <p className="text-gray-600  mb-4">
-              While we strive to provide accurate, current, and reliable information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the Content for any particular purpose.
+
+            <p className="text-gray-600 mb-6">
+              You should obtain advice from appropriately qualified legal
+              professionals before making decisions that require legal
+              analysis or advice.
             </p>
-            <p className="text-gray-600 ">
-              <strong>Your use of our services and reliance on any Content is solely at your own risk.</strong>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.2 Financial and Investment Matters
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners does not provide personalized
+              investment advice or recommend specific securities or investment
+              products. Discussions concerning financial planning, capital
+              raising, business finance, valuation, or investment strategy are
+              provided in the context of strategic business consulting and
+              should not be treated as individualized investment advice.
+            </p>
+
+            <p className="text-gray-600 mb-6">
+              You should consult an appropriately qualified financial,
+              investment, or other professional before making decisions
+              requiring specialized financial or investment advice.
+            </p>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              3.3 Tax and Accounting Matters
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners does not provide tax or professional
+              accounting advice. Any discussion of financial metrics,
+              accounting concepts, tax considerations, or related business
+              matters is general in nature and should not be treated as
+              professional tax or accounting advice.
+            </p>
+
+            <p className="text-gray-600">
+              You should consult appropriately qualified tax and accounting
+              professionals regarding matters specific to your business,
+              circumstances, or jurisdiction.
             </p>
           </section>
 
-          {/* No Guarantee of Results (renumbered) */}
+          {/* 4. Nature of Strategic Consulting */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">4. No Guarantee of Business Results</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.1 Performance Disclaimer</h3>
-            <p className="text-gray-600  mb-4">
-              Sarsen Strategy Partners does not guarantee, warrant, or make any representations regarding the results you may achieve by implementing our recommendations, strategies, or advice. Business outcomes depend on numerous factors including but not limited to:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Your level of commitment, effort, and execution capability</li>
-              <li>Market conditions, economic factors, and competitive dynamics</li>
-              <li>Industry trends and regulatory changes</li>
-              <li>Quality of your team and organizational resources</li>
-              <li>Timing, budget constraints, and resource availability</li>
-              <li>External factors beyond anyone's reasonable control</li>
-            </ul>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              4. Nature of Strategic Consulting
+            </h2>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Past Performance</h3>
-            <p className="text-gray-600  mb-4">
-              Any case studies, testimonials, examples, or references to past results mentioned on our website or in our materials are provided for illustrative purposes only. <strong>Past performance is not indicative of future results.</strong> Every business is unique, and results will vary based on individual circumstances.
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners provides strategic, analytical, and
+              business consulting services. Our recommendations are developed
+              based on the information, assumptions, objectives, constraints,
+              and circumstances communicated to us or otherwise available to us
+              during an engagement.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">4.3 Revenue and Growth Claims</h3>
-            <p className="text-gray-600 ">
-              We do not promise or guarantee any specific revenue increases, cost savings, funding success, market share gains, or other quantifiable business outcomes. Any projected outcomes discussed during our engagements are estimates based on available information and assumptions, not guarantees.
+            <p className="text-gray-600">
+              The Client remains responsible for evaluating recommendations,
+              making business decisions, obtaining any required specialist
+              advice, and determining whether or how recommendations should be
+              implemented.
             </p>
           </section>
 
-          {/* Professional Advice Disclaimer (renumbered) */}
+          {/* 5. Testimonials and Case Studies */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">5. Not Professional Advice</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.1 Legal Advice</h3>
-            <p className="text-gray-600  mb-4">
-              Sarsen Strategy Partners is not a law firm and does not provide legal advice. Any information related to legal matters, contracts, compliance, intellectual property, or regulatory issues is for general informational purposes only and should not be relied upon as legal advice.
-            </p>
-            <p className="text-gray-600  mb-4">
-              <strong>You should consult with a qualified attorney licensed in your jurisdiction for legal advice specific to your situation.</strong>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              5. Testimonials and Case Studies
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              Testimonials, reviews, case studies, examples, references, and
+              descriptions of previous work or outcomes appearing on our
+              website, in proposals, presentations, or other materials reflect
+              the particular circumstances of the individuals or entities
+              referenced.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.2 Financial and Investment Advice</h3>
-            <p className="text-gray-600  mb-4">
-              We are not registered investment advisors, financial planners, or securities brokers. We do not provide investment advice, recommend specific securities or investment products, or make decisions about buying, selling, or holding investments.
-            </p>
-            <p className="text-gray-600  mb-4">
-              Any discussion of financial planning, capital raising, or investment strategy is general business consulting advice, not personalized investment recommendations.
-            </p>
-            <p className="text-gray-600  mb-4">
-              <strong>You should consult with a licensed financial advisor, CPA, or investment professional before making investment decisions.</strong>
+            <p className="text-gray-600 mb-4">
+              Such material is provided for illustrative and informational
+              purposes and should not be understood as representing typical,
+              expected, or guaranteed results for every Client.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.3 Tax Advice</h3>
-            <p className="text-gray-600  mb-4">
-              We are not tax professionals, certified public accountants, or tax attorneys. We do not provide tax advice, prepare tax returns, or make representations about the tax implications of business decisions.
-            </p>
-            <p className="text-gray-600  mb-4">
-              <strong>You should consult with a qualified tax professional regarding tax matters specific to your business and jurisdiction.</strong>
-            </p>
-
-            <h3 className="text-xl font-medium text-gray-800 mb-3">5.4 Accounting Advice</h3>
-            <p className="text-gray-600 ">
-              While we may discuss financial metrics, bookkeeping practices, or accounting principles as part of our strategic consulting, we are not certified accountants and do not provide professional accounting services or advice. <strong>Consult with a licensed accountant for accounting-specific guidance.</strong>
+            <p className="text-gray-600">
+              <strong>
+                Results vary according to the circumstances of each business,
+                including its industry, market, resources, decisions,
+                implementation, timing, and other relevant factors.
+              </strong>
             </p>
           </section>
 
-          {/* No Client-Advisor Relationship (renumbered) */}
+          {/* 6. Third-Party Links */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">6. Relationship Disclaimer</h2>
-            <p className="text-gray-600  mb-4">
-              The general information provided on our website, blog, social media, or in free resources does not create a consultant-client relationship between you and Sarsen Strategy Partners. A formal consulting relationship is only established upon:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              6. Third-Party Links and Resources
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              Our website, materials, and recommendations may contain links or
+              references to third-party websites, platforms, tools, resources,
+              products, or services.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Purchase of a service package</li>
-              <li>Execution of a written consulting agreement</li>
-              <li>Commencement of paid services</li>
-            </ul>
-            <p className="text-gray-600 ">
-              Until a formal engagement begins, any communication, content, or preliminary discussions are not confidential and do not create any obligations on our part.
+
+            <p className="text-gray-600 mb-4">
+              Such links and references are provided for convenience or
+              informational purposes and do not constitute an endorsement,
+              sponsorship, partnership, approval, or guarantee by Sarsen
+              Strategy Partners.
+            </p>
+
+            <p className="text-gray-600 mb-4">
+              Sarsen Strategy Partners is not responsible for the content,
+              accuracy, availability, security, privacy practices, products,
+              services, transactions, or practices of third-party websites or
+              services.
+            </p>
+
+            <p className="text-gray-600">
+              <strong>
+                You access and use third-party websites, tools, resources, and
+                services at your own discretion and risk.
+              </strong>
             </p>
           </section>
 
-          {/* Website Content Disclaimer (renumbered) */}
+          {/* 7. Information Provided by Clients */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">7. Website and Content Disclaimer</h2>
-            
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.1 Accuracy of Information</h3>
-            <p className="text-gray-600  mb-4">
-              While we make reasonable efforts to ensure the information on our website is accurate and up-to-date, we make no warranties or representations about:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>The accuracy, completeness, or timeliness of website content</li>
-              <li>The availability or reliability of our website or platform</li>
-              <li>The absence of errors, bugs, or technical issues</li>
-              <li>The suitability of content for your specific needs</li>
-            </ul>
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              7. Reliance on Client Information
+            </h2>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 Content Changes</h3>
-            <p className="text-gray-600  mb-4">
-              We reserve the right to modify, update, or remove content from our website at any time without notice. Pricing, service descriptions, and other details may change, and your use of outdated information is at your own risk.
+            <p className="text-gray-600 mb-4">
+              Our analysis and recommendations may depend upon information,
+              documents, assumptions, data, forecasts, representations, and
+              other materials provided by the Client or obtained from sources
+              identified during an engagement.
             </p>
 
-            <h3 className="text-xl font-medium text-gray-800 mb-3">7.3 Typographical Errors</h3>
-            <p className="text-gray-600 ">
-              Despite our efforts, our website may contain typographical errors, inaccuracies, or omissions. We reserve the right to correct errors, update information, or change service offerings without prior notice.
+            <p className="text-gray-600">
+              We do not independently verify every item of information
+              supplied to us. The Client is responsible for the completeness
+              and accuracy of information it provides and should promptly
+              identify material changes or corrections that may affect the
+              engagement.
             </p>
           </section>
 
-          {/* Third-Party Links and Resources (renumbered) */}
+          {/* 8. Industry and Regulatory Considerations */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">8. Third-Party Links and Resources</h2>
-            <p className="text-gray-600  mb-4">
-              Our website, materials, and recommendations may include links to third-party websites, tools, resources, or services. These links are provided for convenience only and do not constitute endorsement, approval, or responsibility for:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              8. Industry-Specific Considerations
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              Strategic consulting may involve businesses operating in
+              industries or jurisdictions with specialized legal, regulatory,
+              technical, safety, licensing, accounting, tax, or operational
+              requirements.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>The content, accuracy, or reliability of third-party sites</li>
-              <li>The privacy practices or security of external websites</li>
-              <li>The products or services offered by third parties</li>
-              <li>Any transactions or interactions with third parties</li>
-            </ul>
-            <p className="text-gray-600 ">
-              <strong>You access third-party links at your own risk.</strong> We encourage you to review the terms and privacy policies of any third-party websites you visit.
+
+            <p className="text-gray-600 mb-4">
+              Unless expressly included within a written Statement of Work,
+              our services should not be understood as a substitute for
+              specialized professional or technical advice concerning such
+              requirements.
+            </p>
+
+            <p className="text-gray-600">
+              <strong>
+                The Client remains responsible for identifying and complying
+                with laws, regulations, licensing requirements, industry
+                standards, and other obligations applicable to its business.
+              </strong>
             </p>
           </section>
 
-          {/* Testimonials and Case Studies (renumbered) */}
+          {/* 9. Website Availability and Content */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">9. Testimonials and Case Studies</h2>
-            <p className="text-gray-600  mb-4">
-              Testimonials, reviews, and case studies featured on our website or marketing materials represent the experiences of specific clients under specific circumstances. These are provided for illustrative purposes only and should not be considered typical or guaranteed results.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              9. Website and Content
+            </h2>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              9.1 Accuracy
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              We make reasonable efforts to maintain useful and accurate
+              information on our website. However, website content may contain
+              errors, omissions, outdated information, or inaccuracies.
             </p>
-            <p className="text-gray-600  mb-4">
-              Client results vary based on numerous factors including industry, market conditions, client commitment, implementation quality, and circumstances unique to each business.
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              9.2 Availability
+            </h3>
+
+            <p className="text-gray-600 mb-4">
+              We do not guarantee that the website or any particular feature,
+              resource, or Content will always be available, uninterrupted,
+              secure, timely, or error-free.
             </p>
-            <p className="text-gray-600 ">
-              <strong>Individual results may be better, worse, or different from those described in testimonials.</strong>
+
+            <h3 className="text-xl font-medium text-gray-800 mb-3">
+              9.3 Changes
+            </h3>
+
+            <p className="text-gray-600">
+              We may update, modify, replace, or remove website Content,
+              service descriptions, pricing, resources, or other information
+              from time to time. You should not rely upon outdated website
+              information where more recent information is available.
             </p>
           </section>
 
-          {/* No Warranties (renumbered) */}
+          {/* 10. No Warranties */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">10. No Warranties</h2>
-            <p className="text-gray-600  mb-4">
-              Our website, services, and content are provided on an "as is" and "as available" basis without warranties of any kind, either express or implied, including but not limited to:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              10. No Warranties
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              To the fullest extent permitted by applicable law, the website,
+              Content, and services are provided on an &quot;as is&quot; and
+              &quot;as available&quot; basis.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Warranties of merchantability or fitness for a particular purpose</li>
-              <li>Warranties of non-infringement or title</li>
-              <li>Warranties regarding accuracy, reliability, or completeness</li>
-              <li>Warranties that services will be uninterrupted, timely, secure, or error-free</li>
-              <li>Warranties regarding the results or outcomes of using our services</li>
-            </ul>
-            <p className="text-gray-600 ">
-              Some jurisdictions do not allow exclusion of implied warranties, so some of the above exclusions may not apply to you.
+
+            <p className="text-gray-600 mb-4">
+              We do not make warranties or representations, express or
+              implied, regarding the accuracy, completeness, suitability,
+              availability, reliability, or fitness of the Content or services
+              for any particular purpose.
+            </p>
+
+            <p className="text-gray-600">
+              Nothing in this Disclaimer excludes or limits any warranty,
+              right, or protection that cannot lawfully be excluded or limited
+              under applicable law.
             </p>
           </section>
 
-          {/* Limitation of Liability (renumbered) */}
+          {/* 11. Limitation of Liability */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">11. Limitation of Liability</h2>
-            <p className="text-gray-600  mb-4">
-              To the fullest extent permitted by applicable law, Sarsen Strategy Partners, its officers, directors, employees, consultants, and affiliates shall not be liable for any:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              11. Limitation of Liability
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              The limitation of liability applicable to paid consulting
+              engagements is governed by the Terms &amp; Conditions and any
+              applicable Statement of Work.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Direct, indirect, incidental, special, consequential, or punitive damages</li>
-              <li>Loss of profits, revenue, data, or business opportunities</li>
-              <li>Business interruption or reputational harm</li>
-              <li>Damages arising from your use of (or inability to use) our services</li>
-              <li>Damages resulting from errors, omissions, or inaccuracies in content</li>
-              <li>Damages from unauthorized access to your data or systems</li>
-              <li>Damages from third-party actions or services</li>
-            </ul>
-            <p className="text-gray-600 ">
-              This limitation applies whether based on warranty, contract, tort, negligence, strict liability, or any other legal theory, even if we have been advised of the possibility of such damages.
+
+            <p className="text-gray-600 mb-4">
+              To the fullest extent permitted by applicable law, Sarsen
+              Strategy Partners shall not be responsible for indirect,
+              incidental, special, consequential, punitive, or similar losses,
+              including loss of profits, revenue, data, business opportunities,
+              or business interruption arising from the use of our website,
+              Content, recommendations, or services.
+            </p>
+
+            <p className="text-gray-600">
+              The specific liability limitations, exclusions, and applicable
+              cap are set out in the Terms &amp; Conditions and form part of
+              the contractual framework governing paid engagements.
             </p>
           </section>
 
-          {/* Indemnification (renumbered) */}
+          {/* 12. Client Responsibility */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">12. Indemnification</h2>
-            <p className="text-gray-600 ">
-              You agree to indemnify and hold harmless Sarsen Strategy Partners from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of our services, violation of these terms, or implementation of our recommendations. This indemnification survives termination of your engagement with us.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              12. Client Responsibility for Decisions
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              Strategic recommendations are intended to support business
+              decision-making. They do not transfer responsibility for business
+              decisions from the Client to Sarsen Strategy Partners.
+            </p>
+
+            <p className="text-gray-600">
+              The Client is responsible for determining whether a
+              recommendation is appropriate for its circumstances and for the
+              consequences of decisions it makes and actions it takes,
+              including the implementation of recommendations.
             </p>
           </section>
 
-          {/* Recommendation to Seek Professional Advice (renumbered) */}
+          {/* 13. Relationship Disclaimer */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">13. Recommendation to Seek Professional Advice</h2>
-            <p className="text-gray-600  mb-4">
-              We strongly recommend that you:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              13. Relationship Disclaimer
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              General information made available through our website, blog,
+              social media, public resources, or other general communications
+              does not by itself create a consulting engagement.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Consult with qualified legal counsel before entering into contracts, agreements, or making legal decisions</li>
-              <li>Work with licensed financial advisors, CPAs, or tax professionals for financial, investment, and tax matters</li>
-              <li>Engage industry-specific experts for specialized technical or regulatory guidance</li>
-              <li>Conduct your own due diligence and research before making business decisions</li>
-              <li>Verify all information and adapt our recommendations to your specific circumstances</li>
-            </ul>
-            <p className="text-gray-600 ">
-              <strong>Our strategic consulting should complement, not replace, advice from licensed professionals in specialized fields.</strong>
+
+            <p className="text-gray-600">
+              The rights and obligations applicable to a paid consulting
+              engagement are established through the applicable contractual
+              documents, including the Terms &amp; Conditions and, where
+              applicable, a Statement of Work.
             </p>
           </section>
 
-          {/* Industry-Specific Considerations (renumbered) */}
+          {/* 14. Association and References */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">14. Industry-Specific Considerations</h2>
-            <p className="text-gray-600  mb-4">
-              While we work across various industries, we are not experts in all regulatory, technical, or operational aspects of every sector. Our advice is strategic in nature and may not account for:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              14. Third-Party Names and References
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              References to organizations, companies, brands, individuals,
+              products, platforms, or other third parties may appear on our
+              website or in our materials for illustrative, educational,
+              analytical, or informational purposes.
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mb-4">
-              <li>Industry-specific regulations, licensing requirements, or compliance obligations</li>
-              <li>Technical standards, certifications, or quality control protocols</li>
-              <li>Specialized operational procedures or safety requirements</li>
-              <li>Unique risks or challenges specific to your industry or jurisdiction</li>
-            </ul>
-            <p className="text-gray-600 ">
-              <strong>You remain responsible for ensuring compliance with all applicable laws, regulations, and industry standards.</strong>
+
+            <p className="text-gray-600">
+              Unless expressly stated otherwise, such references should not be
+              interpreted as an endorsement, sponsorship, partnership,
+              affiliation, or other formal association with Sarsen Strategy
+              Partners.
             </p>
           </section>
 
-          {/* Changes to Disclaimer (renumbered) */}
+          {/* 15. Changes */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">15. Changes to This Disclaimer</h2>
-            <p className="text-gray-600 ">
-              We reserve the right to modify this disclaimer at any time. Changes will be effective immediately upon posting with an updated "Last Updated" date. Your continued use of our website or services after changes constitutes acceptance of the modified disclaimer.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              15. Changes to This Disclaimer
+            </h2>
+
+            <p className="text-gray-600">
+              We may update this Disclaimer from time to time. Any revised
+              version will be published on this page with an updated
+              &quot;Last Updated&quot; date. The revised Disclaimer will apply
+              prospectively to website use and to matters to the extent
+              permitted by applicable law and any existing contractual
+              arrangements.
             </p>
           </section>
 
-          {/* Governing Law (renumbered) */}
+          {/* 16. Relationship with Other Legal Documents */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">16. Governing Law and Jurisdiction</h2>
-            <p className="text-gray-600 ">
-              This disclaimer is governed by the laws of India. Any disputes arising from or relating to this disclaimer shall be subject to the exclusive jurisdiction of the courts in Bangalore, India.
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              16. Relationship with Other Legal Documents
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              This Disclaimer forms part of the broader legal framework
+              governing the website and, where applicable, the services of
+              Sarsen Strategy Partners. Other applicable documents may include
+              our{' '}
+              <Link
+                href="/terms-of-use"
+                className="text-blue-600 hover:underline"
+              >
+                Terms of Use
+              </Link>
+              ,{' '}
+              <Link
+                href="/privacy-policy"
+                className="text-blue-600 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              , and{' '}
+              <Link
+                href="/refund-cancellation-policy"
+                className="text-blue-600 hover:underline"
+              >
+                Refund &amp; Cancellation Policy
+              </Link>
+              .
+            </p>
+
+            <p className="text-gray-600">
+              These documents address different subject matters. In the event
+              of a conflict, the document or contractual provision specifically
+              governing the subject matter in question will prevail to the
+              extent applicable. For example, refund and cancellation matters
+              are governed by the applicable Refund &amp; Cancellation Policy
+              and contractual terms.
             </p>
           </section>
 
-          {/* Contact (only email) */}
+          {/* 17. Questions and Concerns */}
           <section>
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">17. Questions About This Disclaimer</h2>
-            <p className="text-gray-600  mb-4">
-              If you have questions or concerns about this disclaimer, or if you wish to clarify any reference or association mentioned on our website:
+            <h2 className="text-2xl font-medium text-gray-800 mb-4">
+              17. Questions and Concerns
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+              If you have a question, concern, or believe that information on
+              our website or in our materials may be inaccurate or may create
+              a misunderstanding, we encourage you to contact the Sarsen team
+              directly and give us an opportunity to review and address the
+              matter where permitted by applicable law.
             </p>
+
+            <p className="text-gray-600 mb-4">
+              Please contact us by email with sufficient information for us to
+              understand the concern. Depending on the nature, seriousness,
+              complexity, and volume of matters being handled, a response may
+              take from a few hours up to 45 days.
+            </p>
+
+            <p className="text-gray-600 mb-6">
+              Nothing in this section is intended to restrict any right or
+              remedy that cannot lawfully be restricted, including any right to
+              approach a competent authority where applicable.
+            </p>
+
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-800 font-medium mb-2">Sarsen Strategy Partners</p>
-              <p className="text-gray-600">Email: contact@sarsenpartners.com</p>
-              <p className="text-gray-500 text-sm mt-2">
-                We will respond to inquiries within 3–5 business days.
+              <p className="text-gray-800 font-medium mb-2">
+                Sarsen Strategy Partners
+              </p>
+              <p className="text-gray-600">
+                Email:{' '}
+                <a
+                  href="mailto:contact@sarsenpartners.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  contact@sarsenpartners.com
+                </a>
               </p>
             </div>
           </section>
 
           {/* Final Acknowledgment */}
           <section className="bg-red-50 rounded-lg p-6 border-2 border-red-200">
-            <h2 className="text-xl font-medium text-gray-800 mb-3">Final Acknowledgment</h2>
-            <p className="text-gray-700  mb-3">
-              <strong>By using our website or services, you acknowledge that:</strong>
+            <h2 className="text-xl font-medium text-gray-800 mb-3">
+              Final Acknowledgment
+            </h2>
+
+            <p className="text-gray-700 mb-3">
+              <strong>
+                By using our website or engaging our services, you acknowledge
+                that:
+              </strong>
             </p>
+
             <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
-              <li>You have read and understood this disclaimer in its entirety</li>
-              <li>You accept and agree to all terms outlined in this disclaimer</li>
-              <li>You understand that we do not guarantee business results or outcomes</li>
-              <li>You will seek appropriate professional advice for legal, financial, tax, and specialized matters</li>
-              <li>You use our services at your own risk and are responsible for your business decisions</li>
-              <li>Any association references are either coincidental or for marketing purposes; you will contact us for clarification if needed</li>
-              <li>This Disclaimer must be read together with all other legal pages accessible in our footer</li>
+              <li>
+                Sarsen Strategy Partners does not guarantee particular business
+                or financial results.
+              </li>
+              <li>
+                Strategic consulting recommendations are not a substitute for
+                specialized legal, financial, tax, accounting, investment, or
+                technical professional advice.
+              </li>
+              <li>
+                You remain responsible for your business decisions and the
+                implementation of recommendations.
+              </li>
+              <li>
+                Testimonials, case studies, examples, and projected outcomes
+                are not guarantees of future results.
+              </li>
+              <li>
+                Third-party links and references do not necessarily constitute
+                endorsement or affiliation.
+              </li>
+              <li>
+                The applicable Terms &amp; Conditions and other contractual
+                documents govern the relevant rights and obligations of a paid
+                engagement.
+              </li>
             </ul>
           </section>
 
@@ -351,7 +639,7 @@ export default function DisclaimerPage() {
             href="/"
             className="inline-block text-blue-600 hover:text-blue-700 font-medium"
           >
-            Back to Home
+            ← Back to Home
           </Link>
         </div>
       </div>
