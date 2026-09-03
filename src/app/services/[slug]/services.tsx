@@ -394,8 +394,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     const flexMax = getFlexMax(q.id);
 
     const labelStyle: React.CSSProperties = {
-      color: '#1E293B',
-      fontSize: '0.85rem',
+      color: '#0A1E3D',
+      fontSize: '0.95rem',
       fontWeight: 500,
       marginBottom: '6px',
       display: 'block',
@@ -406,8 +406,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       padding: '10px 14px',
       borderRadius: '8px',
       border: error ? '1px solid #EF4444' : '1px solid #CBD5E1',
-      fontSize: '0.85rem',
-      color: '#0F172A',
+      fontSize: '0.95rem',
+      color: '#0A1E3D',
       outline: 'none',
       background: '#F8FAFC',
       transition: 'border-color 0.15s',
@@ -482,7 +482,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                         <span className="w-1.5 h-1.5 rounded-full bg-white" />
                       )}
                     </span>
-                    <span style={{ fontSize: '0.83rem', color: '#334155' }}>{o.label}</span>
+                    <span style={{ fontSize: '0.9rem', color: '#0A1E3D' }}>{o.label}</span>
                     <input
                       type="radio"
                       className="sr-only"
@@ -501,7 +501,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           return (
             <div className="space-y-2 mt-1">
               {flexMax && (
-                <p style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '4px' }}>
+                <p style={{ fontSize: '0.8rem', color: '#475569', marginBottom: '4px' }}>
                   {selected.length} / {flexMax} selected
                 </p>
               )}
@@ -536,7 +536,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                         </svg>
                       )}
                     </span>
-                    <span style={{ fontSize: '0.83rem', color: '#334155' }}>{o.label}</span>
+                    <span style={{ fontSize: '0.9rem', color: '#0A1E3D' }}>{o.label}</span>
                     <input
                       type="checkbox"
                       className="sr-only"
@@ -564,10 +564,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </label>
         {renderInput()}
         {q.helpText && !error && (
-          <p style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: '4px' }}>{q.helpText}</p>
+          <p style={{ fontSize: '0.8rem', color: '#64748B', marginTop: '4px' }}>{q.helpText}</p>
         )}
         {error && (
-          <p style={{ fontSize: '0.72rem', color: '#EF4444', marginTop: '4px' }}>{error}</p>
+          <p style={{ fontSize: '0.8rem', color: '#EF4444', marginTop: '4px' }}>{error}</p>
         )}
       </div>
     );
@@ -612,7 +612,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
       <div ref={scrollRef} style={{ padding: '28px 32px' }}>
         <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
-          <label style={{ color: '#1E293B', fontSize: '0.85rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
+          <label style={{ color: '#0A1E3D', fontSize: '0.95rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
             Email Address <span style={{ color: '#EF4444', marginLeft: '3px' }}>*</span>
           </label>
           <input
@@ -628,8 +628,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               padding: '10px 14px',
               borderRadius: '8px',
               border: emailError ? '1px solid #EF4444' : '1px solid #CBD5E1',
-              fontSize: '0.85rem',
-              color: '#0F172A',
+              fontSize: '0.95rem',
+              color: '#0A1E3D',
               outline: 'none',
               background: '#F8FAFC',
               transition: 'border-color 0.15s',
@@ -637,7 +637,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             }}
           />
           {emailError && (
-            <p style={{ fontSize: '0.72rem', color: '#EF4444', marginTop: '4px' }}>{emailError}</p>
+            <p style={{ fontSize: '0.8rem', color: '#EF4444', marginTop: '4px' }}>{emailError}</p>
           )}
         </div>
 
@@ -720,7 +720,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </svg>
           </button>
 
-          <p style={{ color: '#94A3B8', fontSize: '0.75rem', marginBottom: '6px' }}>
+          <p style={{ color: '#94A3B8', fontSize: '0.85rem', marginBottom: '6px' }}>
             Order Summary
           </p>
           <h2 style={{ color: '#EEF2FF', fontWeight: 300, fontSize: '1.35rem', lineHeight: 1.3 }}>
@@ -740,18 +740,18 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
               <div>
-                <p style={{ fontSize: '0.75rem', color: '#94A3B8', marginBottom: '2px' }}>{service.packageNumber}</p>
-                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#0F172A' }}>
+                <p style={{ fontSize: '0.85rem', color: '#0A1E3D', marginBottom: '2px' }}>{service.packageNumber}</p>
+                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#0A1E3D' }}>
                   {service.title}
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
                 {isDiscounted && (
-                  <p style={{ fontSize: '0.78rem', color: '#94A3B8', textDecoration: 'line-through', marginBottom: '1px' }}>
+                  <p style={{ fontSize: '0.85rem', color: '#64748B', textDecoration: 'line-through', marginBottom: '1px' }}>
                     {originalPrice}
                   </p>
                 )}
-                <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0F172A' }}>
+                <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0A1E3D' }}>
                   {displayPrice}
                 </p>
                 {isDiscounted && appliedCoupon && (
@@ -773,8 +773,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 <span
                   key={item.label}
                   style={{
-                    fontSize: '0.75rem',
-                    color: '#64748B',
+                    fontSize: '0.85rem',
+                    color: '#0A1E3D',
                     background: '#EFF6FF',
                     padding: '3px 8px',
                     borderRadius: '4px',
@@ -788,7 +788,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
           {selectedFlexItems.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '.75rem', color: '#64748B', marginBottom: '8px' }}>
+              <p style={{ fontSize: '0.85rem', color: '#0A1E3D', marginBottom: '8px', fontWeight: 500 }}>
                 Additional Services Selected
               </p>
               <div className="space-y-1.5">
@@ -797,7 +797,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                    <p style={{ fontSize: '.75rem', color: '#475569' }}>{f.label}</p>
+                    <p style={{ fontSize: '0.85rem', color: '#0A1E3D' }}>{f.label}</p>
                   </div>
                 ))}
               </div>
@@ -805,7 +805,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '.75rem', color: '#64748B',  marginBottom: '8px' }}>
+            <p style={{ fontSize: '0.85rem', color: '#0A1E3D', fontWeight: 500, marginBottom: '8px' }}>
               You will receive
             </p>
             <div className="space-y-1.5">
@@ -814,7 +814,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                   <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <p style={{ fontSize: '.75rem', color: '#475569' }}>{d}</p>
+                  <p style={{ fontSize: '0.85rem', color: '#0A1E3D' }}>{d}</p>
                 </div>
               ))}
             </div>
@@ -829,7 +829,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               marginBottom: '20px',
             }}
           >
-            <p style={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569', marginBottom: '10px' }}>
+            <p style={{ fontSize: '0.88rem', fontWeight: 600, color: '#0A1E3D', marginBottom: '10px' }}>
               Have a coupon code?
             </p>
             {appliedCoupon ? (
@@ -837,12 +837,12 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span style={{ fontSize: '0.82rem', color: '#16A34A', fontWeight: 500 }}>
+                <span style={{ fontSize: '0.88rem', color: '#16A34A', fontWeight: 500 }}>
                   {appliedCoupon.code} applied — {appliedCoupon.label}
                 </span>
                 <button
                   onClick={removeCoupon}
-                  style={{ fontSize: '0.72rem', color: '#94A3B8', marginLeft: 'auto', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}
+                  style={{ fontSize: '0.82rem', color: '#64748B', marginLeft: 'auto', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}
                 >
                   Remove
                 </button>
@@ -861,8 +861,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       padding: '9px 12px',
                       borderRadius: '7px',
                       border: couponError ? '1px solid #EF4444' : '1px solid #CBD5E1',
-                      fontSize: '0.83rem',
-                      color: '#0F172A',
+                      fontSize: '0.93rem',
+                      color: '#0A1E3D',
                       background: '#fff',
                       outline: 'none',
                       letterSpacing: '0.05em',
@@ -876,7 +876,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                       borderRadius: '7px',
                       background: couponLoading || !couponInput.trim() ? '#E2E8F0' : '#0F172A',
                       color: couponLoading || !couponInput.trim() ? '#94A3B8' : '#fff',
-                      fontSize: '0.82rem',
+                      fontSize: '0.88rem',
                       fontWeight: 600,
                       border: 'none',
                       cursor: couponLoading || !couponInput.trim() ? 'not-allowed' : 'pointer',
@@ -895,20 +895,20 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                   </button>
                 </div>
                 {couponError && (
-                  <p style={{ fontSize: '0.72rem', color: '#EF4444', marginTop: '6px' }}>{couponError}</p>
+                  <p style={{ fontSize: '0.8rem', color: '#EF4444', marginTop: '6px' }}>{couponError}</p>
                 )}
               </>
             )}
           </div>
 
           <div style={{ marginTop: '16px', marginBottom: '8px', textAlign: 'center' }}>
-            <p style={{ color: '#64748B' }}>
+            <p style={{ color: '#0A1E3D', fontSize: '0.85rem' }}>
               By proceeding ahead in the process you agree to the{' '}
               <a
                 href="/legal-and-regulatory/terms-of-use"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textTransform:'0.75rem', color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
+                style={{ color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
               >
                 standard terms and conditions
               </a>{' '}
@@ -920,18 +920,18 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         <div style={{ padding: '16px 32px 24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
             <div>
-              <p style={{ fontSize: '0.72rem', color: '#94A3B8', marginBottom: '2px' }}>Total amount</p>
+              <p style={{ fontSize: '0.82rem', color: '#0A1E3D', marginBottom: '2px', fontWeight: 500 }}>Total amount</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0F172A'}}>
+                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0A1E3D'}}>
                   {displayPrice}
                 </p>
                 {isDiscounted && (
-                  <p style={{ fontSize: '0.8rem', color: '#94A3B8', textDecoration: 'line-through' }}>
+                  <p style={{ fontSize: '0.82rem', color: '#64748B', textDecoration: 'line-through' }}>
                     {originalPrice}
                   </p>
                 )}
               </div>
-              <p style={{ fontSize: '0.7rem', color: '#94A3B8' }}>+ GST as applicable · Secure payment via Razorpay</p>
+              <p style={{ fontSize: '0.8rem', color: '#0A1E3D' }}>Inclusive of all taxes.</p>
             </div>
           </div>
 
@@ -1174,8 +1174,12 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto"
-      style={{ backgroundColor: 'rgba(2, 8, 22, 0.80)', backdropFilter: 'blur(4px)' }}
+      className="fixed inset-0 z-50 overflow-y-auto purchase-modal"
+      style={{
+        backgroundColor: 'rgba(2, 8, 22, 0.80)',
+        backdropFilter: 'blur(10px)',   // increased blur
+        WebkitBackdropFilter: 'blur(10px)', // Safari support
+      }}
       onClick={handleBackdropClick}
     >
       <div className="flex items-end sm:items-center justify-center min-h-full sm:px-4 sm:py-8">
@@ -2176,6 +2180,15 @@ export default function ServicePage({ service }: ServicePageProps): React.JSX.El
         *::-webkit-scrollbar { display: none; }
         * { -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
+
+        /* Improved placeholder visibility inside purchase modal */
+        .purchase-modal input::placeholder,
+        .purchase-modal textarea::placeholder {
+          color: #475569; /* darker slate, more visible */
+        }
+        .purchase-modal select {
+          color: #0A1E3D; /* ensure selected option text is dark blue */
+        }
       `}</style>
 
       <main style={{ backgroundColor: "#0A1E3D", minHeight: "100vh" }}>

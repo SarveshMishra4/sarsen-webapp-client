@@ -128,7 +128,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 0,
     backendId: '69b3c3d64ad479822f297e25',   // unchanged
     slug: 'business-diagnostic-direction',
-    packageNumber: 'Package 0',
+    packageNumber: 'Package 3.000',
     title: 'Business Diagnostic & Direction',
     tagline: 'You know something is wrong. You don’t know what. We find it.',
     tag: 'Foundation',
@@ -139,8 +139,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'The mandatory starting point. A diagnostic system that maps your business model, control levers, and bottlenecks – then translates that into a clear strategic direction.',
     price: 780000,            // Rs. 7,800 (1.5× original)
     priceDisplay: 'Rs. 7800',
-    duration: '7 days',
-    deliveryFormat: '2–3 sessions + async diagnostic',
+    duration: '1 Week',
+    deliveryFormat: '2-3 Sessions',
 
     coreServices: [
       'Full Business Diagnostic',
@@ -236,7 +236,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 1,
     backendId: '69b3c3e94ad479822f297e27',   // unchanged (was Idea‑to‑Validation)
     slug: 'idea-to-product',
-    packageNumber: 'Package 1',
+    packageNumber: 'Package 3.001',
     title: 'Idea To Product',
     tagline: 'From concept to launch‑ready blueprint.',
     tag: 'Validation',
@@ -247,8 +247,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Market research, business model definition, product features, pricing, marketing channels, financial expectations, and organisation structure – all in 7 days.',
     price: 2080000,           // Rs. 20,800 (2× original)
     priceDisplay: 'Rs. 20800',
-    duration: '7 days',
-    deliveryFormat: '3–5 sessions + async work',
+    duration: '3 Weeks',
+    deliveryFormat: '3-5 Sessions',
 
     coreServices: [
       'Market Research & Validation',
@@ -339,7 +339,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 2,
     backendId: '69b3c4074ad479822f297e2b',   // unchanged (was Go‑To‑Market Strategy)
     slug: 'go-to-market',
-    packageNumber: 'Package 2',
+    packageNumber: 'Package 3.002',
     title: 'Go To Market',
     tagline: 'You have a product. Now you need your first real customers.',
     tag: 'Go to Market',
@@ -350,8 +350,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Precise customer profile, unit economics clarity, pricing architecture, sales & marketing playbook, feedback mechanism design, and supply chain basics.',
     price: 3040000,           // Rs. 30,400 (2× original)
     priceDisplay: 'Rs. 30400',
-    duration: '7 days',
-    deliveryFormat: '3–5 sessions + analysis',
+    duration: '3 Weeks',
+    deliveryFormat: '3–5 Sessions',
 
     coreServices: [
       'Precise Customer Profile (ICP)',
@@ -435,7 +435,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 3,
     backendId: '69b3c42a4ad479822f297e2f',   // unchanged (was Fundraising Readiness)
     slug: 'funding-readiness',
-    packageNumber: 'Package 3',
+    packageNumber: 'Package 3.003',
     title: 'Funding Readiness',
     tagline: 'Business model surgery to make you fundable.',
     tag: 'Fundraising',
@@ -446,8 +446,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Investor targeting, ask & valuation framework, business model patch‑up, pitch strategy, Q&A prep, and due diligence data room.',
     price: 4160000,           // Rs. 41,600 (2× original)
     priceDisplay: 'Rs. 41600',
-    duration: '10 days',
-    deliveryFormat: '3–5 sessions + metrics work',
+    duration: '4 Weeks',
+    deliveryFormat: '3–5 Sessions',
 
     coreServices: [
       'Investor Targeting Strategy',
@@ -533,7 +533,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 4,
     backendId: '69b3c41e4ad479822f297e2d',   // unchanged (was Operations & Scalability)
     slug: 'optimization-scalability',
-    packageNumber: 'Package 4',
+    packageNumber: 'Package 3.004',
     title: 'Optimization & Scalability',
     tagline: 'You’re growing but you’re breaking. Every new customer costs you more to serve.',
     tag: 'Operations',
@@ -544,8 +544,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Standard process design, growth strategy for next stage, operational efficiency map, roles & responsibilities clarity, and organisational structure design.',
     price: 6240000,           // Rs. 62,400 (2× original)
     priceDisplay: 'Rs. 62400',
-    duration: '2 weeks',
-    deliveryFormat: '3–5 sessions + process mapping',
+    duration: '6 Weeks',
+    deliveryFormat: '5-7 Sessions',
 
     coreServices: [
       'Standard Process Design',
@@ -623,7 +623,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 5,
     backendId: '69b3c43a4ad479822f297e31',   // unchanged (was Turnaround & Stabilisation)
     slug: 'turnaround-stabilisation',
-    packageNumber: 'Package 5',
+    packageNumber: 'Package 3.005',
     title: 'Turnaround & Stabilization',
     tagline: 'The business is in freefall. Revenue dropping. Cash burning.',
     tag: 'Turnaround',
@@ -634,8 +634,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Failure analysis, pivot or persevere decision, new customer & product profile, revised business model, cash preservation strategy, and 60‑day survival roadmap.',
     price: 9360000,           // Rs. 93,600 (2× original)
     priceDisplay: 'Rs. 93600',
-    duration: '21 days intensive',
-    deliveryFormat: '3–5 rapid sessions',
+    duration: '12 Weeks',
+    deliveryFormat: '5-7 Sessions',
 
     coreServices: [
       'Failure Analysis',
@@ -716,7 +716,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 6,
     backendId: '69b3c4464ad479822f297e33',   // unchanged (was Scale & Expansion Strategy)
     slug: 'scale-expansion',
-    packageNumber: 'Package 6',
+    packageNumber: 'Package 3.006',
     title: 'Scale & Expansion',
     tagline: 'You’ve won your first market. How do you grow without breaking what’s working?',
     tag: 'Scale',
@@ -727,8 +727,8 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     excerpt: 'Core business health audit, new product & customer profiling, organisation & structure for scale, expansion option ranking, financial model for expansion, and fund allocation strategy.',
     price: 10400000,          // Rs. 1,04,000 (2× original)
     priceDisplay: 'Rs. 104000',
-    duration: '2 weeks',
-    deliveryFormat: '3–5 sessions + scenario work',
+    duration: '6 Weeks',
+    deliveryFormat: '5-7 Sessions',
 
     coreServices: [
       'Core Business Health Audit',
@@ -810,7 +810,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     id: 7,
     backendId: '69b3c5004ad479822f297e35',   // new MongoDB _id (placeholder)
     slug: 'strategy-retainer',
-    packageNumber: 'Package 7',
+    packageNumber: 'Package 3.010',
     title: 'Strategy Retainer',
     tagline: 'Strategic counsel on tap – a thinking partner relationship.',
     tag: 'Foundation',
@@ -820,7 +820,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     problemStatement: 'You need ongoing strategic guidance without a full‑time executive or a traditional retainer that locks you into scope creep. Two structured meetings per month give you a thinking partner who knows your business.',
     excerpt: '2 Structured Meetings per Month, dedicated strategic counsel, guidance on execution of prior insights, no scope creep.',
     price: 1560000,           // Rs. 15,600 per month (2× original)
-    priceDisplay: 'Rs. 15600 / Month',
+    priceDisplay: 'Rs. 15600',
     duration: '4 Weeks',
     deliveryFormat: 'Virtual or On-Site',
 
