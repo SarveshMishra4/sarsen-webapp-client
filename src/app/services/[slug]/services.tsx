@@ -587,7 +587,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         className="svc-modal-pad-h"
         style={{
           background: `linear-gradient(135deg, #002855 0%, #0A1628 100%)`,
-          padding: '28px 0 24px',
+          paddingTop: '28px',
+          paddingBottom: '24px',
           position: 'relative',
         }}
       >
@@ -619,7 +620,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </p>
       </div>
 
-      <div ref={scrollRef} className="svc-modal-pad-h" style={{ padding: '28px 0' }}>
+      <div ref={scrollRef} className="svc-modal-pad-h svc-modal-body" style={{ paddingTop: '28px', paddingBottom: '28px' }}>
         <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
           <label style={{ color: '#0A1E3D', fontSize: '0.95rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
             Email Address <span style={{ color: '#EF4444', marginLeft: '3px' }}>*</span>
@@ -656,7 +657,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       <div
         className="svc-modal-pad-h svc-modal-footer"
         style={{
-          padding: '16px 0 24px',
+          paddingTop: '16px',
+          paddingBottom: '24px',
           borderTop: '1px solid #F1F5F9',
           display: 'flex',
           justifyContent: 'flex-end',
@@ -717,7 +719,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           className="svc-modal-pad-h"
           style={{
             background: `linear-gradient(135deg, #002855 0%, #0A1628 100%)`,
-            padding: '28px 0 24px',
+            paddingTop: '28px',
+            paddingBottom: '24px',
             position: 'relative',
           }}
         >
@@ -739,7 +742,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </h2>
         </div>
 
-        <div ref={scrollRef} className="svc-modal-pad-h" style={{ padding: '28px 0' }}>
+        <div ref={scrollRef} className="svc-modal-pad-h svc-modal-body" style={{ paddingTop: '28px', paddingBottom: '28px' }}>
           <div
             style={{
               background: '#F8FAFC',
@@ -930,7 +933,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </div>
         </div>
 
-        <div className="svc-modal-pad-h" style={{ padding: '16px 0 24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
+        <div className="svc-modal-pad-h" style={{ paddingTop: '16px', paddingBottom: '24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
             <div>
               <p style={{ fontSize: '0.82rem', color: '#0A1E3D', marginBottom: '2px', fontWeight: 500 }}>Total amount</p>
@@ -1000,7 +1003,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   const renderProcessingStep = () => (
-    <div className="svc-modal-pad-h" style={{ padding: '64px 0', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ paddingTop: '64px', paddingBottom: '64px', textAlign: 'center' }}>
       <div style={{ marginBottom: '20px' }}>
         <svg className="w-10 h-10 animate-spin mx-auto" fill="none" viewBox="0 0 24 24" style={{ color: service.accentColor }}>
           <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -1019,7 +1022,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   );
 
   const renderSuccessStep = () => (
-    <div className="svc-modal-pad-h" style={{ padding: '48px 0', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ paddingTop: '48px', paddingBottom: '48px', textAlign: 'center' }}>
       <div style={{
         width: '56px',
         height: '56px',
@@ -1119,7 +1122,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   );
 
   const renderFailureStep = () => (
-    <div className="svc-modal-pad-h" style={{ padding: '52px 0', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ paddingTop: '52px', paddingBottom: '52px', textAlign: 'center' }}>
       <div
         style={{
           width: '56px',
@@ -1209,9 +1212,6 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               borderRadius: '16px',
               overflow: 'hidden',
               boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
-              maxHeight: '92vh',
-              display: 'flex',
-              flexDirection: 'column',
             }}
           >
             {step === 'questions' && renderQuestionsStep()}
