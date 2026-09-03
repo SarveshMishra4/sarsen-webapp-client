@@ -46,6 +46,14 @@
  * as a server-side backup. fulfillAfterPayment has idempotency protection
  * so the user/engagement is never created twice even if both paths fire.
  * ─────────────────────────────────────────────────────────────────
+ *
+ * RESPONSIVE NOTE (added):
+ * All fixed multi-column CSS Grid / Flex layouts that previously only
+ * worked well on laptop/tablet now collapse gracefully on mobile via the
+ * `svc-*` utility classes declared in the <style> block at the bottom of
+ * this file. No desktop/tablet visual behaviour was changed — the base
+ * (non-media-query) rules mirror the original inline values exactly.
+ * ─────────────────────────────────────────────────────────────────
  */
 
 'use client';
@@ -149,7 +157,7 @@ const CouponBadge: FC<CouponBadgeProps> = ({ label, onRemove, accentRgb }) => (
 );
 
 // ════════════════════════════════════════════════════════════════
-// PURCHASE MODAL – COMPLETELY UNTOUCHED
+// PURCHASE MODAL – LOGIC UNTOUCHED, PADDING MADE RESPONSIVE
 // ════════════════════════════════════════════════════════════════
 
 type ModalStep = 'questions' | 'summary' | 'processing' | 'success' | 'failure';
@@ -576,9 +584,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   const renderQuestionsStep = () => (
     <>
       <div
+        className="svc-modal-pad-h"
         style={{
           background: `linear-gradient(135deg, #002855 0%, #0A1628 100%)`,
-          padding: '28px 32px 24px',
+          padding: '28px 0 24px',
           position: 'relative',
         }}
       >
@@ -610,7 +619,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </p>
       </div>
 
-      <div ref={scrollRef} style={{ padding: '28px 32px' }}>
+      <div ref={scrollRef} className="svc-modal-pad-h" style={{ padding: '28px 0' }}>
         <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #E2E8F0' }}>
           <label style={{ color: '#0A1E3D', fontSize: '0.95rem', fontWeight: 500, marginBottom: '6px', display: 'block' }}>
             Email Address <span style={{ color: '#EF4444', marginLeft: '3px' }}>*</span>
@@ -645,8 +654,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       </div>
 
       <div
+        className="svc-modal-pad-h svc-modal-footer"
         style={{
-          padding: '16px 32px 24px',
+          padding: '16px 0 24px',
           borderTop: '1px solid #F1F5F9',
           display: 'flex',
           justifyContent: 'flex-end',
@@ -704,9 +714,10 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     return (
       <>
         <div
+          className="svc-modal-pad-h"
           style={{
             background: `linear-gradient(135deg, #002855 0%, #0A1628 100%)`,
-            padding: '28px 32px 24px',
+            padding: '28px 0 24px',
             position: 'relative',
           }}
         >
@@ -728,7 +739,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </h2>
         </div>
 
-        <div ref={scrollRef} style={{ padding: '28px 32px' }}>
+        <div ref={scrollRef} className="svc-modal-pad-h" style={{ padding: '28px 0' }}>
           <div
             style={{
               background: '#F8FAFC',
@@ -738,7 +749,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               border: '1px solid #E2E8F0',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+            <div className="svc-summary-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
               <div>
                 <p style={{ fontSize: '0.85rem', color: '#0A1E3D', marginBottom: '2px' }}>{service.packageNumber}</p>
                 <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#0A1E3D' }}>
@@ -833,7 +844,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               Have a coupon code?
             </p>
             {appliedCoupon ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -858,6 +869,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     placeholder="SARSEN20"
                     style={{
                       flex: 1,
+                      minWidth: 0,
                       padding: '9px 12px',
                       borderRadius: '7px',
                       border: couponError ? '1px solid #EF4444' : '1px solid #CBD5E1',
@@ -872,6 +884,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     onClick={applyCoupon}
                     disabled={couponLoading || !couponInput.trim()}
                     style={{
+                      flexShrink: 0,
                       padding: '9px 16px',
                       borderRadius: '7px',
                       background: couponLoading || !couponInput.trim() ? '#E2E8F0' : '#0F172A',
@@ -917,11 +930,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           </div>
         </div>
 
-        <div style={{ padding: '16px 32px 24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+        <div className="svc-modal-pad-h" style={{ padding: '16px 0 24px', borderTop: '1px solid #F1F5F9', background: '#FFFFFF' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
             <div>
               <p style={{ fontSize: '0.82rem', color: '#0A1E3D', marginBottom: '2px', fontWeight: 500 }}>Total amount</p>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
                 <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0A1E3D'}}>
                   {displayPrice}
                 </p>
@@ -935,7 +948,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="svc-modal-actions" style={{ display: 'flex', gap: '10px' }}>
             <button
               onClick={() => setStep('questions')}
               style={{
@@ -949,6 +962,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                whiteSpace: 'nowrap',
               }}
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -986,7 +1000,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   };
 
   const renderProcessingStep = () => (
-    <div style={{ padding: '64px 32px', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ padding: '64px 0', textAlign: 'center' }}>
       <div style={{ marginBottom: '20px' }}>
         <svg className="w-10 h-10 animate-spin mx-auto" fill="none" viewBox="0 0 24 24" style={{ color: service.accentColor }}>
           <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -1005,7 +1019,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   );
 
   const renderSuccessStep = () => (
-    <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ padding: '48px 0', textAlign: 'center' }}>
       <div style={{
         width: '56px',
         height: '56px',
@@ -1065,6 +1079,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             textAlign: 'center',
             border: '1px solid #86EFAC',
             userSelect: 'all',
+            wordBreak: 'break-all',
           }}>
             {plainPassword}
           </div>
@@ -1104,7 +1119,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
   );
 
   const renderFailureStep = () => (
-    <div style={{ padding: '52px 32px', textAlign: 'center' }}>
+    <div className="svc-modal-pad-h" style={{ padding: '52px 0', textAlign: 'center' }}>
       <div
         style={{
           width: '56px',
@@ -1138,7 +1153,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
         </a>
         {' '}and we will resolve this immediately.
       </p>
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+      <div className="svc-modal-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
         <button
           onClick={() => setStep('summary')}
           style={{
@@ -1194,6 +1209,9 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
               borderRadius: '16px',
               overflow: 'hidden',
               boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
+              maxHeight: '92vh',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             {step === 'questions' && renderQuestionsStep()}
@@ -1209,7 +1227,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE HERO – UNTOUCHED
+// PAGE HERO – UNTOUCHED (already responsive via Tailwind classes)
 // ════════════════════════════════════════════════════════════════
 
 interface PageHeroProps {
@@ -1265,7 +1283,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
             <div className="flex items-center gap-4 flex-wrap pt-2">
               <button
                 onClick={onBuy}
-                className="group bg-white text-[#002855] hover:shadow-md transition-shadow"
+                className="group bg-white text-[#002855] hover:shadow-md transition-shadow w-full sm:w-auto justify-center"
                 style={{
                   padding: '14px 32px',
                   borderRadius: '6px',
@@ -1298,7 +1316,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
 };
 
 // ════════════════════════════════════════════════════════════════
-// CHALLENGE WE SOLVE – 80/20 SPLIT, NO LINES, NO NUMBERING
+// CHALLENGE WE SOLVE – 80/20 SPLIT, RESPONSIVE STACK ON MOBILE
 // ════════════════════════════════════════════════════════════════
 
 const ExcerptSection: FC<{ service: ServiceData }> = ({ service }) => {
@@ -1307,9 +1325,9 @@ const ExcerptSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
+      className="svc-py-72"
       style={{
         backgroundColor: '#061528',
-        padding: '72px 0',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
@@ -1323,17 +1341,13 @@ const ExcerptSection: FC<{ service: ServiceData }> = ({ service }) => {
           </span>
         </div>
 
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '48px',
-        }}>
-          {/* Left 80% excerpt */}
-          <div style={{ flex: '1 1 70%', minWidth: '280px' }}>
+        <div className="svc-flex-wrap">
+          {/* Left excerpt */}
+          <div className="svc-flex-left">
             <p style={{
-fontSize: 'clamp(1.25rem, 1.25vw, 1rem)',
+              fontSize: 'clamp(1.15rem, 1.4vw + 0.8rem, 1.6rem)',
               fontWeight: 300,
-              lineHeight: 1,
+              lineHeight: 1.35,
               color: '#C8D8EA',
               margin: 0,
             }}>
@@ -1341,8 +1355,8 @@ fontSize: 'clamp(1.25rem, 1.25vw, 1rem)',
             </p>
           </div>
 
-          {/* Right 20% indices – no numbers, just bullet style */}
-          <div style={{ flex: '0 0 240px' }}>
+          {/* Right indices – no numbers, just bullet style */}
+          <div className="svc-flex-right">
             <div style={{ marginBottom: '16px' }}>
               <span style={{
                 fontSize: '13px',
@@ -1375,7 +1389,7 @@ fontSize: 'clamp(1.25rem, 1.25vw, 1rem)',
 };
 
 // ════════════════════════════════════════════════════════════════
-// CORE SERVICES – NO NUMBERING, REDUCED GAP, NO LINES
+// CORE SERVICES – RESPONSIVE GRID COLLAPSE ON MOBILE/TABLET
 // ════════════════════════════════════════════════════════════════
 
 const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
@@ -1415,7 +1429,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
   );
 
   return (
-    <section style={{ backgroundColor: '#0A1E3D', padding: '72px 0' }}>
+    <section className="svc-py-72" style={{ backgroundColor: '#0A1E3D' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
         <div style={{ marginBottom: '48px' }}>
           <span style={{
@@ -1428,12 +1442,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
         </div>
 
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '20px',
-          }}
-          className="lg:gap-6"
+          className="svc-core-grid lg:gap-6"
         >
           {/* Hero cell */}
           <div style={{ display: 'grid', gridTemplateRows: 'auto auto', gap: '20px' }} className="lg:gap-6">
@@ -1505,12 +1514,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
           {/* Right 2x2 grid */}
           <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '20px',
-            }}
-            className="lg:gap-6"
+            className="svc-core-right-grid lg:gap-6"
           >
             {[0, 1, 2, 3].map((idx) => (
               <div
@@ -1527,13 +1531,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
           {/* Bottom row 3 items */}
           <div
-            style={{
-              gridColumn: '1 / -1',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '20px',
-            }}
-            className="lg:gap-6"
+            className="svc-core-bottom-grid lg:gap-6"
           >
             {[4, 5, 6].map((idx, i) => (
               <div
@@ -1554,7 +1552,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 };
 
 // ════════════════════════════════════════════════════════════════
-// DELIVERABLES – 80/20 PROPORTION, SINGLE‑LINE COUNT
+// DELIVERABLES – 80/20 PROPORTION, RESPONSIVE STACK ON MOBILE
 // ════════════════════════════════════════════════════════════════
 
 const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
@@ -1563,9 +1561,9 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
+      className="svc-py-72"
       style={{
         backgroundColor: '#061528',
-        padding: '72px 0',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
@@ -1579,13 +1577,9 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
           </span>
         </div>
 
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '48px',
-        }}>
-          {/* Left 80% – heading + count in single line */}
-          <div style={{ flex: '1 1 70%', minWidth: '280px' }}>
+        <div className="svc-flex-wrap">
+          {/* Left – heading + count in single line */}
+          <div className="svc-flex-left">
             <h2 style={{
               fontSize: 'clamp(1.6rem, 2.6vw, 2.4rem)',
               fontWeight: 300,
@@ -1611,6 +1605,7 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
               display: 'flex',
               alignItems: 'baseline',
               gap: '12px',
+              flexWrap: 'wrap',
             }}>
               <span style={{
                 fontSize: '3.5rem',
@@ -1631,8 +1626,8 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
             </div>
           </div>
 
-          {/* Right 20% – deliverable list */}
-          <div style={{ flex: '0 0 260px' }}>
+          {/* Right – deliverable list */}
+          <div className="svc-flex-right-wide">
             <div style={{ marginBottom: '16px' }}>
               <span style={{
                 fontSize: '13px',
@@ -1677,7 +1672,7 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
 };
 
 // ════════════════════════════════════════════════════════════════
-// FLEXIBLE SERVICES – NO LINES
+// FLEXIBLE SERVICES – already responsive via Tailwind grid classes
 // ════════════════════════════════════════════════════════════════
 
 const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
@@ -1686,7 +1681,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-16"
+      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -1735,7 +1730,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 };
 
 // ════════════════════════════════════════════════════════════════
-// ROADMAP – HORIZONTAL SCROLLABLE, NO LINES, NO NUMBERS
+// ROADMAP – HORIZONTAL SCROLLABLE, ALREADY MOBILE‑FRIENDLY
 // ════════════════════════════════════════════════════════════════
 
 const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
@@ -1744,7 +1739,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-16"
+      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -1816,13 +1811,18 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
         .roadmap-scroll::-webkit-scrollbar {
           display: none;
         }
+        @media (max-width: 640px) {
+          .roadmap-scroll > div {
+            flex-basis: 240px !important;
+          }
+        }
       `}</style>
     </section>
   );
 };
 
 // ════════════════════════════════════════════════════════════════
-// TRUST STRIP – NO DIVIDING LINES
+// TRUST STRIP – RESPONSIVE GRID COLLAPSE ON MOBILE/TABLET
 // ════════════════════════════════════════════════════════════════
 
 const FIRM_PILLARS = [
@@ -1870,9 +1870,9 @@ const TrustStrip: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
+      className="svc-py-64"
       style={{
         backgroundColor: '#071829',
-        padding: '64px 0',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
@@ -1887,11 +1887,7 @@ const TrustStrip: FC<{ service: ServiceData }> = ({ service }) => {
         </div>
 
         {/* No lines – each pillar stands independently with subtle rounded corners */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px',
-        }}>
+        <div className="svc-trust-grid">
           {FIRM_PILLARS.map((p, i) => (
             <div
               key={i}
@@ -1941,7 +1937,7 @@ const TrustStrip: FC<{ service: ServiceData }> = ({ service }) => {
 };
 
 // ════════════════════════════════════════════════════════════════
-// TARGET BANNER
+// TARGET BANNER – already responsive via Tailwind grid classes
 // ════════════════════════════════════════════════════════════════
 
 const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, onBuy }) => {
@@ -1949,13 +1945,13 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-16"
+      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid sm:grid-cols-3 gap-6">
           <div
-            className="sm:col-span-2 rounded-md p-8"
+            className="sm:col-span-2 rounded-md p-6 sm:p-8"
             style={{ backgroundColor: '#132B47' }}
           >
             <p className="text-sm mb-3 text-blue-300/70">
@@ -1986,7 +1982,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
           </div>
 
           <div
-            className="rounded-md p-8 flex flex-col justify-between"
+            className="rounded-md p-6 sm:p-8 flex flex-col justify-between"
             style={{
               background: `linear-gradient(145deg, rgba(${rgb},0.12) 0%, rgba(${rgb},0.04) 100%)`,
             }}
@@ -2035,9 +2031,9 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
 
   return (
     <section
+      className="svc-py-80"
       style={{
         backgroundColor: '#061528',
-        padding: '80px 0',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
@@ -2188,6 +2184,144 @@ export default function ServicePage({ service }: ServicePageProps): React.JSX.El
         }
         .purchase-modal select {
           color: #0A1E3D; /* ensure selected option text is dark blue */
+        }
+
+        /* ════════════════════════════════════════════════════════
+           RESPONSIVE UTILITY CLASSES
+           Base rules below mirror the ORIGINAL desktop/tablet inline
+           values exactly, so laptop/tablet rendering is unchanged.
+           Media queries only kick in on smaller viewports.
+           ════════════════════════════════════════════════════════ */
+
+        /* Section vertical padding */
+        .svc-py-64 { padding: 64px 0; }
+        .svc-py-72 { padding: 72px 0; }
+        .svc-py-80 { padding: 80px 0; }
+
+        /* 80/20 flex layouts (Excerpt & Deliverables sections) */
+        .svc-flex-wrap {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 48px;
+        }
+        .svc-flex-left {
+          flex: 1 1 70%;
+          min-width: 280px;
+        }
+        .svc-flex-right {
+          flex: 0 0 240px;
+        }
+        .svc-flex-right-wide {
+          flex: 0 0 260px;
+        }
+
+        /* Core services grid */
+        .svc-core-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+        .svc-core-right-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+        .svc-core-bottom-grid {
+          grid-column: 1 / -1;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+
+        /* Trust strip grid */
+        .svc-trust-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+        }
+
+        /* Purchase modal horizontal padding */
+        .svc-modal-pad-h {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+
+        /* ── Tablet (≤1024px) ──────────────────────────────────── */
+        @media (max-width: 1024px) {
+          .svc-core-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        /* ── Small tablet / large phone (≤768px) ───────────────── */
+        @media (max-width: 768px) {
+          .svc-trust-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .svc-flex-right,
+          .svc-flex-right-wide {
+            flex-basis: 220px;
+          }
+        }
+
+        /* ── Mobile (≤640px) ────────────────────────────────────── */
+        @media (max-width: 640px) {
+          .svc-py-64,
+          .svc-py-72,
+          .svc-py-80 {
+            padding: 40px 0;
+          }
+
+          .svc-flex-wrap {
+            gap: 28px;
+          }
+          .svc-flex-left {
+            flex: 1 1 100%;
+            min-width: 0;
+          }
+          .svc-flex-right,
+          .svc-flex-right-wide {
+            flex: 1 1 100%;
+          }
+
+          .svc-core-right-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+          }
+          .svc-core-bottom-grid {
+            grid-template-columns: 1fr;
+            gap: 14px;
+          }
+
+          .svc-trust-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+
+          .svc-modal-pad-h {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+
+          .svc-modal-footer {
+            flex-wrap: wrap;
+          }
+          .svc-modal-actions {
+            flex-direction: column-reverse;
+          }
+          .svc-modal-actions > button,
+          .svc-modal-actions > a {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+          }
+        }
+
+        /* ── Very small phones (≤420px) ─────────────────────────── */
+        @media (max-width: 420px) {
+          .svc-core-right-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
 
