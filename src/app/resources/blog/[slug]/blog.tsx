@@ -84,12 +84,20 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
       <main className="bg-white min-h-screen">
         {/* Hero Section */}
         <section className="relative bg-[#0A1E3D] text-white overflow-hidden">
-          {/* Background pattern (subtle) */}
+          {/* Background pattern (subtle) — straight diagonal lines, not a grid.
+              Spacing between lines is controlled by the pattern's width/height
+              (currently 40); we'll adjust that value later to taste. */}
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <pattern id="blog-grid" patternUnits="userSpaceOnUse" width="40" height="40">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#93C5FD" strokeWidth="0.5" />
+                <pattern
+                  id="blog-grid"
+                  patternUnits="userSpaceOnUse"
+                  width="40"
+                  height="40"
+                  patternTransform="rotate(45)"
+                >
+                  <line x1="0" y1="0" x2="0" y2="40" stroke="#93C5FD" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#blog-grid)" />
