@@ -1,10 +1,11 @@
+// app/blog/[slug]/blog.tsx
 'use client';
 
 import React, { FC } from 'react';
-import type { BlogPost } from './data';
+import type { PublicBlogPost } from '@/services/blog.service';
 
 interface BlogPageProps {
-  post: BlogPost;
+  post: PublicBlogPost;
 }
 
 const BlogPage: FC<BlogPageProps> = ({ post }) => {
@@ -39,16 +40,12 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left column: text */}
               <div className="space-y-6 animate-fade-up">
-                {/* Breadcrumb / tags */}
+                {/* Category tag — was a `tags` array in the old data, is a single
+                    `tag` string from the real backend */}
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                    {post.tag}
+                  </span>
                 </div>
 
                 <h1 className="text-4xl md:text-5xl lg:text-6xl   text-white">
@@ -61,16 +58,24 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
 
                 {/* Author and meta */}
                 <div className="flex items-center gap-4 pt-4">
-                  <div className="w-12 h-12 rounded-full bg-[#132B47] flex items-center justify-center text-white font-bold text-xl">
-                    {post.author.charAt(0)}
-                  </div>
+                  {post.authorImageUrl ? (
+                    <img
+                      src={post.authorImageUrl}
+                      alt={post.authorName}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-[#132B47] flex items-center justify-center text-white font-bold text-xl">
+                      {post.authorName.charAt(0)}
+                    </div>
+                  )}
                   <div>
-                    <p className="font-medium text-white">{post.author}</p>
+                    <p className="font-medium text-white">{post.authorName}</p>
                     {post.authorTitle && (
                       <p className="text-sm text-gray-400">{post.authorTitle}</p>
                     )}
                     <div className="flex items-center gap-3 text-sm text-gray-400 mt-1">
-                      <span>{new Date(post.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                      <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                       <span>·</span>
                       <span>{post.readTimeMinutes} min read</span>
                     </div>
@@ -78,18 +83,15 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                 </div>
               </div>
 
-              {/* Right column: SBG Visual Placeholder */}
+              {/* Right column: real cover image, replacing the old placeholder box
+                  now that the admin dashboard actually uploads one */}
               <div className="relative animate-fade-up animation-delay-200">
-                <div
-                  className="w-full aspect-[4/3] rounded-md bg-[#132B47] border border-blue-900/30 flex items-center justify-center shadow-2xl"
-                >
-                  <div className="text-center">
-                    <svg className="w-16 h-16 mx-auto text-blue-400/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <p className="text-blue-300/50 font-mono text-sm">SBG Visual Placeholder</p>
-                    <p className="text-blue-400/30 text-xs mt-2">{post.featuredImagePlaceholder || 'Image'}</p>
-                  </div>
+                <div className="w-full aspect-[4/3] rounded-md overflow-hidden border border-blue-900/30 shadow-2xl">
+                  <img
+                    src={post.coverImageUrl}
+                    alt={post.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 {/* Decorative element */}
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
@@ -100,21 +102,40 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
 
         {/* Content Section */}
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="prose prose-lg prose-headings:font-serif prose-a:text-blue-600 max-w-none">
-            {/* Render content with line breaks – if content is HTML, use dangerouslySetInnerHTML */}
-            {post.content.split('\n').map((paragraph, idx) =>
-              paragraph.trim() ? (
-                <p key={idx} className="mb-4 text-gray-700 ">
-                  {paragraph}
-                </p>
-              ) : null
-            )}
-          </div>
+          {/*
+            Confirmed via blog.constants.ts (SANITIZE_ALLOWED_TAGS: p, h2-h4,
+            table, img, etc.) — content is sanitized HTML, already cleaned
+            server-side on every save. Safe to render directly; nothing
+            outside that allowlist can have survived sanitizeContent().
+          */}
+          <div
+            className="prose prose-lg prose-headings:font-serif prose-a:text-blue-600 max-w-none"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+
+          {post.authorBio && (
+            <>
+              <hr className="my-12 border-gray-200" />
+              <div className="flex items-start gap-4">
+                {post.authorImageUrl && (
+                  <img
+                    src={post.authorImageUrl}
+                    alt={post.authorName}
+                    className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                  />
+                )}
+                <div>
+                  <p className="font-medium text-gray-800">{post.authorName}</p>
+                  <p className="text-sm text-gray-600 mt-1">{post.authorBio}</p>
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Optional share / footer */}
           <hr className="my-12 border-gray-200" />
           <div className="flex justify-between items-center text-sm text-gray-500">
-            <span>Published by {post.author}</span>
+            <span>Published by {post.authorName}</span>
             <div className="flex gap-4">
               {/* Placeholder for social share icons */}
               <button className="hover:text-[#0A1E3D] transition">Share on LinkedIn</button>
