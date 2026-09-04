@@ -386,10 +386,6 @@ export default function Footer() {
 
             {/* ── Row 1 links (appear first in source order) ── */}
 
-            {/* Contact page link */}
-            <Link href="/contact" className="hover:text-[#002855] transition-colors">
-              Contact
-            </Link>
 
 
             {/* "Your privacy choices" – rendered as a <button> because it
