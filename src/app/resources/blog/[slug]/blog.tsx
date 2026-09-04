@@ -19,6 +19,24 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
         .animate-fade-up {
           animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
+
+        /* Force deep-blue body text inside published blog content,
+           overriding any inline styles baked in by the editor on save. */
+        .blog-article-content,
+        .blog-article-content p,
+        .blog-article-content li,
+        .blog-article-content td,
+        .blog-article-content th,
+        .blog-article-content span,
+        .blog-article-content strong,
+        .blog-article-content em,
+        .blog-article-content blockquote,
+        .blog-article-content h1,
+        .blog-article-content h2,
+        .blog-article-content h3,
+        .blog-article-content h4 {
+          color: #0A1E3D !important;
+        }
       `}</style>
 
       <main className="bg-white min-h-screen">
@@ -109,7 +127,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
             outside that allowlist can have survived sanitizeContent().
           */}
           <div
-            className="prose prose-lg prose-headings:font-serif prose-a:text-blue-600 max-w-none"
+            className="blog-article-content prose prose-lg prose-headings:font-serif prose-headings:text-[#0A1E3D] prose-p:text-[#0A1E3D] prose-li:text-[#0A1E3D] prose-a:text-blue-600 max-w-none"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
