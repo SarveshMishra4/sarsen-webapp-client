@@ -37,6 +37,38 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
         .blog-article-content h4 {
           color: #0A1E3D !important;
         }
+
+        /* Force distinct heading sizes inside published blog content,
+           overriding any inline font-size styles baked in by the editor
+           on save (this is why H1–H4 were all rendering identically). */
+        .blog-article-content h1 {
+          font-size: 2.25rem !important;   /* ~36px */
+          line-height: 1.2 !important;
+          font-weight: 700 !important;
+          margin-top: 2rem !important;
+          margin-bottom: 1rem !important;
+        }
+        .blog-article-content h2 {
+          font-size: 1.875rem !important;  /* ~30px */
+          line-height: 1.25 !important;
+          font-weight: 700 !important;
+          margin-top: 1.75rem !important;
+          margin-bottom: 0.875rem !important;
+        }
+        .blog-article-content h3 {
+          font-size: 1.5rem !important;    /* ~24px */
+          line-height: 1.3 !important;
+          font-weight: 600 !important;
+          margin-top: 1.5rem !important;
+          margin-bottom: 0.75rem !important;
+        }
+        .blog-article-content h4 {
+          font-size: 1.25rem !important;   /* ~20px */
+          line-height: 1.35 !important;
+          font-weight: 600 !important;
+          margin-top: 1.25rem !important;
+          margin-bottom: 0.625rem !important;
+        }
       `}</style>
 
       <main className="bg-white min-h-screen">
@@ -150,15 +182,16 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
             </>
           )}
 
-          {/* Optional share / footer */}
+          {/* Copyright / license notice */}
           <hr className="my-12 border-gray-200" />
-          <div className="flex justify-between items-center text-sm text-gray-500">
-            <span>Published by {post.authorName}</span>
-            <div className="flex gap-4">
-              {/* Placeholder for social share icons */}
-              <button className="hover:text-[#0A1E3D] transition">Share on LinkedIn</button>
-              <button className="hover:text-[#0A1E3D] transition">Share on Twitter</button>
-            </div>
+          <div className="text-sm text-gray-500 leading-relaxed">
+            <p>All rights reserved by Sarsen Partners.</p>
+            <p>
+              This content may be shared or used under a Creative Commons
+              Attribution license — reuse is welcome with credit to Sarsen
+              Partners. Sharing this article directly via its link does not
+              require additional attribution.
+            </p>
           </div>
         </article>
       </main>
