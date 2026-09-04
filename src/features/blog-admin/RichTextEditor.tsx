@@ -19,6 +19,15 @@
 // The backend sanitizer (blog.constants.ts SANITIZE_ALLOWED_TAGS) is the
 // actual enforcement layer — this toolbar just keeps the admin from
 // producing content types the public page doesn't know how to render.
+//
+// FIX: the editable area was rendering near-invisible (white-on-white)
+// text with no real heading hierarchy — it was relying only on Tailwind's
+// `prose` defaults, which get overridden by the admin dashboard's own
+// (dark-themed) inherited text color, exactly like the public blog page
+// bug. Same fix here: explicit `!important` color/size rules scoped to
+// this editor's ProseMirror content, so admins can actually see what
+// they're writing and headings read as a real hierarchy while editing —
+// matching the H1–H4 scale used on the published post itself.
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -159,6 +168,112 @@ export function RichTextEditor({
 
   return (
     <div className="border border-gray-300 rounded-md overflow-hidden">
+      {/* Scoped, high-specificity overrides for the editable area. These
+          use !important because this editor sits inside a dashboard whose
+          inherited text color is white — the same root cause as the
+          public blog page needing forced colors — and because Tiptap's
+          own ProseMirror styles otherwise win over plain Tailwind prose
+          classes. */}
+      <style>{`
+        .rte-content .ProseMirror {
+          color: #111827 !important; /* gray-900 */
+        }
+        .rte-content .ProseMirror p,
+        .rte-content .ProseMirror li,
+        .rte-content .ProseMirror td,
+        .rte-content .ProseMirror th,
+        .rte-content .ProseMirror span,
+        .rte-content .ProseMirror strong,
+        .rte-content .ProseMirror em,
+        .rte-content .ProseMirror blockquote {
+          color: #111827 !important;
+        }
+        .rte-content .ProseMirror h1,
+        .rte-content .ProseMirror h2,
+        .rte-content .ProseMirror h3,
+        .rte-content .ProseMirror h4 {
+          color: #0A1E3D !important;
+          font-family: inherit;
+        }
+
+        /* Heading hierarchy that mirrors the published post's H1–H4 scale,
+           so what the admin sees while writing matches what readers see. */
+        .rte-content .ProseMirror h1 {
+          font-size: 1.875rem !important; /* ~30px, scaled down from the
+                                              public 36px hero size since
+                                              this is an editing surface */
+          line-height: 1.25 !important;
+          font-weight: 700 !important;
+          margin-top: 1.25rem !important;
+          margin-bottom: 0.625rem !important;
+        }
+        .rte-content .ProseMirror h2 {
+          font-size: 1.5rem !important;   /* ~24px */
+          line-height: 1.3 !important;
+          font-weight: 700 !important;
+          margin-top: 1.1rem !important;
+          margin-bottom: 0.55rem !important;
+        }
+        .rte-content .ProseMirror h3 {
+          font-size: 1.25rem !important;  /* ~20px */
+          line-height: 1.35 !important;
+          font-weight: 600 !important;
+          margin-top: 1rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .rte-content .ProseMirror h4 {
+          font-size: 1.0625rem !important; /* ~17px */
+          line-height: 1.4 !important;
+          font-weight: 600 !important;
+          margin-top: 0.875rem !important;
+          margin-bottom: 0.4375rem !important;
+        }
+
+        .rte-content .ProseMirror p {
+          font-size: 0.9375rem !important; /* ~15px, prose-sm baseline */
+          line-height: 1.6 !important;
+          margin-top: 0.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        .rte-content .ProseMirror a {
+          color: #2563eb !important; /* blue-600 */
+          text-decoration: underline !important;
+        }
+
+        /* Rounded corners on inserted images, matching the radius used on
+           the published post so the editor preview is representative. */
+        .rte-content .ProseMirror img {
+          border-radius: 0.5rem !important;
+          display: block;
+          max-width: 100%;
+          height: auto;
+          margin: 0.75rem 0 !important;
+        }
+
+        .rte-content .ProseMirror table {
+          border-collapse: collapse !important;
+        }
+        .rte-content .ProseMirror td,
+        .rte-content .ProseMirror th {
+          border: 1px solid #d1d5db !important; /* gray-300 */
+          padding: 0.25rem 0.5rem !important;
+          color: #111827 !important;
+        }
+        .rte-content .ProseMirror th {
+          background-color: #f3f4f6 !important; /* gray-100 */
+          font-weight: 600 !important;
+        }
+
+        .rte-content .ProseMirror p.is-editor-empty:first-child::before {
+          content: attr(data-placeholder);
+          color: #9ca3af !important; /* gray-400 */
+          float: left;
+          height: 0;
+          pointer-events: none;
+        }
+      `}</style>
+
       <div className="flex flex-wrap gap-1 border-b border-gray-200 bg-gray-50 px-3 py-2">
         <ToolbarButton
           active={editor.isActive('bold')}
@@ -303,13 +418,8 @@ export function RichTextEditor({
 
       <EditorContent
         editor={editor}
-        className="prose prose-sm max-w-none px-4 py-3 min-h-[240px] focus:outline-none
-                   [&_.ProseMirror]:min-h-[220px] [&_.ProseMirror]:outline-none
-                   [&_table]:border-collapse [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1
-                   [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:bg-gray-100
-                   [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_h3]:font-semibold
-                   [&_h4]:text-base [&_h4]:font-semibold
-                   [&_img]:rounded [&_img]:my-3 [&_img]:max-w-full"
+        className="rte-content prose prose-sm max-w-none px-4 py-3 min-h-[240px] focus:outline-none
+                   [&_.ProseMirror]:min-h-[220px] [&_.ProseMirror]:outline-none"
       />
     </div>
   );
