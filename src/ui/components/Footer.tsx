@@ -166,13 +166,16 @@ export default function Footer() {
               </div>
 
               {/* Company name – two lines stacked inside a div */}
+              {/* Sizing now mirrors the header exactly: "Sarsen" is the larger,
+                  bold line and "Strategy Partners" is the smaller, regular-weight
+                  line underneath it (see Header.tsx logo block for reference). */}
               <div>
-                {/* Line 1: "Sarsen" */}
-                <div className="text-2xl font-bold  text-gray-900">
+                {/* Line 1: "Sarsen" – large & bold, matches header's text-lg/xl font-bold */}
+                <div className="text-2xl font-bold text-gray-900">
                   Sarsen
                 </div>
-                {/* Line 2: "Strategy Partners" */}
-                <div className="text-2xl font-bold  text-gray-900">
+                {/* Line 2: "Strategy Partners" – smaller, regular weight, matches header's text-xs/sm */}
+                <div className="text-sm text-gray-900">
                   Strategy Partners
                 </div>
               </div>
