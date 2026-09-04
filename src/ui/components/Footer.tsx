@@ -444,8 +444,8 @@ export default function Footer() {
             text-md    → base text size (16px)
             text-gray-600 → muted gray, consistent with legal link text
         ================================================================= */}
-        <div className="mt-4 pt-6 text-center text-md text-gray-600">
-          <p>2019-2026 : All Rights Reserved Sarsen Strategy Partners.</p>
+        <div className="mt-4 pt-6 text-center text-sm text-gray-600">
+          <p>All Rights Reserved Sarsen Partners.</p>
         </div>
         {/* END COPYRIGHT NOTICE */}
 
