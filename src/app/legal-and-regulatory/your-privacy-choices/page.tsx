@@ -149,7 +149,7 @@ export default function YourPrivacyChoicesPage() {
       ==================================================================== */}
       <div className="mx-auto mt-10 max-w-[1400px] px-4 pb-14 md:mt-14 md:px-8 md:pb-20">
         {saveMessage && (
-          <div className="mb-8 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+          <div className="mb-8 flex items-start gap-3 rounded-md border border-green-200 bg-green-50 p-4">
             <svg
               className="h-6 w-6 flex-shrink-0 text-green-600"
               fill="currentColor"
@@ -193,9 +193,9 @@ export default function YourPrivacyChoicesPage() {
               {privacyChoices.map((choice) => (
                 <div
                   key={choice.id}
-                  className="flex items-start gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:border-[#002855]/40"
+                  className="flex items-start gap-4 rounded-md border border-gray-200 p-4 transition-colors hover:border-[#002855]/40"
                 >
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-[#002855]/10 text-[#002855]">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md bg-[#002855]/10 text-[#002855]">
                     {choice.icon}
                   </div>
 
@@ -331,7 +331,7 @@ export default function YourPrivacyChoicesPage() {
               />
             </div>
 
-            <div className="mt-6 rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-4">
+            <div className="mt-6 rounded-md border border-[#002855]/15 bg-[#002855]/[0.03] p-4">
               <div className="flex items-start gap-3">
                 <svg
                   className="mt-0.5 h-6 w-6 flex-shrink-0 text-[#002855]"
@@ -390,7 +390,7 @@ export default function YourPrivacyChoicesPage() {
               the handling of your information, please contact our team.
             </P>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-6">
               <p className="mb-3 font-medium text-gray-800">
                 Sarsen Strategy Partners
               </p>
@@ -413,7 +413,7 @@ export default function YourPrivacyChoicesPage() {
             </div>
           </Section>
 
-          {/* <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
+          {/* <section className="rounded-md border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
             <h2 className="mb-4 text-xl font-semibold text-[#002855] md:text-2xl">
               Related Privacy Resources
             </h2>
@@ -421,7 +421,7 @@ export default function YourPrivacyChoicesPage() {
             <div className="grid gap-4 md:grid-cols-2">
               <Link
                 href="/privacy-policy"
-                className="flex items-center gap-3 rounded-lg bg-white p-4 transition-shadow hover:shadow-md"
+                className="flex items-center gap-3 rounded-md bg-white p-4 transition-shadow hover:shadow-md"
               >
                 <svg className="h-6 w-6 text-[#002855]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-2 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
@@ -434,7 +434,7 @@ export default function YourPrivacyChoicesPage() {
 
               <Link
                 href="/cookie-preferences"
-                className="flex items-center gap-3 rounded-lg bg-white p-4 transition-shadow hover:shadow-md"
+                className="flex items-center gap-3 rounded-md bg-white p-4 transition-shadow hover:shadow-md"
               >
                 <svg className="h-6 w-6 text-[#002855]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5c.56-.56 3.58-.56 5.5-.56s4.94 0 5.5.56S18.06 19 17.5 19s-3.58-.56-5.5-.56-4.94 0-5.5.56zm8-9c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm-5 0c0-.83-.67-1.5-1.5-1.5S7 7.67 7 8.5 7.67 10 8.5 10s1.5-.67 1.5-1.5z" />
@@ -523,10 +523,10 @@ function RequestCard({
   onClick: () => void;
 }) {
   return (
-    <div className="rounded-lg border border-gray-200 p-6">
+    <div className="rounded-md border border-gray-200 p-6">
       <div className="flex items-start gap-4">
         <div
-          className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${iconBg} ${iconColor}`}
+          className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md ${iconBg} ${iconColor}`}
         >
           {icon}
         </div>
