@@ -111,7 +111,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                 {/* Category tag — was a `tags` array in the old data, is a single
                     `tag` string from the real backend */}
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                  <span className="text-xs font-medium px-3 py-1 rounded-md bg-blue-100 text-blue-800">
                     {post.tag}
                   </span>
                 </div>
