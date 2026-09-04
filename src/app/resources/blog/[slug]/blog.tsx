@@ -69,6 +69,16 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
           margin-top: 1.25rem !important;
           margin-bottom: 0.625rem !important;
         }
+
+        /* Rounded corners for every image inside the published blog content,
+           matching the rounded-md treatment used on the hero cover image. */
+        .blog-article-content img {
+          border-radius: 0.5rem !important; /* ~8px, tweak to match rounded-md/rounded-lg as needed */
+          overflow: hidden;
+          display: block;
+          max-width: 100%;
+          height: auto;
+        }
       `}</style>
 
       <main className="bg-white min-h-screen">
