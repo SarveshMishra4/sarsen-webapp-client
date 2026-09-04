@@ -184,7 +184,9 @@ export default function Footer() {
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M9.5 1.5v3h-3v-3h3zm-4 0v3h-3v-3h3zm8 0v3h-3v-3h3zm0 4v3h-3v-3h3zm0 4v3h-3v-3h3zm-4 0v3h-3v-3h3zm-4 0v3h-3v-3h3zm0-4v3h-3v-3h3zm4 0v3h-3v-3h3z" />
               </svg>
+              <Link href="/legal-and-regulatory/your-privacy-choices" className="hover:text-[#002855] transition-colors">
               Your Privacy Choices
+            </Link>
             </button>
 
             <Link href="/legal-and-regulatory/cookie-preferences" className="hover:text-[#002855] transition-colors">
