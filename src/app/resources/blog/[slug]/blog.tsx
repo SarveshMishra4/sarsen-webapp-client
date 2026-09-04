@@ -87,7 +87,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
           {/* Background pattern (subtle) — straight diagonal lines, not a grid.
               Spacing between lines is controlled by the pattern's width/height
               (currently 40); we'll adjust that value later to taste. */}
-          <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 opacity-20">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern
@@ -97,7 +97,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                   height="5"
                   patternTransform="rotate(45)"
                 >
-                  <line x1="0" y1="0" x2="0" y2="40" stroke="#dcecff" strokeWidth="0.5" />
+                  <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#blog-grid)" />
