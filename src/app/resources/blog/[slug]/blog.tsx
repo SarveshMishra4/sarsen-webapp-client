@@ -97,7 +97,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                   height="10"
                   patternTransform="rotate(45)"
                 >
-                  <line x1="0" y1="0" x2="0" y2="40" stroke="#93C5FD" strokeWidth="0.5" />
+                  <line x1="0" y1="0" x2="0" y2="40" stroke="#b8d7fa" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#blog-grid)" />
