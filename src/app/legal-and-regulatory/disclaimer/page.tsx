@@ -522,14 +522,14 @@ export default function DisclaimerPage() {
         </article>
 
         {/* Back to Home */}
-        <div className="mt-14 text-center">
+        {/* <div className="mt-14 text-center">
           <Link
             href="/"
             className="inline-block rounded-md bg-[#002855] px-8 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-[#0A1E3D]"
           >
             Back to Home
           </Link>
-        </div>
+        </div> */}
       </div>
     </main>
   );
