@@ -413,7 +413,7 @@ export default function YourPrivacyChoicesPage() {
             </div>
           </Section>
 
-          <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
+          {/* <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
             <h2 className="mb-4 text-xl font-semibold text-[#002855] md:text-2xl">
               Related Privacy Resources
             </h2>
@@ -445,7 +445,7 @@ export default function YourPrivacyChoicesPage() {
                 </div>
               </Link>
             </div>
-          </section>
+          </section> */}
         </article>
 
         {/* Back to Home */}
