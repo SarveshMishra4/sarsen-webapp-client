@@ -17,6 +17,12 @@
 // every non-destructive action, and red reserved only for Delete. Layout
 // still wraps on narrow screens via flex-wrap, so responsiveness is
 // unchanged.
+//
+// UPDATED: the "published"/"draft" status pill is now capitalized
+// ("Published" / "Draft"), and the filter-tab counts (All / Published /
+// Drafts) are no longer "(N)" in parentheses — they're a small
+// notification-style count badge next to the label, capped at "99+" once
+// a bucket passes 99 posts.
 
 import React, { useState, useEffect, useRef } from 'react';
 import type { ApiBlog } from './page';
@@ -77,6 +83,20 @@ const EMPTY_FORM: FormState = {
   hasReport: false, reportMockupImageUrl: '', reportName: '', reportDescription: '',
   reportAuthors: '', reportReleaseDate: '', relatedPosts: [],
 };
+
+// Capitalizes just the first letter — used for the status pill so
+// "published" / "draft" render as "Published" / "Draft" without touching
+// the underlying status value used everywhere else (filtering, payloads).
+function capitalize(str: string): string {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Notification-style count formatting: 0-99 shown as-is, anything above
+// caps out at "99+" instead of growing the badge indefinitely.
+function formatCount(count: number): string {
+  return count > 99 ? '99+' : String(count);
+}
 
 function blogToForm(post: ApiBlog): FormState {
   return {
@@ -308,6 +328,10 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
   const filteredBlogs = blogs.filter(p =>
     filterStatus === 'all' ? true : p.status === filterStatus
   );
+
+  const allCount = blogs.length;
+  const publishedCount = blogs.filter(p => p.status === 'published').length;
+  const draftCount = blogs.filter(p => p.status === 'draft').length;
 
   if (isCreating) {
     return (
@@ -847,35 +871,62 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setFilterStatus('all')}
-            className={`px-4 py-2 rounded-md text-sm font-medium ${
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium ${
               filterStatus === 'all'
                 ? 'bg-blue-100 text-blue-700'
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            All ({blogs.length})
+            All
+            <span
+              className={`inline-flex items-center justify-center min-w-[1.375rem] h-[1.375rem] px-1.5 rounded-full text-xs font-semibold ${
+                filterStatus === 'all'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {formatCount(allCount)}
+            </span>
           </button>
 
           <button
             onClick={() => setFilterStatus('published')}
-            className={`px-4 py-2 rounded-md text-sm font-medium ${
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium ${
               filterStatus === 'published'
                 ? 'bg-blue-100 text-blue-700'
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            Published ({blogs.filter(p => p.status === 'published').length})
+            Published
+            <span
+              className={`inline-flex items-center justify-center min-w-[1.375rem] h-[1.375rem] px-1.5 rounded-full text-xs font-semibold ${
+                filterStatus === 'published'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {formatCount(publishedCount)}
+            </span>
           </button>
 
           <button
             onClick={() => setFilterStatus('draft')}
-            className={`px-4 py-2 rounded-md text-sm font-medium ${
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium ${
               filterStatus === 'draft'
                 ? 'bg-blue-100 text-blue-700'
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            Drafts ({blogs.filter(p => p.status === 'draft').length})
+            Drafts
+            <span
+              className={`inline-flex items-center justify-center min-w-[1.375rem] h-[1.375rem] px-1.5 rounded-full text-xs font-semibold ${
+                filterStatus === 'draft'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {formatCount(draftCount)}
+            </span>
           </button>
         </div>
 
@@ -934,7 +985,7 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                           : 'bg-gray-100 text-gray-700'
                       }`}
                     >
-                      {post.status}
+                      {capitalize(post.status)}
                     </span>
 
                     {post.report && (
