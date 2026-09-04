@@ -6,6 +6,7 @@ import { Ropa_Sans } from 'next/font/google';
 import { ToastProvider } from "@/ui/primitives/Toast";
 import { AuthProvider } from "../app/context/AuthContext";
 import Script from "next/script";
+import { organizationSchema } from "@/lib/seo-schema";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
 
@@ -136,6 +137,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${ropaSans.variable} font-sans`}>
       <head>
+        {/* ── Organization structured data ───────────────────────────────── */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+
         {/*
           ── Mega-menu image preloads ──────────────────────────────────────────
           Instructs the browser to fetch all four header thumbnail images at the
@@ -146,7 +155,7 @@ export default function RootLayout({
           IMPORTANT: These filenames must match what is on disk exactly.
           Renamed from the originals to remove spaces and fix the typo:
             "our team.webp"    →  "our-team.webp"
-            "happy cliet.webp" →  "happy-client.webp"
+            "happy client.webp" →  "happy-client.webp"
         */}
         {/* <link rel="preload" as="image" href="/assets/thumbnail-header/work.webp" />
         <link rel="preload" as="image" href="/assets/thumbnail-header/report.webp" />
