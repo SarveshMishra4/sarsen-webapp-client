@@ -6,7 +6,7 @@ import ReportsClient from './reportsClient';
 
 const BASE_URL = 'https://www.sarsenpartners.com';
 const PAGE_URL = `${BASE_URL}/reports`;
-const OG_IMAGE = `${BASE_URL}/assets/og/about-og.jpg`; // 1200x630, absolute URL required
+const OG_IMAGE = `${BASE_URL}/assets/brand/og-default.png`; // 1200x630, absolute URL required
 
 export const metadata: Metadata = {
   // ── Title ─────────────────────────────────────────────────────────────────

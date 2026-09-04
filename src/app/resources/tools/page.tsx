@@ -6,8 +6,8 @@ import ToolsClient from './toolsClient';
 
 const BASE_URL = 'https://www.sarsenpartners.com';
 const PAGE_URL = `${BASE_URL}/tools`;
-const OG_IMAGE = `${BASE_URL}/assets/og/about-og.jpg`; // 1200x630, absolute URL required
-
+const OG_IMAGE = `${BASE_URL}/assets/brand/og-default.png`; // 1200x630, absolute URL required
+// ${BASE_URL}/assets/brand/og-default.png
 export const metadata: Metadata = {
   // ── Title ─────────────────────────────────────────────────────────────────
   // Your root layout.tsx has a title.template ('%s - Sarsen Strategy Partners'),

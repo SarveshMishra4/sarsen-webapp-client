@@ -7,7 +7,7 @@ import { getServiceBySlug } from './data';
 import ServicePage from './services';
 
 const BASE_URL = 'https://www.sarsenpartners.com';
-const OG_IMAGE = `${BASE_URL}/assets/og/about-og.jpg`; // 1200x630, absolute URL required
+const OG_IMAGE = `${BASE_URL}/assets/brand/og-default.png`; // 1200x630, absolute URL required
 
 interface PageProps {
   params: Promise<{ slug: string }>;
