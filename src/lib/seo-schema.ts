@@ -8,7 +8,7 @@ export const organizationSchema = {
   email: "contact@sarsenpartners.com",
   slogan: "Strategy. Engineered for Advantage",
   description:
-    "Sarsen Partners engineers the sequence of strategic actions so each builds on the last and creates compounding advantage.",
+    "Sarsen Partners is a top-tier strategy consulting firm serving startups and emerging businesses across Asia Pacific. The firm brings rigorous business diagnostics, strategic direction, and execution planning to help businesses identify critical challenges, make better strategic decisions, and build a clear path to growth.",
   sameAs: [
     "https://www.linkedin.com/company/sarsen-partners",
   ],
