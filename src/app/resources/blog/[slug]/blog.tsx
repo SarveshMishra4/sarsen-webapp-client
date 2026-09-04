@@ -93,8 +93,8 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                 <pattern
                   id="blog-grid"
                   patternUnits="userSpaceOnUse"
-                  width="40"
-                  height="40"
+                  width="10"
+                  height="10"
                   patternTransform="rotate(45)"
                 >
                   <line x1="0" y1="0" x2="0" y2="40" stroke="#93C5FD" strokeWidth="0.5" />
