@@ -1,4 +1,3 @@
-
 'use client';
 
 // blogs-tab.tsx
@@ -8,6 +7,16 @@
 // UPDATED: adds an Author Bio field (2-3 sentence bio shown at the bottom
 // of the public post) and a "Recommended Reading" search-and-pick widget
 // (admin searches existing posts by title, selects up to 5 to recommend).
+//
+// UPDATED: row actions (Edit / Publish / Unpublish / Delete) were bare
+// colored icons with no button chrome, so they didn't read as buttons and
+// used whatever color happened to be picked (yellow for unpublish, plain
+// green for publish) instead of the site's actual palette. They're now
+// real pill buttons — icon + label, bordered, brand blue (#0A1E3D /
+// blue-600, matching "Create New Post" and the rest of the admin) for
+// every non-destructive action, and red reserved only for Delete. Layout
+// still wraps on narrow screens via flex-wrap, so responsiveness is
+// unchanged.
 
 import React, { useState, useEffect, useRef } from 'react';
 import type { ApiBlog } from './page';
@@ -957,13 +966,15 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                   </div>
                 </div>
 
-                <div className="flex gap-2 self-end sm:self-start">
+                {/* Row actions — real buttons (icon + label), wrapping on
+                    narrow screens instead of a fixed-width icon row. */}
+                <div className="flex flex-wrap gap-2 self-end sm:self-start">
                   <button
                     onClick={() => handleEdit(post)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:border-blue-300 text-sm font-medium transition-colors"
                   >
                     <svg
-                      className="w-5 h-5"
+                      className="w-4 h-4 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -975,16 +986,17 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                       />
                     </svg>
+                    Edit
                   </button>
 
                   {post.status === 'published' ? (
                     <button
                       onClick={() => handleUnpublish(post._id)}
-                      className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-md transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:border-blue-300 text-sm font-medium transition-colors"
                       title="Move to draft"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -996,15 +1008,16 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                           d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636"
                         />
                       </svg>
+                      Move to Draft
                     </button>
                   ) : (
                     <button
                       onClick={() => handlePublish(post._id)}
-                      className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:border-blue-300 text-sm font-medium transition-colors"
                       title="Publish"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1016,15 +1029,16 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
+                      Publish
                     </button>
                   )}
 
                   <button
                     onClick={() => handleDelete(post._id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 hover:border-red-300 text-sm font-medium transition-colors"
                   >
                     <svg
-                      className="w-5 h-5"
+                      className="w-4 h-4 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1036,6 +1050,7 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                       />
                     </svg>
+                    Delete
                   </button>
                 </div>
               </div>
@@ -1046,4 +1061,3 @@ export function BlogsTab({ blogs, setBlogs, token }: BlogsTabProps) {
     </div>
   );
 }
-
