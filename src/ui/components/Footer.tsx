@@ -396,12 +396,12 @@ export default function Footer() {
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M9.5 1.5v3h-3v-3h3zm-4 0v3h-3v-3h3zm8 0v3h-3v-3h3zm0 4v3h-3v-3h3zm0 4v3h-3v-3h3zm-4 0v3h-3v-3h3zm-4 0v3h-3v-3h3zm0-4v3h-3v-3h3zm4 0v3h-3v-3h3z" />
               </svg>
-              Your privacy choices
+              Your Privacy Choices
             </button>
 
             {/* Cookie preferences anchor */}
             <Link href="/legal-and-regulatory/cookie-preferences" className="hover:text-[#002855] transition-colors">
-              Cookie preferences
+              Cookie Preferences
             </Link>
 
             {/* ── Row 2 links (continue in the same flex container, wrapping naturally) ── */}
