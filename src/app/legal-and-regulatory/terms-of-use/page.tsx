@@ -418,7 +418,7 @@ export default function TermsOfUsePage() {
               competent authority where applicable law permits or requires it.
             </P>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-6">
               <p className="mb-2 font-medium text-gray-800">
                 Sarsen Strategy Partners
               </p>
@@ -493,7 +493,7 @@ export default function TermsOfUsePage() {
               rather than the original blue gradient card, so it reads as
               part of this site rather than a dropped-in template block.
           ================================================================== */}
-          <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
+          <section className="rounded-md border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
             <h2 className="mb-3 text-xl font-semibold text-[#002855] md:text-2xl">
               One Last Thing
             </h2>

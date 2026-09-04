@@ -87,7 +87,7 @@ export default function RefundCancellationPage() {
           {/* ==================================================================
               THE 24-HOUR WINDOW — was orange, now a plain neutral box.
           ================================================================== */}
-          <section className="rounded-lg border border-gray-300 p-6 md:p-8">
+          <section className="rounded-md border border-gray-300 p-6 md:p-8">
             <h2 className="mb-4 text-2xl font-semibold text-[#002855] md:text-3xl">
               The Window That Opens at the Start
             </h2>
@@ -113,7 +113,7 @@ export default function RefundCancellationPage() {
                   <li><strong>Condition:</strong> The engagement must not have commenced</li>
                 </List>
 
-                <div className="rounded-lg border border-gray-300 bg-gray-50 p-4">
+                <div className="rounded-md border border-gray-300 bg-gray-50 p-4">
                   <p className="mb-2 text-sm font-semibold text-gray-800">Example:</p>
                   <ul className="ml-4 space-y-1 text-sm leading-snug text-gray-600">
                     <li>Payment completed: March 26, 2026, at 2:30 PM</li>
@@ -189,7 +189,7 @@ export default function RefundCancellationPage() {
           {/* ==================================================================
               AFTER 24 HOURS — was red, now the same plain neutral box.
           ================================================================== */}
-          <section className="rounded-lg border border-gray-300 p-6 md:p-8">
+          <section className="rounded-md border border-gray-300 p-6 md:p-8">
             <h2 className="mb-4 text-2xl font-semibold text-[#002855] md:text-3xl">
               Once That Window Closes
             </h2>
@@ -212,7 +212,7 @@ export default function RefundCancellationPage() {
               </SubSection>
 
               <SubSection title="In Practice">
-                <div className="rounded-lg border border-gray-300 bg-gray-50 p-4">
+                <div className="rounded-md border border-gray-300 bg-gray-50 p-4">
                   <ul className="space-y-2 text-sm leading-snug text-gray-600">
                     <li>• Request made after the 24-hour refund window has expired</li>
                     <li>• Request made after substantive work has commenced</li>
@@ -380,7 +380,7 @@ export default function RefundCancellationPage() {
               For questions regarding this policy, cancellations, or refund
               requests, please contact the Sarsen team by email:
             </P>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-6">
               <p className="mb-2 font-medium text-gray-800">Sarsen Strategy Partners</p>
               <p className="text-gray-600">
                 Email:{' '}
@@ -403,7 +403,7 @@ export default function RefundCancellationPage() {
           {/* ==================================================================
               ACKNOWLEDGMENT
           ================================================================== */}
-          <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
+          <section className="rounded-md border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
             <h2 className="mb-3 text-xl font-semibold text-[#002855] md:text-2xl">
               One Last Thing
             </h2>

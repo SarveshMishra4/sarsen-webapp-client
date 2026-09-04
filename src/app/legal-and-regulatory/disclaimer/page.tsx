@@ -50,7 +50,7 @@ export default function DisclaimerPage() {
               IMPORTANT NOTICE — was yellow, now the same plain neutral box
               used for clause callouts elsewhere.
           ================================================================== */}
-          <section className="rounded-lg border border-gray-300 bg-gray-50 p-6 md:p-8">
+          <section className="rounded-md border border-gray-300 bg-gray-50 p-6 md:p-8">
             <h2 className="mb-3 text-xl font-semibold text-[#002855] md:text-2xl">
               Before You Read Any Further
             </h2>
@@ -457,7 +457,7 @@ export default function DisclaimerPage() {
               approach a competent authority where applicable.
             </P>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-6">
               <p className="mb-2 font-medium text-gray-800">
                 Sarsen Strategy Partners
               </p>
@@ -477,7 +477,7 @@ export default function DisclaimerPage() {
               FINAL ACKNOWLEDGMENT — was red, now the same navy acknowledgment
               box style used to close every other legal page.
           ================================================================== */}
-          <section className="rounded-lg border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
+          <section className="rounded-md border border-[#002855]/15 bg-[#002855]/[0.03] p-6 md:p-8">
             <h2 className="mb-3 text-xl font-semibold text-[#002855] md:text-2xl">
               One Last Thing
             </h2>

@@ -171,7 +171,7 @@ export default function CookiePreferencesPage() {
       {/* Body */}
       <div className="mx-auto mt-10 max-w-[1400px] px-4 pb-14 md:mt-14 md:px-8 md:pb-20">
         {saveMessage && (
-          <div className="mb-8 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+          <div className="mb-8 flex items-start gap-3 rounded-md border border-green-200 bg-green-50 p-4">
             <svg
               className="h-6 w-6 flex-shrink-0 text-green-600"
               fill="currentColor"
@@ -276,7 +276,7 @@ export default function CookiePreferencesPage() {
             {cookieCategories.map((category) => (
               <div
                 key={category.id}
-                className="rounded-lg border border-gray-200 p-6"
+                className="rounded-md border border-gray-200 p-6"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-1">
@@ -336,7 +336,7 @@ export default function CookiePreferencesPage() {
           </div>
 
           {/* Save Button */}
-          <div className="rounded-lg border border-gray-200 p-6">
+          <div className="rounded-md border border-gray-200 p-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <P>
                 Your selected preferences will be stored on your device
@@ -478,7 +478,7 @@ export default function CookiePreferencesPage() {
               volume of matters being handled, a response may take from
               a few hours up to 45 days.
             </P>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-6">
               <p className="mb-2 font-medium text-gray-800 leading-snug">
                 Sarsen Strategy Partners
               </p>
