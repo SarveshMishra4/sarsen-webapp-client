@@ -197,9 +197,9 @@ export default function BusinessHeatmapClient() {
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">Diagnose Your Venture</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">Check the Health of Your Business</h1>
             <p className="text-gray-300 text-base sm:text-lg max-w-4xl">
-              Answer a few Questions to Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.
+              Answer a Few Questions to Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.
             </p>
           </div>
         </section>
@@ -207,7 +207,7 @@ export default function BusinessHeatmapClient() {
         <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
             <form onSubmit={handleStart} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-10">
-              <h3 className="text-xl text-gray-800 font-semibold mb-6">Begin your diagnostic</h3>
+              <h3 className="text-xl text-gray-800 font-semibold mb-6">Begin Your Diagnosis</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                 <div>
@@ -216,7 +216,7 @@ export default function BusinessHeatmapClient() {
                     type="text"
                     value={founderName}
                     onChange={(e) => setFounderName(e.target.value)}
-                    placeholder="e.g. Priya Menon"
+                    placeholder="e.g. Adam Doe"
                     className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
                       }`}
                   />
@@ -253,7 +253,7 @@ export default function BusinessHeatmapClient() {
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pt-5 border-t border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
                   <div>
-                    <span className="text-[#0A1E3D] font-semibold">A few Focused Questions</span>
+                    <span className="text-[#0A1E3D] font-semibold">Few Focused Questions</span>
                     <span className="text-gray-500 ml-1">Across the Areas that Decide whether a Business Scales or Collapses</span>
                   </div>
                   <div>
@@ -266,7 +266,7 @@ export default function BusinessHeatmapClient() {
                   type="submit"
                   className="bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-7 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 group whitespace-nowrap"
                 >
-                  <span>Start diagnostic</span>
+                  <span>Start Diagnosis</span>
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -303,12 +303,12 @@ export default function BusinessHeatmapClient() {
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
         <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName || 'Your business'} · Before you begin</p>
+            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName || 'Your business'} · Before You Begin</p>
             <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">
-              Two things first, {founderName.split(' ')[0] || 'founder'}
+              Please Focus, {founderName.split(' ')[0] || 'founder'}
             </h1>
             <p className="text-gray-300 text-base leading-relaxed">
-              This diagnostic is only as useful as the honesty you bring to it.
+              The Accuracy of the Model Depends on Honest and Clear Answers.
             </p>
           </div>
         </section>
@@ -321,10 +321,10 @@ export default function BusinessHeatmapClient() {
                   ●
                 </span>
                 <div>
-                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Read every option before you choose</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Each question has five distinct answers, not a slider. Picking the first one that sounds close, without reading the rest, is how you end up with a score that doesn&apos;t actually reflect where you stand.
-                  </p>
+                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Read Every Option Before You Choose</h3>
+<p className="text-gray-600 text-sm leading-relaxed">
+  Each Question has 5 Distinct Options. Read all of them Before Choosing One. Right Option is the One that Most Honestly reflects where {companyName || 'your business'} Stands Today.
+</p>                  
                 </div>
               </div>
 
@@ -333,10 +333,10 @@ export default function BusinessHeatmapClient() {
                   ●
                 </span>
                 <div>
-                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Be 100% honest with yourself</h3>
+                  <h3 className="text-[#0A1E3D] font-semibold text-base mb-1">Be Honest to Yourself</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    There&apos;s no one to perform a good score for here. The only version of this that&apos;s worth anything is the one built on where {companyName || 'your business'} actually stands today, not where you wish it stood.
-                  </p>
+  Answer based on where {companyName || 'Your Business'} actually Stands Today, Not Where You Imagine It to Be. <strong>You can only Shape Tomorrow once You Understand Today Clearly.</strong>
+</p>
                 </div>
               </div>
             </div>
@@ -348,8 +348,8 @@ export default function BusinessHeatmapClient() {
               }}
               className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3.5 px-7 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 group"
             >
-              <span>I understand, let&apos;s begin</span>
-              
+              <span>Yes, Let&apos;s Begin</span>
+
             </button>
           </div>
         </section>
@@ -367,9 +367,9 @@ export default function BusinessHeatmapClient() {
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
         <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName} · Diagnostic complete</p>
+            <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">{companyName} · Diagnostic Complete</p>
             <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">One last step, {founderName.split(' ')[0] || 'there'}</h1>
-            <p className="text-gray-300 text-base leading-relaxed">Enter Your Email so we can Save the Results for You to Revisit them Later.</p>
+            <p className="text-gray-300 text-base leading-relaxed">Enter Your Email so we can Send You the Results.</p>
           </div>
         </section>
 
@@ -403,7 +403,7 @@ export default function BusinessHeatmapClient() {
                 className={`w-full py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${submitting ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
                   }`}
               >
-                {submitting ? 'Saving your results…' : 'See my results'}
+                {submitting ? 'Saving Your Results…' : 'See My Results'}
               </button>
             </form>
           </div>
@@ -437,11 +437,10 @@ export default function BusinessHeatmapClient() {
               <div className="grid md:grid-cols-3 gap-8 items-center">
                 <div className="md:col-span-2">
                   <h3 className="text-white text-xl sm:text-2xl font-medium mb-3 leading-snug">
-                    {founderName.split(' ')[0] || 'Founder'}! You have merely scratched the surface.
+                    {founderName.split(' ')[0] || 'Founder'} ! You Have Clarity. Now, Let’s Turn It Into Growth.
                   </h3>
-                  <p className="text-gray-300 text-sm ">
-  We&apos;ve diagnosed {companyName}. A preliminary diagnostic reveals key areas where strategic shifts could materially change {companyName}&apos;s direction.
-  But this is only the beginning — 9 of 10 founders who participated in our Business Diagnostic &amp; Direction have reported substantial, visible changes in their business in as little as 45 days.
+                  <p className="text-gray-300 text-sm">
+  We&apos;ve Diagnosed the Health of {companyName}. Our Approach is shaped by Experience across Startups, Corporations, Private Equity and Venture Capital. Through our Strategic Diagnostic &amp; Direction, we bring that Experience to {companyName}, its Context and its Challenges to help you address what matters most. <strong>94% of our Founders reported seeing Meaningful Results even as early as 90 days.</strong>
 </p>
                 </div>
 
@@ -483,8 +482,8 @@ export default function BusinessHeatmapClient() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-8 pb-16">
         <div className="w-full flex items-center justify-between mb-5 px-1">
-          <span className="text-sm text-gray-500 font-medium">Business diagnostic</span>
-          <span className="text-sm text-gray-600 font-semibold">{progress}% completed</span>
+          <span className="text-sm text-gray-500 font-medium">Business Diagnostic</span>
+          <span className="text-sm text-gray-600 font-semibold">{progress}% Completed</span>
         </div>
 
         <div key={q.id} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
@@ -500,71 +499,71 @@ export default function BusinessHeatmapClient() {
                 return a.value - b.value;
               })
               .map((opt) => {
-              const isSelected = currentAnswer === opt.value;
-              const bars = BAR_COUNT[opt.value];
-              const locked = advancing && !isSelected;
+                const isSelected = currentAnswer === opt.value;
+                const bars = BAR_COUNT[opt.value];
+                const locked = advancing && !isSelected;
 
-              return (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => handleAnswer(q.id, opt.value)}
-                  disabled={advancing}
-                  aria-pressed={isSelected}
-                  className={`group flex items-start gap-3.5 sm:gap-4 text-left w-full rounded-lg border-2 px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-150 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isSelected ? 'shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
-                    } ${locked ? 'opacity-40' : ''}`}
-                  style={
-                    (isSelected
-                      ? { borderColor: BRAND_COLOR, backgroundColor: SELECTED_TINT, boxShadow: `0 0 0 1px ${BRAND_COLOR}22` }
-                      : { '--tw-ring-color': BRAND_COLOR }) as any
-                  }
-                >
-                  {/* Signal-strength tower: same navy fill for every option, only
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => handleAnswer(q.id, opt.value)}
+                    disabled={advancing}
+                    aria-pressed={isSelected}
+                    className={`group flex items-start gap-3.5 sm:gap-4 text-left w-full rounded-lg border-2 px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-150 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isSelected ? 'shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                      } ${locked ? 'opacity-40' : ''}`}
+                    style={
+                      (isSelected
+                        ? { borderColor: BRAND_COLOR, backgroundColor: SELECTED_TINT, boxShadow: `0 0 0 1px ${BRAND_COLOR}22` }
+                        : { '--tw-ring-color': BRAND_COLOR }) as any
+                    }
+                  >
+                    {/* Signal-strength tower: same navy fill for every option, only
                       the bar count changes. "Don't know" reuses the exact same
                       tower with zero bars filled — a plain "no signal" reading,
                       no separate icon. */}
-                  <div className="flex-shrink-0 flex items-end pt-1.5" aria-hidden="true">
-                    <div className="flex items-end gap-[3px] h-5">
-                      {[0, 1, 2, 3].map((i) => (
-                        <span
-                          key={i}
-                          className="w-[3px] rounded-full transition-colors duration-150"
-                          style={{
-                            height: `${7 + i * 4}px`,
-                            backgroundColor: i < bars ? BRAND_COLOR : '#E2E8F0',
-                          }}
-                        />
-                      ))}
+                    <div className="flex-shrink-0 flex items-end pt-1.5" aria-hidden="true">
+                      <div className="flex items-end gap-[3px] h-5">
+                        {[0, 1, 2, 3].map((i) => (
+                          <span
+                            key={i}
+                            className="w-[3px] rounded-full transition-colors duration-150"
+                            style={{
+                              height: `${7 + i * 4}px`,
+                              backgroundColor: i < bars ? BRAND_COLOR : '#E2E8F0',
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className="text-base font-semibold mb-1 transition-colors duration-150"
-                      style={{ color: isSelected ? BRAND_COLOR : '#1F2937' }}
-                    >
-                      {opt.title}
-                    </p>
-                    <p className="text-sm text-gray-500 leading-relaxed">{opt.description}</p>
-                  </div>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="text-base font-semibold mb-1 transition-colors duration-150"
+                        style={{ color: isSelected ? BRAND_COLOR : '#1F2937' }}
+                      >
+                        {opt.title}
+                      </p>
+                      <p className="text-sm text-gray-500 leading-relaxed">{opt.description}</p>
+                    </div>
 
-                  {/* Selection tick — same consistent colour for every option,
+                    {/* Selection tick — same consistent colour for every option,
                       a smoothed-corner square rather than a circle */}
-                  <span
-                    className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-md border-2 mt-0.5 transition-all duration-150 ${isSelected ? '' : 'border-gray-300 bg-white group-hover:border-gray-400'
-                      }`}
-                    style={isSelected ? { backgroundColor: BRAND_COLOR, borderColor: BRAND_COLOR } : undefined}
-                    aria-hidden="true"
-                  >
-                    {isSelected && (
-                      <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </span>
-                </button>
-              );
-            })}
+                    <span
+                      className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-md border-2 mt-0.5 transition-all duration-150 ${isSelected ? '' : 'border-gray-300 bg-white group-hover:border-gray-400'
+                        }`}
+                      style={isSelected ? { backgroundColor: BRAND_COLOR, borderColor: BRAND_COLOR } : undefined}
+                      aria-hidden="true"
+                    >
+                      {isSelected && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </span>
+                  </button>
+                );
+              })}
           </div>
         </div>
 
