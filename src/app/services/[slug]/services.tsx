@@ -114,7 +114,7 @@ export interface ServiceData {
   questions: ServiceQuestion[];
 }
 
-const SUPPORT_EMAIL = 'contact@sarsenandcompany.com';
+const SUPPORT_EMAIL = 'contact@sarsenpartners.com';
 
 declare global {
   interface Window {
@@ -1227,7 +1227,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE HERO – UNTOUCHED (already responsive via Tailwind classes)
+// PAGE HERO – MODIFIED TO INCLUDE BACKGROUND PATTERN
 // ════════════════════════════════════════════════════════════════
 
 interface PageHeroProps {
@@ -1243,15 +1243,29 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
       className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-0"
       style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
-      <div className="max-w-7xl mx-auto relative">
-        
+      {/* Background pattern (exact same as blog page) */}
+      <div className="absolute inset-0 opacity-20">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="blog-grid"
+              patternUnits="userSpaceOnUse"
+              width="5"
+              height="5"
+              patternTransform="rotate(45)"
+            >
+              <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+        </svg>
+      </div>
 
+      <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="space-y-7">
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
-                
-               
               </div>
 
               <p className="text-xs text-blue-300/70">
@@ -1297,7 +1311,6 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
                 }}
               >
                 Get Started
-                
               </button>
             </div>
           </div>
@@ -2012,7 +2025,6 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
               }}
             >
               Get Started
-             
             </button>
           </div>
         </div>
@@ -2136,7 +2148,6 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
               }}
             >
               Begin
-             
             </button>
             <p style={{ fontSize: '11px', color: '#2E4A63', marginTop: '12px' }}>
               Response within 24 hours

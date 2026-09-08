@@ -221,6 +221,24 @@ const HeroSection: FC = () => (
     className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
     style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
   >
+    {/* Background pattern (exact same as blog page) */}
+    <div className="absolute inset-0 opacity-20">
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern
+            id="blog-grid"
+            patternUnits="userSpaceOnUse"
+            width="5"
+            height="5"
+            patternTransform="rotate(45)"
+          >
+            <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#blog-grid)" />
+      </svg>
+    </div>
+
     <div className="max-w-7xl mx-auto relative">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div className="space-y-7">
