@@ -590,7 +590,7 @@ function identifyPrimaryConstraint(
     type: 'weakest_dimension',
     name: label,
     score: Math.round(combined[weakestKey] * 100) / 100,
-    reason: `This is currently the weakest derived dimension at ${combined[weakestKey].toFixed(2)} out of 10.`,
+    reason: `${label} is currently the weakest derived dimension at ${combined[weakestKey].toFixed(2)} out of 10.`,
     intervention: INTERVENTION_MAP[weakestKey] ?? 'Strategic diagnosis',
   };
 }
