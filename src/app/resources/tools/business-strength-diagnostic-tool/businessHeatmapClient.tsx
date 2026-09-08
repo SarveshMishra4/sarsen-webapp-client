@@ -177,8 +177,26 @@ export default function BusinessHeatmapClient() {
 
     return (
       <main className="min-h-screen bg-[#F0F4F8]">
-        <section className="bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Background pattern (exact same as blog page) */}
+          <div className="absolute inset-0 opacity-20">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern
+                  id="blog-grid"
+                  patternUnits="userSpaceOnUse"
+                  width="5"
+                  height="5"
+                  patternTransform="rotate(45)"
+                >
+                  <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#blog-grid)" />
+            </svg>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">Diagnose Your Venture</h1>
             <p className="text-gray-300 text-base sm:text-lg max-w-4xl">
               Answer a few Questions to Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.
