@@ -85,212 +85,596 @@ export const QUESTIONS: Question[] = [
     id: 'q1',
     module: 'Validation',
     canvasArea: 'value_proposition',
-    text: 'Where does your idea currently stand in terms of real-world testing?',
-    helpText: "Whether you're pre-idea or approaching Series A, this is about what you've actually done to test the idea against reality — not how much you believe in it.",
+    text: 'Where Do You Stand Currently in Terms of Real-World Testing ?',
+    helpText: "Whether You're Pre-Seed or approaching Series A, this is about what You've already Done to Test the Vision against Reality.",
     options: [
-      { value: 1, title: 'Still a hypothesis', description: "Choose this if no one outside your own head or team has reacted to the idea yet — it hasn't left the whiteboard." },
-      { value: 4, title: 'Informally discussed', description: "Choose this if you've had casual chats with potential customers, but haven't tracked or documented what they actually said." },
-      { value: 7, title: 'Structured interviews done', description: "Choose this if you've run structured problem interviews with 10+ prospects and can point to documented patterns in what you heard." },
-      { value: 10, title: 'Evidence-backed demand', description: 'Choose this if you have documented proof — interviews, pre-orders, waitlist signups, or LOIs — that a specific segment will pay to solve this.' },
-      { value: 0, title: "Haven't validated this", description: "Choose this if you haven't systematically tested this idea against real customers at all." },
-    ],
+      {
+        value: 0,
+        title: "Still an Idea",
+        description: "Choose this if you're still at the Idea stage and haven't started building or testing it with real customers."
+      },
+      {
+        value: 1,
+        title: "Started Working On It",
+        description: "Choose this if you've started building or developing the idea, but haven't interacted with any potential customers yet."
+      },
+      {
+        value: 4,
+        title: "Informally Tested",
+        description: "Choose this if you've discussed the idea with a few potential customers, friends, or family members, but haven't conducted Structured Customer Research yet."
+      },
+      {
+        value: 7,
+        title: "Customer Research Done",
+        description: "Choose this if you've conducted Structured Customer Research with 100+ people who are Strangers to you and have established a clear pattern around the Problem you're solving, or have received Letters of Intent from potential customers."
+      },
+      {
+        value: 10,
+        title: "Payments Received",
+        description: "Choose this if you've received Partial or Complete Payment from a Group of Customers, preferably Strangers, for your Product or Service."
+      }
+    ]
   },
-  {
-    id: 'q2',
-    module: 'Validation',
-    canvasArea: 'customer_relationships',
-    text: 'Which best describes how customers actually behave after using your product?',
-    helpText: "This isn't about how customers say they feel — it's about what they actually do after they've used the product, which is the clearest signal of fit at any stage.",
-    options: [
-      { value: 1, title: 'No customers yet', description: "Choose this if you don't have paying customers yet, or it's too early to say how they behave." },
-      { value: 4, title: 'One-time buyers', description: "Choose this if a few customers have paid once, but you don't track whether they come back." },
-      { value: 7, title: 'Some organic return', description: 'Choose this if you track retention, and some customers return or use the product repeatedly without you prompting them.' },
-      { value: 10, title: 'Retained and referring', description: 'Choose this if customers return unprompted, refer others, and would genuinely be upset if you disappeared.' },
-      { value: 0, title: 'Never tracked this', description: "Choose this if you've never tracked retention or repeat usage at all." },
-    ],
-  },
-  {
-    id: 'q3',
-    module: 'Validation',
-    canvasArea: 'customer_segments',
-    text: 'How many customer segments have you clearly identified and prioritized?',
-    helpText: "A segment is only real if you can describe who's in it and why they'd choose you — not just a demographic guess.",
-    options: [
-      { value: 1, title: 'Targeting everyone', description: "Choose this if you're targeting 'everyone' — there's no defined segment yet." },
-      { value: 4, title: 'One broad segment', description: "Choose this if you have one segment in mind, but it isn't narrowly defined." },
-      { value: 7, title: '2–3 defined segments', description: "Choose this if you've defined 2–3 specific segments with clear characteristics." },
-      { value: 10, title: 'Data-prioritized segments', description: "Choose this if you've defined and prioritized 2–3+ segments using real data — willingness to pay, size, accessibility." },
-      { value: 0, title: 'Never structured this', description: "Choose this if you've never formally worked through customer segmentation." },
-    ],
-  },
-  {
-    id: 'q4',
-    module: 'Go To Market',
-    canvasArea: 'key_resources',
-    text: 'How many competitors — direct or indirect — can you name and describe right now?',
-    helpText: "Count on your fingers, literally. If you can't name five without pausing, that's the honest answer, not a weakness to hide.",
-    options: [
-      { value: 1, title: "Can't name one", description: 'Choose this if you can\'t name a single direct competitor right now.' },
-      { value: 4, title: 'Know 1–2 loosely', description: "Choose this if you can name 1–2 competitors, but haven't studied them in any detail." },
-      { value: 7, title: 'Know 3–4 well', description: 'Choose this if you can name 3–4 competitors and know their pricing and positioning.' },
-      { value: 10, title: 'Mapped 5+ competitors', description: 'Choose this if you can name 5+ competitors, direct and indirect, and have mapped their strengths and weaknesses against yours.' },
-      { value: 0, title: 'Never scanned the market', description: "Choose this if you've never done a structured competitive scan at all." },
-    ],
-  },
-  {
-    id: 'q5',
-    module: 'Foundation',
-    canvasArea: 'key_resources',
-    text: 'If a well-funded competitor decided to copy you tomorrow, what would actually stop them?',
-    helpText: 'This is the question investors ask early and often. Answer based on what\'s actually true today, not what you plan to build.',
-    options: [
-      { value: 1, title: 'Nothing stops them', description: 'Choose this if nothing structurally stops a well-funded competitor from outspending and out-marketing you within months.' },
-      { value: 4, title: 'Survivable, not durable', description: "Choose this if you'd survive short-term, but have no durable advantage protecting you over 2–3 years." },
-      { value: 7, title: 'One real advantage', description: 'Choose this if you have one structural advantage — data, relationships, brand, IP — that would take 12+ months to replicate.' },
-      { value: 10, title: 'Multiple compounding advantages', description: 'Choose this if you have several compounding advantages that would be hard to replicate at any funding level.' },
-      { value: 0, title: 'Never stress-tested this', description: "Choose this if you've never actually worked through this scenario for your business." },
-    ],
-  },
-  {
-    id: 'q6',
-    module: 'Go To Market',
-    canvasArea: 'value_proposition',
-    text: 'Is your USP clearly defined, and have you tested it with real customers?',
-    helpText: "A USP only counts if it changes a customer's decision — not just if it sounds good in a pitch.",
-    options: [
-      { value: 1, title: 'No clear USP', description: "Choose this if you can't state your USP in one sentence." },
-      { value: 4, title: 'Stated, not tested', description: "Choose this if you have a USP statement, but haven't tested whether customers actually value it." },
-      { value: 7, title: 'Tested, mixed signal', description: "Choose this if you've tested your USP messaging with customers and gotten mixed-to-positive reactions." },
-      { value: 10, title: 'Proven to drive choice', description: 'Choose this if you have evidence — conversion data, customer quotes — that this USP is why customers choose you.' },
-      { value: 0, title: 'Never articulated one', description: "Choose this if you've never actually written down a clear one-line USP." },
-    ],
-  },
-  {
-    id: 'q7',
-    module: 'Go To Market',
-    canvasArea: 'channels',
-    text: 'How many customer acquisition channels have you actually tested and validated?',
-    helpText: "Tested means you have real numbers, not a plan you intend to run.",
-    options: [
-      { value: 1, title: 'No defined channel', description: 'Choose this if customers arrive randomly or inconsistently, with no defined channel driving them.' },
-      { value: 4, title: 'One channel, untested', description: "Choose this if you've identified one channel, but haven't tested it at any real scale." },
-      { value: 7, title: '1–2 channels with CAC', description: 'Choose this if 1–2 channels are tested with a measurable cost of acquisition.' },
-      { value: 10, title: 'Predictable, repeatable channels', description: 'Choose this if 2+ channels are validated with predictable, repeatable acquisition cost and conversion data.' },
-      { value: 0, title: 'Never mapped channels', description: "Choose this if you haven't mapped acquisition channels systematically at all." },
-    ],
-  },
-  {
-    id: 'q8',
-    module: 'Foundation',
-    canvasArea: 'revenue_streams',
-    text: 'How many active, monetizing revenue streams does your business currently have?',
-    helpText: "Active means money is actually moving today — not a revenue model you've sketched out on paper.",
-    options: [
-      { value: 1, title: 'Not monetizing yet', description: "Choose this if you have one theoretical revenue stream that isn't generating revenue yet." },
-      { value: 4, title: 'One active stream', description: 'Choose this if you have one active revenue stream generating some revenue.' },
-      { value: 7, title: '2+ streams, one dominant', description: 'Choose this if you have 2+ revenue streams active, with one clearly dominant.' },
-      { value: 10, title: 'Diversified revenue', description: 'Choose this if you have multiple active, diversified revenue streams, reducing reliance on any single one.' },
-      { value: 0, title: 'Never mapped this', description: "Choose this if you haven't mapped potential revenue streams beyond your current one." },
-    ],
-  },
-  {
-    id: 'q9',
-    module: 'Fundraising Readiness',
-    canvasArea: 'cost_structure',
-    text: 'Do you have an actual financial model — not just a running expense tracker?',
-    helpText: 'A model looks forward; a tracker only looks backward. Answer based on what you actually have built.',
-    options: [
-      { value: 1, title: 'No model at all', description: 'Choose this if decisions are made on bank balance instinct, with no financial model in place.' },
-      { value: 4, title: 'Tracking, not modeling', description: 'Choose this if you have a basic spreadsheet tracking expenses, but nothing forward-looking.' },
-      { value: 7, title: '12-month model built', description: 'Choose this if you have a 12-month financial model in Excel or Sheets with stated assumptions.' },
-      { value: 10, title: 'Multi-year scenario model', description: 'Choose this if you have a multi-year model with best/base/worst case scenarios, updated regularly.' },
-      { value: 0, title: 'Never built one', description: "Choose this if you've never built a financial model of any kind." },
-    ],
-  },
-  {
-    id: 'q10',
-    module: 'Fundraising Readiness',
-    canvasArea: 'cost_structure',
-    text: 'Where are you in the actual fundraising process right now?',
-    helpText: "This one's naturally hard to overstate — real investor conversations tend to keep founders honest. Answer based on where things stand today, not where you hope they'll be.",
-    options: [
-      { value: 1, title: "Haven't started", description: "Choose this if you haven't approached any investor yet." },
-      { value: 4, title: 'Informal conversations only', description: 'Choose this if you\'ve had informal conversations, but have no structured pitch deck or data room.' },
-      { value: 7, title: 'Pitched with feedback', description: "Choose this if you've pitched multiple investors with a structured deck and received specific, actionable feedback." },
-      { value: 10, title: 'Actively in process', description: 'Choose this if you\'re actively in process — term sheets or serious follow-up conversations are underway.' },
-      { value: 0, title: 'No timeline yet', description: "Choose this if you haven't thought through a fundraising timeline at all." },
-    ],
-  },
-  {
-    id: 'q11',
-    module: 'Operations & Scalability',
-    canvasArea: 'key_partners',
-    text: "What does your team's advisory support and prior team-building experience look like?",
-    helpText: "Be honest about whether an 'advisor' is actively involved, or just a name on your website — this is about real engagement, not titles.",
-    options: [
-      { value: 1, title: 'No support system', description: 'Choose this if you have no advisors, and no founder has built or led a team before.' },
-      { value: 4, title: 'Some experience, no advisors', description: 'Choose this if you have no formal advisors, but a founder has some prior hiring or managing experience.' },
-      { value: 7, title: 'Informal advisors in place', description: 'Choose this if you have 1–2 informal advisors or mentors, plus some founder team-building experience.' },
-      { value: 10, title: 'Structured support, proven team builders', description: 'Choose this if you have a structured advisory setup AND founders with proven experience building and leading teams.' },
-      { value: 0, title: 'Never thought about it', description: "Choose this if you haven't thought about advisors formally at all." },
-    ],
-  },
-  {
-    id: 'q12',
-    module: 'Foundation',
-    canvasArea: 'key_activities',
-    text: 'Do you have a defined plan for when and how you\'d pivot?',
-    helpText: "This isn't about planning to fail — it's about knowing your own decision points before you're under pressure to make them.",
-    options: [
-      { value: 1, title: 'No pivot thinking', description: "Choose this if you haven't considered pivoting even if things stall — there are no defined triggers." },
-      { value: 4, title: 'Vague intention only', description: "Choose this if you have a general sense of 'if this doesn't work we'll pivot,' but nothing documented." },
-      { value: 7, title: 'Specific triggers defined', description: 'Choose this if specific metrics or timelines are defined that would trigger a pivot conversation.' },
-      { value: 10, title: 'Documented framework, reviewed', description: 'Choose this if you have a documented pivot/persist framework, reviewed with the team on a set schedule.' },
-      { value: 0, title: 'Never considered this', description: "Choose this if you've never thought about this formally at all." },
-    ],
-  },
-  {
-    id: 'q13',
-    module: 'Scale & Expansion',
-    canvasArea: 'key_activities',
-    text: 'How clearly have you defined and tracked the metrics that actually drive growth?',
-    helpText: 'The goal here is one clear number you and your team actually check — not a dashboard nobody opens.',
-    options: [
-      { value: 1, title: 'No real metrics', description: "Choose this if you don't track anything specific beyond 'are we making money.'" },
-      { value: 4, title: 'Basic tracking, no North Star', description: 'Choose this if you track basic metrics like revenue and users, but have no defined North Star metric.' },
-      { value: 7, title: 'North Star plus KPIs', description: 'Choose this if you have a North Star metric plus 2–3 supporting KPIs, tracked periodically.' },
-      { value: 10, title: 'Dashboard tied to decisions', description: 'Choose this if you have a full dashboard reviewed weekly or monthly, and it\'s tied directly to decisions you make.' },
-      { value: 0, title: "Haven't defined what matters", description: "Choose this if you haven't defined which metrics matter for your business yet." },
-    ],
-  },
-  {
-    id: 'q14',
-    module: 'Foundation',
-    canvasArea: 'key_activities',
-    text: 'How specific and measurable is your target for the next 6 months?',
-    helpText: "A target only counts if you'd know, without debate, whether you hit it or not.",
-    options: [
-      { value: 1, title: 'No target set', description: 'Choose this if you have no specific target set for the next 6 months.' },
-      { value: 4, title: 'Direction, no numbers', description: "Choose this if you have a general direction, like 'grow revenue,' but no specific numbers attached." },
-      { value: 7, title: 'Specific numeric target', description: 'Choose this if you have a specific numeric target set — revenue, users, or similar — for 6 months out.' },
-      { value: 10, title: 'Broken into milestones', description: 'Choose this if your numeric target is broken into monthly milestones with clear ownership.' },
-      { value: 0, title: "Haven't set one", description: "Choose this if you haven't set a target for the next 6 months at all." },
-    ],
-  },
-  {
-    id: 'q15',
-    module: 'Turnaround & Stabilisation',
-    canvasArea: 'cost_structure',
-    text: 'How well do you understand the regulatory requirements that apply to your business?',
-    helpText: "Even if your sector feels lightly regulated, answer based on what you've actually checked — not what you assume.",
-    options: [
-      { value: 1, title: 'Haven\'t looked into it', description: "Choose this if you haven't looked into regulatory requirements for your business yet." },
-      { value: 4, title: 'Aware, not mapped', description: "Choose this if you're aware requirements exist, but haven't mapped them specifically." },
-      { value: 7, title: 'Requirements mapped', description: "Choose this if you've mapped the key regulatory requirements and know what's needed for compliance." },
-      { value: 10, title: 'Strategy in place', description: 'Choose this if a regulatory strategy is in place — you\'re compliant, or on a clear path, with expert input.' },
-      { value: 0, title: 'Not sure it applies', description: "Choose this if you're not sure regulatory requirements are applicable to your business at all." },
-    ],
-  },
+{
+  id: 'q2',
+  module: 'Validation',
+  canvasArea: 'customer_relationships',
+  text: 'What Best Describes How Customers actually behave when It come to Using Your Product ?',
+  helpText: "Focus on What Customers actually do after using Your Product — Not What they Say. Repeat Usage, Retention, and Referrals are stronger signals of Customer Validation.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Tracked This',
+      description: "Choose this if You are Not Sure or You've never tracked Customer Retention, Repeat Usage, or Referrals."
+    },
+
+    {
+      value: 1,
+      title: 'No Customers Yet',
+      description: "Choose this if You don't have Any Customers Yet, or it's Too Early to Observe their Behavior."
+    },
+
+    {
+      value: 4,
+      title: 'One-time Buyers',
+      description: "Choose this if a few Customers have Purchased Once, but You haven't Established whether they Return or Continue using the Product."
+    },
+
+    {
+      value: 7,
+      title: 'Some Organic Return',
+      description: "Choose this if some Customers Return or Purchase the Product Repeatedly without being Prompted, and You have Evidence of this Behavior."
+    },
+
+    {
+      value: 10,
+      title: 'Retained and Referring',
+      description: "Choose this if a Group of Customers Repeatedly Use or Purchase Your Product without Prompting, and some also Refer New Customers through their own Initiative."
+    },
+
+  ],
+},
+{
+  id: 'q3',
+  module: 'Validation',
+  canvasArea: 'customer_segments',
+  text: 'How many Customer Segments have you clearly Identified and Prioritized ?',
+  helpText: "A Customer Segment is only meaningful if You can Clearly Describe Who Belongs in It, Why they Need Your Product, and Why You would Prioritize them over Other Segments.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Structured This',
+      description: "Choose this if You've Haven't Worked Much on Customer Segmentation."
+    },
+
+    {
+      value: 1,
+      title: 'Targeting Everyone',
+      description: "Choose this if You're Targeting 'Everyone' or Haven't Identified a Specific Customer Segment Yet."
+    },
+
+    {
+      value: 4,
+      title: 'One Broad Segment',
+      description: "Choose this if You have One Customer Segment in Mind, but it is still Broadly Defined and Not Clearly Prioritized."
+    },
+
+    {
+      value: 7,
+      title: '3-5 Defined Segments',
+      description: "Choose this if You've identified 3-5 specific Customer Segments and can clearly describe their Characteristics, Needs, and Use Case."
+    },
+
+    {
+      value: 10,
+      title: 'Data-Prioritized Segments',
+      description: "Choose this if You've Identified and Prioritized Your Customer Segments using Real Data such as Problem Severity, Willingness to Pay, Segment Size, Accessibility, or Customer Research."
+    },
+
+  ],
+},
+{
+  id: 'q4',
+  module: 'Go To Market',
+  canvasArea: 'key_resources',
+  text: 'How Well have You Studied Your Direct and Indirect Competitors ?',
+  helpText: "A meaningful Competitive Analysis requires more than knowing Competitor Names. You should understand their Target Customers, Positioning, Pricing, Strengths, Weaknesses, and How Your Offering Compares.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Scanned The Market',
+      description: "Choose this if You haven't Rresearched or Compared Your Competitors."
+    },
+
+    {
+      value: 1,
+      title: "Can't Name One",
+      description: "Choose this if You can't Identify a Single Direct or Indirect Competitor."
+    },
+
+    {
+      value: 4,
+      title: 'Know 1–2 Loosely',
+      description: "Choose this if You Identified 1–2 Competitors, but have Limited Knowledge of their Customers, Pricing, Positioning, or Strengths."
+    },
+
+    {
+      value: 7,
+      title: 'Studied 3–5 Well',
+      description: "Choose this if You can Identify Several Direct or Indirect Competitors and understand their Pricing, Positioning, Target Customers, and key Strengths and Weaknesses."
+    },
+
+    {
+      value: 10,
+      title: 'Competitive Landscape Mapped',
+      description: "Choose this if You've Systematically Mapped Your Direct and Indirect Competitors and can Clearly Explain their Target Customers, Positioning, Pricing, Strengths, Weaknesses, and Your Competitive Advantage Against Them."
+    },
+
+  ],
+},
+{
+  id: 'q5',
+  module: 'Foundation',
+  canvasArea: 'key_resources',
+  text: 'If a Well-Funded Competitor tries Copying You Tomorrow, What would actually Stop Them ?',
+  helpText: "Assess only the Competitive Advantages that Exist Today. Do not count Advantages You Plan to Build Later.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Stress-Tested This',
+      description: "Choose this if You've never Examined What would Prevent a well-funded Competitor from Copying Your Business."
+    },
+
+    {
+      value: 1,
+      title: 'Nothing Stops Them',
+      description: "Choose this if a Well-Funded Competitor could Largely Copy Your Product, Acquire similar Customers, and Compete with You using Greater Resources."
+    },
+
+    {
+      value: 4,
+      title: 'Survivable, Not Durable',
+      description: "Choose this if You have some Advantages that may Help you Compete Today, but Nothing that would Provide Meaningful Protection over the Long Term like First Mover Advantage."
+    },
+
+    {
+      value: 7,
+      title: 'One Real Advantage',
+      description: "Choose this if You have at least One Structural Advantage such as Proprietary Data, Strong Relationships, Brand, Technology, Network Effects, or Distribution that would Take Significant Time or Resources for a Competitor to Replicate."
+    },
+
+    {
+      value: 10,
+      title: 'Compounding Advantages',
+      description: "Choose this if You have One or More Strong Competitive Advantages that Reinforce each other Over Time, making Your Position Increasingly Difficult for Competitors to Replicate."
+    },
+
+  ],
+},
+{
+  id: 'q6',
+  module: 'Go To Market',
+  canvasArea: 'value_proposition',
+  text: 'Are Your USPs Clearly Defined, and Have You Tested it with Real Customers ?',
+  helpText: "A Unique Selling Proposition only counts as Validated when there is Evidence that it Influences Customer Choice & Not Simply because it Sounds Compelling in a Pitch.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Yet To Articulate One',
+      description: "Choose this if You've Never Clearly Defined Your USPs."
+    },
+
+    {
+      value: 1,
+      title: 'No Clear USP',
+      description: "Choose this if You cannot clearly explain in One Sentence why a Customer should choose you over the Alternatives."
+    },
+
+    {
+      value: 4,
+      title: 'Stated, Not Tested',
+      description: "Choose this if You have a few clearly defined USPs, but haven't tested whether Real Customers actually Value or Respond to it."
+    },
+
+    {
+      value: 7,
+      title: 'Tested With Customers',
+      description: "Choose this if You've tested your USPs with Real Customers and Received meaningful Evidence that they Understand and Value the Differentiation, even if the Results are not Yet Consistent."
+    },
+
+    {
+      value: 10,
+      title: 'Proven To Drive Choice',
+      description: "Choose this if You have Evidence such as Conversion Data, Customer Interviews, Purchase Patterns, or Customer Feedback showing that your USPs are a meaningful reason Customers choose You over Alternatives."
+    },
+
+  ],
+},
+{
+  id: 'q7',
+  module: 'Go To Market',
+  canvasArea: 'channels',
+  text: 'How Many Customer Acquisition Channels have You Actually Figured & Validated ?',
+  helpText: "A Channel is Validated only when You have Real Customer Acquisition Data Not simply a Channel You Intend to Use.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Mapped Channels',
+      description: "Choose this if you haven't Systematically Identified or Evaluated Potential Customer Acquisition Channels."
+    },
+
+    {
+      value: 1,
+      title: 'No Defined Channel',
+      description: "Choose this if Customers arrive randomly or inconsistently, with no clearly defined Acquisition Channel driving them."
+    },
+
+    {
+      value: 4,
+      title: 'Few Channels But Untested',
+      description: "Choose this if you've Identified a Primary Acquisition Channel, but haven't generated enough Real Customer Data to Evaluate its Effectiveness."
+    },
+
+    {
+      value: 7,
+      title: '1–2 Channels With Data',
+      description: "Choose this if You've Tested 1–2 Acquisition Channels with Real Customers and have Measurable Data on Acquisition Cost, Conversion, or Customer Volume."
+    },
+
+    {
+      value: 10,
+      title: 'Established & Repeatable Channels',
+      description: "Choose this if You've Validated 2-5 Acquisition Channels that Consistently generate Customers with Predictable Acquisition Cost and Conversion."
+    },
+
+  ],
+},
+{
+  id: 'q8',
+  module: 'Foundation',
+  canvasArea: 'revenue_streams',
+  text: 'How Many Monetizing Revenue Streams does Your Business Currently Have ?',
+  helpText: "Only count Revenue Streams that are cpable of Generating Actual Revenue Today. Do not Count Theoretical, Planned, or Untested Revenue Streams.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Mapped This',
+      description: "Choose this if You haven't Identified or Evaluated the Potential Revenue Streams for Your Business."
+    },
+
+    {
+      value: 1,
+      title: 'Not Monetizing Yet',
+      description: "Choose this if You have a Defined Revenue Model, but none of your Revenue Streams is currently generating revenue."
+    },
+
+    {
+      value: 4,
+      title: 'One Active Stream',
+      description: "Choose this if You have One Revenue Stream Currently Generating Actual Revenue."
+    },
+
+    {
+      value: 7,
+      title: '2+ Active Streams',
+      description: "Choose this if You Have 2 or More Revenue Streams GGenerating Actual Revenue, with One Still Clearly Dominant."
+    },
+
+    {
+      value: 10,
+      title: 'Diversified Revenue',
+      description: "Choose this if You have Multiple Meaningful Revenue Streams Generating Actual Revenue, with No Excessive Dependence on a Single Stream."
+    },
+
+  ],
+},
+{
+  id: 'q9',
+  module: 'Fundraising Readiness',
+  canvasArea: 'cost_structure',
+  text: 'Do You have an Actual Financial Model Not merely a Running Expense Tracker ?',
+  helpText: "A Financial Model Connects Revenue, Costs, Cash Flow, and Key Business Assumptions to show how the Business could Perform in the Future. Answer Based on What You Actually Have Built.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Built One',
+      description: "Choose this if You've never Built a Financial Model of Any Kind."
+    },
+
+    {
+      value: 1,
+      title: 'No Model At All',
+      description: "Choose this if You have Neither a Financial Model nor a Structured System for Forecasting the Business."
+    },
+
+    {
+      value: 4,
+      title: 'Tracking, Not Modeling',
+      description: "Choose this if You Track Actual Revenue or Expenses in a Spreadsheet, But don't have a Forward-looking Financial Model."
+    },
+
+    {
+      value: 7,
+      title: '12-Month Model Built',
+      description: "Choose this if You have a 12-month Financial Model with Revenue, Costs, Cash Flow, and clearly stated Business Assumptions."
+    },
+
+    {
+      value: 10,
+      title: 'Multi-Year Scenario Model',
+      description: "Choose this if You have a Regularly Updated Multi-Year Financial Model that Connects key Business Assumptions to Revenue, Costs, Cash Flow, and Best-Case, Base-Case, and Worst-Case scenarios."
+    },
+
+  ],
+},
+{
+  id: 'q10',
+  module: 'Fundraising Readiness',
+  canvasArea: 'cost_structure',
+  text: 'Where are You in the Actual Fundraising Process Right Now ?',
+  helpText: "Answer based on actual Investor Activity Today Not Your Fundraising Plans, Intentions, or Hopes.",
+  options: [
+
+    {
+      value: 0,
+      title: 'No Timeline Yet',
+      description: "Choose this if You haven't Defined When, Why, or How You Intend to Raise Capital."
+    },
+
+    {
+      value: 1,
+      title: "Haven't Started",
+      description: "Choose this if You haven't Approached or Spoken with Any Investors about Raising Capital."
+    },
+
+    {
+      value: 4,
+      title: 'Few Conversations Only',
+      description: "Choose this if You've had Initial Conversations with Investors, but Haven't Entered a Structured Fundraising Process Yet."
+    },
+
+    {
+      value: 7,
+      title: 'Pitched With Feedback',
+      description: "Choose this if You've pitched Multiple Investors using a structured Pitch Deck and Received Specific, Actionable Feedback or Follow-Up."
+    },
+
+    {
+      value: 10,
+      title: 'Actively In Process',
+      description: "Choose this if Multiple Investors are Actively Evaluating the Opportunity through Serious Follow-up Conversations, Due Diligence, or Term Sheet discussions."
+    },
+
+  ],
+},
+{
+  id: 'q11',
+  module: 'Operations & Scalability',
+  canvasArea: 'key_partners',
+  text: "Do You Have Advisors on the Team That Actually Contribute or Founders with Proven Team-Building Experience ?",
+  helpText: "Focus on Real Substantial Help You Recieved Not Advisor Titles, Names on a Website, or Generic Guidance.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Thought About It',
+      description: "Choose this if You haven't Seriously Considered what Advisory Support or Team-Building capability Your Business Needs."
+    },
+
+    {
+      value: 1,
+      title: 'No Support System',
+      description: "Choose this if You have No Serious Advisors or Mentors, and No Founder has Meaningful Experience Building or Leading a team."
+    },
+
+    {
+      value: 4,
+      title: 'Some Team Experience',
+      description: "Choose this if You don't have active Advisors or Mentors, but at least one Founder has prior experience Hiring, Managing, or Leading a team."
+    },
+
+    {
+      value: 7,
+      title: 'Informal Advisors Involved',
+      description: "Choose this if You have 1–2 active Advisors or Mentors who provide ongoing Guidance, along with some Founder Experience in Building and Leading teams."
+    },
+
+    {
+      value: 10,
+      title: 'Structured Support & Proven Leaders',
+      description: "Choose this if You have an Actively Engaging Advisors in Team or structured External Support to help the Founders with Building, Selling, and Scaling."
+    },
+
+  ],
+},
+{
+  id: 'q12',
+  module: 'Foundation',
+  canvasArea: 'key_activities',
+  text: "Do You have a Defined Plan for When and How You'd Pivot?",
+  helpText: "A Pivot Framework defines the Evidence, Metrics, and Decision Points that Determine when You should Persist, Change Direction, or Stop. Answer based on What is Actually Defined Today.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Never Considered This',
+      description: "Choose this if You haven't Substantially Considered What Would cause You to Pivot, Persist, or Stop."
+    },
+
+    {
+      value: 1,
+      title: 'No Pivot Thinking',
+      description: "Choose this if You haven't Considered What would Trigger a Pivot if the Current Approach Fails, and Have No Defined Decision Points."
+    },
+
+    {
+      value: 4,
+      title: 'Vague Intention Only',
+      description: "Choose this if You generally believe You'll Pivot if things don't Work, but haven't Defined Specific Metrics, Timelines, or Decision Points."
+    },
+
+    {
+      value: 7,
+      title: 'Specific Triggers Defined',
+      description: "Choose this if You've Defined Specific Metrics, Customer Feedback, or Timelines that would trigger a formal decision to Pivot, Persist, or Stop."
+    },
+
+    {
+      value: 10,
+      title: 'Documented Framework in Place',
+      description: "Choose this if You have a Documented Pivot/Persist Framework with Measurable Triggers and Decision Points, and regularly review it with the Team against actual results."
+    },
+
+  ],
+},
+{
+  id: 'q13',
+  module: 'Scale & Expansion',
+  canvasArea: 'key_activities',
+  text: 'How Clearly have You Defined and are Tracking the Metrics that Actually Drive Growth ?',
+  helpText: "Focus on the Metrics that genuinely Explain Business Performance and Growth Not the Number of Metrics in Your Dashboard.",
+  options: [
+
+    {
+      value: 0,
+      title: "Haven't Defined What Matters",
+      description: "Choose this if You haven't Identified which Metrics are Most Important for understanding Your Business Performance or Growth."
+    },
+
+    {
+      value: 1,
+      title: 'No Real Metrics',
+      description: "Choose this if You don't Consistently Track Specific Metrics beyond Basic Financial Results or General Business Activity."
+    },
+
+    {
+      value: 4,
+      title: 'Basic Tracking But No Dashboard',
+      description: "Choose this if You Track Basic Metrics such as Revenue, Customers, or Users, But haven't Constructed a Dashboard with Specific Metrics that Best explain Your Growth."
+    },
+
+    {
+      value: 7,
+      title: 'Key Metrics Defined',
+      description: "Choose this if You've Identified a Primary Growth Metric along with 2–3 Supporting KPIs, and Track them Consistently Over Time."
+    },
+
+    {
+      value: 10,
+      title: 'Metrics Drive Decisions',
+      description: "Choose this if You have a Regularly reviewed Metrics Dashboard that Tracks the Key Drivers of Growth and Directly Informs Product, Marketing, Sales, Hiring, or Resource Allocation decisions."
+    },
+
+  ],
+},
+{
+  id: 'q14',
+  module: 'Foundation',
+  canvasArea: 'key_activities',
+  text: 'How Specific and Measurable is Your Target for the Next 6 Months ?',
+  helpText: "A Target is meaningful Only if You can Discretely Determine whether You Achieved it and Can Track Progress Toward It Over Time.",
+  options: [
+
+    {
+      value: 0,
+      title: "Haven't Set One",
+      description: "Choose this if You haven't defined any Specific Target for the Next 6 Months."
+    },
+
+    {
+      value: 1,
+      title: 'No Target Set',
+      description: "Choose this if You have No Defined Outcome or Measurable Goal for Where the Business should be 6 Months From Now."
+    },
+
+    {
+      value: 4,
+      title: 'Direction Decided But No Numbers',
+      description: "Choose this if You have a general Goal, such as 'Grow Revenue' or 'Acquire More Users', but haven't defined a Specific Measurable Target."
+    },
+
+    {
+      value: 7,
+      title: 'Specific Numeric Target',
+      description: "Choose this if You have a Specific, Measurable Target for the Next 6 Months, such as Revenue, Customers, Users, Profitability, or Another Relevant Business Metric."
+    },
+
+    {
+      value: 10,
+      title: 'Broken Into Milestones',
+      description: "Choose this if Your 6-month Target is Broken into Measurable Milestones, Tracked Regularly, with clear Ownership and Accountability."
+    },
+
+  ],
+},
+{
+  id: 'q15',
+  module: 'Turnaround & Stabilisation',
+  canvasArea: 'cost_structure',
+  text: 'How Well do You Understand the Regulatory Requirements that Apply to Your Business ?',
+  helpText: "Answer Based on What You've Confidently Researched and Mapped Not Assumptions. Consider Licences, Registrations, Approvals, Reporting, and other Compliance Requirements Relevant to Your Business.",
+  options: [
+
+    {
+      value: 0,
+      title: 'Not Sure It Applies',
+      description: "Choose this if You're Not Sure Whether Any Regulatory Requirements Apply to Your Business."
+    },
+
+    {
+      value: 1,
+      title: "Haven't Looked Into It",
+      description: "Choose this if You haven't Internally Researched the Regulatory Requirements that May Apply to Your Business."
+    },
+
+    {
+      value: 4,
+      title: 'Aware But Dependent on External Auditors or Chartered Accountant',
+      description: "Choose this if You're aware that Regulatory Requirements Exist, but are Dependent on External Auditors or Chartered Accountants for Compliance."
+    },
+
+    {
+      value: 7,
+      title: 'Aware & In Charge of of All Regulatory Requirements',
+      description: "Choose this if You've identified and documented the Key Regulatory Requirements that apply to Your Business and understand what is required for Compliance."
+    },
+
+    {
+      value: 10,
+      title: 'Founding Team has a Finance or Law Expert',
+      description: "Choose this if the Key Regulatory Requirements have been Adequately Addresed and You have Appropriate Expert like a Chief Financial Officer or Lawyer on the Founding Team to Manage Regulatory Compliance."
+    },
+
+  ],
+},
 ];
 
 // =====================================================
