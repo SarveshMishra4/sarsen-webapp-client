@@ -986,7 +986,7 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
             Overall Score
           </p>
           <p className="text-sm text-[#0A1E3D] leading-relaxed">
-            Your score alone won&apos;t tell you much. Look at the dial to see your complete business strength.
+            Don’t Stop at The Scores. Read the Complete Report Thoroughly to Understand the Complete Picture.
           </p>
         </div>
 
@@ -999,14 +999,14 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
           and every grid cell below) is on the same 0–10 scale. Centered
           under the bento grids. */}
       <p className="text-xs font-semibold text-gray-[#0A1E3D]  -mt-4 text-center">
-        All scores below are out of 10
+        All Scores in the Report are Out of 10
       </p>
 
       {/* CURRENT BUSINESS CONDITION — 9 outputs */}
       <div>
         <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Current Business Condition</p>
         <p className="text-sm text-[#0A1E3D] leading-relaxed mb-3">
-          Where the business stands today, across the dimensions that determine structural health.
+          Where the Business Stands Today, Across the Dimensions that Determine Structural Health.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 sm:auto-rows-[minmax(120px,auto)] gap-1.5">
           {(Object.keys(CURRENT_OUTPUTS) as CurrentOutputKey[]).map((key) => (
@@ -1046,7 +1046,7 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
       <div>
         <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Future &amp; Execution Readiness</p>
         <p className="text-sm text-[#0A1E3D] leading-relaxed mb-3">
-          How ready the business is to convert today&apos;s foundation into what comes next.
+          How Capable the Business is to Convert Today&apos;s Foundation into Long Term Success.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 sm:auto-rows-[minmax(120px,auto)] gap-1.5">
           {(Object.keys(FUTURE_OUTPUTS) as FutureOutputKey[]).map((key) => (
@@ -1068,7 +1068,7 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
         <div>
           <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Immediate Priorities</p>
           <p className="text-sm text-[#0A1E3D] leading-relaxed mb-4">
-            The areas that require the most immediate attention based on the gaps identified in your diagnostic.
+            The Areas that Require the Most immediate Attention Based on the Gaps Identified in Your Diagnosis.
           </p>
           <div className="border-2 border-[#0A1E3D] bg-[#EEF2F9] rounded-md p-4 sm:p-5">
             {priorities.map((key, i) => {
@@ -1097,7 +1097,7 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
         <div>
           <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Conclusion</p>
           <p className="text-sm text-[#0A1E3D] leading-relaxed mb-4">
-            What the pattern across your answers means, and the overall read on where things stand.
+            What the Pattern Across Your Answers Means, and the Overall Read on Where Things Stand.
           </p>
           <div className="border-2 border-[#0A1E3D] bg-[#EEF2F9] rounded-md p-4 sm:p-5">
             {result.statements.map((s, i) => (
