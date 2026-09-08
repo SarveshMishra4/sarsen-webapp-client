@@ -430,6 +430,15 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
       'The market may be more ready for the business than the business is ready for the market. Execution capacity is likely to become the immediate bottleneck.',
     intervention: 'GTM execution / operations / team capability',
   },
+  {
+    id: 'strong_model_weak_growth',
+    name: 'Working business model without a path to scale',
+    conditions: [['business_model_strength', '>=', 7], ['growth_readiness', '<=', 4]],
+    severity: 8,
+    statement:
+      'The business model itself appears to work, but there is no structural path from here to real scale. At this stage, standing still is itself a risk — competitors and market conditions rarely stay still while a working model goes unscaled.',
+    intervention: 'Growth strategy / scaling readiness / organisational design',
+  },
 ];
 
 function conditionMet(value: number, operator: ConditionOperator, threshold: number): boolean {

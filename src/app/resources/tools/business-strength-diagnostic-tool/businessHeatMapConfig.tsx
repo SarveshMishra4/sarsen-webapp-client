@@ -331,6 +331,7 @@ import {
   hasCompleteAnswers,
   CURRENT_OUTPUTS,
   FUTURE_OUTPUTS,
+  OUTPUT_WEIGHTS,
   type CurrentOutputKey,
   type FutureOutputKey,
   type OutputKey,
@@ -559,8 +560,16 @@ export function CanvasHeatmap({ answers }: { answers: Record<string, number> }) 
   const result = diagnose(answers);
   const megaColor = scoreToColor(result.mega.megaScore);
 
+  // Weighted gap, not raw score: a dimension's priority = how far below 10
+  // it sits, scaled by how much that dimension actually counts toward the
+  // Mega Score (OUTPUT_WEIGHTS). This surfaces the gaps that matter most
+  // to the business, not just whichever number happens to be lowest —
+  // e.g. a mid-low score on a heavily-weighted dimension like Financial
+  // Understanding now outranks a lower raw score on a lightly-weighted one.
+  const priorityGap = (key: OutputKey) => (10 - result.combined[key]) * (OUTPUT_WEIGHTS[key] ?? 1.0);
+
   const priorities = (Object.keys(result.combined) as OutputKey[])
-    .sort((a, b) => result.combined[a] - result.combined[b])
+    .sort((a, b) => priorityGap(b) - priorityGap(a))
     .slice(0, 3);
 
   function outputMeta(key: OutputKey) {
