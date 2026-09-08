@@ -20,6 +20,25 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 // question now supplies its own `options` array — heading + explanation
 // per option — rendered as a stacked list below instead of a row of small
 // buttons, so a founder can read every option before picking one.
+//
+// UPDATE (this revision): added a single-line "who uses this" trust
+// signal under the hero copy on the intro screen. It names one example
+// user without implying exclusivity — see TRUST_LINE below. Swap the
+// placeholder name/firm for the real, approved ones before publishing.
+
+// =====================================================
+// TRUST LINE (intro screen only)
+// =====================================================
+// PLACEHOLDER — replace with the real, approved name/title/firm before
+// shipping. Keep the phrasing to "used by ... including ..." so it reads
+// as one example among many, not an exclusive partnership or an
+// endorsement of the tool by the firm itself.
+const TRUST_LINE = {
+  enabled: true, // flip to false to hide this line entirely
+  name: 'Michael Dorrell', // e.g. "Jordan Alvarez"
+  title: 'Founder & Investor', // e.g. "Partner"
+  firm: 'Stonepeak Partners', // e.g. "Meridian Growth Partners"
+};
 
 // =====================================================
 // HELPERS
@@ -201,6 +220,26 @@ export default function BusinessHeatmapClient() {
             <p className="text-gray-300 text-base sm:text-lg max-w-4xl">
               Answer a Few Questions to Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.
             </p>
+
+            {/* ---------------------------------------------------------
+                TRUST LINE
+                Single-line, low-key credibility signal. Deliberately NOT
+                a testimonial card: no photo, no quote, no border, no
+                background — just text that sits quietly under the hero
+                copy in the existing type scale. Phrasing names one
+                example user ("including ...") rather than claiming
+                exclusivity in either direction (not "the only tool he
+                uses", not "our exclusive partner").
+                Toggle via TRUST_LINE.enabled above.
+            --------------------------------------------------------- */}
+            {TRUST_LINE.enabled && (
+              <p className="text-gray-400 text-sm mt-5 flex items-center gap-2 flex-wrap">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400" aria-hidden="true" />
+                Used by Founders, Operators & Investors like {''}
+                <span className="text-gray-200 font-medium">{TRUST_LINE.name}</span>— {TRUST_LINE.title} at
+                <span className="text-gray-200 font-medium">{TRUST_LINE.firm}</span>.
+              </p>
+            )}
           </div>
         </section>
 
@@ -211,47 +250,47 @@ export default function BusinessHeatmapClient() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                 <div>
-                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Founder Name</label>
+                  <label className="block text-base font-medium text-[#0A1E3D] mb-1.5">Founder Name</label>
                   <input
                     type="text"
                     value={founderName}
                     onChange={(e) => setFounderName(e.target.value)}
                     placeholder="e.g. Adam Doe"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-base ${showErrors && !founderName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
                       }`}
                   />
-                  {showErrors && !founderName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Name</p>}
+                  {showErrors && !founderName.trim() && <p className="text-sm text-red-600 mt-1">Enter Your Name</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Business Name</label>
+                  <label className="block text-base font-medium text-[#0A1E3D] mb-1.5">Business Name</label>
                   <input
                     type="text"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. SpaceX or Freshworks"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !companyName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-base ${showErrors && !companyName.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
                       }`}
                   />
-                  {showErrors && !companyName.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Business Name</p>}
+                  {showErrors && !companyName.trim() && <p className="text-sm text-red-600 mt-1">Enter Your Business Name</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#0A1E3D] mb-1.5">Sector or Domain</label>
+                  <label className="block text-base font-medium text-[#0A1E3D] mb-1.5">Sector or Domain</label>
                   <input
                     type="text"
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
                     placeholder="e.g. Healthcare or Fintech"
-                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-sm ${showErrors && !industry.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
+                    className={`w-full border rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 text-base ${showErrors && !industry.trim() ? 'border-red-300 focus:ring-red-400' : 'border-gray-300 focus:ring-[#0A1E3D]'
                       }`}
                   />
-                  {showErrors && !industry.trim() && <p className="text-xs text-red-600 mt-1">Enter Your Sector or Domain</p>}
+                  {showErrors && !industry.trim() && <p className="text-sm text-red-600 mt-1">Enter Your Sector or Domain</p>}
                 </div>
               </div>
 
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pt-5 border-t border-gray-100">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-base">
                   <div>
                     <span className="text-[#0A1E3D] font-semibold">Few Focused Questions</span>
                     <span className="text-gray-500 ml-1">Across the Areas that Decide whether a Business Scales or Collapses</span>
@@ -388,7 +427,7 @@ export default function BusinessHeatmapClient() {
                   }`}
               />
 
-              {emailError && <p className="text-xs text-red-600 mb-3">{emailError}</p>}
+              {emailError && <p className="text-sm text-red-600 mb-3">{emailError}</p>}
               {!emailError && <div className="mb-3" />}
 
               {submitError && (
