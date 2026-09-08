@@ -519,7 +519,7 @@ export const QUESTIONS: Question[] = [
   id: 'q12',
   module: 'Foundation',
   canvasArea: 'key_activities',
-  text: "Do You have a Defined Plan for When and How You'd Pivot?",
+  text: "Do You have a Defined Plan for When and How You'd Pivot ?",
   helpText: "A Pivot Framework defines the Evidence, Metrics, and Decision Points that Determine when You should Persist, Change Direction, or Stop. Answer based on What is Actually Defined Today.",
   options: [
 
