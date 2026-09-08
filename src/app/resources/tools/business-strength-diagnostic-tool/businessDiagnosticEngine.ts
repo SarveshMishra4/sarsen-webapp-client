@@ -115,78 +115,78 @@ type OutputMeta = { label: string; description: string };
 export const CURRENT_OUTPUTS: Record<CurrentOutputKey, OutputMeta> = {
   business_understanding: {
     label: 'Business Understanding',
-    description: 'How well the founder understands their own business — proposition, economics, and metrics together.',
+    description: 'Founders Understand their own Business. Customers, Economics, and Landscape Together.',
   },
   landscape_understanding: {
     label: 'Landscape Understanding',
-    description: 'How much the founder has actually studied competitors, regulation, and the external environment.',
+    description: 'Founder has Actually Studied Competitors, Regulation, and the External Environment.',
   },
   market_acceptance: {
     label: 'Market Acceptance',
-    description: 'Evidence that the market genuinely wants what is being offered — not just stated intention.',
+    description: 'Evidence that the Market Genuinely Wants what is Being Offered not Stated Intention.',
   },
   competitive_position: {
     label: 'Competitive Position',
-    description: 'How differentiated and defensible the business is against competitors.',
+    description: 'Differentiation and Defensibility of the Business Against Competitors.',
   },
   customer_readiness: {
     label: 'Customer Readiness',
-    description: 'Depth of customer-side evidence, from segment clarity through to tracked behaviour.',
+    description: 'Depth of Customer-Side Evidence, from Segment Clarity through to Tracked Behaviour.',
   },
   business_model_strength: {
     label: 'Business Model Strength',
-    description: 'Whether value, payment, revenue, and channels connect into a workable economic engine.',
+    description: 'Whether Value, Payment, Revenue, and Channels Connect into a Workable Economic Engine.',
   },
   financial_understanding: {
     label: 'Financial Understanding',
-    description: 'How well the founder understands and can plan the numbers behind the business.',
+    description: 'Founder Understanding and Control of the Numbers Behind the Business.',
   },
   management_quality: {
     label: 'Management Quality',
-    description: 'Strength of the team and advisory support behind the venture.',
+    description: 'Strength of the Team and Advisory Support Behind the Venture.',
   },
   risk_control: {
     label: 'Risk Control',
-    description: 'How prepared the business is to identify and manage risk. Higher is better.',
+    description: 'Preparation of the Business to Identify and Manage Risk.',
   },
 };
 
 export const FUTURE_OUTPUTS: Record<FutureOutputKey, OutputMeta> = {
   plan_achievability: {
     label: 'Plan Achievability',
-    description: 'Whether the near-term plan is specific, trackable, and realistically achievable.',
+    description: 'Whether the Near-term Plan is Specific, Trackable, and Realistically Achievable.',
   },
   fundability: {
     label: 'Fundability',
-    description: 'Readiness to withstand investor diligence on team, economics, and evidence.',
+    description: 'Readiness to Withstand Investor Diligence on Team, Economics, and Evidence.',
   },
   planning: {
     label: 'Planning Quality',
-    description: 'Depth and specificity of the forward plan, including contingencies.',
+    description: 'Depth and Specificity of the Forward Plan, Including Contingencies.',
   },
   future_possibility: {
     label: 'Future Possibility',
-    description: 'A broad forward-readiness signal — not a statistically validated prediction of outcomes.',
+    description: 'A Broad Forward-Readiness Signal Not a Statistically Validated Prediction of Outcomes.',
   },
   executeability: {
     label: 'Executeability',
-    description: 'Demonstrated ability to run a commercial motion end-to-end.',
+    description: 'Demonstrated Ability to Run a Commercial Motion End-to-End.',
   },
   survivability: {
     label: 'Survivability',
-    description: 'Ability to remain viable under financial and operational uncertainty.',
+    description: 'Ability to Remain Viable Under Financial and Operational Uncertainty.',
   },
   strategic_flexibility: {
     label: 'Strategic Flexibility',
-    description: 'Ability to change direction based on evidence rather than attachment to the original plan.',
+    description: 'Ability to Change Direction based on Evidence rather than Attachment to the Original Plan.',
   },
   six_month_readiness: {
     label: '6-Month Readiness',
-    description: 'Clarity and measurability of the next milestone.',
+    description: 'Clarity and Measurability of the Next Milestone.',
   },
   growth_readiness: {
     label: 'Growth Readiness',
-    description: 'Whether the business is ready to scale without breaking what already works.',
+    description: 'Whether the Business is Ready to Scale without Breaking What Already Works.',
   },
 };
 
@@ -310,7 +310,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['market_acceptance', '>=', 7], ['financial_understanding', '<=', 4]],
     severity: 9,
     statement:
-      'The business appears capable of generating customer interest, but its understanding of the economics is materially weaker. If demand increases before the economic model is understood, growth may amplify losses rather than create a stronger business.',
+      // 'The business appears capable of generating customer interest, but its understanding of the economics is materially weaker. If demand increases before the economic model is understood, growth may amplify losses rather than create a stronger business.',
+      'The Business may appear to have Customer Acceptance, but its Financial Understanding may not yet be strong enough to explain what that acceptance means economically. If Demand increases before the Economics are understood, Growth could amplify Financial Weaknesses rather than strengthen the Business.',
     intervention: 'Business model / monetisation / financial strategy',
   },
   {
@@ -319,7 +320,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['customer_readiness', '>=', 7], ['business_model_strength', '<=', 4]],
     severity: 9,
     statement:
-      'There is evidence of customer readiness, but the mechanism for turning customer value into sustainable economics appears weak.',
+      // 'There is evidence of customer readiness, but the mechanism for turning customer value into sustainable economics appears weak.',
+      'The Business may have meaningful evidence that Customers are willing to Engage or Pay, but the mechanism for converting that Customer Value into Sustainable Economics may remain underdeveloped.',
     intervention: 'Monetisation and business model design',
   },
   {
@@ -328,7 +330,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['market_acceptance', '>=', 7], ['competitive_position', '<=', 4]],
     severity: 8,
     statement:
-      'The market may accept the proposition, but the business does not appear sufficiently protected from competitive pressure. Success itself may attract competitors.',
+      // 'The market may accept the proposition, but the business does not appear sufficiently protected from competitive pressure. Success itself may attract competitors.',
+      'The Market may appear receptive to the Proposition, but the Business may not yet be sufficiently protected from Competitive Pressure. If the Opportunity proves attractive, Competitors could potentially replicate the Proposition and capture part of the Value.',
     intervention: 'Positioning / differentiation / defensibility',
   },
   {
@@ -337,7 +340,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['planning', '>=', 7], ['executeability', '<=', 4]],
     severity: 9,
     statement:
-      'The company appears to understand what it should do better than it can consistently execute it. The constraint is likely organisational execution rather than strategic awareness.',
+      // 'The company appears to understand what it should do better than it can consistently execute it. The constraint is likely organisational execution rather than strategic awareness.',
+      'The Company may have reasonable Clarity on what needs to be done, but its Execution Capability may not yet be strong enough to consistently convert Plans into Action. The immediate Constraint could therefore be Execution Discipline rather than Strategic Direction.',
     intervention: 'Operational efficiency / execution system',
   },
   {
@@ -346,7 +350,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['planning', '>=', 7], ['management_quality', '<=', 4]],
     severity: 8,
     statement:
-      'The plan appears more developed than the organisation required to execute it. The company may be strategy-heavy and execution-light.',
+      // 'The plan appears more developed than the organisation required to execute it. The company may be strategy-heavy and execution-light.',
+      'The Company may have a level of Strategic Ambition that exceeds its current Team-Building and Leadership Capability. Without stronger Execution Capacity around the Plan, Strategic Clarity may not translate into Business Progress.',
     intervention: 'Team design / operating model / execution',
   },
   {
@@ -355,7 +360,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['fundability', '>=', 7], ['business_understanding', '<=', 4]],
     severity: 8,
     statement:
-      'The company may be thinking about capital before sufficiently resolving underlying business uncertainties. Capital can buy time, but it cannot substitute for unresolved fundamentals.',
+      // 'The company may be thinking about capital before sufficiently resolving underlying business uncertainties. Capital can buy time, but it cannot substitute for unresolved fundamentals.',
+      'The Company may be relatively prepared to pursue Capital while important aspects of the underlying Business remain insufficiently understood. Capital could accelerate a proven Model, but may not resolve Fundamental Business Uncertainty on its Own.',
     intervention: 'Business fundamentals before fundraising',
   },
   {
@@ -364,7 +370,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['growth_readiness', '>=', 7], ['risk_control', '<=', 4]],
     severity: 10,
     statement:
-      'The business appears capable of pursuing growth, but its risk controls are weak. Scaling under these conditions can magnify existing weaknesses.',
+      // 'The business appears capable of pursuing growth, but its risk controls are weak. Scaling under these conditions can magnify existing weaknesses.',
+      'The Business may appear prepared to pursue Growth, but its ability to identify and control Material Risks may remain comparatively weak. Scaling under these conditions could increase the impact of Operational, Financial, or Compliance Failures.',
     intervention: 'Risk management / operations / financial controls',
   },
   {
@@ -373,7 +380,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['market_acceptance', '>=', 7], ['six_month_readiness', '<=', 4]],
     severity: 8,
     statement:
-      'The business appears to have customer-side promise, but has not translated that promise into sufficiently measurable next milestones.',
+      // 'The business appears to have customer-side promise, but has not translated that promise into sufficiently measurable next milestones.',
+      'The Business may appear to have meaningful Customer-Side Promise, but may not have converted that position into a sufficiently Measurable Near-Term Target. Without a Defined Outcome, Progress could remain difficult to evaluate objectively.',
     intervention: 'Metrics / PMF measurement / milestone planning',
   },
   {
@@ -382,7 +390,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['competitive_position', '>=', 7], ['landscape_understanding', '<=', 4]],
     severity: 7,
     statement:
-      'The proposition appears differentiated, but the company may not understand the competitive landscape well enough to know whether that differentiation is durable.',
+      // 'The proposition appears differentiated, but the company may not understand the competitive landscape well enough to know whether that differentiation is durable.',
+      'The Business may appear to have a Structural Advantage, but its understanding of the broader Competitive Landscape may not be strong enough to establish how Durable that Advantage is. An Advantage could be harder to defend if Emerging Alternatives and Indirect Competitors are not fully understood.',
     intervention: 'Competitive intelligence / positioning',
   },
   {
@@ -391,7 +400,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['business_model_strength', '>=', 7], ['financial_understanding', '<=', 4]],
     severity: 9,
     statement:
-      'The company appears to have a workable commercial mechanism, but financial understanding is lagging. Revenue alone does not establish a healthy business.',
+      // 'The company appears to have a workable commercial mechanism, but financial understanding is lagging. Revenue alone does not establish a healthy business.',
+      'The Company may appear to have a Workable Commercial Mechanism, but its Financial Understanding may be lagging. Revenue alone may not establish a Healthy Business if Costs, Cash Flow, and Future Financial Scenarios remain unclear.',
     intervention: 'Financial model / unit economics / management reporting',
   },
   {
@@ -400,7 +410,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['strategic_flexibility', '>=', 7], ['six_month_readiness', '<=', 4]],
     severity: 7,
     statement:
-      'The company appears willing to change direction, but does not yet have strong measurement mechanisms for deciding what should change.',
+      // 'The company appears willing to change direction, but does not yet have strong measurement mechanisms for deciding what should change.',
+      'The Company may appear willing to Change Direction when necessary, but may not yet have sufficiently Measurable Near-Term Objectives to determine whether the current approach is working. Flexibility without Measurable Decision Criteria could lead to Reactive rather than Evidence-Based Change.',
     intervention: 'Experimentation / metrics / strategic planning',
   },
   {
@@ -409,7 +420,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['fundability', '>=', 7], ['survivability', '<=', 4]],
     severity: 8,
     statement:
-      'The business may appear fundable, but its underlying survival capacity remains weak. Raising capital should not be confused with becoming resilient.',
+      // 'The business may appear fundable, but its underlying survival capacity remains weak. Raising capital should not be confused with becoming resilient.',
+      'The Business may appear capable of raising Capital, but its underlying Survival Capacity may remain weak. External Funding could extend the Runway, but may not by itself create a Sustainable Operating Base.',
     intervention: 'Runway / financial planning / operating resilience',
   },
   {
@@ -418,7 +430,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['business_model_strength', '>=', 7], ['future_possibility', '<=', 4]],
     severity: 8,
     statement:
-      'The business has reasonable fundamentals today, but the systems required to convert those fundamentals into future progress are weak.',
+      // 'The business has reasonable fundamentals today, but the systems required to convert those fundamentals into future progress are weak.',
+      'The Business may have reasonable Fundamentals today, but the Capabilities required to convert those Fundamentals into sustained Future Growth may remain weak. A Workable Business today may not automatically translate into a Scalable Business tomorrow.',
     intervention: 'Growth strategy / execution / scaling readiness',
   },
   {
@@ -427,7 +440,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['market_acceptance', '>=', 7], ['executeability', '<=', 4]],
     severity: 10,
     statement:
-      'The market may be more ready for the business than the business is ready for the market. Execution capacity is likely to become the immediate bottleneck.',
+      // 'The market may be more ready for the business than the business is ready for the market. Execution capacity is likely to become the immediate bottleneck.',
+      'The Business may have stronger Customer-Side Evidence than Execution Capability. If Customer Demand increases, limited Execution Capacity could become the immediate Bottleneck to converting that Opportunity into Sustainable Growth.',
     intervention: 'GTM execution / operations / team capability',
   },
   {
@@ -436,7 +450,8 @@ export const CONTRADICTION_RULES: ContradictionRule[] = [
     conditions: [['business_model_strength', '>=', 7], ['growth_readiness', '<=', 4]],
     severity: 8,
     statement:
-      'The business model itself appears to work, but there is no structural path from here to real scale. At this stage, standing still is itself a risk — competitors and market conditions rarely stay still while a working model goes unscaled.',
+      // 'The business model itself appears to work, but there is no structural path from here to real scale. At this stage, standing still is itself a risk — competitors and market conditions rarely stay still while a working model goes unscaled.',
+      'The Business may appear to have a Workable Economic Engine, but the Organisation may not yet be prepared to Scale it. Without the Systems, Capabilities, and Controls required for Growth, increasing Demand could expose Operational Weaknesses rather than translate into Sustainable Scale.',
     intervention: 'Growth strategy / scaling readiness / organisational design',
   },
 ];
@@ -620,13 +635,13 @@ function generateStatements(
 
   let overall: string;
   if (mega.megaScore >= 8) {
-    overall = 'The business shows strong overall capability. The key question is whether it can convert that capability into repeatable growth without creating new bottlenecks.';
+    overall = 'The Business Shows Strong Overall Capability. The Key Question is Whether it can Convert that Capability into Repeatable Growth Without Creating New Bottlenecks.';
   } else if (mega.megaScore >= 6) {
-    overall = 'The business has a developing foundation, but several areas remain insufficiently resolved for confident scale.';
+    overall = 'The Business has a Developing Foundation, but Several Areas Remain Insufficiently Resolved for Confident Scale.';
   } else if (mega.megaScore >= 4) {
-    overall = 'The business has meaningful foundations but also material structural weaknesses that should be resolved before aggressive growth.';
+    overall = 'The Business has Meaningful Foundations but also Material Structural Weaknesses that Should be Resolved Before Aggressive Growth.';
   } else {
-    overall = 'The business currently carries substantial unresolved uncertainty. The priority should be reducing the most important constraints before attempting aggressive expansion.';
+    overall = 'The Business Currently carries Substantial Unresolved Uncertainty. The Priority should be Reducing the Most Important Constraints Before Attempting Aggressive Expansion.';
   }
 
   statements.push({
