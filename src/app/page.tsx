@@ -15,43 +15,24 @@ import { apiRequest } from '@/services/api';
 // =====================================================
 const LEFT_PANEL_INSIGHTS = [
   { label: 'of Startups Fail Because There is No Real Market Need', value: 42 },
-
   { label: 'of Startups Run Out of Cash Before Finding Traction', value: 29 },
-
   { label: 'of Emerging Businesses Get Outcompeted on Execution Not Idea', value: 23 },
-
   { label: 'of   Emerging Businesses Struggle With the Wrong Team Composition', value: 23 },
-
   { label: 'of Startups Fail From Pricing That Never Gets Tested', value: 18 },
-
   { label: 'of Emerging Businesses Stall Because Positioning Is Unclear', value: 35 },
-
   { label: 'of Businesses Lose Momentum Chasing Too Many Priorities', value: 31 },
-
   { label: 'of Businesses Never Separate Founder Effort From Systems', value: 27 },
-
   { label: 'of Emerging Businesses Overestimate their Actual Runway', value: 24 },
-
   { label: 'of Businesses Delay Hard Calls Until It is Too Late', value: 38 },
-
   { label: 'of Products Scale Before Product-Market Fit is Proven', value: 22 },
-
   { label: 'of Startups Depend Entirely on Founder-Led Sales', value: 33 },
-
   { label: 'of Emerging Businesses Ignore Unit Economics Until It Hurts', value: 26 },
-
   { label: 'of Businesses Confuse Being Busy With Moving Forward', value: 30 },
-
   { label: 'of Products Underestimate Customer Acquisition Cost', value: 28 },
-
   { label: 'of Businesses Raise Capital Without a Clear Use For It', value: 20 },
-
   { label: 'of Products Are Built For a Customer That Does Not Exist', value: 25 },
-
   { label: 'of Larger Businesses Let Culture Drift As Headcount Grows', value: 19 },
-
   { label: 'of Businesses Treat Strategy As a One-Time Exercise', value: 34 },
-
   { label: 'of Businesses Wait Too Long to Bring in Outside Perspective', value: 40 },
 ];
 
@@ -272,8 +253,11 @@ const PioneersStrip = () => {
       {/* Centered heading */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-8 text-center">
         <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#0A1E3D]">
-          Pioneers We Endorse
+          Same Principles Across Businesses & Sectors
         </h3>
+        <p className="text-gray-600">
+          The Businesses That Understand Strategy Exponentially Increase the Impact of Execution.
+        </p>
       </div>
 
       {/* Marquee wrapper */}
@@ -336,9 +320,6 @@ const PioneersStrip = () => {
   );
 };
 
-// =====================================================
-// REPORT SECTION COMPONENT
-// =====================================================
 // =====================================================
 // REPORT SECTION COMPONENT (updated)
 // Now sends the modal form to POST /report-interest via apiRequest,
@@ -414,18 +395,18 @@ const ReportSection = () => {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             <div className="space-y-6">
+
               <h2 className="text-3xl sm:text-4xl lg:text-5xl text-gray-800">
                 Indian Startup Ecosystem Report 2026
               </h2>
 
               <div className="space-y-4">
                 <p className="text-gray-700 text-base sm:text-lg">
-                  Comprehensive analysis of India's startup landscape covering funding trends,
-                  sector-wise growth patterns, emerging opportunities across tier-1 and tier-2
-                  cities, and strategic insights for founders and investors.
+                  Comprehensive Analysis of India's Startup Landscape covering Funding Trends,
+                  Sectorwise Growth Patterns, Emerging Opportunities across Tiers, and Strategic Insights for Founders and Investors.
                 </p>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Based on data from 5,000 + Startups, 200 + Investor Interviews, and Ground-Level
+                  Based on Data from more than 5000 Startups, Investor Interviews, and Ground-Level
                   Research across 15 Startup Hubs Pan India. Essential Reading for Founders, Investors & Advisors.
                 </p>
               </div>
@@ -435,13 +416,13 @@ const ReportSection = () => {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
                   </svg>
-                  <span>142 pages</span>
+                  <span>252 Pages</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2z" />
                   </svg>
-                  <span>Last updated: Feb 2026</span>
+                  <span>Last Updated: April 2026</span>
                 </div>
               </div>
             </div>
@@ -643,6 +624,77 @@ const ReportSection = () => {
 };
 
 // =====================================================
+// VISUAL — STAIRCASE DIAGRAM (SCROLL-TRIGGERED STAGGERED SLIDE-UP)
+// Used inside "We Drive Progress Through Strategy" section.
+// Each step appears one after the other from bottom to top
+// when the section scrolls into view.
+// =====================================================
+const StaircaseDiagram = () => {
+  const steps = [
+    'Progress',
+    'Drive Results',
+    'Focus the Effort',
+    'Find the Constraint',
+    'Map the Drivers',
+    'Diagnose the Business',
+  ];
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 } // Trigger when 30% of the diagram is visible
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="w-full max-w-md">
+      <div className="flex flex-col items-center xl:items-start space-y-3">
+        {steps.map((label, index) => {
+          const widthPct = 100 - (steps.length - 1 - index) * 10;
+          // Bottom step (index 5) has delay 0ms, top step (index 0) gets 750ms
+          const delay = (steps.length - 1 - index) * 150;
+
+          return (
+            <div
+              key={label}
+              className="flex items-center justify-center rounded-md border-2 border-white bg-[#0A1E3D] text-white font-medium px-4 py-2"
+              style={{
+                width: `${widthPct}%`,
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                transition: `opacity 500ms ease ${delay}ms, transform 500ms ease ${delay}ms`,
+              }}
+            >
+              <span className="text-sm sm:text-base">{label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
 // COMPANY HELPS SECTION
 // =====================================================
 const CompanyHelpsSection = () => {
@@ -707,17 +759,30 @@ const CompanyHelpsSection = () => {
       className="bg-[#0A1E3D] py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-4xl mb-16 sm:mb-20">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
-            Sarsen Strategy Partners Specializes In
-          </h2>
-          <p className="text-gray-300 text-base sm:text-lg">
-            We work with founders at moments where progress slows, decisions feel heavier, and
-            effort no longer translates into results. These are not execution problems. They are
-            structural problems — in pricing, positioning, capital planning, internal systems,
-            or the product itself. Our work begins by identifying what is actually broken, not
-            what looks broken on the surface.
-          </p>
+        <div className="mb-16 sm:mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-[28rem_1fr] gap-6 sm:gap-8 lg:gap-8 items-center">
+            {/* LEFT — Staircase Diagram. On mobile this drops below the
+                description (order-2); on desktop it sits on the left
+                (order-1 / first grid column). Column is fixed at 28rem
+                (matching the diagram's own max-w-md) so the diagram
+                renders at full, undistorted width, and the gap to the
+                right stays constant regardless of screen width. */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <StaircaseDiagram />
+            </div>
+
+            {/* RIGHT — Heading + description. On mobile this comes first
+                (order-1); on desktop it sits on the right (order-2 /
+                second grid column), taking up the remaining space. */}
+            <div className="order-1 lg:order-2 max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
+                We Drive Progress Through Strategy.
+              </h2>
+              <p className="text-gray-300 text-base sm:text-lg">
+               Businesses rarely have One Single Problem. Growth.. Revenue.. Customers.. Margins.. People.. Systems.. & Capital are Connected. Our Work is to Decipher those Connections, Identify Actual Constraints, And Help Our Clients Capture the Greatest Opportunities.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mb-16 bg-[#132B47] rounded-md p-8 border border-blue-900/30">
@@ -730,9 +795,8 @@ const CompanyHelpsSection = () => {
           {expertiseAreas.map((area, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-700 ${
-                index === activeCard ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`absolute inset-0 transition-opacity duration-700 ${index === activeCard ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
             >
               <div className="bg-gradient-to-br from-[#132B47] to-[#1a3a5c] rounded-md p-6 sm:p-8 lg:p-12 border border-blue-800/30 hover:border-blue-700/50 transition-all duration-300 h-full overflow-y-auto">
                 <h3 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium mb-4 sm:mb-6">
@@ -751,11 +815,10 @@ const CompanyHelpsSection = () => {
             <button
               key={index}
               onClick={() => setActiveCard(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === activeCard
+              className={`transition-all duration-300 rounded-full ${index === activeCard
                   ? 'bg-blue-500 w-12 h-3'
                   : 'bg-blue-800/50 w-3 h-3 hover:bg-blue-700/50'
-              }`}
+                }`}
               aria-label={`View service ${index + 1}`}
             />
           ))}
@@ -950,11 +1013,10 @@ const TestimonialsSection = () => {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    index === activeIndex
+                  className={`transition-all duration-300 rounded-full ${index === activeIndex
                       ? 'bg-blue-500 w-8 h-3'
                       : 'bg-gray-300 w-3 h-3 hover:bg-gray-400'
-                  }`}
+                    }`}
                   aria-label={`View entrepreneur ${index + 1}`}
                 />
               ))}
@@ -1062,7 +1124,7 @@ const FreeResourcesSection = () => {
   const canScrollLeft = scrollPosition > 0;
   const canScrollRight = scrollContainerRef.current
     ? scrollPosition <
-      scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth - 10
+    scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth - 10
     : true;
 
   return (
@@ -1080,11 +1142,10 @@ const FreeResourcesSection = () => {
           <button
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${
-              canScrollLeft
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${canScrollLeft
                 ? 'hover:bg-gray-100 cursor-pointer opacity-100'
                 : 'opacity-30 cursor-not-allowed'
-            }`}
+              }`}
             aria-label="Scroll left"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1095,11 +1156,10 @@ const FreeResourcesSection = () => {
           <button
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${
-              canScrollRight
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${canScrollRight
                 ? 'hover:bg-gray-100 cursor-pointer opacity-100'
                 : 'opacity-30 cursor-not-allowed'
-            }`}
+              }`}
             aria-label="Scroll right"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">

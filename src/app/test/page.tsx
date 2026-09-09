@@ -1,104 +1,42 @@
-// app/test/page.tsx
-//
-// A running gallery of hero visualisation options — six versions of the
-// same "why startups fail" hero, stacked on this one test page so they're
-// easy to scroll through and compare. Every version shares:
-//   - the same hero shell (bg-[#0A1E3D], the diagonal grid pattern, padding)
-//   - the same left-side callout: a percentage that slides in from the left,
-//     with the reason label typed out beneath it (no cursor)
-//   - the same FAILURE_REASONS data
-//
-// Only the right-side visual changes between versions. Each version runs
-// its own independent timer, so they cycle at their own pace rather than
-// all switching in lockstep.
-//
-// Small numbered labels at the top-left of each section are dev scaffolding
-// for this gallery page only — they're not part of the real homepage copy
-// and should be dropped whichever version you pick for production.
-
+// app/test/new-visuals/page.tsx
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 // =====================================================
-// DATA — Top cited reasons startups fail
-// (CB Insights, "The Top 20 Reasons Startups Fail")
+// DATA — Reuse from homepage (LEFT_PANEL_INSIGHTS)
 // =====================================================
-const FAILURE_REASONS = [
-  { label: 'No Market Need', value: 42 },
-  { label: 'Ran Out of Cash', value: 29 },
-  { label: 'Not the Right Team', value: 23 },
-  { label: 'Got Outcompeted', value: 19 },
-  { label: 'Pricing & Cost Issues', value: 18 },
+const LEFT_PANEL_INSIGHTS = [
+  { label: 'of Startups Fail Because There is No Real Market Need', value: 42 },
+  { label: 'of Startups Run Out of Cash Before Finding Traction', value: 29 },
+  { label: 'of Emerging Businesses Get Outcompeted on Execution Not Idea', value: 23 },
+  { label: 'of   Emerging Businesses Struggle With the Wrong Team Composition', value: 23 },
+  { label: 'of Startups Fail From Pricing That Never Gets Tested', value: 18 },
+  { label: 'of Emerging Businesses Stall Because Positioning Is Unclear', value: 35 },
+  { label: 'of Businesses Lose Momentum Chasing Too Many Priorities', value: 31 },
+  { label: 'of Businesses Never Separate Founder Effort From Systems', value: 27 },
+  { label: 'of Emerging Businesses Overestimate their Actual Runway', value: 24 },
+  { label: 'of Businesses Delay Hard Calls Until It is Too Late', value: 38 },
+  { label: 'of Products Scale Before Product-Market Fit is Proven', value: 22 },
+  { label: 'of Startups Depend Entirely on Founder-Led Sales', value: 33 },
+  { label: 'of Emerging Businesses Ignore Unit Economics Until It Hurts', value: 26 },
+  { label: 'of Businesses Confuse Being Busy With Moving Forward', value: 30 },
+  { label: 'of Products Underestimate Customer Acquisition Cost', value: 28 },
+  { label: 'of Businesses Raise Capital Without a Clear Use For It', value: 20 },
+  { label: 'of Products Are Built For a Customer That Does Not Exist', value: 25 },
+  { label: 'of Larger Businesses Let Culture Drift As Headcount Grows', value: 19 },
+  { label: 'of Businesses Treat Strategy As a One-Time Exercise', value: 34 },
+  { label: 'of Businesses Wait Too Long to Bring in Outside Perspective', value: 40 },
 ];
 
-const TOTAL_VALUE = FAILURE_REASONS.reduce((sum, r) => sum + r.value, 0);
-
-// Precomputed angle ranges for the donut/pie versions
-let cumulativeAngle = 0;
-const REASON_ARCS = FAILURE_REASONS.map((reason) => {
-  const startAngle = (cumulativeAngle / TOTAL_VALUE) * 360;
-  cumulativeAngle += reason.value;
-  const endAngle = (cumulativeAngle / TOTAL_VALUE) * 360;
-  return {
-    ...reason,
-    startAngle,
-    endAngle,
-    midAngle: (startAngle + endAngle) / 2,
-  };
-});
-
 // =====================================================
-// SVG ARC MATH — shared by the donut and pie versions
+// HOOK — Types label, holds, advances (same as homepage)
 // =====================================================
-const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
-  const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-};
-
-const describeSlice = (
-  cx: number,
-  cy: number,
-  innerR: number,
-  outerR: number,
-  startAngle: number,
-  endAngle: number
-) => {
-  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
-  const outerStart = polarToCartesian(cx, cy, outerR, startAngle);
-  const outerEnd = polarToCartesian(cx, cy, outerR, endAngle);
-
-  if (innerR <= 0) {
-    return [
-      `M ${cx} ${cy}`,
-      `L ${outerStart.x} ${outerStart.y}`,
-      `A ${outerR} ${outerR} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
-      'Z',
-    ].join(' ');
-  }
-
-  const innerStart = polarToCartesian(cx, cy, innerR, startAngle);
-  const innerEnd = polarToCartesian(cx, cy, innerR, endAngle);
-
-  return [
-    `M ${outerStart.x} ${outerStart.y}`,
-    `A ${outerR} ${outerR} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
-    `L ${innerEnd.x} ${innerEnd.y}`,
-    `A ${innerR} ${innerR} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y}`,
-    'Z',
-  ].join(' ');
-};
-
-// =====================================================
-// SEQUENTIAL TYPING / CYCLING HOOK
-// Types the active reason's label forward (no delete, no
-// cursor), holds it, then advances — looping forever.
-// =====================================================
-const useSequentialTyping = (
-  labels: string[],
+const useLoopingStageSequence = (
+  stages: { label: string; value: number }[],
   typingSpeed = 55,
-  holdDuration = 1600,
-  gapDuration = 250
+  holdDuration = 650,
+  gapDuration = 200
 ) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
@@ -112,13 +50,13 @@ const useSequentialTyping = (
 
     const typeNextChar = () => {
       charCount += 1;
-      setDisplayText(labels[activeIndex].slice(0, charCount));
+      setDisplayText(stages[activeIndex].label.slice(0, charCount));
 
-      if (charCount < labels[activeIndex].length) {
+      if (charCount < stages[activeIndex].label.length) {
         typingTimer = setTimeout(typeNextChar, typingSpeed);
       } else {
         holdTimer = setTimeout(() => {
-          setActiveIndex((prev) => (prev + 1) % labels.length);
+          setActiveIndex((prev) => (prev + 1) % stages.length);
         }, holdDuration);
       }
     };
@@ -130,16 +68,15 @@ const useSequentialTyping = (
       clearTimeout(holdTimer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, labels, typingSpeed, holdDuration, gapDuration]);
+  }, [activeIndex, stages, typingSpeed, holdDuration, gapDuration]);
 
   return { activeIndex, displayText };
 };
 
 // =====================================================
-// LEFT SIDE — reused by every version. Percent slides in
-// from the left; the label types out beneath it.
+// LEFT CALLOUT — same as homepage
 // =====================================================
-const FailureReasonCallout = ({
+const LifecycleCallout = ({
   activeIndex,
   displayText,
 }: {
@@ -148,13 +85,22 @@ const FailureReasonCallout = ({
 }) => {
   return (
     <div className="space-y-2">
-      <div key={`percent-${activeIndex}`} className="percent-slide-in">
+      <style>{`
+        @keyframes slideInFromLeftNew {
+          from { opacity: 0; transform: translateX(-32px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .percent-slide-in-new {
+          animation: slideInFromLeftNew 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+      `}</style>
+
+      <div key={`percent-${activeIndex}`} className="percent-slide-in-new">
         <span className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-blue-300">
-          {FAILURE_REASONS[activeIndex].value}%
+          {LEFT_PANEL_INSIGHTS[activeIndex].value}%
         </span>
       </div>
 
-      {/* Reserved height so the layout doesn't shift as the label types out */}
       <div className="h-8 sm:h-9">
         <p className="text-xl sm:text-2xl text-white/80">{displayText}</p>
       </div>
@@ -163,9 +109,7 @@ const FailureReasonCallout = ({
 };
 
 // =====================================================
-// HERO SHELL — background, grid pattern, and section
-// spacing shared by every version. `devLabel` is gallery
-// scaffolding only, not production copy.
+// HERO SHELL & GRID — reusable container
 // =====================================================
 const HeroShell = ({
   devLabel,
@@ -202,7 +146,6 @@ const HeroShell = ({
   );
 };
 
-// A single grid layout used inside every HeroShell
 const HeroGrid = ({
   left,
   right,
@@ -213,7 +156,7 @@ const HeroGrid = ({
   <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
     <div className="space-y-8 lg:space-y-10">
       <h2 className="text-xl sm:text-2xl text-white">
-        Potential Creates Possibilities. Strategy Brings Growth. Results Prove It.
+        Running a startup means making irreversible decisions with incomplete information.
       </h2>
       {left}
     </div>
@@ -224,459 +167,1167 @@ const HeroGrid = ({
 );
 
 // =====================================================
-// VERSION 1 — solid vertical bars (the original pass)
+// VISUAL 1 — POLAR AREA CHART (ROSE CHART)
+// Each reason = equal angle wedge, radius scaled to value.
+// Active wedge expands outward and glows.
 // =====================================================
-const SolidBarChart = ({ activeIndex }: { activeIndex: number }) => {
+const PolarAreaChart = ({ activeIndex }: { activeIndex: number }) => {
   const [mounted, setMounted] = useState(false);
-  const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
+  const maxValue = Math.max(...LEFT_PANEL_INSIGHTS.map((r) => r.value));
+  const angleStep = 360 / LEFT_PANEL_INSIGHTS.length;
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 100);
     return () => clearTimeout(t);
   }, []);
 
-  return (
-    <div className="w-full max-w-md">
-      <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-64">
-        {FAILURE_REASONS.map((reason, index) => {
-          const isActive = index === activeIndex;
-          const heightPct = mounted ? (reason.value / maxValue) * 100 : 0;
+  const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  };
 
-          return (
-            <div key={reason.label} className="flex flex-col items-center justify-end h-full flex-1">
-              <div className="w-full flex items-end h-full">
-                <div
-                  className={`w-full rounded-t-sm transition-all ease-out ${
-                    isActive ? 'bg-blue-400' : 'bg-[#28466b]'
-                  }`}
-                  style={{
-                    height: `${heightPct}%`,
-                    transitionDuration: '900ms',
-                    transitionProperty: 'height, background-color',
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-// =====================================================
-// VERSION 2 — outlined bars: white stroke, filled with the
-// same navy as the hero background (no hatching/pattern).
-// The active bar is called out with a brighter blue outline
-// and glow instead of a fill change.
-// =====================================================
-const OutlineBarChart = ({ activeIndex }: { activeIndex: number }) => {
-  const [mounted, setMounted] = useState(false);
-  const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
-
-  useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 100);
-    return () => clearTimeout(t);
-  }, []);
+  const describeWedge = (
+    cx: number,
+    cy: number,
+    startAngle: number,
+    endAngle: number,
+    radius: number
+  ) => {
+    const start = polarToCartesian(cx, cy, radius, startAngle);
+    const end = polarToCartesian(cx, cy, radius, endAngle);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    return `M ${cx} ${cy} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
+  };
 
   return (
-    <div className="w-full max-w-md">
-      <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-64">
-        {FAILURE_REASONS.map((reason, index) => {
-          const isActive = index === activeIndex;
-          const heightPct = mounted ? (reason.value / maxValue) * 100 : 0;
-
-          return (
-            <div key={reason.label} className="flex flex-col items-center justify-end h-full flex-1">
-              <div className="w-full flex items-end h-full">
-                <div
-                  className="w-full rounded-t-sm"
-                  style={{
-                    height: `${heightPct}%`,
-                    backgroundColor: '#0A1E3D',
-                    border: isActive ? '2.5px solid #60a5fa' : '2.5px solid rgba(255,255,255,0.55)',
-                    boxShadow: isActive ? '0 0 16px rgba(96,165,250,0.55)' : 'none',
-                    transition: 'height 900ms ease-out, border-color 700ms ease, box-shadow 700ms ease',
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-// =====================================================
-// VERSION 3 & 4 — exploding donut / pie chart. Every slice
-// is outlined in white with a blue fill; the whole chart
-// turns slowly and continuously, and only the slice for the
-// reason currently shown on the left pulls outward.
-// =====================================================
-const WedgeChart = ({
-  activeIndex,
-  variant,
-}: {
-  activeIndex: number;
-  variant: 'donut' | 'pie';
-}) => {
-  const cx = 100;
-  const cy = 100;
-  const outerR = 82;
-  const innerR = variant === 'donut' ? 46 : 0;
-  const explodeDistance = variant === 'donut' ? 10 : 15;
-  const baseGapDistance = 3; // small space between slices even when not active
-
-  return (
-    <div className="w-48 h-48 sm:w-64 sm:h-64">
-      <style>{`
-        @keyframes wedgeSpin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        .wedge-spin-${variant} {
-          transform-origin: 100px 100px;
-          animation: wedgeSpin 55s linear infinite;
-        }
-      `}</style>
-
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
       <svg viewBox="0 0 200 200" className="w-full h-full">
-        <g className={`wedge-spin-${variant}`}>
-          {REASON_ARCS.map((arc, index) => {
-            const isActive = index === activeIndex;
-            const midRad = ((arc.midAngle - 90) * Math.PI) / 180;
-            const distance = isActive ? explodeDistance : baseGapDistance;
-            const dx = Math.cos(midRad) * distance;
-            const dy = Math.sin(midRad) * distance;
+        {LEFT_PANEL_INSIGHTS.map((reason, index) => {
+          const startAngle = index * angleStep;
+          const endAngle = (index + 1) * angleStep;
+          const baseRadius = (reason.value / maxValue) * 80; // max radius 80
+          const radius = mounted
+            ? index === activeIndex
+              ? baseRadius * 1.1 // active expands 10%
+              : baseRadius
+            : 0;
 
-            return (
-              <path
-                key={arc.label}
-                d={describeSlice(cx, cy, innerR, outerR, arc.startAngle, arc.endAngle)}
-                stroke="#ffffff"
-                strokeWidth={2.5}
-                fill="#0A1E3D" // same as hero background
-                style={{
-                  transform: `translate(${dx}px, ${dy}px)`,
-                  transition: 'transform 700ms ease',
-                  filter: isActive ? 'drop-shadow(0 0 8px rgba(96,165,250,0.75))' : 'none',
-                }}
-              />
-            );
-          })}
-        </g>
+          return (
+            <path
+              key={reason.label}
+              d={describeWedge(100, 100, startAngle, endAngle, radius)}
+              fill={index === activeIndex ? 'rgba(96,165,250,0.9)' : 'rgba(96,165,250,0.3)'}
+              stroke="#ffffff"
+              strokeWidth={1}
+              style={{
+                transition: 'fill 700ms ease, transform 700ms ease',
+                transform: `scale(${mounted ? 1 : 0})`,
+                transformOrigin: '100px 100px',
+                filter: index === activeIndex ? 'drop-shadow(0 0 8px rgba(96,165,250,0.75))' : 'none',
+              }}
+            />
+          );
+        })}
+        {/* Center circle for aesthetics */}
+        <circle cx="100" cy="100" r="5" fill="#ffffff" opacity="0.5" />
       </svg>
     </div>
   );
 };
 
 // =====================================================
-// VERSION 5 — horizontal pill bars. Rows fill outward from
-// the left, active row glows.
+// VISUAL 2 — RADAR CHART (SPIDER CHART)
+// Each reason = a spoke; polygon connects data points.
+// Active spoke point highlighted.
 // =====================================================
-const HorizontalPillChart = ({ activeIndex }: { activeIndex: number }) => {
+const RadarChart = ({ activeIndex }: { activeIndex: number }) => {
   const [mounted, setMounted] = useState(false);
-  const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
+  const maxValue = Math.max(...LEFT_PANEL_INSIGHTS.map((r) => r.value));
+  const angleStep = (2 * Math.PI) / LEFT_PANEL_INSIGHTS.length;
+  const centerX = 100;
+  const centerY = 100;
+  const maxRadius = 70;
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 100);
     return () => clearTimeout(t);
   }, []);
 
-  return (
-    <div className="w-full max-w-md space-y-4">
-      {FAILURE_REASONS.map((reason, index) => {
-        const isActive = index === activeIndex;
-        const widthPct = mounted ? (reason.value / maxValue) * 100 : 0;
+  const getPoint = (index: number, radius: number) => {
+    const angle = -Math.PI / 2 + index * angleStep; // start at 12 o'clock
+    return { x: centerX + radius * Math.cos(angle), y: centerY + radius * Math.sin(angle) };
+  };
 
-        return (
-          <div key={reason.label} className="h-3 sm:h-3.5 rounded-full bg-white/10 overflow-hidden">
+  // Compute polygon points
+  const points = LEFT_PANEL_INSIGHTS.map((reason, idx) => {
+    const radius = (reason.value / maxValue) * maxRadius;
+    return getPoint(idx, radius);
+  });
+
+  const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(' ');
+
+  // Grid rings (optional)
+  const rings = [25, 50, 75].map((percent) => {
+    const r = (percent / 100) * maxRadius;
+    return <circle key={percent} cx={centerX} cy={centerY} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />;
+  });
+
+  // Spokes
+  const spokes = LEFT_PANEL_INSIGHTS.map((_, idx) => {
+    const end = getPoint(idx, maxRadius);
+    return (
+      <line
+        key={idx}
+        x1={centerX}
+        y1={centerY}
+        x2={end.x}
+        y2={end.y}
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth="0.5"
+      />
+    );
+  });
+
+  return (
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
+      <svg viewBox="0 0 200 200" className="w-full h-full">
+        {rings}
+        {spokes}
+        <polygon
+          points={polygonPoints}
+          fill="rgba(96,165,250,0.2)"
+          stroke="#60a5fa"
+          strokeWidth={1.5}
+          style={{
+            transition: 'all 700ms ease',
+            opacity: mounted ? 1 : 0,
+            transform: `scale(${mounted ? 1 : 0})`,
+            transformOrigin: `${centerX}px ${centerY}px`,
+          }}
+        />
+        {points.map((p, idx) => (
+          <circle
+            key={idx}
+            cx={p.x}
+            cy={p.y}
+            r={idx === activeIndex ? 5 : 3}
+            fill={idx === activeIndex ? '#60a5fa' : '#ffffff'}
+            style={{
+              transition: 'r 700ms ease, fill 700ms ease',
+              filter: idx === activeIndex ? 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' : 'none',
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+// =====================================================
+// VISUAL 3 — STACKED HORIZONTAL BAR
+// Single bar divided into segments proportional to value.
+// Active segment brightens and slightly separates.
+// =====================================================
+const StackedHorizontalBar = ({ activeIndex }: { activeIndex: number }) => {
+  const [mounted, setMounted] = useState(false);
+  const total = LEFT_PANEL_INSIGHTS.reduce((sum, r) => sum + r.value, 0);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  let cumulativeWidth = 0;
+
+  return (
+    <div className="w-full max-w-md">
+      <div className="relative h-8 sm:h-10 rounded-full overflow-hidden bg-white/10 flex">
+        {LEFT_PANEL_INSIGHTS.map((reason, index) => {
+          const widthPct = (reason.value / total) * 100;
+          const leftPct = cumulativeWidth;
+          cumulativeWidth += widthPct;
+
+          const isActive = index === activeIndex;
+          const activeOffset = isActive ? 4 : 0; // slight vertical separation
+
+          return (
             <div
-              className={`h-full rounded-full ${
+              key={reason.label}
+              className={`absolute top-0 h-full rounded-full ${
                 isActive ? 'bg-blue-400 shadow-[0_0_14px_rgba(96,165,250,0.6)]' : 'bg-white/35'
               }`}
               style={{
+                left: `${leftPct}%`,
                 width: `${widthPct}%`,
-                transition: 'width 900ms ease-out, background-color 700ms ease, box-shadow 700ms ease',
+                transform: `translateY(${activeOffset}px)`,
+                transition: 'background-color 700ms ease, transform 700ms ease, box-shadow 700ms ease',
+                opacity: mounted ? 1 : 0,
               }}
             />
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+      <p className="text-white/50 text-sm mt-3 text-center">
+        Each segment represents its share of total failure reasons
+      </p>
     </div>
   );
 };
 
 // =====================================================
-// VERSION 6 — radial progress ring. The ring redraws to the
-// active reason's value each cycle (scaled against a fixed
-// ceiling so the fullest reason never quite closes the ring).
+// VISUAL 4 — SEGMENTED PROGRESS RING
+// Circular ring divided into segments with gaps.
+// Active segment expands (thicker) and glows.
 // =====================================================
-const RadialProgressRing = ({ activeIndex }: { activeIndex: number }) => {
-  const scaleCeiling = 50;
+const SegmentedProgressRing = ({ activeIndex }: { activeIndex: number }) => {
+  const [mounted, setMounted] = useState(false);
+  const cx = 100;
+  const cy = 100;
   const r = 80;
-  const circumference = 2 * Math.PI * r;
-  const value = FAILURE_REASONS[activeIndex].value;
-  const offset = useMemo(
-    () => circumference - (value / scaleCeiling) * circumference,
-    [circumference, value]
-  );
+  const gapAngle = 4; // degrees gap between segments
+  const totalValue = LEFT_PANEL_INSIGHTS.reduce((sum, r) => sum + r.value, 0);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  };
+
+  const describeArc = (startAngle: number, endAngle: number, radius: number) => {
+    const start = polarToCartesian(cx, cy, radius, startAngle);
+    const end = polarToCartesian(cx, cy, radius, endAngle);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+  };
+
+  let cumulativeAngle = 0;
+  const segments = LEFT_PANEL_INSIGHTS.map((reason) => {
+    const startAngle = (cumulativeAngle / totalValue) * 360;
+    cumulativeAngle += reason.value;
+    const endAngle = (cumulativeAngle / totalValue) * 360;
+    return { startAngle: startAngle + gapAngle / 2, endAngle: endAngle - gapAngle / 2 };
+  });
 
   return (
-    <div className="w-48 h-48 sm:w-64 sm:h-64">
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
       <svg viewBox="0 0 200 200" className="w-full h-full">
-        <circle cx="100" cy="100" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={2.5} />
-        <circle
-          cx="100"
-          cy="100"
-          r={r}
-          fill="none"
-          stroke="#60a5fa"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          transform="rotate(-90 100 100)"
-          style={{
-            transition: 'stroke-dashoffset 900ms ease-out',
-            filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.55))',
-          }}
-        />
+        {segments.map((seg, index) => {
+          const isActive = index === activeIndex;
+          const strokeWidth = isActive ? 14 : 10;
+          return (
+            <path
+              key={index}
+              d={describeArc(seg.startAngle, seg.endAngle, r)}
+              fill="none"
+              stroke={isActive ? '#60a5fa' : 'rgba(96,165,250,0.35)'}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              style={{
+                transition: 'stroke 700ms ease, stroke-width 700ms ease',
+                filter: isActive ? 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' : 'none',
+                opacity: mounted ? 1 : 0,
+              }}
+            />
+          );
+        })}
       </svg>
     </div>
   );
 };
 
 // =====================================================
-// VERSION 7 — Product lifecycle line chart. A dot travels
-// the full curve while the white line draws in behind it,
-// tracing Introduction → Growth → Maturity → Decline.
+// VISUAL 5 — BUBBLE CLUSTER
+// Each reason = circle along a line; size proportional to value.
+// Active bubble enlarges and glows.
 // =====================================================
-const ProductLifecycleChart = () => {
+const BubbleCluster = ({ activeIndex }: { activeIndex: number }) => {
+  const [mounted, setMounted] = useState(false);
+  const maxValue = Math.max(...LEFT_PANEL_INSIGHTS.map((r) => r.value));
+  const spacing = 200 / (LEFT_PANEL_INSIGHTS.length + 1); // leave margins
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className="w-full max-w-md">
-      <style>{`
-        @keyframes drawLinePLC {
-          to { stroke-dashoffset: 0; }
-        }
-        .draw-line-plc {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 1;
-          animation: drawLinePLC 3.2s linear infinite;
-        }
-      `}</style>
+      <svg viewBox="0 0 400 120" className="w-full h-auto">
+        {LEFT_PANEL_INSIGHTS.map((reason, index) => {
+          const x = spacing * (index + 1);
+          const baseRadius = (reason.value / maxValue) * 35; // max radius 35
+          const radius = mounted
+            ? index === activeIndex
+              ? baseRadius * 1.2
+              : baseRadius
+            : 0;
+          const y = 60 + (index % 2 === 0 ? -5 : 5); // slight vertical offset for visual interest
 
-      <svg viewBox="0 0 400 210" className="w-full h-auto">
-        <path
-          id="plc-path"
-          d="M 20 190 C 70 185, 90 170, 110 150 C 140 110, 160 70, 200 55 C 230 45, 270 42, 300 55 C 330 68, 350 100, 380 150"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          pathLength={1}
-          className="draw-line-plc"
-        />
-        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
-          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#plc-path" />
-          </animateMotion>
-        </circle>
+          return (
+            <circle
+              key={reason.label}
+              cx={x}
+              cy={y}
+              r={radius}
+              fill={index === activeIndex ? 'rgba(96,165,250,0.9)' : 'rgba(96,165,250,0.35)'}
+              stroke="#ffffff"
+              strokeWidth={1}
+              style={{
+                transition: 'r 700ms ease, fill 700ms ease',
+                filter: index === activeIndex ? 'drop-shadow(0 0 10px rgba(96,165,250,0.9))' : 'none',
+                transformOrigin: `${x}px ${y}px`,
+              }}
+            />
+          );
+        })}
       </svg>
-
-      <div className="flex justify-between text-[11px] sm:text-xs text-white/50 mt-2 px-1">
-        <span>Introduction</span>
-        <span>Growth</span>
-        <span>Maturity</span>
-        <span>Decline</span>
-      </div>
+      <p className="text-white/50 text-sm mt-3 text-center">
+        Bubble size represents relative frequency
+      </p>
     </div>
   );
 };
 
 // =====================================================
-// VERSION 8 — Density of startup-failure reasons. Same
-// draw-on technique, plotted from the FAILURE_REASONS
-// values (steepest at "No Market Need", tapering off).
+// VISUAL 6 — STAIRCASE DIAGRAM (Corrected Order)
+// Progress at top, Diagnose at bottom, right‑aligned.
 // =====================================================
-const FailureDensityChart = () => {
+const StaircaseDiagram = () => {
+  const steps = [
+    'Progress',
+    'Drive Results',
+    'Focus the Effort',
+    'Find the Constraint',
+    'Map the Drivers',
+    'Diagnose the Business',
+  ];
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className="w-full max-w-md">
-      <style>{`
-        @keyframes drawLineDensity {
-          to { stroke-dashoffset: 0; }
-        }
-        .draw-line-density {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 1;
-          animation: drawLineDensity 3.2s linear infinite;
-        }
-      `}</style>
-
-      <svg viewBox="0 0 420 160" className="w-full h-auto">
-        <path
-          id="density-path"
-          d="M 30 40 C 45 46.7, 90 70.4, 120 80.2 C 150 90, 180 93.7, 210 98.8 C 240 104, 270 108.6, 300 111.2 C 330 113.8, 375 113.8, 390 114.3"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          pathLength={1}
-          className="draw-line-density"
-        />
-        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
-          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#density-path" />
-          </animateMotion>
-        </circle>
-      </svg>
-
-      <div className="flex justify-between text-[10px] sm:text-[11px] text-white/50 mt-2 px-1 text-center leading-tight">
-        <span className="w-1/5">No Market Need</span>
-        <span className="w-1/5">Ran Out of Cash</span>
-        <span className="w-1/5">Not the Right Team</span>
-        <span className="w-1/5">Got Outcompeted</span>
-        <span className="w-1/5">Pricing & Cost</span>
+      <div className="flex flex-col items-end space-y-3">
+        {steps.map((label, index) => {
+          const widthPct = 100 - (steps.length - 1 - index) * 10;
+          return (
+            <div
+              key={label}
+              className="flex items-center justify-center rounded-md border-2 border-white bg-[#0A1E3D] text-white font-medium px-4 py-2"
+              style={{
+                width: `${widthPct}%`,
+                opacity: mounted ? 1 : 0,
+                transform: mounted ? 'translateX(0)' : 'translateX(-20px)',
+                transition: 'opacity 500ms ease, transform 500ms ease',
+              }}
+            >
+              <span className="text-sm sm:text-base">{label}</span>
+            </div>
+          );
+        })}
       </div>
+      <p className="text-white/50 text-sm mt-4 text-center">
+        From diagnosis to measurable progress
+      </p>
     </div>
   );
 };
 
 // =====================================================
-// SIX HERO VERSIONS — each owns its own timer so they
-// cycle independently.
+// HERO VERSION 7 — Staircase Diagram
 // =====================================================
-const labels = FAILURE_REASONS.map((r) => r.label);
-
-const HeroVersion1 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
+const HeroVersionStaircase = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
   return (
-    <HeroShell devLabel="Version 1 — Vertical bar chart">
+    <HeroShell devLabel="Version F — Staircase Diagram">
       <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<SolidBarChart activeIndex={activeIndex} />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion2 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
-  return (
-    <HeroShell devLabel="Version 2 — Outlined bar chart">
-      <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<OutlineBarChart activeIndex={activeIndex} />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion3 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
-  return (
-    <HeroShell devLabel="Version 3 — Exploding donut chart">
-      <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<WedgeChart activeIndex={activeIndex} variant="donut" />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion4 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
-  return (
-    <HeroShell devLabel="Version 4 — Exploding pie chart">
-      <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<WedgeChart activeIndex={activeIndex} variant="pie" />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion5 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
-  return (
-    <HeroShell devLabel="Version 5 — Horizontal pill bars">
-      <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<HorizontalPillChart activeIndex={activeIndex} />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion6 = () => {
-  const { activeIndex, displayText } = useSequentialTyping(labels);
-  return (
-    <HeroShell devLabel="Version 6 — Radial progress ring">
-      <HeroGrid
-        left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
-        right={<RadialProgressRing activeIndex={activeIndex} />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion7 = () => {
-  return (
-    <HeroShell devLabel="Version 7 — Product lifecycle line chart">
-      <HeroGrid
-        left={
-          <div className="space-y-3">
-            <p className="text-2xl sm:text-3xl text-blue-300">Every product moves through the same four stages.</p>
-            <p className="text-white/60 text-base">Knowing which one you're in changes what "good" looks like.</p>
-          </div>
-        }
-        right={<ProductLifecycleChart />}
-      />
-    </HeroShell>
-  );
-};
-
-const HeroVersion8 = () => {
-  return (
-    <HeroShell devLabel="Version 8 — Failure-reason density chart">
-      <HeroGrid
-        left={
-          <div className="space-y-3">
-            <p className="text-2xl sm:text-3xl text-blue-300">Most failures cluster around one root cause.</p>
-            <p className="text-white/60 text-base">The rest are downstream of it.</p>
-          </div>
-        }
-        right={<FailureDensityChart />}
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<StaircaseDiagram />}
       />
     </HeroShell>
   );
 };
 
 // =====================================================
-// TEST PAGE — every version, stacked for comparison
+// FIVE HERO VERSIONS — each with its own timer
 // =====================================================
-export default function TestPage() {
+const labels = LEFT_PANEL_INSIGHTS.map((r) => r.label);
+
+const HeroVersionPolar = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
+  return (
+    <HeroShell devLabel="Version A — Polar Area Chart">
+      <HeroGrid
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<PolarAreaChart activeIndex={activeIndex} />}
+      />
+    </HeroShell>
+  );
+};
+
+const HeroVersionRadar = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
+  return (
+    <HeroShell devLabel="Version B — Radar Chart">
+      <HeroGrid
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<RadarChart activeIndex={activeIndex} />}
+      />
+    </HeroShell>
+  );
+};
+
+const HeroVersionStacked = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
+  return (
+    <HeroShell devLabel="Version C — Stacked Horizontal Bar">
+      <HeroGrid
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<StackedHorizontalBar activeIndex={activeIndex} />}
+      />
+    </HeroShell>
+  );
+};
+
+const HeroVersionSegmented = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
+  return (
+    <HeroShell devLabel="Version D — Segmented Progress Ring">
+      <HeroGrid
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<SegmentedProgressRing activeIndex={activeIndex} />}
+      />
+    </HeroShell>
+  );
+};
+
+const HeroVersionBubble = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
+  return (
+    <HeroShell devLabel="Version E — Bubble Cluster">
+      <HeroGrid
+        left={<LifecycleCallout activeIndex={activeIndex} displayText={displayText} />}
+        right={<BubbleCluster activeIndex={activeIndex} />}
+      />
+    </HeroShell>
+  );
+};
+
+// =====================================================
+// TEST PAGE — stack all versions
+// =====================================================
+export default function NewVisualsTestPage() {
   return (
     <main className="min-h-screen bg-white">
       <style>{`
-        @keyframes slideInFromLeft {
+        @keyframes slideInFromLeftNew {
           from { opacity: 0; transform: translateX(-32px); }
           to   { opacity: 1; transform: translateX(0); }
         }
-        .percent-slide-in {
-          animation: slideInFromLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+        .percent-slide-in-new {
+          animation: slideInFromLeftNew 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
       `}</style>
 
-      <HeroVersion1 />
-      <HeroVersion2 />
-      <HeroVersion3 />
-      <HeroVersion4 />
-      <HeroVersion5 />
-      <HeroVersion6 />
-      <HeroVersion7 />
-      <HeroVersion8 />
+      <HeroVersionPolar />
+      <HeroVersionRadar />
+      <HeroVersionStacked />
+      <HeroVersionSegmented />
+      <HeroVersionBubble />
+        <HeroVersionStaircase />
     </main>
   );
 }
+
+
+
+// // app/test/page.tsx
+// //
+// // A running gallery of hero visualisation options — six versions of the
+// // same "why startups fail" hero, stacked on this one test page so they're
+// // easy to scroll through and compare. Every version shares:
+// //   - the same hero shell (bg-[#0A1E3D], the diagonal grid pattern, padding)
+// //   - the same left-side callout: a percentage that slides in from the left,
+// //     with the reason label typed out beneath it (no cursor)
+// //   - the same FAILURE_REASONS data
+// //
+// // Only the right-side visual changes between versions. Each version runs
+// // its own independent timer, so they cycle at their own pace rather than
+// // all switching in lockstep.
+// //
+// // Small numbered labels at the top-left of each section are dev scaffolding
+// // for this gallery page only — they're not part of the real homepage copy
+// // and should be dropped whichever version you pick for production.
+
+// 'use client';
+
+// import React, { useEffect, useMemo, useState } from 'react';
+
+// // =====================================================
+// // DATA — Top cited reasons startups fail
+// // (CB Insights, "The Top 20 Reasons Startups Fail")
+// // =====================================================
+// const FAILURE_REASONS = [
+//   { label: 'No Market Need', value: 42 },
+//   { label: 'Ran Out of Cash', value: 29 },
+//   { label: 'Not the Right Team', value: 23 },
+//   { label: 'Got Outcompeted', value: 19 },
+//   { label: 'Pricing & Cost Issues', value: 18 },
+// ];
+
+// const TOTAL_VALUE = FAILURE_REASONS.reduce((sum, r) => sum + r.value, 0);
+
+// // Precomputed angle ranges for the donut/pie versions
+// let cumulativeAngle = 0;
+// const REASON_ARCS = FAILURE_REASONS.map((reason) => {
+//   const startAngle = (cumulativeAngle / TOTAL_VALUE) * 360;
+//   cumulativeAngle += reason.value;
+//   const endAngle = (cumulativeAngle / TOTAL_VALUE) * 360;
+//   return {
+//     ...reason,
+//     startAngle,
+//     endAngle,
+//     midAngle: (startAngle + endAngle) / 2,
+//   };
+// });
+
+// // =====================================================
+// // SVG ARC MATH — shared by the donut and pie versions
+// // =====================================================
+// const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
+//   const rad = ((angleDeg - 90) * Math.PI) / 180;
+//   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+// };
+
+// const describeSlice = (
+//   cx: number,
+//   cy: number,
+//   innerR: number,
+//   outerR: number,
+//   startAngle: number,
+//   endAngle: number
+// ) => {
+//   const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+//   const outerStart = polarToCartesian(cx, cy, outerR, startAngle);
+//   const outerEnd = polarToCartesian(cx, cy, outerR, endAngle);
+
+//   if (innerR <= 0) {
+//     return [
+//       `M ${cx} ${cy}`,
+//       `L ${outerStart.x} ${outerStart.y}`,
+//       `A ${outerR} ${outerR} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
+//       'Z',
+//     ].join(' ');
+//   }
+
+//   const innerStart = polarToCartesian(cx, cy, innerR, startAngle);
+//   const innerEnd = polarToCartesian(cx, cy, innerR, endAngle);
+
+//   return [
+//     `M ${outerStart.x} ${outerStart.y}`,
+//     `A ${outerR} ${outerR} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
+//     `L ${innerEnd.x} ${innerEnd.y}`,
+//     `A ${innerR} ${innerR} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y}`,
+//     'Z',
+//   ].join(' ');
+// };
+
+// // =====================================================
+// // SEQUENTIAL TYPING / CYCLING HOOK
+// // Types the active reason's label forward (no delete, no
+// // cursor), holds it, then advances — looping forever.
+// // =====================================================
+// const useSequentialTyping = (
+//   labels: string[],
+//   typingSpeed = 55,
+//   holdDuration = 1600,
+//   gapDuration = 250
+// ) => {
+//   const [activeIndex, setActiveIndex] = useState(0);
+//   const [displayText, setDisplayText] = useState('');
+
+//   useEffect(() => {
+//     let charCount = 0;
+//     let typingTimer: ReturnType<typeof setTimeout>;
+//     let holdTimer: ReturnType<typeof setTimeout>;
+
+//     setDisplayText('');
+
+//     const typeNextChar = () => {
+//       charCount += 1;
+//       setDisplayText(labels[activeIndex].slice(0, charCount));
+
+//       if (charCount < labels[activeIndex].length) {
+//         typingTimer = setTimeout(typeNextChar, typingSpeed);
+//       } else {
+//         holdTimer = setTimeout(() => {
+//           setActiveIndex((prev) => (prev + 1) % labels.length);
+//         }, holdDuration);
+//       }
+//     };
+
+//     typingTimer = setTimeout(typeNextChar, gapDuration);
+
+//     return () => {
+//       clearTimeout(typingTimer);
+//       clearTimeout(holdTimer);
+//     };
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [activeIndex, labels, typingSpeed, holdDuration, gapDuration]);
+
+//   return { activeIndex, displayText };
+// };
+
+// // =====================================================
+// // LEFT SIDE — reused by every version. Percent slides in
+// // from the left; the label types out beneath it.
+// // =====================================================
+// const FailureReasonCallout = ({
+//   activeIndex,
+//   displayText,
+// }: {
+//   activeIndex: number;
+//   displayText: string;
+// }) => {
+//   return (
+//     <div className="space-y-2">
+//       <div key={`percent-${activeIndex}`} className="percent-slide-in">
+//         <span className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-blue-300">
+//           {FAILURE_REASONS[activeIndex].value}%
+//         </span>
+//       </div>
+
+//       {/* Reserved height so the layout doesn't shift as the label types out */}
+//       <div className="h-8 sm:h-9">
+//         <p className="text-xl sm:text-2xl text-white/80">{displayText}</p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // HERO SHELL — background, grid pattern, and section
+// // spacing shared by every version. `devLabel` is gallery
+// // scaffolding only, not production copy.
+// // =====================================================
+// const HeroShell = ({
+//   devLabel,
+//   children,
+// }: {
+//   devLabel: string;
+//   children: React.ReactNode;
+// }) => {
+//   return (
+//     <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-white/10 first:border-t-0">
+//       <div className="absolute inset-0 opacity-20">
+//         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+//           <defs>
+//             <pattern
+//               id={`grid-${devLabel.replace(/\s+/g, '-')}`}
+//               patternUnits="userSpaceOnUse"
+//               width="5"
+//               height="5"
+//               patternTransform="rotate(45)"
+//             >
+//               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+//             </pattern>
+//           </defs>
+//           <rect width="100%" height="100%" fill={`url(#grid-${devLabel.replace(/\s+/g, '-')})`} />
+//         </svg>
+//       </div>
+
+//       <span className="absolute top-5 left-4 sm:left-6 lg:left-8 text-[11px] tracking-wide text-white/30 uppercase">
+//         {devLabel}
+//       </span>
+
+//       <div className="relative max-w-7xl mx-auto">{children}</div>
+//     </section>
+//   );
+// };
+
+// // A single grid layout used inside every HeroShell
+// const HeroGrid = ({
+//   left,
+//   right,
+// }: {
+//   left: React.ReactNode;
+//   right: React.ReactNode;
+// }) => (
+//   <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+//     <div className="space-y-8 lg:space-y-10">
+//       <h2 className="text-xl sm:text-2xl text-white">
+//         Potential Creates Possibilities. Strategy Brings Growth. Results Prove It.
+//       </h2>
+//       {left}
+//     </div>
+//     <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
+//       {right}
+//     </div>
+//   </div>
+// );
+
+// // =====================================================
+// // VERSION 1 — solid vertical bars (the original pass)
+// // =====================================================
+// const SolidBarChart = ({ activeIndex }: { activeIndex: number }) => {
+//   const [mounted, setMounted] = useState(false);
+//   const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
+
+//   useEffect(() => {
+//     const t = setTimeout(() => setMounted(true), 100);
+//     return () => clearTimeout(t);
+//   }, []);
+
+//   return (
+//     <div className="w-full max-w-md">
+//       <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-64">
+//         {FAILURE_REASONS.map((reason, index) => {
+//           const isActive = index === activeIndex;
+//           const heightPct = mounted ? (reason.value / maxValue) * 100 : 0;
+
+//           return (
+//             <div key={reason.label} className="flex flex-col items-center justify-end h-full flex-1">
+//               <div className="w-full flex items-end h-full">
+//                 <div
+//                   className={`w-full rounded-t-sm transition-all ease-out ${
+//                     isActive ? 'bg-blue-400' : 'bg-[#28466b]'
+//                   }`}
+//                   style={{
+//                     height: `${heightPct}%`,
+//                     transitionDuration: '900ms',
+//                     transitionProperty: 'height, background-color',
+//                   }}
+//                 />
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 2 — outlined bars: white stroke, filled with the
+// // same navy as the hero background (no hatching/pattern).
+// // The active bar is called out with a brighter blue outline
+// // and glow instead of a fill change.
+// // =====================================================
+// const OutlineBarChart = ({ activeIndex }: { activeIndex: number }) => {
+//   const [mounted, setMounted] = useState(false);
+//   const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
+
+//   useEffect(() => {
+//     const t = setTimeout(() => setMounted(true), 100);
+//     return () => clearTimeout(t);
+//   }, []);
+
+//   return (
+//     <div className="w-full max-w-md">
+//       <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-64">
+//         {FAILURE_REASONS.map((reason, index) => {
+//           const isActive = index === activeIndex;
+//           const heightPct = mounted ? (reason.value / maxValue) * 100 : 0;
+
+//           return (
+//             <div key={reason.label} className="flex flex-col items-center justify-end h-full flex-1">
+//               <div className="w-full flex items-end h-full">
+//                 <div
+//                   className="w-full rounded-t-sm"
+//                   style={{
+//                     height: `${heightPct}%`,
+//                     backgroundColor: '#0A1E3D',
+//                     border: isActive ? '2.5px solid #60a5fa' : '2.5px solid rgba(255,255,255,0.55)',
+//                     boxShadow: isActive ? '0 0 16px rgba(96,165,250,0.55)' : 'none',
+//                     transition: 'height 900ms ease-out, border-color 700ms ease, box-shadow 700ms ease',
+//                   }}
+//                 />
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 3 & 4 — exploding donut / pie chart. Every slice
+// // is outlined in white with a blue fill; the whole chart
+// // turns slowly and continuously, and only the slice for the
+// // reason currently shown on the left pulls outward.
+// // =====================================================
+// const WedgeChart = ({
+//   activeIndex,
+//   variant,
+// }: {
+//   activeIndex: number;
+//   variant: 'donut' | 'pie';
+// }) => {
+//   const cx = 100;
+//   const cy = 100;
+//   const outerR = 82;
+//   const innerR = variant === 'donut' ? 46 : 0;
+//   const explodeDistance = variant === 'donut' ? 10 : 15;
+//   const baseGapDistance = 3; // small space between slices even when not active
+
+//   return (
+//     <div className="w-48 h-48 sm:w-64 sm:h-64">
+//       <style>{`
+//         @keyframes wedgeSpin {
+//           from { transform: rotate(0deg); }
+//           to   { transform: rotate(360deg); }
+//         }
+//         .wedge-spin-${variant} {
+//           transform-origin: 100px 100px;
+//           animation: wedgeSpin 55s linear infinite;
+//         }
+//       `}</style>
+
+//       <svg viewBox="0 0 200 200" className="w-full h-full">
+//         <g className={`wedge-spin-${variant}`}>
+//           {REASON_ARCS.map((arc, index) => {
+//             const isActive = index === activeIndex;
+//             const midRad = ((arc.midAngle - 90) * Math.PI) / 180;
+//             const distance = isActive ? explodeDistance : baseGapDistance;
+//             const dx = Math.cos(midRad) * distance;
+//             const dy = Math.sin(midRad) * distance;
+
+//             return (
+//               <path
+//                 key={arc.label}
+//                 d={describeSlice(cx, cy, innerR, outerR, arc.startAngle, arc.endAngle)}
+//                 stroke="#ffffff"
+//                 strokeWidth={2.5}
+//                 fill="#0A1E3D" // same as hero background
+//                 style={{
+//                   transform: `translate(${dx}px, ${dy}px)`,
+//                   transition: 'transform 700ms ease',
+//                   filter: isActive ? 'drop-shadow(0 0 8px rgba(96,165,250,0.75))' : 'none',
+//                 }}
+//               />
+//             );
+//           })}
+//         </g>
+//       </svg>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 5 — horizontal pill bars. Rows fill outward from
+// // the left, active row glows.
+// // =====================================================
+// const HorizontalPillChart = ({ activeIndex }: { activeIndex: number }) => {
+//   const [mounted, setMounted] = useState(false);
+//   const maxValue = Math.max(...FAILURE_REASONS.map((r) => r.value));
+
+//   useEffect(() => {
+//     const t = setTimeout(() => setMounted(true), 100);
+//     return () => clearTimeout(t);
+//   }, []);
+
+//   return (
+//     <div className="w-full max-w-md space-y-4">
+//       {FAILURE_REASONS.map((reason, index) => {
+//         const isActive = index === activeIndex;
+//         const widthPct = mounted ? (reason.value / maxValue) * 100 : 0;
+
+//         return (
+//           <div key={reason.label} className="h-3 sm:h-3.5 rounded-full bg-white/10 overflow-hidden">
+//             <div
+//               className={`h-full rounded-full ${
+//                 isActive ? 'bg-blue-400 shadow-[0_0_14px_rgba(96,165,250,0.6)]' : 'bg-white/35'
+//               }`}
+//               style={{
+//                 width: `${widthPct}%`,
+//                 transition: 'width 900ms ease-out, background-color 700ms ease, box-shadow 700ms ease',
+//               }}
+//             />
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 6 — radial progress ring. The ring redraws to the
+// // active reason's value each cycle (scaled against a fixed
+// // ceiling so the fullest reason never quite closes the ring).
+// // =====================================================
+// const RadialProgressRing = ({ activeIndex }: { activeIndex: number }) => {
+//   const scaleCeiling = 50;
+//   const r = 80;
+//   const circumference = 2 * Math.PI * r;
+//   const value = FAILURE_REASONS[activeIndex].value;
+//   const offset = useMemo(
+//     () => circumference - (value / scaleCeiling) * circumference,
+//     [circumference, value]
+//   );
+
+//   return (
+//     <div className="w-48 h-48 sm:w-64 sm:h-64">
+//       <svg viewBox="0 0 200 200" className="w-full h-full">
+//         <circle cx="100" cy="100" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={2.5} />
+//         <circle
+//           cx="100"
+//           cy="100"
+//           r={r}
+//           fill="none"
+//           stroke="#60a5fa"
+//           strokeWidth={2.5}
+//           strokeLinecap="round"
+//           strokeDasharray={circumference}
+//           strokeDashoffset={offset}
+//           transform="rotate(-90 100 100)"
+//           style={{
+//             transition: 'stroke-dashoffset 900ms ease-out',
+//             filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.55))',
+//           }}
+//         />
+//       </svg>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 7 — Product lifecycle line chart. A dot travels
+// // the full curve while the white line draws in behind it,
+// // tracing Introduction → Growth → Maturity → Decline.
+// // =====================================================
+// const ProductLifecycleChart = () => {
+//   return (
+//     <div className="w-full max-w-md">
+//       <style>{`
+//         @keyframes drawLinePLC {
+//           to { stroke-dashoffset: 0; }
+//         }
+//         .draw-line-plc {
+//           stroke-dasharray: 1;
+//           stroke-dashoffset: 1;
+//           animation: drawLinePLC 3.2s linear infinite;
+//         }
+//       `}</style>
+
+//       <svg viewBox="0 0 400 210" className="w-full h-auto">
+//         <path
+//           id="plc-path"
+//           d="M 20 190 C 70 185, 90 170, 110 150 C 140 110, 160 70, 200 55 C 230 45, 270 42, 300 55 C 330 68, 350 100, 380 150"
+//           fill="none"
+//           stroke="#ffffff"
+//           strokeWidth={2.5}
+//           strokeLinecap="round"
+//           pathLength={1}
+//           className="draw-line-plc"
+//         />
+//         <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+//           <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
+//             <mpath href="#plc-path" />
+//           </animateMotion>
+//         </circle>
+//       </svg>
+
+//       <div className="flex justify-between text-[11px] sm:text-xs text-white/50 mt-2 px-1">
+//         <span>Introduction</span>
+//         <span>Growth</span>
+//         <span>Maturity</span>
+//         <span>Decline</span>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // VERSION 8 — Density of startup-failure reasons. Same
+// // draw-on technique, plotted from the FAILURE_REASONS
+// // values (steepest at "No Market Need", tapering off).
+// // =====================================================
+// const FailureDensityChart = () => {
+//   return (
+//     <div className="w-full max-w-md">
+//       <style>{`
+//         @keyframes drawLineDensity {
+//           to { stroke-dashoffset: 0; }
+//         }
+//         .draw-line-density {
+//           stroke-dasharray: 1;
+//           stroke-dashoffset: 1;
+//           animation: drawLineDensity 3.2s linear infinite;
+//         }
+//       `}</style>
+
+//       <svg viewBox="0 0 420 160" className="w-full h-auto">
+//         <path
+//           id="density-path"
+//           d="M 30 40 C 45 46.7, 90 70.4, 120 80.2 C 150 90, 180 93.7, 210 98.8 C 240 104, 270 108.6, 300 111.2 C 330 113.8, 375 113.8, 390 114.3"
+//           fill="none"
+//           stroke="#ffffff"
+//           strokeWidth={2.5}
+//           strokeLinecap="round"
+//           pathLength={1}
+//           className="draw-line-density"
+//         />
+//         <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+//           <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
+//             <mpath href="#density-path" />
+//           </animateMotion>
+//         </circle>
+//       </svg>
+
+//       <div className="flex justify-between text-[10px] sm:text-[11px] text-white/50 mt-2 px-1 text-center leading-tight">
+//         <span className="w-1/5">No Market Need</span>
+//         <span className="w-1/5">Ran Out of Cash</span>
+//         <span className="w-1/5">Not the Right Team</span>
+//         <span className="w-1/5">Got Outcompeted</span>
+//         <span className="w-1/5">Pricing & Cost</span>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // =====================================================
+// // SIX HERO VERSIONS — each owns its own timer so they
+// // cycle independently.
+// // =====================================================
+// const labels = FAILURE_REASONS.map((r) => r.label);
+
+// const HeroVersion1 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 1 — Vertical bar chart">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<SolidBarChart activeIndex={activeIndex} />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion2 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 2 — Outlined bar chart">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<OutlineBarChart activeIndex={activeIndex} />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion3 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 3 — Exploding donut chart">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<WedgeChart activeIndex={activeIndex} variant="donut" />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion4 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 4 — Exploding pie chart">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<WedgeChart activeIndex={activeIndex} variant="pie" />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion5 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 5 — Horizontal pill bars">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<HorizontalPillChart activeIndex={activeIndex} />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion6 = () => {
+//   const { activeIndex, displayText } = useSequentialTyping(labels);
+//   return (
+//     <HeroShell devLabel="Version 6 — Radial progress ring">
+//       <HeroGrid
+//         left={<FailureReasonCallout activeIndex={activeIndex} displayText={displayText} />}
+//         right={<RadialProgressRing activeIndex={activeIndex} />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion7 = () => {
+//   return (
+//     <HeroShell devLabel="Version 7 — Product lifecycle line chart">
+//       <HeroGrid
+//         left={
+//           <div className="space-y-3">
+//             <p className="text-2xl sm:text-3xl text-blue-300">Every product moves through the same four stages.</p>
+//             <p className="text-white/60 text-base">Knowing which one you're in changes what "good" looks like.</p>
+//           </div>
+//         }
+//         right={<ProductLifecycleChart />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// const HeroVersion8 = () => {
+//   return (
+//     <HeroShell devLabel="Version 8 — Failure-reason density chart">
+//       <HeroGrid
+//         left={
+//           <div className="space-y-3">
+//             <p className="text-2xl sm:text-3xl text-blue-300">Most failures cluster around one root cause.</p>
+//             <p className="text-white/60 text-base">The rest are downstream of it.</p>
+//           </div>
+//         }
+//         right={<FailureDensityChart />}
+//       />
+//     </HeroShell>
+//   );
+// };
+
+// // =====================================================
+// // TEST PAGE — every version, stacked for comparison
+// // =====================================================
+// export default function TestPage() {
+//   return (
+//     <main className="min-h-screen bg-white">
+//       <style>{`
+//         @keyframes slideInFromLeft {
+//           from { opacity: 0; transform: translateX(-32px); }
+//           to   { opacity: 1; transform: translateX(0); }
+//         }
+//         .percent-slide-in {
+//           animation: slideInFromLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+//         }
+//       `}</style>
+
+//       <HeroVersion1 />
+//       <HeroVersion2 />
+//       <HeroVersion3 />
+//       <HeroVersion4 />
+//       <HeroVersion5 />
+//       <HeroVersion6 />
+//       <HeroVersion7 />
+//       <HeroVersion8 />
+//     </main>
+//   );
+// }
