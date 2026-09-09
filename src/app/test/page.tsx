@@ -247,12 +247,12 @@ const SolidBarChart = ({ activeIndex }: { activeIndex: number }) => {
               <div className="w-full flex items-end h-full">
                 <div
                   className={`w-full rounded-t-sm transition-all ease-out ${
-                    isActive ? 'bg-blue-400 shadow-[0_0_18px_rgba(96,165,250,0.45)]' : 'bg-[#28466b]'
+                    isActive ? 'bg-blue-400' : 'bg-[#28466b]'
                   }`}
                   style={{
                     height: `${heightPct}%`,
                     transitionDuration: '900ms',
-                    transitionProperty: 'height, background-color, box-shadow',
+                    transitionProperty: 'height, background-color',
                   }}
                 />
               </div>
@@ -294,7 +294,7 @@ const OutlineBarChart = ({ activeIndex }: { activeIndex: number }) => {
                   style={{
                     height: `${heightPct}%`,
                     backgroundColor: '#0A1E3D',
-                    border: isActive ? '2.5px solid #60a5fa' : '1.5px solid rgba(255,255,255,0.55)',
+                    border: isActive ? '2.5px solid #60a5fa' : '2.5px solid rgba(255,255,255,0.55)',
                     boxShadow: isActive ? '0 0 16px rgba(96,165,250,0.55)' : 'none',
                     transition: 'height 900ms ease-out, border-color 700ms ease, box-shadow 700ms ease',
                   }}
@@ -326,6 +326,7 @@ const WedgeChart = ({
   const outerR = 82;
   const innerR = variant === 'donut' ? 46 : 0;
   const explodeDistance = variant === 'donut' ? 10 : 15;
+  const baseGapDistance = 3; // small space between slices even when not active
 
   return (
     <div className="w-48 h-48 sm:w-64 sm:h-64">
@@ -345,7 +346,7 @@ const WedgeChart = ({
           {REASON_ARCS.map((arc, index) => {
             const isActive = index === activeIndex;
             const midRad = ((arc.midAngle - 90) * Math.PI) / 180;
-            const distance = isActive ? explodeDistance : 0;
+            const distance = isActive ? explodeDistance : baseGapDistance;
             const dx = Math.cos(midRad) * distance;
             const dy = Math.sin(midRad) * distance;
 
@@ -354,11 +355,11 @@ const WedgeChart = ({
                 key={arc.label}
                 d={describeSlice(cx, cy, innerR, outerR, arc.startAngle, arc.endAngle)}
                 stroke="#ffffff"
-                strokeWidth={1.5}
-                fill={isActive ? 'rgba(96,165,250,0.9)' : 'rgba(96,165,250,0.32)'}
+                strokeWidth={2.5}
+                fill="#0A1E3D" // same as hero background
                 style={{
                   transform: `translate(${dx}px, ${dy}px)`,
-                  transition: 'transform 700ms ease, fill 700ms ease',
+                  transition: 'transform 700ms ease',
                   filter: isActive ? 'drop-shadow(0 0 8px rgba(96,165,250,0.75))' : 'none',
                 }}
               />
@@ -425,14 +426,14 @@ const RadialProgressRing = ({ activeIndex }: { activeIndex: number }) => {
   return (
     <div className="w-48 h-48 sm:w-64 sm:h-64">
       <svg viewBox="0 0 200 200" className="w-full h-full">
-        <circle cx="100" cy="100" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={12} />
+        <circle cx="100" cy="100" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={2.5} />
         <circle
           cx="100"
           cy="100"
           r={r}
           fill="none"
           stroke="#60a5fa"
-          strokeWidth={12}
+          strokeWidth={2.5}
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
@@ -674,8 +675,8 @@ export default function TestPage() {
       <HeroVersion4 />
       <HeroVersion5 />
       <HeroVersion6 />
-        <HeroVersion7 />
-        <HeroVersion8 />
+      <HeroVersion7 />
+      <HeroVersion8 />
     </main>
   );
 }
