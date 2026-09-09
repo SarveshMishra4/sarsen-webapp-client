@@ -13,45 +13,45 @@ import React, { useState, useEffect, useRef } from 'react';
 // in your own figures/sources.
 // =====================================================
 const LEFT_PANEL_INSIGHTS = [
-  { label: 'Of Startups Fail Because There Is No Real Market Need', value: 42 },
+  { label: 'of Startups Fail Because There is No Real Market Need', value: 42 },
 
-  { label: 'Of Startups Run Out Of Cash Before Finding Traction', value: 29 },
+  { label: 'of Startups Run Out of Cash Before Finding Traction', value: 29 },
 
-  { label: 'Of Emerging Businesses Get Outcompeted On Execution, Not Idea', value: 23 },
+  { label: 'of Emerging Businesses Get Outcompeted on Execution Not Idea', value: 23 },
 
-  { label: 'Of Emerging Businesses Struggle With The Wrong Team Composition', value: 23 },
+  { label: 'of   Emerging Businesses Struggle With the Wrong Team Composition', value: 23 },
 
-  { label: 'Of Startups Fail From Pricing That Never Gets Tested', value: 18 },
+  { label: 'of Startups Fail From Pricing That Never Gets Tested', value: 18 },
 
-  { label: 'Of Emerging Businesses Stall Because Positioning Is Unclear', value: 35 },
+  { label: 'of Emerging Businesses Stall Because Positioning Is Unclear', value: 35 },
 
-  { label: 'Of Businesses Lose Momentum Chasing Too Many Priorities', value: 31 },
+  { label: 'of Businesses Lose Momentum Chasing Too Many Priorities', value: 31 },
 
-  { label: 'Of Businesses Never Separate Founder Effort From Systems', value: 27 },
+  { label: 'of Businesses Never Separate Founder Effort From Systems', value: 27 },
 
-  { label: 'Of Emerging Businesses Misjudge Their Actual Runway', value: 24 },
+  { label: 'of Emerging Businesses Overestimate their Actual Runway', value: 24 },
 
-  { label: 'Of Businesses Delay Hard Calls Until It Is Too Late', value: 38 },
+  { label: 'of Businesses Delay Hard Calls Until It is Too Late', value: 38 },
 
-  { label: 'Of Products Scale Before Product-Market Fit Is Proven', value: 22 },
+  { label: 'of Products Scale Before Product-Market Fit is Proven', value: 22 },
 
-  { label: 'Of Startups Depend Entirely On Founder-Led Sales', value: 33 },
+  { label: 'of Startups Depend Entirely on Founder-Led Sales', value: 33 },
 
-  { label: 'Of Emerging Businesses Ignore Unit Economics Until It Hurts', value: 26 },
+  { label: 'of Emerging Businesses Ignore Unit Economics Until It Hurts', value: 26 },
 
-  { label: 'Of Businesses Confuse Being Busy With Moving Forward', value: 30 },
+  { label: 'of Businesses Confuse Being Busy With Moving Forward', value: 30 },
 
-  { label: 'Of Products Underestimate Customer Acquisition Cost', value: 28 },
+  { label: 'of Products Underestimate Customer Acquisition Cost', value: 28 },
 
-  { label: 'Of Businesses Raise Capital Without A Clear Use For It', value: 20 },
+  { label: 'of Businesses Raise Capital Without a Clear Use For It', value: 20 },
 
-  { label: 'Of Products Are Built For A Customer That Does Not Exist', value: 25 },
+  { label: 'of Products Are Built For a Customer That Does Not Exist', value: 25 },
 
-  { label: 'Of Larger Businesses Let Culture Drift As Headcount Grows', value: 19 },
+  { label: 'of Larger Businesses Let Culture Drift As Headcount Grows', value: 19 },
 
-  { label: 'Of Businesses Treat Strategy As A One-Time Exercise', value: 34 },
+  { label: 'of Businesses Treat Strategy As a One-Time Exercise', value: 34 },
 
-  { label: 'Of Businesses Wait Too Long To Bring In Outside Perspective', value: 40 },
+  { label: 'of Businesses Wait Too Long to Bring in Outside Perspective', value: 40 },
 ];
 
 // =====================================================
