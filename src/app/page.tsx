@@ -785,13 +785,8 @@ const CompanyHelpsSection = () => {
           </div>
         </div>
 
-        <div className="mb-16 bg-[#132B47] rounded-md p-8 border border-blue-900/30">
-          <div className="text-center text-blue-400/50 py-12">
-            <img src="/assets/home/Speciality.svg" alt="" className="h-48 sm:h-64 mx-auto" />
-          </div>
-        </div>
-
-        <div className="relative min-h-[450px] sm:min-h-[500px]">
+{/* Commented this Because This Section Defined For What We Do .... Kind of Indication When To Call Us */}
+        {/* <div className="relative min-h-[250px] sm:min-h-[300px]">
           {expertiseAreas.map((area, index) => (
             <div
               key={index}
@@ -802,7 +797,7 @@ const CompanyHelpsSection = () => {
                 <h3 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium mb-4 sm:mb-6">
                   {area.title}
                 </h3>
-                <p className="text-gray-300 text-sm sm:text-base lg:text-lg">
+                <p className="text-gray-300 text-base lg:text-lg">
                   {area.description}
                 </p>
               </div>
@@ -822,25 +817,25 @@ const CompanyHelpsSection = () => {
               aria-label={`View service ${index + 1}`}
             />
           ))}
-        </div>
+        </div> */}
 
         <div className="mt-16 sm:mt-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-2xl">
               <p className="text-gray-300 text-base sm:text-lg mb-2">
-                Every engagement starts with clarity — not assumptions. Founders leave with a
-                precise understanding of what is broken, why it is broken, and what sequence of
-                decisions actually matters next.
+We Start By Absorbing The Complete Context.<br></br>
+
+Engagements Begin with Analysing the Situation From Every Relevant Angle, Bringing Together Internal Data, External Forces, Market Dynamics, Customer Behaviour, Competition, And Economics To Understand the Complete Picture.
               </p>
               <p className="text-gray-500 text-base">
-                No motivational advice. No dependency. Just structured thinking you can execute.
+                Engagements are Structured to Develop the Capacity of Execution thus creating No Dependency.
               </p>
             </div>
 
             <div className="flex-shrink-0">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-md transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center gap-3 group">
-                <Link href="/work" className="flex items-center gap-2">
-                  <span>Read Our Case Studies</span>
+              <button className="bg-[#132B47] border border-2 border-gray-300 text-white hover:bg-white hover:text-[#0A1E3D] px-8 py-4 rounded-md transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl flex items-center gap-3 group">
+                <Link href="/services" className="flex items-center gap-2">
+                  <span className="font-medium">Learn More</span>
                 </Link>
               </button>
             </div>
@@ -853,66 +848,75 @@ const CompanyHelpsSection = () => {
 
 // =====================================================
 // TESTIMONIALS SECTION
+// The quote card now uses the exact hero blue (#0A1E3D)
+// with the same diagonal-line pattern as the hero section.
+// The quote glyph and all text inside this card are white
+// or grey so they read on the dark background.
 // =====================================================
 const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const entrepreneurs = [
-    {
-      id: 1,
-      name: 'Naval Ravikant',
-      title: 'Founder, AngelList',
-      quote:
-        'Play long-term games with long-term people. Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now. Building anything great requires careful strategic thinking combined with relentless execution.',
-      image: '/assets/home/naval.jpeg',
-      handle: '@naval',
-    },
-    {
-      id: 2,
-      name: 'Paul Graham',
-      title: 'Co-founder, Y Combinator',
-      quote:
-        "The way to get startup ideas is not to try to think of startup ideas. It's to look for problems, preferably problems you have yourself. The best ideas seem obvious in retrospect, but finding them requires deep strategic insight into market needs.",
-      image: '/assets/home/Paul.webp',
-      handle: '@paulg',
-    },
-    {
-      id: 3,
-      name: 'Peter Thiel',
-      title: 'Co-founder, PayPal & Palantir',
-      quote:
-        "Competition is for losers. If you want to create lasting value, build a monopoly. But building something truly valuable requires intense focus on a specific problem and strategic positioning that others haven't thought of.",
-      image: '/assets/home/Peter.webp',
-      handle: '@peterthiel',
-    },
-    {
-      id: 4,
-      name: 'Reid Hoffman',
-      title: 'Co-founder, LinkedIn',
-      quote:
-        "An entrepreneur is someone who jumps off a cliff and builds a plane on the way down. But the smartest entrepreneurs don't just build—they strategize, they plan, they seek counsel from those who've jumped before.",
-      image: '/assets/home/Reid.png',
-      handle: '@reidhoffman',
-    },
-    {
-      id: 5,
-      name: 'Marc Andreessen',
-      title: 'Co-founder, Andreessen Horowitz',
-      quote:
-        'Software is eating the world, but strategy guides where it bites. The difference between success and failure often comes down to making the right strategic decisions at the right time with the right guidance.',
-      image: '/assets/home/Marc.png',
-      handle: '@pmarca',
-    },
-    {
-      id: 6,
-      name: 'Brian Chesky',
-      title: 'Co-founder, Airbnb',
-      quote:
-        "Build something 100 people love, not something 1 million people kind of like. This requires deep customer understanding and strategic focus—something that benefits immensely from experienced guidance and external perspective.",
-      image: '/assets/home/Brian.webp',
-      handle: '@bchesky',
-    },
-  ];
+const entrepreneurs = [
+  {
+    id: 1,
+    name: 'Naval Ravikant',
+    title: 'Founder at AngelList',
+    quote:
+      'Play Long-Term Games with Long-Term People. Specific Knowledge is found by pursuing your genuine Curiosity and Passion rather than whatever is hot right now. Building anything great requires careful Strategic Thinking combined with Relentless Execution.',
+    image: '/assets/home/naval.jpeg',
+    handle: '@naval',
+  },
+
+  {
+    id: 2,
+    name: 'Paul Graham',
+    title: 'Co-founder at Y Combinator',
+    quote:
+      "The way to get Startup Ideas is not to try to think of Startup Ideas. It's to look for Problems, preferably Problems you have yourself. The best Ideas seem obvious in Retrospect, but finding them requires deep Strategic Insight into Market Needs.",
+    image: '/assets/home/Paul.webp',
+    handle: '@paulg',
+  },
+
+  {
+    id: 3,
+    name: 'Peter Thiel',
+    title: 'Co-founder at PayPal & Palantir',
+    quote:
+      "Competition is for Losers. If you want to create Lasting Value, build a Monopoly. But building something truly valuable requires intense Focus on a Specific Problem and Strategic Positioning that others haven't thought of.",
+    image: '/assets/home/Peter.webp',
+    handle: '@peterthiel',
+  },
+
+  {
+    id: 4,
+    name: 'Reid Hoffman',
+    title: 'Co-founder at LinkedIn',
+    quote:
+      "An Entrepreneur is someone who Leaps off a Cliff and Builds a Plane on the Way Down. But the smartest Entrepreneurs don't merely Build. They Strategize, they Plan, they seek Counsel from those who've did before.",
+    image: '/assets/home/Reid.png',
+    handle: '@reidhoffman',
+  },
+
+  {
+    id: 5,
+    name: 'Marc Andreessen',
+    title: 'Co-founder at Andreessen Horowitz',
+    quote:
+      'Software is Eating the World, but Strategy guides where it Bites. The Difference between Success and Failure often comes down to making the Right Strategic Decisions at the Right Time with the Right Guidance.',
+    image: '/assets/home/Marc.png',
+    handle: '@pmarca',
+  },
+
+  {
+    id: 6,
+    name: 'Brian Chesky',
+    title: 'Co-founder at Airbnb',
+    quote:
+      'Build something 100 People Love, Not Something 1 Million People Kind of Like. This requires Deep Customer Understanding and Strategic Focus. Something that benefits Immensely from Experienced Guidance and External Perspective.',
+    image: '/assets/home/Brian.webp',
+    handle: '@bchesky',
+  },
+];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -948,30 +952,50 @@ const TestimonialsSection = () => {
             Accomplished Entrepreneurs Understand This
           </h2>
           <p className="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
-            Those who have built billion-dollar businesses emphasize the critical importance of
-            strategic thinking, external guidance, and making informed decisions at every stage.
+Exceptional Founders Understands That Strategy Determines Where Execution Takes You.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="order-2 lg:order-1">
             <div key={`card-${activeIndex}`} className="animate-slideInLeft">
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-md p-6 sm:p-8 lg:p-10 border border-gray-200">
-                <div className="mb-5">
-                  <img
-                    src="/assets/home/Quoted.svg"
-                    alt="Quote Icon"
-                    width={52}
-                    height={38}
-                    className="rotate-180 scale-y-[-1]"
-                  />
+              <div className="relative overflow-hidden bg-[#0A1E3D] rounded-md p-6 sm:p-8 lg:p-10 border border-blue-900/30">
+                {/* Same diagonal grid pattern used in the hero section */}
+                <div className="absolute inset-0 opacity-20">
+                  <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <pattern
+                        id="grid-testimonial-quote"
+                        patternUnits="userSpaceOnUse"
+                        width="5"
+                        height="5"
+                        patternTransform="rotate(45)"
+                      >
+                        <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid-testimonial-quote)" />
+                  </svg>
                 </div>
-                <blockquote className="text-gray-700 text-sm sm:text-base lg:text-lg mb-6">
-                  {person.quote}
-                </blockquote>
-                <div className="pt-4">
-                  <p className="text-gray-900 font-semibold text-base sm:text-lg mb-1">{person.name}</p>
-                  <p className="text-gray-500 text-xs sm:text-sm">{person.title}</p>
+
+                <div className="relative z-10">
+                  {/* Updated quotation symbol */}
+                  <div className="mb-5">
+                    <img
+                      src="/assets/home/Quoted.svg"
+                      alt="Quote Icon"
+                      width={52}
+                      height={38}
+                      className="rotate-180 scale-y-[-1]"
+                    />
+                  </div>
+                  <blockquote className="text-white text-sm sm:text-base lg:text-lg mb-6">
+                    {person.quote}
+                  </blockquote>
+                  <div className="pt-4">
+                    <p className="text-white font-semibold text-base sm:text-lg mb-1">{person.name}</p>
+                    <p className="text-gray-300 text-xs sm:text-sm">{person.title}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1029,87 +1053,447 @@ const TestimonialsSection = () => {
 };
 
 // =====================================================
+// FREE RESOURCES SECTION — DATA
+// Each resource now carries the same fields used by the
+// tool cards on /tools (tag, format, complexity, useCase)
+// so the same thumbnail design can be reused here. If a
+// resource has a `url`, the card links straight to the
+// actual tool; if it doesn't, clicking opens the same
+// access-request modal used on the tools page.
+// =====================================================
+interface ResourceItem {
+  id: number;
+  title: string;
+  excerpt: string;
+  tag: string;
+  format: string;
+  complexity: 'Beginner' | 'Intermediate' | 'Advanced';
+  useCase: string;
+  url?: string;
+}
+
+const RESOURCES: ResourceItem[] = [
+  {
+    id: 1,
+    title: 'Startup Valuation Calculator',
+    excerpt:
+      "Calculate your company's valuation using multiple methodologies - DCF, comparable analysis, and revenue multiples.",
+    tag: 'Valuation',
+    format: 'Excel + Web App',
+    complexity: 'Advanced',
+    useCase: 'Pre-fundraise valuation benchmarking',
+    url: '/tools',
+  },
+  {
+    id: 2,
+    title: 'Team Psychometric Assessment',
+    excerpt:
+      'Evaluate team dynamics, leadership styles, and cultural fit. Identify strengths and gaps in your team.',
+    tag: 'People',
+    format: 'Online Tool',
+    complexity: 'Intermediate',
+    useCase: 'Leadership team composition audit',
+  },
+  {
+    id: 3,
+    title: 'Cash Flow Forecasting Tool',
+    excerpt:
+      "Project your 13-week cash runway with scenario planning. See when you'll need funding or reach profitability.",
+    tag: 'Finance',
+    format: 'Excel Template',
+    complexity: 'Intermediate',
+    useCase: 'Short-term liquidity management',
+  },
+  {
+    id: 4,
+    title: 'Market Sizing Framework',
+    excerpt:
+      'Calculate TAM, SAM, and SOM for your business with templates to present to investors.',
+    tag: 'Strategy',
+    format: 'Slides + Guide',
+    complexity: 'Beginner',
+    useCase: 'Pitch deck market sizing slide',
+    url: '/tools',
+  },
+  {
+    id: 5,
+    title: 'Financial Model Template',
+    excerpt:
+      'Pre-built Excel model with P&L, balance sheet, and cash flow projections for startups.',
+    tag: 'Finance',
+    format: 'Excel Template',
+    complexity: 'Advanced',
+    useCase: '3-statement fundraising model',
+  },
+  {
+    id: 6,
+    title: 'Pitch Deck Framework',
+    excerpt:
+      'Comprehensive slide-by-slide guide for creating investor-ready pitch decks that convert.',
+    tag: 'Fundraising',
+    format: 'Slides Template',
+    complexity: 'Beginner',
+    useCase: 'Series seed/A pitch deck construction',
+  },
+];
+
+// Same tag / complexity palette used on /tools so the
+// thumbnail reads identically on both pages.
+const RESOURCE_TAG_COLORS: Record<string, { bg: string; text: string }> = {
+  Valuation:   { bg: '#DBEAFE', text: '#1E40AF' },
+  Finance:     { bg: '#E0F2FE', text: '#0369A1' },
+  Metrics:     { bg: '#E6F0FF', text: '#1E3A8A' },
+  Strategy:    { bg: '#DBEAFE', text: '#1E40AF' },
+  Revenue:     { bg: '#E0F2FE', text: '#0369A1' },
+  Fundraising: { bg: '#E6F0FF', text: '#1E3A8A' },
+  People:      { bg: '#E0E7FF', text: '#3730A3' },
+  Operations:  { bg: '#DBEAFE', text: '#1E40AF' },
+};
+
+const RESOURCE_COMPLEXITY_COLORS: Record<ResourceItem['complexity'], { bg: string; text: string; dot: string }> = {
+  Beginner:     { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
+  Intermediate: { bg: '#E0F2FE', text: '#0369A1', dot: '#2563EB' },
+  Advanced:     { bg: '#E6F0FF', text: '#1E3A8A', dot: '#1E3A8A' },
+};
+
+const getResourceTagStyle = (tag: string): { bg: string; text: string } =>
+  RESOURCE_TAG_COLORS[tag] ?? { bg: '#DBEAFE', text: '#1E40AF' };
+
+const getResourceComplexityStyle = (c: ResourceItem['complexity']) =>
+  RESOURCE_COMPLEXITY_COLORS[c];
+
+// =====================================================
+// RESOURCE ACCESS MODAL — same pattern as the tools page's
+// PartnerAuthModal, used when a resource has no direct url.
+// =====================================================
+interface ResourceAuthModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  resourceTitle: string;
+}
+
+const ResourceAuthModal = ({ isOpen, onClose, resourceTitle }: ResourceAuthModalProps) => {
+  const [formData, setFormData] = useState({ partnerId: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({ partnerId: '', password: '' });
+      setError('');
+      setSuccess(false);
+      setLoading(false);
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    setTimeout(() => {
+      if (formData.partnerId && formData.password) {
+        setSuccess(true);
+        setLoading(false);
+      } else {
+        setError('Invalid Partner ID or password. Please try again.');
+        setLoading(false);
+      }
+    }, 1000);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+      onClick={handleBackdropClick}
+    >
+      <div
+        className="relative w-full max-w-md"
+        style={{ animation: 'modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both' }}
+      >
+        <div className="bg-white rounded-md shadow-2xl overflow-hidden">
+
+          <div className="px-8 py-6 relative border-b border-gray-200">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Close modal"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="text-2xl font-semibold text-gray-800">Request Access</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your partner credentials to access: <span className="font-medium text-gray-700">{resourceTitle}</span>
+            </p>
+          </div>
+
+          <div className="px-8 py-8">
+            {!success ? (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3 flex items-start gap-3">
+                    <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Partner ID</label>
+                  <input
+                    type="text"
+                    value={formData.partnerId}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setFormData((p) => ({ ...p, partnerId: e.target.value }))
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                    placeholder="e.g. SSP-2024-XXXX"
+                    required
+                    autoComplete="username"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={formData.password}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setFormData((p) => ({ ...p, password: e.target.value }))
+                      }
+                      className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm"
+                      placeholder="Enter your password"
+                      required
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 px-4 rounded-md font-medium transition-all flex items-center justify-center gap-2 text-sm ${
+                    loading ? 'opacity-75 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
+                  }`}
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Authenticating…
+                    </>
+                  ) : 'Access Tool'}
+                </button>
+
+                <p className="text-center text-xs text-gray-400 pt-1">
+                  Don&apos;t have a Partner ID?{' '}
+                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
+                </p>
+              </form>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                <p className="text-gray-500 text-sm">
+                  Opening <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <p className="text-center text-sm mt-4 text-gray-400">
+          Partner access is monitored and logged for security purposes.
+        </p>
+      </div>
+      <style>{`
+        @keyframes modalIn {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// =====================================================
+// RESOURCE CARD — same thumbnail design as the ToolCard
+// used on /tools: dark navy header with a faint grid,
+// tag + complexity badges, a lock icon, and a footer with
+// the format badge and an arrow. If the resource has a
+// `url`, the whole card is a Link to the actual tool;
+// otherwise clicking opens the ResourceAuthModal.
+// =====================================================
+interface ResourceCardProps {
+  resource: ResourceItem;
+  onOpen: (title: string) => void;
+}
+
+const ResourceCard = ({ resource, onOpen }: ResourceCardProps) => {
+  const tagStyle = getResourceTagStyle(resource.tag);
+  const complexityStyle = getResourceComplexityStyle(resource.complexity);
+
+  const cardInner = (
+    <>
+      <div
+        className="h-0.5 w-full"
+        style={{ background: `linear-gradient(90deg, ${tagStyle.text}30, transparent)` }}
+      />
+
+      <div
+        className="relative h-28 px-5 flex items-end pb-4 overflow-hidden"
+        style={{ background: 'linear-gradient(155deg, #132B47 0%, #0A1E3D 100%)' }}
+      >
+        <div className="absolute inset-0 overflow-hidden opacity-[0.04]" aria-hidden="true">
+          <svg className="w-full h-full" viewBox="0 0 200 112">
+            {Array.from({ length: 6 }, (_, i) => (
+              <line key={`v${i}`} x1={i * 40} y1="0" x2={i * 40} y2="112" stroke="#93C5FD" strokeWidth="0.5" />
+            ))}
+            {Array.from({ length: 3 }, (_, i) => (
+              <line key={`h${i}`} x1="0" y1={i * 40} x2="200" y2={i * 40} stroke="#93C5FD" strokeWidth="0.5" />
+            ))}
+          </svg>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2 flex-wrap">
+          <span
+            className="px-2.5 py-1 rounded-md text-xs font-semibold"
+            style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+          >
+            {resource.tag}
+          </span>
+          <span
+            className="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs"
+            style={{ backgroundColor: complexityStyle.bg, color: complexityStyle.text }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: complexityStyle.dot }} />
+            {resource.complexity}
+          </span>
+        </div>
+
+        <div
+          className="absolute top-4 right-4 z-10 opacity-25 group-hover:opacity-70 transition-opacity"
+          aria-hidden="true"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="px-5 py-4">
+        <p className="text-xs mb-1 font-medium text-blue-300">{resource.useCase}</p>
+        <h3
+          className="font-medium mb-2 group-hover:text-blue-300 transition-colors duration-200 line-clamp-2 text-white"
+          style={{ fontSize: '0.9rem' }}
+        >
+          {resource.title}
+        </h3>
+        <p className="text-xs mb-4 line-clamp-2 text-gray-400">{resource.excerpt}</p>
+
+        <div className="flex items-center justify-between pt-3">
+          <span
+            className="text-xs px-2 py-0.5 rounded-md"
+            style={{ backgroundColor: '#132B47', color: '#93C5FD' }}
+          >
+            {resource.format}
+          </span>
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
+            style={{ backgroundColor: 'rgba(59,130,246,0.06)' }}
+            aria-hidden="true"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="#93C5FD" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  const commonClassName =
+    'group cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 w-[340px] flex-shrink-0 block';
+  const commonStyle = { backgroundColor: '#0A1E3D', border: '1px solid rgba(59,130,246,0.08)' };
+
+  if (resource.url) {
+    return (
+      <Link
+        href={resource.url}
+        className={commonClassName}
+        style={commonStyle}
+        aria-label={`Open resource: ${resource.title}`}
+      >
+        {cardInner}
+      </Link>
+    );
+  }
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(resource.title)}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen(resource.title)}
+      className={commonClassName}
+      style={commonStyle}
+      aria-label={`Access resource: ${resource.title}`}
+    >
+      {cardInner}
+    </div>
+  );
+};
+
+// =====================================================
 // FREE RESOURCES SECTION
+// Scroll buttons now sit above the cards, right-aligned,
+// with appropriate spacing. Heading/text take full width.
 // =====================================================
 const FreeResourcesSection = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const resources = [
-    {
-      title: 'Startup Valuation Calculator',
-      description:
-        "Calculate your company's valuation using multiple methodologies - DCF, comparable analysis, and revenue multiples.",
-      visualType: 'chart',
-      bg: 'bg-gradient-to-br from-[#7B8FA5] to-[#8B9EB0]',
-    },
-    {
-      title: 'Team Psychometric Assessment',
-      description:
-        'Evaluate team dynamics, leadership styles, and cultural fit. Identify strengths and gaps in your team.',
-      visualType: 'graph',
-      bg: 'bg-gradient-to-br from-[#6B7F95] to-[#7B8FA5]',
-    },
-    {
-      title: 'Cash Flow Forecasting Tool',
-      description:
-        "Project your 13-week cash runway with scenario planning. See when you'll need funding or reach profitability.",
-      visualType: 'bars',
-      bg: 'bg-gradient-to-br from-[#8B9EB0] to-[#9BAEC0]',
-    },
-    {
-      title: 'Market Sizing Framework',
-      description:
-        'Calculate TAM, SAM, and SOM for your business with templates to present to investors.',
-      visualType: 'star',
-      bg: 'bg-gradient-to-br from-[#7B8FA5] to-[#8B9EB0]',
-    },
-    {
-      title: 'Financial Model Template',
-      description:
-        'Pre-built Excel model with P&L, balance sheet, and cash flow projections for startups.',
-      visualType: 'chart',
-      bg: 'bg-gradient-to-br from-[#6B7F95] to-[#7B8FA5]',
-    },
-    {
-      title: 'Pitch Deck Framework',
-      description:
-        'Comprehensive slide-by-slide guide for creating investor-ready pitch decks that convert.',
-      visualType: 'star',
-      bg: 'bg-gradient-to-br from-[#8B9EB0] to-[#9BAEC0]',
-    },
-  ];
-
-  const renderVisualIcon = (type: string) => {
-    switch (type) {
-      case 'chart':
-        return (
-          <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-          </svg>
-        );
-      case 'graph':
-        return (
-          <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-        );
-      case 'bars':
-        return (
-          <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        );
-      case 'star':
-        return (
-          <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-          </svg>
-        );
-      default:
-        return null;
-    }
-  };
+  const [resourceModal, setResourceModal] = useState<{ open: boolean; title: string }>({
+    open: false,
+    title: '',
+  });
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -1127,28 +1511,35 @@ const FreeResourcesSection = () => {
     scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth - 10
     : true;
 
+  const openResourceModal = (title: string) => setResourceModal({ open: true, title });
+  const closeResourceModal = () => setResourceModal({ open: false, title: '' });
+
   return (
     <section className="bg-[#E8EEF2] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Heading and text take full width */}
         <div className="mb-8 sm:mb-12">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">Free Resources</h2>
-          <p className="text-gray-600 text-base sm:text-lg max-w-3xl">
-            Practical tools and calculators to help you make data-driven decisions. No signup
-            required—start using them right away.
+          <p className="text-gray-600 text-base sm:text-lg text-justify max-w-3xl">
+            We Build Research, Publications, Tools, And Frameworks For Founders, Operators, Angel Investors, Venture Capital & Private Equity Investors, And Corporations.
+            <br /><br />
+            Built To Help Decision-Makers Understand Markets, Evaluate Opportunities, Test Assumptions, And Navigate The Decisions That Shape Performance.
           </p>
         </div>
 
-        <div className="relative">
+        {/* Scroll buttons above cards, right-aligned with spacing */}
+        <div className="hidden sm:flex justify-end gap-2 mb-4 sm:mb-6">
           <button
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${canScrollLeft
+            className={`rounded-md p-3 bg-white shadow-md transition-all duration-300 ${
+              canScrollLeft
                 ? 'hover:bg-gray-100 cursor-pointer opacity-100'
                 : 'opacity-30 cursor-not-allowed'
-              }`}
+            }`}
             aria-label="Scroll left"
           >
-            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -1156,59 +1547,48 @@ const FreeResourcesSection = () => {
           <button
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300 ${canScrollRight
+            className={`rounded-md p-3 bg-white shadow-md transition-all duration-300 ${
+              canScrollRight
                 ? 'hover:bg-gray-100 cursor-pointer opacity-100'
                 : 'opacity-30 cursor-not-allowed'
-              }`}
+            }`}
             aria-label="Scroll right"
           >
-            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
+        </div>
 
+        <div className="relative">
           <div
             ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-12 py-2"
+            className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide py-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             onScroll={(e) => setScrollPosition((e.target as HTMLDivElement).scrollLeft)}
           >
-            {resources.map((resource, index) => (
-              <div
-                key={index}
-                className={`${resource.bg} rounded-md p-6 sm:p-8 min-w-[280px] sm:min-w-[320px] md:min-w-[340px] h-[240px] sm:h-[260px] flex flex-col justify-between hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden flex-shrink-0`}
-              >
-                <div className="relative z-10">
-                  <h3 className="text-white text-lg sm:text-xl md:text-2xl font-medium mb-2 sm:mb-3 group-hover:translate-x-1 transition-transform duration-300">
-                    {resource.title}
-                  </h3>
-                  <p className="text-white/90 text-xs sm:text-sm line-clamp-4 sm:line-clamp-none">
-                    {resource.description}
-                  </p>
-                </div>
-                <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 text-white/20 group-hover:text-white/30 transition-colors duration-300">
-                  {renderVisualIcon(resource.visualType)}
-                </div>
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-all duration-300"></div>
-              </div>
+            {RESOURCES.map((resource) => (
+              <ResourceCard key={resource.id} resource={resource} onOpen={openResourceModal} />
             ))}
           </div>
         </div>
 
-        <div className="flex justify-end mt-8">
-          <button className="bg-white text-gray-800 px-5 sm:px-8 py-2.5 sm:py-4 rounded-md hover:shadow-xl transition-all duration-300 font-medium border border-gray-300 hover:border-gray-400 flex items-center gap-2 group text-sm sm:text-base">
-            <span>More Resources</span>
-            <svg
-              className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+<div className="flex justify-end mt-8">
+  <Link
+    href="/resources"
+    style={{ color: "#0A1E3D" }}
+    className="bg-white px-5 sm:px-8 py-2.5 sm:py-4 border-2 border-[#0A1E3D] rounded-md hover:!text-white hover:bg-[#0A1E3D] hover:shadow-xl transition-all duration-300 font-medium flex items-center gap-2 group text-sm sm:text-base"
+  >
+    <span>More Resources</span>
+  </Link>
+</div>
       </div>
+
+      <ResourceAuthModal
+        isOpen={resourceModal.open}
+        onClose={closeResourceModal}
+        resourceTitle={resourceModal.title}
+      />
     </section>
   );
 };
@@ -1222,24 +1602,22 @@ const StoryProcessSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
-            Our Story &amp; Process
+            Our Approach.  Your Control.
           </h2>
-          <div className="max-w-4xl">
+          <div className="text-justify">
             <p className="text-gray-300 text-base sm:text-lg mb-4">
-              Most founders don&apos;t lack effort or intelligence — they lack clear signal. Too many
-              variables change at once: growth stalls, cash tightens, teams slow down, and every
-              decision feels risky.
+              A Good Strategy Is Not A Fixed Plan For An Uncertain Future. It Anticipates Multiple Possibilities And Evolves As Reality Unfolds.
+Founders, Operators, And Investors Must Evolve Their Approach As Markets, Customers, Competition, And Capital Dynamics Change.
             </p>
             <p className="text-gray-400 text-sm sm:text-base">
-              Our process exists to remove noise before prescribing action. We don&apos;t start with
-              solutions. We start by isolating what actually matters, so every subsequent decision
-              becomes easier, faster, and defensible.
+              At Sarsen we Develop Strategies That are Not Static. They React to Reality, Anticipate What Comes Next, And Evolve as the Business Changes.
+We Take Complete Responsibility For the Quality Of Our Work while the Business, the Decisions, And Ultimately the Complete Control Remain With Our Clients.
             </p>
           </div>
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-2xl sm:text-3xl text-white mb-8">How We Work</h3>
+        <div className="mb-8 items-center text-center">
+          <h3 className="text-2xl sm:text-3xl text-white mb-8">The Process</h3>
         </div>
 
         <div className="bg-[#132B47] rounded-md p-4 sm:p-6 lg:p-12 overflow-x-auto border border-blue-900/30">
