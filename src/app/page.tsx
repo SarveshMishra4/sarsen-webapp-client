@@ -195,7 +195,7 @@ const ProductLifecycleChartOnce = () => {
         <span>Decline</span>
       </div>
 
-      <p className="text-white/70 text-sm sm:text-base text-center mt-6">
+      <p className="text-white/70 text-base text-center mt-6">
         Sarsen Strengthens Businesses At Every Stage
       </p>
     </div>
