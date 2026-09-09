@@ -5,70 +5,218 @@ import Link from 'next/dist/client/link';
 import React, { useState, useEffect, useRef } from 'react';
 
 // =====================================================
-// TYPING EFFECT HOOK
+// DATA — LEFT PANEL ONLY. Independent of the chart on the
+// right (which stays fixed to the 4 lifecycle stages).
+// Add/remove as many items as you like — the loop below
+// will cycle through however many entries are here, then
+// wrap back to the first. These are illustrative — swap
+// in your own figures/sources.
 // =====================================================
-const useTypingEffect = (
-  phrases: string[],
-  typingSpeed = 100,
-  deletingSpeed = 50,
-  pauseDuration = 2000
+const LEFT_PANEL_INSIGHTS = [
+  { label: 'Of Startups Fail Because There Is No Real Market Need', value: 42 },
+
+  { label: 'Of Startups Run Out Of Cash Before Finding Traction', value: 29 },
+
+  { label: 'Of Emerging Businesses Get Outcompeted On Execution, Not Idea', value: 23 },
+
+  { label: 'Of Emerging Businesses Struggle With The Wrong Team Composition', value: 23 },
+
+  { label: 'Of Startups Fail From Pricing That Never Gets Tested', value: 18 },
+
+  { label: 'Of Emerging Businesses Stall Because Positioning Is Unclear', value: 35 },
+
+  { label: 'Of Businesses Lose Momentum Chasing Too Many Priorities', value: 31 },
+
+  { label: 'Of Businesses Never Separate Founder Effort From Systems', value: 27 },
+
+  { label: 'Of Emerging Businesses Misjudge Their Actual Runway', value: 24 },
+
+  { label: 'Of Businesses Delay Hard Calls Until It Is Too Late', value: 38 },
+
+  { label: 'Of Products Scale Before Product-Market Fit Is Proven', value: 22 },
+
+  { label: 'Of Startups Depend Entirely On Founder-Led Sales', value: 33 },
+
+  { label: 'Of Emerging Businesses Ignore Unit Economics Until It Hurts', value: 26 },
+
+  { label: 'Of Businesses Confuse Being Busy With Moving Forward', value: 30 },
+
+  { label: 'Of Products Underestimate Customer Acquisition Cost', value: 28 },
+
+  { label: 'Of Businesses Raise Capital Without A Clear Use For It', value: 20 },
+
+  { label: 'Of Products Are Built For A Customer That Does Not Exist', value: 25 },
+
+  { label: 'Of Larger Businesses Let Culture Drift As Headcount Grows', value: 19 },
+
+  { label: 'Of Businesses Treat Strategy As A One-Time Exercise', value: 34 },
+
+  { label: 'Of Businesses Wait Too Long To Bring In Outside Perspective', value: 40 },
+];
+
+// =====================================================
+// GRAPH DATA — used only by the chart on the right. Kept
+// separate from LEFT_PANEL_INSIGHTS on purpose so the two
+// sides never have to stay in sync.
+// =====================================================
+const LIFECYCLE_STAGES = [
+  { label: 'Introduction', value: 10 },
+  { label: 'Growth', value: 35 },
+  { label: 'Maturity', value: 40 },
+  { label: 'Decline', value: 15 },
+];
+
+// =====================================================
+// LOOPING TYPING / STAGE HOOK
+// Types each item's label forward, holds briefly, then
+// moves to the next item — wrapping back to the first once
+// it reaches the end, so it runs indefinitely.
+// =====================================================
+const useLoopingStageSequence = (
+  stages: { label: string; value: number }[],
+  typingSpeed = 55,
+  holdDuration = 650,
+  gapDuration = 200
 ) => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
 
   useEffect(() => {
-    const currentPhrase = phrases[phraseIndex];
+    let charCount = 0;
+    let typingTimer: ReturnType<typeof setTimeout>;
+    let holdTimer: ReturnType<typeof setTimeout>;
 
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (charIndex < currentPhrase.length) {
-          setDisplayText(currentPhrase.substring(0, charIndex + 1));
-          setCharIndex(charIndex + 1);
-        } else {
-          setTimeout(() => setIsDeleting(true), pauseDuration);
-        }
+    setDisplayText('');
+
+    const typeNextChar = () => {
+      charCount += 1;
+      setDisplayText(stages[activeIndex].label.slice(0, charCount));
+
+      if (charCount < stages[activeIndex].label.length) {
+        typingTimer = setTimeout(typeNextChar, typingSpeed);
       } else {
-        if (charIndex > 0) {
-          setDisplayText(currentPhrase.substring(0, charIndex - 1));
-          setCharIndex(charIndex - 1);
-        } else {
-          setIsDeleting(false);
-          setPhraseIndex((phraseIndex + 1) % phrases.length);
-        }
+        holdTimer = setTimeout(() => {
+          setActiveIndex((prev) => (prev + 1) % stages.length);
+        }, holdDuration);
       }
-    }, isDeleting ? deletingSpeed : typingSpeed);
+      // wraps via modulo above, so this keeps going forever
+    };
 
-    return () => clearTimeout(timeout);
-  }, [charIndex, isDeleting, phraseIndex, phrases, typingSpeed, deletingSpeed, pauseDuration]);
+    typingTimer = setTimeout(typeNextChar, gapDuration);
 
-  return displayText;
+    return () => {
+      clearTimeout(typingTimer);
+      clearTimeout(holdTimer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, stages, typingSpeed, holdDuration, gapDuration]);
+
+  return { activeIndex, displayText };
 };
 
 // =====================================================
-// HERO SECTION COMPONENT
+// LEFT SIDE — identical pattern to before: percent slides
+// in from the left, label types out beneath it (no cursor).
 // =====================================================
-const HeroSection = () => {
-  const problemPhrases = [
-    'Unsure whether to scale or fix fundamentals ?',
-    'Making decisions without knowing their second-order effects ?',
-    'Growing activity, but unclear if the business is actually improving ?',
-    'Confusing traction with progress ?',
-    'Preparing to raise, but unsure if the business is structurally fundable ?',
-    'Working harder, yet feeling less in control of the business ?',
-  ];
+const LifecycleCallout = ({
+  activeIndex,
+  displayText,
+}: {
+  activeIndex: number;
+  displayText: string;
+}) => {
+  return (
+    <div className="space-y-2">
+      <style>{`
+        @keyframes slideInFromLeftPLC {
+          from { opacity: 0; transform: translateX(-32px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .percent-slide-in-plc {
+          animation: slideInFromLeftPLC 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+      `}</style>
 
-  const typedProblem = useTypingEffect(problemPhrases, 80, 40, 2500);
+      <div key={`percent-${activeIndex}`} className="percent-slide-in-plc">
+        <span className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-blue-300">
+          {LEFT_PANEL_INSIGHTS[activeIndex].value}%
+        </span>
+      </div>
+
+      <div className="h-8 sm:h-9">
+        <p className="text-xl sm:text-2xl text-white/80">{displayText}</p>
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
+// RIGHT SIDE — the line draws once, the dot travels the
+// curve once, and both freeze at the end point. Fully
+// static/independent of the left panel's data loop.
+// =====================================================
+const ProductLifecycleChartOnce = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineOnce {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-once {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineOnce 3.2s ease-in-out forwards;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 400 210" className="w-full h-auto">
+        <path
+          id="plc-path-once"
+          d="M 20 190 C 70 185, 90 170, 110 150 C 140 110, 160 70, 200 55 C 230 45, 270 42, 300 55 C 330 68, 350 100, 380 150"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-once"
+        />
+        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3.2s" repeatCount="1" fill="freeze" rotate="auto">
+            <mpath href="#plc-path-once" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <div className="flex justify-between text-[10px] sm:text-xs text-white/50 mt-2 px-1">
+        <span>Introduction</span>
+        <span>Growth</span>
+        <span>Maturity</span>
+        <span>Decline</span>
+      </div>
+
+      <p className="text-white/70 text-sm sm:text-base text-center mt-6">
+        Sarsen Strengthens Businesses At Every Stage
+      </p>
+    </div>
+  );
+};
+
+// =====================================================
+// HERO SECTION — background, grid pattern, and the two-
+// column layout. Responsive across mobile (base), tablet
+// (sm), and laptop/desktop (lg).
+// =====================================================
+export const ProductLifecycleHero = () => {
+  const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
 
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background pattern (exact same as blog page) */}
+    <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="blog-grid"
+              id="grid-plc-hero"
               patternUnits="userSpaceOnUse"
               width="5"
               height="5"
@@ -77,34 +225,21 @@ const HeroSection = () => {
               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+          <rect width="100%" height="100%" fill="url(#grid-plc-hero)" />
         </svg>
       </div>
 
       <div className="relative max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="space-y-8 lg:space-y-10">
-            <div className="space-y-4">
-              <h2 className="text-xl sm:text-2xl text-white">
-                Running a startup means making irreversible decisions with incomplete information.
-              </h2>
-              <div className="min-h-[100px] sm:min-h-[120px]">
-                <p className="text-xl sm:text-2xl md:text-2xl text-blue-300">
-                  {typedProblem}
-                  <span className="animate-pulse"></span>
-                </p>
-              </div>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+          <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+            <h2 className="text-xl sm:text-2xl text-white">
+              Potential Creates Possibilities. Strategy Brings Growth. Results Prove It.
+            </h2>
+            <LifecycleCallout activeIndex={activeIndex} displayText={displayText} />
           </div>
 
-          <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full max-w-lg h-full flex items-center justify-center">
-                <div className="text-center text-blue-400/50 p-8">
-                  <img src="/assets/home/Home Head.svg" alt="" className="max-w-full h-auto" />
-                </div>
-              </div>
-            </div>
+          <div className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end">
+            <ProductLifecycleChartOnce />
           </div>
         </div>
       </div>
@@ -199,132 +334,6 @@ const PioneersStrip = () => {
     </section>
   );
 };
-
-// =====================================================
-// ENDORSEMENT CARDS — WIDE RECTANGLE CARD CAROUSEL
-// Sketch layout: two wide cards side-by-side visible,
-// dot navigation below, click dot → that card appears
-// Cards show H5 + paragraph content
-// =====================================================
-
-// interface EndorsementCard {
-//   id: number;
-//   heading: string;
-//   body: string;
-// }
-
-// const EndorsementCardsSection = () => {
-//   const cards: EndorsementCard[] = [
-//     {
-//       id: 1,
-//       heading: 'Strategic Clarity Over Reactive Execution',
-//       body:
-//         'The most successful founders we have worked with share one trait — they pause before pivoting. Clarity on the problem precedes clarity on the solution. Before committing resources, they ask whether the constraint is structural or situational.',
-//     },
-//     {
-//       id: 2,
-//       heading: 'Capital Efficiency as a Competitive Moat',
-//       body:
-//         'Raising money is not progress. How you deploy each rupee defines your runway and your leverage in the next round. Founders who treat capital efficiency as strategy — not accounting — consistently outperform in downturns.',
-//     },
-//     {
-//       id: 3,
-//       heading: 'Distribution Is the Defensible Advantage',
-//       body:
-//         'Product parity is achievable. A customer relationship built on trust, insight, and repeated value delivery is not. The businesses that win are those that own their distribution channel and understand their buyer more deeply than anyone else.',
-//     },
-//     {
-//       id: 4,
-//       heading: 'Pricing Is a Positioning Statement',
-//       body:
-//         'Your price tells a prospect who you are. Discounting to close signals desperation; it also attracts the wrong customer profile. The founders who build durable businesses price confidently and design their offer to justify it.',
-//     },
-//     {
-//       id: 5,
-//       heading: 'The Founder Who Can Hire for Weakness Wins',
-//       body:
-//         'Self-awareness is a leadership skill. Founders who know exactly where their judgment is unreliable — and who deliberately hire or advise against those blind spots — build organisations that outlast their own involvement in every function.',
-//     },
-//     {
-//       id: 6,
-//       heading: 'Metrics Are Decisions in Waiting',
-//       body:
-//         'A dashboard that no one acts on is decoration. The right metrics are the ones that change what you decide next week. If a number does not alter a decision, it is not a business metric — it is noise dressed as data.',
-//     },
-//   ];
-
-//   const [activeIndex, setActiveIndex] = useState(0);
-//   const totalCards = cards.length;
-
-//   // Auto-advance every 5 seconds
-//   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setActiveIndex((prev) => (prev + 1) % totalCards);
-//     }, 5000);
-//     return () => clearInterval(timer);
-//   }, [totalCards]);
-
-//   // On desktop show 2 cards side-by-side; on mobile show 1
-//   // We derive the "left" and "right" card indices
-//   const leftIndex = activeIndex;
-//   const rightIndex = (activeIndex + 1) % totalCards;
-
-//   return (
-//     <section className="bg-[#F0F4F8] pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-7xl mx-auto">
-
-//         {/* Card grid */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-//           {/* Left / primary card — always visible */}
-//           <CardItem card={cards[leftIndex]} key={`left-${leftIndex}`} />
-
-//           {/* Right card — hidden on mobile, visible md+ */}
-//           <div className="hidden md:block">
-//             <CardItem card={cards[rightIndex]} key={`right-${rightIndex}`} />
-//           </div>
-//         </div>
-
-//         {/* Dot navigation */}
-//         <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8">
-//           {cards.map((_, i) => (
-//             <button
-//               key={i}
-//               onClick={() => setActiveIndex(i)}
-//               aria-label={`Go to card ${i + 1}`}
-//               className={`rounded-full transition-all duration-300 ${
-//                 i === activeIndex
-//                   ? 'bg-[#0A1E3D] w-8 sm:w-10 h-3'
-//                   : 'bg-gray-300 hover:bg-gray-400 w-3 h-3'
-//               }`}
-//             />
-//           ))}
-//         </div>
-//       </div>
-
-//       <style>{`
-//         @keyframes cardFadeIn {
-//           from { opacity: 0; transform: translateY(12px); }
-//           to   { opacity: 1; transform: translateY(0); }
-//         }
-//         .card-animate {
-//           animation: cardFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-//         }
-//       `}</style>
-//     </section>
-//   );
-// };
-
-// // Individual card — wide rectangle with h5 + paragraph
-// const CardItem = ({ card }: { card: EndorsementCard }) => (
-//   <div className="card-animate bg-white border border-gray-200 rounded-xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 w-full">
-//     <h5 className="text-[#0A1E3D] font-semibold text-base sm:text-lg lg:text-xl mb-3 leading-snug">
-//       {card.heading}
-//     </h5>
-//     <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-//       {card.body}
-//     </p>
-//   </div>
-// );
 
 // =====================================================
 // REPORT SECTION COMPONENT
@@ -1122,11 +1131,8 @@ const StoryProcessSection = () => {
 export default function HomePage() {
   return (
     <main className="min-h-screen">
-      <HeroSection />
-      {/* ── NEW: Pioneers strip + endorsement cards ── */}
+      <ProductLifecycleHero />
       <PioneersStrip />
-      {/* <EndorsementCardsSection /> */}
-      {/* ────────────────────────────────────────────── */}
       <ReportSection />
       <CompanyHelpsSection />
       <TestimonialsSection />
