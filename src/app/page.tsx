@@ -232,7 +232,7 @@ export const ProductLifecycleHero = () => {
       <div className="relative max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
           <div className="space-y-6 sm:space-y-8 lg:space-y-10">
-            <h2 className="text-xl sm:text-2xl text-white">
+            <h2 className="text-xl  text-white">
               Potential Creates Possibilities. Strategy Brings Growth. Results Prove It.
             </h2>
             <LifecycleCallout activeIndex={activeIndex} displayText={displayText} />
