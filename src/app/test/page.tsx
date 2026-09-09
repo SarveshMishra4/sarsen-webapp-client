@@ -477,7 +477,7 @@ const BubbleCluster = ({ activeIndex }: { activeIndex: number }) => {
 };
 
 // =====================================================
-// ADDITIONAL DIAGRAM COMPONENTS (previously defined)
+// ADDITIONAL DIAGRAM COMPONENTS
 // =====================================================
 const EngagementPathChart = () => {
   const stages = ['You Reach Out', 'We Respond', 'Discovery Call', 'Engagement Begins'];
@@ -1150,7 +1150,7 @@ const StaircaseDiagram = () => {
 };
 
 // =====================================================
-// HERO VERSIONS — existing and new
+// HERO VERSIONS — all existing and new
 // =====================================================
 const HeroVersionPolar = () => {
   const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
@@ -1308,7 +1308,6 @@ const HeroVersionGlobalCoverage = () => {
   );
 };
 
-// Newly added versions
 const HeroVersionRefinedCoverage = () => {
   return (
     <HeroShell devLabel="Version L — Refined Coverage Clock">
@@ -1390,6 +1389,1325 @@ const HeroVersionSlidingWindow = () => {
 };
 
 // =====================================================
+// NEWLY ADDED COMPONENTS (from user request)
+// =====================================================
+const OriginTimelineDiagram = () => {
+  const milestones = [
+    { label: 'Founded', x: 30 },
+    { label: 'First Mandate', x: 140 },
+    { label: 'Regional Expansion', x: 260 },
+    { label: 'Today', x: 370 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineOrigin {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-origin {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineOrigin 3.2s ease-in-out forwards;
+        }
+        @keyframes originTickFade {
+          from { opacity: 0; transform: scale(0); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .origin-tick-0 { animation: originTickFade 0.4s ease-out 0.1s both; }
+        .origin-tick-1 { animation: originTickFade 0.4s ease-out 1.1s both; }
+        .origin-tick-2 { animation: originTickFade 0.4s ease-out 2.1s both; }
+        .origin-tick-3 { animation: originTickFade 0.4s ease-out 3.0s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 150" className="w-full h-auto">
+        <path
+          id="origin-path"
+          d="M 30 100 C 80 100, 100 60, 140 60 C 190 60, 220 110, 260 90 C 310 68, 330 40, 370 40"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-origin"
+        />
+        {milestones.map((m, i) => {
+          const ys = [100, 60, 90, 40];
+          return (
+            <circle
+              key={m.label}
+              cx={m.x}
+              cy={ys[i]}
+              r={5}
+              fill="#60a5fa"
+              className={`origin-tick-${i}`}
+              style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }}
+            />
+          );
+        })}
+      </svg>
+
+      <div className="flex justify-between text-[11px] sm:text-sm text-white/50 mt-2 px-1">
+        {milestones.map((m) => (
+          <span key={m.label} className="text-center max-w-[80px]">{m.label}</span>
+        ))}
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        Every Stage Built Deliberately On The Last
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionOriginStory = () => {
+  return (
+    <HeroShell devLabel="Version Q — Origin Timeline">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">We Didn't Start With A Plan. We Started With A Problem.</p>
+            <p className="text-white/60 text-base">Every stage since has been earned, not assumed.</p>
+          </div>
+        }
+        right={<OriginTimelineDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const SignalThroughNoiseDiagram = () => {
+  const noiseDots = [
+    { x: 40, y: 40 }, { x: 90, y: 150 }, { x: 130, y: 60 }, { x: 170, y: 170 },
+    { x: 210, y: 50 }, { x: 250, y: 140 }, { x: 300, y: 70 }, { x: 340, y: 160 },
+    { x: 60, y: 100 }, { x: 190, y: 30 }, { x: 280, y: 30 }, { x: 360, y: 100 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineSignal {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-signal {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineSignal 3s ease-in-out 0.6s forwards;
+        }
+        @keyframes noiseFadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .noise-dot {
+          animation: noiseFadeIn 1.2s ease-out both;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        {noiseDots.map((d, i) => (
+          <circle
+            key={i}
+            cx={d.x}
+            cy={d.y}
+            r={3}
+            fill="rgba(255,255,255,0.25)"
+            className="noise-dot"
+            style={{ animationDelay: `${i * 0.05}s` }}
+          />
+        ))}
+
+        <path
+          id="signal-path"
+          d="M 20 100 L 380 100"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-signal"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.9))' }}>
+          <animateMotion dur="3s" begin="0.6s" repeatCount="1" fill="freeze">
+            <mpath href="#signal-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        We Don't Add To The Noise. We Cut Through It.
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionClaritySignal = () => {
+  return (
+    <HeroShell devLabel="Version R — Signal Through Noise">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Most Advice Adds Noise. We Add Clarity.</p>
+            <p className="text-white/60 text-base">One clear line of reasoning, drawn through the mess.</p>
+          </div>
+        }
+        right={<SignalThroughNoiseDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const DepthNotBreadthDiagram = () => {
+  const layers = [
+    { label: 'Symptoms', y: 40 },
+    { label: 'Surface Metrics', y: 90 },
+    { label: 'Root Cause', y: 140 },
+    { label: 'Structural Constraint', y: 190 },
+  ];
+
+  return (
+    <div className="w-64 sm:w-72">
+      <style>{`
+        @keyframes drawLineDepth {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-depth {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineDepth 3s ease-in-out forwards;
+        }
+        @keyframes depthLayerFade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .depth-layer-0 { animation: depthLayerFade 0.5s ease-out 0.2s both; }
+        .depth-layer-1 { animation: depthLayerFade 0.5s ease-out 1.0s both; }
+        .depth-layer-2 { animation: depthLayerFade 0.5s ease-out 1.9s both; }
+        .depth-layer-3 { animation: depthLayerFade 0.5s ease-out 2.7s both; }
+        @keyframes depthGlow {
+          0%, 100% { opacity: 0.6; r: 5; }
+          50%      { opacity: 1; r: 7; }
+        }
+        .depth-end-glow { animation: depthGlow 2s ease-in-out 3s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 220 220" className="w-full h-auto">
+        {layers.map((l, i) => (
+          <g key={l.label} className={`depth-layer-${i}`}>
+            <line x1="10" y1={l.y} x2="210" y2={l.y} stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
+            <text x="10" y={l.y - 6} fill="#93C5FD" fontSize="9">{l.label}</text>
+          </g>
+        ))}
+
+        <path
+          id="depth-path"
+          d="M 40 20 L 40 200"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeDasharray="4 4"
+          pathLength={1}
+          className="draw-line-depth"
+        />
+
+        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.8))' }}>
+          <animateMotion dur="3s" repeatCount="1" fill="freeze">
+            <mpath href="#depth-path" />
+          </animateMotion>
+        </circle>
+
+        <circle cx="40" cy="200" r={5} fill="#60a5fa" className="depth-end-glow" />
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        We Stop Where The Real Problem Starts
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionDepthNotBreadth = () => {
+  return (
+    <HeroShell devLabel="Version S — Depth Not Breadth">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Symptoms Are Loud. Root Causes Are Quiet.</p>
+            <p className="text-white/60 text-base">We go past the noise until we hit the constraint that actually matters.</p>
+          </div>
+        }
+        right={<DepthNotBreadthDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const ConvergingExpertiseDiagram = () => {
+  const sources = [
+    { label: 'Finance', y: 30 },
+    { label: 'Operations', y: 75 },
+    { label: 'Strategy', y: 125 },
+    { label: 'Technology', y: 170 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineConvergeExp {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-converge-exp-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0s forwards; }
+        .draw-line-converge-exp-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.25s forwards; }
+        .draw-line-converge-exp-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.5s forwards; }
+        .draw-line-converge-exp-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.75s forwards; }
+        @keyframes convergeExpGlow {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 8; opacity: 1; }
+        }
+        .converge-exp-glow { animation: convergeExpGlow 2.2s ease-in-out 1.8s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path d="M 20 30 C 140 30, 220 90, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-0" />
+        <path d="M 20 75 C 140 75, 220 95, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-1" />
+        <path d="M 20 125 C 140 125, 220 105, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-2" />
+        <path d="M 20 170 C 140 170, 220 110, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-3" />
+
+        {sources.map((s) => (
+          <text key={s.label} x="10" y={s.y - 5} fill="rgba(255,255,255,0.5)" fontSize="11">{s.label}</text>
+        ))}
+
+        <circle cx="340" cy="100" r="5" fill="#60a5fa" className="converge-exp-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' }} />
+        <text x="340" y="122" fill="#93C5FD" fontSize="10" textAnchor="middle">Sarsen</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        One Team. Four Disciplines. No Blind Spots.
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionConvergingExpertise = () => {
+  return (
+    <HeroShell devLabel="Version T — Converging Expertise">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Business Problems Don't Respect Departments. Neither Do We.</p>
+            <p className="text-white/60 text-base">Finance, operations, strategy, and technology — brought to every engagement together.</p>
+          </div>
+        }
+        right={<ConvergingExpertiseDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const RealGrowthLineDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineRealGrowth {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-real-growth {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineRealGrowth 3.4s ease-in-out forwards;
+        }
+        .draw-line-trend {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineRealGrowth 3.4s ease-in-out 0.3s forwards;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path
+          d="M 20 170 L 30 160"
+          stroke="rgba(255,255,255,0.15)"
+          fill="none"
+        />
+        <path
+          id="trend-path"
+          d="M 20 165 C 140 130, 260 90, 380 40"
+          fill="none"
+          stroke="rgba(96,165,250,0.5)"
+          strokeWidth={1.5}
+          strokeDasharray="3 5"
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-trend"
+        />
+        <path
+          id="real-growth-path"
+          d="M 20 170 L 60 140 L 100 155 L 140 100 L 180 125 L 220 80 L 260 95 L 300 55 L 340 70 L 380 30"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          pathLength={1}
+          className="draw-line-real-growth"
+        />
+        <circle r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3.4s" repeatCount="1" fill="freeze" rotate="auto">
+            <mpath href="#real-growth-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <div className="flex justify-between text-white/50 text-xs sm:text-sm mt-2 px-1">
+        <span>Where You Start</span>
+        <span>Where You're Headed</span>
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        We Plan For The Dips, Not Just The Wins
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionRealGrowth = () => {
+  return (
+    <HeroShell devLabel="Version U — Real Growth Line">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">No Business Grows In A Straight Line. We Don't Pretend Otherwise.</p>
+            <p className="text-white/60 text-base">The trend matters more than any single quarter.</p>
+          </div>
+        }
+        right={<RealGrowthLineDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const DivergencePathDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineDivergeGeneric {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-diverge-generic {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineDivergeGeneric 3s ease-in-out forwards;
+        }
+        .draw-line-diverge-sarsen {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineDivergeGeneric 3s ease-in-out 0.3s forwards;
+        }
+        @keyframes divergeLabelFade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .diverge-label { animation: divergeLabelFade 0.6s ease-out 2.6s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path
+          id="diverge-generic-path"
+          d="M 20 100 C 100 100, 140 110, 180 120 C 240 132, 310 145, 380 155"
+          fill="none"
+          stroke="rgba(255,255,255,0.35)"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeDasharray="4 5"
+          pathLength={1}
+          className="draw-line-diverge-generic"
+        />
+        <path
+          id="diverge-sarsen-path"
+          d="M 20 100 C 100 100, 140 90, 180 80 C 240 65, 310 40, 380 20"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-diverge-sarsen"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle cx="20" cy="100" r={5} fill="#ffffff" />
+
+        <circle r={5} fill="rgba(255,255,255,0.6)">
+          <animateMotion dur="3s" repeatCount="1" fill="freeze">
+            <mpath href="#diverge-generic-path" />
+          </animateMotion>
+        </circle>
+        <circle r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3s" begin="0.3s" repeatCount="1" fill="freeze">
+            <mpath href="#diverge-sarsen-path" />
+          </animateMotion>
+        </circle>
+
+        <text x="385" y="158" fill="rgba(255,255,255,0.4)" fontSize="10" textAnchor="end" className="diverge-label">Generic Advice</text>
+        <text x="385" y="15" fill="#93C5FD" fontSize="10" textAnchor="end" className="diverge-label">Working With Sarsen</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Same Starting Point. Different Trajectory.
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionDivergencePath = () => {
+  return (
+    <HeroShell devLabel="Version A — Divergence Path">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Every Business Starts From The Same Point. Few End Up In The Same Place.</p>
+            <p className="text-white/60 text-base">The difference isn't effort — it's the quality of the decisions along the way.</p>
+          </div>
+        }
+        right={<DivergencePathDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const BalanceLineDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineBalance {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-balance {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineBalance 2.4s ease-in-out forwards;
+        }
+        @keyframes balanceSettle {
+          0%   { transform: rotate(-4deg); }
+          50%  { transform: rotate(3deg); }
+          100% { transform: rotate(0deg); }
+        }
+        .balance-beam {
+          transform-origin: 200px 60px;
+          animation: balanceSettle 2.4s ease-in-out forwards;
+        }
+        @keyframes balanceLabelFade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .balance-label { animation: balanceLabelFade 0.6s ease-out 2.2s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 160" className="w-full h-auto">
+        <line x1="200" y1="60" x2="200" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth={2} />
+        <path d="M 190 120 L 210 120 L 200 135 Z" fill="rgba(255,255,255,0.4)" />
+
+        <g className="balance-beam">
+          <line
+            id="balance-path"
+            x1="60" y1="60" x2="340" y2="60"
+            stroke="#ffffff"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-balance"
+          />
+          <circle cx="60" cy="60" r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+          <circle cx="340" cy="60" r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+        </g>
+
+        <circle cx="200" cy="60" r={4} fill="#ffffff" />
+
+        <text x="60" y="40" fill="rgba(147,197,253,0.85)" fontSize="10" textAnchor="middle" className="balance-label">What's Right For You</text>
+        <text x="340" y="40" fill="rgba(147,197,253,0.85)" fontSize="10" textAnchor="middle" className="balance-label">What's Easy For Us</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        We Have Nothing To Sell But The Truth
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionBalanceLine = () => {
+  return (
+    <HeroShell devLabel="Version B — Balance Line">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">No Products To Push. No Retainers To Protect. Just The Right Call.</p>
+            <p className="text-white/60 text-base">Independence isn't a value statement for us — it's the entire business model.</p>
+          </div>
+        }
+        right={<BalanceLineDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const CompoundingCurveDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineCompound {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-compound-flat {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCompound 3s ease-in-out forwards;
+        }
+        .draw-line-compound-curve {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCompound 3s ease-in-out 0.2s forwards;
+        }
+        @keyframes compoundGlowPulse {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 8; opacity: 1; }
+        }
+        .compound-end-glow { animation: compoundGlowPulse 2s ease-in-out 3.2s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path
+          id="compound-flat-path"
+          d="M 20 160 L 380 100"
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth={1.5}
+          strokeDasharray="4 5"
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-compound-flat"
+        />
+        <path
+          id="compound-curve-path"
+          d="M 20 170 C 100 165, 180 150, 240 110 C 290 78, 330 40, 380 15"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-compound-curve"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle r={5} fill="#ffffff" opacity={0.7}>
+          <animateMotion dur="3s" repeatCount="1" fill="freeze">
+            <mpath href="#compound-flat-path" />
+          </animateMotion>
+        </circle>
+        <circle r={5} fill="#60a5fa">
+          <animateMotion dur="3s" begin="0.2s" repeatCount="1" fill="freeze">
+            <mpath href="#compound-curve-path" />
+          </animateMotion>
+        </circle>
+
+        <circle cx="380" cy="15" r={5} fill="#60a5fa" className="compound-end-glow" />
+      </svg>
+
+      <div className="flex justify-between text-white/50 text-xs sm:text-sm mt-2 px-1">
+        <span>Engagement Begins</span>
+        <span>Compounding Advantage</span>
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        One Right Decision Makes The Next One Easier
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionCompoundingCurve = () => {
+  return (
+    <HeroShell devLabel="Version C — Compounding Curve">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Good Decisions Don't Just Add Up. They Compound.</p>
+            <p className="text-white/60 text-base">Clarity in one area makes every decision after it faster and better.</p>
+          </div>
+        }
+        right={<CompoundingCurveDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const HandoffDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineHandoff {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-handoff {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineHandoff 2.8s ease-in-out forwards;
+        }
+        @keyframes handoffMarkerPop {
+          0%   { r: 0; opacity: 0; }
+          55%  { r: 0; opacity: 0; }
+          65%  { r: 7; opacity: 1; }
+          100% { r: 5; opacity: 1; }
+        }
+        .handoff-marker { animation: handoffMarkerPop 2.8s ease-in-out forwards; }
+        @keyframes handoffLabelFade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .handoff-label { animation: handoffLabelFade 0.6s ease-out 2.4s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 140" className="w-full h-auto">
+        <path
+          id="handoff-path"
+          d="M 30 70 L 370 70"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-handoff"
+        />
+
+        <circle cx="30" cy="70" r={5} fill="#93C5FD" />
+        <circle cx="370" cy="70" r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+
+        <circle cx="200" cy="70" r={5} fill="#ffffff" className="handoff-marker" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.8))' }} />
+
+        <text x="30" y="50" fill="rgba(147,197,253,0.8)" fontSize="10" textAnchor="middle" className="handoff-label">Sarsen</text>
+        <text x="200" y="50" fill="rgba(255,255,255,0.7)" fontSize="10" textAnchor="middle" className="handoff-label">Capability Transferred</text>
+        <text x="370" y="50" fill="rgba(147,197,253,0.8)" fontSize="10" textAnchor="middle" className="handoff-label">Your Team</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        The Goal Is Independence, Not An Ongoing Retainer
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionHandoff = () => {
+  return (
+    <HeroShell devLabel="Version D — Handoff Diagram">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">We Step In To Clarify Decisions. Not To Run Your Business.</p>
+            <p className="text-white/60 text-base">Every engagement is designed to hand capability back to your team — not create a dependency on ours.</p>
+          </div>
+        }
+        right={<HandoffDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const NarrowingRiskCorridorDiagram = () => {
+  const scatterPaths = [
+    "M 20 20 C 100 30, 200 60, 260 90",
+    "M 20 50 C 100 55, 200 75, 260 95",
+    "M 20 110 C 100 100, 200 100, 260 100",
+    "M 20 150 C 100 130, 200 115, 260 105",
+    "M 20 180 C 100 150, 200 120, 260 108",
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineCorridorScatter {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-corridor-scatter {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCorridorScatter 1.6s ease-in-out forwards;
+        }
+        .draw-line-corridor-final {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCorridorScatter 1.8s ease-in-out 1.5s forwards;
+        }
+        @keyframes corridorLabelFade {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .corridor-label { animation: corridorLabelFade 0.6s ease-out 3s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        {scatterPaths.map((d, i) => (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke="rgba(255,255,255,0.25)"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-corridor-scatter"
+            style={{ animationDelay: `${i * 0.1}s` }}
+          />
+        ))}
+
+        <path
+          id="corridor-final-path"
+          d="M 260 100 L 380 100"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-corridor-final"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle cx="20" cy="100" r={4} fill="rgba(255,255,255,0.5)" />
+        <circle r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="1.8s" begin="1.5s" repeatCount="1" fill="freeze">
+            <mpath href="#corridor-final-path" />
+          </animateMotion>
+        </circle>
+
+        <text x="20" y="15" fill="rgba(255,255,255,0.4)" fontSize="10" className="corridor-label">Every Option Looks Plausible</text>
+        <text x="380" y="120" fill="#93C5FD" fontSize="10" textAnchor="end" className="corridor-label">One Is Actually Right</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        We Narrow The Field Before You Commit
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionNarrowingRisk = () => {
+  return (
+    <HeroShell devLabel="Version E — Narrowing Risk Corridor">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">The Danger Isn't Too Few Options. It's Too Many That Look Right.</p>
+            <p className="text-white/60 text-base">We help you rule out the plausible ones fast, so the real decision gets your full attention.</p>
+          </div>
+        }
+        right={<NarrowingRiskCorridorDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const AscendingCareerPathDiagram = () => {
+  const milestones = [
+    { label: 'You Join', x: 30, y: 150 },
+    { label: 'You Own A Problem', x: 150, y: 105 },
+    { label: 'You Lead An Engagement', x: 260, y: 65 },
+    { label: 'You Shape The Firm', x: 370, y: 30 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineAscend {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-ascend {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineAscend 3.2s ease-in-out forwards;
+        }
+        @keyframes ascendNodeFade {
+          from { opacity: 0; transform: scale(0.4); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .ascend-node-0 { animation: ascendNodeFade 0.5s ease-out 0.1s both; }
+        .ascend-node-1 { animation: ascendNodeFade 0.5s ease-out 1.1s both; }
+        .ascend-node-2 { animation: ascendNodeFade 0.5s ease-out 2.1s both; }
+        .ascend-node-3 { animation: ascendNodeFade 0.5s ease-out 3.0s both; }
+      `}</style>
+
+      <svg viewBox="0 0 400 190" className="w-full h-auto">
+        <path
+          id="ascend-path"
+          d="M 30 150 C 80 150, 100 115, 150 105 C 200 95, 220 80, 260 65 C 300 50, 330 45, 370 30"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-ascend"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+        {milestones.map((m, i) => (
+          <circle
+            key={m.label}
+            cx={m.x}
+            cy={m.y}
+            r={5}
+            fill="#ffffff"
+            className={`ascend-node-${i}`}
+            style={{ transformOrigin: `${m.x}px ${m.y}px`, filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.7))' }}
+          />
+        ))}
+      </svg>
+
+      <div className="flex justify-between text-[10px] sm:text-xs text-white/60 mt-1 px-1">
+        {milestones.map((m) => (
+          <span key={m.label} className="text-center max-w-[90px]">{m.label}</span>
+        ))}
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        Real Ownership, From Day One
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionAscendingPath = () => {
+  return (
+    <HeroShell devLabel="Version A — Ascending Career Path">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">We Don't Hire For Tasks. We Hire For Trajectories.</p>
+            <p className="text-white/60 text-base">Every person here is expected to grow into more responsibility — fast.</p>
+          </div>
+        }
+        right={<AscendingCareerPathDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const RefinedNarrowingRiskCorridorDiagram = () => {
+  const scatterPaths = [
+    "M 20 20 C 100 30, 190 55, 260 90",
+    "M 20 50 C 100 55, 190 75, 260 95",
+    "M 20 110 C 100 100, 190 100, 260 100",
+    "M 20 150 C 100 130, 190 115, 260 105",
+    "M 20 180 C 100 150, 190 120, 260 108",
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineCorridorScatterRefined {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-corridor-scatter-refined {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCorridorScatterRefined 1.6s ease-in-out forwards;
+        }
+        .draw-line-corridor-final-refined {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCorridorScatterRefined 1.8s ease-in-out 1.5s forwards;
+        }
+        @keyframes corridorLabelFadeRefined {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .corridor-label-refined { animation: corridorLabelFadeRefined 0.6s ease-out 3s both; }
+        @keyframes corridorEndGlowRefined {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 8; opacity: 1; }
+        }
+        .corridor-end-glow-refined { animation: corridorEndGlowRefined 2s ease-in-out 3.3s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        {scatterPaths.map((d, i) => (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-corridor-scatter-refined"
+            style={{ animationDelay: `${i * 0.1}s` }}
+          />
+        ))}
+
+        <path
+          id="corridor-final-path-refined"
+          d="M 260 100 C 300 100, 330 60, 380 40"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-corridor-final-refined"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle cx="20" cy="100" r={4} fill="rgba(255,255,255,0.6)" />
+
+        <circle r={5} fill="#60a5fa" className="corridor-end-glow-refined" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="1.8s" begin="1.5s" repeatCount="1" fill="freeze">
+            <mpath href="#corridor-final-path-refined" />
+          </animateMotion>
+        </circle>
+
+        <text x="20" y="15" fill="rgba(255,255,255,0.55)" fontSize="10" className="corridor-label-refined">Every Option Looks Plausible</text>
+        <text x="380" y="60" fill="#93C5FD" fontSize="10" textAnchor="end" className="corridor-label-refined">One Is Actually Right</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        We Narrow The Field Before You Commit
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionRefinedNarrowingRisk = () => {
+  return (
+    <HeroShell devLabel="Version F — Refined Narrowing Risk Corridor">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">The Danger Isn't Too Few Options. It's Too Many That Look Right.</p>
+            <p className="text-white/60 text-base">We help you rule out the plausible ones fast, so the real decision gets your full attention.</p>
+          </div>
+        }
+        right={<RefinedNarrowingRiskCorridorDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const ConnectedNetworkDiagram = () => {
+  const nodes = [
+    { label: 'You', x: 200, y: 100, isCenter: true },
+    { label: 'Strategy', x: 90, y: 45 },
+    { label: 'Finance', x: 320, y: 55 },
+    { label: 'Operations', x: 70, y: 155 },
+    { label: 'Research', x: 330, y: 150 },
+  ];
+
+  return (
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes drawLineNetworkConn {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-network-conn {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineNetworkConn 1.4s ease-out forwards;
+        }
+        @keyframes networkNodePulse {
+          0%, 100% { r: 5; opacity: 0.85; }
+          50%      { r: 7; opacity: 1; }
+        }
+        .network-node-pulse { animation: networkNodePulse 3s ease-in-out infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-full">
+        {nodes.filter((n) => !n.isCenter).map((n, i) => (
+          <path
+            key={n.label}
+            d={`M 200 100 Q ${(200 + n.x) / 2} ${(100 + n.y) / 2 - 15}, ${n.x} ${n.y}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.55)"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-network-conn"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+
+        {nodes.map((n) => (
+          <g key={n.label}>
+            <circle
+              cx={n.x}
+              cy={n.y}
+              r={n.isCenter ? 7 : 5}
+              fill={n.isCenter ? '#60a5fa' : '#ffffff'}
+              className={n.isCenter ? 'network-node-pulse' : ''}
+              style={{ filter: n.isCenter ? 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' : 'drop-shadow(0 0 4px rgba(255,255,255,0.6))' }}
+            />
+            <text
+              x={n.x}
+              y={n.isCenter ? n.y + 20 : n.y - 12}
+              fill={n.isCenter ? '#93C5FD' : 'rgba(255,255,255,0.7)'}
+              fontSize="10"
+              textAnchor="middle"
+            >
+              {n.label}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+const HeroVersionConnectedNetwork = () => {
+  return (
+    <HeroShell devLabel="Version B — Connected Network">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Flat Structures. Direct Access. No Layers To Wait Behind.</p>
+            <p className="text-white/60 text-base">Every discipline sits one conversation away — including the ones you haven't tried yet.</p>
+          </div>
+        }
+        right={<ConnectedNetworkDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const HorizonBuildDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineHorizonBuild {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-horizon-build {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineHorizonBuild 3.2s ease-in-out forwards;
+        }
+        @keyframes horizonMarkerTravel {
+          0%   { offset-distance: 0%; }
+          100% { offset-distance: 100%; }
+        }
+        .horizon-marker {
+          offset-path: path('M 20 160 C 100 150, 160 120, 220 95 C 280 70, 330 45, 380 20');
+          animation: horizonMarkerTravel 3.2s ease-in-out forwards;
+        }
+        @keyframes horizonGlowPulse {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 7; opacity: 1; }
+        }
+        .horizon-end-glow { animation: horizonGlowPulse 2s ease-in-out 3.4s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 190" className="w-full h-auto">
+        <path
+          id="horizon-build-path"
+          d="M 20 160 C 100 150, 160 120, 220 95 C 280 70, 330 45, 380 20"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-horizon-build"
+        />
+        <circle r={5} fill="#60a5fa" className="horizon-marker" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }} />
+        <circle cx="380" cy="20" r={5} fill="#60a5fa" className="horizon-end-glow" />
+      </svg>
+
+      <div className="flex justify-between text-white/50 text-xs sm:text-sm mt-2 px-1">
+        <span>Where Businesses Are Today</span>
+        <span>Where We're Taking Them</span>
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        We're Not Maintaining The Present. We're Building The Next Version Of It.
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionHorizonBuild = () => {
+  return (
+    <HeroShell devLabel="Version C — Horizon Build">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Every Engagement Is A Small Bet On What's Next.</p>
+            <p className="text-white/60 text-base">Join us if you'd rather build the answer than wait for one.</p>
+          </div>
+        }
+        right={<HorizonBuildDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const SkillSpiralDiagram = () => {
+  const spiralPath = useMemo(() => {
+    const turns = 3.2;
+    const points: string[] = [];
+    const steps = 120;
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const angle = t * turns * 2 * Math.PI;
+      const radius = 6 + t * 74;
+      const x = 100 + radius * Math.cos(angle);
+      const y = 100 + radius * Math.sin(angle);
+      points.push(`${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`);
+    }
+    return points.join(' ');
+  }, []);
+
+  return (
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes drawLineSpiral {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-spiral {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineSpiral 3.4s ease-in-out forwards;
+        }
+        @keyframes spiralEndGlow {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 7; opacity: 1; }
+        }
+        .spiral-end-glow { animation: spiralEndGlow 2s ease-in-out 3.6s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 200 200" className="w-full h-full">
+        <path
+          d={spiralPath}
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          pathLength={1}
+          className="draw-line-spiral"
+          style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.5))' }}
+        />
+        <circle cx="100" cy="100" r={3} fill="#ffffff" opacity={0.7} />
+        <circle cx="180" cy="100" r={5} fill="#60a5fa" className="spiral-end-glow" />
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        No Two Projects Teach You The Same Thing Twice
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionSkillSpiral = () => {
+  return (
+    <HeroShell devLabel="Version D — Skill Spiral">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Every Engagement Is Different. That's Not A Bug — It's The Point.</p>
+            <p className="text-white/60 text-base">You leave every project sharper than you entered it.</p>
+          </div>
+        }
+        right={<SkillSpiralDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+const BalancedWaveDiagram = () => {
+  const wavePath = useMemo(() => {
+    const points: string[] = [];
+    const steps = 100;
+    const amplitude = 30;
+    const cycles = 3;
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const x = 20 + t * 360;
+      const y = 100 + amplitude * Math.sin(t * cycles * 2 * Math.PI);
+      points.push(`${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`);
+    }
+    return points.join(' ');
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineWave {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-wave {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineWave 3s ease-in-out forwards;
+        }
+        @keyframes waveMarkerTravel {
+          0%   { offset-distance: 0%; }
+          100% { offset-distance: 100%; }
+        }
+        .wave-marker {
+          animation: waveMarkerTravel 3s ease-in-out forwards;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path
+          id="wave-path"
+          d={wavePath}
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          pathLength={1}
+          className="draw-line-wave"
+        />
+        <circle r={5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3s" repeatCount="1" fill="freeze" rotate="auto">
+            <mpath href="#wave-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        Sustainable Highs, No Manufactured Urgency
+      </p>
+    </div>
+  );
+};
+
+const HeroVersionBalancedWave = () => {
+  return (
+    <HeroShell devLabel="Version E — Balanced Wave">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Deep Work Has A Rhythm. We Protect It.</p>
+            <p className="text-white/60 text-base">Intense when it matters, sustainable always — burnout isn't a badge of honour here.</p>
+          </div>
+        }
+        right={<BalancedWaveDiagram />}
+      />
+    </HeroShell>
+  );
+};
+
+// =====================================================
 // TEST PAGE — stack all versions
 // =====================================================
 export default function NewVisualsTestPage() {
@@ -1421,6 +2739,22 @@ export default function NewVisualsTestPage() {
       <HeroVersionMinimalOrbit />
       <HeroVersionNetworkPulse />
       <HeroVersionSlidingWindow />
+      <HeroVersionOriginStory />
+      <HeroVersionClaritySignal />
+      <HeroVersionDepthNotBreadth />
+      <HeroVersionConvergingExpertise />
+      <HeroVersionRealGrowth />
+      <HeroVersionDivergencePath />
+      <HeroVersionBalanceLine />
+      <HeroVersionCompoundingCurve />
+      <HeroVersionHandoff />
+      <HeroVersionNarrowingRisk />
+      <HeroVersionAscendingPath />
+      <HeroVersionRefinedNarrowingRisk />
+      <HeroVersionConnectedNetwork />
+      <HeroVersionHorizonBuild />
+      <HeroVersionSkillSpiral />
+      <HeroVersionBalancedWave />
     </main>
   );
 }
