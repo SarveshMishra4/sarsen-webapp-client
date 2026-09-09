@@ -3,6 +3,7 @@
 
 import Link from 'next/dist/client/link';
 import React, { useState, useEffect, useRef } from 'react';
+import { apiRequest } from '@/services/api';
 
 // =====================================================
 // DATA — LEFT PANEL ONLY. Independent of the chart on the
@@ -338,13 +339,72 @@ const PioneersStrip = () => {
 // =====================================================
 // REPORT SECTION COMPONENT
 // =====================================================
+// =====================================================
+// REPORT SECTION COMPONENT (updated)
+// Now sends the modal form to POST /report-interest via apiRequest,
+// following the same pattern as ContactFormSection.
+//
+// SETUP: add this import to the top of app/page.tsx:
+//   import { apiRequest } from '@/services/api';
+// Then replace the existing `const ReportSection = () => { ... }`
+// block in app/page.tsx with everything below.
+// =====================================================
 const ReportSection = () => {
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    describesYou: '',
+    businessStage: '',
+    uncertainty: '',
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      await apiRequest('POST', '/report-interest', {
+        body: formData,
+      });
+
+      setSubmitted(true);
+    } catch (err: any) {
+      // err.message comes directly from the backend — always human readable
+      setError(err.message ?? 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    // Reset after the closing animation settles so the form is fresh next open
+    setTimeout(() => {
+      setSubmitted(false);
+      setError('');
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        describesYou: '',
+        businessStage: '',
+        uncertainty: '',
+      });
+    }, 300);
   };
 
   return (
@@ -365,9 +425,8 @@ const ReportSection = () => {
                   cities, and strategic insights for founders and investors.
                 </p>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Based on data from 5,000+ startups, 200+ investor interviews, and ground-level
-                  research across 15 major startup hubs. Essential reading for anyone navigating
-                  the Indian entrepreneurial ecosystem.
+                  Based on data from 5,000 + Startups, 200 + Investor Interviews, and Ground-Level
+                  Research across 15 Startup Hubs Pan India. Essential Reading for Founders, Investors & Advisors.
                 </p>
               </div>
 
@@ -420,7 +479,7 @@ const ReportSection = () => {
       {showModal && (
         <div
           className="fixed inset-0 z-50 bg-black/60 overflow-y-auto"
-          onClick={() => setShowModal(false)}
+          onClick={closeModal}
         >
           <div className="flex items-end sm:items-center justify-center min-h-full px-4 sm:py-8">
             <div
@@ -428,7 +487,7 @@ const ReportSection = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setShowModal(false)}
+                onClick={closeModal}
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
               >
                 ✕
@@ -450,6 +509,9 @@ const ReportSection = () => {
                       </label>
                       <input
                         required
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
                         placeholder="John Doe"
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       />
@@ -462,6 +524,9 @@ const ReportSection = () => {
                       <input
                         required
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="john@company.com"
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       />
@@ -473,6 +538,9 @@ const ReportSection = () => {
                       </label>
                       <input
                         required
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="+91 9876543210"
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       />
@@ -484,7 +552,9 @@ const ReportSection = () => {
                       </label>
                       <select
                         required
-                        defaultValue=""
+                        name="describesYou"
+                        value={formData.describesYou}
+                        onChange={handleChange}
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       >
                         <option value="" disabled>Select an option</option>
@@ -502,7 +572,9 @@ const ReportSection = () => {
                       </label>
                       <select
                         required
-                        defaultValue=""
+                        name="businessStage"
+                        value={formData.businessStage}
+                        onChange={handleChange}
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       >
                         <option value="" disabled>Select an option</option>
@@ -521,7 +593,9 @@ const ReportSection = () => {
                       </label>
                       <select
                         required
-                        defaultValue=""
+                        name="uncertainty"
+                        value={formData.uncertainty}
+                        onChange={handleChange}
                         className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] focus:outline-none focus:ring-1 focus:ring-[#0A1E3D]"
                       >
                         <option value="" disabled>Select an option</option>
@@ -534,11 +608,18 @@ const ReportSection = () => {
                       </select>
                     </div>
 
+                    {error && (
+                      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+                        <p className="text-red-700 text-sm">{error}</p>
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 rounded-md transition-colors"
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0A1E3D] hover:bg-[#132B47] text-white py-3 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Email me the report
+                      {isSubmitting ? 'Sending...' : 'Email me the report'}
                     </button>
                   </form>
                 </>
