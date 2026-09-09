@@ -188,7 +188,7 @@ const ProductLifecycleChartOnce = () => {
         </circle>
       </svg>
 
-      <div className="flex justify-between text-[10px] sm:text-sm text-white/50 mt-2 px-1">
+      <div className="flex justify-between sm:text-sm text-white/50 mt-2 px-1">
         <span>Introduction</span>
         <span>Growth</span>
         <span>Maturity</span>
