@@ -448,6 +448,101 @@ const RadialProgressRing = ({ activeIndex }: { activeIndex: number }) => {
 };
 
 // =====================================================
+// VERSION 7 — Product lifecycle line chart. A dot travels
+// the full curve while the white line draws in behind it,
+// tracing Introduction → Growth → Maturity → Decline.
+// =====================================================
+const ProductLifecycleChart = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLinePLC {
+          to { stroke-dashoffset: 0; }
+        }
+        .draw-line-plc {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLinePLC 3.2s linear infinite;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 400 210" className="w-full h-auto">
+        <path
+          id="plc-path"
+          d="M 20 190 C 70 185, 90 170, 110 150 C 140 110, 160 70, 200 55 C 230 45, 270 42, 300 55 C 330 68, 350 100, 380 150"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-plc"
+        />
+        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#plc-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <div className="flex justify-between text-[11px] sm:text-xs text-white/50 mt-2 px-1">
+        <span>Introduction</span>
+        <span>Growth</span>
+        <span>Maturity</span>
+        <span>Decline</span>
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
+// VERSION 8 — Density of startup-failure reasons. Same
+// draw-on technique, plotted from the FAILURE_REASONS
+// values (steepest at "No Market Need", tapering off).
+// =====================================================
+const FailureDensityChart = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineDensity {
+          to { stroke-dashoffset: 0; }
+        }
+        .draw-line-density {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineDensity 3.2s linear infinite;
+        }
+      `}</style>
+
+      <svg viewBox="0 0 420 160" className="w-full h-auto">
+        <path
+          id="density-path"
+          d="M 30 40 C 45 46.7, 90 70.4, 120 80.2 C 150 90, 180 93.7, 210 98.8 C 240 104, 270 108.6, 300 111.2 C 330 113.8, 375 113.8, 390 114.3"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-density"
+        />
+        <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.9))' }}>
+          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#density-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      <div className="flex justify-between text-[10px] sm:text-[11px] text-white/50 mt-2 px-1 text-center leading-tight">
+        <span className="w-1/5">No Market Need</span>
+        <span className="w-1/5">Ran Out of Cash</span>
+        <span className="w-1/5">Not the Right Team</span>
+        <span className="w-1/5">Got Outcompeted</span>
+        <span className="w-1/5">Pricing & Cost</span>
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
 // SIX HERO VERSIONS — each owns its own timer so they
 // cycle independently.
 // =====================================================
@@ -525,6 +620,38 @@ const HeroVersion6 = () => {
   );
 };
 
+const HeroVersion7 = () => {
+  return (
+    <HeroShell devLabel="Version 7 — Product lifecycle line chart">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Every product moves through the same four stages.</p>
+            <p className="text-white/60 text-base">Knowing which one you're in changes what "good" looks like.</p>
+          </div>
+        }
+        right={<ProductLifecycleChart />}
+      />
+    </HeroShell>
+  );
+};
+
+const HeroVersion8 = () => {
+  return (
+    <HeroShell devLabel="Version 8 — Failure-reason density chart">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">Most failures cluster around one root cause.</p>
+            <p className="text-white/60 text-base">The rest are downstream of it.</p>
+          </div>
+        }
+        right={<FailureDensityChart />}
+      />
+    </HeroShell>
+  );
+};
+
 // =====================================================
 // TEST PAGE — every version, stacked for comparison
 // =====================================================
@@ -547,6 +674,8 @@ export default function TestPage() {
       <HeroVersion4 />
       <HeroVersion5 />
       <HeroVersion6 />
+        <HeroVersion7 />
+        <HeroVersion8 />
     </main>
   );
 }
