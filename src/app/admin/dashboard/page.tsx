@@ -7,6 +7,7 @@ import { getAdminToken } from '@/services/cookies';
 import { apiRequest } from '@/services/api';
 import { OverviewTab } from './overview-tab';
 import { ContactsTab } from './contacts-tab';
+import { ReportInterestTab } from './report-interest-tab';
 import { EngagementWorkspaceTab } from './engagement-tab';
 import { BlogsTab } from './blogs-tab';
 import { SubscribersTab } from './subscribers-tab';
@@ -40,6 +41,19 @@ export interface ApiContact {
   message: string;
   status: 'new' | 'in_progress' | 'resolved' | 'ignored';
   notes: { note: string; addedBy: string; addedAt: string }[];
+  createdAt: string;
+}
+
+// NEW: Report Interest type — matches report-interest.model.ts on the backend
+export interface ApiReportInterest {
+  _id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  describesYou: string;
+  businessStage: string;
+  uncertainty: string;
+  status: 'new' | 'reviewed' | 'sent';
   createdAt: string;
 }
 
@@ -157,13 +171,23 @@ export default function AdminDashboard() {
   const token = getAdminToken();
 
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'contacts' | 'engagements' | 'blogs' | 'subscribers' | 'cohorts' | 'coupons' | 'leads'
+    | 'overview'
+    | 'contacts'
+    | 'report-interest'
+    | 'engagements'
+    | 'blogs'
+    | 'subscribers'
+    | 'cohorts'
+    | 'coupons'
+    | 'leads'
   >('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // ── Data state ────────────────────────────────────────────────────────────
   const [engagements, setEngagements] = useState<ApiEngagement[]>([]);
   const [contacts, setContacts] = useState<ApiContact[]>([]);
+  // NEW: report interest state, same pattern as contacts
+  const [reportInterests, setReportInterests] = useState<ApiReportInterest[]>([]);
   const [subscribers, setSubscribers] = useState<ApiSubscriber[]>([]);
   const [coupons, setCoupons] = useState<ApiCoupon[]>([]);
   const [services, setServices] = useState<ApiService[]>([]);
@@ -192,24 +216,34 @@ export default function AdminDashboard() {
     setLoading(true);
     setError('');
     try {
-      const [engData, contactData, subData, couponData, serviceData, feedbackData, blogData] =
-        await Promise.all([
-          apiRequest<{ engagements: ApiEngagement[] }>('GET', '/engagements/admin', { token }),
-          apiRequest<{ submissions: ApiContact[] }>('GET', '/contact/admin', { token }),
-          apiRequest<{ subscribers: ApiSubscriber[] }>('GET', '/newsletter/admin/subscribers', { token }),
-          apiRequest<{ coupons: ApiCoupon[] }>('GET', '/coupons/admin', { token }),
-          apiRequest<{ services: ApiService[] }>('GET', '/services', { token }),
-          apiRequest<{ feedback: ApiFeedback[] }>('GET', '/feedback/admin', { token }),
-          // NEW: fetch blogs alongside everything else
-          apiRequest<{ blogs: ApiBlog[] }>('GET', '/blogs/admin', { token }),
-        ]);
+      const [
+        engData,
+        contactData,
+        reportInterestData,
+        subData,
+        couponData,
+        serviceData,
+        feedbackData,
+        blogData,
+      ] = await Promise.all([
+        apiRequest<{ engagements: ApiEngagement[] }>('GET', '/engagements/admin', { token }),
+        apiRequest<{ submissions: ApiContact[] }>('GET', '/contact/admin', { token }),
+        // NEW: fetch report interest submissions alongside everything else
+        apiRequest<{ submissions: ApiReportInterest[] }>('GET', '/report-interest/admin', { token }),
+        apiRequest<{ subscribers: ApiSubscriber[] }>('GET', '/newsletter/admin/subscribers', { token }),
+        apiRequest<{ coupons: ApiCoupon[] }>('GET', '/coupons/admin', { token }),
+        apiRequest<{ services: ApiService[] }>('GET', '/services', { token }),
+        apiRequest<{ feedback: ApiFeedback[] }>('GET', '/feedback/admin', { token }),
+        apiRequest<{ blogs: ApiBlog[] }>('GET', '/blogs/admin', { token }),
+      ]);
       setEngagements(engData.engagements ?? []);
       setContacts(contactData.submissions ?? []);
+      // NEW
+      setReportInterests(reportInterestData.submissions ?? []);
       setSubscribers(subData.subscribers ?? []);
       setCoupons(couponData.coupons ?? []);
       setServices(serviceData.services ?? []);
       setFeedback(feedbackData.feedback ?? []);
-      // NEW
       setBlogs(blogData.blogs ?? []);
     } catch (err: any) {
       setError(err.message ?? 'Failed to load dashboard data.');
@@ -274,6 +308,8 @@ export default function AdminDashboard() {
 
   // ── Sidebar badge counts ──────────────────────────────────────────────────
   const newContactCount = contacts.filter(c => c.status === 'new').length;
+  // NEW: badge count for report interest, same pattern as contacts
+  const newReportInterestCount = reportInterests.filter(r => r.status === 'new').length;
   const activeEngCount = engagements.filter(e => e.status === 'active').length;
   const activeCouponCount = coupons?.filter(c => c?.isActive)?.length ?? 0;
   // ─────────────────────────────────────────────────────────────────────────
@@ -353,6 +389,14 @@ export default function AdminDashboard() {
               badge: newContactCount || null,
               badgeColor: 'bg-red-500',
               icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />,
+            },
+            // NEW: Report Interest sidebar entry, same pattern as Contact Messages
+            {
+              id: 'report-interest' as const,
+              label: 'Report Interest',
+              badge: newReportInterestCount || null,
+              badgeColor: 'bg-purple-500',
+              icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm5 8h-4v-2h4v2zm3-4h-7v-2h7v2zm0-4h-7V7h7v2z" />,
             },
             {
               id: 'engagements' as const,
@@ -466,6 +510,7 @@ export default function AdminDashboard() {
                   {activeTab === 'overview' && 'Dashboard Overview'}
                   {activeTab === 'leads' && 'Leads'}
                   {activeTab === 'contacts' && 'Contact Messages'}
+                  {activeTab === 'report-interest' && 'Report Interest'}
                   {activeTab === 'engagements' && 'Engagement Workspace'}
                   {activeTab === 'blogs' && 'Blog Management'}
                   {activeTab === 'subscribers' && 'Email Subscribers'}
@@ -476,6 +521,7 @@ export default function AdminDashboard() {
                   {activeTab === 'overview' && "Welcome back. Here's what's happening today."}
                   {activeTab === 'leads' && 'Browse and triage leads captured across all lead magnets.'}
                   {activeTab === 'contacts' && 'Manage all contact form submissions.'}
+                  {activeTab === 'report-interest' && 'People who requested the Indian Startup Ecosystem Report 2026.'}
                   {activeTab === 'engagements' && 'Manage client engagements, checklist, files, questionnaires, and messages.'}
                   {activeTab === 'blogs' && 'Create, edit, and publish blog posts.'}
                   {activeTab === 'subscribers' && 'View your newsletter subscriber list.'}
@@ -504,6 +550,10 @@ export default function AdminDashboard() {
                   setContacts={setContacts}
                   token={token ?? ''}
                 />
+              )}
+              {/* NEW: Report Interest tab render — read-only, no token needed */}
+              {activeTab === 'report-interest' && (
+                <ReportInterestTab submissions={reportInterests} />
               )}
               {activeTab === 'engagements' && (
                 <EngagementWorkspaceTab
