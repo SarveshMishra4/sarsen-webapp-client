@@ -213,7 +213,7 @@ const HeroGrid = ({
   <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
     <div className="space-y-8 lg:space-y-10">
       <h2 className="text-xl sm:text-2xl text-white">
-        Running a startup means making irreversible decisions with incomplete information.
+        Potential Creates Possibilities. Strategy Brings Growth. Results Prove It.
       </h2>
       {left}
     </div>
