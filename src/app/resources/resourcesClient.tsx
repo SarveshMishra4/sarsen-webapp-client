@@ -142,13 +142,13 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
               </svg>
             </button>
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-8 h-8 rounded-md bg-blue-500/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-md flex items-center justify-center">
                 <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <span className="text-blue-200 text-sm font-medium uppercase">Partner Access</span>
+              <span className="text-blue-200 text-sm font-medium ">Partner Access</span>
             </div>
             <h2 className="text-2xl text-white">Sign In to Continue</h2>
             <p className="text-blue-200 text-sm mt-1 truncate">
@@ -236,14 +236,10 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-green-100 rounded-md flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Denied</h3>
                 <p className="text-gray-500 text-sm">
-                  Redirecting you to <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Invalid Credetials
                 </p>
               </div>
             )}
