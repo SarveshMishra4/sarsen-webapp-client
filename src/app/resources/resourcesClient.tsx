@@ -1,4 +1,3 @@
-
 // app/resources/resourcesClient.tsx
 'use client';
 
@@ -7,10 +6,8 @@ import React, {
   useRef,
   useEffect,
   FC,
-  ReactNode,
   MouseEvent,
   FormEvent,
-  ChangeEvent,
   UIEvent,
 } from 'react';
 
@@ -72,7 +69,7 @@ interface PartnerFormData {
 }
 
 // =====================================================
-// PARTNER AUTH MODAL (unchanged)
+// PARTNER AUTH MODAL
 // =====================================================
 
 interface PartnerAuthModalProps {
@@ -134,7 +131,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
     >
       <div className="relative w-full max-w-md animate-fadeIn">
         <div className="bg-white rounded-md shadow-2xl overflow-hidden">
-          <div className="bg-[#002855] px-8 py-6 relative">
+          <div className="bg-[#002855] px-6 sm:px-8 py-6 relative">
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-blue-200 hover:text-white transition-colors"
@@ -158,7 +155,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
               Accessing: <span className="text-white font-medium">{resourceTitle}</span>
             </p>
           </div>
-          <div className="px-8 py-8">
+          <div className="px-6 sm:px-8 py-8">
             {!success ? (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
@@ -261,25 +258,142 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
 };
 
 // =====================================================
-// HERO SECTION (modified with background pattern)
+// HERO DIAGRAM — Our Practice Branch Tree
+// (declared above the hero section, like ContactOrbitRing)
 // =====================================================
 
-const CATEGORY_LABELS: string[] = [
-  'Blogs',
-  'Case Studies',
-  'Events',
-  'Reports',
-  'Cohorts',
-  'Tools',
-];
+const PracticeBranchTree = () => {
+  const rootX = 55;
+  const rootY = 100;
+  const leafX = 330;
 
-const HeroSection: FC = () => {
+  const leaves = [
+    { name: 'Field Notes',  y: 25  },
+    { name: 'Case Studies', y: 65  },
+    { name: 'Tools',        y: 105 },
+    { name: 'Cohorts',      y: 145 },
+    { name: 'Publications', y: 185 },
+  ];
+
   return (
-    <section
-      className="relative bg-[#0A1E3D] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-      style={{ minHeight: '520px' }}
-    >
-      {/* Background pattern (exact same as blog page) */}
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes branchDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .branch-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.15s forwards; }
+        .branch-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.35s forwards; }
+        .branch-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.55s forwards; }
+        .branch-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.75s forwards; }
+        .branch-line-4 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.95s forwards; }
+
+        @keyframes leafReveal {
+          from { opacity: 0; transform: translateX(-8px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .branch-leaf-0 { animation: leafReveal 0.45s ease-out 0.85s both; }
+        .branch-leaf-1 { animation: leafReveal 0.45s ease-out 1.05s both; }
+        .branch-leaf-2 { animation: leafReveal 0.45s ease-out 1.25s both; }
+        .branch-leaf-3 { animation: leafReveal 0.45s ease-out 1.45s both; }
+        .branch-leaf-4 { animation: leafReveal 0.45s ease-out 1.65s both; }
+
+        @keyframes rootPulse { 0%, 100% { r: 9; opacity: 0.9; } 50% { r: 12; opacity: 1; } }
+        .branch-root-pulse { animation: rootPulse 2.4s ease-in-out 2s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 380 220" className="w-full h-auto">
+        {/* Branch curves — root to each leaf */}
+        {leaves.map((leaf, i) => (
+          <path
+            key={leaf.name}
+            d={`M ${rootX} ${rootY} C ${rootX + 90} ${rootY}, ${rootX + 150} ${leaf.y}, ${leafX} ${leaf.y}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.45)"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className={`branch-line-${i}`}
+          />
+        ))}
+
+        {/* Leaf dot + label sitting on the line */}
+        {leaves.map((leaf, i) => (
+          <g
+            key={`${leaf.name}-group`}
+            className={`branch-leaf-${i}`}
+            style={{ transformOrigin: `${leafX}px ${leaf.y}px` }}
+          >
+            <circle
+              cx={leafX}
+              cy={leaf.y}
+              r={5.5}
+              fill="#60a5fa"
+              style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.75))' }}
+            />
+            <text
+              x={leafX - 14}
+              y={leaf.y}
+              fill="#93C5FD"
+              fontSize="12"
+              textAnchor="end"
+              dominantBaseline="middle"
+              style={{
+                paintOrder: 'stroke',
+                stroke: '#0A1E3D',
+                strokeWidth: 4,
+                strokeLinejoin: 'round',
+              }}
+            >
+              {leaf.name}
+            </text>
+          </g>
+        ))}
+
+        {/* Root node */}
+        <circle
+          cx={rootX}
+          cy={rootY}
+          r={8}
+          fill="#ffffff"
+          className="branch-root-pulse"
+          style={{
+            transformOrigin: `${rootX}px ${rootY}px`,
+            filter: 'drop-shadow(0 0 9px rgba(255,255,255,0.7))',
+          }}
+        />
+        <text
+          x={rootX}
+          y={rootY + 28}
+          fill="rgba(255,255,255,0.7)"
+          fontSize="15"
+          textAnchor="middle"
+        >
+          Our Practice
+        </text>
+        <text
+          x={rootX}
+          y={rootY + 43}
+          fill="rgba(255,255,255,0.4)"
+          fontSize="12"
+          textAnchor="middle"
+        >
+          Where It All Comes From
+        </text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        Knowledge From The Field. Built To Be Put To Work.
+      </p>
+    </div>
+  );
+};
+
+// =====================================================
+// HERO SECTION
+// =====================================================
+
+const ResourcesHeroSection = () => {
+  return (
+    <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Background pattern */}
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -290,30 +404,46 @@ const HeroSection: FC = () => {
               height="5"
               patternTransform="rotate(45)"
             >
-              <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="40"
+                stroke="#ffffff"
+                strokeWidth="0.75"
+              />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+
+          <rect
+            width="100%"
+            height="100%"
+            fill="url(#blog-grid)"
+          />
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="space-y-7">
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
-                The Resource
-                <span className="block text-blue-300">Hub</span>
-              </h1>
-              <p className="text-gray-300 text-base sm:text-lg max-w-lg">
-                Curated knowledge for founders navigating complexity. Access blogs, case studies,
-                events, reports, cohorts, and strategic tools — all in one place.
-              </p>
-            </div>
+      <div className="relative max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-10 lg:gap-16 items-center">
+
+          {/* LEFT COLUMN */}
+          <div className="space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white">
+              Strategy You Can Trust.
+            </h1>
+
+            <p className="text-lg sm:text-xl text-gray-300">
+              Practical Knowledge. Insights. And Frameworks. Drawn From Industry Experts & Real Business Experience.
+            </p>
+
+            <div className="pt-4"></div>
           </div>
-          <div>
-            <img src="/assets/resources/Resources Head.svg" alt="" className="max-w-full h-auto" />
+
+          {/* RIGHT COLUMN */}
+          <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
+            <PracticeBranchTree />
           </div>
+
         </div>
       </div>
     </section>
@@ -344,7 +474,7 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
       style={{
         width: '280px',
         minWidth: '280px',
-        height: '300px', // fixed height for all cards
+        height: '300px',
         backgroundColor: cardStyle.cardBg,
         border: `1px solid ${cardStyle.cardBorder}`,
       }}
@@ -396,7 +526,6 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
             {item.description}
           </p>
         </div>
-        {/* Bottom row - pushed to bottom by mt-auto */}
         <div className="flex items-center justify-between pt-3 mt-auto">
           <div className="flex items-center gap-2">
             <span className="text-xs px-2 py-0.5 rounded-md" style={{ color: '#0A1E3D' }}>
@@ -416,7 +545,7 @@ const ResourceCard: FC<ResourceCardProps> = ({ item, cardStyle, idx, onCardClick
 };
 
 // =====================================================
-// RESOURCE SECTION — MOVED SCROLL BUTTONS TO HEADER
+// RESOURCE SECTION
 // =====================================================
 
 interface ResourceSectionProps extends ResourceSectionConfig {
@@ -464,10 +593,9 @@ const ResourceSection: FC<ResourceSectionProps> = ({
       aria-labelledby={`${id}-heading`}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Header row with title, subtitle, browse button, and scroll buttons */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
-          <div className="flex items-start gap-4">
-            <div>
+          <div className="flex items-start gap-4 min-w-0">
+            <div className="min-w-0">
               <h2 id={`${id}-heading`} className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: cardStyle.titleColor }}>
                 {title}
               </h2>
@@ -476,9 +604,8 @@ const ResourceSection: FC<ResourceSectionProps> = ({
               </p>
             </div>
           </div>
-          
-          {/* Right side: Browse All button + scroll buttons */}
-          <div className="flex items-center gap-3">
+
+          <div className="flex flex-wrap items-center justify-end gap-3">
             <a
               href={hubHref}
               className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-md font-medium text-sm transition-all duration-300 hover:shadow-lg group"
@@ -493,8 +620,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </a>
-            
-            {/* Scroll buttons moved here */}
+
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -524,7 +650,6 @@ const ResourceSection: FC<ResourceSectionProps> = ({
           </div>
         </div>
 
-        {/* Cards container — no floating buttons anymore */}
         <div
           ref={scrollRef}
           role="list"
@@ -548,7 +673,7 @@ const ResourceSection: FC<ResourceSectionProps> = ({
 };
 
 // =====================================================
-// DATA (unchanged)
+// DATA
 // =====================================================
 
 const blogsData: ResourceItem[] = [
@@ -630,7 +755,7 @@ const toolsData: ResourceItem[] = [
 ];
 
 // =====================================================
-// CARD STYLES (unchanged)
+// CARD STYLES
 // =====================================================
 
 const fixedBlueGradient = () => 'linear-gradient(160deg, #132B47 0%, #0A1E3D 100%)';
@@ -792,7 +917,7 @@ const toolCardStyle: CardStyle = {
 };
 
 // =====================================================
-// SECTION CONFIGURATIONS (unchanged)
+// SECTION CONFIGURATIONS
 // =====================================================
 
 const SECTION_CONFIGS: ResourceSectionConfig[] = [
@@ -847,10 +972,9 @@ const SECTION_CONFIGS: ResourceSectionConfig[] = [
 ];
 
 // =====================================================
-// PAGE ROOT (unchanged)
+// MAIN RESOURCES CLIENT COMPONENT
 // =====================================================
-
-export default function ResourcesClient(): React.JSX.Element {
+export default function ResourcesClient() {
   const [modalState, setModalState] = useState<ModalState>({
     open: false,
     title: '',
@@ -885,7 +1009,7 @@ export default function ResourcesClient(): React.JSX.Element {
       `}</style>
 
       <main className="min-h-screen">
-        <HeroSection />
+        <ResourcesHeroSection />
         {SECTION_CONFIGS.map((section) => (
           <ResourceSection key={section.id} {...section} onCardClick={openModal} />
         ))}
