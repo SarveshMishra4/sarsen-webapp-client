@@ -12,10 +12,10 @@ import React, { useState, useEffect, useRef } from 'react';
 // =====================================================
 const ConvergingExpertiseDiagram = () => {
   const sources = [
-    { label: 'Finance', y: 30 },
-    { label: 'Operations', y: 75 },
-    { label: 'Strategy', y: 125 },
-    { label: 'Technology', y: 170 },
+    { label: 'Business', y: 30 },
+    { label: 'Market', y: 75 },
+    { label: 'Customer', y: 125 },
+    { label: 'Competition', y: 170 },
   ];
 
   return (
@@ -43,15 +43,15 @@ const ConvergingExpertiseDiagram = () => {
         <path d="M 20 170 C 140 170, 220 110, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-3" />
 
         {sources.map((s) => (
-          <text key={s.label} x="10" y={s.y - 5} fill="rgba(255,255,255,0.5)" fontSize="11">{s.label}</text>
+          <text key={s.label} x="10" y={s.y - 5} fill="rgb(255, 255, 255)" fontSize="12">{s.label}</text>
         ))}
 
         <circle cx="340" cy="100" r="5" fill="#60a5fa" className="converge-exp-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' }} />
-        <text x="340" y="122" fill="#93C5FD" fontSize="10" textAnchor="middle">Sarsen</text>
+        <text x="340" y="122" fill="#93C5FD" fontSize="15" textAnchor="middle">Strategy</text>
       </svg>
 
       <p className="text-white/70 text-base text-center mt-6">
-        One Team. Four Disciplines. No Blind Spots.
+Complete Context. One Coherent Strategy. No Blind Spots.
       </p>
     </div>
   );
