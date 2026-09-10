@@ -33,17 +33,102 @@ type WorkTypeContent = {
 };
 
 // =====================================================
+// COMPOUNDING CURVE DIAGRAM
+// A flat dashed baseline vs. a compounding curve —
+// "Good Decisions Don't Just Add Up. They Compound."
+// =====================================================
+// =====================================================
+// COMPOUNDING CURVE DIAGRAM
+// A flat dashed baseline vs. a compounding curve —
+// "Good Decisions Don't Just Add Up. They Compound."
+// =====================================================
+const CompoundingCurveDiagram = () => {
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineCompound {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-compound-flat {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCompound 3s ease-in-out forwards;
+        }
+        .draw-line-compound-curve {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineCompound 3s ease-in-out 0.2s forwards;
+        }
+        @keyframes compoundGlowPulse {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 8; opacity: 1; }
+        }
+        .compound-end-glow { animation: compoundGlowPulse 2s ease-in-out 3.2s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path
+          id="compound-flat-path"
+          d="M 20 160 C 130 163, 250 148, 380 100"
+          fill="none"
+          stroke="rgba(255,255,255)"
+          strokeWidth={2}
+          strokeDasharray="4 5"
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-compound-flat"
+        />
+        <path
+          id="compound-curve-path"
+          d="M 20 170 C 100 165, 180 150, 240 110 C 290 78, 330 40, 380 15"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="draw-line-compound-curve"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+
+        <circle r={5} fill="#ffffff" opacity={1}>
+          <animateMotion dur="3s" repeatCount="1" fill="freeze">
+            <mpath href="#compound-flat-path" />
+          </animateMotion>
+        </circle>
+        <circle r={5} fill="#60a5fa">
+          <animateMotion dur="3s" begin="0.2s" repeatCount="1" fill="freeze">
+            <mpath href="#compound-curve-path" />
+          </animateMotion>
+        </circle>
+
+        <circle cx="380" cy="15" r={5} fill="#60a5fa" className="compound-end-glow" />
+      </svg>
+
+      <div className="flex justify-between text-white/70 text-sm sm:text-base mt-2 px-1">
+        <span>Strategic Alignment</span>
+        <span>Compounding Results</span>
+      </div>
+
+      <p className="text-white text-base text-center mt-4">
+One Aligned Direction. Exponential Returns From Execution.      </p>
+    </div>
+  );
+};
+
+// =====================================================
 // WORK PAGE HERO SECTION
+// Version C — Compounding Curve
 // =====================================================
 const WorkHero = () => {
   return (
     <section className="relative bg-[#0A1E3D] min-h-[520px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background pattern (exact same as blog page) */}
+      {/* Background pattern (diagonal grid) */}
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="blog-grid"
+              id="work-hero-grid"
               patternUnits="userSpaceOnUse"
               width="5"
               height="5"
@@ -52,7 +137,7 @@ const WorkHero = () => {
               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+          <rect width="100%" height="100%" fill="url(#work-hero-grid)" />
         </svg>
       </div>
 
@@ -60,31 +145,21 @@ const WorkHero = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* LEFT: TEXT CONTENT */}
-          <div className="max-w-xl">
-
-            {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-6 ">
-              How We Work With Founders
+           <div className="space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white">
+              Compound The Execution. Create Advantage.
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-md sm:text-xl text-blue-200   mb-12">
-              We don't build dependency. We build clarity. Every engagement is designed to leave founders with executable insight—not vague advice.
+            <p className="text-lg sm:text-xl text-gray-300">
+              We Work with Leaders to Research & Understand the Complete Context. Then Engineer the Strategy that Turns Execution into Exponential Results.
             </p>
 
+            <div className="pt-4"></div>
           </div>
 
-          {/* RIGHT: GRAPHIC / SVG */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="w-full h-80 sm:h-96 lg:h-[450px] max-w-md p-8">
-
-              <img
-                src="/assets/work/Work Head.svg"
-                alt="How We Work Illustration"
-                className="w-full h-full"
-              />
-
-            </div>
+          {/* RIGHT: COMPOUNDING CURVE DIAGRAM */}
+          <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
+            <CompoundingCurveDiagram />
           </div>
 
         </div>
