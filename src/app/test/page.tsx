@@ -4,7 +4,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 // =====================================================
-// DATA — Reuse from homepage (LEFT_PANEL_INSIGHTS)
+// COORDINATE ROUNDING — defence #1 against SSR/client
+// drift in Math.cos/Math.sin outputs
+// =====================================================
+const roundCoord = (n: number): number => Math.round(n * 1000) / 1000;
+
+// =====================================================
+// DATA
 // =====================================================
 const LEFT_PANEL_INSIGHTS = [
   { label: 'of Startups Fail Because There is No Real Market Need', value: 42 },
@@ -30,7 +36,7 @@ const LEFT_PANEL_INSIGHTS = [
 ];
 
 // =====================================================
-// HOOK — Types label, holds, advances (same as homepage)
+// HOOK — Types label, holds, advances
 // =====================================================
 const useLoopingStageSequence = (
   stages: { label: string; value: number }[],
@@ -74,7 +80,7 @@ const useLoopingStageSequence = (
 };
 
 // =====================================================
-// LEFT CALLOUT — same as homepage
+// LEFT CALLOUT
 // =====================================================
 const LifecycleCallout = ({
   activeIndex,
@@ -109,7 +115,7 @@ const LifecycleCallout = ({
 };
 
 // =====================================================
-// HERO SHELL & GRID — reusable container
+// HERO SHELL & GRID
 // =====================================================
 const HeroShell = ({
   devLabel,
@@ -167,7 +173,7 @@ const HeroGrid = ({
 );
 
 // =====================================================
-// VISUAL 1 — POLAR AREA CHART (ROSE CHART)
+// VISUAL 1 — POLAR AREA CHART
 // =====================================================
 const PolarAreaChart = ({ activeIndex }: { activeIndex: number }) => {
   const [mounted, setMounted] = useState(false);
@@ -181,7 +187,10 @@ const PolarAreaChart = ({ activeIndex }: { activeIndex: number }) => {
 
   const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    return {
+      x: roundCoord(cx + r * Math.cos(rad)),
+      y: roundCoord(cy + r * Math.sin(rad)),
+    };
   };
 
   const describeWedge = (
@@ -231,7 +240,7 @@ const PolarAreaChart = ({ activeIndex }: { activeIndex: number }) => {
 };
 
 // =====================================================
-// VISUAL 2 — RADAR CHART (SPIDER CHART)
+// VISUAL 2 — RADAR CHART
 // =====================================================
 const RadarChart = ({ activeIndex }: { activeIndex: number }) => {
   const [mounted, setMounted] = useState(false);
@@ -248,7 +257,10 @@ const RadarChart = ({ activeIndex }: { activeIndex: number }) => {
 
   const getPoint = (index: number, radius: number) => {
     const angle = -Math.PI / 2 + index * angleStep;
-    return { x: centerX + radius * Math.cos(angle), y: centerY + radius * Math.sin(angle) };
+    return {
+      x: roundCoord(centerX + radius * Math.cos(angle)),
+      y: roundCoord(centerY + radius * Math.sin(angle)),
+    };
   };
 
   const points = LEFT_PANEL_INSIGHTS.map((reason, idx) => {
@@ -382,7 +394,10 @@ const SegmentedProgressRing = ({ activeIndex }: { activeIndex: number }) => {
 
   const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    return {
+      x: roundCoord(cx + r * Math.cos(rad)),
+      y: roundCoord(cy + r * Math.sin(rad)),
+    };
   };
 
   const describeArc = (startAngle: number, endAngle: number, radius: number) => {
@@ -446,7 +461,7 @@ const BubbleCluster = ({ activeIndex }: { activeIndex: number }) => {
     <div className="w-full max-w-md">
       <svg viewBox="0 0 400 120" className="w-full h-auto">
         {mounted && LEFT_PANEL_INSIGHTS.map((reason, index) => {
-          const x = spacing * (index + 1);
+          const x = roundCoord(spacing * (index + 1));
           const baseRadius = (reason.value / maxValue) * 35;
           const radius = index === activeIndex ? baseRadius * 1.2 : baseRadius;
           const y = 60 + (index % 2 === 0 ? -5 : 5);
@@ -679,15 +694,24 @@ const ConvergingChannelsDiagram = () => {
 };
 
 // =====================================================
-// NEW: GLOBAL COVERAGE CLOCK
+// GLOBAL COVERAGE CLOCK
 // =====================================================
 const GlobalCoverageClock = () => {
+  const [mounted, setMounted] = useState(false);
   const cx = 100, cy = 100, r = 78;
   const sweepDuration = 18;
 
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
   const polarToCartesian = (angleDeg: number, radius = r) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
   };
 
   const offices = [
@@ -722,54 +746,54 @@ const GlobalCoverageClock = () => {
         }
       `}</style>
 
-      <svg viewBox="0 0 200 200" className="w-full h-full">
-        <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={1.5} />
+      {mounted && (
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={1.5} />
 
-        {hourTicks.map((t, i) => (
-          <line
-            key={i}
-            x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-            stroke="rgba(255,255,255,0.22)"
-            strokeWidth={t.major ? 1.2 : 0.6}
-          />
-        ))}
+          {hourTicks.map((t, i) => (
+            <line
+              key={i}
+              x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+              stroke="rgba(255,255,255,0.22)"
+              strokeWidth={t.major ? 1.2 : 0.6}
+            />
+          ))}
 
-        <g className="coverage-sweep">
-          <line x1={cx} y1={cy} x2={cx} y2={cy - r} stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} />
-          <circle cx={cx} cy={cy - r} r={4} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.8))' }} />
-        </g>
+          <g className="coverage-sweep">
+            <line x1={cx} y1={cy} x2={cx} y2={cy - r} stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} />
+            <circle cx={cx} cy={cy - r} r={4} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.8))' }} />
+          </g>
 
-        <circle cx={cx} cy={cy} r={3} fill="#ffffff" />
+          <circle cx={cx} cy={cy} r={3} fill="#ffffff" />
 
-        {offices.map((o) => {
-          const pos = polarToCartesian(o.angle);
-          const labelPos = polarToCartesian(o.angle, r + 20);
-          const delay = (o.angle / 360) * sweepDuration;
-          return (
-            <g key={o.name}>
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={3.5}
-                fill="#60a5fa"
-                style={{
-                  animation: `officePulse ${sweepDuration}s ease-in-out ${delay}s infinite`,
-                }}
-              />
-              <text
-                x={labelPos.x}
-                y={labelPos.y}
-                fill="#93C5FD"
-                fontSize="8.5"
-                textAnchor="middle"
-                dominantBaseline="middle"
-              >
-                {o.name}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+          {offices.map((o) => {
+            const pos = polarToCartesian(o.angle);
+            const labelPos = polarToCartesian(o.angle, r + 20);
+            const delay = (o.angle / 360) * sweepDuration;
+            return (
+              <g key={o.name}>
+                <circle
+                  cx={pos.x}
+                  cy={pos.y}
+                  r={3.5}
+                  fill="#60a5fa"
+                  style={{ animation: `officePulse ${sweepDuration}s ease-in-out ${delay}s infinite` }}
+                />
+                <text
+                  x={labelPos.x}
+                  y={labelPos.y}
+                  fill="#93C5FD"
+                  fontSize="8.5"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  {o.name}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      )}
 
       <p className="text-white/70 text-base text-center mt-4">
         Four Offices. One Continuous Day.
@@ -779,15 +803,24 @@ const GlobalCoverageClock = () => {
 };
 
 // =====================================================
-// NEW: REFINED COVERAGE CLOCK
+// REFINED COVERAGE CLOCK
 // =====================================================
 const RefinedCoverageClock = () => {
+  const [mounted, setMounted] = useState(false);
   const cx = 100, cy = 100, r = 78;
   const sweepDuration = 20;
 
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
   const polarToCartesian = (angleDeg: number, radius = r) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
   };
 
   const offices = [
@@ -815,47 +848,49 @@ const RefinedCoverageClock = () => {
         }
       `}</style>
 
-      <svg viewBox="0 0 200 200" className="w-full h-full">
-        <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth={1.5} />
+      {mounted && (
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth={1.5} />
 
-        <g className="coverage-sweep-refined">
-          <line
-            x1={cx} y1={cy} x2={cx} y2={cy - r}
-            stroke="#60a5fa"
-            strokeWidth={1.5}
-            strokeDasharray="3 4"
-            strokeLinecap="round"
-          />
-          <circle
-            cx={cx} cy={cy - r} r={7}
-            fill="none"
-            stroke="#60a5fa"
-            strokeWidth={1.5}
-            strokeDasharray="2 2.5"
-            style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.6))' }}
-          />
-        </g>
+          <g className="coverage-sweep-refined">
+            <line
+              x1={cx} y1={cy} x2={cx} y2={cy - r}
+              stroke="#60a5fa"
+              strokeWidth={1.5}
+              strokeDasharray="3 4"
+              strokeLinecap="round"
+            />
+            <circle
+              cx={cx} cy={cy - r} r={7}
+              fill="none"
+              stroke="#60a5fa"
+              strokeWidth={1.5}
+              strokeDasharray="2 2.5"
+              style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.6))' }}
+            />
+          </g>
 
-        <circle cx={cx} cy={cy} r={2.5} fill="#ffffff" />
+          <circle cx={cx} cy={cy} r={2.5} fill="#ffffff" />
 
-        {offices.map((o) => {
-          const pos = polarToCartesian(o.angle);
-          const labelPos = polarToCartesian(o.angle, r + 20);
-          const delay = (o.angle / 360) * sweepDuration;
-          return (
-            <g key={o.name}>
-              <circle
-                cx={pos.x} cy={pos.y} r={3}
-                fill="#60a5fa"
-                style={{ animation: `officePulseRefined ${sweepDuration}s ease-in-out ${delay}s infinite` }}
-              />
-              <text x={labelPos.x} y={labelPos.y} fill="#93C5FD" fontSize="8.5" textAnchor="middle" dominantBaseline="middle">
-                {o.name}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+          {offices.map((o) => {
+            const pos = polarToCartesian(o.angle);
+            const labelPos = polarToCartesian(o.angle, r + 20);
+            const delay = (o.angle / 360) * sweepDuration;
+            return (
+              <g key={o.name}>
+                <circle
+                  cx={pos.x} cy={pos.y} r={3}
+                  fill="#60a5fa"
+                  style={{ animation: `officePulseRefined ${sweepDuration}s ease-in-out ${delay}s infinite` }}
+                />
+                <text x={labelPos.x} y={labelPos.y} fill="#93C5FD" fontSize="8.5" textAnchor="middle" dominantBaseline="middle">
+                  {o.name}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      )}
 
       <p className="text-white/70 text-base text-center mt-4">
         Four Offices. One Continuous Day.
@@ -865,7 +900,7 @@ const RefinedCoverageClock = () => {
 };
 
 // =====================================================
-// NEW: HORIZONTAL TIMEZONE BAND
+// HORIZONTAL TIMEZONE BAND
 // =====================================================
 const HorizontalTimezoneBand = () => {
   const travelDuration = 22;
@@ -921,15 +956,24 @@ const HorizontalTimezoneBand = () => {
 };
 
 // =====================================================
-// NEW: MINIMAL ORBIT RING
+// MINIMAL ORBIT RING
 // =====================================================
 const MinimalOrbitRing = () => {
+  const [mounted, setMounted] = useState(false);
   const cx = 100, cy = 100, r = 70;
   const orbitDuration = 24;
 
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
   const polarToCartesian = (angleDeg: number, radius = r) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
   };
 
   const offices = [
@@ -952,22 +996,24 @@ const MinimalOrbitRing = () => {
         }
       `}</style>
 
-      <svg viewBox="0 0 200 200" className="w-full h-full">
-        <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={1} />
+      {mounted && (
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={1} />
 
-        <g className="orbit-spin">
-          <circle cx={cx} cy={cy - r} r={4} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
-        </g>
+          <g className="orbit-spin">
+            <circle cx={cx} cy={cy - r} r={4} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+          </g>
 
-        {offices.map((o) => {
-          const pos = polarToCartesian(o.angle, r + 18);
-          return (
-            <text key={o.name} x={pos.x} y={pos.y} fill="rgba(147,197,253,0.75)" fontSize="8.5" textAnchor="middle" dominantBaseline="middle">
-              {o.name}
-            </text>
-          );
-        })}
-      </svg>
+          {offices.map((o) => {
+            const pos = polarToCartesian(o.angle, r + 18);
+            return (
+              <text key={o.name} x={pos.x} y={pos.y} fill="rgba(147,197,253,0.75)" fontSize="8.5" textAnchor="middle" dominantBaseline="middle">
+                {o.name}
+              </text>
+            );
+          })}
+        </svg>
+      )}
 
       <p className="text-white/70 text-base text-center mt-4">
         Always Somewhere, Always On
@@ -977,7 +1023,7 @@ const MinimalOrbitRing = () => {
 };
 
 // =====================================================
-// NEW: NETWORK PULSE DIAGRAM
+// NETWORK PULSE DIAGRAM
 // =====================================================
 const NetworkPulseDiagram = () => {
   const nodes = [
@@ -1052,7 +1098,7 @@ const NetworkPulseDiagram = () => {
 };
 
 // =====================================================
-// NEW: SLIDING COVERAGE WINDOW
+// SLIDING COVERAGE WINDOW
 // =====================================================
 const SlidingCoverageWindow = () => {
   const travelDuration = 20;
@@ -1150,7 +1196,7 @@ const StaircaseDiagram = () => {
 };
 
 // =====================================================
-// HERO VERSIONS — all existing and new
+// HERO VERSIONS
 // =====================================================
 const HeroVersionPolar = () => {
   const { activeIndex, displayText } = useLoopingStageSequence(LEFT_PANEL_INSIGHTS);
@@ -1389,7 +1435,7 @@ const HeroVersionSlidingWindow = () => {
 };
 
 // =====================================================
-// NEWLY ADDED COMPONENTS (from user request)
+// NEWLY ADDED COMPONENTS
 // =====================================================
 const OriginTimelineDiagram = () => {
   const milestones = [
@@ -1731,11 +1777,7 @@ const RealGrowthLineDiagram = () => {
       `}</style>
 
       <svg viewBox="0 0 400 200" className="w-full h-auto">
-        <path
-          d="M 20 170 L 30 160"
-          stroke="rgba(255,255,255,0.15)"
-          fill="none"
-        />
+        <path d="M 20 170 L 30 160" stroke="rgba(255,255,255,0.15)" fill="none" />
         <path
           id="trend-path"
           d="M 20 165 C 140 130, 260 90, 380 40"
@@ -2431,7 +2473,7 @@ const ConnectedNetworkDiagram = () => {
         {nodes.filter((n) => !n.isCenter).map((n, i) => (
           <path
             key={n.label}
-            d={`M 200 100 Q ${(200 + n.x) / 2} ${(100 + n.y) / 2 - 15}, ${n.x} ${n.y}`}
+            d={`M 200 100 Q ${roundCoord((200 + n.x) / 2)} ${roundCoord((100 + n.y) / 2 - 15)}, ${n.x} ${n.y}`}
             fill="none"
             stroke="rgba(255,255,255,0.55)"
             strokeWidth={1.75}
@@ -2566,7 +2608,7 @@ const SkillSpiralDiagram = () => {
       const radius = 6 + t * 74;
       const x = 100 + radius * Math.cos(angle);
       const y = 100 + radius * Math.sin(angle);
-      points.push(`${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`);
+      points.push(`${i === 0 ? 'M' : 'L'} ${roundCoord(x)} ${roundCoord(y)}`);
     }
     return points.join(' ');
   }, []);
@@ -2639,7 +2681,7 @@ const BalancedWaveDiagram = () => {
       const t = i / steps;
       const x = 20 + t * 360;
       const y = 100 + amplitude * Math.sin(t * cycles * 2 * Math.PI);
-      points.push(`${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`);
+      points.push(`${i === 0 ? 'M' : 'L'} ${roundCoord(x)} ${roundCoord(y)}`);
     }
     return points.join(' ');
   }, []);
@@ -2707,10 +2749,1573 @@ const HeroVersionBalancedWave = () => {
   );
 };
 
+/* ============================================================
+   RESOURCES ECOSYSTEM — page-specific hero diagrams
+   ============================================================ */
+
+const ResourceHeroShell = ({
+  devLabel,
+  children,
+}: {
+  devLabel: string;
+  children: React.ReactNode;
+}) => {
+  const gridId = `grid-${devLabel.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`;
+  return (
+    <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-white/10 first:border-t-0">
+      <div className="absolute inset-0 opacity-20">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id={gridId} patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill={`url(#${gridId})`} />
+        </svg>
+      </div>
+
+      <span className="absolute top-5 left-4 sm:left-6 lg:left-8 text-[11px] tracking-wide text-white/30 uppercase">
+        {devLabel}
+      </span>
+
+      <div className="relative max-w-7xl mx-auto">{children}</div>
+    </section>
+  );
+};
+
+const ResourceHeroGrid = ({
+  heading,
+  sub,
+  right,
+}: {
+  heading: string;
+  sub?: string;
+  right: React.ReactNode;
+}) => (
+  <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div className="space-y-4 lg:space-y-5">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl text-white leading-snug">{heading}</h2>
+      {sub && <p className="text-white/60 text-base sm:text-lg">{sub}</p>}
+    </div>
+    <div className="relative h-64 sm:h-80 lg:h-[420px] flex items-center justify-center lg:justify-end">
+      {right}
+    </div>
+  </div>
+);
+
+// ---------------- Resources Hub — Option A ----------------
+const HubSpokeDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  const cx = 150;
+  const cy = 150;
+  const radius = 105;
+  const categories = [
+    { name: 'Tools', angle: 315 },
+    { name: 'Reports', angle: 45 },
+    { name: 'Case Studies', angle: 135 },
+    { name: 'Blog', angle: 225 },
+  ];
+
+  const polarToCartesian = (angleDeg: number, r: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + r * Math.cos(rad)),
+      y: roundCoord(cy + r * Math.sin(rad)),
+    };
+  };
+
+  return (
+    <div className="w-72 h-72 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes hubSpokeDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .hub-spoke-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hubSpokeDraw 0.9s ease-out 0.2s forwards; }
+        .hub-spoke-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hubSpokeDraw 0.9s ease-out 0.55s forwards; }
+        .hub-spoke-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hubSpokeDraw 0.9s ease-out 0.9s forwards; }
+        .hub-spoke-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hubSpokeDraw 0.9s ease-out 1.25s forwards; }
+
+        @keyframes hubNodePop { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+        .hub-node-0 { animation: hubNodePop 0.4s ease-out 1.05s both; }
+        .hub-node-1 { animation: hubNodePop 0.4s ease-out 1.4s both; }
+        .hub-node-2 { animation: hubNodePop 0.4s ease-out 1.75s both; }
+        .hub-node-3 { animation: hubNodePop 0.4s ease-out 2.1s both; }
+
+        @keyframes hubCenterPulse {
+          0%, 100% { r: 8; opacity: 0.9; }
+          50%      { r: 11; opacity: 1; }
+        }
+        .hub-center-pulse { animation: hubCenterPulse 2.4s ease-in-out 2.2s infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 300 300" className="w-full h-full">
+          {categories.map((c, i) => {
+            const end = polarToCartesian(c.angle, radius);
+            return (
+              <line
+                key={c.name}
+                x1={cx}
+                y1={cy}
+                x2={end.x}
+                y2={end.y}
+                stroke="rgba(255,255,255,0.5)"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                pathLength={1}
+                className={`hub-spoke-line-${i}`}
+              />
+            );
+          })}
+
+          {categories.map((c, i) => {
+            const pos = polarToCartesian(c.angle, radius);
+            const labelPos = polarToCartesian(c.angle, radius + 24);
+            return (
+              <g key={c.name} className={`hub-node-${i}`} style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}>
+                <circle cx={pos.x} cy={pos.y} r={6} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+                <text x={labelPos.x} y={labelPos.y} fill="#93C5FD" fontSize="11" textAnchor="middle" dominantBaseline="middle">
+                  {c.name}
+                </text>
+              </g>
+            );
+          })}
+
+          <circle
+            cx={cx}
+            cy={cy}
+            r={8}
+            fill="#ffffff"
+            className="hub-center-pulse"
+            style={{ transformOrigin: `${cx}px ${cy}px`, filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.7))' }}
+          />
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-3">
+        Four Formats. One Source Of Thinking.
+      </p>
+    </div>
+  );
+};
+
+export const ResourcesHubHeroOptionA = () => (
+  <ResourceHeroShell devLabel="Resources Hub — Option A: Hub & Spoke">
+    <ResourceHeroGrid
+      heading="One Place. Every Way We Share What We Know."
+      sub="Tools, reports, case studies, and running commentary — all built from the same body of work."
+      right={<HubSpokeDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Resources Hub — Option B ----------------
+const OrbitingCategoriesDiagram = () => {
+  const cx = 150;
+  const cy = 150;
+  const rings = [
+    { name: 'Tools', radius: 45, duration: 14, angle: 40 },
+    { name: 'Reports', radius: 72, duration: 19, angle: 150 },
+    { name: 'Case Studies', radius: 99, duration: 24, angle: 250 },
+    { name: 'Blog', radius: 126, duration: 29, angle: 320 },
+  ];
+
+  const polarToCartesian = (angleDeg: number, r: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + r * Math.cos(rad)),
+      y: roundCoord(cy + r * Math.sin(rad)),
+    };
+  };
+
+  return (
+    <div className="w-72 h-72 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes orbitSpinCat { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .orbit-ring-0 { transform-origin: ${cx}px ${cy}px; animation: orbitSpinCat ${rings[0].duration}s linear infinite; }
+        .orbit-ring-1 { transform-origin: ${cx}px ${cy}px; animation: orbitSpinCat ${rings[1].duration}s linear infinite; }
+        .orbit-ring-2 { transform-origin: ${cx}px ${cy}px; animation: orbitSpinCat ${rings[2].duration}s linear infinite; }
+        .orbit-ring-3 { transform-origin: ${cx}px ${cy}px; animation: orbitSpinCat ${rings[3].duration}s linear infinite; }
+
+        @keyframes orbitLabelPulse { 0%, 88%, 100% { opacity: 0.5; } 6% { opacity: 1; } }
+        .orbit-label-0 { animation: orbitLabelPulse ${rings[0].duration}s ease-in-out infinite; }
+        .orbit-label-1 { animation: orbitLabelPulse ${rings[1].duration}s ease-in-out infinite; }
+        .orbit-label-2 { animation: orbitLabelPulse ${rings[2].duration}s ease-in-out infinite; }
+        .orbit-label-3 { animation: orbitLabelPulse ${rings[3].duration}s ease-in-out infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 300 300" className="w-full h-full">
+        {rings.map((r) => (
+          <circle key={r.name} cx={cx} cy={cy} r={r.radius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
+        ))}
+
+        {rings.map((r, i) => {
+          const labelPos = polarToCartesian(r.angle, r.radius + 15);
+          return (
+            <text
+              key={`${r.name}-label`}
+              x={labelPos.x}
+              y={labelPos.y}
+              fill="#93C5FD"
+              fontSize="10"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className={`orbit-label-${i}`}
+            >
+              {r.name}
+            </text>
+          );
+        })}
+
+        {rings.map((r, i) => (
+          <g key={`${r.name}-dot`} className={`orbit-ring-${i}`}>
+            <circle cx={cx} cy={cy - r.radius} r={4.5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.85))' }} />
+          </g>
+        ))}
+
+        <circle cx={cx} cy={cy} r={6} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.7))' }} />
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-3">
+        Different Formats, Same Point Of View
+      </p>
+    </div>
+  );
+};
+
+export const ResourcesHubHeroOptionB = () => (
+  <ResourceHeroShell devLabel="Resources Hub — Option B: Orbiting Categories">
+    <ResourceHeroGrid
+      heading="Everything We Publish Orbits One Way Of Thinking."
+      sub="Tools, reports, case studies, and the blog — different formats, the same discipline behind every one of them."
+      right={<OrbitingCategoriesDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Tools ----------------
+const useCountUp = (target: number, duration = 1200, delay = 0) => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let raf = 0;
+    let start: number | null = null;
+
+    const timer = setTimeout(() => {
+      const step = (ts: number) => {
+        if (start === null) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        setValue(Math.round(progress * target));
+        if (progress < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [target, duration, delay]);
+
+  return value;
+};
+
+const ToolGaugeDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const score = useCountUp(92, 1400, 1500);
+  const cx = 110;
+  const cy = 130;
+  const r = 85;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (angleDeg: number, radius: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
+  };
+
+  const describeArc = (startAngle: number, endAngle: number, radius: number) => {
+    const start = polarToCartesian(startAngle, radius);
+    const end = polarToCartesian(endAngle, radius);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+  };
+
+  const toggles = ['Revenue', 'Cost Base', 'Team'];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes toggleThumbOn { from { transform: translateX(0); } to { transform: translateX(20px); } }
+        @keyframes toggleTrackOn { from { background-color: rgba(255,255,255,0.15); } to { background-color: #60a5fa; } }
+        .toggle-thumb-0 { animation: toggleThumbOn 0.35s ease-out 0.2s forwards; }
+        .toggle-thumb-1 { animation: toggleThumbOn 0.35s ease-out 0.5s forwards; }
+        .toggle-thumb-2 { animation: toggleThumbOn 0.35s ease-out 0.8s forwards; }
+        .toggle-track-0 { animation: toggleTrackOn 0.35s ease-out 0.2s forwards; }
+        .toggle-track-1 { animation: toggleTrackOn 0.35s ease-out 0.5s forwards; }
+        .toggle-track-2 { animation: toggleTrackOn 0.35s ease-out 0.8s forwards; }
+
+        @keyframes needleSettle {
+          0%   { transform: rotate(-70deg); }
+          55%  { transform: rotate(82deg); }
+          100% { transform: rotate(72deg); }
+        }
+        .gauge-needle { animation: needleSettle 1.3s cubic-bezier(0.3, 0, 0.2, 1) 1.15s both; }
+
+        @keyframes gaugeArcDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .gauge-arc-fill { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gaugeArcDraw 1.3s ease-out 1.15s forwards; }
+
+        @keyframes readoutFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .gauge-readout { animation: readoutFade 0.5s ease-out 1.3s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 220 170" className="w-full h-auto">
+          <path d={describeArc(-90, 90, r)} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={10} strokeLinecap="round" />
+          <path
+            d={describeArc(-90, 72, r)}
+            fill="none"
+            stroke="#60a5fa"
+            strokeWidth={10}
+            strokeLinecap="round"
+            pathLength={1}
+            className="gauge-arc-fill"
+            style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+          />
+
+          {[-90, -45, 0, 45, 90].map((deg) => {
+            const outer = polarToCartesian(deg, r + 8);
+            const inner = polarToCartesian(deg, r - 2);
+            return <line key={deg} x1={outer.x} y1={outer.y} x2={inner.x} y2={inner.y} stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />;
+          })}
+
+          <line
+            x1={cx}
+            y1={cy}
+            x2={cx}
+            y2={cy - (r - 15)}
+            stroke="#ffffff"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            className="gauge-needle"
+            style={{ transformOrigin: `${cx}px ${cy}px`, filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}
+          />
+          <circle cx={cx} cy={cy} r={5} fill="#ffffff" />
+
+          <text x={cx} y={cy - 30} textAnchor="middle" fill="#ffffff" fontSize="26" fontWeight={600} className="gauge-readout">
+            {score}
+          </text>
+          <text x={cx} y={cy - 12} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9" letterSpacing={1} className="gauge-readout">
+            DIAGNOSTIC SCORE
+          </text>
+        </svg>
+      )}
+
+      <div className="flex items-center justify-center gap-6 mt-2">
+        {toggles.map((label, i) => (
+          <div key={label} className="flex flex-col items-center gap-1.5">
+            <div className={`relative w-9 h-5 rounded-full toggle-track-${i}`} style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+              <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white toggle-thumb-${i}`} />
+            </div>
+            <span className="text-[10px] text-white/50">{label}</span>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-5">
+        Answers, Not Just Frameworks
+      </p>
+    </div>
+  );
+};
+
+export const ToolsHeroSection = () => (
+  <ResourceHeroShell devLabel="Tools — Live Diagnostic Gauge">
+    <ResourceHeroGrid
+      heading="Turn A Few Inputs Into One Clear Number."
+      sub="Every tool here is built to give you a direct read on where you stand — not another framework to interpret."
+      right={<ToolGaugeDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Reports ----------------
+const ReportStackDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const pageCount = 5;
+  const bars = [38, 62, 45, 80, 55];
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes pageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .report-page-0 { animation: pageFadeIn 0.5s ease-out 0s both; }
+        .report-page-1 { animation: pageFadeIn 0.5s ease-out 0.15s both; }
+        .report-page-2 { animation: pageFadeIn 0.5s ease-out 0.3s both; }
+        .report-page-3 { animation: pageFadeIn 0.5s ease-out 0.45s both; }
+        .report-page-4 { animation: pageFadeIn 0.5s ease-out 0.6s both; }
+
+        @keyframes scanTravel {
+          0%   { transform: translateY(0); opacity: 0; }
+          8%   { opacity: 1; }
+          92%  { opacity: 1; }
+          100% { transform: translateY(150px); opacity: 0; }
+        }
+        .report-scan-line { animation: scanTravel 2.4s ease-in-out 0.9s forwards; }
+
+        @keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+        .report-bar-0 { transform-origin: bottom; animation: barGrow 0.6s cubic-bezier(0.22,1,0.36,1) 1.1s both; }
+        .report-bar-1 { transform-origin: bottom; animation: barGrow 0.6s cubic-bezier(0.22,1,0.36,1) 1.35s both; }
+        .report-bar-2 { transform-origin: bottom; animation: barGrow 0.6s cubic-bezier(0.22,1,0.36,1) 1.6s both; }
+        .report-bar-3 { transform-origin: bottom; animation: barGrow 0.6s cubic-bezier(0.22,1,0.36,1) 1.85s both; }
+        .report-bar-4 { transform-origin: bottom; animation: barGrow 0.6s cubic-bezier(0.22,1,0.36,1) 2.1s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 400 200" className="w-full h-auto">
+          {Array.from({ length: pageCount }).map((_, i) => (
+            <rect
+              key={i}
+              x={20 + i * 4}
+              y={20 + i * 6}
+              width={130}
+              height={150}
+              rx={4}
+              fill="#132B47"
+              stroke="rgba(255,255,255,0.25)"
+              strokeWidth={1}
+              className={`report-page-${i}`}
+            />
+          ))}
+
+          {[0, 1, 2, 3].map((i) => (
+            <line key={i} x1={40} y1={60 + i * 14} x2={130} y2={60 + i * 14} stroke="rgba(255,255,255,0.2)" strokeWidth={2} />
+          ))}
+
+          <rect
+            x="16"
+            y="18"
+            width="142"
+            height="4"
+            rx="2"
+            fill="#60a5fa"
+            className="report-scan-line"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.9))' }}
+          />
+
+          <g transform="translate(210, 0)">
+            <line x1="0" y1="170" x2="170" y2="170" stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+            {bars.map((v, i) => (
+              <rect
+                key={i}
+                x={10 + i * 32}
+                y={170 - v}
+                width={18}
+                height={v}
+                rx={2}
+                fill={i === 3 ? '#60a5fa' : 'rgba(96,165,250,0.4)'}
+                className={`report-bar-${i}`}
+              />
+            ))}
+          </g>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-6">
+        Research Becomes A Position, Not Just A Page Count
+      </p>
+    </div>
+  );
+};
+
+export const ReportsHeroSection = () => (
+  <ResourceHeroShell devLabel="Reports — Document Stack & Extraction">
+    <ResourceHeroGrid
+      heading="Every Report Starts As Data. It Doesn't End There."
+      sub="We go through thousands of data points so the report can hand you a small number of decisions."
+      right={<ReportStackDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Case Studies ----------------
+const CaseProofDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const cases = [
+    { path: 'M 20 170 C 100 165, 180 150, 260 120 C 300 105, 330 90, 360 78', endX: 360, endY: 78, delay: 0, accent: false },
+    { path: 'M 20 130 C 100 125, 180 105, 260 85 C 300 75, 330 55, 360 42', endX: 360, endY: 42, delay: 0.35, accent: false },
+    { path: 'M 20 90 C 100 92, 180 80, 260 55 C 300 42, 330 25, 360 15', endX: 360, endY: 15, delay: 0.7, accent: true },
+    { path: 'M 20 45 C 100 55, 180 65, 260 100 C 300 118, 330 128, 360 138', endX: 360, endY: 138, delay: 1.05, accent: false },
+  ];
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes caseLineDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .case-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: caseLineDraw 1.3s ease-in-out 0s forwards; }
+        .case-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: caseLineDraw 1.3s ease-in-out 0.35s forwards; }
+        .case-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: caseLineDraw 1.3s ease-in-out 0.7s forwards; }
+        .case-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: caseLineDraw 1.3s ease-in-out 1.05s forwards; }
+
+        @keyframes checkPop { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
+        .case-check-0 { animation: checkPop 0.4s ease-out 1.2s both; }
+        .case-check-1 { animation: checkPop 0.4s ease-out 1.55s both; }
+        .case-check-2 { animation: checkPop 0.4s ease-out 1.9s both; }
+        .case-check-3 { animation: checkPop 0.4s ease-out 2.25s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 380 190" className="w-full h-auto">
+          {cases.map((c, i) => (
+            <path
+              key={i}
+              d={c.path}
+              fill="none"
+              stroke={c.accent ? '#60a5fa' : 'rgba(255,255,255,0.45)'}
+              strokeWidth={2}
+              strokeLinecap="round"
+              pathLength={1}
+              className={`case-line-${i}`}
+            />
+          ))}
+
+          {cases.map((c, i) => (
+            <g key={`check-${i}`} className={`case-check-${i}`} style={{ transformOrigin: `${c.endX}px ${c.endY}px` }}>
+              <circle
+                cx={c.endX}
+                cy={c.endY}
+                r={8}
+                fill={c.accent ? '#60a5fa' : '#132B47'}
+                stroke="#ffffff"
+                strokeWidth={1.2}
+                style={{ filter: c.accent ? 'drop-shadow(0 0 7px rgba(96,165,250,0.8))' : 'none' }}
+              />
+              <path
+                d={`M ${c.endX - 3.5} ${c.endY} L ${c.endX - 1} ${c.endY + 2.5} L ${c.endX + 3.5} ${c.endY - 3}`}
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth={1.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </g>
+          ))}
+
+          <circle cx="20" cy="110" r={4} fill="rgba(255,255,255,0.4)" />
+          <text x="20" y="185" fill="rgba(255,255,255,0.4)" fontSize="10">Starting Point</text>
+          <text x="360" y="12" fill="#93C5FD" fontSize="10" textAnchor="end">Proven Outcome</text>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Different Businesses. Different Starting Lines. The Same Discipline.
+      </p>
+    </div>
+  );
+};
+
+export const CaseStudiesHeroSection = () => (
+  <ResourceHeroShell devLabel="Case Studies — Converging Proof Lines">
+    <ResourceHeroGrid
+      heading="Every Case Study Here Ends The Same Way: With A Result."
+      sub="Different industries, different starting points — each one worked through to a verified outcome."
+      right={<CaseProofDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Blog ----------------
+const IdeaStreamDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const posts = [
+    { x: 40, tag: 'Strategy' },
+    { x: 130, tag: 'Growth' },
+    { x: 220, tag: 'Leadership' },
+    { x: 310, tag: 'Capital' },
+  ];
+  const travelDuration = 7;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes ideaNodeFade { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+        .idea-node-0 { animation: ideaNodeFade 0.45s ease-out 0.3s both; transform-origin: 40px 100px; }
+        .idea-node-1 { animation: ideaNodeFade 0.45s ease-out 0.55s both; transform-origin: 130px 100px; }
+        .idea-node-2 { animation: ideaNodeFade 0.45s ease-out 0.8s both; transform-origin: 220px 100px; }
+        .idea-node-3 { animation: ideaNodeFade 0.45s ease-out 1.05s both; transform-origin: 310px 100px; }
+        .idea-tag-0 { animation: ideaNodeFade 0.45s ease-out 0.5s both; }
+        .idea-tag-1 { animation: ideaNodeFade 0.45s ease-out 0.75s both; }
+        .idea-tag-2 { animation: ideaNodeFade 0.45s ease-out 1.0s both; }
+        .idea-tag-3 { animation: ideaNodeFade 0.45s ease-out 1.25s both; }
+
+        @keyframes cursorTravel { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+        .idea-cursor {
+          offset-path: path('M 20 100 L 360 100');
+          animation: cursorTravel ${travelDuration}s linear infinite;
+        }
+        @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        .idea-cursor-bar { animation: cursorBlink 0.9s steps(1) infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 380 160" className="w-full h-auto">
+          <line x1="20" y1="100" x2="360" y2="100" stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} strokeDasharray="3 5" />
+
+          {posts.map((p, i) => (
+            <g key={p.tag}>
+              <circle cx={p.x} cy={100} r={5} fill="#60a5fa" className={`idea-node-${i}`} style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.7))' }} />
+              <text x={p.x} y={80} fill="#93C5FD" fontSize="9.5" textAnchor="middle" className={`idea-tag-${i}`}>
+                {p.tag}
+              </text>
+            </g>
+          ))}
+
+          <g className="idea-cursor">
+            <line x1="0" y1="-9" x2="0" y2="9" stroke="#ffffff" strokeWidth={2} className="idea-cursor-bar" style={{ filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.8))' }} />
+          </g>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-6">
+        Ideas, Published As We Test Them — Not After
+      </p>
+    </div>
+  );
+};
+
+export const BlogHeroSection = () => (
+  <ResourceHeroShell devLabel="Blog — Idea Stream">
+    <ResourceHeroGrid
+      heading="Thinking, Written Down Before It's Finished."
+      sub="Shorter, faster, and closer to the actual work than a report — a running record of how we're thinking right now."
+      right={<IdeaStreamDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+/* ============================================================
+   SERVICE & LEGAL HERO DIAGRAMS
+   (merged from service-and-legal-hero-diagrams.tsx)
+   ============================================================ */
+
+const useAnimatedNumber = (from: number, to: number, duration = 1200, delay = 0) => {
+  const [value, setValue] = useState(from);
+  useEffect(() => {
+    let raf = 0;
+    let start: number | null = null;
+    const timer = setTimeout(() => {
+      const step = (ts: number) => {
+        if (start === null) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        setValue(Math.round(from + (to - from) * progress));
+        if (progress < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, delay);
+    return () => {
+      clearTimeout(timer);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [from, to, duration, delay]);
+  return value;
+};
+
+// ---------------- Services Hub — Option A: Diagnostic Branch Tree ----------------
+const DiagnosticBranchTree = () => {
+  const rootX = 55;
+  const rootY = 100;
+  const leaves = [
+    { name: 'Validation', y: 15 },
+    { name: 'Go-To-Market', y: 48 },
+    { name: 'Operations', y: 81 },
+    { name: 'Fundraising', y: 114 },
+    { name: 'Turnaround', y: 147 },
+    { name: 'Scale', y: 180 },
+  ];
+  const leafX = 330;
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes branchDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .branch-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.15s forwards; }
+        .branch-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.35s forwards; }
+        .branch-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.55s forwards; }
+        .branch-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.75s forwards; }
+        .branch-line-4 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.95s forwards; }
+        .branch-line-5 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 1.15s forwards; }
+
+        @keyframes leafPop { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+        .branch-leaf-0 { animation: leafPop 0.35s ease-out 0.85s both; }
+        .branch-leaf-1 { animation: leafPop 0.35s ease-out 1.05s both; }
+        .branch-leaf-2 { animation: leafPop 0.35s ease-out 1.25s both; }
+        .branch-leaf-3 { animation: leafPop 0.35s ease-out 1.45s both; }
+        .branch-leaf-4 { animation: leafPop 0.35s ease-out 1.65s both; }
+        .branch-leaf-5 { animation: leafPop 0.35s ease-out 1.85s both; }
+
+        @keyframes rootPulse { 0%, 100% { r: 9; opacity: 0.9; } 50% { r: 12; opacity: 1; } }
+        .branch-root-pulse { animation: rootPulse 2.4s ease-in-out 2s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 380 220" className="w-full h-auto">
+        {leaves.map((leaf, i) => (
+          <path
+            key={leaf.name}
+            d={`M ${rootX} ${rootY} C ${rootX + 90} ${rootY}, ${rootX + 150} ${leaf.y}, ${leafX} ${leaf.y}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.45)"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className={`branch-line-${i}`}
+          />
+        ))}
+
+        {leaves.map((leaf, i) => (
+          <g key={leaf.name} className={`branch-leaf-${i}`} style={{ transformOrigin: `${leafX}px ${leaf.y}px` }}>
+            <circle cx={leafX} cy={leaf.y} r={5.5} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.75))' }} />
+            <text x={leafX + 12} y={leaf.y} fill="#93C5FD" fontSize="11" dominantBaseline="middle">
+              {leaf.name}
+            </text>
+          </g>
+        ))}
+
+        <circle
+          cx={rootX}
+          cy={rootY}
+          r={9}
+          fill="#ffffff"
+          className="branch-root-pulse"
+          style={{ transformOrigin: `${rootX}px ${rootY}px`, filter: 'drop-shadow(0 0 9px rgba(255,255,255,0.7))' }}
+        />
+        <text x={rootX} y={rootY + 26} fill="rgba(255,255,255,0.55)" fontSize="10" textAnchor="middle">
+          Diagnostic & Direction
+        </text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        Every Engagement Starts In The Same Place. It Doesn't End There.
+      </p>
+    </div>
+  );
+};
+
+export const ServicesHubHeroOptionA = () => (
+  <ResourceHeroShell devLabel="Services Hub — Option A: Diagnostic Branch Tree">
+    <ResourceHeroGrid
+      heading="One Diagnostic. Six Ways It Can Lead From There."
+      sub="Every package begins with understanding the full truth of where you are — then branches to the track that actually fits."
+      right={<DiagnosticBranchTree />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Services Hub — Option B: Track Selector ----------------
+const TrackSelectorDiagram = () => {
+  const tracks = ['Foundation', 'Validation', 'GTM', 'Operations', 'Fundraising', 'Turnaround', 'Scale'];
+  const tileWidth = 50;
+  const tileGap = 6;
+  const startX = 16;
+
+  return (
+    <div className="w-full max-w-lg">
+      <style>{`
+        @keyframes trackTileFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .track-tile-0 { animation: trackTileFade 0.4s ease-out 0s both; }
+        .track-tile-1 { animation: trackTileFade 0.4s ease-out 0.1s both; }
+        .track-tile-2 { animation: trackTileFade 0.4s ease-out 0.2s both; }
+        .track-tile-3 { animation: trackTileFade 0.4s ease-out 0.3s both; }
+        .track-tile-4 { animation: trackTileFade 0.4s ease-out 0.4s both; }
+        .track-tile-5 { animation: trackTileFade 0.4s ease-out 0.5s both; }
+        .track-tile-6 { animation: trackTileFade 0.4s ease-out 0.6s both; }
+
+        @keyframes selectorSlide {
+          0%, 9%   { transform: translateX(0px); }
+          14%, 23% { transform: translateX(${tileWidth + tileGap}px); }
+          28%, 37% { transform: translateX(${(tileWidth + tileGap) * 2}px); }
+          42%, 51% { transform: translateX(${(tileWidth + tileGap) * 3}px); }
+          56%, 65% { transform: translateX(${(tileWidth + tileGap) * 4}px); }
+          70%, 79% { transform: translateX(${(tileWidth + tileGap) * 5}px); }
+          84%, 93% { transform: translateX(${(tileWidth + tileGap) * 6}px); }
+          100%     { transform: translateX(0px); }
+        }
+        .track-selector-highlight { animation: selectorSlide 14s ease-in-out 1s infinite; opacity: 0; }
+        @keyframes selectorFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .track-selector-highlight { animation: selectorSlide 14s ease-in-out 1s infinite, selectorFadeIn 0.4s ease-out 0.9s forwards; }
+      `}</style>
+
+      <svg viewBox="0 0 400 90" className="w-full h-auto">
+        <rect
+          x={startX - 2}
+          y={30}
+          width={tileWidth + 4}
+          height={30}
+          rx={8}
+          fill="rgba(96,165,250,0.28)"
+          stroke="#60a5fa"
+          strokeWidth={1}
+          className="track-selector-highlight"
+          style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.5))' }}
+        />
+
+        {tracks.map((t, i) => (
+          <g key={t} className={`track-tile-${i}`}>
+            <rect
+              x={startX + i * (tileWidth + tileGap)}
+              y={30}
+              width={tileWidth}
+              height={30}
+              rx={7}
+              fill="rgba(255,255,255,0.06)"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth={1}
+            />
+            <text
+              x={startX + i * (tileWidth + tileGap) + tileWidth / 2}
+              y={48}
+              fill="#ffffff"
+              fontSize="8.5"
+              textAnchor="middle"
+              dominantBaseline="middle"
+            >
+              {t}
+            </text>
+          </g>
+        ))}
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-5">
+        Wherever You Are Right Now, There's A Track Built For It
+      </p>
+    </div>
+  );
+};
+
+export const ServicesHubHeroOptionB = () => (
+  <ResourceHeroShell devLabel="Services Hub — Option B: Track Selector">
+    <ResourceHeroGrid
+      heading="Seven Stages Of A Business. One Package For Each."
+      sub="From first diagnostic to full-scale expansion — find the stage you're actually in, not the one you assumed you were."
+      right={<TrackSelectorDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Foundation — Diagnostic Grid Scan ----------------
+const DiagnosticGridScan = () => {
+  const rows = 4;
+  const cols = 4;
+  const cellSize = 38;
+  const gap = 6;
+  const originX = 20;
+  const originY = 20;
+  const bottleneck = { r: 1, c: 2 };
+
+  return (
+    <div className="w-64 h-64 sm:w-72 sm:h-72">
+      <style>{`
+        @keyframes gridRowLight { from { fill: rgba(255,255,255,0.04); } to { fill: rgba(96,165,250,0.28); } }
+        .grid-row-0 rect { animation: gridRowLight 0.4s ease-out 0s forwards; }
+        .grid-row-1 rect { animation: gridRowLight 0.4s ease-out 0.3s forwards; }
+        .grid-row-2 rect { animation: gridRowLight 0.4s ease-out 0.6s forwards; }
+        .grid-row-3 rect { animation: gridRowLight 0.4s ease-out 0.9s forwards; }
+
+        @keyframes scanTravelGrid {
+          0%   { transform: translateY(0); opacity: 0; }
+          6%   { opacity: 1; }
+          94%  { opacity: 1; }
+          100% { transform: translateY(${rows * (cellSize + gap)}px); opacity: 0; }
+        }
+        .grid-scan-line { animation: scanTravelGrid 1.3s ease-in-out 0.05s forwards; }
+
+        @keyframes bottleneckPop { 0% { opacity: 0; transform: scale(0.4); } 100% { opacity: 1; transform: scale(1); } }
+        .bottleneck-flag { animation: bottleneckPop 0.4s ease-out 1.5s both; }
+
+        @keyframes bottleneckPulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .bottleneck-ring { animation: bottleneckPulse 1.8s ease-in-out 1.9s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 220 210" className="w-full h-full">
+        {Array.from({ length: rows }).map((_, r) => (
+          <g key={r} className={`grid-row-${r}`}>
+            {Array.from({ length: cols }).map((_, c) => (
+              <rect
+                key={c}
+                x={originX + c * (cellSize + gap)}
+                y={originY + r * (cellSize + gap)}
+                width={cellSize}
+                height={cellSize}
+                rx={3}
+                fill="rgba(255,255,255,0.04)"
+                stroke="rgba(255,255,255,0.12)"
+                strokeWidth={1}
+              />
+            ))}
+          </g>
+        ))}
+
+        <rect
+          x={originX - 4}
+          y={originY - 4}
+          width={cols * (cellSize + gap) - gap + 8}
+          height={4}
+          rx={2}
+          fill="#60a5fa"
+          className="grid-scan-line"
+          style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.9))' }}
+        />
+
+        <g className="bottleneck-flag">
+          <rect
+            x={originX + bottleneck.c * (cellSize + gap)}
+            y={originY + bottleneck.r * (cellSize + gap)}
+            width={cellSize}
+            height={cellSize}
+            rx={3}
+            fill="rgba(96,165,250,0.85)"
+            className="bottleneck-ring"
+            style={{
+              transformOrigin: `${originX + bottleneck.c * (cellSize + gap) + cellSize / 2}px ${
+                originY + bottleneck.r * (cellSize + gap) + cellSize / 2
+              }px`,
+              filter: 'drop-shadow(0 0 10px rgba(96,165,250,0.9))',
+            }}
+          />
+          <text
+            x={originX + bottleneck.c * (cellSize + gap) + cellSize / 2}
+            y={originY + bottleneck.r * (cellSize + gap) - 8}
+            fill="#ffffff"
+            fontSize="9"
+            textAnchor="middle"
+          >
+            Bottleneck
+          </text>
+        </g>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        Every Lever Mapped. The Real Constraint Found.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceFoundationHero = () => (
+  <ResourceHeroShell devLabel="Foundation — Business Diagnostic & Direction">
+    <ResourceHeroGrid
+      heading="Clarity Doesn't Start With An Opinion. It Starts With A Map."
+      sub="A rigorous, data-driven diagnostic across your model, value chain, and control levers — until the actual constraint is visible."
+      right={<DiagnosticGridScan />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Validation — Kill-Or-Commit Funnel ----------------
+const ValidationFunnelDiagram = () => {
+  const startPoints = [
+    { x: 40, y: 20, id: 'v0', survives: false },
+    { x: 100, y: 20, id: 'v1', survives: false },
+    { x: 150, y: 15, id: 'v2', survives: true },
+    { x: 200, y: 20, id: 'v3', survives: false },
+    { x: 260, y: 20, id: 'v4', survives: false },
+  ];
+  const exitX = 150;
+  const exitY = 195;
+
+  return (
+    <div className="w-full max-w-sm">
+      <style>{`
+        @keyframes ideaDotFade { 0% { opacity: 0; } 12% { opacity: 1; } 100% { opacity: 1; } }
+        .idea-dot-fadein { animation: ideaDotFade 0.4s ease-out both; }
+
+        @keyframes ideaDiscard { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
+        .idea-discard { animation: ideaDiscard 1.7s ease-in 0.4s forwards; }
+
+        @keyframes survivorGlow { 0%, 100% { r: 6; opacity: 0.9; } 50% { r: 8.5; opacity: 1; } }
+        .idea-survivor-glow { animation: survivorGlow 2s ease-in-out 2.2s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 300 220" className="w-full h-auto">
+        <path
+          d={`M 20 15 L 280 15 L ${exitX + 14} 190 L ${exitX - 14} 190 Z`}
+          fill="none"
+          stroke="rgba(255,255,255,0.18)"
+          strokeWidth={1.2}
+          strokeDasharray="4 5"
+        />
+
+        {startPoints.map((p, i) => {
+          const pathId = `idea-path-${p.id}`;
+          return (
+            <g key={p.id}>
+              <path id={pathId} d={`M ${p.x} ${p.y} Q ${(p.x + exitX) / 2} ${(p.y + exitY) / 2}, ${exitX} ${exitY}`} fill="none" stroke="none" />
+              <circle
+                r={p.survives ? 6 : 4}
+                fill={p.survives ? '#60a5fa' : 'rgba(255,255,255,0.55)'}
+                className={p.survives ? 'idea-dot-fadein' : 'idea-dot-fadein idea-discard'}
+                style={{ animationDelay: `${i * 0.15}s`, filter: p.survives ? 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' : 'none' }}
+              >
+                <animateMotion dur="1.9s" begin={`${0.5 + i * 0.15}s`} repeatCount="1" fill="freeze">
+                  <mpath href={`#${pathId}`} />
+                </animateMotion>
+              </circle>
+            </g>
+          );
+        })}
+
+        <circle cx={exitX} cy={exitY} r={6} fill="#60a5fa" className="idea-survivor-glow" style={{ filter: 'drop-shadow(0 0 10px rgba(96,165,250,0.9))' }} />
+        <text x={exitX} y={exitY + 22} fill="#93C5FD" fontSize="10" textAnchor="middle">Validated Idea</text>
+        <text x="20" y="10" fill="rgba(255,255,255,0.45)" fontSize="9">Candidate Ideas</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-3">
+        Not The Idea You Fell In Love With — The One The Evidence Supports
+      </p>
+    </div>
+  );
+};
+
+export const ServiceValidationHero = () => (
+  <ResourceHeroShell devLabel="Validation — Product–Market Fit">
+    <ResourceHeroGrid
+      heading="Most Ventures Don't Fail From Effort. They Fail From The Wrong Idea."
+      sub="A rigorous kill-or-commit framework, applied before you spend the time, money, or focus — not after."
+      right={<ValidationFunnelDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Go-To-Market — Channels Into Compounding Revenue ----------------
+const GtmChannelDiagram = () => {
+  const channels = [
+    { label: 'Paid', path: 'M 20 40 C 100 40, 140 90, 175 100', delay: 0 },
+    { label: 'Referral', path: 'M 20 100 L 175 100', delay: 0.25 },
+    { label: 'Outbound', path: 'M 20 160 C 100 160, 140 110, 175 100', delay: 0.5 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes gtmChannelDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .gtm-channel-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gtmChannelDraw 0.9s ease-out 0s forwards; }
+        .gtm-channel-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gtmChannelDraw 0.9s ease-out 0.25s forwards; }
+        .gtm-channel-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gtmChannelDraw 0.9s ease-out 0.5s forwards; }
+
+        @keyframes gtmOutputDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .gtm-output-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gtmOutputDraw 1.1s ease-in-out 1.1s forwards; }
+
+        @keyframes gtmTipGlow { 0%, 100% { r: 5; opacity: 0.9; } 50% { r: 7.5; opacity: 1; } }
+        .gtm-tip-glow { animation: gtmTipGlow 2s ease-in-out 2.3s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        {channels.map((c, i) => (
+          <path key={c.label} d={c.path} fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth={2} strokeLinecap="round" pathLength={1} className={`gtm-channel-${i}`} />
+        ))}
+        {channels.map((c) => (
+          <text key={`${c.label}-label`} x="18" y={c.path.includes('40') ? 30 : c.path.includes('160') ? 178 : 96} fill="rgba(255,255,255,0.5)" fontSize="10">
+            {c.label}
+          </text>
+        ))}
+
+        <circle cx="175" cy="100" r={3.5} fill="rgba(255,255,255,0.7)" />
+
+        <path
+          id="gtm-output-path"
+          d="M 175 100 C 230 100, 270 60, 320 35 C 340 24, 355 18, 375 10"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="gtm-output-line"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+        <circle cx="375" cy="10" r={5} fill="#60a5fa" className="gtm-tip-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.9))' }} />
+        <text x="375" y="28" fill="#93C5FD" fontSize="10" textAnchor="end">Revenue</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        A Repeatable System, Not Three Separate Bets
+      </p>
+    </div>
+  );
+};
+
+export const ServiceGoToMarketHero = () => (
+  <ResourceHeroShell devLabel="Go-To-Market Strategy">
+    <ResourceHeroGrid
+      heading="A Product Without A System To Sell It Is Just Inventory."
+      sub="The right channels, the right sales motion, and a funnel that compounds — not one that depends on the founder every time."
+      right={<GtmChannelDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Operations — From Tangled To Organised ----------------
+const OperationsRestructureDiagram = () => {
+  const scattered = [
+    { x: 40, y: 40 },
+    { x: 280, y: 40 },
+    { x: 40, y: 180 },
+    { x: 280, y: 180 },
+    { x: 160, y: 25 },
+    { x: 160, y: 195 },
+  ];
+  const center = { x: 160, y: 110 };
+
+  const mid = [
+    { x: 80, y: 90 },
+    { x: 160, y: 90 },
+    { x: 240, y: 90 },
+  ];
+  const leaves = [
+    { x: 55, y: 165 },
+    { x: 105, y: 165 },
+    { x: 135, y: 165 },
+    { x: 185, y: 165 },
+    { x: 215, y: 165 },
+    { x: 265, y: 165 },
+  ];
+
+  return (
+    <div className="w-72 h-72 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes tangleFade { 0% { opacity: 0; } 15% { opacity: 1; } 62% { opacity: 1; } 82% { opacity: 0; } 100% { opacity: 0; } }
+        .tangle-group { animation: tangleFade 3.2s ease-in-out 0s forwards; }
+
+        @keyframes orgFadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .org-group { opacity: 0; animation: orgFadeIn 0.9s ease-out 2.4s forwards; }
+      `}</style>
+
+      <svg viewBox="0 0 320 220" className="w-full h-full">
+        <g className="tangle-group">
+          {scattered.map((s, i) => (
+            <line key={i} x1={center.x} y1={center.y} x2={s.x} y2={s.y} stroke="rgba(255,255,255,0.4)" strokeWidth={1.2} />
+          ))}
+          <line x1={scattered[0].x} y1={scattered[0].y} x2={scattered[3].x} y2={scattered[3].y} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+          <line x1={scattered[1].x} y1={scattered[1].y} x2={scattered[2].x} y2={scattered[2].y} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+          {scattered.map((s, i) => (
+            <circle key={`s-${i}`} cx={s.x} cy={s.y} r={5} fill="rgba(255,255,255,0.6)" />
+          ))}
+          <circle cx={center.x} cy={center.y} r={8} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' }} />
+          <text x={center.x} y={center.y + 22} fill="#93C5FD" fontSize="10" textAnchor="middle">Founder</text>
+        </g>
+
+        <g className="org-group">
+          {mid.map((m, i) => (
+            <line key={`root-${i}`} x1={160} y1={30} x2={m.x} y2={m.y} stroke="rgba(255,255,255,0.4)" strokeWidth={1.2} />
+          ))}
+          {leaves.map((l, i) => {
+            const parent = mid[Math.floor(i / 2)];
+            return <line key={`leaf-${i}`} x1={parent.x} y1={parent.y} x2={l.x} y2={l.y} stroke="rgba(255,255,255,0.25)" strokeWidth={1} />;
+          })}
+
+          <circle cx={160} cy={30} r={7} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.7))' }} />
+          {mid.map((m, i) => (
+            <circle key={`mid-${i}`} cx={m.x} cy={m.y} r={5.5} fill="#ffffff" />
+          ))}
+          {leaves.map((l, i) => (
+            <circle key={`leaf-dot-${i}`} cx={l.x} cy={l.y} r={4} fill="rgba(255,255,255,0.6)" />
+          ))}
+        </g>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        Same Team. From Founder-Dependent To Self-Running.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceOperationsHero = () => (
+  <ResourceHeroShell devLabel="Operations & Scalability">
+    <ResourceHeroGrid
+      heading="Revenue Growth Without Infrastructure Isn't Scale. It's Chaos With A Bigger Number."
+      sub="We map every process, measure founder dependency, and rebuild the structure for the stage you're entering next."
+      right={<OperationsRestructureDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Fundraising — Metrics Into A Data Room ----------------
+const FundraisingMetricsDiagram = () => {
+  const cards = [
+    { label: 'ARR', dx: -30, dy: -40, rot: -14 },
+    { label: 'Churn', dx: 40, dy: -55, rot: 10 },
+    { label: 'LTV:CAC', dx: -20, dy: 55, rot: 8 },
+    { label: 'Runway', dx: 35, dy: 45, rot: -9 },
+  ];
+  const finalX = [20, 110, 200, 290];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes cardSettle0 { from { opacity: 0; transform: translate(${cards[0].dx}px, ${cards[0].dy}px) rotate(${cards[0].rot}deg); } to { opacity: 1; transform: translate(0,0) rotate(0deg); } }
+        @keyframes cardSettle1 { from { opacity: 0; transform: translate(${cards[1].dx}px, ${cards[1].dy}px) rotate(${cards[1].rot}deg); } to { opacity: 1; transform: translate(0,0) rotate(0deg); } }
+        @keyframes cardSettle2 { from { opacity: 0; transform: translate(${cards[2].dx}px, ${cards[2].dy}px) rotate(${cards[2].rot}deg); } to { opacity: 1; transform: translate(0,0) rotate(0deg); } }
+        @keyframes cardSettle3 { from { opacity: 0; transform: translate(${cards[3].dx}px, ${cards[3].dy}px) rotate(${cards[3].rot}deg); } to { opacity: 1; transform: translate(0,0) rotate(0deg); } }
+        .fund-card-0 { animation: cardSettle0 0.65s cubic-bezier(0.22,1,0.36,1) 0s both; }
+        .fund-card-1 { animation: cardSettle1 0.65s cubic-bezier(0.22,1,0.36,1) 0.18s both; }
+        .fund-card-2 { animation: cardSettle2 0.65s cubic-bezier(0.22,1,0.36,1) 0.36s both; }
+        .fund-card-3 { animation: cardSettle3 0.65s cubic-bezier(0.22,1,0.36,1) 0.54s both; }
+
+        @keyframes stampPop { 0% { opacity: 0; transform: scale(0.3) rotate(-16deg); } 100% { opacity: 1; transform: scale(1) rotate(-16deg); } }
+        .fund-stamp { animation: stampPop 0.5s ease-out 1.55s both; }
+
+        @keyframes stampGlow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .fund-stamp-glow { animation: stampGlow 2.2s ease-in-out 2.1s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 380 170" className="w-full h-auto">
+        {cards.map((c, i) => (
+          <g key={c.label} className={`fund-card-${i}`} style={{ transformOrigin: `${finalX[i] + 35}px 85px` }}>
+            <rect x={finalX[i]} y={60} width={70} height={50} rx={6} fill="#132B47" stroke="rgba(255,255,255,0.25)" strokeWidth={1} />
+            <text x={finalX[i] + 35} y={90} fill="#ffffff" fontSize="11" textAnchor="middle" fontWeight={600}>
+              {c.label}
+            </text>
+          </g>
+        ))}
+
+        <g className="fund-stamp fund-stamp-glow" style={{ transformOrigin: '350px 140px' }}>
+          <circle cx="350" cy="140" r="20" fill="none" stroke="#60a5fa" strokeWidth={2} style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.7))' }} />
+          <path d="M 342 140 L 348 146 L 359 132" fill="none" stroke="#60a5fa" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Investors Don't Fund Potential. They Fund Evidence.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceFundraisingHero = () => (
+  <ResourceHeroShell devLabel="Fundraising Readiness">
+    <ResourceHeroGrid
+      heading="By The Time You're In The Room, You're Not Pitching. You're Presenting."
+      sub="Metrics cleaned, the narrative stress-tested, and a data room built the way investors actually expect to see one."
+      right={<FundraisingMetricsDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Turnaround — Runway Stabilising ----------------
+const TurnaroundRunwayDiagram = () => {
+  const days = useAnimatedNumber(74, 21, 1900, 300);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes runwayDrain {
+          0%   { transform: scaleX(1); }
+          68%  { transform: scaleX(0.28); }
+          100% { transform: scaleX(0.28); }
+        }
+        .runway-fill { transform-origin: left center; animation: runwayDrain 2.1s cubic-bezier(0.4,0,0.2,1) 0.3s both; }
+
+        @keyframes markerFade { from { opacity: 0; } to { opacity: 1; } }
+        .runway-marker { animation: markerFade 0.4s ease-out 1.7s both; }
+
+        @keyframes stabilizedPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+        .runway-stabilized-glow { animation: stabilizedPulse 2s ease-in-out 2.1s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 380 60" className="w-full h-auto">
+        <rect x="20" y="18" width="340" height="24" rx="12" fill="rgba(255,255,255,0.1)" />
+        <g className="runway-fill">
+          <rect x="20" y="18" width="340" height="24" rx="12" fill="#60a5fa" />
+        </g>
+        <line x1="115" y1="10" x2="115" y2="50" stroke="#ffffff" strokeWidth={1.5} className="runway-marker" />
+        <text x="115" y="8" fill="#ffffff" fontSize="9" textAnchor="middle" className="runway-marker">Intervention</text>
+        <circle cx="115" cy="30" r="4" fill="#ffffff" className="runway-marker runway-stabilized-glow" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.8))' }} />
+      </svg>
+
+      <div className="flex items-baseline justify-center gap-2 mt-6">
+        <span className="text-5xl font-semibold text-blue-300">{days}</span>
+        <span className="text-white/60 text-base">Days Of Runway, Holding</span>
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        The Priority Isn't Strategy. It's Survival.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceTurnaroundHero = () => (
+  <ResourceHeroShell devLabel="Turnaround & Stabilisation">
+    <ResourceHeroGrid
+      heading="When The Runway Is Short, The Priority Is Control, Not Ambition."
+      sub="A survival viability assessment, a compression strategy, and a 30–90 day plan with one objective: regaining control."
+      right={<TurnaroundRunwayDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Scale — Scaffolding Before The Curve ----------------
+const ScaleScaffoldDiagram = () => {
+  const struts = [30, 45, 65, 90, 120, 150];
+  const baseY = 180;
+  const startX = 30;
+  const spacing = 60;
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes strutGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+        .strut-0 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0s both; }
+        .strut-1 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
+        .strut-2 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0.24s both; }
+        .strut-3 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0.36s both; }
+        .strut-4 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0.48s both; }
+        .strut-5 { transform-origin: bottom; animation: strutGrow 0.5s cubic-bezier(0.22,1,0.36,1) 0.6s both; }
+
+        @keyframes scaleCurveDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .scale-curve { stroke-dasharray: 1; stroke-dashoffset: 1; animation: scaleCurveDraw 1.3s ease-in-out 1.1s forwards; }
+
+        @keyframes scaleTipGlow { 0%, 100% { r: 5; opacity: 0.9; } 50% { r: 7.5; opacity: 1; } }
+        .scale-tip-glow { animation: scaleTipGlow 2s ease-in-out 2.4s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <line x1="20" y1={baseY} x2="380" y2={baseY} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+
+        {struts.map((h, i) => (
+          <rect
+            key={i}
+            x={startX + i * spacing}
+            y={baseY - h}
+            width={22}
+            height={h}
+            rx={2}
+            fill="rgba(96,165,250,0.35)"
+            className={`strut-${i}`}
+          />
+        ))}
+
+        <path
+          d={`M ${startX + 11} ${baseY - struts[0]} C ${startX + 80} ${baseY - struts[1]}, ${startX + 160} ${baseY - struts[3]}, ${startX + 250} ${
+            baseY - struts[5]
+          } C ${startX + 300} ${baseY - struts[5] - 25}, ${startX + 340} ${baseY - struts[5] - 55}, 380 ${baseY - struts[5] - 80}`}
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          pathLength={1}
+          className="scale-curve"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' }}
+        />
+        <circle cx="380" cy={baseY - struts[5] - 80} r={5} fill="#60a5fa" className="scale-tip-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.9))' }} />
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        The Curve Only Holds Because Of What's Built Underneath It
+      </p>
+    </div>
+  );
+};
+
+export const ServiceScaleHero = () => (
+  <ResourceHeroShell devLabel="Scale & Expansion Strategy">
+    <ResourceHeroGrid
+      heading="Aggressive Growth Isn't An Achievement If The Structure Underneath It Fails."
+      sub="A scale-readiness diagnostic, capital modelling, and org design built for the stage you're moving into — not the one you're leaving."
+      right={<ScaleScaffoldDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Cohorts — Moving Together ----------------
+const CohortJourneyDiagram = () => {
+  const checkpoints = [
+    { x: 20, label: 'Kickoff' },
+    { x: 105, label: 'Diagnostic' },
+    { x: 190, label: 'Strategy Sprint' },
+    { x: 275, label: 'Execution' },
+    { x: 360, label: 'Outcome' },
+  ];
+  const travelDuration = 4.8;
+  const dotOffsets = [-7, -3, 0, 3, 7];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes cohortCheckpointPulse0 { 0%, 4%, 100% { r: 4.5; opacity: 0.55; } 2% { r: 8; opacity: 1; } }
+        @keyframes cohortCheckpointPulse1 { 0%, 21%, 29%, 100% { r: 4.5; opacity: 0.55; } 25% { r: 8; opacity: 1; } }
+        @keyframes cohortCheckpointPulse2 { 0%, 46%, 54%, 100% { r: 4.5; opacity: 0.55; } 50% { r: 8; opacity: 1; } }
+        @keyframes cohortCheckpointPulse3 { 0%, 71%, 79%, 100% { r: 4.5; opacity: 0.55; } 75% { r: 8; opacity: 1; } }
+        .cohort-checkpoint-0 { animation: cohortCheckpointPulse0 ${travelDuration}s ease-in-out infinite; }
+        .cohort-checkpoint-1 { animation: cohortCheckpointPulse1 ${travelDuration}s ease-in-out infinite; }
+        .cohort-checkpoint-2 { animation: cohortCheckpointPulse2 ${travelDuration}s ease-in-out infinite; }
+        .cohort-checkpoint-3 { animation: cohortCheckpointPulse3 ${travelDuration}s ease-in-out infinite; }
+
+        @keyframes cohortOutcomeGlow { 0%, 100% { opacity: 0.75; r: 6; } 50% { opacity: 1; r: 9; } }
+        .cohort-checkpoint-outcome { animation: cohortOutcomeGlow 2s ease-in-out infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 380 130" className="w-full h-auto">
+        <line x1="20" y1="70" x2="360" y2="70" stroke="rgba(255,255,255,0.2)" strokeWidth={1.5} strokeDasharray="3 5" />
+
+        {checkpoints.slice(0, 4).map((c, i) => (
+          <g key={c.label}>
+            <circle cx={c.x} cy={70} r={4.5} fill="#93C5FD" className={`cohort-checkpoint-${i}`} />
+            <text x={c.x} y={95} fill="rgba(147,197,253,0.8)" fontSize="9" textAnchor="middle">{c.label}</text>
+          </g>
+        ))}
+
+        <g>
+          <circle cx={360} cy={70} r={6} fill="#60a5fa" className="cohort-checkpoint-outcome" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' }} />
+          <text x={360} y={95} fill="#93C5FD" fontSize="9" textAnchor="middle">Outcome</text>
+        </g>
+
+        {dotOffsets.map((offset, i) => (
+          <circle key={i} r={3.5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.7))' }}>
+            <animateMotion
+              dur={`${travelDuration}s`}
+              repeatCount="indefinite"
+              path={`M 20 ${70 + offset} L 360 ${70 + offset}`}
+            />
+          </circle>
+        ))}
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        One Cohort, Moving Through The Same Stages Together
+      </p>
+    </div>
+  );
+};
+
+export const CohortsHero = () => (
+  <ResourceHeroShell devLabel="Cohorts">
+    <ResourceHeroGrid
+      heading="A Small Group, Working Through The Same System At The Same Time."
+      sub="Each cohort moves through diagnostic, strategy, and execution together — no one carrying the stage alone."
+      right={<CohortJourneyDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Terms & Conditions — Clauses & Seal ----------------
+const TermsDocumentDiagram = () => {
+  const clauses = [
+    { y: 58, width: 118 },
+    { y: 83, width: 100 },
+    { y: 108, width: 122 },
+    { y: 133, width: 90 },
+    { y: 158, width: 108 },
+  ];
+
+  return (
+    <div className="w-64 h-72 sm:w-72 sm:h-80">
+      <style>{`
+        @keyframes clauseFadeIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+        .clause-0 { animation: clauseFadeIn 0.4s ease-out 0.3s both; }
+        .clause-1 { animation: clauseFadeIn 0.4s ease-out 0.6s both; }
+        .clause-2 { animation: clauseFadeIn 0.4s ease-out 0.9s both; }
+        .clause-3 { animation: clauseFadeIn 0.4s ease-out 1.2s both; }
+        .clause-4 { animation: clauseFadeIn 0.4s ease-out 1.5s both; }
+
+        @keyframes checkFadeIn { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+        .clause-check-0 { animation: checkFadeIn 0.3s ease-out 0.5s both; }
+        .clause-check-1 { animation: checkFadeIn 0.3s ease-out 0.8s both; }
+        .clause-check-2 { animation: checkFadeIn 0.3s ease-out 1.1s both; }
+        .clause-check-3 { animation: checkFadeIn 0.3s ease-out 1.4s both; }
+        .clause-check-4 { animation: checkFadeIn 0.3s ease-out 1.7s both; }
+
+        @keyframes sealPop { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        .terms-seal { animation: sealPop 0.5s ease-out 2s both; }
+
+        @keyframes sealBreathe { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .terms-seal-glow { animation: sealBreathe 3s ease-in-out 2.5s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 260 220" className="w-full h-full">
+        <rect x="20" y="15" width="170" height="190" rx="6" fill="#132B47" stroke="rgba(255,255,255,0.25)" strokeWidth={1} />
+        <rect x="34" y="30" width="90" height="8" rx="3" fill="rgba(255,255,255,0.35)" />
+
+        {clauses.map((c, i) => (
+          <g key={i}>
+            <circle cx="35" cy={c.y} r={4} fill="none" stroke="#60a5fa" strokeWidth={1.4} className={`clause-check-${i}`} />
+            <path
+              d={`M ${32.5} ${c.y} L ${34.5} ${c.y + 2} L ${37.5} ${c.y - 2.5}`}
+              fill="none"
+              stroke="#60a5fa"
+              strokeWidth={1.2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`clause-check-${i}`}
+            />
+            <line x1="48" y1={c.y} x2={48 + c.width} y2={c.y} stroke="rgba(255,255,255,0.3)" strokeWidth={3} strokeLinecap="round" className={`clause-${i}`} />
+          </g>
+        ))}
+
+        <g className="terms-seal terms-seal-glow" style={{ transformOrigin: '215px 175px' }}>
+          <circle cx="215" cy="175" r="22" fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.6))' }} />
+          <text x="215" y="181" fill="#0A1E3D" fontSize="16" fontWeight={700} textAnchor="middle">S</text>
+        </g>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-2">
+        The Terms That Govern Every Engagement
+      </p>
+    </div>
+  );
+};
+
+export const TermsConditionsHero = () => (
+  <ResourceHeroShell devLabel="Terms & Conditions">
+    <ResourceHeroGrid
+      heading="The Same Discipline We Bring To Strategy, We Bring To The Fine Print."
+      sub="Plain terms, clearly stated — read them in full below."
+      right={<TermsDocumentDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
 // =====================================================
-// TEST PAGE — stack all versions
+// TEST PAGE — client-only mount (bulletproofs against
+// any SSR/client hydration mismatch in the SVG diagrams)
 // =====================================================
 export default function NewVisualsTestPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Server renders an empty main; client fills it in after mount.
+  // This guarantees there is NO SSR HTML for the SVGs, so React
+  // has nothing to reconcile against — no hydration mismatch possible.
+  if (!mounted) {
+    return <main className="min-h-screen bg-white" />;
+  }
+
   return (
     <main className="min-h-screen bg-white">
       <style>{`
@@ -2723,6 +4328,7 @@ export default function NewVisualsTestPage() {
         }
       `}</style>
 
+      {/* Original test-page visuals */}
       <HeroVersionPolar />
       <HeroVersionRadar />
       <HeroVersionStacked />
@@ -2755,6 +4361,27 @@ export default function NewVisualsTestPage() {
       <HeroVersionHorizonBuild />
       <HeroVersionSkillSpiral />
       <HeroVersionBalancedWave />
+
+      {/* Resources ecosystem hero diagrams */}
+      <ResourcesHubHeroOptionA />
+      <ResourcesHubHeroOptionB />
+      <ToolsHeroSection />
+      <ReportsHeroSection />
+      <CaseStudiesHeroSection />
+      <BlogHeroSection />
+
+      {/* Service & legal hero diagrams */}
+      <ServicesHubHeroOptionA />
+      <ServicesHubHeroOptionB />
+      <ServiceFoundationHero />
+      <ServiceValidationHero />
+      <ServiceGoToMarketHero />
+      <ServiceOperationsHero />
+      <ServiceFundraisingHero />
+      <ServiceTurnaroundHero />
+      <ServiceScaleHero />
+      <CohortsHero />
+      <TermsConditionsHero />
     </main>
   );
 }
