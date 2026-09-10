@@ -3,6 +3,7 @@
 
 import React, {
   useState,
+  useEffect,
   FC,
 } from 'react';
 
@@ -213,20 +214,178 @@ const serviceMatchesTag = (service: Service, activeTag: string): boolean => {
 };
 
 // =====================================================
+// HERO — SERVICE PACKAGE DIAGRAM
+// Curved "hill" path version.
+//
+// Path shape (left → right):
+//   • Starts almost straight (flat segment).
+//   • Climbs a smooth hill (uphill).
+//   • Rounds the peak.
+//   • Descends the hill (downhill).
+//   • Ends almost straight (flat segment).
+//
+// The single travelling dot follows the exact same curvature,
+// moving forward then backward, endlessly — it never disappears.
+//
+// The 4 fixed stage dots sit ON the curve at equal arc-length
+// spacing (≈101.67 units apart), so:
+//   • The first dot is exactly as far from the start as the
+//     last dot is from the end.
+//   • Dot 1 sits on the flat opening region.
+//   • Dot 2 sits on the uphill side.
+//   • Dot 3 sits on the downhill side.
+//   • Dot 4 sits on the flat closing region.
+//
+// Stage labels are ALWAYS static — no fade-in, no fly-in.
+// The line itself is plotted left → right on load.
+// =====================================================
+
+const ServicePackageDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+
+  // Curved hill path (SVG user coordinates)
+  const curvePath =
+    'M 20 100 ' +
+    'L 55 100 ' +
+    'C 95 100, 115 50, 175 50 ' +
+    'C 235 50, 255 100, 295 100 ' +
+    'L 360 100';
+
+  // Approximate total arc length of the curve above (~365 units)
+  const totalLength = 400; // slightly padded for a clean dash animation
+
+  // 4 fixed stage dots, placed ON the curve at equal arc-length spacing.
+  // First dot: 30 units from start. Last dot: 30 units from end.
+  const nodes = [
+    { x: 50.0,  y: 100.0, tag: 'Build' }, // flat opening region
+    { x: 139.9, y: 56.5,  tag: 'Validate'   }, // uphill side
+    { x: 242.2, y: 74.8,  tag: 'Grow'  }, // downhill side
+    { x: 330.0, y: 100.0, tag: 'Transform'      }, // flat closing region
+  ];
+
+  const travelDuration = 5;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        /* Node dots fade/scale in around their own centre */
+        @keyframes pkgNodeFade {
+          from { opacity: 0; transform: scale(0.4); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .pkg-node {
+          animation: pkgNodeFade 0.45s ease-out both;
+          transform-box: fill-box;
+          transform-origin: center;
+        }
+        .pkg-node-0 { animation-delay: 0.30s; }
+        .pkg-node-1 { animation-delay: 0.55s; }
+        .pkg-node-2 { animation-delay: 0.80s; }
+        .pkg-node-3 { animation-delay: 1.05s; }
+
+        /* The curved line is plotted from left to right on load */
+        @keyframes pkgLineDraw {
+          from { stroke-dashoffset: ${totalLength}; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .pkg-line {
+          stroke-dasharray: ${totalLength};
+          stroke-dashoffset: ${totalLength};
+          animation: pkgLineDraw 1.1s ease-out 0.15s forwards;
+        }
+
+        /* The SAME dot travels forward along the curve, then backward,
+           then forward again — endlessly. It never disappears. */
+        @keyframes pkgDotTravel {
+          from { offset-distance: 0%; }
+          to   { offset-distance: 100%; }
+        }
+        .pkg-dot {
+          offset-path: path('${curvePath}');
+          offset-distance: 0%;
+          animation: pkgDotTravel ${travelDuration}s linear 1.35s infinite alternate;
+        }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 380 130" className="w-full h-auto">
+          {/* Curved white line — plotted left → right on load */}
+          <path
+            d={curvePath}
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="pkg-line"
+          />
+
+          {/* 4 fixed stage dots, equidistant along the curve */}
+          {nodes.map((p, i) => (
+            <g key={p.tag}>
+              <circle
+                cx={p.x}
+                cy={p.y}
+                r={5}
+                fill="#60a5fa"
+                className={`pkg-node pkg-node-${i}`}
+                style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.7))' }}
+              />
+              {/* Stage label — always static, never animates */}
+              <text
+                x={p.x}
+                y={p.y - 22}
+                fill="#93C5FD"
+                fontSize="12"
+                textAnchor="middle"
+              >
+                {p.tag}
+              </text>
+            </g>
+          ))}
+
+          {/* Travelling dot — follows the same curve, back and forth, forever */}
+          <circle
+            r={6}
+            fill="#ffffff"
+            className="pkg-dot"
+            style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.85))' }}
+          />
+        </svg>
+      )}
+
+      <p className="text-white text-base text-center mt-6">
+        Strategy Across Every Critical Stage.
+      </p>
+    </div>
+  );
+};
+
+// =====================================================
 // HERO SECTION
+// Responsive pattern matched to the homepage's
+// ProductLifecycleHero: responsive min-height, responsive
+// py/px/gap steps, an explicit grid-cols-1 for mobile, and
+// the visual is never hidden below `lg` — it just shrinks
+// (h-56 sm:h-72 lg:h-[420px]) and stays centered until it
+// moves to the right edge at `lg`.
 // =====================================================
 
 const HeroSection: FC = () => (
   <section
-    className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
+    className="relative overflow-hidden bg-[#0A1E3D] min-h-[480px] sm:min-h-[560px] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
   >
-    {/* Background pattern (exact same as blog page) */}
+    {/* Background pattern (same diagonal grid used across the site) */}
     <div className="absolute inset-0 opacity-20">
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern
-            id="blog-grid"
+            id="services-hero-grid"
             patternUnits="userSpaceOnUse"
             width="5"
             height="5"
@@ -235,30 +394,24 @@ const HeroSection: FC = () => (
             <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#blog-grid)" />
+        <rect width="100%" height="100%" fill="url(#services-hero-grid)" />
       </svg>
     </div>
 
     <div className="max-w-7xl mx-auto relative">
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="space-y-7">
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
-              Structured
-              <span className="block text-blue-300">Strategy.</span>
-            </h1>
-            <p className="text-base sm:text-lg max-w-md text-gray-400">
-              The founders who move faster are not the ones who seek more advice. They are the ones who find the right system. Every engagement at Sarsen begins with understanding the full truth of where you are.
-            </p>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+        <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white">
+            Strategy For Emerging Businesses
+          </h1>
+
+          <p className="text-base sm:text-lg lg:text-xl text-gray-300">
+            From Foundation To Scale. We Engineer the Strategy Required to Navigate Critical Business Situations. Unlock Opportunities. And Turn Execution Into Compounding Results.
+          </p>
         </div>
 
-        <div
-          className="relative hidden lg:flex items-center justify-end"
-          style={{ height: '420px' }}
-          aria-hidden="true"
-        >
-          <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
+        <div className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end">
+          <ServicePackageDiagram />
         </div>
       </div>
     </div>
