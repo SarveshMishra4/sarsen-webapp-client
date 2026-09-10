@@ -533,10 +533,45 @@ const ContactFormSection = () => {
                   )}
                 </button>
 
-                {/* Success Message */}
+                {/* Success Message — matches the Hero section's
+                    background: same #0A1E3D blue and the same
+                    diagonal-line pattern overlay. Size/position
+                    left untouched; only the text is centered. */}
                 {submitted && (
-                  <div className="bg-green-[#0A1E3D] border-2 p-4 rounded-md">
-                    <div className="flex items-center">
+                  <div className="relative bg-[#0A1E3D] border-2 p-4 rounded-md overflow-hidden">
+                    <div className="absolute inset-0 opacity-20">
+                      <svg
+                        className="w-full h-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <defs>
+                          <pattern
+                            id="success-msg-grid"
+                            patternUnits="userSpaceOnUse"
+                            width="5"
+                            height="5"
+                            patternTransform="rotate(45)"
+                          >
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="40"
+                              stroke="#ffffff"
+                              strokeWidth="0.75"
+                            />
+                          </pattern>
+                        </defs>
+
+                        <rect
+                          width="100%"
+                          height="100%"
+                          fill="url(#success-msg-grid)"
+                        />
+                      </svg>
+                    </div>
+
+                    <div className="relative flex items-center justify-center text-center">
 
                       <svg
                         className="w-6 h-6 text-green-500 mr-3"
@@ -550,11 +585,9 @@ const ContactFormSection = () => {
                         />
                       </svg>
 
-                      <div>
-                        <p className="text-white font-medium">
-                          Message Recieved
-                        </p>
-                      </div>
+                      <p className="text-white font-medium">
+                        Message Recieved
+                      </p>
 
                     </div>
                   </div>

@@ -6,17 +6,71 @@ import React, { useState, useEffect, useRef } from 'react';
 
 
 // =====================================================
+// CONVERGING EXPERTISE DIAGRAM
+// Four disciplines — Finance, Operations, Strategy,
+// Technology — converging into a single engagement point.
+// =====================================================
+const ConvergingExpertiseDiagram = () => {
+  const sources = [
+    { label: 'Finance', y: 30 },
+    { label: 'Operations', y: 75 },
+    { label: 'Strategy', y: 125 },
+    { label: 'Technology', y: 170 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineConvergeExp {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-converge-exp-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0s forwards; }
+        .draw-line-converge-exp-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.25s forwards; }
+        .draw-line-converge-exp-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.5s forwards; }
+        .draw-line-converge-exp-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineConvergeExp 1.1s ease-out 0.75s forwards; }
+        @keyframes convergeExpGlow {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 8; opacity: 1; }
+        }
+        .converge-exp-glow { animation: convergeExpGlow 2.2s ease-in-out 1.8s infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 400 200" className="w-full h-auto">
+        <path d="M 20 30 C 140 30, 220 90, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-0" />
+        <path d="M 20 75 C 140 75, 220 95, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-1" />
+        <path d="M 20 125 C 140 125, 220 105, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-2" />
+        <path d="M 20 170 C 140 170, 220 110, 340 100" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" pathLength={1} className="draw-line-converge-exp-3" />
+
+        {sources.map((s) => (
+          <text key={s.label} x="10" y={s.y - 5} fill="rgba(255,255,255,0.5)" fontSize="11">{s.label}</text>
+        ))}
+
+        <circle cx="340" cy="100" r="5" fill="#60a5fa" className="converge-exp-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' }} />
+        <text x="340" y="122" fill="#93C5FD" fontSize="10" textAnchor="middle">Sarsen</text>
+      </svg>
+
+      <p className="text-white/70 text-base text-center mt-6">
+        One Team. Four Disciplines. No Blind Spots.
+      </p>
+    </div>
+  );
+};
+
+
+// =====================================================
 // HERO SECTION COMPONENT
+// Version T — Converging Expertise
 // =====================================================
 const AboutHero = () => {
   return (
     <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background pattern (exact same as blog page) */}
+      {/* Background pattern (diagonal grid) */}
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="blog-grid"
+              id="about-hero-grid"
               patternUnits="userSpaceOnUse"
               width="5"
               height="5"
@@ -25,32 +79,30 @@ const AboutHero = () => {
               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+          <rect width="100%" height="100%" fill="url(#about-hero-grid)" />
         </svg>
       </div>
+
 
       <div className="relative max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          <div className="space-y-8 lg:space-y-10">
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white  ">
-                About Us
-              </h1>
-              <p className="text-xl sm:text-2xl text-blue-300  ">
-                Strategic diagnostics and execution-ready thinking for founders operating under real constraints.
-              </p>
-            </div>
+          {/* Left — copy */}
+          <div className="space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white">
+              Strategy That Unlocks Progress
+            </h1>
 
+            <p className="text-lg sm:text-xl text-gray-300">
+              We Engineer Strategy so Every Action Creates More Value than the Last and Execution Compounds Into Exponential Growth.
+            </p>
 
+            <div className="pt-4"></div>
           </div>
 
+          {/* Right — converging expertise diagram */}
           <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full max-w-lg h-full  flex items-center justify-center ">
-                <img src="/assets/about/About Head.svg" alt="" className="max-w-full h-auto" />
-              </div>
-            </div>
+            <ConvergingExpertiseDiagram />
           </div>
 
         </div>
