@@ -1,13 +1,160 @@
 // app/contact/contactClient.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { apiRequest } from '@/services/api';
 
 // =====================================================
+// SHARED ICON — Location Pin
+// Reused by the "Our Presence" cards below.
+// =====================================================
+const LocationPinIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+// =====================================================
+// Small helper — rounds coordinates for crisp SVG output
+// =====================================================
+const roundCoord = (n: number) => Math.round(n * 100) / 100;
+
+// =====================================================
+// Ring styling — kept in one place so the ring line stays
+// an exact match for the home-page hero chart stroke
+// (white, 2.5 weight, fully opaque — see ProductLifecycleChartOnce).
+// =====================================================
+const RING_STROKE = '#ffffff';
+const RING_STROKE_WIDTH = 1.75;
+
+// =====================================================
+// MINIMAL ORBIT RING — locations on the ring, no dial
+// A single revolving marker orbits fixed points that mark
+// where the team sits around the globe.
+// =====================================================
+const ContactOrbitRing = () => {
+  const [mounted, setMounted] = useState(false);
+  const cx = 120, cy = 120, r = 78;
+  const orbitDuration = 24;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (angleDeg: number, radius = r) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
+  };
+
+  const offices = [
+    { name: 'Abu Dhabi', angle: 0 },
+    { name: 'Goa', angle: 22.5 },
+    { name: 'Singapore', angle: 60 },
+    { name: 'Boston', angle: 225 },
+  ];
+
+  return (
+    <div className="w-[19.2rem] h-[19.2rem] sm:w-96 sm:h-96">
+      <style>{`
+        @keyframes orbitSpinMinimal {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        .orbit-spin-minimal {
+          transform-origin: 120px 120px;
+          animation: orbitSpinMinimal ${orbitDuration}s linear infinite;
+        }
+
+        @keyframes officePulseOnRing {
+          0%, 88%, 100% {
+            r: 3.5;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 0 rgba(96,165,250,0));
+          }
+          6% {
+            r: 6.5;
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(96,165,250,0.9));
+          }
+          14% {
+            r: 3.5;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 0 rgba(96,165,250,0));
+          }
+        }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 240 240" className="w-full h-full">
+          {/* Orbit ring — matches home-page hero chart line:
+              white stroke, 2.5 weight, fully opaque */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill="none"
+            stroke={RING_STROKE}
+            strokeWidth={RING_STROKE_WIDTH}
+            strokeLinecap="round"
+          />
+
+          {offices.map((o) => {
+            const pos = polarToCartesian(o.angle);
+            const labelPos = polarToCartesian(o.angle, r + 20);
+            const delay = (o.angle / 360) * orbitDuration;
+            return (
+              <g key={o.name}>
+                <circle
+                  cx={pos.x}
+                  cy={pos.y}
+                  r={3.5}
+                  fill="#60a5fa"
+                  style={{
+                    animation: `officePulseOnRing ${orbitDuration}s ease-in-out ${delay}s infinite`,
+                  }}
+                />
+                <text
+                  x={labelPos.x}
+                  y={labelPos.y}
+                  fill="#93C5FD"
+                  fontSize="8.5"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  {o.name}
+                </text>
+              </g>
+            );
+          })}
+
+          <g className="orbit-spin-minimal">
+            <circle
+              cx={cx}
+              cy={cy - r}
+              r={4}
+              fill="#ffffff"
+              style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.85))' }}
+            />
+          </g>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Wherever We Are Needed
+      </p>
+    </div>
+  );
+};
+
+// =====================================================
 // CONTACT HERO SECTION
-// Dark blue background with headline and illustration
-// Matches home page hero aesthetic
+// Dark blue background with headline and the orbit-ring
+// visual on the right. Matches home page hero aesthetic.
 // =====================================================
 const ContactHeroSection = () => {
   return (
@@ -32,27 +179,82 @@ const ContactHeroSection = () => {
 
       <div className="relative max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
+
           {/* ==================== LEFT COLUMN ==================== */}
           {/* Headline and Subtext */}
           <div className="space-y-6">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white  ">
-              Bring Clarity to Your Business Decisions
+              Start With the Situation
             </h1>
+            {/* <p className="text-lg sm:text-xl text-gray-300  ">
+Every Business Situation can be Unique. A Business Equation can Appear Simple at the Surface Yet become Extraordinarily Complex to Deal With for the Entrepreneurs and Decision-Makers Carrying the Business Forward.</p> */}
             <p className="text-lg sm:text-xl text-gray-300  ">
-We work with founders who need clarity before making high-impact decisions — growth, capital, pricing, or restructuring.            </p>
+Whether You are At a Crossroads. Facing Pressure to Grow Without Room for Error. Looking for Strategic Direction. Or Need to Raise a Concern About an Ongoing Engagement.</p>
             <div className="pt-4">
-              <p className="text-gray-400 text-sm sm:text-base">
-                Share a few details below and we'll review your situation before responding.
-If there's a clear way we can help, we'll suggest next steps — if not, we'll tell you that too.
-              </p>
+
             </div>
           </div>
 
           {/* ==================== RIGHT COLUMN ==================== */}
-          {/* Illustration - Connection/Communication Theme */}
-          <img src="/assets/contact/Contact Head.svg" alt="" className="max-w-full h-auto" />
+          {/* Orbit Ring — a single revolving marker against fixed points */}
+          <div className="relative h-64 sm:h-80 lg:h-[450px] flex items-center justify-center lg:justify-end">
+            <ContactOrbitRing />
+          </div>
 
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// =====================================================
+// OUR PRESENCE SECTION
+// Four cards, one per location, each using the same
+// location-pin icon previously shown in the contact card.
+//
+// Layout:
+//   mobile  → 1 column (full width, stacked top → bottom)
+//   sm      → 2 columns
+//   lg      → 4 columns
+// =====================================================
+const OurPresenceSection = () => {
+  const locations = [
+    { city: 'Goa', country: 'India' },
+    { city: 'Abu Dhabi', country: 'United Arab Emirates' },
+    { city: 'Singapore', country: 'Singapore' },
+    { city: 'Boston', country: 'United States' },
+  ];
+
+  return (
+    <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
+            Our Presence
+          </h2>
+          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
+            We are Spread Across Time Zones. Working with Enterprenures & Leaders Wherever They Need Us.
+          </p>
+        </div>
+
+        {/* Mobile: 1 per row, full width. Tablet: 2. Desktop: 4. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {locations.map((loc) => (
+            <div
+              key={loc.city}
+              className="w-full bg-white rounded-md shadow-lg p-6 sm:p-8 text-center hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-[#0A1E3D]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <LocationPinIcon className="w-6 h-6 text-[#0A1E3D]" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-medium text-gray-800">
+                {loc.city}
+              </h3>
+              <p className="text-sm sm:text-base text-gray-500 mt-1">
+                {loc.country}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -75,9 +277,9 @@ const ContactFormSection = () => {
     message: ''
   });
 
-  const [submitted,    setSubmitted]    = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error,        setError]        = useState('');
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -96,9 +298,9 @@ const ContactFormSection = () => {
     // ─────────────────────────────────────────────────────────────────────
     const enrichedMessage = [
       formData.message,
-      formData.phone        ? `Phone: ${formData.phone}`                     : '',
-      formData.company      ? `Company: ${formData.company}`                 : '',
-      formData.revenueStage ? `Business Stage: ${formData.revenueStage}`     : '',
+      formData.phone ? `Phone: ${formData.phone}` : '',
+      formData.company ? `Company: ${formData.company}` : '',
+      formData.revenueStage ? `Business Stage: ${formData.revenueStage}` : '',
       formData.serviceInterest ? `Area of Interest: ${formData.serviceInterest}` : '',
     ]
       .filter(Boolean)
@@ -107,8 +309,8 @@ const ContactFormSection = () => {
     try {
       await apiRequest('POST', '/contact', {
         body: {
-          name:    formData.name,
-          email:   formData.email,
+          name: formData.name,
+          email: formData.email,
           message: enrichedMessage,
         },
       });
@@ -145,24 +347,23 @@ const ContactFormSection = () => {
           {/* ==================== LEFT COLUMN - CONTACT FORM ==================== */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-md shadow-2xl p-6 sm:p-8 lg:p-10">
-              
+
               {/* Form Header */}
               <div className="mb-8">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-gray-800 mb-3">
-                  Tell Us What's Stuck
+                  Tell Us About the Situation
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  This isn't a sales form. It's the first step in understanding whether — and how — we can help.
-The more context you share, the more useful our response will be.
+                  The More Context You Share the Better We can Understand. Tell Us What You Are Trying to Achieve or What is Making the Situation Difficult.
                 </p>
               </div>
 
               {/* Contact Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                
+
                 {/* Name Field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-md font-medium text-[#0A1E3D] mb-2">
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -179,10 +380,10 @@ The more context you share, the more useful our response will be.
 
                 {/* Email and Phone - Side by Side */}
                 <div className="grid sm:grid-cols-2 gap-6">
-                  
+
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-md font-medium text-[#0A1E3D] mb-2">
                       Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -199,7 +400,7 @@ The more context you share, the more useful our response will be.
 
                   {/* Phone */}
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="phone" className="block text-md font-medium text-[#0A1E3D] mb-2">
                       Phone Number
                     </label>
                     <input
@@ -216,7 +417,7 @@ The more context you share, the more useful our response will be.
 
                 {/* Company Name */}
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="company" className="block text-md font-medium text-[#0A1E3D] mb-2">
                     Company Name
                   </label>
                   <input
@@ -232,10 +433,10 @@ The more context you share, the more useful our response will be.
 
                 {/* Revenue Stage and Service Interest - Side by Side */}
                 <div className="grid sm:grid-cols-2 gap-6">
-                  
+
                   {/* Revenue Stage */}
                   <div>
-                    <label htmlFor="revenueStage" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="revenueStage" className="block text-md font-medium text-[#0A1E3D] mb-2">
                       Current Business Stage
                     </label>
                     <select
@@ -245,20 +446,19 @@ The more context you share, the more useful our response will be.
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
                     >
-                      <option value="">Select stage</option>
-                      <option value="pre-revenue">Pre-revenue</option>
-                      <option value="0-10l">₹0-10L revenue</option>
-                      <option value="10l-50l">₹10L-50L revenue</option>
-                      <option value="50l-1cr">₹50L-1Cr revenue</option>
-                      <option value="1cr-5cr">₹1-5Cr revenue</option>
-                      <option value="5cr-10cr">₹5-10Cr revenue</option>
-                      <option value="10cr+">₹10Cr+ revenue</option>
+                      <option value="" disabled selected>Annual Revenue Range</option>
+    <option value="pre-revenue">Pre-Revenue</option>
+    <option value="10K-50K">$10K - $50K </option>
+    <option value="50K-100K">$50K - $100K </option>
+    <option value="100K-500K">$100K - $500K </option>
+    <option value="500K-1M">$500K - $1 M </option>
+    <option value="1M+"> Over $1 Million</option>
                     </select>
                   </div>
 
                   {/* Service Interest */}
                   <div>
-                    <label htmlFor="serviceInterest" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="serviceInterest" className="block text-md font-medium text-[#0A1E3D] mb-2">
                       Primary Area You Want To Improve
                     </label>
                     <select
@@ -268,21 +468,22 @@ The more context you share, the more useful our response will be.
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-gray-800 bg-white"
                     >
-                      <option value="">Select service</option>
+                      <option value="" disabled selected>Select Purpose</option>
                       <option value="growth">Growth & Revenue Strategy</option>
                       <option value="financial">Financial Planning & Capital</option>
                       <option value="operations">Operations & Efficiency</option>
                       <option value="strategic">Strategic Planning</option>
                       <option value="product">Product & Innovation</option>
-                      <option value="not-sure">Not sure / Multiple areas</option>
+                      <option value="complaint">Client Complaints</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Message Field */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Briefly describe what feels unclear or risky right now <span className="text-red-500">*</span>
+                  <label htmlFor="message" className="block text-md font-medium text-[#0A1E3D] mb-2">
+                    Tell Us More. We are Listening. <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -292,8 +493,7 @@ The more context you share, the more useful our response will be.
                     required
                     rows={6}
                     className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300 text-gray-800"
-                    placeholder="For example: stalled growth, fundraising confusion, pricing issues, team inefficiency, or strategic indecision.
-You don't need a polished explanation — clarity comes later."
+                    placeholder="For Example : We are Preparing to Raise Capital but are Uncertain about the Amount Required the Use of Funds and Our Readiness for Investors."
                   ></textarea>
                 </div>
 
@@ -316,7 +516,7 @@ You don't need a polished explanation — clarity comes later."
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span>Sending...</span>
+                      <span>Sending</span>
                     </>
                   ) : (
                     <span>Request a Review</span>
@@ -331,7 +531,7 @@ You don't need a polished explanation — clarity comes later."
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <div>
-                        <p className="text-green-800 font-medium">Message Recieved !</p>
+                        <p className="text-green-800 font-medium">Message Recieved</p>
                       </div>
                     </div>
                   </div>
@@ -344,15 +544,32 @@ You don't need a polished explanation — clarity comes later."
 
           {/* ==================== RIGHT COLUMN - CONTACT INFO ==================== */}
           <div className="lg:col-span-2 flex flex-col justify-between gap-6 lg:gap-8">
-            
-            {/* Contact Information Card */}
-            <div className="bg-gradient-to-br from-[#1E5A8E] to-[#2B7AB8] rounded-md p-6 sm:p-8 text-white shadow-xl">
-              <h3 className="text-xl sm:text-2xl  mb-6">
-                Contact Information
-              </h3>
 
-              <div className="space-y-6">
-                
+            {/* Contact Information Card — same background as the header (dark navy + diagonal-line pattern) */}
+            <div className="relative bg-[#0A1E3D] rounded-md p-6 sm:p-8 text-white shadow-xl overflow-hidden">
+              {/* Background pattern (exact same as header) */}
+              <div className="absolute inset-0 opacity-20">
+                <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern
+                      id="contact-card-grid"
+                      patternUnits="userSpaceOnUse"
+                      width="5"
+                      height="5"
+                      patternTransform="rotate(45)"
+                    >
+                      <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#contact-card-grid)" />
+                </svg>
+              </div>
+
+              <div className="relative">
+                <h3 className="text-xl sm:text-2xl  mb-6">
+                  Contact Information
+                </h3>
+
                 {/* Email */}
                 <div className="flex items-start space-x-4">
                   <div className="mt-1 flex-shrink-0">
@@ -361,104 +578,74 @@ You don't need a polished explanation — clarity comes later."
                     </svg>
                   </div>
                   <div>
-                    <a href="mailto:contact@sarsenpartners.com" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg">
+                    <a href="mailto:contact@sarsenpartners.com" className="text-white/90 hover:text-white transition-colors text-base sm:text-lg block">
                       contact@sarsenpartners.com
                     </a>
-                  </div>
-                </div>
-
-
-
-                {/* Address */}
-                <div className="flex items-start space-x-4">
-                  <div className="mt-1 flex-shrink-0">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-white/90 text-base sm:text-lg ">
-                      Abu Dhabi<br />
-                      United Arab Emirates
+                    <p className="text-white/60 text-sm mt-2">
+                      We Operate Across Time Zones. Reach Out Whenever You Need To ... We'll Respond.
                     </p>
                   </div>
                 </div>
-
-                {/* Business Hours */}
-                <div className="flex items-start space-x-4">
-                  <div className="mt-1 flex-shrink-0">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-white/90 text-base sm:text-lg ">
-                      Monday - Friday<br />
-                    </p>
-                  </div>
-                </div>
-
               </div>
             </div>
 
             {/* Quick Links Card */}
             <div className="bg-white text-slate-900 rounded-md p-6 sm:p-8 shadow-lg border border-gray-200">
 
-  {/* Heading */}
-  <h3 className="text-lg sm:text-xl font-medium mb-4">
-    For You May Explore 
-  </h3>
+              {/* Heading */}
+              <h3 className="text-lg sm:text-xl font-medium mb-4">
+                For You May Explore
+              </h3>
 
-  {/* Links Section */}
-  <div className="space-y-3">
+              {/* Links Section */}
+              <div className="space-y-3">
 
-    {/* Link 1 */}
-    <a
-      href="/work"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
-    >
-      <span>How We Help Founders</span>
-      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </a>
+                {/* Link 1 */}
+                <a
+                  href="/work"
+                  className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
+                >
+                  <span>How We Help Founders</span>
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
 
-    {/* Link 2 */}
-    <a
-      href="/resources"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
-    >
-      <span>Access Our Resources</span>
-      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </a>
+                {/* Link 2 */}
+                <a
+                  href="/resources"
+                  className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
+                >
+                  <span>Access Our Resources</span>
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
 
-    {/* Link 3 */}
-    <a
-      href="/resources/blog"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
-    >
-      <span>Read Our Thinking</span>
-      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </a>
+                {/* Link 3 */}
+                <a
+                  href="/resources/blog"
+                  className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
+                >
+                  <span>Read Our Thinking</span>
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
 
-    {/* Link 4 */}
-    <a
-      href="/resources/case-studies"
-      className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
-    >
-      <span>Our Case Studies</span>
-      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </a>
+                {/* Link 4 */}
+                <a
+                  href="/resources/case-studies"
+                  className="flex items-center justify-between py-2 transition-colors group hover:text-blue-600 text-sm sm:text-base"
+                >
+                  <span>Our Case Studies</span>
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
 
-  </div>
-</div>
+              </div>
+            </div>
 
           </div>
 
@@ -476,44 +663,67 @@ You don't need a polished explanation — clarity comes later."
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const faqs = [
-    {
-      question: "What types of businesses do you work with ?",
-      answer: "We work across the full spectrum of emerging businesses and established corporations, with a specialisation in startups. Regardless of where you are on that journey, our approach is grounded in strategic rigour. Clients turn to us as strategy experts because we cut through complexity and deliver clarity—without the fluff or unnecessary overhead."
-    },
-    {
-      question: "Do you offer free consultations or calls ?",
-      answer: "No. We don't believe in unpaid advisory conversations. Every interaction starts with a paid diagnostic session where we analyze your situation and provide structured guidance. This ensures focus, seriousness, and real value for both sides."
-    },
-    {
-      question: "How long does a typical engagement last ?",
-      answer: "Most of our projects are designed for 2-week delivery cycles. We believe in fast turnaround without compromising quality. Some services like retainer advisory are ongoing (3-month minimum), while workshops are single-day intensives. Unlike traditional consulting that drags on for months, we deliver actionable outputs quickly so you can start implementing immediately."
-    },
-    {
-      question: "What exactly will I receive at the end of the engagement ?",
-      answer: "You'll receive tangible, execution-ready deliverables—not vague PowerPoint advice. This includes Excel financial models (unlocked, with formulas), strategic roadmaps, process documents, frameworks, templates, and tools. Everything is designed for your team to implement without ongoing consulting dependency. You own all deliverables completely."
-    },
-    {
-      question: "How is your pricing structured ?",
-      answer: "Our services range from ₹15,000 to ₹1,75,000 depending on scope and complexity. This is approximately One-Tenth the cost of traditional Big 4 consulting. We offer fixed-price project-based engagements, monthly retainers for ongoing support. Payment is typically upfront for projects unless it is a customised engagement."
-    },
-    {
-      question: "Do you offer services remotely or only in-person ?",
-      answer: "We work both remotely and in-person, depending on your preference and engagement needs. Most of our engagements are conducted via video calls, which allows us to serve clients across Globe efficiently. For certain workshops or intensive sessions, in-person meetings can be arranged in major cities across the globe. Our remote delivery model is battle-tested and highly effective."
-    },
-    {
-      question: "What makes you different from other consulting firms ?",
-      answer: "Three key differences: Startup-honed discipline—we learned strategy where every rupee matters, so we eliminate fluff. Secondly, Execution-ready outputs—you get working models and frameworks, not just presentations. Thirdly, Accessible pricing—we're One-Tenth the cost of Big 4. Plus, we've been entrepreneurs ourselves—we understand your challenges from lived experience."
-    },
-    {
-      question: "Can you help with implementation, or just strategy ?",
-      answer: "Our core offering is strategic consulting—we provide the plan, frameworks, and roadmap. However, we design everything to be immediately executable by your team. For ongoing implementation support, we offer retainer-based advisory where you can check in with us as you execute. We intentionally don't create consulting dependency—our goal is to empower you to run your business independently after our engagement."
-    },
-    {
-      question: "What if I'm not sure which service I need ?",
-      answer: "That's exactly what our Strategic Diagnostic & Direction engagement is designed for. Most founders don't come to us with clearly defined problems — they come with symptoms. The diagnostic helps us identify what actually needs attention and what doesn't. If you're at an early stage, it brings clarity on direction, priorities, and what to focus on next. If you're already generating revenue, it helps identify the constraints limiting growth. If you're scaling, it surfaces operational, financial, or structural inefficiencies that need correction. The diagnostic is a paid, structured engagement and serves as the entry point to all our work. It ensures that any subsequent strategy or execution is based on facts, not assumptions."
-    }
-  ];
+const faqs = [
+  {
+    question: "The Types Of Businesses We Work With",
+    answer:
+      "We work with Founders, Business Leaders, and Leadership Teams across Startups, Growing Businesses, and Established Companies. Our work is particularly relevant when a Business is  Either Looking to Unlock Exponential Growth or is Standing at an Important Crossroads around Growth, Positioning, Market Opportunity, Business Model, Competitive Advantage, or Execution. Sarsen is Not Limited to a Specific Industry or Geography as We Serve Clients across Geographies, Stages, Scales and Sectors."
+  },
+
+  {
+    question: "Our Approach To Consultations And Initial Conversations",
+    answer:
+      "Our work begins with a Structured Engagement because meaningful Strategy requires Understanding the Business, its Context, the Market, and the Problem before Recommendations can be Responsibly Made. This also ensures that the conversation is Focused on the Business rather than a Generic Introductory Discussion."
+  },
+
+  {
+    question: "The Beginning Of A Sarsen Partners Engagement",
+    answer:
+      "It usually begins by Understanding the Business, the Situation Business is Facing, and what needs to be Determined. We then Structure the Work around the Specific Context or Problem rather than Forcing the Business into a Predefined Solution. Depending on the Engagement, this can Involve Research, Analysis, Business Assessment, Strategic Development, and Structured Discussions with the Leadership Team."
+  },
+
+  {
+    question: "The Typical Duration Of An Engagement",
+    answer:
+      "There is no single standard duration. The time required depends on the Nature Of The Problem, the Scope of the engagement, the depth of Analysis required, the amount of Research involved, and the People and Resources that need to be allocated. Some focused engagements can be completed relatively quickly, while more involved Strategic Work requires a longer period. We define the scope and expected timeline around the actual work required."
+  },
+
+  {
+    question: "The Outputs Of An Engagement",
+    answer:
+      "The output depends on the work being undertaken. It may include Strategic Recommendations, Market and Competitive Analysis, Business Model Analysis, Financial or Unit-Economic Analysis, Strategic Priorities, Roadmaps, Frameworks, Operating Structures, Decision Tools, or other working documents. We focus on producing material that can be used by the Business, rather than producing presentations for their own sake."
+  },
+
+  {
+    question: "Our Pricing And Commercial Structure",
+    answer:
+      "Pricing is subjective to the Nature Of The Work, the Scope of the engagement, the Time required, and the People and Resources allocated to it. We therefore do not use a single standard price for every client. Once the work is understood and the scope is defined, we provide the appropriate Commercial Structure for that engagement."
+  },
+
+  {
+    question: "Remote And In-Person Delivery",
+    answer:
+      "We can work remotely or in person depending on the requirements of the engagement. A significant part of Strategic Work can be conducted remotely through structured discussions, Research, Analysis, and collaboration. Where the nature of the work benefits from in-person interaction, that can be considered as part of the engagement."
+  },
+
+  {
+    question: "The Sarsen Partners Difference",
+    answer:
+      "Our approach is built around understanding the Business before prescribing what it should do. We combine External Research with an assessment of the Company itself, use Quantitative and Analytical methods where appropriate, and translate the resulting insight into Practical Strategic Choices. We are not trying to create dependency on consultants; the objective is to strengthen the Business's ability to understand, execute, and build on the Strategy."
+  },
+
+  {
+    question: "Our Role In Strategy And Implementation",
+    answer:
+      "Strategy and its execution cannot be treated as completely separate. We develop the Strategic Direction and can provide structured Oversight and Execution Support where the engagement requires it. The role is not to replace your team or take over day-to-day operations. It is to help ensure that Strategic Decisions are translated into the right sequence of Actions, Systems, and Priorities so execution creates progress rather than simply activity."
+  },
+
+  {
+    question: "The Right Starting Point For An Undefined Business Problem",
+    answer:
+      "You do not need to arrive with the problem perfectly defined. Businesses often approach us with Symptoms rather than a clearly diagnosed Strategic Issue. We can first examine the situation, determine what actually requires attention, and establish the appropriate Direction from there. The objective is to ensure that subsequent work is based on the underlying Business Reality rather than an assumption about the problem."
+  }
+];
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -526,11 +736,10 @@ const FAQSection = () => {
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-4">
-            Frequently Asked Questions
+            Inside Sarsen
           </h2>
           <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto">
-            Common questions about our Services, Process, and Pricing. 
-            Don't see your question ? Send us a message above.
+            Answers to Common Questions about Working with Sarsen, Our Approach, Engagements, and What to Expect.
           </p>
         </div>
 
@@ -551,9 +760,8 @@ const FAQSection = () => {
                   {faq.question}
                 </span>
                 <svg
-                  className={`w-5 h-5 sm:w-6 sm:h-6 text-blue-400 transition-transform duration-300 flex-shrink-0 ${
-                    openIndex === index ? 'transform rotate-180' : ''
-                  }`}
+                  className={`w-5 h-5 sm:w-6 sm:h-6 text-blue-400 transition-transform duration-300 flex-shrink-0 ${openIndex === index ? 'transform rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -564,9 +772,8 @@ const FAQSection = () => {
 
               {/* Answer Content */}
               <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                }`}
+                className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'
+                  }`}
               >
                 <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-6 text-gray-300 text-sm sm:text-base ">
                   {faq.answer}
@@ -579,9 +786,9 @@ const FAQSection = () => {
         {/* Still Have Questions CTA */}
         <div className="mt-12 sm:mt-16 text-center">
           <p className="text-gray-400 text-lg sm:text-xl">
-            Still have Questions ?
+            Still have Questions.
           </p>
-          <button 
+          <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-300 flex items-center gap-1 mx-auto group"
           >
@@ -602,7 +809,7 @@ const FAQSection = () => {
 const FinalCTASection = () => {
   return (
     <section className="bg-[#0A1E3D] py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      
+
       {/* Background Decoration */}
       <div className="absolute inset-0 opacity-5">
         <svg className="w-full h-full" viewBox="0 0 1000 1000">
@@ -615,36 +822,33 @@ const FinalCTASection = () => {
 
         {/* Headline */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
-          Your Business Decisions are Important, Treat them Seriously
+          When Growth Matters
         </h2>
 
         {/* Subtext */}
-        <p className="text-gray-300 text-base sm:text-lg lg:text-xl mb-10 sm:mb-12  max-w-3xl mx-auto">
-          Our diagnostic sessions are designed for founders who value clarity over guesswork.
-Start with a paid strategic diagnostic to determine the right path forward.
+        <p className="text-gray-300 text-base sm:text-md lg:text-lg mb-10 sm:mb-12  max-w-3xl mx-auto">
+          Entrepreneurs and Business Leaders Work with Us Not merely to Improve their Businesses Opeartions, But to Unlock Exponential Progress Through Fundamental Strategy and Its Implementation. Get on a Call with Us to Unlock the Next Stage of Growth.
+
         </p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-          
+
           {/* Primary CTA */}
-         <a
-  href="/services/business-diagnostic-direction"
-  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
->
-  <span>Book a Diagnostic Session</span>
-</a>
+          <a
+            href="/services/business-diagnostic-direction"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group"
+          >
+            <span>Book a Diagnostic Session</span>
+          </a>
 
           {/* Secondary CTA */}
-          <a 
-            href="/resources/case-studies"
-            className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-gray hover:text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
-          >
-            <span>Our Case Studies</span>
-            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
+<a
+  href="/resources/case-studies"
+  className="w-full sm:w-auto bg-transparent border-2 border-white hover:bg-white hover:!text-[#0A1E3D] text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-center gap-3 group"
+>
+  <span>Our Case Studies</span>
+</a>
         </div>
 
       </div>
@@ -652,15 +856,6 @@ Start with a paid strategic diagnostic to determine the right path forward.
   );
 };
 
-// =====================================================
-// SIMPLE DIVIDER SECTION
-// Matches home page divider
-// =====================================================
-const SimpleDivider = () => {
-  return (
-    <div className="w-full h-24 bg-gray-300 border-b-2 border-gray-400"></div>
-  );
-};
 
 // =====================================================
 // MAIN CONTACT CLIENT COMPONENT
@@ -673,10 +868,9 @@ export default function ContactClient() {
     <main className="min-h-screen">
       <ContactHeroSection />
       <ContactFormSection />
+      <OurPresenceSection />
       <FAQSection />
       <FinalCTASection />
-      <SimpleDivider />
-      
       {/* Footer would go here (shared across all pages) */}
     </main>
   );

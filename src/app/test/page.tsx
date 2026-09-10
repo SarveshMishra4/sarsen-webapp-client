@@ -4299,6 +4299,159 @@ export const TermsConditionsHero = () => (
 );
 
 // =====================================================
+// MINIMAL ORBIT RING — locations on the ring, no dial
+// (Version N.1 — fixed label clipping by adding canvas
+//  padding + proportional container scale-up. Ring radius,
+//  stroke width, and dot sizes are UNCHANGED in pixel terms.)
+// =====================================================
+const NewMinimalOrbitRing = () => {
+  const [mounted, setMounted] = useState(false);
+  const cx = 120, cy = 120, r = 78; // r unchanged — only cx/cy shifted for the new canvas
+  const orbitDuration = 24;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (angleDeg: number, radius = r) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
+  };
+
+  const offices = [
+    { name: 'Abu Dhabi', angle: 0 },
+    { name: 'Goa', angle: 22.5 },
+    { name: 'Singapore', angle: 60 },
+    { name: 'Boston', angle: 225 },
+  ];
+
+  return (
+    // Scaled up by the exact same 1.2x factor as the viewBox (200→240),
+    // so the ring itself stays pixel-identical — this box just has more
+    // margin around it for the labels.
+    <div className="w-[19.2rem] h-[19.2rem] sm:w-96 sm:h-96">
+      <style>{`
+        @keyframes orbitSpinMinimal {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        .orbit-spin-minimal {
+          transform-origin: 120px 120px;
+          animation: orbitSpinMinimal ${orbitDuration}s linear infinite;
+        }
+
+        @keyframes officePulseOnRing {
+          0%, 88%, 100% {
+            r: 3.5;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 0 rgba(96,165,250,0));
+          }
+          6% {
+            r: 6.5;
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(96,165,250,0.9));
+          }
+          14% {
+            r: 3.5;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 0 rgba(96,165,250,0));
+          }
+        }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 240 240" className="w-full h-full">
+          {/* The ring itself — stroke width untouched (1) */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill="none"
+            stroke="rgba(255,255,255,0.35)"
+            strokeWidth={1}
+          />
+
+          {/* Fixed location dots, sitting on the ring, pulsing as the orbit passes */}
+          {offices.map((o) => {
+            const pos = polarToCartesian(o.angle);
+            const labelPos = polarToCartesian(o.angle, r + 20);
+            const delay = (o.angle / 360) * orbitDuration;
+            return (
+              <g key={o.name}>
+                <circle
+                  cx={pos.x}
+                  cy={pos.y}
+                  r={3.5}
+                  fill="#60a5fa"
+                  style={{
+                    animation: `officePulseOnRing ${orbitDuration}s ease-in-out ${delay}s infinite`,
+                  }}
+                />
+                <text
+                  x={labelPos.x}
+                  y={labelPos.y}
+                  fill="#93C5FD"
+                  fontSize="8.5"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  {o.name}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* The single revolving dot travelling the ring */}
+          <g className="orbit-spin-minimal">
+            <circle
+              cx={cx}
+              cy={cy - r}
+              r={4}
+              fill="#ffffff"
+              style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.85))' }}
+            />
+          </g>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Always Somewhere, Always On
+      </p>
+    </div>
+  );
+};
+
+// =====================================================
+// HERO VERSION N — Minimal Orbit Ring
+// Full hero shell: dark background, diagonal grid,
+// dev label, left-side copy, ring on the right.
+// =====================================================
+const NewHeroVersionMinimalOrbit = () => {
+  return (
+    <HeroShell devLabel="Version N — Minimal Orbit Ring">
+      <HeroGrid
+        left={
+          <div className="space-y-3">
+            <p className="text-2xl sm:text-3xl text-blue-300">
+              One orbit, always on.
+            </p>
+            <p className="text-white/60 text-base">
+              A minimal representation of continuous coverage — a single
+              revolving marker against fixed points around the globe.
+            </p>
+          </div>
+        }
+        right={<NewMinimalOrbitRing />}
+      />
+    </HeroShell>
+  );
+};
+
+// =====================================================
 // TEST PAGE — client-only mount (bulletproofs against
 // any SSR/client hydration mismatch in the SVG diagrams)
 // =====================================================
@@ -4343,6 +4496,7 @@ export default function NewVisualsTestPage() {
       <HeroVersionRefinedCoverage />
       <HeroVersionHorizontalBand />
       <HeroVersionMinimalOrbit />
+      <NewHeroVersionMinimalOrbit />
       <HeroVersionNetworkPulse />
       <HeroVersionSlidingWindow />
       <HeroVersionOriginStory />
