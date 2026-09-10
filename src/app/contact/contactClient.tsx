@@ -685,43 +685,45 @@ const faqs = [
   {
     question: "The Typical Duration Of An Engagement",
     answer:
-      "There is no single standard duration. The time required depends on the Nature Of The Problem, the Scope of the engagement, the depth of Analysis required, the amount of Research involved, and the People and Resources that need to be allocated. Some focused engagements can be completed relatively quickly, while more involved Strategic Work requires a longer period. We define the scope and expected timeline around the actual work required."
+      "From a Few Weeks to Months. The time required depends on the Nature Of The Problem, the Scope of the Engagement, the Depth of Analysis required, the Amount of Research Involved, and the People and Resources that need to be Allocated. Some Focused Engagements can be Completed Relatively Quickly, while More Involved Strategic Work requires a Longer Period. We define the Scope and Expected Timeline around the Actual Work Required."
   },
 
   {
     question: "The Outputs Of An Engagement",
     answer:
-      "The output depends on the work being undertaken. It may include Strategic Recommendations, Market and Competitive Analysis, Business Model Analysis, Financial or Unit-Economic Analysis, Strategic Priorities, Roadmaps, Frameworks, Operating Structures, Decision Tools, or other working documents. We focus on producing material that can be used by the Business, rather than producing presentations for their own sake."
+      "The Output Depends on the Nature of Work. It may include Strategic Recommendations, Market and Competitive Analysis, Business Model Analysis, Financial or Unit-Economic Analysis, Strategic Priorities, Roadmaps, Frameworks, Operating Structures, Decision Tools or Other Working Documents. We Focus on Producing Material that can be Used by the Business, rather than Producing Presentations for their Own Sake."
   },
 
   {
     question: "Our Pricing And Commercial Structure",
     answer:
-      "Pricing is subjective to the Nature Of The Work, the Scope of the engagement, the Time required, and the People and Resources allocated to it. We therefore do not use a single standard price for every client. Once the work is understood and the scope is defined, we provide the appropriate Commercial Structure for that engagement."
+      "Pricing Depends on Nature Of The Work, the Scope of the Engagement, the Time required, and the People and Resources allocated to it. We therefore do not use a Single Standard Price for Every Client. We structure the engagement around the work required and provide the appropriate Commercial Structure once the scope is defined. However, Sarsen has Defined Packages specifically for Startups and Emerging Businesses, covering some of the Most Common Strategic Needs at These Stages. "
+
   },
 
   {
     question: "Remote And In-Person Delivery",
     answer:
-      "We can work remotely or in person depending on the requirements of the engagement. A significant part of Strategic Work can be conducted remotely through structured discussions, Research, Analysis, and collaboration. Where the nature of the work benefits from in-person interaction, that can be considered as part of the engagement."
+      "Our Team can Work Remotely or In Person Depending on the Requirements of the Engagement. A Significant Part of Strategic Work can be Conducted Remotely through Structured Discussions, Research, Analysis, and Collaboration. Where the Nature of the Work Benefits from In-Person Interaction, that can be Considered as Part of the Engagement."
   },
 
   {
     question: "The Sarsen Partners Difference",
     answer:
-      "Our approach is built around understanding the Business before prescribing what it should do. We combine External Research with an assessment of the Company itself, use Quantitative and Analytical methods where appropriate, and translate the resulting insight into Practical Strategic Choices. We are not trying to create dependency on consultants; the objective is to strengthen the Business's ability to understand, execute, and build on the Strategy."
+      "Our Approach is built around Understanding the Business Before Prescribing the Execution. We Combine External Research with an Assessment of the Company Itself, use Quantitative and Analytical Methods where Appropriate, and Translate the Resulting Insight into Practical Strategic Choices. We are Not Trying to Create Dependency on consultants; the Goal is to Strengthen the Business's Capabilities to Understand, Execute, and Build on the Strategy."
   },
 
   {
     question: "Our Role In Strategy And Implementation",
     answer:
-      "Strategy and its execution cannot be treated as completely separate. We develop the Strategic Direction and can provide structured Oversight and Execution Support where the engagement requires it. The role is not to replace your team or take over day-to-day operations. It is to help ensure that Strategic Decisions are translated into the right sequence of Actions, Systems, and Priorities so execution creates progress rather than simply activity."
+      "Strategy and Its Execution cannot be Treated as Completely Separate. We develop the Strategic Direction and can Provide Structured Implementation Help and Execution Support where the Engagement Requires it. The Role is Not to Replace Your Team or Take Over Day-To-Day Operations. It is to Ensure that Strategic Decisions are Translated into the Right Sequence of Actions, Systems, and Priorities so Execution Creates Progress rather than Motion."
   },
 
   {
     question: "The Right Starting Point For An Undefined Business Problem",
     answer:
-      "You do not need to arrive with the problem perfectly defined. Businesses often approach us with Symptoms rather than a clearly diagnosed Strategic Issue. We can first examine the situation, determine what actually requires attention, and establish the appropriate Direction from there. The objective is to ensure that subsequent work is based on the underlying Business Reality rather than an assumption about the problem."
+      "Businesses often approach us with Symptoms, Uncertainties, or Questions Without a Clearly Defined Strategic Issue. We examine the Business, Market, and Situation to Identify What Actually Requires Attention and Establish the Right Direction.For Founders, Entrepreneurs, and Business Leaders facing such Uncertainty, We Recommend Beginning with our Strategic Business Diagnostic & Direction."
+
   }
 ];
 
