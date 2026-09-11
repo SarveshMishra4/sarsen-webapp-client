@@ -1323,23 +1323,23 @@ const ClosedLoopDiagram: FC = () => {
 
           {/* Dot 1 — on the entry flat, just before the loop begins */}
           <circle cx="70" cy="149" r={4.5} fill="#60a5fa" className="loop-dot-0" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
-          <text x="70" y="169" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-0">Pause</text>
+          <text x="70" y="169" fill="#93C5FD" fontSize="13" textAnchor="middle" className="loop-label-0">Assess</text>
 
           {/* Dot 2 — right half of the loop */}
           <circle cx="183" cy="100" r={4.5} fill="#60a5fa" className="loop-dot-1" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
-          <text x="200" y="104" fill="#93C5FD" fontSize="11" textAnchor="start" className="loop-label-1">Test</text>
+          <text x="200" y="104" fill="#93C5FD" fontSize="13" textAnchor="start" className="loop-label-1">Research</text>
 
           {/* Dot 3 — top of the loop */}
           <circle cx="131" cy="41" r={4.5} fill="#60a5fa" className="loop-dot-2" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
-          <text x="131" y="25" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-2">Confirm</text>
+          <text x="131" y="25" fill="#93C5FD" fontSize="13" textAnchor="middle" className="loop-label-2">Engineer</text>
 
           {/* Dot 4 — left half of the loop */}
           <circle cx="74" cy="94" r={4.5} fill="#60a5fa" className="loop-dot-3" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
-          <text x="57" y="98" fill="#93C5FD" fontSize="11" textAnchor="end" className="loop-label-3">Adjust</text>
+          <text x="57" y="98" fill="#93C5FD" fontSize="13" textAnchor="end" className="loop-label-3">Adapt</text>
 
           {/* Dot 5 — midway along the final flat extension */}
           <circle cx="240" cy="149" r={4.5} fill="#60a5fa" className="loop-dot-4" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
-          <text x="240" y="169" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-4">Delivered</text>
+          <text x="240" y="169" fill="#93C5FD" fontSize="13" textAnchor="middle" className="loop-label-4">Implement</text>
         </svg>
       )}
 
