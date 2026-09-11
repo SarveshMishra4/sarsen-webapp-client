@@ -4,17 +4,90 @@
 import React, { useState } from 'react';
 
 // =====================================================
-// HERO SECTION COMPONENT
+// HERO SECTION — same structure, background, diagonal grid
+// pattern, and responsive breakpoints as the homepage hero
+// (ProductLifecycleHero). Only the right-side visual differs:
+// ConnectedNetworkDiagram instead of the lifecycle chart.
 // =====================================================
+
+const roundCoord = (n: number) => Math.round(n);
+
+const ConnectedNetworkDiagram = () => {
+  const nodes = [
+    { label: 'You', x: 200, y: 110, isCenter: true },
+    { label: 'Market', x: 70, y: 40 },
+    { label: 'Economics', x: 330, y: 45 },
+    { label: 'Competition', x: 55, y: 175 },
+    { label: 'Team', x: 345, y: 170 },
+  ];
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineNetworkConn { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .draw-line-network-conn { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineNetworkConn 1.4s ease-out forwards; }
+
+        @keyframes networkNodePulse { 0%, 100% { r: 7; opacity: 0.9; } 50% { r: 9.5; opacity: 1; } }
+        .network-node-pulse { animation: networkNodePulse 3s ease-in-out infinite; }
+
+        @keyframes networkSatellitePop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+        .network-satellite-0 { animation: networkSatellitePop 0.4s ease-out 1.4s both; transform-origin: 70px 40px; }
+        .network-satellite-1 { animation: networkSatellitePop 0.4s ease-out 1.6s both; transform-origin: 330px 45px; }
+        .network-satellite-2 { animation: networkSatellitePop 0.4s ease-out 1.8s both; transform-origin: 55px 175px; }
+        .network-satellite-3 { animation: networkSatellitePop 0.4s ease-out 2.0s both; transform-origin: 345px 170px; }
+      `}</style>
+
+      <svg viewBox="0 0 400 220" className="w-full h-auto">
+        {nodes.filter((n) => !n.isCenter).map((n, i) => (
+          <path
+            key={n.label}
+            d={`M 200 110 Q ${roundCoord((200 + n.x) / 2)} ${roundCoord((110 + n.y) / 2 - 18)}, ${n.x} ${n.y}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-network-conn"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+
+        {nodes.map((n, i) => (
+          <g key={n.label} className={n.isCenter ? '' : `network-satellite-${i - 1}`}>
+            <circle
+              cx={n.x}
+              cy={n.y}
+              r={n.isCenter ? 7 : 5}
+              fill={n.isCenter ? '#ffffff' : '#60a5fa'}
+              className={n.isCenter ? 'network-node-pulse' : ''}
+              style={{ filter: n.isCenter ? 'drop-shadow(0 0 10px rgba(96,165,250,0.85))' : 'drop-shadow(0 0 5px rgba(255,255,255,0.65))' }}
+            />
+            <text
+              x={n.x}
+              y={n.isCenter ? n.y + 26 : n.y - 16}
+              fill={n.isCenter ? 'rgb(255,255,255)' : '#93C5FD'}
+              fontSize="13"
+              textAnchor="middle"
+            >
+              {n.label}
+            </text>
+          </g>
+        ))}
+      </svg>
+       <p className="text-white/70 text-base text-center mt-6">
+        Work across the Forces that Shape Progress.      </p>
+    </div>
+  );
+};
+
 const CareersHero = () => {
   return (
-    <section className="relative bg-[#0A1E3D] min-h-[400px] sm:min-h-[500px] lg:min-h-[520px] pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background pattern (exact same as blog page) */}
+    <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="blog-grid"
+              id="grid-careers-hero"
               patternUnits="userSpaceOnUse"
               width="5"
               height="5"
@@ -23,40 +96,30 @@ const CareersHero = () => {
               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#blog-grid)" />
+          <rect width="100%" height="100%" fill="url(#grid-careers-hero)" />
         </svg>
       </div>
 
       <div className="relative max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* LEFT: TEXT CONTENT */}
-          <div className="max-w-xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white  mb-6 ">
-              Work on real business problems.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+          {/* Left — copy */}
+          <div className="space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white">
+              Architects of Progress.
             </h1>
 
-            <p className="text-xl sm:text-2xl text-blue-300   mb-6">
-              Strategy that gets executed — not admired.
+            <p className="text-lg sm:text-xl text-gray-300">
+              Work alongside Founders, Business Leaders and Experts Across Industries to Engineer Strategy, Solve Real Business Dynamics, and Build What Lies Beyond the Horizon.
             </p>
 
-            <p className="text-gray-300 text-base sm:text-lg ">
-              We work with founders in high-constraint environments — limited capital, incomplete information,
-              and decisions with real consequences.
-              
-            </p>
+            <div className="pt-4"></div>
           </div>
 
-          {/* RIGHT: GRAPHIC / SVG PLACEHOLDER */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="w-full max-w-md h-64 sm:h-80 lg:h-[450px] rounded-md p-8">
-              
-              {/* SVG PLACEHOLDER */}
-              <img src="/assets/career/Career Head.svg" alt="" className='max-w-full h-auto rotate-90 md:rotate-0 lg:rotate-90' />
-
-            </div>
+          <div className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end">
+            <ConnectedNetworkDiagram />
+            
           </div>
-
+          
         </div>
       </div>
     </section>
@@ -73,74 +136,44 @@ const WhyJoinUsSection = () => {
       title: "Work That Actually Gets Used",
       description:
         "You will work on real client problems where your analysis directly shapes decisions founders act on. We don’t produce decks for approval chains — we deliver thinking that gets implemented under real constraints.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
     },
     {
       title: "Learn How Businesses Actually Operate",
       description:
         "You’ll see how founders make decisions with incomplete data, limited capital, and real downside risk. This is not textbook strategy — it’s exposure to how businesses really survive, grow, and sometimes fail.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      )
     },
     {
       title: "High Ownership, Low Supervision",
       description:
         "You are expected to own your work end-to-end — from problem framing to final output. We hire people who can think independently, ask better questions, and take responsibility for outcomes.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-        </svg>
-      )
     },
     {
       title: "Merit Over Politics",
       description:
         "Growth here is driven by clarity of thinking, quality of execution, and reliability — not tenure, optics, or internal politics. If your work creates value, it’s visible.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-        </svg>
-      )
     },
     {
       title: "Intensity Without Burnout Theater",
       description:
         "The work is demanding, but deliberate. We care about how time is used, not how long you stay online. Sustainable performance matters more than performative hustle.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
     },
     {
       title: "Shape the Firm, Not Just Your Role",
       description:
         "This is an early-stage firm by design. Your thinking, standards, and decisions will influence how we work, what we build, and what we refuse to become.",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      )
     }
   ];
 
   return (
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4 ">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
             Why Join Sarsen Strategy Partners ?
           </h2>
-          <p className="text-gray-700 text-base sm:text-lg  max-w-3xl mx-auto">
-            This is not a place to hide, coast, or collect brand names.  
+          <p className="text-gray-700 text-base sm:text-lg max-w-3xl mx-auto">
+            This is not a place to hide, coast, or collect brand names.
             It’s a place to think clearly, take responsibility, and do work that matters.
           </p>
         </div>
@@ -152,14 +185,13 @@ const WhyJoinUsSection = () => {
               className="bg-white rounded-md p-6 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center gap-4 mb-4">
-                
                 <div className="flex-1">
-                  <h3 className="text-lg font-medium text-gray-900 group-hover:text-[#0A1E3D] transition-colors mb-2 ">
+                  <h3 className="text-lg font-medium text-gray-900 group-hover:text-[#0A1E3D] transition-colors mb-2">
                     {reason.title}
                   </h3>
                 </div>
               </div>
-              <p className="text-gray-600 text-sm ">
+              <p className="text-gray-600 text-sm">
                 {reason.description}
               </p>
             </div>
@@ -210,17 +242,17 @@ const OpenPositionsSection = () => {
   const filteredPositions =
     selectedDepartment === 'All'
       ? positions
-      : positions.filter(pos => pos.department === selectedDepartment);
+      : positions.filter((pos) => pos.department === selectedDepartment);
 
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-4  text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-4 text-center">
             Current Openings
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg  max-w-3xl mx-auto text-center mb-8">
+          <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto text-center mb-8">
             Explore opportunities to join our growing team. We work with people who value clarity, ownership, and execution.
           </p>
 
@@ -270,15 +302,16 @@ const OpenPositionsSection = () => {
                   </div>
 
                   <a
-  href={`mailto:${applicationEmail}?subject=${encodeURIComponent(
-    emailSubject
-  )}&body=${emailBody}`}
-className="bg-transparent border border-white text-black px-6 py-3 rounded-md hover:bg-gray-100 hover:!text-[#0A1E3D] transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base">
-  Send Application
-</a>
+                    href={`mailto:${applicationEmail}?subject=${encodeURIComponent(
+                      emailSubject
+                    )}&body=${emailBody}`}
+                    className="bg-transparent border border-white text-black px-6 py-3 rounded-md hover:bg-gray-100 hover:!text-[#0A1E3D] transition-colors font-medium whitespace-nowrap self-start lg:self-center text-sm sm:text-base"
+                  >
+                    Send Application
+                  </a>
                 </div>
 
-                <p className="text-gray-300 text-sm ">
+                <p className="text-gray-300 text-sm">
                   {position.description}
                 </p>
               </div>
@@ -304,18 +337,18 @@ const LinkedInCTASection = () => {
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         <div className="bg-gradient-to-br from-[#0A1E3D] to-[#1a3a5c] rounded-md p-6 sm:p-8 lg:p-12 border border-blue-800/30 shadow-2xl">
-          
+
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-[#0077B5] rounded-md mb-6 shadow-lg">
               <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </div>
-            
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl  text-white mb-4 ">
+
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl text-white mb-4">
               Stay Updated on Career Opportunities
             </h2>
-            <p className="text-gray-300 text-sm sm:text-base lg:text-lg  max-w-2xl mx-auto mb-8">
+            <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto mb-8">
               Don't see the right role today? Follow us on LinkedIn where we post new career opportunities regularly, share insights about our work, and give you a behind-the-scenes look at life at Sarsen Strategy Partners.
             </p>
 
@@ -375,12 +408,12 @@ const WhoWereLookingForSection = () => {
   return (
     <section className="bg-[#0A1E3D] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-6 ">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
             Who We're Looking For
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg  max-w-3xl mx-auto">
+          <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto">
             Skills can be taught. We hire for characteristics that can't.
           </p>
         </div>
@@ -394,7 +427,7 @@ const WhoWereLookingForSection = () => {
               <h3 className="text-lg sm:text-xl font-medium text-white mb-3">
                 {quality.title}
               </h3>
-              <p className="text-gray-300 text-sm ">
+              <p className="text-gray-300 text-sm">
                 {quality.description}
               </p>
             </div>
@@ -452,12 +485,12 @@ const ApplicationProcessSection = () => {
   return (
     <section className="bg-[#d4dce5] py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl  text-gray-800 mb-4 ">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
             Our Application Process
           </h2>
-          <p className="text-gray-700 text-base sm:text-lg  max-w-3xl mx-auto">
+          <p className="text-gray-700 text-base sm:text-lg max-w-3xl mx-auto">
             Transparent, respectful, and designed to identify mutual fit efficiently.
           </p>
         </div>
@@ -480,7 +513,7 @@ const ApplicationProcessSection = () => {
                     {step.duration}
                   </span>
                 </div>
-                <p className="text-gray-600 text-sm ">
+                <p className="text-gray-600 text-sm">
                   {step.description}
                 </p>
               </div>
@@ -489,7 +522,7 @@ const ApplicationProcessSection = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-gray-700 text-sm sm:text-base  max-w-2xl mx-auto mb-6">
+          <p className="text-gray-700 text-sm sm:text-base max-w-2xl mx-auto mb-6">
             Total timeline from application to offer typically takes 2-3 weeks. We move quickly for candidates we're excited about.
           </p>
         </div>
@@ -499,14 +532,8 @@ const ApplicationProcessSection = () => {
   );
 };
 
-
-
-
 // =====================================================
 // MAIN CAREERS CLIENT COMPONENT
-// (renamed from CareersPage -> CareersClient: this file no longer
-// owns the route, so its default export name is just a name now,
-// not a Next.js page convention)
 // =====================================================
 export default function CareersClient() {
   return (

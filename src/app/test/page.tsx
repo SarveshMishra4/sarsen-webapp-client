@@ -1,215 +1,3 @@
-// // components/resources-hub-hero-option-a.tsx
-// 'use client';
-
-// import React from 'react';
-
-// /* ============================================================
-//    SHARED HERO SHELL & GRID
-//    (included here so this file is fully self-contained)
-//    ============================================================ */
-
-// const ResourceHeroShell = ({
-//   devLabel,
-//   children,
-// }: {
-//   devLabel: string;
-//   children: React.ReactNode;
-// }) => {
-//   const gridId = `grid-${devLabel.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`;
-//   return (
-//     <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-white/10 first:border-t-0">
-//       <div className="absolute inset-0 opacity-20">
-//         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-//           <defs>
-//             <pattern
-//               id={gridId}
-//               patternUnits="userSpaceOnUse"
-//               width="5"
-//               height="5"
-//               patternTransform="rotate(45)"
-//             >
-//               <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
-//             </pattern>
-//           </defs>
-//           <rect width="100%" height="100%" fill={`url(#${gridId})`} />
-//         </svg>
-//       </div>
-
-//       <span className="absolute top-5 left-4 sm:left-6 lg:left-8 text-[11px] tracking-wide text-white/30 uppercase">
-//         {devLabel}
-//       </span>
-
-//       <div className="relative max-w-7xl mx-auto">{children}</div>
-//     </section>
-//   );
-// };
-
-// const ResourceHeroGrid = ({
-//   heading,
-//   sub,
-//   right,
-// }: {
-//   heading: string;
-//   sub?: string;
-//   right: React.ReactNode;
-// }) => (
-//   <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-//     <div className="space-y-4 lg:space-y-5">
-//       <h2 className="text-2xl sm:text-3xl lg:text-4xl text-white leading-snug">{heading}</h2>
-//       {sub && <p className="text-white/60 text-base sm:text-lg">{sub}</p>}
-//     </div>
-//     <div className="relative h-64 sm:h-80 lg:h-[420px] flex items-center justify-center lg:justify-end">
-//       {right}
-//     </div>
-//   </div>
-// );
-
-// /* ============================================================
-//    RESOURCES HUB — Our Practice Branch Tree
-//    Root: "Our Practice"  →  five resource formats grown from it
-//    ============================================================ */
-
-// const PracticeBranchTree = () => {
-//   const rootX = 55;
-//   const rootY = 100;
-//   const leafX = 330;
-
-//   const leaves = [
-//     { name: 'Field Notes',   y: 25  },
-//     { name: 'Case Studies',  y: 65  },
-//     { name: 'Tools',         y: 105 },
-//     { name: 'Cohorts',       y: 145 },
-//     { name: 'Publications',  y: 185 },
-//   ];
-
-//   return (
-//     <div className="w-full max-w-md">
-//       <style>{`
-//         @keyframes branchDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-//         .branch-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.15s forwards; }
-//         .branch-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.35s forwards; }
-//         .branch-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.55s forwards; }
-//         .branch-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.75s forwards; }
-//         .branch-line-4 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: branchDraw 0.8s ease-out 0.95s forwards; }
-
-//         @keyframes leafReveal {
-//           from { opacity: 0; transform: translateX(-8px); }
-//           to   { opacity: 1; transform: translateX(0); }
-//         }
-//         .branch-leaf-0 { animation: leafReveal 0.45s ease-out 0.85s both; }
-//         .branch-leaf-1 { animation: leafReveal 0.45s ease-out 1.05s both; }
-//         .branch-leaf-2 { animation: leafReveal 0.45s ease-out 1.25s both; }
-//         .branch-leaf-3 { animation: leafReveal 0.45s ease-out 1.45s both; }
-//         .branch-leaf-4 { animation: leafReveal 0.45s ease-out 1.65s both; }
-
-//         @keyframes rootPulse { 0%, 100% { r: 9; opacity: 0.9; } 50% { r: 12; opacity: 1; } }
-//         .branch-root-pulse { animation: rootPulse 2.4s ease-in-out 2s infinite; }
-//       `}</style>
-
-//       <svg viewBox="0 0 380 220" className="w-full h-auto">
-//         {/* Branch curves — root to each leaf */}
-//         {leaves.map((leaf, i) => (
-//           <path
-//             key={leaf.name}
-//             d={`M ${rootX} ${rootY} C ${rootX + 90} ${rootY}, ${rootX + 150} ${leaf.y}, ${leafX} ${leaf.y}`}
-//             fill="none"
-//             stroke="rgba(255,255,255,0.45)"
-//             strokeWidth={1.5}
-//             strokeLinecap="round"
-//             pathLength={1}
-//             className={`branch-line-${i}`}
-//           />
-//         ))}
-
-//         {/* Leaf dot + label, sitting on the line, label end-anchored */}
-//         {leaves.map((leaf, i) => (
-//           <g
-//             key={`${leaf.name}-group`}
-//             className={`branch-leaf-${i}`}
-//             style={{ transformOrigin: `${leafX}px ${leaf.y}px` }}
-//           >
-//             <circle
-//               cx={leafX}
-//               cy={leaf.y}
-//               r={5.5}
-//               fill="#60a5fa"
-//               style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.75))' }}
-//             />
-//             <text
-//               x={leafX - 14}
-//               y={leaf.y}
-//               fill="#93C5FD"
-//               fontSize="11"
-//               textAnchor="end"
-//               dominantBaseline="middle"
-//               style={{
-//                 paintOrder: 'stroke',
-//                 stroke: '#0A1E3D',
-//                 strokeWidth: 4,
-//                 strokeLinejoin: 'round',
-//               }}
-//             >
-//               {leaf.name}
-//             </text>
-//           </g>
-//         ))}
-
-//         {/* Root node */}
-//         <circle
-//           cx={rootX}
-//           cy={rootY}
-//           r={9}
-//           fill="#ffffff"
-//           className="branch-root-pulse"
-//           style={{
-//             transformOrigin: `${rootX}px ${rootY}px`,
-//             filter: 'drop-shadow(0 0 9px rgba(255,255,255,0.7))',
-//           }}
-//         />
-//         <text
-//           x={rootX}
-//           y={rootY + 28}
-//           fill="rgba(255,255,255,0.7)"
-//           fontSize="11"
-//           textAnchor="middle"
-//         >
-//           Our Practice
-//         </text>
-//         <text
-//           x={rootX}
-//           y={rootY + 43}
-//           fill="rgba(255,255,255,0.4)"
-//           fontSize="9"
-//           textAnchor="middle"
-//         >
-//           Where It All Comes From
-//         </text>
-//       </svg>
-
-//       <p className="text-white/70 text-base text-center mt-2">
-//         Every Resource Here Started As Work, Not As Content.
-//       </p>
-//     </div>
-//   );
-// };
-
-// /* ============================================================
-//    RESOURCES HUB — Hero export
-//    ============================================================ */
-
-// export const ResourcesHubHeroOptionA = () => (
-//   <ResourceHeroShell devLabel="Resources Hub — Our Practice, Mapped">
-//     <ResourceHeroGrid
-//       heading="Everything We Publish Starts As Work We've Actually Done."
-//       sub="Field notes, case studies, tools, cohorts, and publications — all grown out of the same practice, none of it written for the sake of writing."
-//       right={<PracticeBranchTree />}
-//     />
-//   </ResourceHeroShell>
-// );
-
-// export default ResourcesHubHeroOptionA;
-
-
 // app/test/new-visuals/page.tsx
 'use client';
 
@@ -2653,42 +2441,42 @@ const HeroVersionRefinedNarrowingRisk = () => {
   );
 };
 
+// ============================================================
+// Improved Connected Network Diagram (replaces previous one)
+// ============================================================
 const ConnectedNetworkDiagram = () => {
   const nodes = [
-    { label: 'You', x: 200, y: 100, isCenter: true },
-    { label: 'Strategy', x: 90, y: 45 },
-    { label: 'Finance', x: 320, y: 55 },
-    { label: 'Operations', x: 70, y: 155 },
-    { label: 'Research', x: 330, y: 150 },
+    { label: 'You', x: 200, y: 110, isCenter: true },
+    { label: 'Strategy', x: 70, y: 40 },
+    { label: 'Finance', x: 330, y: 45 },
+    { label: 'Operations', x: 55, y: 175 },
+    { label: 'Research', x: 345, y: 170 },
   ];
 
   return (
-    <div className="w-64 h-64 sm:w-80 sm:h-80">
+    <div className="w-full max-w-md">
       <style>{`
-        @keyframes drawLineNetworkConn {
-          from { stroke-dashoffset: 1; }
-          to   { stroke-dashoffset: 0; }
-        }
-        .draw-line-network-conn {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 1;
-          animation: drawLineNetworkConn 1.4s ease-out forwards;
-        }
-        @keyframes networkNodePulse {
-          0%, 100% { r: 5; opacity: 0.85; }
-          50%      { r: 7; opacity: 1; }
-        }
+        @keyframes drawLineNetworkConn { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .draw-line-network-conn { stroke-dasharray: 1; stroke-dashoffset: 1; animation: drawLineNetworkConn 1.4s ease-out forwards; }
+
+        @keyframes networkNodePulse { 0%, 100% { r: 7; opacity: 0.9; } 50% { r: 9.5; opacity: 1; } }
         .network-node-pulse { animation: networkNodePulse 3s ease-in-out infinite; }
+
+        @keyframes networkSatellitePop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+        .network-satellite-0 { animation: networkSatellitePop 0.4s ease-out 1.4s both; transform-origin: 70px 40px; }
+        .network-satellite-1 { animation: networkSatellitePop 0.4s ease-out 1.6s both; transform-origin: 330px 45px; }
+        .network-satellite-2 { animation: networkSatellitePop 0.4s ease-out 1.8s both; transform-origin: 55px 175px; }
+        .network-satellite-3 { animation: networkSatellitePop 0.4s ease-out 2.0s both; transform-origin: 345px 170px; }
       `}</style>
 
-      <svg viewBox="0 0 400 200" className="w-full h-full">
+      <svg viewBox="0 0 400 220" className="w-full h-auto">
         {nodes.filter((n) => !n.isCenter).map((n, i) => (
           <path
             key={n.label}
-            d={`M 200 100 Q ${roundCoord((200 + n.x) / 2)} ${roundCoord((100 + n.y) / 2 - 15)}, ${n.x} ${n.y}`}
+            d={`M 200 110 Q ${roundCoord((200 + n.x) / 2)} ${roundCoord((110 + n.y) / 2 - 18)}, ${n.x} ${n.y}`}
             fill="none"
-            stroke="rgba(255,255,255,0.55)"
-            strokeWidth={1.75}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth={2.5}
             strokeLinecap="round"
             pathLength={1}
             className="draw-line-network-conn"
@@ -2696,21 +2484,21 @@ const ConnectedNetworkDiagram = () => {
           />
         ))}
 
-        {nodes.map((n) => (
-          <g key={n.label}>
+        {nodes.map((n, i) => (
+          <g key={n.label} className={n.isCenter ? '' : `network-satellite-${i - 1}`}>
             <circle
               cx={n.x}
               cy={n.y}
-              r={n.isCenter ? 7 : 5}
+              r={n.isCenter ? 9 : 7}
               fill={n.isCenter ? '#60a5fa' : '#ffffff'}
               className={n.isCenter ? 'network-node-pulse' : ''}
-              style={{ filter: n.isCenter ? 'drop-shadow(0 0 8px rgba(96,165,250,0.8))' : 'drop-shadow(0 0 4px rgba(255,255,255,0.6))' }}
+              style={{ filter: n.isCenter ? 'drop-shadow(0 0 10px rgba(96,165,250,0.85))' : 'drop-shadow(0 0 5px rgba(255,255,255,0.65))' }}
             />
             <text
               x={n.x}
-              y={n.isCenter ? n.y + 20 : n.y - 12}
-              fill={n.isCenter ? '#93C5FD' : 'rgba(255,255,255,0.7)'}
-              fontSize="10"
+              y={n.isCenter ? n.y + 26 : n.y - 16}
+              fill={n.isCenter ? '#93C5FD' : 'rgba(255,255,255,0.75)'}
+              fontSize="12"
               textAnchor="middle"
             >
               {n.label}
@@ -2724,7 +2512,7 @@ const ConnectedNetworkDiagram = () => {
 
 const HeroVersionConnectedNetwork = () => {
   return (
-    <HeroShell devLabel="Version B — Connected Network">
+    <HeroShell devLabel="Version B — Connected Network (Improved)">
       <HeroGrid
         left={
           <div className="space-y-3">
@@ -4510,15 +4298,565 @@ export const TermsConditionsHero = () => (
   </ResourceHeroShell>
 );
 
+/* ============================================================
+   NEW SERVICE & RESOURCE HERO DIAGRAMS (merged)
+   ============================================================ */
+
+// ---------------- Compass Direction ----------------
+const CompassDirectionDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const cx = 110, cy = 110, r = 88;
+  const needleAngle = 38;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (angleDeg: number, radius: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
+  };
+
+  const cardinals = [
+    { label: 'N', angle: 0 },
+    { label: 'E', angle: 90 },
+    { label: 'S', angle: 180 },
+    { label: 'W', angle: 270 },
+  ];
+  const minorTicks = [45, 135, 225, 315];
+
+  return (
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes compassRingFade { from { opacity: 0; } to { opacity: 1; } }
+        .compass-ring-fade { animation: compassRingFade 0.6s ease-out both; }
+
+        @keyframes compassNeedleSettle {
+          0%   { transform: rotate(-160deg); }
+          55%  { transform: rotate(${needleAngle + 55}deg); }
+          75%  { transform: rotate(${needleAngle - 12}deg); }
+          100% { transform: rotate(${needleAngle}deg); }
+        }
+        .compass-needle { animation: compassNeedleSettle 1.6s cubic-bezier(0.3,0,0.2,1) 0.3s both; }
+
+        @keyframes compassCenterPulse {
+          0%, 100% { r: 4; opacity: 0.85; }
+          50%      { r: 6; opacity: 1; }
+        }
+        .compass-center-pulse { animation: compassCenterPulse 2.2s ease-in-out 2s infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 220 220" className="w-full h-full">
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth={1.5} className="compass-ring-fade" />
+          <circle cx={cx} cy={cy} r={r - 16} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={1} className="compass-ring-fade" />
+
+          {minorTicks.map((angle) => {
+            const outer = polarToCartesian(angle, r);
+            const inner = polarToCartesian(angle, r - 8);
+            return <line key={angle} x1={outer.x} y1={outer.y} x2={inner.x} y2={inner.y} stroke="rgba(255,255,255,0.25)" strokeWidth={1} />;
+          })}
+
+          {cardinals.map((c) => {
+            const outer = polarToCartesian(c.angle, r);
+            const inner = polarToCartesian(c.angle, r - 12);
+            const labelPos = polarToCartesian(c.angle, r + 14);
+            return (
+              <g key={c.label}>
+                <line x1={outer.x} y1={outer.y} x2={inner.x} y2={inner.y} stroke="rgba(255,255,255,0.45)" strokeWidth={1.5} />
+                <text x={labelPos.x} y={labelPos.y} fill="rgba(255,255,255,0.5)" fontSize="10" textAnchor="middle" dominantBaseline="middle">
+                  {c.label}
+                </text>
+              </g>
+            );
+          })}
+
+          <g className="compass-needle" style={{ transformOrigin: `${cx}px ${cy}px` }}>
+            <line
+              x1={cx} y1={cy} x2={cx} y2={cy - (r - 22)}
+              stroke="#60a5fa" strokeWidth={2.5} strokeLinecap="round"
+              style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.7))' }}
+            />
+            <line x1={cx} y1={cy} x2={cx} y2={cy + (r - 55)} stroke="rgba(255,255,255,0.4)" strokeWidth={2} strokeLinecap="round" />
+          </g>
+
+          <circle cx={cx} cy={cy} r={4} fill="#ffffff" className="compass-center-pulse" style={{ transformOrigin: `${cx}px ${cy}px` }} />
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-3">
+        Every Business Needs A Bearing Before It Needs A Plan
+      </p>
+    </div>
+  );
+};
+
+export const ServiceDirectionHero = () => (
+  <ResourceHeroShell devLabel="Services Hub — Compass Direction">
+    <ResourceHeroGrid
+      heading="Before We Talk Tactics, We Find True North."
+      sub="Strategy without direction is just motion. We start by establishing where you're actually trying to go."
+      right={<CompassDirectionDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Feedback Loop (Continuous Advisory) ----------------
+const FeedbackLoopDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const cx = 120, cy = 120, r = 85;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const polarToCartesian = (angleDeg: number, radius: number) => {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return {
+      x: roundCoord(cx + radius * Math.cos(rad)),
+      y: roundCoord(cy + radius * Math.sin(rad)),
+    };
+  };
+
+  const stages = [
+    { label: 'Plan', angle: 0 },
+    { label: 'Execute', angle: 90 },
+    { label: 'Measure', angle: 180 },
+    { label: 'Refine', angle: 270 },
+  ];
+
+  const arcPath = (fromAngle: number, toAngle: number) => {
+    const start = polarToCartesian(fromAngle, r);
+    const end = polarToCartesian(toAngle, r);
+    return `M ${start.x} ${start.y} A ${r} ${r} 0 0 1 ${end.x} ${end.y}`;
+  };
+
+  const loopPath = `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
+
+  return (
+    <div className="w-64 h-64 sm:w-80 sm:h-80">
+      <style>{`
+        @keyframes loopArcDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .loop-arc-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: loopArcDraw 0.7s ease-out 0s forwards; }
+        .loop-arc-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: loopArcDraw 0.7s ease-out 0.35s forwards; }
+        .loop-arc-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: loopArcDraw 0.7s ease-out 0.7s forwards; }
+        .loop-arc-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: loopArcDraw 0.7s ease-out 1.05s forwards; }
+
+        @keyframes loopNodePop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+        .loop-node-0 { animation: loopNodePop 0.4s ease-out 0.55s both; }
+        .loop-node-1 { animation: loopNodePop 0.4s ease-out 0.9s both; }
+        .loop-node-2 { animation: loopNodePop 0.4s ease-out 1.25s both; }
+        .loop-node-3 { animation: loopNodePop 0.4s ease-out 1.6s both; }
+
+        @keyframes loopDotFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .loop-traveling-dot { animation: loopDotFadeIn 0.4s ease-out 1.8s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 240 240" className="w-full h-full">
+          <path id="loop-travel-path" d={loopPath} fill="none" stroke="none" />
+
+          <path d={arcPath(0, 90)} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.75} strokeLinecap="round" pathLength={1} className="loop-arc-0" />
+          <path d={arcPath(90, 180)} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.75} strokeLinecap="round" pathLength={1} className="loop-arc-1" />
+          <path d={arcPath(180, 270)} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.75} strokeLinecap="round" pathLength={1} className="loop-arc-2" />
+          <path d={arcPath(270, 360)} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.75} strokeLinecap="round" pathLength={1} className="loop-arc-3" />
+
+          {stages.map((s, i) => {
+            const pos = polarToCartesian(s.angle, r);
+            const labelPos = polarToCartesian(s.angle, r + 20);
+            return (
+              <g key={s.label} className={`loop-node-${i}`} style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}>
+                <circle cx={pos.x} cy={pos.y} r={6} fill="#60a5fa" style={{ filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.8))' }} />
+                <text x={labelPos.x} y={labelPos.y} fill="#93C5FD" fontSize="10.5" textAnchor="middle" dominantBaseline="middle">
+                  {s.label}
+                </text>
+              </g>
+            );
+          })}
+
+          <circle r={4.5} fill="#ffffff" className="loop-traveling-dot" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.85))' }}>
+            <animateMotion dur="4s" begin="1.8s" repeatCount="indefinite">
+              <mpath href="#loop-travel-path" />
+            </animateMotion>
+          </circle>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-2">
+        Improvement Isn't A Phase. It's A Loop We Stay In.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceContinuousAdvisoryHero = () => (
+  <ResourceHeroShell devLabel="Services — Continuous Advisory Loop">
+    <ResourceHeroGrid
+      heading="Strategy Isn't A Document. It's A Cycle We Run With You."
+      sub="Plan, execute, measure, refine — repeated until the business runs the way it's supposed to, not just once."
+      right={<FeedbackLoopDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Assembly Blocks (Modular Packages) ----------------
+const AssemblyBlocksDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const blocks = [
+    { label: 'Foundation', x: 90, y: 160, width: 120, height: 38 },
+    { label: 'Strategy', x: 100, y: 118, width: 100, height: 38 },
+    { label: 'Execution', x: 110, y: 76, width: 80, height: 38 },
+    { label: 'Scale', x: 120, y: 34, width: 60, height: 38 },
+  ];
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-sm">
+      <style>{`
+        @keyframes blockSlideIn0 { from { opacity: 0; transform: translateX(-140px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes blockSlideIn1 { from { opacity: 0; transform: translateX(140px); } to { opacity: 1; transform: translateX(0); } }
+        .assembly-block-0 { animation: blockSlideIn0 0.55s cubic-bezier(0.22,1,0.36,1) 0s both; }
+        .assembly-block-1 { animation: blockSlideIn1 0.55s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+        .assembly-block-2 { animation: blockSlideIn0 0.55s cubic-bezier(0.22,1,0.36,1) 0.6s both; }
+        .assembly-block-3 { animation: blockSlideIn1 0.55s cubic-bezier(0.22,1,0.36,1) 0.9s both; }
+
+        @keyframes assemblyBaseFade { from { opacity: 0; } to { opacity: 1; } }
+        .assembly-base { animation: assemblyBaseFade 0.4s ease-out 0s both; }
+
+        @keyframes assemblyGlowPulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.7; } }
+        .assembly-glow { animation: assemblyGlowPulse 2.4s ease-in-out 1.5s infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 300 220" className="w-full h-auto">
+          <line x1="60" y1="200" x2="240" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} className="assembly-base" />
+
+          <rect x="82" y="20" width="136" height="184" rx="8" fill="none" stroke="#60a5fa" strokeWidth={1.2} strokeDasharray="4 5" className="assembly-glow" />
+
+          {blocks.map((b, i) => (
+            <g key={b.label} className={`assembly-block-${i}`}>
+              <rect x={b.x} y={b.y} width={b.width} height={b.height} rx={5} fill="rgba(96,165,250,0.22)" stroke="#60a5fa" strokeWidth={1.5} />
+              <text x={b.x + b.width / 2} y={b.y + b.height / 2 + 4} fill="#ffffff" fontSize="10.5" textAnchor="middle">
+                {b.label}
+              </text>
+            </g>
+          ))}
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-3">
+        Add What You Need. Build Only What Matters.
+      </p>
+    </div>
+  );
+};
+
+export const ServiceModularPackagesHero = () => (
+  <ResourceHeroShell devLabel="Services — Modular Packages">
+    <ResourceHeroGrid
+      heading="Not Every Business Needs The Whole Firm. Just The Right Part Of It."
+      sub="Every engagement is modular — start with one layer, add the next only when it's actually needed."
+      right={<AssemblyBlocksDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Conveyor Pipeline (Resource Process) ----------------
+const ConveyorPipelineDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const stages = [
+    { label: 'Intake', x: 20 },
+    { label: 'Assessment', x: 130 },
+    { label: 'Delivery', x: 240 },
+    { label: 'Review', x: 320 },
+  ];
+  const beltY = 95;
+  const travelDuration = 5;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes pipelineBoxFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .pipeline-box-0 { animation: pipelineBoxFade 0.4s ease-out 0s both; }
+        .pipeline-box-1 { animation: pipelineBoxFade 0.4s ease-out 0.15s both; }
+        .pipeline-box-2 { animation: pipelineBoxFade 0.4s ease-out 0.3s both; }
+        .pipeline-box-3 { animation: pipelineBoxFade 0.4s ease-out 0.45s both; }
+
+        @keyframes pipelineItemTravel {
+          0%   { offset-distance: 0%; opacity: 0; }
+          6%   { opacity: 1; }
+          94%  { opacity: 1; }
+          100% { offset-distance: 100%; opacity: 0; }
+        }
+        .pipeline-item {
+          offset-path: path('M 20 ${beltY} L 380 ${beltY}');
+          animation: pipelineItemTravel ${travelDuration}s linear infinite;
+        }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 400 140" className="w-full h-auto">
+          <line x1="20" y1={beltY} x2="380" y2={beltY} stroke="rgba(255,255,255,0.3)" strokeWidth={1.5} />
+
+          {stages.map((s, i) => (
+            <g key={s.label} className={`pipeline-box-${i}`}>
+              <rect x={s.x} y={beltY - 38} width={60} height={26} rx={5} fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" strokeWidth={1} />
+              <text x={s.x + 30} y={beltY - 21} fill="#ffffff" fontSize="9.5" textAnchor="middle">
+                {s.label}
+              </text>
+              <line x1={s.x + 30} y1={beltY - 12} x2={s.x + 30} y2={beltY} stroke="rgba(255,255,255,0.25)" strokeWidth={1} />
+            </g>
+          ))}
+
+          {[0, 1, 2, 3].map((i) => (
+            <rect
+              key={i}
+              x={-5}
+              y={beltY - 5}
+              width={10}
+              height={10}
+              rx={2}
+              fill="#60a5fa"
+              className="pipeline-item"
+              style={{ animationDelay: `${-(i * travelDuration) / 4}s`, filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }}
+            />
+          ))}
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        One Steady Flow, From First Contact To Delivery
+      </p>
+    </div>
+  );
+};
+
+export const ResourceProcessHero = () => (
+  <ResourceHeroShell devLabel="Resources — How Engagements Move">
+    <ResourceHeroGrid
+      heading="Nothing Sits On A Desk. Everything Keeps Moving."
+      sub="From intake to delivery, every engagement follows the same steady, visible process — no black boxes along the way."
+      right={<ConveyorPipelineDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Scenario Fan (Resource Scenario Planning) ----------------
+const ScenarioFanDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+  const scenarios = [
+    { d: 'M 20 100 C 120 60, 220 40, 360 20', chosen: false },
+    { d: 'M 20 100 C 120 80, 220 55, 360 60', chosen: true },
+    { d: 'M 20 100 C 120 95, 220 95, 360 100', chosen: false },
+    { d: 'M 20 100 C 120 115, 220 135, 360 145', chosen: false },
+    { d: 'M 20 100 C 120 130, 220 160, 360 180', chosen: false },
+  ];
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes fanLineDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        .fan-line-0 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fanLineDraw 1.1s ease-out 0s forwards; }
+        .fan-line-1 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fanLineDraw 1.1s ease-out 0.15s forwards; }
+        .fan-line-2 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fanLineDraw 1.1s ease-out 0.3s forwards; }
+        .fan-line-3 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fanLineDraw 1.1s ease-out 0.45s forwards; }
+        .fan-line-4 { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fanLineDraw 1.1s ease-out 0.6s forwards; }
+
+        @keyframes fanDimOthers { from { opacity: 1; } to { opacity: 0.25; } }
+        .fan-dim { animation: fanDimOthers 0.8s ease-out 1.4s forwards; }
+
+        @keyframes fanChosenGlow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .fan-chosen-glow { animation: fanChosenGlow 2.2s ease-in-out 2.1s infinite; }
+
+        @keyframes fanLabelFade { from { opacity: 0; } to { opacity: 1; } }
+        .fan-label { animation: fanLabelFade 0.6s ease-out 1.8s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 380 200" className="w-full h-auto">
+          {scenarios.map((s, i) => (
+            <path
+              key={i}
+              d={s.d}
+              fill="none"
+              stroke={s.chosen ? '#60a5fa' : 'rgba(255,255,255,0.45)'}
+              strokeWidth={s.chosen ? 2.5 : 1.5}
+              strokeLinecap="round"
+              pathLength={1}
+              className={`fan-line-${i} ${s.chosen ? 'fan-chosen-glow' : 'fan-dim'}`}
+              style={s.chosen ? { filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.6))' } : undefined}
+            />
+          ))}
+
+          <circle cx="20" cy="100" r={4.5} fill="#ffffff" />
+          <circle cx="360" cy="60" r={5} fill="#60a5fa" className="fan-chosen-glow" style={{ filter: 'drop-shadow(0 0 8px rgba(96,165,250,0.9))' }} />
+
+          <text x="20" y="130" fill="rgba(255,255,255,0.5)" fontSize="10" className="fan-label">Where You Are Now</text>
+          <text x="360" y="45" fill="#93C5FD" fontSize="10" textAnchor="end" className="fan-label">The Path We Recommend</text>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Every Business Faces Multiple Futures. We Help You Choose Yours.
+      </p>
+    </div>
+  );
+};
+
+export const ResourceScenarioPlanningHero = () => (
+  <ResourceHeroShell devLabel="Resources — Scenario Planning">
+    <ResourceHeroGrid
+      heading="We Don't Predict The Future. We Model Enough Of It To Choose Well."
+      sub="Every recommendation is stress-tested against the paths that didn't get picked — not just the one that did."
+      right={<ScenarioFanDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
+// ---------------- Loop Back, Leap Forward ----------------
+const LoopBackLeapForwardDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const baseY = 150;
+  const loopCenter = { x: 160, y: 55 };
+  const loopRadius = 35;
+
+  const loopPointAngles = [200, 300, 40];
+  const angleToPoint = (angleDeg: number) => {
+    const rad = (angleDeg * Math.PI) / 180;
+    return {
+      x: roundCoord(loopCenter.x + loopRadius * Math.sin(rad)),
+      y: roundCoord(loopCenter.y - loopRadius * Math.cos(rad)),
+    };
+  };
+
+  const fullPath =
+    `M 20 ${baseY} ` +
+    `L 90 ${baseY} ` +
+    `C 115 ${baseY}, 135 100, 150 90 ` +
+    `A ${loopRadius} ${loopRadius} 0 1 1 149.9 90 ` +
+    `C 150 105, 165 ${baseY - 5}, 195 ${baseY} ` +
+    `L 380 ${baseY}`;
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineLoopBack {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-loop-back {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineLoopBack 3s ease-in-out forwards;
+        }
+
+        @keyframes loopPointPop {
+          from { opacity: 0; transform: scale(0.3); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .loop-point-0 { animation: loopPointPop 0.4s ease-out 1.5s both; }
+        .loop-point-1 { animation: loopPointPop 0.4s ease-out 1.9s both; }
+        .loop-point-2 { animation: loopPointPop 0.4s ease-out 2.3s both; }
+
+        @keyframes loopEndGlow {
+          0%, 100% { r: 5; opacity: 0.9; }
+          50%      { r: 7.5; opacity: 1; }
+        }
+        .loop-end-glow { animation: loopEndGlow 2s ease-in-out 3.2s infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 400 190" className="w-full h-auto">
+          <path
+            id="loop-back-path"
+            d={fullPath}
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className="draw-line-loop-back"
+          />
+
+          {loopPointAngles.map((angle, i) => {
+            const p = angleToPoint(angle);
+            return (
+              <circle
+                key={angle}
+                cx={p.x}
+                cy={p.y}
+                r={4.5}
+                fill="#60a5fa"
+                className={`loop-point-${i}`}
+                style={{ transformOrigin: `${p.x}px ${p.y}px`, filter: 'drop-shadow(0 0 6px rgba(96,165,250,0.85))' }}
+              />
+            );
+          })}
+
+          <circle cx="20" cy={baseY} r={4} fill="rgba(255,255,255,0.6)" />
+
+          <circle r={5} fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.9))' }}>
+            <animateMotion dur="3s" repeatCount="1" fill="freeze" rotate="auto">
+              <mpath href="#loop-back-path" />
+            </animateMotion>
+          </circle>
+          <circle cx="380" cy={baseY} r={5} fill="#60a5fa" className="loop-end-glow" />
+        </svg>
+      )}
+
+      <div className="flex justify-between text-white/50 text-xs sm:text-sm mt-2 px-1">
+        <span>Where You Start</span>
+        <span>Where You Land</span>
+      </div>
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Sometimes The Fastest Way Forward Is Through A Loop, Not Around It
+      </p>
+    </div>
+  );
+};
+
+export const ResourceLoopBackLeapForwardHero = () => (
+  <ResourceHeroShell devLabel="Resources — Loop Back, Leap Forward">
+    <ResourceHeroGrid
+      heading="Progress Isn't Always A Straight Line. Sometimes It Has To Circle Back First."
+      sub="The businesses that move fastest aren't the ones that never pause — they're the ones that use the pause to correct course before accelerating."
+      right={<LoopBackLeapForwardDiagram />}
+    />
+  </ResourceHeroShell>
+);
+
 // =====================================================
 // MINIMAL ORBIT RING — locations on the ring, no dial
-// (Version N.1 — fixed label clipping by adding canvas
-//  padding + proportional container scale-up. Ring radius,
-//  stroke width, and dot sizes are UNCHANGED in pixel terms.)
 // =====================================================
 const NewMinimalOrbitRing = () => {
   const [mounted, setMounted] = useState(false);
-  const cx = 120, cy = 120, r = 78; // r unchanged — only cx/cy shifted for the new canvas
+  const cx = 120, cy = 120, r = 78;
   const orbitDuration = 24;
 
   useEffect(() => {
@@ -4542,9 +4880,6 @@ const NewMinimalOrbitRing = () => {
   ];
 
   return (
-    // Scaled up by the exact same 1.2x factor as the viewBox (200→240),
-    // so the ring itself stays pixel-identical — this box just has more
-    // margin around it for the labels.
     <div className="w-[19.2rem] h-[19.2rem] sm:w-96 sm:h-96">
       <style>{`
         @keyframes orbitSpinMinimal {
@@ -4577,7 +4912,6 @@ const NewMinimalOrbitRing = () => {
 
       {mounted && (
         <svg viewBox="0 0 240 240" className="w-full h-full">
-          {/* The ring itself — stroke width untouched (1) */}
           <circle
             cx={cx}
             cy={cy}
@@ -4587,7 +4921,6 @@ const NewMinimalOrbitRing = () => {
             strokeWidth={1}
           />
 
-          {/* Fixed location dots, sitting on the ring, pulsing as the orbit passes */}
           {offices.map((o) => {
             const pos = polarToCartesian(o.angle);
             const labelPos = polarToCartesian(o.angle, r + 20);
@@ -4617,7 +4950,6 @@ const NewMinimalOrbitRing = () => {
             );
           })}
 
-          {/* The single revolving dot travelling the ring */}
           <g className="orbit-spin-minimal">
             <circle
               cx={cx}
@@ -4639,8 +4971,6 @@ const NewMinimalOrbitRing = () => {
 
 // =====================================================
 // HERO VERSION N — Minimal Orbit Ring
-// Full hero shell: dark background, diagonal grid,
-// dev label, left-side copy, ring on the right.
 // =====================================================
 const NewHeroVersionMinimalOrbit = () => {
   return (
@@ -4664,8 +4994,7 @@ const NewHeroVersionMinimalOrbit = () => {
 };
 
 // =====================================================
-// TEST PAGE — client-only mount (bulletproofs against
-// any SSR/client hydration mismatch in the SVG diagrams)
+// TEST PAGE — client-only mount
 // =====================================================
 export default function NewVisualsTestPage() {
   const [mounted, setMounted] = useState(false);
@@ -4674,9 +5003,6 @@ export default function NewVisualsTestPage() {
     setMounted(true);
   }, []);
 
-  // Server renders an empty main; client fills it in after mount.
-  // This guarantees there is NO SSR HTML for the SVGs, so React
-  // has nothing to reconcile against — no hydration mismatch possible.
   if (!mounted) {
     return <main className="min-h-screen bg-white" />;
   }
@@ -4735,6 +5061,9 @@ export default function NewVisualsTestPage() {
       <ReportsHeroSection />
       <CaseStudiesHeroSection />
       <BlogHeroSection />
+      <ResourceProcessHero />
+      <ResourceScenarioPlanningHero />
+      <ResourceLoopBackLeapForwardHero />
 
       {/* Service & legal hero diagrams */}
       <ServicesHubHeroOptionA />
@@ -4748,6 +5077,9 @@ export default function NewVisualsTestPage() {
       <ServiceScaleHero />
       <CohortsHero />
       <TermsConditionsHero />
+      <ServiceDirectionHero />
+      <ServiceContinuousAdvisoryHero />
+      <ServiceModularPackagesHero />
     </main>
   );
 }
