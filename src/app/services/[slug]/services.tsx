@@ -1344,8 +1344,7 @@ const ClosedLoopDiagram: FC = () => {
       )}
 
       <p className="text-white/70 text-base text-center mt-4">
-        Full Circle, Then Forward — Not A Step Skipped, Just Confirmed
-      </p>
+Full Circle. Strategy Engineered for Results.      </p>
     </div>
   );
 };
