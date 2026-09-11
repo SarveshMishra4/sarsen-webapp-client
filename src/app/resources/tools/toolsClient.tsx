@@ -863,28 +863,7 @@ const AssemblyBlocksDiagram = () => {
 
       {mounted && (
         <svg viewBox="0 0 300 220" className="w-full h-auto">
-          <line
-            x1="60"
-            y1="200"
-            x2="240"
-            y2="200"
-            stroke="rgba(255,255,255,0.25)"
-            strokeWidth={1.5}
-            className="assembly-base"
-          />
 
-          <rect
-            x="82"
-            y="20"
-            width="136"
-            height="184"
-            rx="8"
-            fill="none"
-            stroke="#60a5fa"
-            strokeWidth={1.2}
-            strokeDasharray="4 5"
-            className="assembly-glow"
-          />
 
           {blocks.map((b, i) => (
             <g key={b.label} className={`assembly-block-${i}`}>
