@@ -1227,8 +1227,111 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
 };
 
 // ════════════════════════════════════════════════════════════════
-// PAGE HERO – MODIFIED TO INCLUDE BACKGROUND PATTERN
+// PAGE HERO — CLOSED LOOP DIAGRAM VISUAL
 // ════════════════════════════════════════════════════════════════
+
+const ClosedLoopDiagram: FC = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Baseline for both flat runs (with a slight hand-drawn wobble baked into the curve).
+  const baseY = 150;
+  // Flat 1: x 20 → 130   (length ~110)
+  // Loop:   bigger circle, radius ~55, centered around (130, 95)
+  //         built from 4 quarter-circle cubic curves (right half first, then left half),
+  //         each with small offsets from the perfect geometry for a sketched feel
+  // Flat 2: x 130 → 350  (length ~220 — roughly double flat 1)
+  const pathD =
+    'M 20,150 ' +
+    'C 50,147 75,152 100,149 ' +
+    'C 115,148 122,151 130,150 ' +
+    'C 158,151 183,128 186,97 ' +
+    'C 184,66 162,42 131,41 ' +
+    'C 101,40 76,63 74,94 ' +
+    'C 73,123 98,149 129,151 ' +
+    'C 160,148 190,153 220,150 ' +
+    'C 260,147 300,152 350,150';
+
+  return (
+    <div className="w-full max-w-md">
+      <style>{`
+        @keyframes drawLineClosedLoop {
+          from { stroke-dashoffset: 1; }
+          to   { stroke-dashoffset: 0; }
+        }
+        .draw-line-closed-loop {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: drawLineClosedLoop 3s ease-in-out forwards;
+        }
+
+        @keyframes loopDotPop {
+          from { opacity: 0; transform: scale(0.3); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        @keyframes loopDotPulse {
+          0%, 100% { opacity: 0.75; }
+          50%      { opacity: 1; }
+        }
+
+        .loop-dot-0 { animation: loopDotPop 0.35s ease-out 0.3s both, loopDotPulse 2.2s ease-in-out 0.65s infinite; transform-origin: 70px 149px; }
+        .loop-dot-1 { animation: loopDotPop 0.35s ease-out 0.9s both, loopDotPulse 2.2s ease-in-out 1.25s infinite; transform-origin: 183px 100px; }
+        .loop-dot-2 { animation: loopDotPop 0.35s ease-out 1.2s both, loopDotPulse 2.2s ease-in-out 1.55s infinite; transform-origin: 131px 41px; }
+        .loop-dot-3 { animation: loopDotPop 0.35s ease-out 1.5s both, loopDotPulse 2.2s ease-in-out 1.85s infinite; transform-origin: 74px 94px; }
+        .loop-dot-4 { animation: loopDotPop 0.35s ease-out 2.4s both, loopDotPulse 2.2s ease-in-out 2.75s infinite; transform-origin: 240px 149px; }
+
+        .loop-label-0 { animation: loopDotPop 0.35s ease-out 0.35s both; }
+        .loop-label-1 { animation: loopDotPop 0.35s ease-out 0.95s both; }
+        .loop-label-2 { animation: loopDotPop 0.35s ease-out 1.25s both; }
+        .loop-label-3 { animation: loopDotPop 0.35s ease-out 1.55s both; }
+        .loop-label-4 { animation: loopDotPop 0.35s ease-out 2.45s both; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 400 210" className="w-full h-auto">
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={1}
+            className="draw-line-closed-loop"
+          />
+
+          {/* Dot 1 — on the entry flat, just before the loop begins */}
+          <circle cx="70" cy="149" r={4.5} fill="#60a5fa" className="loop-dot-0" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
+          <text x="70" y="169" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-0">Pause</text>
+
+          {/* Dot 2 — right half of the loop */}
+          <circle cx="183" cy="100" r={4.5} fill="#60a5fa" className="loop-dot-1" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
+          <text x="200" y="104" fill="#93C5FD" fontSize="11" textAnchor="start" className="loop-label-1">Test</text>
+
+          {/* Dot 3 — top of the loop */}
+          <circle cx="131" cy="41" r={4.5} fill="#60a5fa" className="loop-dot-2" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
+          <text x="131" y="25" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-2">Confirm</text>
+
+          {/* Dot 4 — left half of the loop */}
+          <circle cx="74" cy="94" r={4.5} fill="#60a5fa" className="loop-dot-3" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
+          <text x="57" y="98" fill="#93C5FD" fontSize="11" textAnchor="end" className="loop-label-3">Adjust</text>
+
+          {/* Dot 5 — midway along the final flat extension */}
+          <circle cx="240" cy="149" r={4.5} fill="#60a5fa" className="loop-dot-4" style={{ filter: 'drop-shadow(0 0 5px rgba(96,165,250,0.8))' }} />
+          <text x="240" y="169" fill="#93C5FD" fontSize="11" textAnchor="middle" className="loop-label-4">Delivered</text>
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-4">
+        Full Circle, Then Forward — Not A Step Skipped, Just Confirmed
+      </p>
+    </div>
+  );
+};
 
 interface PageHeroProps {
   service: ServiceData;
@@ -1320,7 +1423,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
             style={{ height: '420px' }}
             aria-hidden="true"
           >
-            <img src="/assets/resources/Strategy Head.svg" alt="" className="max-w-full h-auto" />
+            <ClosedLoopDiagram />
           </div>
         </div>
       </div>
