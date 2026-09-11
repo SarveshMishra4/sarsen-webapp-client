@@ -53,6 +53,23 @@
  * `svc-*` utility classes declared in the <style> block at the bottom of
  * this file. No desktop/tablet visual behaviour was changed — the base
  * (non-media-query) rules mirror the original inline values exactly.
+ *
+ * RESPONSIVE FIX (this pass):
+ * 1) The hero's ClosedLoopDiagram no longer uses `hidden lg:flex`, which
+ *    made it vanish completely below the `lg` breakpoint. It now follows
+ *    the same pattern as the homepage hero (ProductLifecycleHero /
+ *    ProductLifecycleChartOnce): always rendered, with a responsive
+ *    height (h-56 sm:h-72 lg:h-[420px]) and the hero grid stacking to a
+ *    single column on smaller screens (grid-cols-1 lg:grid-cols-2).
+ * 2) Every section that used `px-4 sm:px-6 lg:px-0` has been changed to
+ *    `px-4 sm:px-6 lg:px-8`, matching the homepage's consistent side
+ *    padding. The old `lg:px-0` dropped all left/right padding at the
+ *    `lg` breakpoint (1024px) and only re-gained visual "padding" once
+ *    the viewport exceeded the `max-w-7xl` (1280px) container — so any
+ *    width between ~1024px and ~1280px (i.e. going from a laptop to a
+ *    slightly narrower window) rendered with content flush against the
+ *    screen edges. No functional logic was touched — only these two
+ *    responsive/layout issues were fixed.
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -1343,7 +1360,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
 
   return (
     <section
-      className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-0"
+      className="relative overflow-hidden pt-24 pb-16 px-4 sm:px-6 lg:px-8"
       style={{ backgroundColor: '#0A1E3D', minHeight: '480px' }}
     >
       {/* Background pattern (exact same as blog page) */}
@@ -1365,7 +1382,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
           <div className="space-y-7">
             <div className="space-y-3">
               <div className="flex items-center gap-3 flex-wrap">
@@ -1419,8 +1436,7 @@ const PageHero: FC<PageHeroProps> = ({ service, onBuy }) => {
           </div>
 
           <div
-            className="relative hidden lg:flex items-center justify-end"
-            style={{ height: '420px' }}
+            className="relative h-56 sm:h-72 lg:h-[420px] flex items-center justify-center lg:justify-end"
             aria-hidden="true"
           >
             <ClosedLoopDiagram />
@@ -1446,7 +1462,7 @@ const ExcerptSection: FC<{ service: ServiceData }> = ({ service }) => {
         backgroundColor: '#061528',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div style={{ marginBottom: '40px' }}>
           <span style={{
             fontSize: '13px',
@@ -1546,7 +1562,7 @@ const CoreServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section className="svc-py-72" style={{ backgroundColor: '#0A1E3D' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div style={{ marginBottom: '48px' }}>
           <span style={{
             fontSize: '13px',
@@ -1682,7 +1698,7 @@ const DeliverablesSection: FC<{ service: ServiceData }> = ({ service }) => {
         backgroundColor: '#061528',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div style={{ marginBottom: '40px' }}>
           <span style={{
             fontSize: '13px',
@@ -1797,7 +1813,7 @@ const FlexibleServicesSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
+      className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -1855,7 +1871,7 @@ const RoadmapSection: FC<{ service: ServiceData }> = ({ service }) => {
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
+      className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -1991,7 +2007,7 @@ const TrustStrip: FC<{ service: ServiceData }> = ({ service }) => {
         backgroundColor: '#071829',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div style={{ marginBottom: '40px' }}>
           <span style={{
             fontSize: '13px',
@@ -2061,7 +2077,7 @@ const TargetBanner: FC<{ service: ServiceData; onBuy: () => void }> = ({ service
 
   return (
     <section
-      className="px-4 sm:px-6 lg:px-0 py-12 sm:py-16"
+      className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
       style={{ backgroundColor: '#0A1E3D' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -2151,7 +2167,7 @@ const FinalCTA: FC<{ service: ServiceData; onBuy: () => void }> = ({ service, on
         backgroundColor: '#061528',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr auto',
