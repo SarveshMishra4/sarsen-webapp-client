@@ -279,24 +279,24 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     try {
       const data = await apiRequest<{
         finalPrice: number;
-        couponId:   string;
+        couponId: string;
       }>('POST', '/coupons/validate', {
         body: {
-          code:      couponInput.trim().toUpperCase(),
+          code: couponInput.trim().toUpperCase(),
           serviceId: service.backendId,
         },
       });
 
-      const finalPriceRupees  = data.finalPrice / 100;
-      const originalRupees    = service.price / 100;
-      const savedRupees       = originalRupees - finalPriceRupees;
+      const finalPriceRupees = data.finalPrice / 100;
+      const originalRupees = service.price / 100;
+      const savedRupees = originalRupees - finalPriceRupees;
       const finalPriceDisplay = `₹${finalPriceRupees.toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
-      const discountLabel     = `Save ₹${savedRupees.toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
+      const discountLabel = `Save ₹${savedRupees.toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
 
       setAppliedCoupon({
-        code:              couponInput.trim().toUpperCase(),
-        label:             discountLabel,
-        finalPrice:        data.finalPrice,
+        code: couponInput.trim().toUpperCase(),
+        label: discountLabel,
+        finalPrice: data.finalPrice,
         finalPriceDisplay: finalPriceDisplay,
       });
       setCouponInput('');
@@ -318,7 +318,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     setStep('processing');
 
     const purchaseAnswers = service.questions.map((q) => ({
-      questionId:   q.id    || 'unknown_id',
+      questionId: q.id || 'unknown_id',
       questionText: q.label || 'Unknown Question',
       answer: Array.isArray(answers[q.id])
         ? (answers[q.id] as string[]).join(', ')
@@ -328,14 +328,14 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
     try {
       const orderData = await apiRequest<{
         orderId: string;
-        amount:  number;
+        amount: number;
         currency: string;
-        keyId:   string;
+        keyId: string;
       }>('POST', '/payments/create-order', {
         body: {
-          serviceId:       service.backendId,
-          userEmail:       email,
-          couponCode:      appliedCoupon?.code ?? undefined,
+          serviceId: service.backendId,
+          userEmail: email,
+          couponCode: appliedCoupon?.code ?? undefined,
           purchaseAnswers,
         },
         token: getUserToken() ?? undefined,
@@ -344,13 +344,13 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
       if (!orderData.orderId) throw new Error('Order creation failed.');
 
       const rzp = new window.Razorpay({
-        key:         orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount:      orderData.amount,
-        currency:    orderData.currency ?? 'INR',
-        name:        'Sarsen Strategy Partners',
+        key: orderData.keyId ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: orderData.amount,
+        currency: orderData.currency ?? 'INR',
+        name: 'Sarsen Strategy Partners',
         description: service.title,
-        order_id:    orderData.orderId,
-        theme:       { color: service.accentColor },
+        order_id: orderData.orderId,
+        theme: { color: service.accentColor },
         modal: {
           ondismiss: () => {
             setFailureReason('Payment was cancelled. No amount has been charged.');
@@ -361,14 +361,14 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
           setVerifyLoading(true);
           try {
             const verifyData = await apiRequest<{
-              engagementId:  string;
-              isNewUser:     boolean;
+              engagementId: string;
+              isNewUser: boolean;
               plainPassword: string | null;
             }>('POST', '/payments/verify', {
               body: {
-                razorpay_order_id:   paymentResponse.razorpay_order_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
                 razorpay_payment_id: paymentResponse.razorpay_payment_id,
-                razorpay_signature:  paymentResponse.razorpay_signature,
+                razorpay_signature: paymentResponse.razorpay_signature,
               },
             });
             setPlainPassword(verifyData.plainPassword);
@@ -811,7 +811,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                     borderRadius: '4px',
                   }}
                 >
-                {item.label}
+                  {item.label}
                 </span>
               ))}
             </div>
@@ -826,8 +826,8 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 {selectedFlexItems.map((f) => (
                   <div key={f.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke='#0A1E3D' viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                     <p style={{ fontSize: '0.85rem', color: '#0A1E3D' }}>{f.label}</p>
                   </div>
                 ))}
@@ -955,7 +955,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
             <div>
               <p style={{ fontSize: '0.82rem', color: '#0A1E3D', marginBottom: '2px', fontWeight: 500 }}>Total amount</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
-                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0A1E3D'}}>
+                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0A1E3D' }}>
                   {displayPrice}
                 </p>
                 {isDiscounted && (
@@ -1344,7 +1344,7 @@ const ClosedLoopDiagram: FC = () => {
       )}
 
       <p className="text-white/70 text-base text-center mt-4">
-Full Circle. Strategy Engineered for Results.      </p>
+        Full Circle. Strategy Engineered for Results.      </p>
     </div>
   );
 };
