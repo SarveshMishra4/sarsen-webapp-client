@@ -518,7 +518,7 @@ const AssemblyBlocksDiagram = () => {
       )}
 
       <p className="text-white/70 text-base text-center mt-3">
-        Add What You Need. Build Only What Matters.
+Strategy That Builds. Execution That Scales.
       </p>
     </div>
   );
