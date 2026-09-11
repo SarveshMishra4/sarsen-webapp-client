@@ -355,40 +355,167 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
 };
 
 // =====================================================
-// HERO SECTION — colors updated to homepage palette
+// HERO SECTION — Services: Modular Packages hero, reused
+// from app/test/modular-packages/page.tsx (shell + grid +
+// diagram + hero export). Responsive behavior matches the
+// homepage hero: stacks to a single column below `lg`, and
+// the right-side diagram stays visible at every breakpoint
+// (it never uses `hidden`, only responsive height/centering).
 // =====================================================
 
-const HeroSection: FC = () => (
-  <section
-    className="relative overflow-hidden pt-24 pb-20 px-4 sm:px-6 lg:px-8"
-    style={{ backgroundColor: '#0A1E3D', minHeight: '520px' }}
-  >
-    <div className="max-w-7xl mx-auto relative">
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* LEFT */}
-        <div className="space-y-7">
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white">
-              Thinking
-              <span className="block text-blue-300">Out Loud.</span>
-            </h1>
-            <p className="text-base sm:text-lg max-w-md text-gray-400">
-              In-depth perspectives on strategy, revenue architecture, capital decisions, and the structural realities of building startups in India.
-            </p>
-          </div>
-        </div>
-
-        {/* RIGHT — visual */}
-        <div
-          className="relative hidden lg:flex items-center justify-end"
-          style={{ height: '420px' }}
-          aria-hidden="true"
-        >
-          <img src="/assets/resources/Blog Head.svg" alt="" className="max-w-full h-auto" />
-        </div>
+const ResourceHeroShell = ({
+  devLabel,
+  children,
+}: {
+  devLabel: string;
+  children: React.ReactNode;
+}) => {
+  const gridId = `grid-${devLabel.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`;
+  return (
+    <section className="relative bg-[#0A1E3D] min-h-[500px] sm:min-h-[600px] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-white/10 first:border-t-0">
+      <div className="absolute inset-0 opacity-20">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id={gridId}
+              patternUnits="userSpaceOnUse"
+              width="5"
+              height="5"
+              patternTransform="rotate(45)"
+            >
+              <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill={`url(#${gridId})`} />
+        </svg>
       </div>
+
+      <span className="absolute top-5 left-4 sm:left-6 lg:left-8 text-[11px] tracking-wide text-white/30 uppercase">
+        {devLabel}
+      </span>
+
+      <div className="relative max-w-7xl mx-auto">{children}</div>
+    </section>
+  );
+};
+
+const ResourceHeroGrid = ({
+  heading,
+  sub,
+  right,
+}: {
+  heading: string;
+  sub?: string;
+  right: React.ReactNode;
+}) => (
+  <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div className="space-y-4 lg:space-y-5">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl text-white leading-snug">{heading}</h2>
+      {sub && <p className="text-white/60 text-base sm:text-lg">{sub}</p>}
     </div>
-  </section>
+    <div className="relative h-64 sm:h-80 lg:h-[420px] flex items-center justify-center lg:justify-end">
+      {right}
+    </div>
+  </div>
+);
+
+const AssemblyBlocksDiagram = () => {
+  const [mounted, setMounted] = useState(false);
+
+  const blocks = [
+    { label: 'Understand', x: 90, y: 160, width: 120, height: 38 },
+    { label: 'Engineer', x: 100, y: 118, width: 100, height: 38 },
+    { label: 'Execute', x: 110, y: 76, width: 80, height: 38 },
+    { label: 'Scale', x: 120, y: 34, width: 60, height: 38 },
+  ];
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div className="w-full max-w-sm">
+      <style>{`
+        @keyframes blockSlideIn0 { from { opacity: 0; transform: translateX(-140px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes blockSlideIn1 { from { opacity: 0; transform: translateX(140px); } to { opacity: 1; transform: translateX(0); } }
+        .assembly-block-0 { animation: blockSlideIn0 0.55s cubic-bezier(0.22,1,0.36,1) 0s both; }
+        .assembly-block-1 { animation: blockSlideIn1 0.55s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+        .assembly-block-2 { animation: blockSlideIn0 0.55s cubic-bezier(0.22,1,0.36,1) 0.6s both; }
+        .assembly-block-3 { animation: blockSlideIn1 0.55s cubic-bezier(0.22,1,0.36,1) 0.9s both; }
+
+        @keyframes assemblyBaseFade { from { opacity: 0; } to { opacity: 1; } }
+        .assembly-base { animation: assemblyBaseFade 0.4s ease-out 0s both; }
+
+        @keyframes assemblyGlowPulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.7; } }
+        .assembly-glow { animation: assemblyGlowPulse 2.4s ease-in-out 1.5s infinite; }
+      `}</style>
+
+      {mounted && (
+        <svg viewBox="0 0 300 220" className="w-full h-auto">
+          <line
+            x1="60"
+            y1="200"
+            x2="240"
+            y2="200"
+            stroke="rgba(255,255,255,0.25)"
+            strokeWidth={1.5}
+            className="assembly-base"
+          />
+
+          <rect
+            x="82"
+            y="20"
+            width="136"
+            height="184"
+            rx="8"
+            fill="none"
+            stroke="#60a5fa"
+            strokeWidth={1.2}
+            strokeDasharray="4 5"
+            className="assembly-glow"
+          />
+
+          {blocks.map((b, i) => (
+            <g key={b.label} className={`assembly-block-${i}`}>
+              <rect
+                x={b.x}
+                y={b.y}
+                width={b.width}
+                height={b.height}
+                rx={5}
+                fill="rgba(96,165,250,0.22)"
+                stroke="#60a5fa"
+                strokeWidth={1.5}
+              />
+              <text
+                x={b.x + b.width / 2}
+                y={b.y + b.height / 2 + 4}
+                fill="#ffffff"
+                fontSize="10.5"
+                textAnchor="middle"
+              >
+                {b.label}
+              </text>
+            </g>
+          ))}
+        </svg>
+      )}
+
+      <p className="text-white/70 text-base text-center mt-3">
+Strategy That Builds. Execution That Scales.      </p>
+    </div>
+  );
+};
+
+export const ServiceModularPackagesHero = () => (
+  <ResourceHeroShell devLabel="">
+    <ResourceHeroGrid
+      heading="Thoughts From the Field"
+      sub="Observations, Ideas and Approaches Developed while Working through Real Business Situations."
+      right={<AssemblyBlocksDiagram />}
+    />
+  </ResourceHeroShell>
 );
 
 // =====================================================
@@ -914,7 +1041,7 @@ export default function BlogsClient() {
       <main className="min-h-screen" style={{ backgroundColor: '#E8EEF2' }}>
 
         {/* Hero */}
-        <HeroSection />
+        <ServiceModularPackagesHero />
 
         {/* Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
