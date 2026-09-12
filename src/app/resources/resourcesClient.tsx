@@ -230,8 +230,8 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({
                   )}
                 </button>
                 <p className="text-center text-xs text-gray-400 pt-1">
-                  Don&apos;t have a Partner ID?{' '}
-                  <a href="#" className="text-blue-600 hover:underline">Request Access</a>
+                            Partner Access is Monitored and Logged for Security Purposes.
+
                 </p>
               </form>
             ) : (

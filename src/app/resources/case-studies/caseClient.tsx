@@ -354,7 +354,7 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
           </div>
         </div>
         <p className="text-center text-sm mt-4 text-gray-400">
-          Partner access is monitored and logged for security purposes.
+          Partner Access is Monitored and Logged for Security Purposes.
         </p>
       </div>
     </div>
