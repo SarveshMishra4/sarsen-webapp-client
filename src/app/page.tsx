@@ -1079,10 +1079,10 @@ const RESOURCES: ResourceItem[] = [
     excerpt:
       "Calculate your company's valuation using multiple methodologies - DCF, comparable analysis, and revenue multiples.",
     tag: 'Valuation',
-    format: 'Excel + Web App',
+    format: 'Online Tool',
     complexity: 'Advanced',
     useCase: 'Pre-fundraise valuation benchmarking',
-    url: '/tools',
+    url: '/resources/tools/business-strength-diagnostic-tool',
   },
   {
     id: 2,
@@ -1100,7 +1100,7 @@ const RESOURCES: ResourceItem[] = [
     excerpt:
       "Project your 13-week cash runway with scenario planning. See when you'll need funding or reach profitability.",
     tag: 'Finance',
-    format: 'Excel Template',
+    format: 'Online Tool',
     complexity: 'Intermediate',
     useCase: 'Short-term liquidity management',
   },
@@ -1110,10 +1110,9 @@ const RESOURCES: ResourceItem[] = [
     excerpt:
       'Calculate TAM, SAM, and SOM for your business with templates to present to investors.',
     tag: 'Strategy',
-    format: 'Slides + Guide',
+    format: 'Online Tool',
     complexity: 'Beginner',
     useCase: 'Pitch deck market sizing slide',
-    url: '/tools',
   },
   {
     id: 5,
@@ -1121,7 +1120,7 @@ const RESOURCES: ResourceItem[] = [
     excerpt:
       'Pre-built Excel model with P&L, balance sheet, and cash flow projections for startups.',
     tag: 'Finance',
-    format: 'Excel Template',
+    format: 'Online Tool',
     complexity: 'Advanced',
     useCase: '3-statement fundraising model',
   },
@@ -1131,7 +1130,7 @@ const RESOURCES: ResourceItem[] = [
     excerpt:
       'Comprehensive slide-by-slide guide for creating investor-ready pitch decks that convert.',
     tag: 'Fundraising',
-    format: 'Slides Template',
+    format: 'Online Tool',
     complexity: 'Beginner',
     useCase: 'Series seed/A pitch deck construction',
   },
