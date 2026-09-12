@@ -92,7 +92,7 @@ const CohortInterestModal: FC<CohortInterestModalProps> = ({ isOpen, onClose, co
               Request Invite
             </button>
             <p className="text-center text-xs text-gray-400 mt-4">
-              We’ll respond within 5 business days.
+              We’ll respond within 5 Business Days.
             </p>
           </div>
         </div>

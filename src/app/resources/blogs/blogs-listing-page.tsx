@@ -211,9 +211,9 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
               </form>
             ) : (
               <div className="text-center py-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Denied</h3>
                 <p className="text-gray-500 text-sm">
-                  Opening <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Access Denied For <span className="font-medium text-gray-700">{resourceTitle}</span>…
                 </p>
               </div>
             )}

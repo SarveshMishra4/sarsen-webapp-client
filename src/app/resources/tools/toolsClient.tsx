@@ -738,14 +738,10 @@ const PartnerAuthModal: FC<PartnerAuthModalProps> = ({ isOpen, onClose, resource
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Granted</h3>
+                
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Access Denied</h3>
                 <p className="text-gray-500 text-sm">
-                  Opening <span className="font-medium text-gray-700">{resourceTitle}</span>…
+                  Access Denied For <span className="font-medium text-gray-700">{resourceTitle}</span>…
                 </p>
               </div>
             )}
