@@ -23,6 +23,18 @@ const LEAD_MAGNET_TYPE_OPTIONS: { value: string; label: string }[] = [
 
 const PAGE_SIZE = 25;
 
+// Preset options for the "last N days" counter box. 'custom' reveals a
+// free-entry number input; 'all' asks the backend for an all-time count.
+const RANGE_PRESETS: { value: string; label: string }[] = [
+  { value: '7', label: 'Last 7 days' },
+  { value: '14', label: 'Last 14 days' },
+  { value: '28', label: 'Last 28 days' },
+  { value: '90', label: 'Last 90 days' },
+  { value: '365', label: 'Last 365 days' },
+  { value: 'all', label: 'All time' },
+  { value: 'custom', label: 'Custom…' },
+];
+
 // Same IST formatting convention as contacts-tab.tsx.
 function formatIST(dateString: string): string {
   const date = new Date(dateString);
@@ -105,6 +117,30 @@ function BusinessHeatMapAnswers({ answers }: { answers: Record<string, number> }
   );
 }
 
+// ── NEW: shape of the /leadmagnets/admin/stats response ──
+interface AdminLeadStats {
+  today: number;
+  yesterday: number;
+  thisWeek: number;
+  rangeCount: number;
+  rangeDays: number | 'all';
+}
+
+// ── NEW: one counter box. Shows a skeleton pulse while loading so the
+// boxes don't jump around as the numbers pop in. ──
+function StatBox({ label, value, loading }: { label: string; value: number | null; loading: boolean }) {
+  return (
+    <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200">
+      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</p>
+      {loading || value === null ? (
+        <div className="h-7 w-12 mt-1.5 bg-gray-100 rounded animate-pulse" />
+      ) : (
+        <p className="text-2xl font-semibold text-[#0A1E3D] mt-1">{value.toLocaleString('en-IN')}</p>
+      )}
+    </div>
+  );
+}
+
 export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
   const [status, setStatus] = useState<'new' | 'old'>('new');
   const [searchInput, setSearchInput] = useState('');
@@ -121,6 +157,14 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
   const [submissionsByLead, setSubmissionsByLead] = useState<Record<string, ApiLeadSubmission[]>>({});
   const [submissionsLoadingId, setSubmissionsLoadingId] = useState<string | null>(null);
   const [selectedSubmission, setSelectedSubmission] = useState<ApiLeadSubmission | null>(null);
+
+  // ── NEW: stat counter state ──
+  const [stats, setStats] = useState<AdminLeadStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState('');
+  const [rangePreset, setRangePreset] = useState<string>('28'); // matches RANGE_PRESETS value
+  const [customDaysInput, setCustomDaysInput] = useState<string>('28');
+  const [debouncedCustomDays, setDebouncedCustomDays] = useState<string>('28');
 
   // Drives the "this modal scrolls" dot indicator below the card. Only
   // true when the body's content is actually taller than its visible
@@ -154,6 +198,12 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
     return () => clearTimeout(t);
   }, [searchInput]);
 
+  // ── NEW: debounce the custom-days number input the same way. ──
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedCustomDays(customDaysInput.trim()), 400);
+    return () => clearTimeout(t);
+  }, [customDaysInput]);
+
   // Reset to page 1 whenever a filter changes (status/search/type).
   useEffect(() => {
     setPage(1);
@@ -186,6 +236,41 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
   }, [token, status, page, debouncedSearch, leadMagnetType]);
 
   useEffect(() => { fetchLeads(); }, [fetchLeads]);
+
+  // ── NEW: resolves the preset dropdown + optional custom input into the
+  // actual "days" value sent to the backend (or 'all'). ──
+  const effectiveRangeDays: string = rangePreset === 'custom' ? debouncedCustomDays : rangePreset;
+
+  // ── NEW: fetch the four counter boxes from the aggregation endpoint.
+  // Independent of pagination/search/status — these are totals over the
+  // whole dataset, not just the current page. ──
+  const fetchStats = useCallback(async () => {
+    if (!token) return;
+    // Guard against an empty/invalid custom days value mid-typing.
+    if (rangePreset === 'custom' && (!debouncedCustomDays || Number(debouncedCustomDays) <= 0)) {
+      return;
+    }
+    setStatsLoading(true);
+    setStatsError('');
+    try {
+      const params = new URLSearchParams();
+      params.set('days', effectiveRangeDays);
+      if (leadMagnetType !== 'all') params.set('leadMagnetType', leadMagnetType);
+
+      const data = await apiRequest<AdminLeadStats>(
+        'GET',
+        `/leadmagnets/admin/stats?${params.toString()}`,
+        { token }
+      );
+      setStats(data);
+    } catch (err: any) {
+      setStatsError(err.message ?? 'Failed to load counters.');
+    } finally {
+      setStatsLoading(false);
+    }
+  }, [token, effectiveRangeDays, leadMagnetType, rangePreset, debouncedCustomDays]);
+
+  useEffect(() => { fetchStats(); }, [fetchStats]);
 
   const loadSubmissions = async (clientId: string) => {
     if (submissionsByLead[clientId]) return; // already cached
@@ -233,8 +318,57 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
+  // ── NEW: label for the 4th, adjustable counter box. ──
+  const rangeBoxLabel =
+    rangePreset === 'all'
+      ? 'All time'
+      : `Last ${stats?.rangeDays ?? effectiveRangeDays} days`;
+
   return (
     <div className="space-y-6">
+      {/* ── NEW: counter boxes ── */}
+      <div className="space-y-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <StatBox label="Today" value={stats?.today ?? null} loading={statsLoading} />
+          <StatBox label="Yesterday" value={stats?.yesterday ?? null} loading={statsLoading} />
+          <StatBox label="This Week" value={stats?.thisWeek ?? null} loading={statsLoading} />
+          <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide truncate">{rangeBoxLabel}</p>
+              <select
+                value={rangePreset}
+                onChange={(e) => setRangePreset(e.target.value)}
+                className="text-xs border rounded px-1.5 py-0.5 text-gray-600 bg-white flex-shrink-0"
+              >
+                {RANGE_PRESETS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {rangePreset === 'custom' && (
+              <input
+                type="number"
+                min={1}
+                value={customDaysInput}
+                onChange={(e) => setCustomDaysInput(e.target.value)}
+                placeholder="Days"
+                className="mt-1.5 w-full text-sm border rounded px-2 py-1 text-gray-900 bg-white"
+              />
+            )}
+
+            {statsLoading || stats === null ? (
+              <div className="h-7 w-12 mt-1.5 bg-gray-100 rounded animate-pulse" />
+            ) : (
+              <p className="text-2xl font-semibold text-[#0A1E3D] mt-1">
+                {stats.rangeCount.toLocaleString('en-IN')}
+              </p>
+            )}
+          </div>
+        </div>
+        {statsError && <p className="text-xs text-red-600">{statsError}</p>}
+      </div>
+
       {/* Controls */}
       <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200 space-y-4">
         <div className="flex flex-wrap gap-2">
