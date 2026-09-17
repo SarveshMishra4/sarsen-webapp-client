@@ -110,6 +110,97 @@ function ConstructBar({ label, score }: { label: string; score: number }) {
   );
 }
 
+// -----------------------------------------------------
+// RADAR CHART — all 10 traits at a glance.
+// Plain SVG, hand-computed polar coordinates — no charting library,
+// consistent with the rest of this codebase's visuals.
+// -----------------------------------------------------
+function RadarChart({ scores }: { scores: Record<ConstructKey, number> }) {
+  const size = 340;
+  const center = size / 2;
+  const maxR = 118;
+  const gridLevels = [0.2, 0.4, 0.6, 0.8, 1];
+
+  const axes = CONSTRUCTS.map((key, i) => ({
+    key,
+    angle: -Math.PI / 2 + i * ((2 * Math.PI) / CONSTRUCTS.length),
+  }));
+
+  const point = (angle: number, r: number) => `${(center + r * Math.cos(angle)).toFixed(1)},${(center + r * Math.sin(angle)).toFixed(1)}`;
+
+  const dataPoints = axes.map((a) => point(a.angle, (scores[a.key] / 10) * maxR)).join(' ');
+
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-auto max-w-sm mx-auto" role="img" aria-label="Radar chart of all ten trait scores">
+      {gridLevels.map((level) => (
+        <polygon key={level} points={axes.map((a) => point(a.angle, level * maxR)).join(' ')} fill="none" stroke="#E2E8F0" strokeWidth={1} />
+      ))}
+      {axes.map((a) => (
+        <line key={a.key} x1={center} y1={center} x2={center + maxR * Math.cos(a.angle)} y2={center + maxR * Math.sin(a.angle)} stroke="#E2E8F0" strokeWidth={1} />
+      ))}
+      <polygon points={dataPoints} fill="#0A1E3D2E" stroke={BRAND} strokeWidth={2} />
+      {axes.map((a) => {
+        const r = (scores[a.key] / 10) * maxR;
+        return <circle key={`${a.key}-dot`} cx={center + r * Math.cos(a.angle)} cy={center + r * Math.sin(a.angle)} r={3} fill={BRAND} />;
+      })}
+      {axes.map((a) => {
+        const labelR = maxR + 26;
+        const x = center + labelR * Math.cos(a.angle);
+        const y = center + labelR * Math.sin(a.angle);
+        return (
+          <text key={a.key} x={x} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="10" fontWeight={600} fill="#374151">
+            {CONSTRUCT_META[a.key].label.split(' ')[0].split('/')[0]}
+          </text>
+        );
+      })}
+    </svg>
+  );
+}
+
+// -----------------------------------------------------
+// ROLE FIT BAR CHART — the 5 roles compared side by side.
+// -----------------------------------------------------
+function RoleFitChart({ roleFit }: { roleFit: { role: RoleKey; score: number }[] }) {
+  return (
+    <div className="space-y-3" role="img" aria-label="Bar chart comparing fit scores across the five founding-team roles">
+      {roleFit.map((fit) => {
+        const c = scoreColor(fit.score);
+        return (
+          <div key={fit.role}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-sm font-medium text-gray-700">{ROLE_META[fit.role].label}</span>
+              <span className={`text-sm font-bold ${c.text}`}>{fit.score.toFixed(1)}</span>
+            </div>
+            <div className="h-3 w-full rounded-full bg-gray-100 overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500" style={{ width: `${fit.score * 10}%`, backgroundColor: BRAND }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// -----------------------------------------------------
+// HEADER BACKGROUND PATTERN — identical diagonal-line pattern used on the
+// Business Heat Map tool's header. Renders as an absolutely-positioned
+// overlay at 20% opacity behind the header's text content.
+// -----------------------------------------------------
+function HeaderBackgroundPattern() {
+  return (
+    <div className="absolute inset-0 opacity-20">
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="founder-fit-grid" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="40" stroke="#ffffff" strokeWidth="0.75" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#founder-fit-grid)" />
+      </svg>
+    </div>
+  );
+}
+
 // =====================================================
 // MAIN COMPONENT
 // =====================================================
@@ -264,8 +355,9 @@ export default function FounderPsychometricClient() {
   if (phase === 'setup') {
     return (
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
-        <section className="bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
+        <section className="relative bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <HeaderBackgroundPattern />
+          <div className="relative max-w-3xl mx-auto">
             <p className="text-blue-400 text-sm font-medium tracking-wide mb-4">Founder &amp; Founding-Team Fit Assessment</p>
             <h1 className="text-3xl sm:text-4xl text-white mb-4 leading-tight">Match the People to the Responsibilities, Before You Assign Them</h1>
             <p className="text-gray-300 text-base leading-relaxed max-w-2xl">
@@ -301,7 +393,7 @@ export default function FounderPsychometricClient() {
                       max={20}
                       defaultValue={1}
                       id="planned-count-input"
-                      className="w-24 rounded-md border-2 border-gray-200 px-3 py-2 text-lg font-semibold text-[#0A1E3D] focus:outline-none focus:border-[#0A1E3D]"
+                      className="w-24 rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-lg font-semibold text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:border-[#0A1E3D]"
                     />
                     <button
                       type="button"
@@ -331,14 +423,14 @@ export default function FounderPsychometricClient() {
                           placeholder={`Name — Person ${i + 1}`}
                           value={row.name}
                           onChange={(e) => setDraftRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, name: e.target.value } : r)))}
-                          className={`rounded-md border-2 px-3 py-2.5 text-sm focus:outline-none ${setupTouched && !row.name.trim() ? 'border-red-300' : 'border-gray-200 focus:border-[#0A1E3D]'}`}
+                          className={`rounded-md border-2 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none ${setupTouched && !row.name.trim() ? 'border-red-300' : 'border-gray-200 focus:border-[#0A1E3D]'}`}
                         />
                         <input
                           type="email"
                           placeholder="Email (optional for this demo)"
                           value={row.email}
                           onChange={(e) => setDraftRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, email: e.target.value } : r)))}
-                          className={`rounded-md border-2 px-3 py-2.5 text-sm focus:outline-none ${setupTouched && !isValidEmail(row.email) ? 'border-red-300' : 'border-gray-200 focus:border-[#0A1E3D]'}`}
+                          className={`rounded-md border-2 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none ${setupTouched && !isValidEmail(row.email) ? 'border-red-300' : 'border-gray-200 focus:border-[#0A1E3D]'}`}
                         />
                       </div>
                     ))}
@@ -375,8 +467,9 @@ export default function FounderPsychometricClient() {
   if (phase === 'roster') {
     return (
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
-        <section className="bg-[#0A1E3D] pt-16 pb-10 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative bg-[#0A1E3D] pt-16 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <HeaderBackgroundPattern />
+          <div className="relative max-w-4xl mx-auto">
             <p className="text-blue-400 text-sm font-medium tracking-wide mb-3">Founder &amp; Founding-Team Fit Assessment</p>
             <h1 className="text-2xl sm:text-3xl text-white">Assessment Roster</h1>
           </div>
@@ -435,7 +528,7 @@ export default function FounderPsychometricClient() {
                       max={20}
                       value={addCount}
                       onChange={(e) => handleAddCount(Number(e.target.value) || 1)}
-                      className="w-20 rounded-md border-2 border-gray-200 px-3 py-2 text-sm font-semibold text-[#0A1E3D] focus:outline-none focus:border-[#0A1E3D]"
+                      className="w-20 rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:border-[#0A1E3D]"
                     />
                   </div>
                   <div className="space-y-2.5 mb-4">
@@ -446,14 +539,14 @@ export default function FounderPsychometricClient() {
                           placeholder={`Name — Person ${i + 1}`}
                           value={row.name}
                           onChange={(e) => setAddRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, name: e.target.value } : r)))}
-                          className="rounded-md border-2 border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-[#0A1E3D]"
+                          className="rounded-md border-2 border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#0A1E3D]"
                         />
                         <input
                           type="email"
                           placeholder="Email (optional for this demo)"
                           value={row.email}
                           onChange={(e) => setAddRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, email: e.target.value } : r)))}
-                          className="rounded-md border-2 border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-[#0A1E3D]"
+                          className="rounded-md border-2 border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#0A1E3D]"
                         />
                       </div>
                     ))}
@@ -600,8 +693,9 @@ export default function FounderPsychometricClient() {
 
     return (
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
-        <section className="bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <HeaderBackgroundPattern />
+          <div className="relative max-w-4xl mx-auto">
             <p className="text-blue-400 text-sm font-medium tracking-wide mb-3">{activeParticipant.name} · Fit Report</p>
             <h1 className="text-3xl sm:text-4xl text-white mb-3">Strongest Fit: {topRole.label}</h1>
             <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-2xl">{topRole.oneLiner}</p>
@@ -629,10 +723,24 @@ export default function FounderPsychometricClient() {
               </div>
             )}
 
+            {/* TRAIT PROFILE — RADAR CHART */}
+            <div>
+              <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Trait Profile at a Glance</p>
+              <p className="text-sm text-gray-500 mb-4">All ten traits plotted together — the shape matters more than any single point.</p>
+              <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+                <RadarChart scores={Object.fromEntries(CONSTRUCTS.map((c) => [c, report.constructScores[c].score])) as Record<ConstructKey, number>} />
+              </div>
+            </div>
+
             {/* ROLE FIT */}
             <div>
               <p className="text-lg font-semibold text-[#0A1E3D] mb-1">Role Fit Ranking</p>
               <p className="text-sm text-gray-500 mb-4">Where this person's natural tendencies point, ranked highest to lowest.</p>
+
+              <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 shadow-sm mb-4">
+                <RoleFitChart roleFit={report.roleFit} />
+              </div>
+
               <div className="space-y-3">
                 {report.roleFit.map((fit, i) => {
                   const meta = ROLE_META[fit.role];
@@ -740,8 +848,9 @@ export default function FounderPsychometricClient() {
 
     return (
       <main className="min-h-screen bg-[#F0F4F8]" ref={topRef}>
-        <section className="bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative bg-[#0A1E3D] pt-20 pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <HeaderBackgroundPattern />
+          <div className="relative max-w-4xl mx-auto">
             <p className="text-blue-400 text-sm font-medium tracking-wide mb-3">Team Report Card</p>
             <h1 className="text-3xl sm:text-4xl text-white mb-3">How This Team's Tendencies Line Up</h1>
             <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-2xl">
