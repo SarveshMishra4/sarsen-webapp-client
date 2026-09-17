@@ -1067,7 +1067,7 @@ interface ResourceItem {
   excerpt: string;
   tag: string;
   format: string;
-  complexity: 'Beginner' | 'Intermediate' | 'Advanced';
+  complexity: 'Basic' | 'Intermediate' | 'Advanced';
   useCase: string;
   url?: string;
 }
@@ -1075,13 +1075,13 @@ interface ResourceItem {
 const RESOURCES: ResourceItem[] = [
   {
     id: 1,
-    title: 'Startup Valuation Calculator',
+    title: 'Business Health Calculator',
     excerpt:
-      "Calculate your company's valuation using multiple methodologies - DCF, comparable analysis, and revenue multiples.",
-    tag: 'Valuation',
+      "Analyse Your Business the Way an Expert Would based on Frameworks used by Top-Tier Operators & Investors Globally.",
+    tag: 'Diagnostic',
     format: 'Online Tool',
-    complexity: 'Advanced',
-    useCase: 'Pre-fundraise valuation benchmarking',
+    complexity: 'Basic',
+    useCase: 'Startup or Emerging Business Health Checkup',
     url: '/resources/tools/business-strength-diagnostic-tool',
   },
   {
@@ -1111,7 +1111,7 @@ const RESOURCES: ResourceItem[] = [
       'Calculate TAM, SAM, and SOM for your business with templates to present to investors.',
     tag: 'Strategy',
     format: 'Online Tool',
-    complexity: 'Beginner',
+    complexity: 'Basic',
     useCase: 'Pitch deck market sizing slide',
   },
   {
@@ -1131,7 +1131,7 @@ const RESOURCES: ResourceItem[] = [
       'Comprehensive slide-by-slide guide for creating investor-ready pitch decks that convert.',
     tag: 'Fundraising',
     format: 'Online Tool',
-    complexity: 'Beginner',
+    complexity: 'Basic',
     useCase: 'Series seed/A pitch deck construction',
   },
 ];
@@ -1140,6 +1140,7 @@ const RESOURCES: ResourceItem[] = [
 // thumbnail reads identically on both pages.
 const RESOURCE_TAG_COLORS: Record<string, { bg: string; text: string }> = {
   Valuation:   { bg: '#DBEAFE', text: '#1E40AF' },
+  Diagnostic:  { bg: '#DBEAFE', text: '#1E40AF' },
   Finance:     { bg: '#E0F2FE', text: '#0369A1' },
   Metrics:     { bg: '#E6F0FF', text: '#1E3A8A' },
   Strategy:    { bg: '#DBEAFE', text: '#1E40AF' },
@@ -1150,7 +1151,7 @@ const RESOURCE_TAG_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 const RESOURCE_COMPLEXITY_COLORS: Record<ResourceItem['complexity'], { bg: string; text: string; dot: string }> = {
-  Beginner:     { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
+  Basic:     { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
   Intermediate: { bg: '#E0F2FE', text: '#0369A1', dot: '#2563EB' },
   Advanced:     { bg: '#E6F0FF', text: '#1E3A8A', dot: '#1E3A8A' },
 };
