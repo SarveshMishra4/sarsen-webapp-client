@@ -26,6 +26,14 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 // user without implying exclusivity — see TRUST_LINE below. Swap the
 // placeholder name/firm for the real, approved ones before publishing.
 
+// UPDATE (this revision): six capture-only cards were added AFTER the 15
+// scored questions (capital invested, time invested, funds raised [with
+// conditional follow-ups], areas you need help in, problems faced, next
+// financial goal). They live in their own `profile` state and are sent to
+// the backend as a separate `profile` object. Capital, time and funding
+// use dropdowns; the "areas you need help in" card is a Yes-only tick (select / unselect). They are never merged into
+// `answers`, so they cannot influence scoring, the heatmap, or the result.
+
 // =====================================================
 // TRUST LINE (intro screen only)
 // =====================================================
@@ -78,6 +86,222 @@ const BAR_COUNT: Record<number, number> = {
 const ADVANCE_DELAY_MS = 650;
 
 // =====================================================
+// EXTRA PROFILE CARDS — capture-only (no role in scoring or results)
+// =====================================================
+// Order of the extra cards, shown after the 15 scored questions. The two
+// free-text cards are deliberately last, and the "areas you need help in"
+// card sits right before them.
+const EXTRA_STEPS = ['capital', 'time', 'funding', 'areas', 'problems', 'goal'] as const;
+type ExtraStep = (typeof EXTRA_STEPS)[number];
+
+// Flip to false if you'd rather let founders skip the two text cards.
+const REQUIRE_TEXT_ANSWERS = true;
+const MAX_TEXT_LENGTH = 2000;
+
+// Amounts are shown as "Rs. <number>". Edit the labels here to change currency/ranges.
+const CAPITAL_OPTIONS = [
+  'Nothing Yet',
+  'Under Rs. 1 Lakh',
+  'Rs. 1 – 5 Lakh',
+  'Rs. 5 – 25 Lakh',
+  'Rs. 25 Lakh – Rs. 1 Crore',
+  'Above Rs. 1 Crore',
+];
+
+const TIME_OPTIONS = [
+  'Less than 3 Months',
+  '3 – 6 Months',
+  '6 – 12 Months',
+  '1 – 2 Years',
+  '2 – 3 Years',
+  'More than 3 Years',
+];
+
+const FUNDING_SOURCE_OPTIONS = [
+  'Friends & Family',
+  'My Own Savings',
+  'Angel Investor',
+  'Venture Capital',
+  'Other', // always last
+];
+
+const FUNDING_AMOUNT_OPTIONS = [
+  'Under Rs. 5 Lakh',
+  'Rs. 5 – 25 Lakh',
+  'Rs. 25 Lakh – Rs. 1 Crore',
+  'Rs. 1 – 5 Crore',
+  'Above Rs. 5 Crore',
+];
+
+// The six areas mirror the six dimensions in the Strategy Diagnostic &
+// Direction brochure (Customer, Market, Positioning, Business Model,
+// Economics, Funds & Finances), worded in plain language.
+const HELP_AREAS = [
+  { id: 'customer', title: 'Finding the Right Customers', description: 'Knowing exactly who to sell to and the best ways to reach them.' },
+  { id: 'market', title: 'Entering the Market', description: 'Understanding how big your market is and the smartest way into it.' },
+  { id: 'positioning', title: 'Standing Out from Others', description: 'Giving customers a clear reason to choose you over every alternative.' },
+  { id: 'business_model', title: 'Earning Revenue', description: 'Finding more ways for your business to make money, with backup options ready.' },
+  { id: 'economics', title: 'Making Each Customer Profitable', description: 'Knowing what it costs to win a customer and what that customer is worth to you.' },
+  { id: 'finances', title: 'Funds & Finances', description: 'Planning your numbers and finding the investors who fit your stage.' },
+] as const;
+
+type Profile = {
+  capitalInvested: string | null;
+  timeInvested: string | null;
+  raisedFunds: boolean | null;
+  fundingSource: string | null;
+  fundingSourceOther: string;
+  fundingAmount: string | null;
+  helpAreas: Record<string, boolean>; // every area is present; false = "No" (default)
+  problems: string;
+  nextFinancialGoal: string;
+};
+
+const INITIAL_PROFILE: Profile = {
+  capitalInvested: null,
+  timeInvested: null,
+  raisedFunds: null,
+  fundingSource: null,
+  fundingSourceOther: '',
+  fundingAmount: null,
+  helpAreas: Object.fromEntries(HELP_AREAS.map((a) => [a.id, false])),
+  problems: '',
+  nextFinancialGoal: '',
+};
+
+const PROBLEMS_PLACEHOLDER = `What is holding your business back right now.
+
+For example: where sales are getting stuck, what isn't working with customers, money or team challenges, or decisions you keep putting off.
+
+Be as detailed as you can. The more specific you are, the more useful results will be.`;
+
+const GOAL_PLACEHOLDER = `The next financial milestone you are working towards, and by when.
+
+For example: reaching Rs. 10 Lakh in monthly revenue within 12 months, becoming profitable, or raising a funding round of a particular size.`;
+
+// Native dropdown, styled to match the text inputs. Native <select> keeps
+// the OS picker on phones, which is the easiest way to answer on mobile.
+function SelectField({
+  value,
+  onChange,
+  options,
+  placeholder = 'Select an option',
+  ariaLabel,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  options: readonly string[];
+  placeholder?: string;
+  ariaLabel: string;
+}) {
+  return (
+    <div className="relative">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={ariaLabel}
+        className="w-full appearance-none bg-white border border-gray-300 rounded-md pl-4 pr-11 py-3.5 text-base focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] focus:border-[#0A1E3D]"
+        style={{ color: value ? BRAND_COLOR : '#9CA3AF' }}
+      >
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {options.map((opt) => (
+          <option key={opt} value={opt} style={{ color: BRAND_COLOR }}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      <svg
+        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  );
+}
+
+function TickBox({ selected }: { selected: boolean }) {
+  return (
+    <span
+      className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-md border-2 transition-all duration-150 ${selected ? '' : 'border-gray-300 bg-white group-hover:border-gray-400'
+        }`}
+      style={selected ? { backgroundColor: BRAND_COLOR, borderColor: BRAND_COLOR } : undefined}
+      aria-hidden="true"
+    >
+      {selected && (
+        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+// Whole row is one tap target. It only has a "Yes" state: tap to select
+// (tick appears), tap again to unselect. There is no "No" button.
+function HelpAreaRow({
+  title,
+  description,
+  selected,
+  onToggle,
+}: {
+  title: string;
+  description: string;
+  selected: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={selected}
+      className={`group flex items-center gap-3 sm:gap-5 text-left w-full rounded-lg border-2 px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-150 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? 'shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+        }`}
+      style={
+        (selected
+          ? { borderColor: BRAND_COLOR, backgroundColor: SELECTED_TINT, boxShadow: `0 0 0 1px ${BRAND_COLOR}22` }
+          : { '--tw-ring-color': BRAND_COLOR }) as any
+      }
+    >
+      <div className="flex-1 min-w-0">
+        <p className="text-base font-semibold mb-1 transition-colors duration-150" style={{ color: selected ? BRAND_COLOR : '#1F2937' }}>
+          {title}
+        </p>
+        <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+      </div>
+      <span
+        className={`flex-shrink-0 flex items-center gap-2 rounded-lg border-2 px-2.5 py-1.5 text-sm font-semibold transition-all duration-150 ${selected ? '' : 'border-gray-200 bg-white text-gray-500 group-hover:border-gray-300'
+          }`}
+        style={selected ? { borderColor: BRAND_COLOR, backgroundColor: '#fff', color: BRAND_COLOR } : undefined}
+        aria-hidden="true"
+      >
+        Yes
+        <TickBox selected={selected} />
+      </span>
+    </button>
+  );
+}
+
+function ContinueButton({ disabled, onClick, label = 'Continue' }: { disabled?: boolean; onClick: () => void; label?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`w-full mt-8 py-3.5 px-6 rounded-md transition-all duration-300 font-medium text-base flex items-center justify-center gap-2 ${disabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#0A1E3D] hover:bg-[#132B47] text-white'
+        }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+// =====================================================
 // MAIN COMPONENT
 // =====================================================
 export default function BusinessHeatmapClient() {
@@ -99,12 +323,24 @@ export default function BusinessHeatmapClient() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const totalQ = QUESTIONS.length;
-  const answeredCount = Object.keys(answers).length;
-  const progress = Math.round((answeredCount / totalQ) * 100);
+  // Capture-only answers (never sent into scoring — see header note).
+  const [profile, setProfile] = useState<Profile>(INITIAL_PROFILE);
 
-  const q = QUESTIONS[currentQ];
+  // Steps = the 15 scored questions, then the extra capture-only cards.
+  const totalQ = QUESTIONS.length;
+  const totalSteps = totalQ + EXTRA_STEPS.length;
+  const stepsDone = currentQ + (advancing ? 1 : 0);
+  const progress = Math.round((stepsDone / totalSteps) * 100);
+
+  const isScoredStep = currentQ < totalQ;
+  const extraStep: ExtraStep | null = isScoredStep ? null : EXTRA_STEPS[currentQ - totalQ];
+
+  const q = QUESTIONS[currentQ]; // undefined once we're past the scored questions
   const currentAnswer = answers[q?.id];
+
+  function updateProfile(patch: Partial<Profile>) {
+    setProfile((prev) => ({ ...prev, ...patch }));
+  }
 
   function handleAnswer(qId: string, value: number) {
     if (advancing) return; // a tick is already showing — ignore taps until it advances
@@ -113,14 +349,18 @@ export default function BusinessHeatmapClient() {
     setAdvancing(true);
 
     window.setTimeout(() => {
-      if (currentQ < totalQ - 1) {
-        setCurrentQ((prev) => prev + 1);
-      } else {
-        setPhase('email');
-      }
-      topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      moveToNextStep();
       setAdvancing(false);
     }, ADVANCE_DELAY_MS);
+  }
+
+  function moveToNextStep() {
+    if (currentQ < totalSteps - 1) {
+      setCurrentQ((prev) => prev + 1);
+    } else {
+      setPhase('email');
+    }
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function handleStart(e: FormEvent<HTMLFormElement>) {
@@ -161,6 +401,19 @@ export default function BusinessHeatmapClient() {
           companyName: companyName.trim(),
           industry: industry.trim(),
           answers,
+          // Capture-only extras. The backend must treat these as plain data
+          // to store — they take no part in scoring.
+          profile: {
+            capitalInvested: profile.capitalInvested,
+            timeInvested: profile.timeInvested,
+            raisedFunds: profile.raisedFunds,
+            fundingSource: profile.raisedFunds ? profile.fundingSource : null,
+            fundingSourceOther: profile.raisedFunds ? profile.fundingSourceOther.trim() : '',
+            fundingAmount: profile.raisedFunds ? profile.fundingAmount : null,
+            helpAreas: profile.helpAreas,
+            problems: profile.problems.trim(),
+            nextFinancialGoal: profile.nextFinancialGoal.trim(),
+          },
         }),
       });
 
@@ -180,6 +433,7 @@ export default function BusinessHeatmapClient() {
 
   function resetAll() {
     setAnswers({});
+    setProfile(INITIAL_PROFILE);
     setCurrentQ(0);
     setAdvancing(false);
     setEmail('');
@@ -525,6 +779,7 @@ export default function BusinessHeatmapClient() {
           <span className="text-sm text-gray-600 font-semibold">{progress}% Completed</span>
         </div>
 
+        {isScoredStep && q && (
         <div key={q.id} className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
           <p className="text-sm text-gray-500 mb-3">{q.module}</p>
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">{q.text}</h2>
@@ -605,17 +860,187 @@ export default function BusinessHeatmapClient() {
               })}
           </div>
         </div>
+        )}
 
-        <div className="flex items-center justify-center gap-2.5 mt-7" aria-label="Question progress">
-          {QUESTIONS.map((question, index) => {
-            const answered = answers[question.id] !== undefined;
+        {/* =====================================================
+            EXTRA CARDS — same card shell/width as the scored questions
+            ===================================================== */}
+        {extraStep === 'capital' && (
+          <div key="capital" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">About Your Journey</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">How Much Capital Have You Invested So Far ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-8">Include everything put into the business till now: your own money, funds raised, and any other money spent.</p>
+            <SelectField
+              ariaLabel="Capital invested"
+              value={profile.capitalInvested ?? ''}
+              onChange={(v) => updateProfile({ capitalInvested: v })}
+              options={CAPITAL_OPTIONS}
+            />
+            <ContinueButton disabled={!profile.capitalInvested} onClick={moveToNextStep} />
+          </div>
+        )}
+
+        {extraStep === 'time' && (
+          <div key="time" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">About Your Journey</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">How Much Time Have You Invested So Far ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-8">Roughly how long have you been working on this business, from the day you started on it.</p>
+            <SelectField
+              ariaLabel="Time invested"
+              value={profile.timeInvested ?? ''}
+              onChange={(v) => updateProfile({ timeInvested: v })}
+              options={TIME_OPTIONS}
+            />
+            <ContinueButton disabled={!profile.timeInvested} onClick={moveToNextStep} />
+          </div>
+        )}
+
+        {extraStep === 'funding' && (
+          <div key="funding" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">About Your Journey</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">Have You Raised Any Initial Funds ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-8">Money that came into the business from someone other than customers. Choose No if you have not raised any yet.</p>
+
+            <SelectField
+              ariaLabel="Raised initial funds"
+              value={profile.raisedFunds === null ? '' : profile.raisedFunds ? 'Yes' : 'No'}
+              onChange={(v) =>
+                v === 'Yes'
+                  ? updateProfile({ raisedFunds: true })
+                  : updateProfile({ raisedFunds: false, fundingSource: null, fundingSourceOther: '', fundingAmount: null })
+              }
+              options={['Yes', 'No']}
+            />
+
+            {/* Step 2 — appears only after "Yes" */}
+            {profile.raisedFunds === true && (
+              <div className="mt-6">
+                <label className="block text-base font-medium text-[#0A1E3D] mb-1.5">Where Did the Funds Come From ?</label>
+                <SelectField
+                  ariaLabel="Source of funds"
+                  value={profile.fundingSource ?? ''}
+                  onChange={(v) =>
+                    updateProfile({
+                      fundingSource: v,
+                      fundingSourceOther: v === 'Other' ? profile.fundingSourceOther : '',
+                    })
+                  }
+                  options={FUNDING_SOURCE_OPTIONS}
+                />
+
+                {profile.fundingSource === 'Other' && (
+                  <input
+                    type="text"
+                    value={profile.fundingSourceOther}
+                    onChange={(e) => updateProfile({ fundingSourceOther: e.target.value })}
+                    placeholder="Please tell us the source"
+                    maxLength={120}
+                    className="w-full mt-3 border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] text-base"
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Step 3 — appears only after a source has been chosen */}
+            {profile.raisedFunds === true && profile.fundingSource && (
+              <div className="mt-6">
+                <label className="block text-base font-medium text-[#0A1E3D] mb-1.5">How Much Have You Raised in Total ?</label>
+                <SelectField
+                  ariaLabel="Total funds raised"
+                  value={profile.fundingAmount ?? ''}
+                  onChange={(v) => updateProfile({ fundingAmount: v })}
+                  options={FUNDING_AMOUNT_OPTIONS}
+                />
+              </div>
+            )}
+
+            <ContinueButton
+              disabled={
+                profile.raisedFunds === null ||
+                (profile.raisedFunds === true &&
+                  (!profile.fundingSource ||
+                    (profile.fundingSource === 'Other' && !profile.fundingSourceOther.trim()) ||
+                    !profile.fundingAmount))
+              }
+              onClick={moveToNextStep}
+            />
+          </div>
+        )}
+
+        {extraStep === 'areas' && (
+          <div key="areas" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">Where You Need Help</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">Which Areas Do You Need Help In ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-8">Tap Yes on every area where you would like expert support. Tap again to unselect. You can leave the rest as they are.</p>
+
+            <div className="flex flex-col gap-3 sm:gap-3.5">
+              {HELP_AREAS.map((area) => (
+                <HelpAreaRow
+                  key={area.id}
+                  title={area.title}
+                  description={area.description}
+                  selected={profile.helpAreas[area.id] === true}
+                  onToggle={() =>
+                    updateProfile({ helpAreas: { ...profile.helpAreas, [area.id]: !profile.helpAreas[area.id] } })
+                  }
+                />
+              ))}
+            </div>
+
+            <ContinueButton onClick={moveToNextStep} />
+          </div>
+        )}
+
+        {extraStep === 'problems' && (
+          <div key="problems" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">Your Challenges</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">What Problems Are You Facing in Your Business ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-6">Describe them in your own words, in as much detail as you can.</p>
+            <textarea
+              value={profile.problems}
+              onChange={(e) => updateProfile({ problems: e.target.value })}
+              placeholder={PROBLEMS_PLACEHOLDER}
+              maxLength={MAX_TEXT_LENGTH}
+              rows={9}
+              className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] text-base leading-relaxed resize-y"
+            />
+            <p className="text-xs text-gray-400 text-right mt-1.5">{profile.problems.length} / {MAX_TEXT_LENGTH}</p>
+            <ContinueButton disabled={REQUIRE_TEXT_ANSWERS && !profile.problems.trim()} onClick={moveToNextStep} />
+          </div>
+        )}
+
+        {extraStep === 'goal' && (
+          <div key="goal" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
+            <p className="text-sm text-gray-500 mb-3">Your Goals</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">What Is Your Next Financial Goal for Your Business ?</h2>
+            <p className="text-base text-gray-500 leading-relaxed mb-6">Tell us what you are aiming for next, and roughly by when.</p>
+            <textarea
+              value={profile.nextFinancialGoal}
+              onChange={(e) => updateProfile({ nextFinancialGoal: e.target.value })}
+              placeholder={GOAL_PLACEHOLDER}
+              maxLength={MAX_TEXT_LENGTH}
+              rows={7}
+              className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] text-base leading-relaxed resize-y"
+            />
+            <p className="text-xs text-gray-400 text-right mt-1.5">{profile.nextFinancialGoal.length} / {MAX_TEXT_LENGTH}</p>
+            <ContinueButton
+              label="Finish"
+              disabled={REQUIRE_TEXT_ANSWERS && !profile.nextFinancialGoal.trim()}
+              onClick={moveToNextStep}
+            />
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 mt-7" aria-label="Question progress">
+          {Array.from({ length: totalSteps }, (_, index) => {
+            const done = index < currentQ || (index === currentQ && advancing);
             const isCurrent = index === currentQ;
 
             return (
               <span
-                key={question.id}
-                aria-label={`Question ${index + 1}${answered ? ', answered' : ''}`}
-                className={`rounded-full transition-all duration-300 ${isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : answered ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
+                key={index}
+                aria-label={`Step ${index + 1}${done ? ', answered' : ''}`}
+                className={`rounded-full transition-all duration-300 ${isCurrent ? 'w-3 h-3 bg-[#0A1E3D] ring-4 ring-[#0A1E3D]/10' : done ? 'w-2.5 h-2.5 bg-[#0A1E3D]' : 'w-2.5 h-2.5 bg-gray-300'
                   }`}
               />
             );
