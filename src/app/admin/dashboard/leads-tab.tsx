@@ -152,7 +152,7 @@ const HELP_AREA_LABELS: Record<string, string> = {
 };
 
 function Unanswered() {
-  return <span className="text-gray-400 italic">Unanswered</span>;
+  return <span className="text-gray-400 ">Unanswered</span>;
 }
 
 function ProfileRow({ label, children }: { label: string; children: React.ReactNode }) {
@@ -262,7 +262,7 @@ interface AdminLeadStats {
 function StatBox({ label, value, loading }: { label: string; value: number | null; loading: boolean }) {
   return (
     <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200">
-      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</p>
+      <p className="text-sm font-medium text-gray-500">{label}</p>
       {loading || value === null ? (
         <div className="h-7 w-12 mt-1.5 bg-gray-100 rounded animate-pulse" />
       ) : (
@@ -465,7 +465,7 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
           <StatBox label="This Week" value={stats?.thisWeek ?? null} loading={statsLoading} />
           <div className="bg-white rounded-md p-4 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide truncate">{rangeBoxLabel}</p>
+              <p className="text-xs font-medium text-gray-500 truncate">{rangeBoxLabel}</p>
               <select
                 value={rangePreset}
                 onChange={(e) => setRangePreset(e.target.value)}
@@ -602,7 +602,7 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
 
                 {isExpanded && (
                   <div className="border-t border-gray-100 p-6 bg-gray-50 space-y-3">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Reports</p>
+                    <p className="text-sm font-medium text-gray-500 ">Reports</p>
                     {submissionsLoadingId === lead.clientId ? (
                       <p className="text-sm text-gray-400">Loading reports…</p>
                     ) : !submissions || submissions.length === 0 ? (
@@ -693,19 +693,19 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
             <div ref={modalBodyRef} className="lead-modal-body overflow-y-auto p-6 space-y-6 text-sm text-gray-800">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-gray-500">Founder</p>
+                  <p className="text-sm text-gray-500">Founder</p>
                   <p>{selectedSubmission.founderName}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Company</p>
+                  <p className="text-sm text-gray-500">Company</p>
                   <p>{selectedSubmission.companyName}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Industry</p>
+                  <p className="text-sm text-gray-500">Industry</p>
                   <p>{selectedSubmission.industry}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Status at submission</p>
+                  <p className="text-sm text-gray-500">Status at submission</p>
                   <p className="capitalize">{selectedSubmission.clientStatusAtSubmission}</p>
                 </div>
               </div>
@@ -713,17 +713,17 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
               {selectedSubmission.leadMagnet === 'business_heat_map' ? (
                 <>
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Founder Profile</p>
+                    <p className="text-sm font-medium text-gray-500  mb-3">Founder Profile</p>
                     <FounderProfileView profile={(selectedSubmission as SubmissionWithProfile).profile} />
                   </div>
 
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
+                    <p className="text-sm font-medium text-gray-500  mb-2">Answers</p>
                     <BusinessHeatMapAnswers answers={selectedSubmission.answers} />
                   </div>
 
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Business Health Map</p>
+                    <p className="text-sm font-medium text-gray-500  mb-3">Business Health Map</p>
                     <CanvasHeatmap answers={selectedSubmission.answers} />
                   </div>
                 </>
@@ -733,11 +733,11 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
                 // near LEAD_MAGNET_TYPE_OPTIONS above.
                 <>
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Result</p>
+                    <p className="text-sm font-medium text-gray-500  mb-2">Result</p>
                     {renderValue(selectedSubmission.result)}
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
+                    <p className="text-sm font-medium text-gray-500  mb-2">Answers</p>
                     {renderValue(selectedSubmission.answers)}
                   </div>
                 </>
