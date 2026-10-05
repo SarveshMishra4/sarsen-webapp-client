@@ -90,12 +90,11 @@ const ADVANCE_DELAY_MS = 650;
 // =====================================================
 // Order of the extra cards, shown after the 15 scored questions. The two
 // free-text cards are deliberately last, and the "areas you need help in"
-// card sits right before them.
+// card sits right before them. All six are mandatory.
 const EXTRA_STEPS = ['capital', 'time', 'funding', 'areas', 'problems', 'goal'] as const;
 type ExtraStep = (typeof EXTRA_STEPS)[number];
 
-// Flip to false if you'd rather let founders skip the two text cards.
-const REQUIRE_TEXT_ANSWERS = true;
+// Every extra card is mandatory: Continue stays disabled until it is answered.
 const MAX_TEXT_LENGTH = 2000;
 
 // Amounts are shown as "Rs. <number>". Edit the labels here to change currency/ranges.
@@ -152,7 +151,7 @@ type Profile = {
   fundingSource: string | null;
   fundingSourceOther: string;
   fundingAmount: string | null;
-  helpAreas: Record<string, boolean>; // every area is present; false = "No" (default)
+  helpAreas: Record<string, boolean>; // every area is present; true = selected, at least one is required
   problems: string;
   nextFinancialGoal: string;
 };
@@ -971,7 +970,7 @@ export default function BusinessHeatmapClient() {
           <div key="areas" className="bg-white border border-gray-200 rounded-md p-6 sm:p-8 shadow-sm mb-6 slide-in-right">
             <p className="text-sm text-gray-500 mb-3">Where You Need Help</p>
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 leading-[1.03] tracking-tight">Which Areas Do You Need Help In ?</h2>
-            <p className="text-base text-gray-500 leading-relaxed mb-8">Tap Yes on every area where you would like expert support. Tap again to unselect. You can leave the rest as they are.</p>
+            <p className="text-base text-gray-500 leading-relaxed mb-8">Tap Yes on every area where you would like expert support. Select at least one. Tap again to unselect.</p>
 
             <div className="flex flex-col gap-3 sm:gap-3.5">
               {HELP_AREAS.map((area) => (
@@ -987,7 +986,10 @@ export default function BusinessHeatmapClient() {
               ))}
             </div>
 
-            <ContinueButton onClick={moveToNextStep} />
+            <ContinueButton
+              disabled={!Object.values(profile.helpAreas).some(Boolean)}
+              onClick={moveToNextStep}
+            />
           </div>
         )}
 
@@ -1005,7 +1007,7 @@ export default function BusinessHeatmapClient() {
               className="w-full border border-gray-300 rounded-md px-4 py-3 text-[#0A1E3D] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#0A1E3D] text-base leading-relaxed resize-y"
             />
             <p className="text-xs text-gray-400 text-right mt-1.5">{profile.problems.length} / {MAX_TEXT_LENGTH}</p>
-            <ContinueButton disabled={REQUIRE_TEXT_ANSWERS && !profile.problems.trim()} onClick={moveToNextStep} />
+            <ContinueButton disabled={!profile.problems.trim()} onClick={moveToNextStep} />
           </div>
         )}
 
@@ -1025,7 +1027,7 @@ export default function BusinessHeatmapClient() {
             <p className="text-xs text-gray-400 text-right mt-1.5">{profile.nextFinancialGoal.length} / {MAX_TEXT_LENGTH}</p>
             <ContinueButton
               label="Finish"
-              disabled={REQUIRE_TEXT_ANSWERS && !profile.nextFinancialGoal.trim()}
+              disabled={!profile.nextFinancialGoal.trim()}
               onClick={moveToNextStep}
             />
           </div>
