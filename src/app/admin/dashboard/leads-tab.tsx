@@ -117,6 +117,137 @@ function BusinessHeatMapAnswers({ answers }: { answers: Record<string, number> }
   );
 }
 
+// ── Founder profile (capture-only answers added after the 15 scored
+// questions). Submissions made before those cards existed have no `profile`
+// at all, so every field below is treated as "Unanswered" for them.
+//
+// `ApiLeadSubmission` (imported from ./page) doesn't declare `profile` yet, so
+// it is added here with an intersection type — this keeps the change inside
+// this one file. If you'd rather, move `profile?: FounderProfile | null` onto
+// ApiLeadSubmission in page.tsx and delete SubmissionWithProfile.
+type FounderProfile = {
+  capitalInvested: string | null;
+  timeInvested: string | null;
+  raisedFunds: boolean | null;
+  fundingSource: string | null;
+  fundingSourceOther: string;
+  fundingAmount: string | null;
+  helpAreas: Record<string, boolean>;
+  problems: string;
+  nextFinancialGoal: string;
+};
+
+type SubmissionWithProfile = ApiLeadSubmission & { profile?: FounderProfile | null };
+
+// Readable names for the stored help-area ids. Keep in sync with
+// HELP_AREA_LABELS in the backend's leadmagnet.constants.ts (and HELP_AREAS in
+// the public tool). Unknown ids fall back to the raw id so nothing is hidden.
+const HELP_AREA_LABELS: Record<string, string> = {
+  customer: 'Finding the Right Customers',
+  market: 'Entering the Market',
+  positioning: 'Standing Out from Others',
+  business_model: 'Earning Revenue',
+  economics: 'Making Each Customer Profitable',
+  finances: 'Funds & Finances',
+};
+
+function Unanswered() {
+  return <span className="text-gray-400 italic">Unanswered</span>;
+}
+
+function ProfileRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0">
+      <p className="text-xs text-gray-500">{label}</p>
+      <div className="mt-0.5 break-words">{children}</div>
+    </div>
+  );
+}
+
+function FounderProfileView({ profile }: { profile?: FounderProfile | null }) {
+  const text = (value: string | null | undefined) => (value && value.trim() ? value : null);
+
+  const selectedAreas = profile
+    ? Object.entries(profile.helpAreas ?? {})
+        .filter(([, needsHelp]) => needsHelp === true)
+        .map(([id]) => HELP_AREA_LABELS[id] ?? id)
+    : [];
+
+  const source =
+    profile?.fundingSource === 'Other'
+      ? `Other${text(profile.fundingSourceOther) ? ` — ${profile.fundingSourceOther}` : ''}`
+      : text(profile?.fundingSource);
+
+  return (
+    <div className="space-y-4">
+      {!profile && (
+        <p className="text-xs text-gray-400">
+          This submission was made before these questions were added to the tool.
+        </p>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <ProfileRow label="Capital invested so far">
+          {text(profile?.capitalInvested) ?? <Unanswered />}
+        </ProfileRow>
+        <ProfileRow label="Time invested so far">
+          {text(profile?.timeInvested) ?? <Unanswered />}
+        </ProfileRow>
+        <ProfileRow label="Raised initial funds">
+          {profile?.raisedFunds === true ? 'Yes' : profile?.raisedFunds === false ? 'No' : <Unanswered />}
+        </ProfileRow>
+
+        {/* Follow-ups only exist when the founder answered Yes */}
+        {profile?.raisedFunds === true && (
+          <>
+            <ProfileRow label="Source of funds">{source ?? <Unanswered />}</ProfileRow>
+            <ProfileRow label="Total raised">{text(profile.fundingAmount) ?? <Unanswered />}</ProfileRow>
+          </>
+        )}
+      </div>
+
+      <ProfileRow label="Areas where they need help">
+        {!profile ? (
+          <Unanswered />
+        ) : selectedAreas.length === 0 ? (
+          <span className="text-gray-500">None selected</span>
+        ) : (
+          <div className="flex flex-wrap gap-1.5 mt-1">
+            {selectedAreas.map((area) => (
+              <span
+                key={area}
+                className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100"
+              >
+                {area}
+              </span>
+            ))}
+          </div>
+        )}
+      </ProfileRow>
+
+      <ProfileRow label="Problems they are facing">
+        {text(profile?.problems) ? (
+          <p className="whitespace-pre-wrap bg-gray-50 border border-gray-100 rounded-md p-3 leading-relaxed">
+            {profile!.problems}
+          </p>
+        ) : (
+          <Unanswered />
+        )}
+      </ProfileRow>
+
+      <ProfileRow label="Next financial goal">
+        {text(profile?.nextFinancialGoal) ? (
+          <p className="whitespace-pre-wrap bg-gray-50 border border-gray-100 rounded-md p-3 leading-relaxed">
+            {profile!.nextFinancialGoal}
+          </p>
+        ) : (
+          <Unanswered />
+        )}
+      </ProfileRow>
+    </div>
+  );
+}
+
 // ── NEW: shape of the /leadmagnets/admin/stats response ──
 interface AdminLeadStats {
   today: number;
@@ -581,6 +712,11 @@ export function LeadsTab({ token, onLeadMarkedViewed }: LeadsTabProps) {
 
               {selectedSubmission.leadMagnet === 'business_heat_map' ? (
                 <>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Founder Profile</p>
+                    <FounderProfileView profile={(selectedSubmission as SubmissionWithProfile).profile} />
+                  </div>
+
                   <div>
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Answers</p>
                     <BusinessHeatMapAnswers answers={selectedSubmission.answers} />
