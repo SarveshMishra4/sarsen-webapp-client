@@ -255,12 +255,36 @@ const FUNDING_AMOUNT_OPTIONS = [
 // Direction brochure (Customer, Market, Positioning, Business Model,
 // Economics, Funds & Finances), worded in plain language.
 const HELP_AREAS = [
-  { id: 'customer', title: 'Finding the Right Customers', description: 'Knowing exactly who to sell to and the best ways to reach them.' },
-  { id: 'market', title: 'Entering the Market', description: 'Understanding how big your market is and the smartest way into it.' },
-  { id: 'positioning', title: 'Standing Out from Others', description: 'Giving customers a clear reason to choose you over every alternative.' },
-  { id: 'business_model', title: 'Earning Revenue', description: 'Finding more ways for your business to make money, with backup options ready.' },
-  { id: 'economics', title: 'Making Each Customer Profitable', description: 'Knowing what it costs to win a customer and what that customer is worth to you.' },
-  { id: 'finances', title: 'Funds & Finances', description: 'Planning your numbers and finding the investors who fit your stage.' },
+  {
+    id: 'customer',
+    title: 'Finding Your Right Customers',
+    description: 'Pinpointing your ideal customer and the best channels to reach them.',
+  },
+  {
+    id: 'market',
+    title: 'Calculating and Capturing Your Market',
+    description: 'Identifying your best sub-niche in your market and developing the right strategy to enter and capture it.',
+  },
+  {
+    id: 'positioning',
+    title: 'Standing Out from Competitors',
+    description: 'Developing a clear advantage and reason customers should choose you over alternatives.',
+  },
+  {
+    id: 'business_model',
+    title: 'Developing Your Revenue Model',
+    description: 'Establishing multiple feasible revenue streams and developing a pivot strategy.',
+  },
+  {
+    id: 'economics',
+    title: 'Getting Your Unit Economics Right',
+    description: 'Establishing clear economics for your business to achieve higher revenue and stronger margins, strengthening profitability.',
+  },
+  {
+    id: 'finances',
+    title: 'Planning Finances and Raising Funds',
+    description: 'Identifying your financial needs, planning your numbers, and connecting with the most appropriate investors.',
+  },
 ] as const;
 
 type Profile = {
