@@ -96,9 +96,9 @@ export default function Header() {
       description: "Comprehensive solutions tailored to drive your business forward.",
       links: [
         {
-          label: "Know What's Really Going On",
+          label: "Stuck on Something ? Get Unstuck Fast",
           href: "/services/business-diagnostic-direction",
-          description: "Business Diagnostic & Direction",
+          description: "Align & Accelerate",
         },
         {
           label: "Turn Your Idea Into a Product Blueprint",
