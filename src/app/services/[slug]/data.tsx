@@ -129,7 +129,7 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
     backendId: '69b3c3d64ad479822f297e25',   // unchanged
     slug: 'business-diagnostic-direction',
     packageNumber: 'Package 3.000',
-    title: 'Business Diagnostic & Direction',
+    title: 'Align & Accelerate',
     tagline: 'You know something is wrong. You don’t know what. We find it.',
     tag: 'Foundation',
     accentColor: '#ffffff',
