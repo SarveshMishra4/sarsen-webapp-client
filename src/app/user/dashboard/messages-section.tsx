@@ -140,8 +140,10 @@ export const MessagesSection = ({
             rows={2}
             disabled={isLocked} // 5. Disable textarea when locked
             className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
-              isLocked ? 'bg-gray-200 cursor-not-allowed text-gray-500' : 'bg-white'
-            }`}
+  isLocked
+    ? 'bg-gray-200 cursor-not-allowed text-gray-500'
+    : 'bg-white text-[#0A1E3D]'
+}`}
             placeholder={
               isLocked 
                 ? "This engagement has been delivered and is locked." 
