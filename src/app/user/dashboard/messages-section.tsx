@@ -4,8 +4,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Message } from './types';
 
-export const MessagesSection = ({ 
-  messages, 
+export const MessagesSection = ({
+  messages,
   onSendMessage,
   isLocked // 1. Extract isLocked from props
 }: {
@@ -26,7 +26,7 @@ export const MessagesSection = ({
 
   const handleSend = () => {
     // 3. Prevent sending if locked
-    if (!newMessage.trim() || isLocked) return; 
+    if (!newMessage.trim() || isLocked) return;
     onSendMessage(newMessage.trim());
     setNewMessage('');
   };
@@ -53,7 +53,7 @@ export const MessagesSection = ({
 
   return (
     <div className="bg-white rounded-md shadow-sm border border-gray-200 h-[600px] flex flex-col">
-      
+
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-md">
         <h3 className="text-lg font-medium text-gray-800">Messages</h3>
@@ -73,15 +73,14 @@ export const MessagesSection = ({
               >
                 {/* Message Bubble */}
                 <div
-                  className={`max-w-[70%] rounded-md py-2 px-4 ${
-                    message.sentBy === 'client'
+                  className={`max-w-[70%] rounded-md py-2 px-4 ${message.sentBy === 'client'
                       ? 'bg-[#0A1E3D] text-white'
                       : 'bg-gray-100 text-gray-800'
-                  }`}
+                    }`}
                 >
                   <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                 </div>
-                
+
                 {/* Timestamp and ticks OUTSIDE the bubble, aligned to the right */}
                 {message.sentBy === 'client' && (
                   <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
@@ -106,7 +105,7 @@ export const MessagesSection = ({
                     )}
                   </div>
                 )}
-                
+
                 {/* For admin messages, just show timestamp without ticks */}
                 {message.sentBy === 'admin' && (
                   <div className="mt-1 text-xs text-gray-500">
@@ -139,14 +138,13 @@ export const MessagesSection = ({
             onKeyPress={handleKeyPress}
             rows={2}
             disabled={isLocked} // 5. Disable textarea when locked
-            className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
-  isLocked
-    ? 'bg-gray-200 cursor-not-allowed text-gray-500'
-    : 'bg-white text-[#0A1E3D]'
-}`}
+            className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${isLocked
+                ? 'bg-gray-200 cursor-not-allowed text-gray-500'
+                : 'bg-white !text-[#0A1E3D]'
+              }`}
             placeholder={
-              isLocked 
-                ? "This engagement has been delivered and is locked." 
+              isLocked
+                ? "This engagement has been delivered and is locked."
                 : "Type your message... (Press Enter to send, Shift+Enter for new line)"
             }
           />
@@ -162,8 +160,8 @@ export const MessagesSection = ({
           </button>
         </div>
         <p className="text-xs text-gray-500 mt-2">
-          {isLocked 
-            ? "Messages are read-only for delivered projects." 
+          {isLocked
+            ? "Messages are read-only for delivered projects."
             : "Press Enter to send, Shift+Enter for new line"}
         </p>
       </div>
