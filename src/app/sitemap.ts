@@ -10,7 +10,7 @@ async function getBlogSitemapEntries(): Promise<MetadataRoute.Sitemap> {
     // you ever exceed this many published posts.
     const res = await getPublishedBlogs({ limit: 1000 });
     return (res.blogs ?? []).map((post: any) => ({
-      url: `${BASE_URL}/resources/blogs/${post.slug}`,
+      url: `${BASE_URL}/resources/blog/${post.slug}`,
       lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.publishedAt),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
