@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getServiceBySlug } from './data';
 import ServicePage from './services';
+import RaiseCapitalPage from './RaiseCapitalPage';
+import { RAISE_CAPITAL_DATA } from './raise-capital.data';
 
 const BASE_URL = 'https://www.sarsenpartners.com';
 const OG_IMAGE = `${BASE_URL}/assets/brand/og-default.png`; // 1200x630, absolute URL required
@@ -118,6 +120,12 @@ export default async function ServiceSlugPage({ params }: PageProps) {
 
   if (!service) {
     notFound();
+  }
+
+  // Raise Capital has its own independent layout + content.
+  // It still uses the shared PurchaseModal, so payments work the same way.
+  if (slug === RAISE_CAPITAL_DATA.slug) {
+    return <RaiseCapitalPage service={RAISE_CAPITAL_DATA} />;
   }
 
   return <ServicePage service={service} />;
