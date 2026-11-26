@@ -2428,6 +2428,7 @@ export default function RaiseCapitalPage({ service }: RaiseCapitalPageProps): Re
         {service && (
           <>
             <PageHero service={service} onBuy={openModal} />
+            <LearningBentoSection service={service} />
             <ExcerptSection service={service} />
             <ListApproachSection service={service} />
             <SCurveSection service={service} />
@@ -2438,7 +2439,6 @@ export default function RaiseCapitalPage({ service }: RaiseCapitalPageProps): Re
             <RoadmapSection service={service} />
             <TrustStrip service={service} />
             <TargetBanner service={service} onBuy={openModal} />
-            <LearningBentoSection service={service} />
             <FinalCTA service={service} onBuy={openModal} />
           </>
         )}
