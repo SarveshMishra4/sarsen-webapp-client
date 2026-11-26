@@ -180,7 +180,7 @@ export default function Footer() {
 
           <div className="flex w-full flex-wrap justify-start md:mt-4 lg:mt-0 gap-x-6 gap-y-3 text-sm text-gray-600 md:justify-start lg:w-auto">
 
-            <button className="flex items-center gap-2 transition-colors">
+            {/* <button className="flex items-center gap-2 transition-colors">
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M9.5 1.5v3h-3v-3h3zm-4 0v3h-3v-3h3zm8 0v3h-3v-3h3zm0 4v3h-3v-3h3zm0 4v3h-3v-3h3zm-4 0v3h-3v-3h3zm-4 0v3h-3v-3h3zm0-4v3h-3v-3h3zm4 0v3h-3v-3h3z" />
               </svg>
@@ -191,13 +191,13 @@ export default function Footer() {
 
             <Link href="/legal-and-regulatory/cookie-preferences" className="hover:text-[#002855] transition-colors">
               Cookie Preferences
-            </Link>
+            </Link> */}
 
-            <Link href="/legal-and-regulatory/terms-of-use" className="hover:text-[#002855] transition-colors">
+            <Link href="/legal-and-regulatory/terms-and-conditions" className="hover:text-[#002855] transition-colors">
               Terms & Conditions
             </Link>
 
-            <Link href="/legal-and-regulatory/refund-and-cancellation" className="hover:text-[#002855] transition-colors">
+            {/* <Link href="/legal-and-regulatory/refund-and-cancellation" className="hover:text-[#002855] transition-colors">
               Refund & Cancellation Policy
             </Link>
 
@@ -207,7 +207,7 @@ export default function Footer() {
 
             <Link href="/legal-and-regulatory/accessibility-statement" className="hover:text-[#002855] transition-colors">
               Accessibility statement
-            </Link>
+            </Link> */}
 
           </div>
 
