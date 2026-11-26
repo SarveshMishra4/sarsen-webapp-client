@@ -449,7 +449,7 @@ const TeamSection = () => {
     },
     {
       name: 'Sarvesh Mishra',
-      role: 'Senior Associate',
+      role: 'Senior Partner',
       location: 'Goa - India',
       tier: 'Leadership',
       bio: 'Built and scaled a services business from the ground up before moving into strategy advisory. Worked extensively in private equity, evaluating investment opportunities and structuring portfolio-level strategy for growth-stage companies. Expertise: strategic diagnostics, PE deal evaluation, and founder-aligned execution planning.',
