@@ -166,7 +166,7 @@ const SECTIONS: SectionData[] = [
     ],
   },
   {
-    title: 'Force Majeure',
+    title: 'Superior Force',
     clauses: [
       'Sarsen is not responsible for delay or failure in performance arising from events beyond its reasonable control, including natural disaster, epidemic, war, governmental action, labour disruption, and failure of utilities, networks or third-party platforms. Affected Services may be postponed, rescheduled, delivered remotely or restructured.',
     ],
