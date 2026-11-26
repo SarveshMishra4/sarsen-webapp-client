@@ -943,7 +943,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ service, isOpen, onClose }) => 
                 rel="noopener noreferrer"
                 style={{ color: '#0A1E3D', textDecoration: 'underline', fontWeight: 500 }}
               >
-                standard terms and conditions
+                Standard Terms and Conditions
               </a>{' '}
               of Sarsen Strategy Partners.
             </p>
