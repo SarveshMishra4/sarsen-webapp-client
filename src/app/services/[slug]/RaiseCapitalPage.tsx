@@ -429,7 +429,7 @@ const ListApproachSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
             Your investor list is the worst fundraising strategy.
           </p>
           <p style={{ fontSize: '14px', lineHeight: 1.7, color: '#7A9ABE', margin: 0, maxWidth: '640px' }}>
-            Building a list of investors, emailing them, and expecting a cheque at the end is almost certainly a recipe for failure.
+            Building a list, sending cold emails and waiting for a cheque feels like progress. For most founders, it ends in silence.
           </p>
         </div>
 
@@ -1127,8 +1127,8 @@ const CoreServicesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
                   color: '#E8EEF5',
                   marginBottom: '16px',
                 }}>
-                  What we do<br />
-                  <span style={{ color: ac, fontWeight: 300 }}>in every engagement.</span>
+                  Everything you need to raise.<br />
+                  <span style={{ color: ac, fontWeight: 300 }}>Included as standard.</span>
                 </h2>
 
                 <p style={{
@@ -1136,7 +1136,7 @@ const CoreServicesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
                   lineHeight: 1.7,
                   color: '#5A7EA0',
                 }}>
-                  Every client receives these services in full, in the defined sequence — without exception.
+                  No add-ons, no hidden extras. Every founder in the program receives all of these, in full, in the right order.
                 </p>
               </div>
 
@@ -1151,7 +1151,7 @@ const CoreServicesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
                   {services.length}
                 </span>
                 <span style={{ fontSize: '16px', color: `rgba(${rgb},0.6)`, lineHeight: 1.5 }}>
-                  Engagement Outcomes
+                  Services included
                 </span>
               </div>
             </div>
@@ -1232,8 +1232,8 @@ const DeliverablesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
               color: '#E2EBF5',
               marginBottom: '24px',
             }}>
-              Tangible outputs.<br />
-              <span style={{ color: ac }}>Not conversations.</span>
+              Assets you keep.<br />
+              <span style={{ color: ac }}>Long after the raise.</span>
             </h2>
             <p style={{
               fontSize: '14px',
@@ -1242,7 +1242,7 @@ const DeliverablesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
               maxWidth: '480px',
               marginBottom: '32px',
             }}>
-              Every engagement produces structured artefacts you own — documents, frameworks, and strategic assets that outlast the engagement.
+              You leave with the documents investors ask for – ready to share, defend and reuse in every round that follows.
             </p>
 
             {/* Single‑line count with label */}
@@ -1266,7 +1266,7 @@ const DeliverablesSection: FC<{ service: RaiseCapitalData }> = ({ service }) => 
                 color: `rgba(${rgb},0.7)`,
                 lineHeight: 1.4,
               }}>
-                Non‑negotiable deliverables
+                Investor-ready deliverables
               </span>
             </div>
           </div>
@@ -1591,13 +1591,13 @@ const RoadmapSection: FC<{ service: RaiseCapitalData }> = ({ service }) => {
         <div className="roadmap-head">
           <div>
             <p className="text-sm mb-3 text-blue-300/70">
-              How we work together
+              Your 21-day journey with us
             </p>
             <h2
               className="leading-tight text-white"
               style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
             >
-              Customer service<br />
+              Client success<br />
               <span style={{ color: ac }}>roadmap.</span>
             </h2>
           </div>
@@ -1632,7 +1632,7 @@ const RoadmapSection: FC<{ service: RaiseCapitalData }> = ({ service }) => {
           className={`roadmap-scroll${dragging ? ' is-dragging' : ''}`}
           tabIndex={0}
           role="region"
-          aria-label="Customer service roadmap steps"
+          aria-label="Client success roadmap steps"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
@@ -1689,9 +1689,9 @@ const RoadmapSection: FC<{ service: RaiseCapitalData }> = ({ service }) => {
         }
         .roadmap-arrows { display: flex; gap: 10px; flex-shrink: 0; }
         .roadmap-arrow {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
           border: 1.5px solid rgba(147,197,253,0.35);
           background: transparent;
           color: #C8DAEA;
@@ -2031,8 +2031,8 @@ const LearningBentoSection: FC<{ service: RaiseCapitalData }> = ({ service }) =>
           color: '#E2EBF5',
           marginBottom: '40px',
         }}>
-          Mistakes founders make<br />
-          <span style={{ color: '#93C5FD' }}>while fundraising.</span>
+          The mistakes that cost<br />
+          <span style={{ color: '#93C5FD' }}>founders their round.</span>
         </h2>
 
         <div className="rc-bento">
@@ -2144,7 +2144,7 @@ const FinalCTA: FC<{ service: RaiseCapitalData; onBuy: () => void }> = ({ servic
                 fontWeight: 500,
                 color: `rgba(${rgb},0.6)`,
               }}>
-                Begin your engagement
+                Ready to raise?
               </span>
             </div>
             <h2 style={{
@@ -2155,8 +2155,8 @@ const FinalCTA: FC<{ service: RaiseCapitalData; onBuy: () => void }> = ({ servic
               marginBottom: '16px',
               maxWidth: '560px',
             }}>
-              Clarity is a strategic asset.<br />
-              <span style={{ color: ac }}>Start building it today.</span>
+              Stop sending cold emails.<br />
+              <span style={{ color: ac }}>Start raising with a plan.</span>
             </h2>
             <p style={{
               fontSize: '14px',
@@ -2164,7 +2164,7 @@ const FinalCTA: FC<{ service: RaiseCapitalData; onBuy: () => void }> = ({ servic
               color: '#4E6F8E',
               maxWidth: '480px',
             }}>
-              Secure your engagement in under five minutes. Our team will reach out within 24 hours to schedule your first working session.
+              Enrol in under five minutes. One of our associates will reach out within 24 hours to understand your raise and schedule your first session.
             </p>
 
             <div style={{
@@ -2174,9 +2174,9 @@ const FinalCTA: FC<{ service: RaiseCapitalData; onBuy: () => void }> = ({ servic
               marginTop: '28px',
             }}>
               {[
+                'One flat fee – no success fee',
                 'Secure payment via Razorpay',
-                '24-hour response guarantee',
-                'Structured engagement from day one',
+                'Response within 24 hours',
               ].map((t, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <TickBox size={16} bg={`rgba(${rgb},0.15)`} marginTop={0} />
@@ -2428,7 +2428,6 @@ export default function RaiseCapitalPage({ service }: RaiseCapitalPageProps): Re
         {service && (
           <>
             <PageHero service={service} onBuy={openModal} />
-            <LearningBentoSection service={service} />
             <ExcerptSection service={service} />
             <ListApproachSection service={service} />
             <SCurveSection service={service} />
@@ -2439,6 +2438,7 @@ export default function RaiseCapitalPage({ service }: RaiseCapitalPageProps): Re
             <RoadmapSection service={service} />
             <TrustStrip service={service} />
             <TargetBanner service={service} onBuy={openModal} />
+            <LearningBentoSection service={service} />
             <FinalCTA service={service} onBuy={openModal} />
           </>
         )}
