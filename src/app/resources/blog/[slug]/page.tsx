@@ -1,14 +1,19 @@
-// app/blog/[slug]/page.tsx
+// app/resources/blog/[slug]/page.tsx
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getBlogBySlug } from '@/services/blog.service';
 import BlogPage from './blog';
 
 const SITE_NAME = 'Sarsen Strategy Partners';
+const SITE_URL = 'https://www.sarsenpartners.com';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Single source of truth for where a post lives.
+// Must match the real route and the URL in sitemap.xml.
+const postPath = (slug: string) => `/resources/blog/${slug}`;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -16,22 +21,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) return {};
 
-  // No fallback chains needed here — withSeoDefaults on the backend
-  // guarantees these fields are always populated for a published post.
+  const path = postPath(post.slug);
+
   return {
     title: post.seoTitle,
     description: post.seoDescription,
     alternates: {
-      // post.canonicalUrl may be relative ("/blog/my-post") — layout.tsx's
-      // metadataBase resolves it to a full URL automatically, no manual
-      // BASE_URL concatenation needed.
-      canonical: post.canonicalUrl,
+      canonical: path, // metadataBase turns this into the full URL
     },
     openGraph: {
       type: 'article',
       title: post.seoTitle,
       description: post.seoDescription,
-      url: post.canonicalUrl,
+      url: path,
       siteName: SITE_NAME,
       publishedTime: post.publishedAt,
       authors: [post.authorName],
@@ -54,9 +56,25 @@ export default async function BlogSlugPage({ params }: PageProps) {
     notFound();
   }
 
-  return <BlogPage post={post} />;
-}
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.seoDescription,
+    image: post.seoOgImage,
+    datePublished: post.publishedAt,
+    mainEntityOfPage: `${SITE_URL}${postPath(post.slug)}`,
+    author: { '@type': 'Person', name: post.authorName },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+  };
 
-// No generateStaticParams — see prior explanation: a post published through
-// the dashboard should work immediately without a rebuild, which requires
-// this route to render on-demand rather than being pre-built at deploy time.
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPage post={post} />
+    </>
+  );
+}
