@@ -12,7 +12,6 @@ Disallow: /legal-and-regulatory
 Disallow: /legal-and-regulatory/
 
 # Block Next.js internals
-Disallow: /_next/
 Disallow: /api/
 
 Sitemap: https://www.sarsenpartners.com/sitemap.xml
