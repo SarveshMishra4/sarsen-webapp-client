@@ -169,7 +169,7 @@ const ALL_SERVICES: Service[] = [
   {
     id: 8,
     slug: 'raise-capital',
-    packageNumber: 'Package 3.007',
+    packageNumber: 'Package 7',
     title: 'Raise Capital',
     tagline: 'An investor list is not a fundraising strategy. A calculated plan is.',
     excerpt:
