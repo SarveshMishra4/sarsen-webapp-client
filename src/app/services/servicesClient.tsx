@@ -166,6 +166,24 @@ const ALL_SERVICES: Service[] = [
     outcome: 'A business that scales with structural integrity — growing fast without the systems failing underneath it.',
     impactIndices: ['Scale Readiness Index', 'Expansion Risk Score'],
   },
+  {
+    id: 8,
+    slug: 'raise-capital',
+    packageNumber: 'Package 3.007',
+    title: 'Raise Capital',
+    tagline: 'An investor list is not a fundraising strategy. A calculated plan is.',
+    excerpt:
+      'Most founders build a list, send cold emails, and wait. What comes back is silence, “you are too early”, or a first meeting that goes nowhere. Investors don’t back a vision on its own – they back calculated numbers. In 21 days, we rebuild your raise from zero: the right amount, the right investors, a story that holds up under questioning, and terms you fully understand before you sign. In 21 days you go from “how much should we raise?” to walking into investor meetings with a calculated answer. Your fund size is tied to real milestones, every rupee is allocated line by line, and you know your valuation and dilution before anyone asks. You get Investor Access to the 25 most relevant investors and Grants Access to the 5 most relevant grants – plus an investor-ready deck, a due-diligence file, and the term sheet knowledge to protect your ownership.',
+    tag: 'Fundraising',
+    tags: ['Fundraising'],
+    targetedFor: 'Founders raising equity, grants or alternative funding who are tired of guessing – and want a calculated ask, the right investors, a story backed by numbers, and a pipeline that keeps moving after the first meeting.',
+    coreServicesCount: 7,
+    flexibleServicesCount: 0,
+    deliverables: ['Calculated Business Model & Fund Allocation Plan', 'Investor-Ready Deck, Narrative & Tailored Investor Q&A Responses', 'Due-Diligence Evidence File & Data Room', 'Term Sheet, Dilution & Investor Rights Negotiation Guide'],
+    outcome: 'Funding-ready in 21 days – with a calculated plan, the right investors and a pipeline that moves.',
+    impactIndices: ['Capital Readiness Score', 'Investor Pipeline Strength', 'Narrative Clarity Index'],
+  },
+
 ];
 
 // =====================================================
