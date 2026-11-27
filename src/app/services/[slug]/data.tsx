@@ -23,6 +23,7 @@
 // ================================================================
 
 import { RAISE_CAPITAL_DATA } from './raise-capital.data';
+import { CAREER_COUNSELING_DATA } from './career-counseling.data';
 
 export type QuestionType =
   | 'text'
@@ -100,7 +101,8 @@ export type ServiceTag =
   | 'Operations'
   | 'Fundraising'
   | 'Turnaround'
-  | 'Scale';
+  | 'Scale'
+  | 'Career';
 
 // ================================================================
 // TAG → ACCENT MAP  (imported by layout for theming)
@@ -115,6 +117,7 @@ export const TAG_ACCENTS: Record<ServiceTag, { hex: string; rgb: string; bgClass
   Fundraising:         { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Fundraising' },
   Turnaround:          { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Turnaround' },
   Scale:               { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Scale' },
+  Career:              { hex: '#ffffff', rgb: '255,255,255', bgClass: 'white', label: 'Career' },
 };
 
 // ================================================================
@@ -897,6 +900,9 @@ export const ALL_SERVICES_DATA: ServiceData[] = [
   // Cast keeps the hub / metadata helpers working. If RAISE_CAPITAL_DATA
   // structure changes later, map it to ServiceData here.
   RAISE_CAPITAL_DATA as ServiceData,
+
+  // CAREER COUNSELING & STRATEGY — content lives in ./career-counseling.data.ts (independent)
+  CAREER_COUNSELING_DATA as ServiceData,
 ];
 
 // ================================================================

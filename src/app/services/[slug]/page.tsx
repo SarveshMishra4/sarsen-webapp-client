@@ -7,6 +7,8 @@ import { getServiceBySlug } from './data';
 import ServicePage from './services';
 import RaiseCapitalPage from './RaiseCapitalPage';
 import { RAISE_CAPITAL_DATA } from './raise-capital.data';
+import CareerCounselingPage from './CareerCounselingPage';
+import { CAREER_COUNSELING_DATA } from './career-counseling.data';
 
 const BASE_URL = 'https://www.sarsenpartners.com';
 const OG_IMAGE = `${BASE_URL}/assets/brand/og-default.png`; // 1200x630, absolute URL required
@@ -126,6 +128,12 @@ export default async function ServiceSlugPage({ params }: PageProps) {
   // It still uses the shared PurchaseModal, so payments work the same way.
   if (slug === RAISE_CAPITAL_DATA.slug) {
     return <RaiseCapitalPage service={RAISE_CAPITAL_DATA} />;
+  }
+
+  // Career Counseling & Strategy has its own independent layout + content.
+  // Same shared PurchaseModal, so payments work the same way.
+  if (slug === CAREER_COUNSELING_DATA.slug) {
+    return <CareerCounselingPage service={CAREER_COUNSELING_DATA} />;
   }
 
   return <ServicePage service={service} />;
