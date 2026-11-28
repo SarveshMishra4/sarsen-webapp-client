@@ -143,8 +143,7 @@ const BlogPage: FC<BlogPageProps> = ({ post }) => {
                       <p className="text-sm text-gray-400">{post.authorTitle}</p>
                     )}
                     <div className="flex items-center gap-3 text-sm text-gray-400 mt-1">
-                      <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                      <span>·</span>
+<span>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</span>                      <span>·</span>
                       <span>{post.readTimeMinutes} min read</span>
                     </div>
                   </div>
